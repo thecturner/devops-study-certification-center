@@ -1,0 +1,59 @@
+{
+  "topics": [
+    {
+      "id": "incident-management",
+      "label": "Incident Management",
+      "description": "Configuring and customizing ServiceNow Incident Management: states, assignment, escalation, and SLA integration.",
+      "studyPointers": [
+        { "label": "Incident Management Overview", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/product/incident-management/concept/c_IncidentManagement.html" },
+        { "label": "Incident States and Workflows", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/product/incident-management/concept/c_IncidentStates.html" }
+      ],
+      "subtopics": ["incident-states", "assignment-rules", "escalation", "major-incidents"]
+    },
+    {
+      "id": "problem-management",
+      "label": "Problem Management",
+      "description": "Root cause analysis, known errors, workarounds, and problem lifecycle in ServiceNow.",
+      "studyPointers": [
+        { "label": "Problem Management", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/product/problem-management/concept/c_ProblemManagement.html" }
+      ],
+      "subtopics": ["root-cause", "known-errors", "workarounds", "problem-tasks"]
+    },
+    {
+      "id": "change-management",
+      "label": "Change Management",
+      "description": "Change types, risk assessment, approval workflows, and CAB management in ServiceNow.",
+      "studyPointers": [
+        { "label": "Change Management", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/product/change-management/concept/c_ITILChangeManagement.html" }
+      ],
+      "subtopics": ["change-types", "risk-assessment", "cab", "approvals"]
+    },
+    {
+      "id": "sla-management",
+      "label": "SLA Management",
+      "description": "Defining and managing Service Level Agreements, OLAs, and underpinning contracts in ServiceNow.",
+      "studyPointers": [
+        { "label": "SLA Management", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/product/service-level-management/concept/c_ServiceLevelManagement.html" }
+      ],
+      "subtopics": ["sla-definitions", "ola", "breach", "pause-conditions"]
+    },
+    {
+      "id": "cmdb",
+      "label": "CMDB",
+      "description": "Configuration Management Database: CIs, relationships, health, and CSDM in ServiceNow.",
+      "studyPointers": [
+        { "label": "CMDB Overview", "url": "https://docs.servicenow.com/bundle/washingtondc-servicenow-platform/page/product/configuration-management/concept/c_ConfigMgmt.html" }
+      ],
+      "subtopics": ["configuration-items", "relationships", "cmdb-health", "discovery"]
+    },
+    {
+      "id": "knowledge-management",
+      "label": "Knowledge Management",
+      "description": "Creating and managing knowledge bases, articles, and feedback workflows in ServiceNow.",
+      "studyPointers": [
+        { "label": "Knowledge Management", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/product/knowledge-management/concept/c_KnowledgeManagement.html" }
+      ],
+      "subtopics": ["knowledge-bases", "articles", "retirement", "feedback"]
+    }
+  ]
+}

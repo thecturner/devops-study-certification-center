@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-itsm-km-001",
+    "type": "single_choice",
+    "prompt": "What is the default initial state of a new knowledge article created in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Draft"
+      },
+      {
+        "id": "b",
+        "text": "Published"
+      },
+      {
+        "id": "c",
+        "text": "Review"
+      },
+      {
+        "id": "d",
+        "text": "Pending Approval"
+      }
+    ],
+    "correct": "a",
+    "explanation": "When a new knowledge article is created in ServiceNow, it is placed in Draft state by default. The article must go through the knowledge management workflow (typically a review and approval process) before it can be published and made visible to users. This prevents unreviewed or inaccurate content from being searchable before it is vetted.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-002",
+    "type": "single_choice",
+    "prompt": "What is the correct knowledge article lifecycle order in ServiceNow OOTB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Draft > Review > Published > Retired"
+      },
+      {
+        "id": "b",
+        "text": "New > Draft > Approved > Published > Archived"
+      },
+      {
+        "id": "c",
+        "text": "Draft > Pending Approval > Published > Expired"
+      },
+      {
+        "id": "d",
+        "text": "New > Active > Review > Retired"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The default knowledge article lifecycle in ServiceNow follows: Draft (initial creation), Review (submitted for peer or manager review), Published (approved and visible to users), and Retired (no longer current, removed from active search). Some implementations also include intermediate states like 'Pending Review' depending on Knowledge Management configuration.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-003",
+    "type": "single_choice",
+    "prompt": "What is a Knowledge Base in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A container that organizes knowledge articles into a logical collection with configurable access controls"
+      },
+      {
+        "id": "b",
+        "text": "A single repository that stores all incidents, problems, and changes"
+      },
+      {
+        "id": "c",
+        "text": "A dashboard showing knowledge article usage statistics"
+      },
+      {
+        "id": "d",
+        "text": "A plugin that enables knowledge article creation from incidents"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Knowledge Base in ServiceNow is a configurable container that groups related knowledge articles together. Each knowledge base can have its own access controls (who can read and who can contribute), categories and subcategories, article workflow, and homepage. Organizations typically create separate knowledge bases for different audiences such as IT staff, HR, or external customers.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-004",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow role is responsible for managing a knowledge base, including approving and retiring articles?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Knowledge Manager"
+      },
+      {
+        "id": "b",
+        "text": "Knowledge Author"
+      },
+      {
+        "id": "c",
+        "text": "Knowledge Contributor"
+      },
+      {
+        "id": "d",
+        "text": "itil_admin"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Knowledge Manager role in ServiceNow has administrative oversight of a knowledge base. Responsibilities include approving submitted articles for publication, retiring outdated articles, managing categories, configuring the knowledge base settings, and overseeing the overall quality of the knowledge base content. Authors and contributors have more limited roles focused on creating content.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-005",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'User Criteria' on a knowledge base or article in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To control which users or groups can read, contribute, or manage the knowledge base or article"
+      },
+      {
+        "id": "b",
+        "text": "To define which users can be listed as the article's author"
+      },
+      {
+        "id": "c",
+        "text": "To specify the criteria for when an article should be retired"
+      },
+      {
+        "id": "d",
+        "text": "To define the search ranking of articles for specific users"
+      }
+    ],
+    "correct": "a",
+    "explanation": "User Criteria in ServiceNow Knowledge Management are configurable rules that determine which users can access a knowledge base or specific articles. They can be based on user attributes such as role, department, company, location, or group membership. User Criteria enable fine-grained access control without requiring custom ACLs, allowing different audiences to see different content.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-006",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature automatically suggests knowledge articles to a service desk agent while they are working on an incident?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Suggested Articles (contextual search)"
+      },
+      {
+        "id": "b",
+        "text": "Knowledge Blocks"
+      },
+      {
+        "id": "c",
+        "text": "Knowledge Base Homepage"
+      },
+      {
+        "id": "d",
+        "text": "Article Pinning"
+      }
+    ],
+    "correct": "a",
+    "explanation": "ServiceNow's Suggested Articles feature uses contextual search to automatically surface relevant knowledge articles as an agent types the short description or description on an incident form. It uses text matching against published articles to present the most relevant results without requiring the agent to manually search. This is a key efficiency feature that can reduce resolution time by surfacing existing solutions.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-007",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Retired' state for a knowledge article in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To permanently remove an article from active use when it is no longer accurate or relevant"
+      },
+      {
+        "id": "b",
+        "text": "To temporarily remove an article from search results while it is being updated"
+      },
+      {
+        "id": "c",
+        "text": "To archive an article for compliance and historical purposes"
+      },
+      {
+        "id": "d",
+        "text": "To indicate that an article is pending deletion by an administrator"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Retired state in ServiceNow Knowledge Management indicates that an article is no longer current, accurate, or relevant and should no longer be surfaced in searches. Retiring an article removes it from active search results without deleting it, preserving the historical record. This is preferred over deletion because it maintains audit trails and allows the article to be reviewed or reinstated if needed.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-008",
+    "type": "single_choice",
+    "prompt": "What is a 'Knowledge Block' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A reusable content snippet that can be embedded in multiple knowledge articles"
+      },
+      {
+        "id": "b",
+        "text": "A restriction that prevents certain users from creating knowledge articles"
+      },
+      {
+        "id": "c",
+        "text": "A knowledge article that has been flagged for review due to inaccurate content"
+      },
+      {
+        "id": "d",
+        "text": "A category in the knowledge base that groups related articles"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Knowledge Blocks in ServiceNow are reusable content snippets that can be embedded within multiple knowledge articles. When a knowledge block is updated, the change is reflected in all articles that include it. This enables consistent, maintainable content for frequently referenced information such as contact details, standard disclaimers, or procedural steps shared across many articles.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-009",
+    "type": "single_choice",
+    "prompt": "How is a knowledge article created from an incident in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "By using the 'Create Knowledge' UI action on the incident form, which pre-populates an article with incident data"
+      },
+      {
+        "id": "b",
+        "text": "By copying the incident description to a new blank article form"
+      },
+      {
+        "id": "c",
+        "text": "By running a scheduled job that converts resolved incidents to articles"
+      },
+      {
+        "id": "d",
+        "text": "By importing the incident record into the knowledge base via import set"
+      }
+    ],
+    "correct": "a",
+    "explanation": "In ServiceNow, the 'Create Knowledge' UI action on an incident form launches the knowledge article creation workflow with fields pre-populated from the incident, including the description and resolution notes. The article is created in Draft state and goes through the standard knowledge workflow before publication. This makes it easy for agents to capture and share solutions they discover during incident resolution.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-010",
+    "type": "single_choice",
+    "prompt": "What does 'article versioning' in ServiceNow Knowledge Management allow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Tracking the history of changes to an article, allowing rollback to previous versions and maintaining a change log"
+      },
+      {
+        "id": "b",
+        "text": "Publishing multiple conflicting versions of the same article simultaneously"
+      },
+      {
+        "id": "c",
+        "text": "Assigning different versions of an article to different knowledge bases"
+      },
+      {
+        "id": "d",
+        "text": "Creating translated versions of an article in different languages"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Article versioning in ServiceNow Knowledge Management maintains a history of changes made to an article over time. Each time an article is updated and re-published, a new version is created. Administrators and authors can view the version history, compare versions, and roll back to a previous version if needed. This supports governance, audit requirements, and quality control for knowledge content.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-011",
+    "type": "single_choice",
+    "prompt": "What is article 'flagging' used for in ServiceNow Knowledge Management?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To mark articles for deletion by the knowledge manager"
+      },
+      {
+        "id": "b",
+        "text": "To promote an article to a featured position on the knowledge homepage"
+      },
+      {
+        "id": "c",
+        "text": "To allow readers to mark an article as inaccurate or outdated, triggering a review workflow"
+      },
+      {
+        "id": "d",
+        "text": "To restrict access to an article pending security review"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Article flagging in ServiceNow Knowledge Management allows users or agents reading an article to flag it if they believe the content is inaccurate, outdated, or incomplete. When an article is flagged, a notification is sent to the knowledge manager or article owner, who can then review and update the content. This crowdsourced quality control mechanism helps maintain KEDB and knowledge base accuracy over time.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-012",
+    "type": "single_choice",
+    "prompt": "Which knowledge role in ServiceNow allows a user to create and edit articles but requires manager approval before publication?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Knowledge Manager"
+      },
+      {
+        "id": "b",
+        "text": "Knowledge Author"
+      },
+      {
+        "id": "c",
+        "text": "Knowledge Contributor"
+      },
+      {
+        "id": "d",
+        "text": "itil"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Knowledge Contributor role in ServiceNow allows users to create and submit articles but routes them through the approval workflow managed by a Knowledge Manager or designated approver before publication. Authors (a higher-privilege role) may be able to publish directly in some configurations. The Contributor role is designed for subject matter experts who generate content but are not responsible for quality gate decisions.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-013",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the Knowledge Homepage in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A configuration page for managing knowledge base settings"
+      },
+      {
+        "id": "b",
+        "text": "An internal agent page showing articles awaiting approval"
+      },
+      {
+        "id": "c",
+        "text": "A landing page within the Service Portal that helps users browse and search knowledge articles"
+      },
+      {
+        "id": "d",
+        "text": "A reporting dashboard for knowledge base usage metrics"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Knowledge Homepage in ServiceNow is the consumer-facing landing page in the Service Portal where end users can browse featured articles, explore categories, and search the knowledge base. It is designed to help users self-service by finding answers without needing to contact the service desk. The homepage content can be customized to highlight the most relevant articles for the target audience.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-014",
+    "type": "single_choice",
+    "prompt": "What is 'Knowledge Feedback' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Automated notifications sent to article authors when articles are viewed"
+      },
+      {
+        "id": "b",
+        "text": "Feedback from the knowledge manager about an author's performance"
+      },
+      {
+        "id": "c",
+        "text": "User ratings and comments on knowledge articles that help measure article quality and usefulness"
+      },
+      {
+        "id": "d",
+        "text": "Metrics generated by the ServiceNow analytics engine about article search rankings"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Knowledge Feedback in ServiceNow allows users to rate knowledge articles (typically with a thumbs up/down or star rating) and leave comments about their usefulness. This feedback is captured in the knowledge article record and can be used to identify high-quality articles for promotion and low-quality or inaccurate articles for review. It is a key metric in measuring knowledge base effectiveness.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-015",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature allows organizations to create knowledge articles in multiple languages?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Knowledge Blocks with language variables"
+      },
+      {
+        "id": "b",
+        "text": "Separate knowledge bases for each language"
+      },
+      {
+        "id": "c",
+        "text": "Multilingual knowledge articles using the language field or translation workflow"
+      },
+      {
+        "id": "d",
+        "text": "Article versioning with a language tag"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow Knowledge Management supports multilingual articles through a language field on articles and a translation workflow. A base article in one language can have translated versions associated with it for other languages. When a user with a specific language preference searches the knowledge base, articles in their preferred language are surfaced preferentially. This supports global organizations with multilingual user bases.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-016",
+    "type": "single_choice",
+    "prompt": "What is 'Knowledge Gap Analysis' in the context of ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "An audit of knowledge articles that have not been viewed in 90 days"
+      },
+      {
+        "id": "b",
+        "text": "A comparison of knowledge base content against industry standards"
+      },
+      {
+        "id": "c",
+        "text": "An analysis of incidents that were resolved without using or creating a knowledge article, identifying opportunities to create new articles"
+      },
+      {
+        "id": "d",
+        "text": "A report showing which agents have the lowest knowledge article usage rates"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Knowledge Gap Analysis in ServiceNow identifies areas where knowledge is lacking in the knowledge base. It typically analyzes incidents that were resolved without referencing an existing knowledge article, as well as high-volume or recurring incident categories that lack corresponding articles. The output informs knowledge creation priorities and helps build a more comprehensive knowledge base.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-017",
+    "type": "single_choice",
+    "prompt": "What is the difference between a 'Knowledge Author' and a 'Knowledge Contributor' role in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "There is no difference; they are the same role"
+      },
+      {
+        "id": "b",
+        "text": "Knowledge Authors manage the knowledge base settings; Knowledge Contributors create articles"
+      },
+      {
+        "id": "c",
+        "text": "Knowledge Authors can publish articles directly; Knowledge Contributors submit articles that require manager approval"
+      },
+      {
+        "id": "d",
+        "text": "Knowledge Authors can create articles in any knowledge base; Contributors are restricted to one knowledge base"
+      }
+    ],
+    "correct": "c",
+    "explanation": "In ServiceNow Knowledge Management, a Knowledge Author typically has the ability to create and publish articles directly to the knowledge base without requiring manager approval, depending on configuration. A Knowledge Contributor can create and submit articles but those articles are routed through a review and approval workflow before publication. The exact permissions vary by implementation, but this is the general distinction.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-018",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow Knowledge Management metric tracks how often a knowledge article was used to resolve an incident?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Article view count"
+      },
+      {
+        "id": "b",
+        "text": "Article flag count"
+      },
+      {
+        "id": "c",
+        "text": "Linked incident count (the number of incidents linked to the article)"
+      },
+      {
+        "id": "d",
+        "text": "Article feedback rating"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The linked incident count (the number of incidents that reference a knowledge article via the Knowledge field on the incident) is the primary metric for measuring article resolution effectiveness. A high linked count indicates the article is frequently used to resolve incidents, which demonstrates its value. This metric also informs decisions about which articles to promote or update.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-019",
+    "type": "single_choice",
+    "prompt": "What is an 'External Knowledge Base' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A knowledge base managed by a third-party vendor outside of ServiceNow"
+      },
+      {
+        "id": "b",
+        "text": "A read-only copy of an internal knowledge base exported for external users"
+      },
+      {
+        "id": "c",
+        "text": "A knowledge base configured to be publicly accessible without requiring a ServiceNow login"
+      },
+      {
+        "id": "d",
+        "text": "A knowledge base that integrates with Google or Bing search results"
+      }
+    ],
+    "correct": "c",
+    "explanation": "An External Knowledge Base in ServiceNow is a knowledge base configured to allow public access without requiring a ServiceNow account or login. This enables organizations to provide self-service documentation, FAQs, or product guides to customers or external users. User Criteria on an external knowledge base are configured to allow 'Public' access.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-020",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'Pinned Articles' in ServiceNow Knowledge Management?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To lock articles so they cannot be edited by contributors"
+      },
+      {
+        "id": "b",
+        "text": "To mark articles for deletion in the next maintenance cycle"
+      },
+      {
+        "id": "c",
+        "text": "To restrict articles to a specific category view"
+      },
+      {
+        "id": "d",
+        "text": "To prominently feature specific articles on the knowledge base homepage for easy access"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Pinned Articles in ServiceNow Knowledge Management allow knowledge managers to prominently feature specific articles on the knowledge base homepage or category pages. This ensures that important or frequently needed articles are immediately visible to users without requiring a search. Common uses include pinning articles for known outages, top issues, or new product announcements.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-021",
+    "type": "single_choice",
+    "prompt": "Which of the following best describes 'Knowledge-Centered Service (KCS)' in the context of ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A process where all incidents must be resolved using existing knowledge articles"
+      },
+      {
+        "id": "b",
+        "text": "A ServiceNow plugin that automatically creates knowledge articles from resolved incidents"
+      },
+      {
+        "id": "c",
+        "text": "A reporting framework for measuring knowledge base ROI"
+      },
+      {
+        "id": "d",
+        "text": "A methodology where knowledge is created and maintained as part of solving problems, integrating knowledge creation into the support workflow"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Knowledge-Centered Service (KCS) is a methodology that integrates knowledge creation and maintenance directly into the problem-solving workflow. Rather than creating knowledge separately after the fact, KCS practitioners capture knowledge at the moment of resolution, refine it as it is reused, and retire it when it is no longer relevant. ServiceNow supports KCS principles through its Knowledge Management features and the 'Create Knowledge' action on incidents.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-022",
+    "type": "single_choice",
+    "prompt": "How does ServiceNow search determine which knowledge articles to display first in search results?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Articles are always sorted alphabetically by title"
+      },
+      {
+        "id": "b",
+        "text": "Articles are sorted by creation date with the newest first"
+      },
+      {
+        "id": "c",
+        "text": "Results are sorted by the number of incidents linked to each article"
+      },
+      {
+        "id": "d",
+        "text": "Search results are ranked by text relevance, view count, positive feedback, and knowledge base configuration"
+      }
+    ],
+    "correct": "d",
+    "explanation": "ServiceNow knowledge search uses a relevance ranking algorithm that considers multiple factors including text match quality against the search query, article view count (popularity), user feedback ratings, and configuration settings such as article priority or pinning. Highly viewed and positively rated articles rank higher, ensuring that the most useful content is surfaced first.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-023",
+    "type": "single_choice",
+    "prompt": "When can a knowledge article be marked as 'Retired' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Only by a system administrator using a direct database update"
+      },
+      {
+        "id": "b",
+        "text": "Only after all incidents linked to the article are closed"
+      },
+      {
+        "id": "c",
+        "text": "By a Knowledge Manager when the article is no longer accurate or relevant"
+      },
+      {
+        "id": "d",
+        "text": "Automatically after 12 months of no views"
+      }
+    ],
+    "correct": "c",
+    "explanation": "A knowledge article can be set to Retired state by a Knowledge Manager (or user with the appropriate role) when the content is no longer accurate, relevant, or needed. There is no requirement to close linked incidents or wait for an automatic process. Retiring an article removes it from active search results while preserving the record for historical reference.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-024",
+    "type": "single_choice",
+    "prompt": "What is the purpose of knowledge article categories and subcategories in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To control which SLA applies to incidents resolved using the article"
+      },
+      {
+        "id": "b",
+        "text": "To define the approval workflow for different article types"
+      },
+      {
+        "id": "c",
+        "text": "To restrict article visibility based on department"
+      },
+      {
+        "id": "d",
+        "text": "To organize articles into logical groupings for browsing, filtering, and reporting"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Categories and subcategories in ServiceNow Knowledge Management organize articles into logical groupings that make it easier for users to browse and filter content. For example, a knowledge base might have categories such as 'Hardware', 'Software', and 'Network', each with subcategories. Categories also enable reporting on article distribution and help knowledge managers identify underserved areas.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-025",
+    "type": "single_choice",
+    "prompt": "What is the 'knowledge_admin' role in ServiceNow used for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To read knowledge articles in the Service Portal"
+      },
+      {
+        "id": "b",
+        "text": "To approve knowledge articles in a specific knowledge base"
+      },
+      {
+        "id": "c",
+        "text": "To generate knowledge base usage reports"
+      },
+      {
+        "id": "d",
+        "text": "To administer all knowledge bases including creating knowledge bases, managing roles, and overriding article workflows"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The 'knowledge_admin' role in ServiceNow grants broad administrative access to the Knowledge Management module, including the ability to create and configure knowledge bases, manage user criteria and roles, override article workflows, and perform administrative operations across all knowledge bases. It is a higher-privilege role than Knowledge Manager, which is typically scoped to a specific knowledge base.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-026",
+    "type": "single_choice",
+    "prompt": "What happens to a knowledge article when it is submitted for review in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It is published immediately and flagged for review"
+      },
+      {
+        "id": "b",
+        "text": "The article is deleted and recreated with reviewer comments"
+      },
+      {
+        "id": "c",
+        "text": "The article is locked and can only be edited by the knowledge manager"
+      },
+      {
+        "id": "d",
+        "text": "The article state changes to 'Review' and reviewers or the knowledge manager are notified to evaluate it"
+      }
+    ],
+    "correct": "d",
+    "explanation": "When a knowledge article is submitted for review in ServiceNow, its state changes from Draft to Review (or a similar intermediate state depending on configuration) and notifications are sent to the assigned reviewers or knowledge manager. The reviewers evaluate the accuracy, completeness, and relevance of the content before approving it for publication or returning it to the author for revisions.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-027",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow Knowledge Management feature allows a knowledge article to include attachments?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Knowledge Blocks"
+      },
+      {
+        "id": "b",
+        "text": "External Knowledge Base linking"
+      },
+      {
+        "id": "c",
+        "text": "Article versioning"
+      },
+      {
+        "id": "d",
+        "text": "The Attachments feature native to all ServiceNow records, including knowledge articles"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Like all records in ServiceNow, knowledge articles support the native Attachments feature, which allows files (PDFs, images, documents, screenshots) to be uploaded and associated with an article. Attachments provide supporting material that complements the article text. Authors can include step-by-step screenshots, reference documents, or supporting files that enhance the article's usefulness.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-028",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of tracking 'view count' on a knowledge article in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To automatically retire articles that have not been viewed in 30 days"
+      },
+      {
+        "id": "b",
+        "text": "To charge back departments based on their article consumption"
+      },
+      {
+        "id": "c",
+        "text": "To determine the search ranking for all articles globally"
+      },
+      {
+        "id": "d",
+        "text": "To measure article popularity and usage, informing decisions about content promotion and maintenance investment"
+      }
+    ],
+    "correct": "d",
+    "explanation": "View count on a knowledge article in ServiceNow measures how many times the article has been accessed. High view counts indicate popular, widely needed articles worth investing in keeping current. Low view counts may indicate articles that are hard to find, poorly worded, or cover topics that are no longer relevant. Combined with feedback ratings and linked incident counts, view count is a key metric for knowledge base health.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-029",
+    "type": "single_choice",
+    "prompt": "How can a knowledge base in ServiceNow be configured so that only IT staff can create articles but all employees can read them?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Set the knowledge base to 'Public' and add an ACL restricting article creation to IT roles"
+      },
+      {
+        "id": "b",
+        "text": "Create separate knowledge bases for reading and contributing"
+      },
+      {
+        "id": "c",
+        "text": "Use role-based ACLs on the kb_knowledge table restricted to the IT department"
+      },
+      {
+        "id": "d",
+        "text": "Configure 'Can Contribute' User Criteria to include only IT groups and 'Can Read' User Criteria to include all employees"
+      }
+    ],
+    "correct": "d",
+    "explanation": "ServiceNow Knowledge Base configuration supports separate 'Can Read' and 'Can Contribute' User Criteria. By setting 'Can Contribute' to a User Criteria that includes only IT staff (e.g., based on department or role), and setting 'Can Read' to a broader criteria that includes all employees, the knowledge base allows company-wide reading while restricting content creation to authorized IT personnel.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-030",
+    "type": "single_choice",
+    "prompt": "Which table in ServiceNow stores knowledge article records?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "knowledge_article"
+      },
+      {
+        "id": "b",
+        "text": "knowledge"
+      },
+      {
+        "id": "c",
+        "text": "kb_article"
+      },
+      {
+        "id": "d",
+        "text": "kb_knowledge"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Knowledge article records in ServiceNow are stored in the kb_knowledge table. The knowledge base definitions are stored in the kb_knowledge_base table. Understanding these table names is important for scripting, reporting, business rule configuration, and ACL setup within the Knowledge Management module.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-031",
+    "type": "single_choice",
+    "prompt": "What does enabling 'Versioning' on a knowledge base in ServiceNow allow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Multiple published versions of the same article to coexist simultaneously"
+      },
+      {
+        "id": "b",
+        "text": "The system to maintain a version history of each article, enabling rollback and change tracking"
+      },
+      {
+        "id": "c",
+        "text": "Different versions of the knowledge base for different departments"
+      },
+      {
+        "id": "d",
+        "text": "Scheduled version releases of the entire knowledge base content"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Enabling versioning on a knowledge base in ServiceNow causes the system to maintain a version history for each article within that knowledge base. Each time an article is updated and published, a new version is created. Authors and knowledge managers can view version history, compare changes between versions, and roll back to a previous version if an update introduces errors. Only one version is active (published) at a time.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-032",
+    "type": "single_choice",
+    "prompt": "What is a 'Knowledge Article Template' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A pre-published article that is automatically copied for new articles"
+      },
+      {
+        "id": "b",
+        "text": "A configurable HTML or structured layout that pre-formats the article editor with sections and guidelines"
+      },
+      {
+        "id": "c",
+        "text": "A workflow template for the article approval process"
+      },
+      {
+        "id": "d",
+        "text": "A notification template for article review reminders"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A Knowledge Article Template in ServiceNow provides a structured layout or skeleton for knowledge articles, often including pre-defined sections (e.g., Issue, Resolution, Additional Information) with instructional placeholder text. Templates help ensure consistency and completeness across articles by guiding authors on what information to include. Knowledge bases can be configured to use specific article templates.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-033",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, how does the knowledge search function benefit end users in the Service Portal?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It allows users to directly create incidents from search results"
+      },
+      {
+        "id": "b",
+        "text": "It provides users with self-service access to knowledge articles, potentially resolving issues without contacting the service desk"
+      },
+      {
+        "id": "c",
+        "text": "It automatically escalates unresolved searches to the service desk"
+      },
+      {
+        "id": "d",
+        "text": "It shows users the real-time status of their submitted incidents"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The knowledge search in the Service Portal allows end users to search for and read knowledge articles to resolve their own issues without submitting a service desk ticket. This self-service capability reduces incident volume, improves user experience, and enables the service desk to focus on more complex issues. It is a core element of the shift-left strategy in IT support.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-034",
+    "type": "single_choice",
+    "prompt": "What does 'article ownership' mean in ServiceNow Knowledge Management?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The legal copyright holder of the article content"
+      },
+      {
+        "id": "b",
+        "text": "The user (author or manager) responsible for keeping the article current and accurate"
+      },
+      {
+        "id": "c",
+        "text": "The knowledge base that contains the article"
+      },
+      {
+        "id": "d",
+        "text": "The team whose incidents most frequently reference the article"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Article ownership in ServiceNow Knowledge Management designates the user responsible for the ongoing accuracy and maintenance of a specific article. The article owner is typically notified when the article is flagged as inaccurate, when it approaches its review date, or when significant changes to the related product or process occur. Clear ownership is a key governance element for knowledge base quality.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-035",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow Knowledge Management feature automatically sets a date on which an article should be reviewed for accuracy?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Article versioning"
+      },
+      {
+        "id": "b",
+        "text": "Review Date field on the knowledge article"
+      },
+      {
+        "id": "c",
+        "text": "Knowledge Gap Analysis scheduled job"
+      },
+      {
+        "id": "d",
+        "text": "CMDB Certification for knowledge articles"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Review Date field on a ServiceNow knowledge article allows authors and managers to schedule a future date on which the article should be reviewed to confirm its ongoing accuracy. When the review date is reached, the article owner can be notified via a scheduled job or notification rule. This proactive review mechanism helps prevent knowledge base staleness without requiring constant manual oversight.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-036",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Knowledge Contribution from Incident' feature in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To automatically link existing knowledge articles to similar incidents"
+      },
+      {
+        "id": "b",
+        "text": "To enable agents to create knowledge articles directly from resolved incidents, capturing solutions for future reuse"
+      },
+      {
+        "id": "c",
+        "text": "To automatically close incidents that have a linked knowledge article"
+      },
+      {
+        "id": "d",
+        "text": "To search the knowledge base as part of the incident creation workflow"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Knowledge Contribution from Incident feature in ServiceNow allows service desk agents to create knowledge articles at the point of incident resolution, capturing the solution while it is fresh. The 'Create Knowledge' UI action on the incident form pre-populates an article with the incident data and resolution notes. This directly supports the KCS methodology by making knowledge creation part of the support workflow.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-037",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow report type would best show the rate at which knowledge articles are being used to resolve incidents over time?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A bar chart of articles by view count"
+      },
+      {
+        "id": "b",
+        "text": "A trend line showing incidents with a linked knowledge article versus total incidents per month"
+      },
+      {
+        "id": "c",
+        "text": "A pie chart of articles by category"
+      },
+      {
+        "id": "d",
+        "text": "A list report of all retired articles"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A trend line report showing incidents with a linked knowledge article versus total incidents over time is the most effective way to visualize the rate of knowledge reuse in incident resolution. This metric, sometimes called the 'knowledge deflection rate', directly measures how much of the incident workload is being handled by reusing existing knowledge. It is a key KPI for knowledge management program effectiveness.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-038",
+    "type": "single_choice",
+    "prompt": "What is the effect of setting a knowledge base to 'Disable Suggesting' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Users cannot search the knowledge base directly"
+      },
+      {
+        "id": "b",
+        "text": "Articles from that knowledge base will not appear as suggested articles on incident or case forms"
+      },
+      {
+        "id": "c",
+        "text": "Contributors cannot suggest new articles for that knowledge base"
+      },
+      {
+        "id": "d",
+        "text": "The knowledge base homepage will not display suggested articles based on browsing history"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Setting 'Disable Suggesting' on a knowledge base prevents articles from that knowledge base from appearing in the contextual suggested articles panel on incident or case forms. This is useful for knowledge bases containing internal or sensitive information that should not be surfaced automatically to agents who may not have context for those articles. Users can still manually search the knowledge base if they have read access.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-039",
+    "type": "single_choice",
+    "prompt": "How do Knowledge Blocks differ from standard knowledge articles in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Knowledge Blocks are only visible to knowledge managers, not end users"
+      },
+      {
+        "id": "b",
+        "text": "Knowledge Blocks are reusable content snippets embedded in articles; they are not standalone articles searchable by end users"
+      },
+      {
+        "id": "c",
+        "text": "Knowledge Blocks cannot contain images or attachments"
+      },
+      {
+        "id": "d",
+        "text": "Knowledge Blocks are only available in the IT-facing knowledge base, not the employee-facing knowledge base"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Knowledge Blocks in ServiceNow are reusable content snippets designed to be embedded within knowledge articles rather than serving as standalone articles. End users do not search for or directly access knowledge blocks; they only see block content when it appears as part of an article that embeds it. Blocks are maintained once but can update many articles simultaneously, making them a content management efficiency tool.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-km-040",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, which knowledge management configuration determines whether an article goes through an approval workflow or is published immediately upon submission?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The article's knowledge category"
+      },
+      {
+        "id": "b",
+        "text": "The knowledge base's 'Approval required' workflow setting"
+      },
+      {
+        "id": "c",
+        "text": "The author's system role (itil vs. itil_admin)"
+      },
+      {
+        "id": "d",
+        "text": "The article's language setting"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The workflow configuration on the Knowledge Base record determines whether submitted articles require manager or reviewer approval before publication. When the knowledge base is configured with an approval workflow, submitted articles are routed to designated approvers. Knowledge bases configured without an approval requirement (or with auto-publish for certain roles) allow direct publication. This setting is managed by the Knowledge Manager or knowledge_admin.",
+    "topics": [
+      "knowledge-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  }
+]

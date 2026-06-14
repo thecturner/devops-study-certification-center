@@ -1,0 +1,179 @@
+{
+  "topics": [
+    {
+      "id": "identity-governance",
+      "label": "Manage Identities and Governance",
+      "description": "Covers Microsoft Entra ID user and group lifecycle, role-based access control (RBAC) at subscription and resource scope, Azure Policy for compliance enforcement, and management group hierarchies. Also includes Privileged Identity Management (PIM), Conditional Access policies, and administrative units for delegated administration.",
+      "studyPointers": [
+        {
+          "label": "Microsoft Entra ID documentation",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/"
+        },
+        {
+          "label": "Azure RBAC built-in roles",
+          "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles"
+        },
+        {
+          "label": "Azure Policy overview",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview"
+        },
+        {
+          "label": "Privileged Identity Management (PIM)",
+          "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Delegating access without over-provisioning",
+          "prompt": "A team lead needs to onboard new employees to an Azure resource group. The team lead should be able to assign roles within that resource group but not manage any resources directly.",
+          "focus": "Selecting the least-privilege RBAC role (User Access Administrator) at the correct scope to enable role assignment without resource management rights."
+        },
+        {
+          "title": "Enforcing compliance with Azure Policy",
+          "prompt": "A compliance officer requires that all Azure resources in the organization carry a specific cost center tag. Deployments without this tag must fail, and existing non-compliant resources must be remediated automatically.",
+          "focus": "Choosing the Deny effect for new resources and the Modify effect with a remediation task and managed identity for existing resources."
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Implement and Manage Storage",
+      "description": "Covers Azure Storage account configuration including replication options, access tiers, lifecycle management, and blob types. Includes securing storage with SAS tokens, stored access policies, service endpoints, and private endpoints, as well as Azure Files, Azure File Sync, AzCopy, and data protection features like soft delete and immutability.",
+      "studyPointers": [
+        {
+          "label": "Azure Storage redundancy options",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy"
+        },
+        {
+          "label": "Blob Storage lifecycle management",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview"
+        },
+        {
+          "label": "Grant limited access with SAS tokens",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview"
+        },
+        {
+          "label": "Azure Files and Azure File Sync",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Optimizing blob storage costs across an access lifecycle",
+          "prompt": "A media company uploads video files that are viewed heavily for the first month and then rarely accessed. Storage costs are increasing. The operations team wants to reduce costs without manual intervention.",
+          "focus": "Designing a lifecycle management policy that transitions blobs from Hot to Cool after 30 days and to Archive after 90 days based on last-modified time."
+        },
+        {
+          "title": "Providing time-limited external access to a blob container",
+          "prompt": "A vendor needs read-only access to a specific container for 48 hours to download deliverables. The storage account key must not be shared.",
+          "focus": "Generating a service SAS token scoped to the container with read permissions and a 48-hour expiry, backed by a stored access policy for revocability."
+        }
+      ]
+    },
+    {
+      "id": "compute",
+      "label": "Deploy and Manage Azure Compute Resources",
+      "description": "Covers Azure VM configuration including disk types, availability options (Availability Sets and Zones), VM Scale Sets with autoscale, and VM extensions. Also includes Azure App Service plans, deployment slots, Azure Container Instances, Azure Kubernetes Service, Azure Functions hosting plans, Azure Batch, and VM backup with Azure Backup.",
+      "studyPointers": [
+        {
+          "label": "Azure Virtual Machine Scale Sets overview",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview"
+        },
+        {
+          "label": "Azure managed disk types",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types"
+        },
+        {
+          "label": "App Service deployment slots",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/deploy-staging-slots"
+        },
+        {
+          "label": "Azure Functions hosting options",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Zero-downtime application deployment",
+          "prompt": "A development team deploys updates to an Azure App Service web app and needs to test the new version in a production-like environment before exposing it to users. Rollback must be instant if issues arise.",
+          "focus": "Using deployment slots to deploy to a staging slot, perform validation, then execute a slot swap to production with no downtime and instant rollback capability."
+        },
+        {
+          "title": "Securing VM access without public RDP exposure",
+          "prompt": "An administrator needs to access Windows VMs for troubleshooting. The VMs do not have public IPs, and the security team prohibits opening port 3389 in any NSG.",
+          "focus": "Deploying Azure Bastion in the VNet's AzureBastionSubnet to enable RDP over TLS from the Azure portal without modifying NSG rules or assigning public IPs."
+        }
+      ]
+    },
+    {
+      "id": "networking",
+      "label": "Configure and Manage Virtual Networking",
+      "description": "Covers Azure VNet design including address space, subnets, NSG rules, and user-defined routes. Includes VNet peering (local and global), VPN Gateway connection types and SKUs, ExpressRoute, Azure Load Balancer, Application Gateway with WAF, Azure DNS (public and private zones), Traffic Manager routing methods, Private Endpoints, and Azure Firewall.",
+      "studyPointers": [
+        {
+          "label": "Azure Virtual Network overview",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview"
+        },
+        {
+          "label": "Network security groups",
+          "url": "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
+        },
+        {
+          "label": "Azure Load Balancer overview",
+          "url": "https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-overview"
+        },
+        {
+          "label": "Azure Application Gateway and WAF",
+          "url": "https://learn.microsoft.com/en-us/azure/application-gateway/overview"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Hub-and-spoke traffic inspection",
+          "prompt": "An organization uses a hub-and-spoke VNet topology. All traffic between spoke VNets must pass through a firewall NVA in the hub VNet. Currently, spoke-to-spoke traffic bypasses the hub.",
+          "focus": "Configuring user-defined routes (UDRs) on each spoke subnet with next-hop pointing to the NVA's private IP, combined with IP forwarding enabled on the NVA's NIC."
+        },
+        {
+          "title": "Selecting the right load balancing service",
+          "prompt": "A company runs a web application that needs to route /api/* requests to a backend API pool and /* requests to a frontend pool. The routing must also protect against OWASP top-10 vulnerabilities.",
+          "focus": "Deploying Azure Application Gateway with WAF enabled, using path-based routing rules to direct URL paths to different backend address pools."
+        }
+      ]
+    },
+    {
+      "id": "monitoring-backup",
+      "label": "Monitor and Maintain Azure Resources",
+      "description": "Covers Azure Monitor components including metrics, Log Analytics workspaces, KQL queries, diagnostic settings, alert rules, and action groups. Includes Azure Monitor Workbooks, Application Insights distributed tracing, Azure Backup for VMs and on-premises servers (MARS agent), Recovery Services vault policies, Azure Site Recovery replication and failover types, and Azure Automation runbooks and Update Management.",
+      "studyPointers": [
+        {
+          "label": "Azure Monitor overview",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/overview"
+        },
+        {
+          "label": "Azure Backup documentation",
+          "url": "https://learn.microsoft.com/en-us/azure/backup/backup-overview"
+        },
+        {
+          "label": "Azure Site Recovery overview",
+          "url": "https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-overview"
+        },
+        {
+          "label": "Azure Automation overview",
+          "url": "https://learn.microsoft.com/en-us/azure/automation/automation-intro"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Setting up proactive VM alerting",
+          "prompt": "An operations team wants to receive email notifications when any VM in a subscription experiences CPU utilization above 85% for more than 10 minutes. Notifications must go to an on-call distribution list.",
+          "focus": "Creating a metric alert rule targeting the percentage CPU metric with a 10-minute evaluation window, threshold of 85%, and an action group configured with email action pointing to the distribution list."
+        },
+        {
+          "title": "Recovering individual files from a VM backup",
+          "prompt": "A developer accidentally deleted a configuration file from a production VM three days ago. The VM is protected by Azure Backup in a Recovery Services vault with daily backups.",
+          "focus": "Using the File Recovery feature in Azure Backup to mount the three-day-old recovery point as iSCSI volumes on the VM, locate the deleted file, and copy it back without restoring the entire VM."
+        }
+      ]
+    }
+  ]
+}

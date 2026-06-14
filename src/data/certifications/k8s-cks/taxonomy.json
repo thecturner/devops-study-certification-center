@@ -1,0 +1,214 @@
+{
+  "topics": [
+    {
+      "id": "cluster-setup",
+      "label": "Cluster Setup",
+      "description": "Securing the Kubernetes cluster foundation: applying CIS benchmarks, enforcing network policies, hardening the API server, configuring Ingress TLS, and protecting node metadata endpoints.",
+      "studyPointers": [
+        {
+          "label": "Kubernetes Security Checklist",
+          "url": "https://kubernetes.io/docs/concepts/security/security-checklist/"
+        },
+        {
+          "label": "Network Policies",
+          "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/"
+        },
+        {
+          "label": "Securing a Cluster",
+          "url": "https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/"
+        },
+        {
+          "label": "CIS Kubernetes Benchmark (CIS)",
+          "url": "https://www.cisecurity.org/benchmark/kubernetes"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Apply CIS Benchmark Controls",
+          "prompt": "Given a kubeadm-provisioned cluster, identify API server flags that violate CIS Level 1 controls and correct them.",
+          "focus": "Knowing which kube-apiserver flags correspond to CIS controls and how to audit them with kube-bench."
+        },
+        {
+          "title": "Restrict Pod Egress with NetworkPolicy",
+          "prompt": "Create a NetworkPolicy that denies all egress from Pods in the 'payments' namespace except to port 5432 on Pods labeled db=postgres.",
+          "focus": "NetworkPolicy spec syntax, podSelector, namespaceSelector, egress rules, and ports."
+        }
+      ]
+    },
+    {
+      "id": "cluster-hardening",
+      "label": "Cluster Hardening",
+      "description": "Reducing the Kubernetes attack surface through RBAC least-privilege, ServiceAccount hygiene, API server access restrictions, and timely upgrades.",
+      "studyPointers": [
+        {
+          "label": "RBAC Authorization",
+          "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
+        },
+        {
+          "label": "Configure ServiceAccounts",
+          "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/"
+        },
+        {
+          "label": "Controlling Access to the API Server",
+          "url": "https://kubernetes.io/docs/concepts/security/controlling-access/"
+        },
+        {
+          "label": "Upgrading kubeadm Clusters",
+          "url": "https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Audit and Tighten RBAC",
+          "prompt": "A Role in the 'dev' namespace grants 'get,list,watch,create,update,patch,delete' on all resources. Reduce it to the minimum needed for a read-only CI job.",
+          "focus": "Role vs ClusterRole, verbs, resourceNames, and the principle of least privilege."
+        },
+        {
+          "title": "Disable Automounting of ServiceAccount Tokens",
+          "prompt": "Ensure Pods in the 'frontend' namespace never receive an automounted service account token unless explicitly requested.",
+          "focus": "automountServiceAccountToken on ServiceAccount and Pod spec."
+        }
+      ]
+    },
+    {
+      "id": "system-hardening",
+      "label": "System Hardening",
+      "description": "Reducing the OS-level attack surface on Kubernetes nodes through AppArmor profiles, seccomp filters, privilege restriction, and minimizing installed packages.",
+      "studyPointers": [
+        {
+          "label": "AppArmor on Kubernetes",
+          "url": "https://kubernetes.io/docs/tutorials/security/apparmor/"
+        },
+        {
+          "label": "Seccomp for Pods",
+          "url": "https://kubernetes.io/docs/tutorials/security/seccomp/"
+        },
+        {
+          "label": "Pod Security Standards",
+          "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/"
+        },
+        {
+          "label": "Linux Capabilities",
+          "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Enforce an AppArmor Profile on a Pod",
+          "prompt": "A custom AppArmor profile named 'k8s-apparmor-example-deny-write' is loaded on the node. Apply it to a specific container in a Pod.",
+          "focus": "AppArmor annotation syntax, profile loading verification, and container-level application."
+        },
+        {
+          "title": "Apply a Restricted seccomp Profile",
+          "prompt": "Configure a Pod to use the RuntimeDefault seccomp profile and verify it is being enforced.",
+          "focus": "securityContext.seccompProfile field, RuntimeDefault vs Localhost profiles."
+        }
+      ]
+    },
+    {
+      "id": "microservice-vulnerabilities",
+      "label": "Minimize Microservice Vulnerabilities",
+      "description": "Hardening workloads using OPA/Gatekeeper admission policies, Pod Security Standards, Secrets management best practices, container sandboxing runtimes, and mutual TLS between services.",
+      "studyPointers": [
+        {
+          "label": "OPA Gatekeeper",
+          "url": "https://open-policy-agent.github.io/gatekeeper/website/docs/"
+        },
+        {
+          "label": "Pod Security Standards",
+          "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/"
+        },
+        {
+          "label": "Secrets Management",
+          "url": "https://kubernetes.io/docs/concepts/configuration/secret/"
+        },
+        {
+          "label": "gVisor Runtime",
+          "url": "https://gvisor.dev/docs/user_guide/quick_start/kubernetes/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Block Privileged Containers with Gatekeeper",
+          "prompt": "Write an OPA Gatekeeper ConstraintTemplate that denies any Pod with securityContext.privileged: true.",
+          "focus": "ConstraintTemplate Rego logic, Constraint resource, admission webhook enforcement."
+        },
+        {
+          "title": "Run a Workload in gVisor",
+          "prompt": "Deploy a Pod using the gVisor RuntimeClass (runsc) and confirm it is sandboxed.",
+          "focus": "RuntimeClass resource, handler field, Pod runtimeClassName reference."
+        }
+      ]
+    },
+    {
+      "id": "supply-chain-security",
+      "label": "Supply Chain Security",
+      "description": "Securing the software delivery pipeline: minimizing base images, scanning images for vulnerabilities, enforcing signed image policies, and using admission controllers like ImagePolicyWebhook.",
+      "studyPointers": [
+        {
+          "label": "Image Policy Webhook",
+          "url": "https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#imagepolicywebhook"
+        },
+        {
+          "label": "Dockerfile Best Practices",
+          "url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/"
+        },
+        {
+          "label": "Trivy Image Scanner",
+          "url": "https://aquasecurity.github.io/trivy/latest/docs/target/container_image/"
+        },
+        {
+          "label": "Sigstore Cosign",
+          "url": "https://docs.sigstore.dev/cosign/overview/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Scan an Image with Trivy",
+          "prompt": "Scan the image 'nginx:1.21' for HIGH and CRITICAL CVEs and output results to a file, then choose a safer alternative base image.",
+          "focus": "trivy image command syntax, severity filtering, and image minimization strategy."
+        },
+        {
+          "title": "Enable ImagePolicyWebhook",
+          "prompt": "Configure the API server to use an ImagePolicyWebhook that rejects images not from the corporate registry.",
+          "focus": "AdmissionConfiguration file, ImagePolicyWebhook plugin, and kubeconfig for the webhook backend."
+        }
+      ]
+    },
+    {
+      "id": "runtime-security",
+      "label": "Monitoring, Logging and Runtime Security",
+      "description": "Detecting and responding to threats at runtime using Falco rules, Kubernetes audit logging, behavioral monitoring, immutable container filesystems, and threat indicators.",
+      "studyPointers": [
+        {
+          "label": "Falco Rules Reference",
+          "url": "https://falco.org/docs/rules/"
+        },
+        {
+          "label": "Kubernetes Audit Logging",
+          "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/"
+        },
+        {
+          "label": "Falco Getting Started",
+          "url": "https://falco.org/docs/getting-started/"
+        },
+        {
+          "label": "Immutable Containers",
+          "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Write a Falco Rule for Shell Spawning",
+          "prompt": "Write a Falco rule that triggers when a shell is spawned inside any container in the 'production' namespace.",
+          "focus": "Falco rule structure: rule, desc, condition, output, priority; syscall and k8s metadata macros."
+        },
+        {
+          "title": "Configure API Server Audit Policy",
+          "prompt": "Create an audit policy that logs RequestResponse level events for Secrets and None level for everything else.",
+          "focus": "AuditPolicy resource, levels (None, Metadata, Request, RequestResponse), rules ordering."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "topics": [
+    {
+      "id": "cloud-solution-environment",
+      "label": "Setting Up a Cloud Solution Environment",
+      "description": "Covers the foundational tasks required to configure a Google Cloud environment: establishing organizational hierarchy (organization, folders, projects), managing billing accounts and quotas, configuring Cloud Identity and authentication, and using the gcloud CLI and Cloud Console effectively.",
+      "studyPointers": [
+        {
+          "label": "GCP Resource Hierarchy",
+          "url": "https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy"
+        },
+        {
+          "label": "Cloud Identity overview",
+          "url": "https://cloud.google.com/identity/docs/overview"
+        },
+        {
+          "label": "gcloud CLI reference",
+          "url": "https://cloud.google.com/sdk/gcloud/reference"
+        },
+        {
+          "label": "Cloud Billing documentation",
+          "url": "https://cloud.google.com/billing/docs"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Multi-environment project isolation",
+          "prompt": "A company wants to isolate dev, staging, and production workloads so each has its own billing, IAM policies, and network configuration.",
+          "focus": "Understanding that GCP projects are the primary isolation boundary, with folders providing policy grouping above them."
+        },
+        {
+          "title": "Centralized billing with departmental visibility",
+          "prompt": "Finance needs a single invoice while department heads need to see their own spending without access to others' data.",
+          "focus": "Linking all projects to a single billing account and using budget alerts and billing exports for per-department visibility."
+        }
+      ]
+    },
+    {
+      "id": "planning-configuring",
+      "label": "Planning and Configuring a Cloud Solution",
+      "description": "Focuses on selecting the right GCP products and configurations to meet business requirements: choosing compute, storage, and database services; designing VPC networks including subnets, firewall rules, and routes; selecting appropriate load balancer types; and planning cost-effective pricing strategies.",
+      "studyPointers": [
+        {
+          "label": "Choosing a load balancer",
+          "url": "https://cloud.google.com/load-balancing/docs/choosing-load-balancer"
+        },
+        {
+          "label": "Cloud Storage classes",
+          "url": "https://cloud.google.com/storage/docs/storage-classes"
+        },
+        {
+          "label": "GCP database product overview",
+          "url": "https://cloud.google.com/products/databases"
+        },
+        {
+          "label": "VPC network overview",
+          "url": "https://cloud.google.com/vpc/docs/vpc"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Database selection for global transactions",
+          "prompt": "An application needs a relational database that supports SQL joins and ACID transactions across three continents with strong consistency.",
+          "focus": "Distinguishing Cloud Spanner (global, relational, strongly consistent) from Cloud SQL (regional) and Cloud Bigtable (NoSQL)."
+        },
+        {
+          "title": "Cost optimization for bursty workloads",
+          "prompt": "A stateless web application must handle 10x traffic spikes cost-effectively without committing to reserved capacity.",
+          "focus": "Managed instance groups with autoscaling and understanding sustained use discounts vs. committed use contracts vs. Spot VMs."
+        }
+      ]
+    },
+    {
+      "id": "deploying-implementing",
+      "label": "Deploying and Implementing a Cloud Solution",
+      "description": "Covers how to deploy and configure GCP services using the CLI, console, and infrastructure-as-code tools: creating and managing GKE clusters and Kubernetes workloads, deploying Cloud Run and Cloud Functions, using App Engine environments, managing container images with Artifact Registry, and building CI/CD pipelines with Cloud Build.",
+      "studyPointers": [
+        {
+          "label": "GKE overview and deployment",
+          "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview"
+        },
+        {
+          "label": "Cloud Run documentation",
+          "url": "https://cloud.google.com/run/docs"
+        },
+        {
+          "label": "Cloud Build configuration file schema",
+          "url": "https://cloud.google.com/build/docs/build-config-file-schema"
+        },
+        {
+          "label": "Artifact Registry overview",
+          "url": "https://cloud.google.com/artifact-registry/docs/overview"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Zero-downtime Kubernetes rollout",
+          "prompt": "A team needs to update a containerized application in GKE from v1 to v2 without any dropped requests during the transition.",
+          "focus": "Using Deployments with RollingUpdate strategy and maxUnavailable: 0 to ensure continuous availability."
+        },
+        {
+          "title": "Serverless vs. container decision",
+          "prompt": "A stateless microservice receives sporadic traffic, sometimes zero. The team wants no infrastructure management and minimum cost at idle.",
+          "focus": "Cloud Run's scale-to-zero behavior and per-request billing compared to always-on GKE nodes and Compute Engine instances."
+        }
+      ]
+    },
+    {
+      "id": "ensuring-operation",
+      "label": "Ensuring Successful Operation of a Cloud Solution",
+      "description": "Addresses the day-two operational concerns of running workloads on GCP: configuring Cloud Monitoring alerting policies and uptime checks, exporting and managing logs with Cloud Logging sinks and exclusions, using Cloud Trace and Cloud Profiler for performance analysis, managing Compute Engine instances with startup scripts and the serial console, and troubleshooting GKE node and pod issues.",
+      "studyPointers": [
+        {
+          "label": "Cloud Monitoring alerting",
+          "url": "https://cloud.google.com/monitoring/alerts"
+        },
+        {
+          "label": "Cloud Logging export sinks",
+          "url": "https://cloud.google.com/logging/docs/export"
+        },
+        {
+          "label": "Cloud Trace overview",
+          "url": "https://cloud.google.com/trace/docs/overview"
+        },
+        {
+          "label": "Troubleshooting GKE",
+          "url": "https://cloud.google.com/kubernetes-engine/docs/troubleshooting" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Long-term audit log retention",
+          "prompt": "A financial services company must retain Cloud Audit Logs for 7 years, but Cloud Logging's default retention is 400 days.",
+          "focus": "Creating a log sink to export audit logs to a Cloud Storage bucket with a 7-year retention policy or object lock."
+        },
+        {
+          "title": "Diagnosing an unresponsive instance",
+          "prompt": "A Compute Engine instance is RUNNING but not responding to SSH. The engineer cannot log in to check what is happening.",
+          "focus": "Using the serial console to view OS-level boot output and diagnosing firewall rules that may block port 22."
+        }
+      ]
+    },
+    {
+      "id": "access-security",
+      "label": "Configuring Access and Security",
+      "description": "Covers GCP IAM fundamentals including basic, predefined, and custom roles; service account management and Workload Identity federation; organization policies for enforcing security guardrails; VPC Service Controls for network-based access boundaries; Cloud Armor for WAF protection; Secret Manager for credential storage; and Cloud KMS for encryption key management.",
+      "studyPointers": [
+        {
+          "label": "IAM overview",
+          "url": "https://cloud.google.com/iam/docs/overview"
+        },
+        {
+          "label": "Organization Policy Service",
+          "url": "https://cloud.google.com/resource-manager/docs/organization-policy/overview"
+        },
+        {
+          "label": "VPC Service Controls overview",
+          "url": "https://cloud.google.com/vpc-service-controls/docs/overview"
+        },
+        {
+          "label": "Secret Manager documentation",
+          "url": "https://cloud.google.com/secret-manager/docs"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Preventing public Cloud Storage buckets",
+          "prompt": "Compliance requires that PII buckets can never be made public, even by a project owner. IAM deny policies alone are insufficient because a project owner can remove them.",
+          "focus": "The constraints/storage.publicAccessPrevention organization policy overrides any IAM binding at the project level and cannot be bypassed by project owners."
+        },
+        {
+          "title": "Workload Identity for GKE pods",
+          "prompt": "A pod in GKE must call the Cloud Storage API using a specific service account's permissions without a key file in the container image.",
+          "focus": "Workload Identity links a Kubernetes service account to a GCP service account via an IAM binding using the roles/iam.workloadIdentityUser role."
+        }
+      ]
+    }
+  ]
+}

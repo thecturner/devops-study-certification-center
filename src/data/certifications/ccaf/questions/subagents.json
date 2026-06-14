@@ -1,0 +1,206 @@
+[
+  {
+    "id": "ccaf-sa-001",
+    "type": "single_choice",
+    "prompt": "What is the defining characteristic of a subagent's context window in Claude Code?",
+    "choices": [
+      { "id": "a", "text": "It shares the parent agent's full context to ensure task continuity" },
+      { "id": "b", "text": "It is a separate, isolated context window that starts fresh for the subagent's assigned task" },
+      { "id": "c", "text": "It inherits a read-only snapshot of the parent's context but cannot contribute back to it" },
+      { "id": "d", "text": "It uses a truncated copy of the parent's context to save tokens" }
+    ],
+    "correct": "b",
+    "explanation": "Each subagent operates in its own isolated context window, independent of the parent. This isolation is the core design principle: the subagent cannot be distracted by the parent's history, and its intermediate reasoning does not consume the parent's context budget. Only the final summary returned by the subagent crosses the boundary back into the parent's context.",
+    "topics": ["subagents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Subagent Architecture" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-002",
+    "type": "single_choice",
+    "prompt": "When a parent agent in Claude Code delegates a task to a subagent, how does information flow between them?",
+    "choices": [
+      { "id": "a", "text": "The parent and subagent share memory through a temporary file both can read and write" },
+      { "id": "b", "text": "The parent passes a task description as input; the subagent executes independently and returns a summary of its work to the parent" },
+      { "id": "c", "text": "The subagent streams its work directly into the parent's context in real time" },
+      { "id": "d", "text": "The parent reads the subagent's full context window directly when the subagent finishes" }
+    ],
+    "correct": "b",
+    "explanation": "The delegation pattern is one-way: the parent provides a task description (and optionally, specific inputs) to the subagent. The subagent then works autonomously in its own context window. When done, it returns a result — typically a summary or structured output — to the parent. The parent never has direct access to the subagent's intermediate reasoning.",
+    "topics": ["subagents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Subagent Input and Output" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-003",
+    "type": "single_choice",
+    "prompt": "A subagent completes a multi-step file analysis and returns its result to the parent agent. What form does this return value typically take?",
+    "choices": [
+      { "id": "a", "text": "A structured JSON object containing every file the subagent opened, with timestamps" },
+      { "id": "b", "text": "A natural-language summary or structured text describing what was done and any key findings" },
+      { "id": "c", "text": "A unified diff of all file changes made during the subagent's session" },
+      { "id": "d", "text": "A replay log of every tool call the subagent executed, for the parent to re-run selectively" }
+    ],
+    "correct": "b",
+    "explanation": "Subagents summarize their work into a concise result — often prose, structured Markdown, or a defined JSON schema — and pass that back to the parent. The parent does not receive the subagent's raw tool call history. This is why the summary's quality and structure matter: the parent can only act on what the subagent explicitly reports.",
+    "topics": ["subagents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Subagent Return Mechanics" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-004",
+    "type": "single_choice",
+    "prompt": "How does a developer define a custom subagent that Claude Code can invoke during a session?",
+    "choices": [
+      { "id": "a", "text": "By adding a 'subagent: true' frontmatter flag to an existing CLAUDE.md file" },
+      { "id": "b", "text": "By placing a subagent definition file in the .claude/agents/ directory" },
+      { "id": "c", "text": "By appending --subagent to the claude CLI command at startup" },
+      { "id": "d", "text": "By using the /delegate command followed by the task description" }
+    ],
+    "correct": "b",
+    "explanation": "Custom subagents in Claude Code are defined as files in the .claude/agents/ directory. Each file specifies the subagent's name, description (used as a semantic trigger), allowed-tools, and the prompt or system instructions that govern its behavior. Claude Code discovers these files at startup and makes the defined subagents available for delegation.",
+    "topics": ["subagents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — /agents Directory" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-005",
+    "type": "single_choice",
+    "prompt": "Why is requesting structured output — such as a specific JSON schema — important when a subagent returns results to a parent agent?",
+    "choices": [
+      { "id": "a", "text": "The MCP protocol requires JSON for all cross-agent communication" },
+      { "id": "b", "text": "Structured output is predictable and machine-parseable, reducing the chance the parent misinterprets the response" },
+      { "id": "c", "text": "The parent agent's context window only accepts JSON and rejects plain text" },
+      { "id": "d", "text": "JSON compresses the result to take up fewer tokens in the parent's context" }
+    ],
+    "correct": "b",
+    "explanation": "When a parent agent needs to act on a subagent's findings — for example, routing decisions based on whether tests passed or failed — unstructured prose introduces ambiguity. A defined output schema (JSON fields, specific headings, or a checklist format) makes the result deterministic and easy to parse programmatically, reducing the chance of misinterpretation in downstream steps.",
+    "topics": ["subagents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Structured Subagent Output" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-006",
+    "type": "single_choice",
+    "prompt": "A subagent is configured with allowed-tools: [Read, Glob, Grep]. What actions is it prevented from taking, and why does this matter?",
+    "choices": [
+      { "id": "a", "text": "It cannot read files because Read is incorrectly capitalized in the configuration" },
+      { "id": "b", "text": "It cannot write, edit, or execute anything; the restriction enforces read-only access for tasks where modification would be unsafe" },
+      { "id": "c", "text": "It cannot search the codebase because Grep requires a separate permission grant" },
+      { "id": "d", "text": "It cannot call external APIs, but can still run shell commands through Bash" }
+    ],
+    "correct": "b",
+    "explanation": "The allowed-tools list is an enforced whitelist. By including only Read, Glob, and Grep, the subagent is structurally prevented from using Write, Edit, Bash, or any other tool not in the list. This implements the principle of least privilege at the subagent level: a subagent tasked with code review or analysis should not be able to modify any files, regardless of what its prompt says.",
+    "topics": ["subagents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Subagent Tool Restrictions" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-007",
+    "type": "single_choice",
+    "prompt": "Which scenario best illustrates when delegating to a subagent adds clear value over having the parent agent do the work directly?",
+    "choices": [
+      { "id": "a", "text": "When the task is a single-line file edit the parent can resolve in one tool call" },
+      { "id": "b", "text": "When the task is complex, isolated, and benefits from a dedicated context window — such as a full test suite analysis requiring many file reads" },
+      { "id": "c", "text": "When the developer wants an audit log of which tools were used for compliance purposes" },
+      { "id": "d", "text": "When the parent agent's context window still has plenty of available space" }
+    ],
+    "correct": "b",
+    "explanation": "Subagents deliver the most value when a task is self-contained, requires significant exploration, and would consume a large portion of the parent's context if done inline. A test suite analysis — reading dozens of test files, identifying patterns, and producing a report — is a good candidate: it is complex, isolated, and the findings (not the raw tool call history) are all the parent needs.",
+    "topics": ["subagents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — When to Delegate to Subagents" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-008",
+    "type": "single_choice",
+    "prompt": "Which of the following is an anti-pattern when using subagents in Claude Code?",
+    "choices": [
+      { "id": "a", "text": "Restricting subagent tool access to only what the task actually requires" },
+      { "id": "b", "text": "Creating a separate subagent for every small operation, including ones the parent could complete in a single tool call" },
+      { "id": "c", "text": "Returning structured output from the subagent so the parent can parse results reliably" },
+      { "id": "d", "text": "Using separate context windows for independent research tasks to prevent cross-contamination" }
+    ],
+    "correct": "b",
+    "explanation": "Subagent delegation has overhead: spawning a context, passing a task, waiting for a summary, and re-integrating the result. For trivial operations — reading a single file, running a one-line grep — this overhead exceeds the benefit. The anti-pattern is treating subagents as the default mechanism for everything rather than reserving them for tasks where the isolation and dedicated context genuinely help.",
+    "topics": ["subagents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Subagent Anti-Patterns" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-009",
+    "type": "single_choice",
+    "prompt": "A developer orchestrates five subagents in parallel, each analyzing a different module of a large codebase. What is the primary efficiency gain, and what new coordination challenge does this introduce?",
+    "choices": [
+      { "id": "a", "text": "The gain is reduced token usage across all agents; the challenge is preventing each subagent from re-reading shared files" },
+      { "id": "b", "text": "The gain is parallel execution cutting total wall-clock time; the challenge is aggregating and reconciling results from five independent context windows" },
+      { "id": "c", "text": "The gain is that each subagent can use a larger model; the challenge is managing the increased API cost" },
+      { "id": "d", "text": "The gain is that subagents share learned context; the challenge is preventing context pollution between them" }
+    ],
+    "correct": "b",
+    "explanation": "Running subagents in parallel reduces wall-clock time from O(n) sequential to roughly O(1) for the slowest agent. The coordination challenge is on the parent side: it must wait for all five results, reconcile potentially inconsistent findings (e.g., two agents that reached different conclusions about shared utilities), and synthesize a coherent summary. The difficulty grows with the number of interdependencies between the modules being analyzed.",
+    "topics": ["subagents"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Parallel Subagent Orchestration" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-010",
+    "type": "single_choice",
+    "prompt": "A team wants to build a reusable code-reviewer subagent that reads any file it is given, applies a standard review checklist, and returns a structured Markdown report. Which implementation approach is correct?",
+    "choices": [
+      { "id": "a", "text": "Define the subagent in .claude/agents/ with allowed-tools restricted to Read, Glob, and Grep; include the checklist in the subagent's system prompt; and instruct it to return output in a defined Markdown format" },
+      { "id": "b", "text": "Add a CLAUDE.md entry that restricts Claude to review-only behavior for all sessions project-wide" },
+      { "id": "c", "text": "Write a PostToolUse hook that fires when any file is written and triggers the review automatically" },
+      { "id": "d", "text": "Create a skill with a 'review-mode: true' frontmatter flag that Claude activates via semantic trigger" }
+    ],
+    "correct": "a",
+    "explanation": "The correct approach combines three elements: (1) .claude/agents/ placement so Claude discovers it as a delegatable agent, (2) allowed-tools restricted to read-only tools so it structurally cannot modify files, and (3) a system prompt that embeds the checklist and specifies the output format. This creates a task-specific assistant with enforced tool boundaries and predictable output — neither CLAUDE.md project instructions nor hooks achieve all three goals simultaneously.",
+    "topics": ["subagents"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Task-Specific Subagent Design" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-011",
+    "type": "single_choice",
+    "prompt": "A subagent fails midway through its task. What does the parent agent have access to for diagnosing the failure?",
+    "choices": [
+      { "id": "a", "text": "The parent can inspect the subagent's full conversation history directly after the failed run" },
+      { "id": "b", "text": "The parent only sees what the subagent returned; intermediate steps are invisible unless the subagent explicitly included them in its output or summary" },
+      { "id": "c", "text": "The subagent automatically writes its context to a debug file on failure for the parent to read" },
+      { "id": "d", "text": "Errors propagate identically to the parent regardless of isolation" }
+    ],
+    "correct": "b",
+    "explanation": "Context isolation is a double-edged sword for debugging. Because the subagent's internal reasoning and tool calls live in a separate, ephemeral context window, the parent has no visibility into them. The only signal available is whatever the subagent returned before failing — which may be an error message, a partial result, or nothing at all. Teams building resilient multi-agent workflows should design subagents to include enough diagnostic detail in their return values to support post-failure analysis.",
+    "topics": ["subagents"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Subagent Debugging" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-sa-012",
+    "type": "single_choice",
+    "prompt": "An orchestrator spawns a documentation-generator subagent and a test-writer subagent for the same codebase. Both need to read from src/lib/utils.ts. What constraint must the orchestrator consider regarding file access?",
+    "choices": [
+      { "id": "a", "text": "Only one subagent at a time may read any file; all reads must be serialized through the orchestrator" },
+      { "id": "b", "text": "Concurrent reads are safe; but if either subagent writes to the same file, the orchestrator must serialize or partition their work to prevent conflicts" },
+      { "id": "c", "text": "The orchestrator must create a separate copy of shared files for each subagent to prevent read cache conflicts" },
+      { "id": "d", "text": "Concurrent file access from subagents is never permitted; all I/O must go through the parent agent" }
+    ],
+    "correct": "b",
+    "explanation": "Concurrent reads are safe because reading is non-destructive. The risk emerges if either subagent writes to a file the other is reading (or if both write to the same file), producing inconsistent state. A documentation generator that only reads and a test writer that creates new test files may safely run in parallel — but the orchestrator should verify their tool access profiles and, if writes are involved, ensure they target non-overlapping files or schedule them sequentially.",
+    "topics": ["subagents"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Parallel Subagent File Safety" }],
+    "version": 1
+  }
+]

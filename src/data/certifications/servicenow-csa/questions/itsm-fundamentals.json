@@ -1,0 +1,635 @@
+[
+  {
+    "id": "sn-csa-itsm-001",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow module is used to track unplanned disruptions or degradations to IT services?",
+    "choices": [
+      { "id": "a", "text": "Problem Management" },
+      { "id": "b", "text": "Incident Management" },
+      { "id": "c", "text": "Change Management" },
+      { "id": "d", "text": "Service Catalog" }
+    ],
+    "correct": "b",
+    "explanation": "Incident Management handles unplanned interruptions or quality reductions in IT services. The goal is to restore normal service operation as quickly as possible. Problem Management handles the root cause of recurring incidents.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-002",
+    "type": "single_choice",
+    "prompt": "In ITSM terminology, what is the difference between an Incident and a Problem?",
+    "choices": [
+      { "id": "a", "text": "An incident is caused by a user error; a problem is caused by a system failure" },
+      { "id": "b", "text": "An incident is an unplanned disruption; a problem is the underlying root cause" },
+      { "id": "c", "text": "Incidents are created by users; problems are created by the help desk" },
+      { "id": "d", "text": "There is no difference, they are the same record type in ServiceNow" }
+    ],
+    "correct": "b",
+    "explanation": "An Incident is an unplanned interruption or quality reduction in a service. A Problem is the root cause of one or more incidents. Problem Management aims to prevent future incidents by identifying and eliminating root causes.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-003",
+    "type": "single_choice",
+    "prompt": "Which ITSM process requires formal approval before implementing changes to production systems?",
+    "choices": [
+      { "id": "a", "text": "Incident Management" },
+      { "id": "b", "text": "Problem Management" },
+      { "id": "c", "text": "Change Management" },
+      { "id": "d", "text": "Event Management" }
+    ],
+    "correct": "c",
+    "explanation": "Change Management governs all modifications to production systems and requires approval from a Change Advisory Board (CAB) or designated approvers before implementation, minimizing risk and service disruption.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-004",
+    "type": "single_choice",
+    "prompt": "What is a 'Service Catalog' in ServiceNow used for?",
+    "choices": [
+      { "id": "a", "text": "Listing all configuration items in the CMDB" },
+      { "id": "b", "text": "Providing a self-service portal where users can request services and products" },
+      { "id": "c", "text": "Tracking all open incidents and problems" },
+      { "id": "d", "text": "Storing knowledge articles for agents" }
+    ],
+    "correct": "b",
+    "explanation": "The Service Catalog is a self-service portal that allows end users to browse and request IT services, software, hardware, and other offerings. Requests are fulfilled through catalog items and record producers connected to workflows.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-005",
+    "type": "single_choice",
+    "prompt": "What are the default incident states in ServiceNow ITSM, in order?",
+    "choices": [
+      { "id": "a", "text": "Open, Assigned, In Progress, Resolved, Closed" },
+      { "id": "b", "text": "New, In Progress, On Hold, Resolved, Closed" },
+      { "id": "c", "text": "Submitted, Pending, Active, Complete, Cancelled" },
+      { "id": "d", "text": "Created, Acknowledged, Working, Fixed, Verified" }
+    ],
+    "correct": "b",
+    "explanation": "The default Incident states in ServiceNow are: 1-New, 2-In Progress, 3-On Hold, 6-Resolved, and 7-Closed. The 'On Hold' state is used when work is blocked pending external action. A Cancelled state also exists. Resolution triggers the resolved state, and the incident auto-closes after a configured period.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Incident Management", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/product/incident-management/concept/c_IncidentManagement.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-006",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Incident Management, how is the 'Priority' field typically calculated?",
+    "choices": [
+      { "id": "a", "text": "It is manually set by the caller when submitting the incident" },
+      { "id": "b", "text": "It is automatically calculated from the combination of Impact and Urgency" },
+      { "id": "c", "text": "It is determined by the assignment group's workload" },
+      { "id": "d", "text": "It is set by the SLA that triggers when the incident is created" }
+    ],
+    "correct": "b",
+    "explanation": "In ServiceNow, Incident Priority is calculated automatically using a priority lookup matrix based on the values of Impact (how many people/services are affected) and Urgency (how quickly the issue needs resolution). The resulting priority values are typically P1 through P5 or Critical through Planning.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-007",
+    "type": "single_choice",
+    "prompt": "What is a 'Major Incident' in ServiceNow ITSM?",
+    "choices": [
+      { "id": "a", "text": "Any incident that has been open for more than 24 hours" },
+      { "id": "b", "text": "A high-impact, high-urgency incident that requires a dedicated response process and communication bridge" },
+      { "id": "c", "text": "An incident assigned to the senior management team" },
+      { "id": "d", "text": "Any incident that causes a security breach" }
+    ],
+    "correct": "b",
+    "explanation": "A Major Incident is a high-severity event (typically P1) that significantly impacts business operations and requires an expedited, dedicated response team, frequent stakeholder communication, and often a war room or conference bridge. ServiceNow provides dedicated Major Incident Management functionality.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-008",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Known Error Database' (KEDB) in ServiceNow Problem Management?",
+    "choices": [
+      { "id": "a", "text": "A list of known software bugs reported by the vendor" },
+      { "id": "b", "text": "A repository of problems where the root cause and a workaround or fix are known, enabling faster incident resolution" },
+      { "id": "c", "text": "A database of known security vulnerabilities in the environment" },
+      { "id": "d", "text": "A log of all errors generated by automated scripts in the platform" }
+    ],
+    "correct": "b",
+    "explanation": "The Known Error Database (KEDB) stores problems where the root cause has been identified and a workaround or permanent fix is known. When incidents occur that match a known error, the KEDB entry can be referenced to resolve the incident quickly using the documented workaround.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-009",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Change Management, what type of change has a pre-approved, low-risk procedure that can be implemented without a full CAB review?",
+    "choices": [
+      { "id": "a", "text": "Normal Change" },
+      { "id": "b", "text": "Emergency Change" },
+      { "id": "c", "text": "Standard Change" },
+      { "id": "d", "text": "Expedited Change" }
+    ],
+    "correct": "c",
+    "explanation": "Standard Changes are pre-approved, low-risk, frequently performed changes with well-documented procedures. They bypass the full CAB review because the risk and process are well understood. An Emergency Change is for urgent situations requiring immediate action, but still requires some form of approval.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-010",
+    "type": "single_choice",
+    "prompt": "What is the Change Advisory Board (CAB) in ServiceNow Change Management?",
+    "choices": [
+      { "id": "a", "text": "An automated approval workflow that uses machine learning to evaluate risk" },
+      { "id": "b", "text": "A group of stakeholders who review and authorize normal change requests" },
+      { "id": "c", "text": "A committee that writes change management policies" },
+      { "id": "d", "text": "A monitoring tool that tracks the status of all changes in flight" }
+    ],
+    "correct": "b",
+    "explanation": "The Change Advisory Board (CAB) is a group of stakeholders (typically IT managers, architects, and service owners) who meet regularly to review and approve normal change requests. Their goal is to minimize business risk while enabling efficient change delivery.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-011",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Service Catalog, what is the difference between a 'Catalog Item' and a 'Record Producer'?",
+    "choices": [
+      { "id": "a", "text": "A Catalog Item creates a Request record; a Record Producer creates a record in any specified table" },
+      { "id": "b", "text": "A Catalog Item is visible to end users; a Record Producer is only visible to IT staff" },
+      { "id": "c", "text": "A Catalog Item triggers a workflow; a Record Producer does not" },
+      { "id": "d", "text": "There is no difference; they are both identical types of catalog entries" }
+    ],
+    "correct": "a",
+    "explanation": "A Catalog Item creates Request (sc_request) and RITM (sc_req_item) records in the standard fulfillment flow. A Record Producer, on the other hand, creates a record in any specified ServiceNow table (e.g., an incident or change) while presenting a catalog-style form to the user.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-012",
+    "type": "single_choice",
+    "prompt": "What is the relationship between a 'Request' (sc_request) and a 'Requested Item' (sc_req_item) in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "They are the same record type with different names" },
+      { "id": "b", "text": "A Request is the parent shopping cart; each Requested Item (RITM) is a line item within that request" },
+      { "id": "c", "text": "A Request represents completed orders; a RITM represents pending orders" },
+      { "id": "d", "text": "A Request is for hardware; a RITM is for software" }
+    ],
+    "correct": "b",
+    "explanation": "When a user submits a service catalog order, a single Request (sc_request) record is created as the 'shopping cart' container. Each individual item ordered within that cart generates a separate Requested Item (RITM) record. The RITM is the unit that workflows and fulfillment tasks hang off of.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-013",
+    "type": "single_choice",
+    "prompt": "What is an 'Order Guide' in the ServiceNow Service Catalog?",
+    "choices": [
+      { "id": "a", "text": "A documentation page that explains how to use the service catalog" },
+      { "id": "b", "text": "A catalog item type that bundles multiple catalog items together, allowing users to request them in one guided flow" },
+      { "id": "c", "text": "An approval workflow for catalog orders that require manager sign-off" },
+      { "id": "d", "text": "A report showing all pending service catalog orders" }
+    ],
+    "correct": "b",
+    "explanation": "An Order Guide bundles multiple catalog items together and presents them in a guided, wizard-like experience. When submitted, it creates individual RITMs for each included item. For example, a 'New Employee Onboarding' order guide might bundle laptop request, access request, and badge request.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-014",
+    "type": "single_choice",
+    "prompt": "What is a 'Variable' in a ServiceNow Service Catalog item?",
+    "choices": [
+      { "id": "a", "text": "A scripted field that auto-calculates a value when the catalog item is submitted" },
+      { "id": "b", "text": "A form field on a catalog item that collects input from the user when ordering" },
+      { "id": "c", "text": "A pricing rule that changes the cost of the item based on quantity" },
+      { "id": "d", "text": "A field that varies between catalog item versions" }
+    ],
+    "correct": "b",
+    "explanation": "Variables are the form fields on a Service Catalog item that collect information from the user at the time of ordering. For example, a laptop request might have variables for requested model, business justification, and needed-by date. Variable values are stored on the RITM record.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-015",
+    "type": "single_choice",
+    "prompt": "How is an SLA (Service Level Agreement) 'attached' to incidents in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "An SLA is manually linked to each incident when it is created" },
+      { "id": "b", "text": "SLAs are attached automatically based on SLA definition conditions that evaluate the incident's field values" },
+      { "id": "c", "text": "SLAs are attached by the assignment group when they accept the incident" },
+      { "id": "d", "text": "SLAs can only be attached to incidents through the Service Catalog" }
+    ],
+    "correct": "b",
+    "explanation": "SLA Definitions contain conditions (such as priority, category, or business unit) that are evaluated when an incident is created or updated. When the conditions match, the SLA is automatically attached to the incident, creating an SLA instance record that tracks breach times.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-016",
+    "type": "true_false",
+    "prompt": "In ServiceNow, Knowledge Base articles can be linked directly to an Incident record to document the resolution approach.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow allows agents to link Knowledge Base articles to Incident records, both to guide resolution and to document what knowledge was used. The 'Knowledge' related list on an incident shows linked articles. Agents can also create new KB articles directly from a resolved incident.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-017",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, how does the Incident table relate to the Task table?",
+    "choices": [
+      { "id": "a", "text": "The Incident table is completely independent with no relationship to Task" },
+      { "id": "b", "text": "Incident extends Task, inheriting all Task fields and appearing in Task table queries" },
+      { "id": "c", "text": "Task extends Incident, meaning Incident is the parent table" },
+      { "id": "d", "text": "Incident and Task are linked via a many-to-many relationship table" }
+    ],
+    "correct": "b",
+    "explanation": "The Incident [incident] table extends the Task [task] table. This means all incidents are also tasks and inherit fields like number, short description, state, assignment group, and assigned to. Querying the Task table will also return incident records (unless filtered by sys_class_name).",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-018",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Problem Management, what is the difference between a 'Problem' and a 'Problem Task'?",
+    "choices": [
+      { "id": "a", "text": "A Problem is created by end users; a Problem Task is created by IT staff" },
+      { "id": "b", "text": "A Problem is the parent investigation record; Problem Tasks are sub-tasks created to break down the investigation work" },
+      { "id": "c", "text": "A Problem is a resolved issue; a Problem Task is an open investigation" },
+      { "id": "d", "text": "They are two names for the same record type" }
+    ],
+    "correct": "b",
+    "explanation": "A Problem record represents the overall investigation into a root cause. Problem Tasks are child work items created under the Problem to break the investigation into assignable, trackable sub-tasks. Multiple technicians can work different Problem Tasks under the same Problem.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-019",
+    "type": "single_choice",
+    "prompt": "What is the 'Approval' stage in a Change Request workflow?",
+    "choices": [
+      { "id": "a", "text": "A notification sent to all affected users before a change is made" },
+      { "id": "b", "text": "A stage where designated approvers review and formally authorize or reject the change" },
+      { "id": "c", "text": "The automatic testing phase that runs before a change is deployed" },
+      { "id": "d", "text": "A post-implementation review completed after the change is deployed" }
+    ],
+    "correct": "b",
+    "explanation": "The Approval stage in a Change Management workflow is where designated approvers (individuals, groups, or a CAB) review the change request and formally authorize or reject it. The change cannot proceed to the Implementation stage until all required approvals are granted.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-020",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Incident Management, what does the 'On Hold' state indicate?",
+    "choices": [
+      { "id": "a", "text": "The incident has been resolved but not yet confirmed by the caller" },
+      { "id": "b", "text": "Work on the incident is temporarily paused pending an external action, such as awaiting vendor response" },
+      { "id": "c", "text": "The incident has been escalated to a senior team" },
+      { "id": "d", "text": "The incident is scheduled for future resolution" }
+    ],
+    "correct": "b",
+    "explanation": "The 'On Hold' state in ServiceNow Incident Management indicates that active work has been paused because the team is waiting for something external, such as a vendor response, a change to be implemented, or further information from the caller. SLA timers can be paused when an incident is On Hold.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-021",
+    "type": "true_false",
+    "prompt": "In ServiceNow, a Configuration Item (CI) can be linked to an Incident to document which asset is affected.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "The 'Configuration Item' field on an Incident record links to a CI in the CMDB. This association helps track which assets are affected by incidents, enables impact analysis, and supports trend analysis for problem management (recurring incidents against the same CI).",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-022",
+    "type": "single_choice",
+    "prompt": "What are the three types of Change in ServiceNow Change Management?",
+    "choices": [
+      { "id": "a", "text": "Minor, Major, Critical" },
+      { "id": "b", "text": "Standard, Normal, Emergency" },
+      { "id": "c", "text": "Planned, Unplanned, Emergency" },
+      { "id": "d", "text": "Pre-approved, Approved, Expedited" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow Change Management has three change types: Standard (pre-approved, low-risk, routine), Normal (requires full CAB review and approval), and Emergency (high-urgency change needed immediately, with expedited approval process). Each type has its own workflow and approval requirements.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-023",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature allows agents to create a new Knowledge Base article directly from a resolved incident?",
+    "choices": [
+      { "id": "a", "text": "KB Bridge" },
+      { "id": "b", "text": "Knowledge Creation from Incident (the 'Create KB Article' button or link on the resolved incident form)" },
+      { "id": "c", "text": "Incident Export to Knowledge" },
+      { "id": "d", "text": "Knowledge cannot be created from incidents; it requires separate creation" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow provides a 'Create KB Article' option on resolved incident records, allowing agents to capture the resolution as a reusable knowledge article. This promotes knowledge sharing and helps future incidents get resolved faster by building the knowledge base from real resolutions.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-024",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what triggers an SLA to start running on an incident?",
+    "choices": [
+      { "id": "a", "text": "When the incident is assigned to a technician" },
+      { "id": "b", "text": "When the SLA definition's start conditions are met by the incident's field values" },
+      { "id": "c", "text": "When the caller confirms the incident is still open" },
+      { "id": "d", "text": "When the incident is categorized and prioritized" }
+    ],
+    "correct": "b",
+    "explanation": "An SLA starts when the conditions defined on the SLA Definition record are satisfied by the incident's field values. For example, an SLA might start when an incident with Priority=1 is created. The SLA Definition controls start, pause, and stop conditions independently.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-025",
+    "type": "single_choice",
+    "prompt": "What is 'Incident Categorization' used for in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Setting the priority of the incident automatically" },
+      { "id": "b", "text": "Grouping incidents by type to enable reporting, routing, and trend analysis" },
+      { "id": "c", "text": "Assigning the incident to the correct SLA" },
+      { "id": "d", "text": "Determining if the incident should become a problem" }
+    ],
+    "correct": "b",
+    "explanation": "Incident categorization assigns a Category and Subcategory to classify the nature of the incident (e.g., Category=Network, Subcategory=VPN). This supports intelligent routing to the right assignment group, enables trend reporting to identify recurring issues, and feeds into problem management analysis.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-026",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Problem Management, what state does a Problem enter when its root cause is identified and a workaround is available but no permanent fix is yet deployed?",
+    "choices": [
+      { "id": "a", "text": "Problem in Review" },
+      { "id": "b", "text": "Known Error" },
+      { "id": "c", "text": "Root Cause Identified" },
+      { "id": "d", "text": "Workaround Available" }
+    ],
+    "correct": "b",
+    "explanation": "When a problem's root cause has been identified and a workaround is documented but a permanent fix has not yet been implemented, the problem is classified as a 'Known Error'. Known Errors are added to the Known Error Database (KEDB) so support teams can reference the workaround when handling related incidents.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-027",
+    "type": "multi_choice",
+    "prompt": "Which of the following are standard Service Catalog variable types in ServiceNow? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "Single Line Text" },
+      { "id": "b", "text": "Reference" },
+      { "id": "c", "text": "Check Box" },
+      { "id": "d", "text": "SLA Timer" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "ServiceNow Service Catalog variables support many types including Single Line Text, Multi-Line Text, Reference (to another table), Check Box (boolean), Select Box (dropdown), Date, Date/Time, Attachment, and more. 'SLA Timer' is not a variable type; SLAs are managed separately in the ITSM SLA module.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-028",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is the purpose of the 'Resolved' state on an incident before it moves to 'Closed'?",
+    "choices": [
+      { "id": "a", "text": "It indicates the incident is assigned to a senior technician for final verification" },
+      { "id": "b", "text": "It gives the caller a window to confirm the resolution before the incident is permanently closed" },
+      { "id": "c", "text": "It triggers the SLA to stop and record the resolution time" },
+      { "id": "d", "text": "It sends an automatic survey to the caller" }
+    ],
+    "correct": "b",
+    "explanation": "The Resolved state provides a grace period for the caller to confirm that the solution worked. If the caller is unsatisfied, they can reopen the incident. If no action is taken within the configured closure period, the incident automatically transitions to Closed. Closure rules are configured in the system.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-029",
+    "type": "true_false",
+    "prompt": "A Standard Change in ServiceNow requires full CAB review and approval before it can be implemented.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Standard Changes are pre-authorized, low-risk, routine changes with documented procedures. They do not require a new CAB review each time they are implemented because the risk assessment and approval happened when the standard change template was created and approved. Only Normal Changes require full CAB review.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-030",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'Impact' in the Incident Priority matrix?",
+    "choices": [
+      { "id": "a", "text": "How quickly the service needs to be restored based on business criticality" },
+      { "id": "b", "text": "The breadth of the effect on users, services, or the business" },
+      { "id": "c", "text": "The technical complexity of the issue" },
+      { "id": "d", "text": "The financial cost of the incident to the organization" }
+    ],
+    "correct": "b",
+    "explanation": "In the Priority matrix, Impact measures the breadth of the effect on the business: how many users, services, or systems are affected (e.g., 1-High = enterprise-wide, 2-Medium = department, 3-Low = single user). Urgency measures the time sensitivity of the fix. Together they calculate Priority.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-031",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what does 'Urgency' represent in the Incident Priority matrix?",
+    "choices": [
+      { "id": "a", "text": "How many users are affected by the incident" },
+      { "id": "b", "text": "How quickly the business requires the incident to be resolved" },
+      { "id": "c", "text": "The technical skill level required to resolve the incident" },
+      { "id": "d", "text": "The age of the incident since it was opened" }
+    ],
+    "correct": "b",
+    "explanation": "Urgency in the Priority matrix represents the time-sensitivity of the resolution from a business perspective. High urgency means the business needs the service restored immediately. Combined with Impact (breadth of effect), urgency determines the calculated Priority of the incident.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-032",
+    "type": "single_choice",
+    "prompt": "What is an 'Approval' record in ServiceNow and which table stores it?",
+    "choices": [
+      { "id": "a", "text": "A notification sent to a manager; stored in sys_email" },
+      { "id": "b", "text": "A formal authorization record linked to a task; stored in sysapproval_approver" },
+      { "id": "c", "text": "A CMDB record representing an approved configuration; stored in cmdb_ci" },
+      { "id": "d", "text": "A change request in the Approved state; stored in change_request" }
+    ],
+    "correct": "b",
+    "explanation": "Approval records in ServiceNow are stored in the sysapproval_approver table. Each approval record is linked to a task (change, request, etc.) and tracks the approver, their decision (approved/rejected), and the timestamp. The approval engine creates these records automatically when a workflow reaches an approval activity.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-033",
+    "type": "single_choice",
+    "prompt": "What is a 'Workaround' in the context of ITSM Problem Management?",
+    "choices": [
+      { "id": "a", "text": "A permanent fix that eliminates the root cause of the problem" },
+      { "id": "b", "text": "A temporary solution that reduces or eliminates the impact while the permanent fix is being developed" },
+      { "id": "c", "text": "A knowledge article that explains how to avoid causing the issue" },
+      { "id": "d", "text": "A change request created to address the problem" }
+    ],
+    "correct": "b",
+    "explanation": "A workaround in Problem Management is a temporary solution that reduces or eliminates the impact of a known error while a permanent resolution is being developed. Workarounds are documented in the Problem record and the KEDB so support agents can use them to resolve related incidents faster.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-034",
+    "type": "multi_choice",
+    "prompt": "Which of the following records extend the Task table in ServiceNow? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "Incident" },
+      { "id": "b", "text": "Change Request" },
+      { "id": "c", "text": "Configuration Item (CI)" },
+      { "id": "d", "text": "Request" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "Incident, Change Request, Problem, Request, and Requested Item (RITM) all extend the Task [task] table, inheriting its common fields. Configuration Items (CIs) are stored in the cmdb_ci table, which is independent of the Task table hierarchy.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-035",
+    "type": "true_false",
+    "prompt": "In ServiceNow, a single Incident can be linked to multiple Problem records simultaneously.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "In standard ServiceNow ITSM configuration, an Incident has a single 'Problem' reference field that can point to one Problem record. However, an incident can be linked to a problem via the related lists on the Problem record, which supports a many-to-many relationship from the problem side.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-036",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'Incident Categorization' fields (Category and Subcategory)?",
+    "choices": [
+      { "id": "a", "text": "To automatically set the priority of the incident" },
+      { "id": "b", "text": "To classify the type of issue for routing, reporting, and trend analysis purposes" },
+      { "id": "c", "text": "To identify which SLA applies to the incident" },
+      { "id": "d", "text": "To determine who is responsible for resolving the incident" }
+    ],
+    "correct": "b",
+    "explanation": "Category and Subcategory fields classify the type of IT issue being reported (e.g., Network > VPN, Software > Microsoft Office). This classification enables intelligent routing to the right team, trend reporting to identify systemic issues, and problem management to spot recurring incident patterns.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-037",
+    "type": "single_choice",
+    "prompt": "When a user submits a catalog item in ServiceNow, which record is created first?",
+    "choices": [
+      { "id": "a", "text": "RITM (Requested Item)" },
+      { "id": "b", "text": "Request (sc_request)" },
+      { "id": "c", "text": "Task" },
+      { "id": "d", "text": "Catalog Order" }
+    ],
+    "correct": "b",
+    "explanation": "When a user submits a Service Catalog order, a Request (sc_request) record is created first as the top-level container (the 'shopping cart'). The individual items ordered each become Requested Item (RITM) records under that Request. Fulfillment tasks are then created under each RITM.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-038",
+    "type": "single_choice",
+    "prompt": "What distinguishes an 'Emergency Change' from a 'Normal Change' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Emergency Changes bypass all approval processes entirely" },
+      { "id": "b", "text": "Emergency Changes are for urgent situations requiring faster approval via an expedited process, not a full CAB meeting" },
+      { "id": "c", "text": "Emergency Changes are only allowed on weekends" },
+      { "id": "d", "text": "Emergency Changes do not require documentation" }
+    ],
+    "correct": "b",
+    "explanation": "Emergency Changes address urgent situations that cannot wait for a full CAB review cycle. They use an expedited approval process (Emergency CAB or designated authority) to get approval faster. Documentation is still required, and a post-implementation review is expected. They do not bypass all approvals.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-039",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is the 'Close Notes' field on an Incident used for?",
+    "choices": [
+      { "id": "a", "text": "Notes visible only to the administrator when closing the incident" },
+      { "id": "b", "text": "The resolution description explaining how the incident was resolved, required before closure" },
+      { "id": "c", "text": "Automatic system notes added when an incident is closed" },
+      { "id": "d", "text": "The post-closure survey results from the caller" }
+    ],
+    "correct": "b",
+    "explanation": "The Close Notes (or Resolution Notes) field is where the resolving technician documents what was done to resolve the incident. This field is typically required before an incident can be moved to Resolved or Closed state, and it provides an audit trail of the resolution approach.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-itsm-040",
+    "type": "true_false",
+    "prompt": "In ServiceNow, 'Catalog Tasks' (sc_task) are created under Requested Items (RITMs) to represent the fulfillment work that needs to be done.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "Catalog Tasks (sc_task) extend the Task table and are created under RITMs to represent specific pieces of fulfillment work. A single RITM may have multiple Catalog Tasks assigned to different teams. For example, a laptop request RITM might have one catalog task for the IT team to provision the device and another for the facilities team to ship it.",
+    "topics": ["itsm-fundamentals"],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

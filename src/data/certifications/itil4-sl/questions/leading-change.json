@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-sl-lc-001",
+    "type": "single_choice",
+    "prompt": "A CIO is leading an organization-wide digital transformation. After 18 months, the initial enthusiasm has faded, and teams are reverting to old ways of working. Kotter's 8-step model identifies this as a common failure mode. Which step was most likely executed insufficiently to prevent this regression?",
+    "choices": [
+      { "id": "a", "text": "Step 1 (Create urgency) was insufficient because the burning platform message was not compelling enough initially" },
+      { "id": "b", "text": "Step 7 (Consolidate gains and produce more change) was insufficient; early wins were declared as final successes rather than as foundations for anchoring deeper change in the culture" },
+      { "id": "c", "text": "Step 3 (Form a powerful coalition) was insufficient because the steering committee lacked seniority" },
+      { "id": "d", "text": "Step 5 (Empower employees for broad-based action) was insufficient because training programs ended too soon" }
+    ],
+    "correct": "b",
+    "explanation": "Kotter identifies the premature declaration of victory as one of the most dangerous failure modes in large-scale change. Step 7 requires that initial wins be treated as evidence of the model working, not as the end goal, and used to drive deeper institutionalization of new behaviors. When leaders declare success too early, the organization's attention shifts and old habits reassert themselves. The regression described is the classic symptom of insufficient Step 7 execution.",
+    "topics": ["leading-change"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-002",
+    "type": "single_choice",
+    "prompt": "A CIO is using the McKinsey 7S framework to diagnose why a digital transformation strategy is not producing expected results. The strategy and structure elements appear aligned, but execution is still lagging. Which 7S elements should the CIO examine next to identify the root cause?",
+    "choices": [
+      { "id": "a", "text": "Systems and staff, because technology systems and headcount are the execution levers" },
+      { "id": "b", "text": "Shared values and style, because misalignment between stated strategy and the cultural norms and leadership behaviors that govern daily decisions is a common root cause of execution gaps" },
+      { "id": "c", "text": "Skills and systems, because capability gaps and system deficiencies are the most common execution blockers" },
+      { "id": "d", "text": "Strategy and structure again, because surface alignment may conceal deeper misalignment in detailed implementation plans" }
+    ],
+    "correct": "b",
+    "explanation": "When strategy and structure appear aligned but execution lags, McKinsey 7S points toward the soft elements: shared values and style (leadership behavior) are the cultural infrastructure that either supports or undermines strategy execution. If leaders' daily behaviors, decision-making norms, and implicit priorities do not match the stated strategy, no structural design will overcome the misalignment. Skills and systems matter but are easier to diagnose and fix than cultural misalignment.",
+    "topics": ["leading-change"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-003",
+    "type": "single_choice",
+    "prompt": "Applying the Prosci ADKAR model to an organizational-scale digital transformation, the transformation lead observes that most employees understand why the change is needed (Awareness) but very few are taking new behaviors into their daily work (Reinforcement). Which ADKAR element is most likely the missing link?",
+    "choices": [
+      { "id": "a", "text": "Awareness, because employees are claiming understanding but do not actually believe the change is necessary" },
+      { "id": "b", "text": "Desire, because awareness does not automatically create personal motivation to change; employees may understand the rationale but have not made a personal commitment to change their own behavior" },
+      { "id": "c", "text": "Knowledge, because employees may know why the change is happening but lack instructions on what to do differently" },
+      { "id": "d", "text": "Ability, because employees have the desire to change but lack the technical skills to execute new ways of working" }
+    ],
+    "correct": "b",
+    "explanation": "In the ADKAR sequence, Awareness precedes Desire. The gap described, where employees understand the rationale but are not changing behavior, is the classic Awareness-to-Desire gap: understanding why change is needed does not automatically create personal motivation to change. Desire requires that individuals make a personal decision to support and participate in the change. Without addressing desire, all subsequent knowledge-building and training investment is wasted.",
+    "topics": ["leading-change"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-004",
+    "type": "single_choice",
+    "prompt": "A CEO is preparing to announce a major digital transformation program to the full organization. The communications team drafts a message focused on the technology investments and project roadmap. The CIO recommends a different approach. What makes an effective strategic vision communication for a large-scale transformation?",
+    "choices": [
+      { "id": "a", "text": "Detail the full project plan so employees understand the scope and timeline of what is coming" },
+      { "id": "b", "text": "Articulate a compelling picture of the future state the organization is moving toward, explain why the status quo is not sustainable, connect the transformation to employees' own roles and the customers they serve, and make the call to action concrete" },
+      { "id": "c", "text": "Emphasize the technology investments the organization is making to demonstrate commitment at the executive level" },
+      { "id": "d", "text": "Focus on competitive threats to create urgency without revealing internal strategy to employees who may share information externally" }
+    ],
+    "correct": "b",
+    "explanation": "Effective transformation vision communication follows four principles: paint a vivid picture of the desired future, explain why current approaches are unsustainable (urgency without panic), connect the transformation personally to each employee's role and the customers they impact, and give people a concrete next action. A project roadmap tells people what is happening to them, not why it matters. Technology investment emphasis speaks to the board, not to the frontline. Concealing competitive information limits trust.",
+    "topics": ["leading-change"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-005",
+    "type": "single_choice",
+    "prompt": "Six months into a digital transformation, a CIO conducting a stakeholder analysis identifies a group of senior managers who publicly support the initiative in meetings but consistently delay approving resources for it. How should this behavior pattern be classified and addressed?",
+    "choices": [
+      { "id": "a", "text": "This is active resistance and should be addressed through escalation to the CEO and formal performance management" },
+      { "id": "b", "text": "This is passive resistance expressed through behavioral commitment gaps; the CIO should engage these stakeholders in private dialogue to understand their underlying concerns, which may reflect legitimate organizational tensions that the transformation design has not addressed" },
+      { "id": "c", "text": "This is a governance failure; resource allocation decisions should be removed from these managers and centralized in the transformation program office" },
+      { "id": "d", "text": "This is normal organizational behavior during change and does not require specific intervention" }
+    ],
+    "correct": "b",
+    "explanation": "The pattern of vocal support combined with behavioral non-commitment is classic passive resistance. It typically signals unaddressed concerns: fear of losing authority, skepticism about the approach, or conflicting priorities. The strategic response is private dialogue to surface underlying concerns, which often reveal real issues the transformation design has not resolved. Escalation and centralization treat the symptom, increase antagonism, and eliminate the organizational intelligence embedded in the resistance.",
+    "topics": ["leading-change"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-006",
+    "type": "single_choice",
+    "prompt": "A CIO wants to build a guiding coalition for a digital transformation. The CEO suggests including only the executive team. The CIO recommends a broader coalition. What is the strategic rationale for extending the coalition beyond the C-suite?",
+    "choices": [
+      { "id": "a", "text": "A broader coalition reduces the workload on the executive team and distributes change management responsibility more evenly" },
+      { "id": "b", "text": "Transformation succeeds through influence at every organizational layer; the coalition needs credible, trusted leaders at the operational level who can model new behaviors, translate vision into local context, and mobilize their networks" },
+      { "id": "c", "text": "Including middle management in the coalition is required by ITIL 4 DPI as a mandatory stakeholder category" },
+      { "id": "d", "text": "A broader coalition provides political cover for the CIO if the transformation encounters difficulty" }
+    ],
+    "correct": "b",
+    "explanation": "Kotter's guiding coalition principle recognizes that C-suite authority alone cannot drive behavioral change at the operational level. Trusted operational leaders serve as critical amplifiers: they translate strategic vision into locally meaningful action, model new behaviors in the day-to-day work context, and leverage informal networks that no executive mandate can reach. A coalition limited to the C-suite sends messages top-down but cannot create the bottom-up momentum required for sustained change.",
+    "topics": ["leading-change"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-007",
+    "type": "single_choice",
+    "prompt": "A transformation leader is concerned about creating change fatigue across the organization, which has experienced three major transformation initiatives in the past four years. What is the most effective strategy to sustain transformation momentum without creating fatigue?",
+    "choices": [
+      { "id": "a", "text": "Slow down the pace of change by extending each initiative timeline to give employees more recovery time between major changes" },
+      { "id": "b", "text": "Sequence initiatives to minimize concurrent impact on any single group, invest in celebrating completed milestones to give people a sense of progress and closure, and create visible endpoints so employees know what 'done' looks like for the current phase" },
+      { "id": "c", "text": "Launch a wellbeing program to help employees manage the stress of continuous change" },
+      { "id": "d", "text": "Communicate that the organization must adapt continuously and that change fatigue is an expected and temporary condition" }
+    ],
+    "correct": "b",
+    "explanation": "Change fatigue is not primarily a wellness problem but a rhythm and meaning problem. Employees lose momentum when change feels endless, unacknowledged, and directionless. The strategic response is to create a discernible rhythm: sequence initiatives to limit simultaneous impact on any group, mark genuine completions with visible recognition, and define phase endpoints clearly. Slowing the overall pace sacrifices competitive positioning; wellbeing programs treat symptoms; normalizing fatigue as inevitable is a leadership failure.",
+    "topics": ["leading-change"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-008",
+    "type": "single_choice",
+    "prompt": "A CIO wants to distinguish between their role as a change leader and the role of the change management program office. How should this distinction be communicated to the board?",
+    "choices": [
+      { "id": "a", "text": "Change leadership and change management are the same thing; the distinction is semantic" },
+      { "id": "b", "text": "Change management coordinates the mechanics of transition: communications, training, impact assessment, and readiness tracking. Change leadership creates the conditions for change: establishing purpose, modeling new behaviors, navigating political dynamics, and sustaining commitment over time. Both are necessary but they operate at different levels" },
+      { "id": "c", "text": "Change leadership is strategic and belongs to the C-suite; change management is operational and belongs to HR" },
+      { "id": "d", "text": "Change leadership is responsible for outcomes; change management is responsible for activities. If outcomes fail, change management is accountable" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 and established change theory distinguish the two roles clearly. Change management is the disciplined, coordinated set of activities that facilitate the transition: stakeholder communications, training plans, readiness assessments. Change leadership is the less tangible but more critical role: building the coalition, modeling the desired culture, navigating organizational politics, and sustaining personal commitment through uncertainty. Assigning outcome accountability only to change management misstates where strategic leadership responsibility lies.",
+    "topics": ["leading-change"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-009",
+    "type": "single_choice",
+    "prompt": "A CIO needs to build urgency for a digital transformation but wants to avoid creating panic that leads to defensive behavior and disengagement. What is the most effective approach?",
+    "choices": [
+      { "id": "a", "text": "Share detailed competitor analysis showing specific revenue losses the organization will suffer if it does not transform, creating a concrete financial burning platform" },
+      { "id": "b", "text": "Frame the urgency as an opportunity window rather than an existential threat: describe what the organization can achieve by moving now while connecting the risk of inaction to specific, near-term business consequences that are visible to the audience" },
+      { "id": "c", "text": "Commission an external consultant report on digital disruption trends to add third-party credibility to the urgency message" },
+      { "id": "d", "text": "Announce that the board has mandated the transformation with a non-negotiable timeline to convey the seriousness of the situation" }
+    ],
+    "correct": "b",
+    "explanation": "Urgency framing is a leadership skill: too little urgency produces complacency; too much produces fear-driven resistance. The effective approach combines opportunity framing (this is a window to lead) with specific, near-term consequence framing (here is what happens in 12 months if we do not move), tailored to what the audience cares about. Detailed financial projections and third-party reports may overwhelm with abstraction. Announcing a board mandate without context treats people as subjects of change rather than participants.",
+    "topics": ["leading-change"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-010",
+    "type": "single_choice",
+    "prompt": "An organization wants to measure cultural change progress during a digital transformation. The transformation lead proposes tracking completion of mandatory digital skills training as the primary metric. Why is this insufficient, and what should be measured instead?",
+    "choices": [
+      { "id": "a", "text": "Training completion is a valid primary metric because behavior change follows knowledge acquisition" },
+      { "id": "b", "text": "Training completion measures input activity, not cultural change. Cultural progress should be measured through behavioral indicators: the frequency of cross-functional collaboration, rate of experimentation and learning cycles, willingness to surface and discuss failures, and the degree to which new ways of working are observed in practice" },
+      { "id": "c", "text": "Cultural change cannot be measured objectively and should be assessed through qualitative board conversations rather than metrics" },
+      { "id": "d", "text": "Employee satisfaction scores are the most reliable measure of cultural change during transformation" }
+    ],
+    "correct": "b",
+    "explanation": "Training completion is an input metric that measures exposure to content, not behavioral change. Cultural change manifests in observable behaviors: how often teams collaborate across boundaries, whether people report failures openly for learning, the rate of experimentation, and whether new norms are visible in daily work. Employee satisfaction captures mood, not cultural shift. The inability to measure culture objectively is a false constraint; behavioral proxy metrics provide meaningful signal.",
+    "topics": ["leading-change"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-011",
+    "type": "single_choice",
+    "prompt": "A CIO is navigating significant resistance to a cloud migration from the infrastructure team whose roles will change fundamentally. The team lead argues that the current on-premises environment is more secure and cost-effective. How should the CIO frame this resistance strategically?",
+    "choices": [
+      { "id": "a", "text": "Override the technical objections by presenting a board-level mandate for the cloud strategy and proceeding with the migration timeline" },
+      { "id": "b", "text": "Treat the technical arguments as potentially containing valid concerns that should be assessed on their merits, while recognizing that the team's deeper concern is about role identity and future relevance; address both dimensions explicitly" },
+      { "id": "c", "text": "Engage a third-party cloud consultant to counter the infrastructure team's arguments with independent data" },
+      { "id": "d", "text": "Reassign the infrastructure team to the cloud migration project as SMEs to convert them from resistors to contributors" }
+    ],
+    "correct": "b",
+    "explanation": "Strategic change leaders recognize that technical objections from affected teams often contain two layers: a surface technical argument that may have partial validity and should be evaluated honestly, and an underlying concern about identity, relevance, and security in the new world. Addressing only the technical layer leaves the human layer unresolved and resistance intact. Mandating from above, using consultants to win an argument, and reassigning roles are tactics that bypass rather than resolve the underlying concern.",
+    "topics": ["leading-change"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-012",
+    "type": "single_choice",
+    "prompt": "A CIO is conducting a stakeholder mapping exercise for a board-level digital transformation initiative. Two stakeholders are identified: the CFO, who has high power and is currently skeptical, and the Head of Digital, who has low formal authority but high influence among peers. Which engagement strategy is most appropriate for each?",
+    "choices": [
+      { "id": "a", "text": "Prioritize the CFO for formal briefings and treat the Head of Digital as a secondary stakeholder requiring only general communications" },
+      { "id": "b", "text": "Engage the CFO in co-designing the business case and financial model for the transformation; engage the Head of Digital as an informal coalition member who can translate the vision and influence their peer network from within" },
+      { "id": "c", "text": "Treat both stakeholders with equivalent engagement intensity because change requires universal buy-in at all authority levels" },
+      { "id": "d", "text": "Address the CFO's skepticism through quarterly status reports demonstrating financial milestones; engage the Head of Digital only once the CFO is aligned" }
+    ],
+    "correct": "b",
+    "explanation": "Effective stakeholder engagement differentiates strategy by influence type. A high-power skeptic like the CFO must be moved from skeptic to sponsor, and co-designing the financial model gives them ownership of the narrative rather than making them a reviewer of someone else's numbers. A low-authority but high-influence stakeholder is a critical informal network node: engaging them as a coalition member leverages their credibility and reach in ways that formal communications cannot. Universal equal engagement wastes resources and dilutes strategic relationships.",
+    "topics": ["leading-change"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-013",
+    "type": "single_choice",
+    "prompt": "A CIO wants to embed a continual improvement culture across the IT function. A new initiative proposes a monthly improvement ideas competition with prizes for the best submissions. What is the strategic limitation of this approach?",
+    "choices": [
+      { "id": "a", "text": "Prize-based programs are too expensive to sustain and will be cancelled at the first budget reduction" },
+      { "id": "b", "text": "Event-based improvement programs create periodic bursts of improvement activity but do not create the daily habits, psychological safety, and leadership behaviors needed for improvement to be continuous and embedded in work, not extracted from it" },
+      { "id": "c", "text": "Monthly cycles are too infrequent; improvement should be tracked weekly to maintain momentum" },
+      { "id": "d", "text": "Competitions create unhealthy internal competition that undermines team collaboration" }
+    ],
+    "correct": "b",
+    "explanation": "A continual improvement culture is characterized by improvement as a daily habit integrated into normal work, not as a periodic event. Competition-based programs gamify improvement in ways that attract participation from already-engaged individuals but do not address the barriers that prevent most people from improving continuously: lack of psychological safety, no time allocated, and no leadership reinforcement of improvement behaviors in the day-to-day context. These structural and cultural barriers require structural and cultural solutions.",
+    "topics": ["leading-change"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-014",
+    "type": "single_choice",
+    "prompt": "A CIO identifies that a powerful informal network of long-tenure employees is actively undermining a cloud transformation by spreading negative narratives about it through peer conversations. This group does not hold formal authority. What is the most strategically effective response?",
+    "choices": [
+      { "id": "a", "text": "Issue a formal communication from the CEO reaffirming the transformation mandate and reminding employees of the expectation for constructive engagement" },
+      { "id": "b", "text": "Identify and engage the most influential members of this network directly and privately, invest in understanding their specific concerns, address legitimate concerns visibly, and where possible invite respected individuals from this group into the transformation design process" },
+      { "id": "c", "text": "Monitor the informal network's communications and address misinformation through a dedicated FAQ document circulated to all staff" },
+      { "id": "d", "text": "Accelerate the transformation timeline to create irreversible facts on the ground before the informal network can mobilize further opposition" }
+    ],
+    "correct": "b",
+    "explanation": "Informal influence networks are the real organizational change infrastructure. Long-tenure employees often command deep credibility because they have seen initiatives come and go. Engaging influential members of this network directly, treating their concerns as organizational intelligence rather than noise, and inviting them into the process converts a source of opposition into a source of authentic endorsement. Top-down mandates, FAQ documents, and accelerated timelines treat the symptom while amplifying the underlying distrust.",
+    "topics": ["leading-change"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-lc-015",
+    "type": "single_choice",
+    "prompt": "An organization wants to build a knowledge-sharing culture to support organizational learning during digital transformation. The CIO proposes a company-wide knowledge base as the primary mechanism. What is the most significant limitation of this approach as a standalone strategy?",
+    "choices": [
+      { "id": "a", "text": "Knowledge bases become outdated quickly and require significant maintenance investment to remain current" },
+      { "id": "b", "text": "Knowledge bases capture explicit knowledge but do not transfer tacit knowledge: the know-how, judgment, and contextual insight that resides in experienced practitioners and is shared through conversation, apprenticeship, and collaborative problem-solving" },
+      { "id": "c", "text": "Most employees will not contribute to a voluntary knowledge base, reducing content quality and coverage" },
+      { "id": "d", "text": "Knowledge bases create information silos if they are not integrated with the organization's existing intranet and document management systems" }
+    ],
+    "correct": "b",
+    "explanation": "The fundamental limitation of knowledge bases as a learning mechanism is the explicit-tacit knowledge gap. Documented knowledge captures what can be articulated: processes, decisions, outputs. Tacit knowledge, the judgment about when to deviate from the process, the contextual pattern recognition that makes an expert effective, is transmitted through human interaction, mentoring, communities of practice, and collaborative work. A knowledge-sharing culture requires social and structural mechanisms alongside technology, not just a repository.",
+    "topics": ["leading-change"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  }
+]

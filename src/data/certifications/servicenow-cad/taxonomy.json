@@ -1,0 +1,62 @@
+{
+  "topics": [
+    {
+      "id": "platform-scripting",
+      "label": "Platform Scripting",
+      "description": "Server-side scripting with JavaScript in ServiceNow: Script Includes, Scheduled Jobs, and debugging.",
+      "studyPointers": [
+        { "label": "Server-side Scripting", "url": "https://docs.servicenow.com/bundle/washingtondc-application-development/page/script/general-scripting/concept/c_ScriptingInServiceNow.html" },
+        { "label": "Script Includes", "url": "https://docs.servicenow.com/bundle/washingtondc-application-development/page/script/general-scripting/concept/c_ScriptIncludes.html" }
+      ],
+      "subtopics": ["script-includes", "scheduled-jobs", "background-scripts", "scoped-apis"]
+    },
+    {
+      "id": "business-rules",
+      "label": "Business Rules",
+      "description": "Server-side automation with Business Rules: when, conditions, and the GlideRecord API.",
+      "studyPointers": [
+        { "label": "Business Rules", "url": "https://docs.servicenow.com/bundle/washingtondc-application-development/page/script/business-rules/concept/c_BusinessRules.html" }
+      ],
+      "subtopics": ["business-rule-types", "gliderecord", "conditions", "abort"]
+    },
+    {
+      "id": "api-integration",
+      "label": "API Integration",
+      "description": "REST and SOAP APIs, Scripted REST APIs, and integration patterns in ServiceNow.",
+      "studyPointers": [
+        { "label": "REST API", "url": "https://docs.servicenow.com/bundle/washingtondc-application-development/page/integrate/inbound-rest/concept/c_RESTAPI.html" },
+        { "label": "Scripted REST APIs", "url": "https://docs.servicenow.com/bundle/washingtondc-application-development/page/integrate/custom-web-services/concept/c_ScriptedRESTAPI.html" }
+      ],
+      "subtopics": ["rest-api", "scripted-rest", "table-api", "authentication"]
+    },
+    {
+      "id": "application-development",
+      "label": "Application Development",
+      "description": "Building scoped applications, custom tables, and UI in ServiceNow Studio.",
+      "studyPointers": [
+        { "label": "Application Development Overview", "url": "https://docs.servicenow.com/bundle/washingtondc-application-development/page/build/applications/concept/c_ApplicationDevelopment.html" },
+        { "label": "ServiceNow Studio", "url": "https://docs.servicenow.com/bundle/washingtondc-application-development/page/build/studio/concept/c_Studio.html" }
+      ],
+      "subtopics": ["scoped-apps", "studio", "custom-tables", "ui-actions"]
+    },
+    {
+      "id": "glide-api",
+      "label": "Glide API",
+      "description": "Core Glide APIs: GlideRecord, GlideSystem, GlideDateTime, and GlideUser.",
+      "studyPointers": [
+        { "label": "GlideRecord API", "url": "https://developer.servicenow.com/dev.do#!/reference/api/washingtondc/server/no-namespace/GlideRecordScopedAPI" },
+        { "label": "GlideSystem API", "url": "https://developer.servicenow.com/dev.do#!/reference/api/washingtondc/server/no-namespace/c_GlideSystemScopedAPI" }
+      ],
+      "subtopics": ["gliderecord", "glidesystem", "glidedatetime", "glideuser"]
+    },
+    {
+      "id": "automation",
+      "label": "Automation & Workflows",
+      "description": "Flow Designer, subflows, actions, and legacy Workflow Editor automation in ServiceNow.",
+      "studyPointers": [
+        { "label": "Flow Designer", "url": "https://docs.servicenow.com/bundle/washingtondc-application-development/page/administer/flow-designer/concept/flow-designer.html" }
+      ],
+      "subtopics": ["flow-designer", "subflows", "actions", "triggers"]
+    }
+  ]
+}

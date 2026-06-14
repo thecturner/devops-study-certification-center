@@ -1,0 +1,288 @@
+[
+  {
+    "id": "azure-az104-co-001",
+    "type": "single_choice",
+    "prompt": "A company needs to deploy a web application that automatically scales the number of VM instances based on CPU utilization. The deployment must support rolling upgrades with zero downtime. Which Azure compute service best meets these requirements?",
+    "choices": [
+      { "id": "a", "text": "Azure Availability Set with a custom autoscale script" },
+      { "id": "b", "text": "Azure Virtual Machine Scale Sets with Flexible orchestration mode" },
+      { "id": "c", "text": "Azure App Service with a Standard plan and deployment slots" },
+      { "id": "d", "text": "Azure Container Instances with a CPU-triggered runbook" }
+    ],
+    "correct": "b",
+    "explanation": "Virtual Machine Scale Sets (VMSS) with Flexible orchestration mode support autoscale rules based on metrics like CPU utilization and support rolling upgrade policies that update instances in batches to achieve zero downtime. Availability Sets (A) do not support autoscaling natively. App Service (C) is the correct approach for web apps, but the question specifies VMs. Azure Container Instances (D) do not autoscale and are not designed for persistent web workloads.",
+    "topics": ["compute"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Virtual Machine Scale Sets overview", "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-002",
+    "type": "single_choice",
+    "prompt": "An organization runs three VMs that must be protected against a failure of a single physical server within an Azure data center. The VMs must remain available if one rack loses power. Which configuration provides this protection?",
+    "choices": [
+      { "id": "a", "text": "Place all three VMs in the same Availability Zone" },
+      { "id": "b", "text": "Place all three VMs in the same Availability Set with three fault domains" },
+      { "id": "c", "text": "Place all three VMs in different Availability Zones" },
+      { "id": "d", "text": "Place all three VMs in different resource groups" }
+    ],
+    "correct": "b",
+    "explanation": "An Availability Set with multiple fault domains distributes VMs across separate physical servers and power/network equipment (racks). If one rack loses power (one fault domain fails), VMs on the other fault domains remain available. Availability Zones (A, C) protect against data center failures, not rack-level failures within a data center, and placing all three in the same zone provides no fault isolation. Resource groups (D) are a logical container and provide no physical availability benefit.",
+    "topics": ["compute"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Availability options for Azure VMs", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-003",
+    "type": "single_choice",
+    "prompt": "A developer needs to run a containerized microservice on Azure without managing the underlying infrastructure. The service receives sporadic traffic and must scale to zero when idle. Which service is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Azure Kubernetes Service (AKS) with a single node pool" },
+      { "id": "b", "text": "Azure Container Instances (ACI)" },
+      { "id": "c", "text": "Azure Container Apps with a scale-to-zero rule" },
+      { "id": "d", "text": "Azure App Service with a Free tier plan" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Container Apps is a serverless container hosting service that supports HTTP-triggered scaling including scale-to-zero, removing the need to manage infrastructure. ACI (B) can run containers without infrastructure management but does not natively support scale-to-zero based on traffic. AKS (A) requires node pool management and does not natively scale to zero without KEDA. App Service Free tier (D) does not run containers in the same way and does not scale to zero.",
+    "topics": ["compute"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Container Apps overview", "url": "https://learn.microsoft.com/en-us/azure/container-apps/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-004",
+    "type": "single_choice",
+    "prompt": "A production VM stores its OS disk on a Standard HDD managed disk. The VM experiences high I/O latency during peak hours. The team wants to improve disk performance without changing VM size. What is the best action?",
+    "choices": [
+      { "id": "a", "text": "Enable disk caching set to ReadWrite on the OS disk" },
+      { "id": "b", "text": "Upgrade the OS disk from Standard HDD to Premium SSD managed disk" },
+      { "id": "c", "text": "Attach an additional Standard HDD data disk for disk striping" },
+      { "id": "d", "text": "Enable Azure Disk Encryption on the OS disk to improve throughput" }
+    ],
+    "correct": "b",
+    "explanation": "Upgrading from Standard HDD to Premium SSD dramatically increases IOPS and throughput limits, directly addressing high I/O latency. Premium SSD is the standard recommendation for production workloads. ReadWrite caching (A) can improve performance for reads but does not address the fundamental bandwidth limitations of Standard HDD. Adding another Standard HDD (C) for striping increases theoretical throughput but is complex and the disks still have HDD latency. Disk Encryption (D) has no effect on performance and may slightly reduce it.",
+    "topics": ["compute"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure managed disk types", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-005",
+    "type": "single_choice",
+    "prompt": "An Azure App Service web app is running in a Standard S2 plan. The team wants to deploy a new version of the application, test it in a production-like environment, and then switch traffic without downtime. Which feature supports this?",
+    "choices": [
+      { "id": "a", "text": "Deploy the new version to a separate App Service plan and use Traffic Manager to redirect traffic" },
+      { "id": "b", "text": "Use deployment slots: deploy to a staging slot and perform a slot swap to production" },
+      { "id": "c", "text": "Enable the App Service Deployment Center with GitHub Actions for rolling deployments" },
+      { "id": "d", "text": "Use Azure Container Instances to run the new version and test it before updating the App Service" }
+    ],
+    "correct": "b",
+    "explanation": "App Service deployment slots allow you to deploy a new version to a non-production slot that shares the same App Service plan, test the deployment in a production-like environment with the same app settings, then perform a swap that redirects traffic to the new version instantly with no downtime. Traffic Manager (A) is a DNS-level load balancer and adds unnecessary complexity for this scenario. Deployment Center with GitHub Actions (C) automates CI/CD but does not itself provide zero-downtime testing in isolation. ACI (D) is a separate service and not a feature of App Service.",
+    "topics": ["compute"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Set up staging environments in Azure App Service", "url": "https://learn.microsoft.com/en-us/azure/app-service/deploy-staging-slots" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-006",
+    "type": "single_choice",
+    "prompt": "A company needs to run an Azure Function that processes large files and may take up to 15 minutes to complete. The Consumption plan is currently in use. What change is required?",
+    "choices": [
+      { "id": "a", "text": "No change is needed; the Consumption plan supports function execution up to 60 minutes" },
+      { "id": "b", "text": "Migrate the function to a Premium or Dedicated (App Service) plan where the timeout limit can be increased" },
+      { "id": "c", "text": "Split the function into smaller functions that each run within the 5-minute limit" },
+      { "id": "d", "text": "Increase the function timeout in host.json to 30 minutes while staying on the Consumption plan" }
+    ],
+    "correct": "b",
+    "explanation": "The Azure Functions Consumption plan has a default execution timeout of 5 minutes, configurable up to a maximum of 10 minutes. For executions requiring up to 15 minutes, the function must be moved to a Premium or Dedicated plan, which support longer timeouts (up to unlimited on Dedicated plans with appropriate configuration). The Consumption plan cannot support 15-minute executions even with host.json changes (D). Splitting (C) is a workaround but changes the design rather than meeting the 15-minute requirement.",
+    "topics": ["compute"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Functions scale and hosting", "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-007",
+    "type": "single_choice",
+    "prompt": "An administrator needs to access a Windows VM's RDP port securely without opening port 3389 to the internet on the NSG. The VM has no public IP. Which solution provides access with the least administrative overhead?",
+    "choices": [
+      { "id": "a", "text": "Add an inbound NSG rule allowing RDP from the administrator's IP address" },
+      { "id": "b", "text": "Assign a public IP to the VM and use Just-in-Time (JIT) VM access via Microsoft Defender for Cloud" },
+      { "id": "c", "text": "Use Azure Bastion to connect to the VM through the Azure portal over HTTPS" },
+      { "id": "d", "text": "Deploy a VPN gateway and connect via point-to-site VPN before using RDP" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Bastion provides RDP and SSH access to VMs directly from the Azure portal over TLS (port 443), without requiring a public IP on the VM or opening RDP/SSH ports in NSGs. It has minimal administrative overhead once deployed. JIT VM access (B) requires Microsoft Defender for Cloud and a public IP, adding dependencies. An inbound NSG rule (A) exposes RDP to the internet. A VPN gateway (D) is effective but requires client configuration and more infrastructure setup.",
+    "topics": ["compute"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "What is Azure Bastion?", "url": "https://learn.microsoft.com/en-us/azure/bastion/bastion-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-008",
+    "type": "single_choice",
+    "prompt": "A VM Scale Set is configured with a minimum of 2 instances, a maximum of 10, and a scale-out rule that adds 2 instances when average CPU exceeds 70% for 5 minutes. The current average CPU is 85% and has been for 10 minutes. The scale set currently has 4 instances. How many instances should be running after the next scale action?",
+    "choices": [
+      { "id": "a", "text": "5 instances" },
+      { "id": "b", "text": "6 instances" },
+      { "id": "c", "text": "8 instances" },
+      { "id": "d", "text": "10 instances" }
+    ],
+    "correct": "b",
+    "explanation": "The scale-out rule adds 2 instances when the trigger condition is met. Starting from 4 instances, adding 2 results in 6 instances. The rule fires once per evaluation, adding the configured increment of 2, not continuously until the metric drops. The cooldown period then prevents another scale action from firing immediately. The maximum of 10 is not reached.",
+    "topics": ["compute"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Autoscale with Azure Virtual Machine Scale Sets", "url": "https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-autoscale-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-009",
+    "type": "single_choice",
+    "prompt": "An administrator needs to run a post-deployment script on newly provisioned Windows VMs to install and configure an application. The VMs are deployed via an ARM template. Which approach runs the script automatically as part of the VM deployment?",
+    "choices": [
+      { "id": "a", "text": "Use the Azure Run Command feature in the portal after each deployment" },
+      { "id": "b", "text": "Include the Custom Script Extension in the ARM template referencing a script hosted in Azure Storage" },
+      { "id": "c", "text": "RDP into each VM after deployment and manually run the configuration script" },
+      { "id": "d", "text": "Create an Azure Automation runbook and trigger it via an alert when VMs are created" }
+    ],
+    "correct": "b",
+    "explanation": "The Custom Script Extension can be included directly in the ARM template, causing the script to run automatically as part of the VM provisioning process. The script can be hosted in Azure Blob Storage or a public URL. Azure Run Command (A) is a manual, post-deployment action and cannot be embedded in the deployment template. Manual RDP (C) is not automated. An Automation runbook triggered by an alert (D) introduces delay and dependency on alert processing.",
+    "topics": ["compute"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Custom Script Extension for Windows", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/extensions/custom-script-windows" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-010",
+    "type": "single_choice",
+    "prompt": "A company is evaluating whether to run a containerized application on Azure Container Instances (ACI) or Azure Kubernetes Service (AKS). The application runs daily batch jobs that complete within 2 hours and does not require persistent state between runs. Which service is more appropriate?",
+    "choices": [
+      { "id": "a", "text": "AKS, because it provides better container orchestration for any workload" },
+      { "id": "b", "text": "ACI, because it provides fast startup, per-second billing, and no cluster management overhead for short-lived tasks" },
+      { "id": "c", "text": "ACI, but only if the container image is stored in Azure Container Registry" },
+      { "id": "d", "text": "AKS with a Spot node pool to minimize cost for batch jobs" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Container Instances is ideal for short-lived, stateless workloads like batch jobs. It starts containers in seconds, bills per second of compute, and requires no cluster infrastructure to manage. AKS (A) is the right choice for long-running, multi-container microservices that need orchestration, service discovery, and persistent state. The container registry requirement (C) is not a requirement — ACI supports public registries too. AKS Spot node pools (D) reduce cost but still require cluster management overhead that is unnecessary for simple daily batch jobs.",
+    "topics": ["compute"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Container Instances overview", "url": "https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-011",
+    "type": "single_choice",
+    "prompt": "An organization needs to back up an Azure VM running a critical database. Recovery point objectives require that data can be recovered to any point within the last 24 hours. Which Azure Backup configuration meets this requirement?",
+    "choices": [
+      { "id": "a", "text": "Configure a daily backup schedule in a Recovery Services vault with an instant restore point" },
+      { "id": "b", "text": "Configure enhanced policy with hourly backup frequency in a Recovery Services vault" },
+      { "id": "c", "text": "Take daily snapshots of the managed disk using Azure CLI on a schedule" },
+      { "id": "d", "text": "Enable Azure Site Recovery replication with a 24-hour recovery point history" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Backup enhanced policy supports sub-daily (hourly) backup frequency for Azure VMs, allowing recovery to any point within a configurable window of the past 24 hours. A daily backup (A) only provides a single daily recovery point, not continuous recovery within 24 hours. Manual disk snapshots (C) are not managed by Azure Backup and lack consistent application-level snapshots for databases. Site Recovery (D) is for disaster recovery, not point-in-time backup within a 24-hour window.",
+    "topics": ["compute"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure VM backup overview", "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-vms-introduction" },
+      { "label": "Enhanced policy for Azure VM backup", "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-vms-enhanced-policy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-012",
+    "type": "single_choice",
+    "prompt": "A developer needs to scale an App Service web app horizontally to handle increased traffic. The app is currently on a Basic B2 plan. What must be true for the scale-out feature to be available?",
+    "choices": [
+      { "id": "a", "text": "Scale-out is available on all App Service plan tiers including Free and Shared" },
+      { "id": "b", "text": "The Basic tier supports manual scale-out but not autoscale; autoscale requires Standard tier or higher" },
+      { "id": "c", "text": "Scale-out requires upgrading to a Premium plan because Basic does not support multiple instances" },
+      { "id": "d", "text": "Scale-out is not available for App Service; the developer must use Azure Kubernetes Service" }
+    ],
+    "correct": "b",
+    "explanation": "The Basic App Service plan supports manual scale-out to up to 3 instances. However, autoscale (rule-based automatic scaling) is only available starting from the Standard tier. The question asks about scale-out availability, and both manual and autoscale are relevant capabilities. Free and Shared tiers (A) do not support scale-out. Premium (C) is not required for manual scale-out. App Service does support scale-out (D).",
+    "topics": ["compute"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Scale up an app in Azure App Service", "url": "https://learn.microsoft.com/en-us/azure/app-service/manage-scale-up" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-013",
+    "type": "single_choice",
+    "prompt": "A VM is deployed with a Standard_DS2_v2 size and a Premium SSD OS disk. The team wants to convert the OS disk to an Ultra Disk for maximum IOPS. What constraint must be considered?",
+    "choices": [
+      { "id": "a", "text": "Ultra Disks are not supported as OS disks; they can only be used as data disks" },
+      { "id": "b", "text": "Converting to an Ultra Disk requires stopping and deallocating the VM" },
+      { "id": "c", "text": "Ultra Disks require a specific VM series; the Standard_DS2_v2 VM must first be resized to a supported series" },
+      { "id": "d", "text": "Both A and C are correct constraints for using Ultra Disks as OS disks" }
+    ],
+    "correct": "d",
+    "explanation": "Azure Ultra Disks have two key constraints relevant here: (1) Ultra Disks are not supported as OS disks — they are only available as data disks. (2) Ultra Disks require a VM size that supports Ultra Disk compatibility, which is not all VM series. The Standard_DS2_v2 must be verified or resized to a compatible series. Because the OS disk constraint alone (A) means the conversion is not possible, the compound answer (D) accurately captures both constraints that prevent this scenario.",
+    "topics": ["compute"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure Ultra Disk overview", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types#ultra-disks" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-014",
+    "type": "single_choice",
+    "prompt": "An administrator needs to resize a running Azure VM from Standard_D2s_v3 to Standard_D4s_v3. The VM is deployed in an Availability Set. What should the administrator expect?",
+    "choices": [
+      { "id": "a", "text": "The resize happens live with no downtime because both sizes are in the same family" },
+      { "id": "b", "text": "The VM must be stopped and deallocated before resizing; all VMs in the Availability Set may also be restarted if the new size is on different hardware" },
+      { "id": "c", "text": "The VM can be resized without stopping it, but only if the target size is available in the same cluster" },
+      { "id": "d", "text": "Resizing is not supported for VMs in an Availability Set" }
+    ],
+    "correct": "b",
+    "explanation": "When resizing a VM in an Availability Set, if the target size is not available in the current cluster, all VMs in the Availability Set must be stopped and deallocated to move to a cluster that supports the new size. Even when the new size is available in the current cluster, a restart is typically required. Live resize without downtime (A, C) is not guaranteed and generally not supported for most standard VM sizes. Resizing is supported for VMs in Availability Sets (D is incorrect).",
+    "topics": ["compute"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Resize a virtual machine", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/resize-vm" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-co-015",
+    "type": "single_choice",
+    "prompt": "A company uses Azure Batch to process thousands of computational jobs. Jobs are submitted during business hours and must complete as fast as possible. Cost is a secondary concern. Which pool allocation mode and VM priority setting best meets these requirements?",
+    "choices": [
+      { "id": "a", "text": "User subscription pool mode with Spot VMs" },
+      { "id": "b", "text": "Batch service pool mode with Dedicated VMs" },
+      { "id": "c", "text": "User subscription pool mode with Dedicated VMs" },
+      { "id": "d", "text": "Batch service pool mode with Spot VMs and task retry enabled" }
+    ],
+    "correct": "b",
+    "explanation": "For maximum throughput where cost is secondary, Dedicated VMs are required to ensure no evictions interrupt processing. Batch service pool mode is the standard mode that provides managed pool infrastructure. Spot VMs (A, D) can be evicted at any time, which would delay job completion and violate the 'complete as fast as possible' requirement even with retries. User subscription mode (A, C) allocates VMs in the customer's subscription but does not change performance characteristics; Batch service mode is simpler for standard scenarios.",
+    "topics": ["compute"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Batch overview", "url": "https://learn.microsoft.com/en-us/azure/batch/batch-technical-overview" }
+    ],
+    "version": 1
+  }
+]

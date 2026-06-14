@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-cka-ca-001",
+    "type": "single_choice",
+    "prompt": "Which control plane component is responsible for watching newly created pods that have no node assigned and selecting a node for them to run on?",
+    "choices": [
+      { "id": "a", "text": "kube-controller-manager" },
+      { "id": "b", "text": "kube-apiserver" },
+      { "id": "c", "text": "kube-scheduler" },
+      { "id": "d", "text": "etcd" }
+    ],
+    "correct": "c",
+    "explanation": "The kube-scheduler watches for newly created pods with no assigned node, selects a suitable node based on resource requirements, affinity rules, taints/tolerations, and other policies, and writes the node assignment back to the pod spec. The kube-controller-manager handles reconciliation loops (e.g., maintaining desired replica counts). The kube-apiserver is the front-end for the cluster's control plane. etcd stores cluster state.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Kubernetes Components", "url": "https://kubernetes.io/docs/concepts/overview/components/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-002",
+    "type": "single_choice",
+    "prompt": "Which command creates a snapshot of etcd data using etcdctl v3?",
+    "choices": [
+      { "id": "a", "text": "etcdctl snapshot save /backup/etcd.db" },
+      { "id": "b", "text": "etcdctl backup --data-dir=/var/lib/etcd --backup-dir=/backup" },
+      { "id": "c", "text": "kubectl exec etcd -- etcd-backup --output=/backup/etcd.db" },
+      { "id": "d", "text": "etcdctl export --snapshot /backup/etcd.db" }
+    ],
+    "correct": "a",
+    "explanation": "With ETCDCTL_API=3 set, etcdctl snapshot save <path> creates a point-in-time snapshot of the etcd datastore. You must also specify the etcd endpoint, CA cert, client cert, and key. For example: ETCDCTL_API=3 etcdctl --endpoints=https://127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key snapshot save /backup/etcd.db",
+    "topics": ["cluster-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Backing up etcd", "url": "https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-003",
+    "type": "single_choice",
+    "prompt": "What does a ClusterRole combined with a ClusterRoleBinding grant in Kubernetes RBAC?",
+    "choices": [
+      { "id": "a", "text": "Permissions scoped to a single namespace" },
+      { "id": "b", "text": "Cluster-wide permissions that apply across all namespaces and to cluster-scoped resources" },
+      { "id": "c", "text": "Permissions to manage only cluster-level resources like nodes" },
+      { "id": "d", "text": "Read-only access to all resources in the cluster" }
+    ],
+    "correct": "b",
+    "explanation": "A ClusterRole defines permissions that can apply across all namespaces and to cluster-scoped resources (like nodes, PersistentVolumes, and namespaces themselves). When bound via a ClusterRoleBinding, the subject (user, group, or ServiceAccount) gets those permissions cluster-wide. A Role with a RoleBinding is namespace-scoped. A ClusterRole can also be bound with a RoleBinding to limit it to a single namespace.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Using RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-004",
+    "type": "single_choice",
+    "prompt": "Which file on a control plane node contains the kubeadm configuration used during cluster initialization?",
+    "choices": [
+      { "id": "a", "text": "/etc/kubernetes/admin.conf" },
+      { "id": "b", "text": "/etc/kubernetes/kubeadm-config.yaml" },
+      { "id": "c", "text": "A ConfigMap named kubeadm-config in the kube-system namespace" },
+      { "id": "d", "text": "/var/lib/kubelet/kubeadm-config.json" }
+    ],
+    "correct": "c",
+    "explanation": "kubeadm stores the cluster configuration as a ConfigMap named kubeadm-config in the kube-system namespace. You can view it with kubectl get configmap kubeadm-config -n kube-system -o yaml. This is important when upgrading a cluster, as kubeadm upgrade reads from this ConfigMap. /etc/kubernetes/admin.conf is the kubeconfig file for the cluster admin.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "kubeadm Configuration", "url": "https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-config/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-005",
+    "type": "single_choice",
+    "prompt": "What command verifies that a service account 'app-reader' in namespace 'dev' can list pods?",
+    "choices": [
+      { "id": "a", "text": "kubectl check auth --as=system:serviceaccount:dev:app-reader list pods -n dev" },
+      { "id": "b", "text": "kubectl auth can-i list pods --as=system:serviceaccount:dev:app-reader -n dev" },
+      { "id": "c", "text": "kubectl rbac verify --sa=dev:app-reader --verb=list --resource=pods" },
+      { "id": "d", "text": "kubectl describe rolebinding -n dev | grep app-reader" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl auth can-i <verb> <resource> --as=<user> is the standard way to check authorization. For ServiceAccounts, the impersonation format is system:serviceaccount:<namespace>:<name>. You can add -n <namespace> to check within a specific namespace. This uses the SubjectAccessReview API and returns 'yes' or 'no'.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Checking API Access", "url": "https://kubernetes.io/docs/reference/access-authn-authz/authorization/#checking-api-access" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-006",
+    "type": "single_choice",
+    "prompt": "When running etcdctl snapshot restore, which flag specifies the directory where the restored etcd data should be written?",
+    "choices": [
+      { "id": "a", "text": "--output-dir" },
+      { "id": "b", "text": "--data-dir" },
+      { "id": "c", "text": "--restore-path" },
+      { "id": "d", "text": "--etcd-dir" }
+    ],
+    "correct": "b",
+    "explanation": "The --data-dir flag specifies the target directory for the restored data. For example: etcdctl snapshot restore /backup/etcd.db --data-dir=/var/lib/etcd-restore. After restoring, you must update the etcd static pod manifest to set --data-dir=/var/lib/etcd-restore so etcd reads from the restored data. The original data directory is typically /var/lib/etcd.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Restoring an etcd cluster", "url": "https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#restoring-an-etcd-cluster" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-007",
+    "type": "single_choice",
+    "prompt": "A new worker node fails to join the cluster after kubeadm join. The kubelet is running but the node does not appear in kubectl get nodes. What should you check first?",
+    "choices": [
+      { "id": "a", "text": "Whether the node has a valid join token and the API server endpoint is reachable" },
+      { "id": "b", "text": "Whether the node's PersistentVolumes are provisioned" },
+      { "id": "c", "text": "Whether CoreDNS is running on the control plane" },
+      { "id": "d", "text": "Whether the node has the right StorageClass configured" }
+    ],
+    "correct": "a",
+    "explanation": "For a node to join the cluster, kubeadm join requires a valid bootstrap token (which expires after 24 hours by default) and the ability to reach the kube-apiserver endpoint on the control plane. Common failures include an expired token (generate a new one with kubeadm token create), firewall blocking port 6443, or a mismatched CA hash. Check kubelet logs on the new node with journalctl -u kubelet.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "kubeadm join", "url": "https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-008",
+    "type": "true_false",
+    "prompt": "A ServiceAccount token mounted into a pod can be used to authenticate to the Kubernetes API server.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. When a pod is created, Kubernetes automatically mounts a ServiceAccount token at /var/run/secrets/kubernetes.io/serviceaccount/token (unless automountServiceAccountToken is set to false). Applications in the pod can use this token as a Bearer token in HTTP Authorization headers to authenticate to the Kubernetes API server. RBAC rules then determine what the ServiceAccount is authorized to do.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ServiceAccounts", "url": "https://kubernetes.io/docs/concepts/security/service-accounts/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-009",
+    "type": "single_choice",
+    "prompt": "Which kubeadm command upgrades the kubelet and kube-proxy on a worker node after upgrading the control plane?",
+    "choices": [
+      { "id": "a", "text": "kubeadm upgrade node" },
+      { "id": "b", "text": "kubeadm upgrade apply --node" },
+      { "id": "c", "text": "kubeadm node upgrade --worker" },
+      { "id": "d", "text": "kubectl upgrade node <node-name>" }
+    ],
+    "correct": "a",
+    "explanation": "The node upgrade workflow after upgrading the control plane is: (1) drain the worker node with kubectl drain, (2) install the target version of kubeadm on the worker node, (3) run kubeadm upgrade node on the worker (this upgrades the local kubelet configuration), (4) upgrade kubelet and kubectl packages via apt/yum, (5) restart kubelet, and (6) uncordon the node. kubeadm upgrade apply is only for control plane nodes.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Upgrading kubeadm clusters", "url": "https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-010",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a CustomResourceDefinition (CRD) in Kubernetes?",
+    "choices": [
+      { "id": "a", "text": "To extend the Kubernetes API with new resource types without modifying core Kubernetes code" },
+      { "id": "b", "text": "To define custom scheduling policies for the kube-scheduler" },
+      { "id": "c", "text": "To create custom RBAC roles with elevated privileges" },
+      { "id": "d", "text": "To configure custom networking plugins for the cluster" }
+    ],
+    "correct": "a",
+    "explanation": "CRDs allow you to extend the Kubernetes API by defining new resource types (like Application, Database, or Certificate) that Kubernetes will store and manage just like built-in resources. Once a CRD is registered, users can create instances of the new resource type using kubectl. An operator typically watches for these custom resources and reconciles the actual state with the desired state defined in the resource.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Custom Resources", "url": "https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-011",
+    "type": "single_choice",
+    "prompt": "Which Helm command installs a chart named 'my-app' from a release called 'prod-release' into the 'production' namespace?",
+    "choices": [
+      { "id": "a", "text": "helm install prod-release my-app --namespace production" },
+      { "id": "b", "text": "helm apply my-app --release=prod-release -n production" },
+      { "id": "c", "text": "helm deploy prod-release --chart=my-app --namespace=production" },
+      { "id": "d", "text": "helm create prod-release my-app -n production" }
+    ],
+    "correct": "a",
+    "explanation": "The Helm install command syntax is: helm install <release-name> <chart> [flags]. The --namespace flag (or -n) specifies the target namespace. If the namespace does not exist, add --create-namespace. To upgrade an existing release, use helm upgrade --install <release-name> <chart> which installs if not present or upgrades if it exists.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Helm Install", "url": "https://helm.sh/docs/helm/helm_install/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-012",
+    "type": "single_choice",
+    "prompt": "Where does kubeadm store the static pod manifests for control plane components on a typical node?",
+    "choices": [
+      { "id": "a", "text": "/etc/kubernetes/static-pods/" },
+      { "id": "b", "text": "/etc/kubernetes/manifests/" },
+      { "id": "c", "text": "/var/lib/kubelet/pods/" },
+      { "id": "d", "text": "/etc/kubernetes/control-plane/" }
+    ],
+    "correct": "b",
+    "explanation": "By default, kubeadm places static pod manifests in /etc/kubernetes/manifests/. The kubelet is configured to watch this directory (via the staticPodPath setting in its config) and manages the pods defined there directly without involving the API server. The control plane components managed this way include kube-apiserver, kube-controller-manager, kube-scheduler, and etcd.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Static Pods", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-013",
+    "type": "multi_choice",
+    "prompt": "Which of the following are responsibilities of the kube-controller-manager? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "Maintaining the desired number of pod replicas for ReplicaSets" },
+      { "id": "b", "text": "Routing HTTP requests to the correct API handler" },
+      { "id": "c", "text": "Managing node lifecycle and detecting node failures" },
+      { "id": "d", "text": "Running garbage collection for terminated pods and completed jobs" }
+    ],
+    "correct": ["a", "c", "d"],
+    "explanation": "The kube-controller-manager runs multiple controllers in a single process, including: the ReplicaSet controller (ensures desired pod count), the Node controller (monitors node health and reacts to failures), and the GarbageCollection controller (cleans up terminated pods and completed jobs). Routing HTTP requests to API handlers is the job of the kube-apiserver, not the controller manager.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "kube-controller-manager", "url": "https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-014",
+    "type": "single_choice",
+    "prompt": "After generating a new kubeadm join token, how do you retrieve the full join command including the CA cert hash for a worker node?",
+    "choices": [
+      { "id": "a", "text": "kubeadm token list" },
+      { "id": "b", "text": "kubeadm token create --print-join-command" },
+      { "id": "c", "text": "kubectl get token -n kube-system --join-command" },
+      { "id": "d", "text": "kubeadm join --generate" }
+    ],
+    "correct": "b",
+    "explanation": "kubeadm token create --print-join-command generates a new bootstrap token and prints the complete kubeadm join command including the API server address, token, and discovery-token-ca-cert-hash. This is the most convenient way to get everything needed to join a new node. kubeadm token list shows existing tokens but not the full join command.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "kubeadm token create", "url": "https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-token/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ca-015",
+    "type": "single_choice",
+    "prompt": "An RBAC Role grants 'get' and 'list' on 'secrets'. A RoleBinding binds this Role to user 'alice'. Can alice run kubectl create secret?",
+    "choices": [
+      { "id": "a", "text": "Yes, because she can already access secrets" },
+      { "id": "b", "text": "No, because 'create' is not in the Role's verbs" },
+      { "id": "c", "text": "Yes, if she has the system:masters group membership" },
+      { "id": "d", "text": "No, because RoleBindings cannot grant access to secrets" }
+    ],
+    "correct": "b",
+    "explanation": "RBAC is an explicit allow model: any action not listed in the Role's verbs is denied. The Role allows only 'get' and 'list', so alice cannot 'create' secrets. She would need the 'create' verb added to the Role or a separate Role with that permission. kubectl auth can-i create secrets --as=alice would return 'no'.",
+    "topics": ["cluster-architecture"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "RBAC", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole" }
+    ],
+    "version": 1
+  }
+]

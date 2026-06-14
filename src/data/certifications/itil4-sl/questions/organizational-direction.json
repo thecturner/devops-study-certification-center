@@ -1,0 +1,288 @@
+[
+  {
+    "id": "itil4-sl-od-001",
+    "type": "single_choice",
+    "prompt": "A large enterprise is transitioning from a project-based IT operating model to a product-based model. The CIO must explain to the CEO why this change matters strategically, beyond the mechanics of how teams are organized. What is the most compelling strategic rationale?",
+    "choices": [
+      { "id": "a", "text": "Product teams are smaller than project teams, which reduces headcount costs and organizational complexity" },
+      { "id": "b", "text": "A product model creates persistent teams with end-to-end ownership of outcomes, enabling faster iteration, clearer value accountability, and sustained focus on user needs rather than time-boxed deliveries" },
+      { "id": "c", "text": "Product-based models are required by major cloud vendors as a condition of enterprise partnership pricing" },
+      { "id": "d", "text": "Project models create too much documentation overhead, and product models reduce governance burden" }
+    ],
+    "correct": "b",
+    "explanation": "The strategic advantage of product-based operating models is persistent accountability: teams that own a product continuously are incentivized to optimize outcomes rather than complete deliverables, they build domain expertise over time, and they are positioned to iterate rapidly based on user feedback. Project models dissolve the team upon delivery, severing the feedback loop and accountability for long-term outcomes. Cost reduction and reduced governance are not the strategic rationale.",
+    "topics": ["organizational-direction"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" },
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-002",
+    "type": "single_choice",
+    "prompt": "An executive team is debating whether to use OKRs or a Balanced Scorecard to set and communicate strategic direction for a digital transformation program. What is the most important distinguishing factor when choosing between these two approaches at the strategic level?",
+    "choices": [
+      { "id": "a", "text": "OKRs are simpler to administer and require less management overhead than a Balanced Scorecard" },
+      { "id": "b", "text": "The Balanced Scorecard provides a more comprehensive multi-perspective view of organizational performance across financial, customer, internal process, and learning dimensions, making it better suited for organizations needing to balance transformation investment against ongoing operational performance" },
+      { "id": "c", "text": "OKRs are exclusively used in technology companies and are not appropriate for traditional enterprises" },
+      { "id": "d", "text": "The Balanced Scorecard is a legacy framework that has been replaced by OKRs in most modern organizations" }
+    ],
+    "correct": "b",
+    "explanation": "The Balanced Scorecard's four-perspective model is specifically designed to maintain balance between transformation investment and operational performance, making it well suited for organizations managing digital change while sustaining existing operations. OKRs excel at driving ambitious, focused objectives but lack the multi-dimensional balance that the BSC provides. Neither is universally superior; the choice depends on the organization's need for breadth versus focus.",
+    "topics": ["organizational-direction"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-003",
+    "type": "single_choice",
+    "prompt": "A CIO is conducting strategic workforce planning for a digital transformation initiative. Three options are under consideration for closing a data engineering skills gap: build (hire graduates and develop internally), buy (hire experienced practitioners), or borrow (engage contractors or managed service providers). Which factor most strongly favors a 'build' strategy over 'buy' or 'borrow'?",
+    "choices": [
+      { "id": "a", "text": "Data engineering skills are widely available in the market, making external hiring straightforward" },
+      { "id": "b", "text": "The organization's digital strategy depends on proprietary data capabilities that represent a long-term competitive differentiator, making internal knowledge retention strategically essential" },
+      { "id": "c", "text": "Building is always cheaper than buying or borrowing over a five-year horizon" },
+      { "id": "d", "text": "Contractors create IP ownership complexity that internal hires avoid" }
+    ],
+    "correct": "b",
+    "explanation": "The build strategy is most justified when the capability represents a core, proprietary competitive differentiator that the organization intends to own indefinitely. When the capability is unique to the organization's strategic position, building and retaining internal talent protects that advantage and accumulates institutional knowledge. If the capability is commodity or temporary, buy or borrow are more efficient. The build strategy is not always cheapest, and IP complexity is a manageable contract issue.",
+    "topics": ["organizational-direction"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-004",
+    "type": "single_choice",
+    "prompt": "A CEO asks the CIO to explain the distinction between an organization's 'capabilities' and its 'resources' in the context of digital strategy. Which explanation is most accurate?",
+    "choices": [
+      { "id": "a", "text": "Resources are the people and technology the organization owns; capabilities are the documented processes and procedures that govern how they are used" },
+      { "id": "b", "text": "Capabilities are the organization's ability to perform activities and create value by deploying and orchestrating resources; resources are the inputs (people, technology, information, funding) that capabilities draw upon" },
+      { "id": "c", "text": "Capabilities and resources are synonymous in ITIL 4; the distinction is relevant only in resource-based view strategy theory" },
+      { "id": "d", "text": "Resources are finite and depletable; capabilities are infinite because they can be replicated without limit" }
+    ],
+    "correct": "b",
+    "explanation": "In ITIL 4 and resource-based strategic theory, capabilities are the dynamic abilities of an organization to coordinate and deploy resources to create value. Resources are the inputs: people, technology, information, and money. The distinction matters strategically because two organizations with identical resources can have very different capabilities based on how they organize and deploy them. A capability is a higher-order construct than a resource.",
+    "topics": ["organizational-direction"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-005",
+    "type": "single_choice",
+    "prompt": "A CIO is leading a digital transformation initiative and wants to assess whether the organizational culture is ready to sustain it. Which cultural indicator most reliably signals a learning culture that can support continuous digital change?",
+    "choices": [
+      { "id": "a", "text": "The organization has a dedicated innovation lab where experiments are conducted away from core operations" },
+      { "id": "b", "text": "Leaders publicly share and discuss their own failures and the lessons learned from them, modeling that experimentation and learning from setbacks is valued behavior" },
+      { "id": "c", "text": "The organization has a formal suggestion scheme that employees can use to submit improvement ideas" },
+      { "id": "d", "text": "The HR function has launched a digital skills training program with mandatory completion targets" }
+    ],
+    "correct": "b",
+    "explanation": "Psychological safety and learning culture are most reliably signaled by leadership behavior, specifically whether senior leaders model vulnerability by openly discussing failures and lessons. This behavior signals that it is safe for others throughout the organization to take risks and share learning. Innovation labs can be isolated from the cultural mainstream; suggestion schemes are passive mechanisms; and mandatory training improves skills but does not change cultural norms around risk and experimentation.",
+    "topics": ["organizational-direction"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-006",
+    "type": "single_choice",
+    "prompt": "An organization has a portfolio of 40 digital initiatives at various stages of development. The CIO must present a prioritization recommendation to the executive team with a constrained budget. Which portfolio management approach is most appropriate at the strategic level?",
+    "choices": [
+      { "id": "a", "text": "Rank all 40 initiatives by projected ROI and fund the top quartile until the budget is exhausted" },
+      { "id": "b", "text": "Apply a portfolio segmentation across strategic value, delivery risk, and dependency on other initiatives, then allocate budget across horizon categories to maintain a balanced portfolio of run, grow, and transform investments" },
+      { "id": "c", "text": "Defer all non-critical initiatives until the next budget cycle to ensure full funding of the highest-priority items" },
+      { "id": "d", "text": "Use a democratic scoring process where business unit heads each score initiatives in their domain to distribute ownership" }
+    ],
+    "correct": "b",
+    "explanation": "Strategic portfolio management requires balancing across multiple dimensions: strategic value, risk, and investment horizon. A pure ROI ranking ignores risk and strategic optionality. Deferral of non-critical work may eliminate initiatives that build future capability. Democratic business-unit scoring optimizes for local interests, not organizational strategy. A segmented portfolio approach that consciously allocates across run, grow, and transform categories is the strategically coherent approach.",
+    "topics": ["organizational-direction"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-007",
+    "type": "single_choice",
+    "prompt": "A large organization wants to deploy an enterprise architecture capability to support its digital strategy. The CEO asks the CIO to explain the strategic value of enterprise architecture, as opposed to its technical value. Which explanation is most compelling?",
+    "choices": [
+      { "id": "a", "text": "Enterprise architecture reduces the number of technology vendors, which simplifies contract management and reduces licensing costs" },
+      { "id": "b", "text": "Enterprise architecture provides a shared blueprint of the organization's current and target state across business capabilities, information flows, and technology, enabling strategic decision-making about where to invest, integrate, and retire" },
+      { "id": "c", "text": "Enterprise architecture enforces technology standardization, which prevents teams from adopting unsupported tools" },
+      { "id": "d", "text": "Enterprise architecture produces the system documentation that regulators require for IT compliance audits" }
+    ],
+    "correct": "b",
+    "explanation": "The strategic value of enterprise architecture is that it creates a shared organizational map: where capabilities exist, how information flows, what the current technology landscape looks like, and what the target state needs to be. This enables leadership to make investment decisions informed by the full context of what exists, what is missing, and where integration creates value. Vendor consolidation, standardization, and compliance documentation are outputs, not the strategic rationale.",
+    "topics": ["organizational-direction"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-008",
+    "type": "single_choice",
+    "prompt": "The board wants to measure value realization from the digital transformation program at the strategic level. The transformation program manager proposes tracking project delivery metrics (on-time, on-budget). Why is this insufficient, and what should be measured instead?",
+    "choices": [
+      { "id": "a", "text": "Project delivery metrics are sufficient if they include scope completion alongside time and budget" },
+      { "id": "b", "text": "Delivery metrics measure outputs, not outcomes. The board should track business-level value indicators: revenue attributable to digital channels, customer satisfaction improvement, productivity gains, and market share change, tied to the specific capabilities each initiative was supposed to create" },
+      { "id": "c", "text": "Delivery metrics should be replaced with customer satisfaction scores because the customer is the ultimate judge of value" },
+      { "id": "d", "text": "The board should not track transformation metrics; that responsibility belongs to the transformation program office" }
+    ],
+    "correct": "b",
+    "explanation": "Delivering projects on time and on budget measures output efficiency, not value creation. The board's governance role requires understanding whether the transformation is actually delivering the business outcomes that justified the investment: revenue, customer experience, productivity, and competitive position. Delivery metrics are necessary for program management but insufficient for board-level value assurance. Customer satisfaction alone is partial; a multi-dimensional outcome framework is required.",
+    "topics": ["organizational-direction"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-009",
+    "type": "single_choice",
+    "prompt": "An organization is experiencing significant cross-functional friction between the digital product team and the traditional IT operations team, slowing delivery. The CIO proposes a structural solution. Which approach is most likely to achieve cross-functional alignment at scale?",
+    "choices": [
+      { "id": "a", "text": "Place the digital product team under IT operations leadership to enforce a single chain of command" },
+      { "id": "b", "text": "Create a shared platform team that provides the foundational capabilities both groups depend on, establish explicit team interaction modes (collaboration, facilitation, as-a-service), and define clear interfaces and ownership boundaries using principles such as Team Topologies" },
+      { "id": "c", "text": "Mandate weekly joint planning meetings between the two teams with executive escalation rights for unresolved conflicts" },
+      { "id": "d", "text": "Outsource IT operations so that the digital team can operate independently without organizational friction" }
+    ],
+    "correct": "b",
+    "explanation": "Structural friction between product and operations teams is a system design problem, not a people or process problem. Creating a shared platform team that abstracts foundational services, combined with explicit team interaction modes and clear ownership boundaries, addresses the root cause by reducing cognitive load and ambiguous responsibility. Forcing hierarchy under one leader creates subordination that stifles innovation; weekly meetings manage symptoms not causes; and outsourcing eliminates a strategic capability.",
+    "topics": ["organizational-direction"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-010",
+    "type": "single_choice",
+    "prompt": "A CIO is applying platform thinking to the internal IT function. What is the most accurate description of what it means to treat IT as an internal platform?",
+    "choices": [
+      { "id": "a", "text": "IT standardizes on a single vendor's platform to reduce integration complexity across the organization" },
+      { "id": "b", "text": "IT defines a set of shared, self-serviceable capabilities and APIs that internal product teams can consume to build digital services, reducing duplication and enabling faster delivery through reuse" },
+      { "id": "c", "text": "IT acts as a shared service center that processes requests from business units within agreed SLA timelines" },
+      { "id": "d", "text": "IT implements a platform-as-a-service cloud subscription to replace on-premises infrastructure" }
+    ],
+    "correct": "b",
+    "explanation": "Internal platform thinking means IT builds and curates a portfolio of reusable, self-serviceable capabilities, such as identity, data pipelines, messaging, and deployment automation, that other teams consume via well-defined interfaces. This is distinct from a shared services model (which is request/ticket-based) and from vendor standardization. Platform thinking shifts IT from a service provider to an enabler that accelerates value creation by other teams.",
+    "topics": ["organizational-direction"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-011",
+    "type": "single_choice",
+    "prompt": "An organization's digital transformation benefits realization review reveals that two-thirds of approved initiatives delivered their technical scope but did not deliver the projected business benefits. What does this pattern most likely indicate at the strategic level?",
+    "choices": [
+      { "id": "a", "text": "The project management methodology was too focused on feature delivery and not disciplined enough on scope control" },
+      { "id": "b", "text": "Business cases were written to secure funding rather than to establish measurable benefit hypotheses with accountable business owners, resulting in no effective mechanism to track or drive benefit realization post-delivery" },
+      { "id": "c", "text": "The technology delivered was correct but the change management program was too short to achieve user adoption" },
+      { "id": "d", "text": "Benefits realization is inherently unpredictable in digital initiatives and variance at this level is expected" }
+    ],
+    "correct": "b",
+    "explanation": "When technical delivery succeeds but benefits fail to materialize consistently, the root cause is typically a broken benefits realization cycle: business cases are written to pass approval gates, not to establish testable benefit hypotheses with named business owners, baseline measurements, and post-delivery tracking mechanisms. Without this structure, there is no one accountable for delivering the business outcome after the technology is deployed. Change management issues are a contributing factor but not the root cause when the pattern is systemic.",
+    "topics": ["organizational-direction"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-012",
+    "type": "single_choice",
+    "prompt": "An executive team wants to define Critical Success Factors (CSFs) for its digital transformation. A junior leader suggests defining 15 CSFs to ensure comprehensive coverage. Why is this problematic, and what is the appropriate approach?",
+    "choices": [
+      { "id": "a", "text": "Fifteen CSFs is acceptable if they are organized into logical categories with weighted scoring" },
+      { "id": "b", "text": "A large number of CSFs dilutes focus and makes strategic accountability impossible; three to five CSFs that represent the truly non-negotiable conditions for success is the appropriate practice, supported by KPIs that measure each" },
+      { "id": "c", "text": "CSFs should be defined by an external strategy consultant to avoid internal bias in the selection process" },
+      { "id": "d", "text": "CSFs are a deprecated planning tool; OKRs should be used instead for digital transformation programs" }
+    ],
+    "correct": "b",
+    "explanation": "The purpose of Critical Success Factors is to identify the small number of conditions that are truly essential: if these fail, the transformation fails. A large list of CSFs is a sign that the team has not made strategic trade-offs and cannot distinguish critical from important. ITIL 4 DPI recommends a small, focused set of CSFs with corresponding KPIs that make each measurable. This creates clear accountability and communication. CSFs and OKRs serve different but complementary purposes.",
+    "topics": ["organizational-direction"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-013",
+    "type": "single_choice",
+    "prompt": "A CIO is evaluating the maturity of the organization's digital talent strategy. The current approach is to send employees to external training courses when skills gaps are identified. What is the strategic limitation of this reactive approach?",
+    "choices": [
+      { "id": "a", "text": "External training is more expensive than internally developed programs over a five-year horizon" },
+      { "id": "b", "text": "Reactive skills development lags behind the pace of digital change and does not create the organizational learning velocity needed to sustain transformation; a proactive capability-building strategy aligned to the digital roadmap is required" },
+      { "id": "c", "text": "External courses do not provide industry-recognized certifications that build organizational credibility" },
+      { "id": "d", "text": "Training without coaching support results in poor knowledge transfer to the job role" }
+    ],
+    "correct": "b",
+    "explanation": "Reactive training addresses identified gaps in arrears and is always behind the digital capability curve. A strategic workforce development approach requires anticipating the capabilities the digital roadmap will need one to three years out and systematically building them through a combination of learning programs, hiring, and organizational learning mechanisms. The question of cost, credentials, and coaching quality are secondary to the strategic timing problem of building capability before it is needed.",
+    "topics": ["organizational-direction"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-014",
+    "type": "single_choice",
+    "prompt": "A board member asks the CIO how the IT function currently creates value for the organization. The CIO responds by listing the services IT delivers and the SLAs each meets. Why is this response strategically incomplete?",
+    "choices": [
+      { "id": "a", "text": "SLAs should not be shared at board level because they contain operational detail that is below board visibility" },
+      { "id": "b", "text": "Describing services and SLAs measures output and availability, not the value co-created with the business; the board needs to understand which business outcomes IT enables, and by how much, to assess whether the IT investment is generating strategic returns" },
+      { "id": "c", "text": "The CIO should have presented IT's budget consumption rather than service performance to show stewardship of investment" },
+      { "id": "d", "text": "SLA reporting is adequate for board purposes as long as the SLAs are aligned to business objectives" }
+    ],
+    "correct": "b",
+    "explanation": "SLAs measure service availability and response times, which are operational metrics. Value, in ITIL 4 terms, is co-created with the business and is reflected in business outcomes: revenue enabled, customer experience delivered, cost reduced through automation, or risk mitigated. The board's governance role requires understanding value, not just uptime. SLA alignment to business objectives is an improvement but still does not close the output-to-outcome gap.",
+    "topics": ["organizational-direction"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-od-015",
+    "type": "single_choice",
+    "prompt": "An organization is redesigning its operating model to support a hybrid structure combining centralized platforms with decentralized business unit autonomy. What is the primary governance challenge this model creates?",
+    "choices": [
+      { "id": "a", "text": "Centralized platforms are inherently slower than decentralized models, creating a structural bottleneck" },
+      { "id": "b", "text": "The primary challenge is defining and enforcing the boundary between platform mandates and business unit autonomy, ensuring consistency on shared concerns (security, data, interoperability) without stifling local innovation" },
+      { "id": "c", "text": "Business units will resist centralized platforms because they prefer to own their own technology decisions" },
+      { "id": "d", "text": "Hybrid models are not compatible with ITIL 4's service value chain because the chain assumes a unified operational model" }
+    ],
+    "correct": "b",
+    "explanation": "The defining governance challenge of federated operating models is boundary management: deciding what must be standardized centrally (security, data standards, shared infrastructure) versus what business units should control (product features, local workflows, technology choices within bounds). Without explicit boundary definition and governance mechanisms to enforce it, the organization degrades into either over-centralization (stifling agility) or fragmentation (creating technical debt and risk). Business unit resistance is a change management challenge, not the primary governance challenge.",
+    "topics": ["organizational-direction"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  }
+]

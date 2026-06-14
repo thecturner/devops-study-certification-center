@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-f-kc-001",
+    "type": "single_choice",
+    "prompt": "How does ITIL 4 define a 'service'?",
+    "choices": [
+      { "id": "a", "text": "A set of specialized organizational capabilities for enabling value for customers" },
+      { "id": "b", "text": "A means of enabling value co-creation by facilitating outcomes that customers want to achieve, without the customer having to manage specific costs and risks" },
+      { "id": "c", "text": "Any activity performed by an IT department on behalf of a business unit" },
+      { "id": "d", "text": "A deliverable produced by a service provider in exchange for an agreed fee" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 defines a service as 'a means of enabling value co-creation by facilitating outcomes that customers want to achieve, without the customer having to manage specific costs and risks.' The key elements are value co-creation, facilitated outcomes, and the transfer of cost and risk management to the provider. Option A describes service management capabilities, not the service itself. Options C and D are informal descriptions that miss the co-creation and risk-transfer dimensions.",
+    "topics": ["key-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-002",
+    "type": "single_choice",
+    "prompt": "Which term describes 'the functionality offered by a product or service to meet a particular need'?",
+    "choices": [
+      { "id": "a", "text": "Warranty" },
+      { "id": "b", "text": "Value" },
+      { "id": "c", "text": "Utility" },
+      { "id": "d", "text": "Outcome" }
+    ],
+    "correct": "c",
+    "explanation": "Utility is defined as the functionality offered by a product or service to meet a particular need — in other words, what the service does. Warranty, by contrast, describes how well the service performs (assurance that it meets agreed requirements). Value is the perceived benefit of the service. Outcome is the result a stakeholder achieves with the help of outputs.",
+    "topics": ["key-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-003",
+    "type": "single_choice",
+    "prompt": "A software company provides a cloud storage platform. Customers can access 99.9% availability, 24/7 support, and security certification. Which aspect of value does this describe?",
+    "choices": [
+      { "id": "a", "text": "Utility" },
+      { "id": "b", "text": "Warranty" },
+      { "id": "c", "text": "Outcome" },
+      { "id": "d", "text": "Output" }
+    ],
+    "correct": "b",
+    "explanation": "Warranty is the assurance that a service will meet agreed requirements — it covers availability, capacity, security, and continuity. The scenario describes performance guarantees (99.9% availability, 24/7 support, security certification), which are all warranty attributes. Utility would describe what the storage platform actually does (stores and retrieves data). An outcome is the result the customer achieves, and an output is a tangible deliverable.",
+    "topics": ["key-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-004",
+    "type": "single_choice",
+    "prompt": "Which role is defined as 'someone who uses services on a day-to-day basis'?",
+    "choices": [
+      { "id": "a", "text": "Customer" },
+      { "id": "b", "text": "Sponsor" },
+      { "id": "c", "text": "Supplier" },
+      { "id": "d", "text": "User" }
+    ],
+    "correct": "d",
+    "explanation": "A user is the person who uses services day-to-day. A customer defines the requirements for services and takes responsibility for the outcomes of service consumption. A sponsor authorizes the budget for service consumption. A supplier provides goods or services to the organization. The distinction matters because the same person can occupy multiple roles — an employee may be both customer and user in some contexts.",
+    "topics": ["key-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-005",
+    "type": "single_choice",
+    "prompt": "An executive approves the annual IT budget for a new HR system but will never use the system personally. Which role does this person occupy?",
+    "choices": [
+      { "id": "a", "text": "User" },
+      { "id": "b", "text": "Customer" },
+      { "id": "c", "text": "Sponsor" },
+      { "id": "d", "text": "Service provider" }
+    ],
+    "correct": "c",
+    "explanation": "A sponsor authorizes the budget for service consumption. The executive is approving funding but will not use or define requirements for the service, which makes the sponsor role the best fit. The customer role defines requirements and is accountable for outcomes. The user role interacts with the service day-to-day. The service provider delivers the service.",
+    "topics": ["key-concepts"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-006",
+    "type": "single_choice",
+    "prompt": "What are the four elements that ITIL 4 says customers are concerned with when consuming a service?",
+    "choices": [
+      { "id": "a", "text": "Utility, warranty, service levels, and support" },
+      { "id": "b", "text": "Outputs, outcomes, costs, and risks" },
+      { "id": "c", "text": "People, process, technology, and partners" },
+      { "id": "d", "text": "Value, warranty, utility, and assurance" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 states that customers are concerned with outputs (tangible deliverables), outcomes (results they achieve), costs (financial expenditure), and risks (possible events that could cause harm). A service must deliver positive outputs and outcomes while reducing the costs and risks the customer would otherwise have to bear. The other options describe service attributes or organizational dimensions rather than the four customer-facing elements.",
+    "topics": ["key-concepts"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-007",
+    "type": "single_choice",
+    "prompt": "What is the difference between an 'output' and an 'outcome' in ITIL 4?",
+    "choices": [
+      { "id": "a", "text": "An output is the result of an activity; an outcome is a tangible deliverable" },
+      { "id": "b", "text": "An output is a tangible deliverable produced by an activity; an outcome is the result a stakeholder achieves enabled by those outputs" },
+      { "id": "c", "text": "Outputs relate to the service provider; outcomes relate to customers only" },
+      { "id": "d", "text": "An outcome is a measurement of service performance; an output is a financial benefit" }
+    ],
+    "correct": "b",
+    "explanation": "In ITIL 4, an output is a tangible or intangible deliverable produced by an activity (for example, a report, a software feature, or a resolved ticket). An outcome is the result a stakeholder achieves with the help of those outputs — it represents real-world change or benefit (for example, improved employee productivity enabled by the new software feature). Outputs enable outcomes, but outcomes represent the actual value realized.",
+    "topics": ["key-concepts"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-008",
+    "type": "single_choice",
+    "prompt": "Which of the following best describes a 'service offering'?",
+    "choices": [
+      { "id": "a", "text": "The total portfolio of services managed by a service provider" },
+      { "id": "b", "text": "A formal description of one or more services, designed to address the needs of a target consumer group" },
+      { "id": "c", "text": "The service level agreement between a provider and a customer" },
+      { "id": "d", "text": "The price list published by a service provider" }
+    ],
+    "correct": "b",
+    "explanation": "A service offering is a formal description of one or more services designed to address the needs of a target consumer group. It may include goods (transferred ownership), access to resources (granted for a defined period), and service actions (performed for the consumer). It is not simply the entire portfolio, an SLA, or a price list — those are separate artifacts that may describe or support the offering.",
+    "topics": ["key-concepts"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-009",
+    "type": "single_choice",
+    "prompt": "Value is co-created through an active collaboration between service providers and service consumers. Which statement best reflects this concept?",
+    "choices": [
+      { "id": "a", "text": "The service provider creates value independently and delivers it to passive consumers" },
+      { "id": "b", "text": "Consumers create value on their own by using whichever services are available" },
+      { "id": "c", "text": "Value is realized through a joint relationship where both provider capabilities and consumer use contribute to achieving outcomes" },
+      { "id": "d", "text": "Value is determined solely by the price paid for the service" }
+    ],
+    "correct": "c",
+    "explanation": "ITIL 4 emphasizes that value is co-created — it arises from the combination of what the service provider offers and how consumers engage with and use that offering to achieve their desired outcomes. Neither party creates value in isolation: the provider's capabilities must be activated by consumer use within specific contexts. This is a foundational shift from earlier ITIL versions, which positioned providers as value creators and consumers as passive recipients.",
+    "topics": ["key-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-010",
+    "type": "single_choice",
+    "prompt": "What does the 'service relationship model' in ITIL 4 consist of?",
+    "choices": [
+      { "id": "a", "text": "Service strategy, service design, service transition, and service operation" },
+      { "id": "b", "text": "Service provision, service consumption, and service relationship management" },
+      { "id": "c", "text": "Service catalog, service portfolio, and service pipeline" },
+      { "id": "d", "text": "Service level management, supplier management, and demand management" }
+    ],
+    "correct": "b",
+    "explanation": "The ITIL 4 service relationship model comprises three elements: service provision (activities the provider performs to deliver services), service consumption (activities the consumer performs to use services), and service relationship management (the joint activities that both parties cooperate on to ensure ongoing value co-creation). Option A describes the ITIL v3 lifecycle phases. Options C and D describe management disciplines rather than the relationship model.",
+    "topics": ["key-concepts"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-011",
+    "type": "single_choice",
+    "prompt": "An organization uses its IT department to deliver internal IT services to business units. In ITIL 4 terms, the IT department is best described as which type of service provider?",
+    "choices": [
+      { "id": "a", "text": "External service provider" },
+      { "id": "b", "text": "Internal service provider" },
+      { "id": "c", "text": "Shared service provider" },
+      { "id": "d", "text": "Primary service provider" }
+    ],
+    "correct": "b",
+    "explanation": "An internal service provider operates within and serves a single organization. When an IT department provides services to the business units of the same organization, it acts as an internal service provider. External service providers operate independently from the consumer organization. Shared service providers offer services to multiple business units that may be part of a wider corporate group. 'Primary service provider' is not an ITIL 4 term.",
+    "topics": ["key-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-012",
+    "type": "single_choice",
+    "prompt": "Which of the following is the best definition of a 'configuration item' (CI)?",
+    "choices": [
+      { "id": "a", "text": "Any component that needs to be managed in order to deliver an IT service" },
+      { "id": "b", "text": "A hardware asset with a known financial value recorded in the asset register" },
+      { "id": "c", "text": "A software module that has been deployed to a production environment" },
+      { "id": "d", "text": "A documented change to a service that has been approved by the change authority" }
+    ],
+    "correct": "a",
+    "explanation": "A configuration item (CI) is any component that needs to be managed in order to deliver an IT service. CIs can include hardware, software, networks, buildings, people, and documentation — anything that contributes to a service and needs to be tracked. They are broader than just hardware assets (option B) and are not limited to deployed software (option C) or approved changes (option D).",
+    "topics": ["key-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-013",
+    "type": "single_choice",
+    "prompt": "Which of the following is an example of a 'product' as distinct from a 'service' in ITIL 4?",
+    "choices": [
+      { "id": "a", "text": "A managed cloud platform offered to customers on a subscription basis" },
+      { "id": "b", "text": "A set of configured resources that can be used as a basis for service offerings" },
+      { "id": "c", "text": "A formal agreement that defines performance targets for a service" },
+      { "id": "d", "text": "The activities performed by a service provider to restore a failed service" }
+    ],
+    "correct": "b",
+    "explanation": "In ITIL 4, a product is a configuration of resources (people, processes, technology, information) created by the organization to offer value to consumers — it is the underlying building block from which service offerings are constructed. A managed cloud platform offered on subscription is a service offering, not simply a product. An SLA is a management document, and restoring a service describes an incident management activity.",
+    "topics": ["key-concepts"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-014",
+    "type": "single_choice",
+    "prompt": "Why is it important for a service to have BOTH utility AND warranty?",
+    "choices": [
+      { "id": "a", "text": "Utility alone is sufficient to create value; warranty is an optional enhancement" },
+      { "id": "b", "text": "Warranty alone is sufficient to create value; utility is a baseline assumption" },
+      { "id": "c", "text": "A service must be fit for purpose (utility) AND fit for use (warranty) to deliver value" },
+      { "id": "d", "text": "Utility and warranty are interchangeable terms that describe the same concept" }
+    ],
+    "correct": "c",
+    "explanation": "ITIL 4 states that a service must be fit for purpose (utility — it does what the customer needs) AND fit for use (warranty — it performs reliably enough to be used). A service that does the right thing but is unavailable, insecure, or unreliable cannot deliver value. Equally, a highly available service that does the wrong thing is worthless. Both dimensions are necessary, and neither alone is sufficient.",
+    "topics": ["key-concepts"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-kc-015",
+    "type": "single_choice",
+    "prompt": "Which statement best describes 'service management' in ITIL 4?",
+    "choices": [
+      { "id": "a", "text": "A set of IT infrastructure components used to deliver services to customers" },
+      { "id": "b", "text": "A set of specialized organizational capabilities for enabling value for customers in the form of services" },
+      { "id": "c", "text": "The process of negotiating and agreeing service level targets with customers" },
+      { "id": "d", "text": "The technical discipline focused on designing and building IT systems" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 defines service management as 'a set of specialized organizational capabilities for enabling value for customers in the form of services.' These capabilities include the practices, skills, knowledge, and processes that allow an organization to deliver value reliably. It is not limited to infrastructure (A), SLA negotiation (C), or technical system design (D) — it encompasses the full organizational competency required to deliver services.",
+    "topics": ["key-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key Concepts of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  }
+]

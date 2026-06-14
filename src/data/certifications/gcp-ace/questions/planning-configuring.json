@@ -1,0 +1,302 @@
+[
+  {
+    "id": "gcp-ace-pc-001",
+    "type": "single_choice",
+    "prompt": "You are designing a web application that must handle sudden traffic spikes of up to 10x normal load. The application is stateless and containerized. You need the most cost-effective Compute Engine solution that automatically scales with traffic. Which configuration should you choose?",
+    "choices": [
+      { "id": "a", "text": "A single n2-standard-32 instance with a startup script" },
+      { "id": "b", "text": "A managed instance group with autoscaling based on CPU utilization" },
+      { "id": "c", "text": "An unmanaged instance group with manual scaling" },
+      { "id": "d", "text": "A sole-tenant node with multiple instances" }
+    ],
+    "correct": "b",
+    "explanation": "A managed instance group (MIG) with autoscaling automatically adds and removes instances based on a metric like CPU utilization, matching capacity to demand and minimizing cost during low-traffic periods. A single large instance cannot scale out and becomes a single point of failure. An unmanaged instance group requires manual scaling, which cannot react quickly to sudden spikes. Sole-tenant nodes are for compliance isolation requirements and are significantly more expensive.",
+    "topics": ["planning-configuring"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Managed instance groups overview", "url": "https://cloud.google.com/compute/docs/instance-groups/creating-groups-of-managed-instances" },
+      { "label": "Autoscaling groups of instances", "url": "https://cloud.google.com/compute/docs/autoscaler" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-002",
+    "type": "single_choice",
+    "prompt": "Your team stores large machine learning training datasets in Cloud Storage. The data is generated daily and must be retained for 90 days for compliance. After 90 days, the data is rarely accessed but must remain available. You want to minimize storage costs. Which storage configuration should you use?",
+    "choices": [
+      { "id": "a", "text": "Store all data in Standard storage class permanently" },
+      { "id": "b", "text": "Use Object Lifecycle Management to transition objects to Coldline after 90 days" },
+      { "id": "c", "text": "Use Object Lifecycle Management to delete objects after 90 days" },
+      { "id": "d", "text": "Store all data in Nearline storage class from day one" }
+    ],
+    "correct": "b",
+    "explanation": "Object Lifecycle Management rules can automatically transition objects from Standard to Coldline (or Archive) after a specified number of days, reducing storage costs for infrequently accessed data while keeping it available. Keeping everything in Standard is the most expensive option for rarely-accessed data. Deleting after 90 days violates the requirement that data remains available. Using Nearline from day one incurs retrieval fees for the first 90 days when the data is actively used and does not optimize for the full lifecycle.",
+    "topics": ["planning-configuring"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Storage classes", "url": "https://cloud.google.com/storage/docs/storage-classes" },
+      { "label": "Object Lifecycle Management", "url": "https://cloud.google.com/storage/docs/lifecycle" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-003",
+    "type": "single_choice",
+    "prompt": "You are designing a VPC for a three-tier web application. The web tier must be reachable from the internet, the application tier must only communicate with the web and database tiers, and the database tier must not be reachable from the internet. Which VPC firewall rule design satisfies these requirements with the principle of least privilege?",
+    "choices": [
+      { "id": "a", "text": "Allow all ingress from 0.0.0.0/0, then use application-level controls" },
+      { "id": "b", "text": "Allow ingress on port 80/443 from 0.0.0.0/0 to web tier; allow web-tier-tagged instances to reach app tier; allow app-tier-tagged instances to reach db tier; deny all other ingress" },
+      { "id": "c", "text": "Place all three tiers in separate projects and use VPC peering" },
+      { "id": "d", "text": "Allow ingress on port 80/443 from 0.0.0.0/0 to all instances and rely on OS-level firewalls" }
+    ],
+    "correct": "b",
+    "explanation": "Using network tags to scope firewall rules is the GCP-recommended pattern. Rules that reference source tags allow only traffic from instances bearing that tag, achieving least-privilege inter-tier communication. The database tier has no internet-facing ingress rule, satisfying the isolation requirement. Allowing all ingress globally eliminates the isolation requirement. Using separate projects with VPC peering adds unnecessary complexity and does not inherently enforce the firewall policy. Relying on OS-level firewalls bypasses GCP's centrally managed security layer.",
+    "topics": ["planning-configuring"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "VPC firewall rules overview", "url": "https://cloud.google.com/vpc/docs/firewalls" },
+      { "label": "Using network tags", "url": "https://cloud.google.com/vpc/docs/add-remove-network-tags" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-004",
+    "type": "single_choice",
+    "prompt": "Your application needs a managed relational database for an e-commerce platform with transactional workloads. The database must support PostgreSQL syntax, require no manual failover configuration for high availability, and scale to a few TB of data. Which GCP database service best fits these requirements?",
+    "choices": [
+      { "id": "a", "text": "Cloud Bigtable" },
+      { "id": "b", "text": "Cloud Firestore in Datastore mode" },
+      { "id": "c", "text": "Cloud SQL for PostgreSQL with High Availability enabled" },
+      { "id": "d", "text": "Cloud Spanner" }
+    ],
+    "correct": "c",
+    "explanation": "Cloud SQL for PostgreSQL provides a fully managed PostgreSQL-compatible database with a High Availability option that automatically fails over to a standby instance without manual intervention. Cloud Bigtable is a wide-column NoSQL store suited for analytics, not RDBMS workloads. Cloud Firestore is a document database with no PostgreSQL compatibility. Cloud Spanner supports relational schemas but uses a proprietary SQL dialect and is significantly more expensive, making it more appropriate for global, horizontally scalable workloads beyond what Cloud SQL can serve.",
+    "topics": ["planning-configuring"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud SQL overview", "url": "https://cloud.google.com/sql/docs/introduction" },
+      { "label": "Cloud SQL high availability", "url": "https://cloud.google.com/sql/docs/postgres/high-availability" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-005",
+    "type": "single_choice",
+    "prompt": "You need to configure a Cloud DNS private zone so that GCE instances in your VPC can resolve internal hostnames, but the zone should not be visible to the public internet. Which Cloud DNS zone type should you create?",
+    "choices": [
+      { "id": "a", "text": "Public zone with restricted IAM permissions" },
+      { "id": "b", "text": "Private zone scoped to your VPC network" },
+      { "id": "c", "text": "Forwarding zone pointed to an internal DNS server" },
+      { "id": "d", "text": "Public zone with DNSSEC enabled" }
+    ],
+    "correct": "b",
+    "explanation": "A private zone in Cloud DNS is only visible to resources within the VPC networks you authorize when creating the zone. It is completely invisible from the public internet. A public zone with IAM restrictions is still publicly queryable for its NS and SOA records. A forwarding zone delegates resolution to another server but does not itself host the zone data, which is not what the question requires. DNSSEC on a public zone still makes the zone publicly visible.",
+    "topics": ["planning-configuring"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud DNS overview", "url": "https://cloud.google.com/dns/docs/overview" },
+      { "label": "Private zones", "url": "https://cloud.google.com/dns/docs/zones/zones-overview#private_zones" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-006",
+    "type": "single_choice",
+    "prompt": "An application receives HTTP(S) traffic that must be distributed across backend instances in multiple GCP regions. Clients should always connect to the nearest healthy region. Which load balancer type should you use?",
+    "choices": [
+      { "id": "a", "text": "Internal TCP/UDP load balancer" },
+      { "id": "b", "text": "Regional external HTTP(S) load balancer" },
+      { "id": "c", "text": "Global external HTTP(S) load balancer (Cloud Load Balancing)" },
+      { "id": "d", "text": "Network TCP/UDP load balancer" }
+    ],
+    "correct": "c",
+    "explanation": "The Global external HTTP(S) load balancer uses Anycast to route clients to the nearest Google edge, then forwards traffic to the closest healthy backend across all regions. Regional load balancers, both HTTP(S) and Network, are constrained to a single region and cannot serve global traffic. Internal TCP/UDP is only for traffic within a VPC. Network TCP/UDP is regional and does not terminate HTTP(S).",
+    "topics": ["planning-configuring"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "External HTTP(S) load balancing overview", "url": "https://cloud.google.com/load-balancing/docs/https" },
+      { "label": "Choosing a load balancer", "url": "https://cloud.google.com/load-balancing/docs/choosing-load-balancer" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-007",
+    "type": "single_choice",
+    "prompt": "You need to estimate costs for a new workload that will run 200 n2-standard-4 Compute Engine instances 24/7. You want to reduce cost without committing to a specific machine type for the long term. Which pricing option offers the greatest discount with the least commitment?",
+    "choices": [
+      { "id": "a", "text": "Spot VMs" },
+      { "id": "b", "text": "Sustained Use Discounts applied automatically" },
+      { "id": "c", "text": "1-year committed use contracts" },
+      { "id": "d", "text": "3-year committed use contracts" }
+    ],
+    "correct": "b",
+    "explanation": "Sustained Use Discounts (SUDs) are applied automatically when an instance runs for more than 25% of a billing month, with up to a 30% discount at 100% usage, requiring zero commitment or upfront payment. Spot VMs offer up to 91% discounts but can be preempted at any time, making them unsuitable for workloads requiring continuous availability. Committed Use Contracts provide larger discounts (57% for 1-year, 70% for 3-year) but require a 1- or 3-year commitment. The question asks for the greatest discount with the least commitment, which SUDs satisfy since they require no commitment at all.",
+    "topics": ["planning-configuring"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Sustained use discounts", "url": "https://cloud.google.com/compute/docs/sustained-use-discounts" },
+      { "label": "Committed use discounts", "url": "https://cloud.google.com/compute/docs/instances/signing-up-committed-use-discounts" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-008",
+    "type": "single_choice",
+    "prompt": "You are configuring a VPC and need instances in `subnet-a` (10.0.1.0/24) to reach instances in `subnet-b` (10.0.2.0/24) within the same VPC. No additional route configuration has been made. Can instances communicate across these subnets by default?",
+    "choices": [
+      { "id": "a", "text": "No, you must add a static route between the subnets manually" },
+      { "id": "b", "text": "Yes, GCP VPCs automatically route traffic between subnets within the same VPC" },
+      { "id": "c", "text": "Yes, but only if both subnets are in the same region" },
+      { "id": "d", "text": "No, you must enable VPC peering between the subnets" }
+    ],
+    "correct": "b",
+    "explanation": "In GCP VPCs, all subnets within the same VPC network can communicate with each other by default using automatically created subnet routes, regardless of region. There is no need for static routes, peering, or any additional routing configuration for intra-VPC communication. VPC peering is used to connect separate VPC networks, not subnets within the same VPC. The regional restriction applies to some load balancing tiers, not to intra-VPC routing.",
+    "topics": ["planning-configuring"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "VPC network overview", "url": "https://cloud.google.com/vpc/docs/vpc" },
+      { "label": "Routes overview", "url": "https://cloud.google.com/vpc/docs/routes" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-009",
+    "type": "single_choice",
+    "prompt": "Your application needs a database that can store JSON documents, supports real-time synchronization to mobile clients, scales automatically, and requires no schema migrations. Which GCP database service best fits this description?",
+    "choices": [
+      { "id": "a", "text": "Cloud SQL for MySQL" },
+      { "id": "b", "text": "Cloud Bigtable" },
+      { "id": "c", "text": "Cloud Firestore in Native mode" },
+      { "id": "d", "text": "Cloud Memorystore" }
+    ],
+    "correct": "c",
+    "explanation": "Cloud Firestore in Native mode is a schemaless document database that natively supports real-time data synchronization to mobile and web clients via listeners, scales automatically, and stores data as JSON-like documents. Cloud SQL requires a predefined schema and does not support real-time synchronization. Cloud Bigtable is a wide-column store optimized for analytics at massive scale, not document storage or real-time client sync. Cloud Memorystore is a managed Redis/Memcached cache, not a persistent document database.",
+    "topics": ["planning-configuring"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Firestore overview", "url": "https://cloud.google.com/firestore/docs" },
+      { "label": "Choosing a database", "url": "https://cloud.google.com/products/databases" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-010",
+    "type": "single_choice",
+    "prompt": "You are planning network connectivity between your on-premises data center and GCP. The connection must carry less than 1 Gbps of traffic, be established within a few hours, and does not need to meet SLA requirements for the initial pilot phase. Which connectivity option is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Dedicated Interconnect" },
+      { "id": "b", "text": "Partner Interconnect" },
+      { "id": "c", "text": "Cloud VPN (HA VPN)" },
+      { "id": "d", "text": "Cloud Router with BGP only" }
+    ],
+    "correct": "c",
+    "explanation": "Cloud VPN (particularly HA VPN) is the fastest to set up, operates over the public internet via IPsec, supports up to 3 Gbps per VPN tunnel, and is cost-effective for lower bandwidth requirements. It is ideal for a pilot phase where SLA requirements are relaxed. Dedicated Interconnect requires physical circuit provisioning (weeks) and a minimum of 10 Gbps. Partner Interconnect is faster to provision than Dedicated but still requires coordination with a partner and is more expensive than VPN for low bandwidth. Cloud Router alone does not establish connectivity; it is used alongside Interconnect or VPN for dynamic routing.",
+    "topics": ["planning-configuring"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud VPN overview", "url": "https://cloud.google.com/network-connectivity/docs/vpn/concepts/overview" },
+      { "label": "Choosing a network connectivity product", "url": "https://cloud.google.com/network-connectivity/docs/how-to/choose-product" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-011",
+    "type": "single_choice",
+    "prompt": "You need to store 500 TB of financial transaction records that require strong consistency, global distribution across three continents, and support for SQL queries including joins and transactions. Which GCP service is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Cloud Bigtable" },
+      { "id": "b", "text": "Cloud Spanner" },
+      { "id": "c", "text": "Cloud SQL for PostgreSQL with read replicas" },
+      { "id": "d", "text": "AlloyDB for PostgreSQL" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Spanner is the only globally distributed, strongly consistent, relational database on GCP that supports SQL queries, joins, and ACID transactions at petabyte scale across multiple continents. Cloud Bigtable is eventually consistent and does not support SQL joins. Cloud SQL supports PostgreSQL syntax but does not scale globally and has practical limits well below 500 TB per instance. AlloyDB is a high-performance PostgreSQL-compatible database but is regional, not globally distributed.",
+    "topics": ["planning-configuring"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Spanner overview", "url": "https://cloud.google.com/spanner/docs/overview" },
+      { "label": "Choosing a database service", "url": "https://cloud.google.com/products/databases" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-012",
+    "type": "single_choice",
+    "prompt": "Your GKE cluster's pod IP ranges are exhausted. New pods are stuck in Pending state. You need to add more IP addresses without replacing the cluster. What should you do?",
+    "choices": [
+      { "id": "a", "text": "Resize the VPC subnet by expanding the primary IP range" },
+      { "id": "b", "text": "Add a secondary IP range to the subnet and configure a new node pool to use it" },
+      { "id": "c", "text": "Delete the cluster and create a new one with a larger pod CIDR" },
+      { "id": "d", "text": "Enable VPC peering to a second VPC with available IP ranges" }
+    ],
+    "correct": "b",
+    "explanation": "GKE Alias IP clusters assign pod IPs from secondary subnet ranges. You can add a new secondary range to an existing subnet and configure a new node pool to use that range, expanding pod IP capacity without cluster recreation. Expanding the primary IP range of a subnet adds addresses for nodes, not pods, in an Alias IP cluster. Deleting and recreating the cluster causes downtime. VPC peering does not donate its IP space to GKE pods in another VPC.",
+    "topics": ["planning-configuring"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "GKE VPC-native clusters", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips" },
+      { "label": "Expanding a subnet", "url": "https://cloud.google.com/vpc/docs/create-modify-vpc-networks#expand-subnet" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-013",
+    "type": "single_choice",
+    "prompt": "You want to prevent all VMs in your project from having external (public) IP addresses, even if a developer tries to assign one during instance creation. Which approach enforces this constraint?",
+    "choices": [
+      { "id": "a", "text": "Create a firewall rule that denies all outbound traffic on port 443" },
+      { "id": "b", "text": "Apply an Organization Policy constraint: constraints/compute.vmExternalIpAccess" },
+      { "id": "c", "text": "Remove the compute.instances.create permission from all user roles" },
+      { "id": "d", "text": "Configure Cloud Armor to block external IPs" }
+    ],
+    "correct": "b",
+    "explanation": "The `constraints/compute.vmExternalIpAccess` organization policy constraint can be set to `DENY_ALL`, which prevents any VM instance in the project from being assigned an external IP address, even by project owners. Firewall rules can block traffic but do not prevent the assignment of external IPs. Removing `compute.instances.create` would prevent all VM creation, not just external IP assignment. Cloud Armor is a WAF and DDoS protection service and cannot prevent IP address assignment.",
+    "topics": ["planning-configuring"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Organization policy constraints", "url": "https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints" },
+      { "label": "Restricting external IPs on VMs", "url": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address#restrict_external_ip" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-014",
+    "type": "single_choice",
+    "prompt": "You are provisioning a Compute Engine instance for a memory-intensive analytics workload that processes 200 GB datasets. The instance will run for 6 months. Which machine family and pricing option offers the best balance of performance and cost?",
+    "choices": [
+      { "id": "a", "text": "E2 machine series with on-demand pricing" },
+      { "id": "b", "text": "M2 memory-optimized machine with a 1-year committed use contract" },
+      { "id": "c", "text": "N2 general-purpose machine with Spot VM pricing" },
+      { "id": "d", "text": "T2D Tau machine with on-demand pricing" }
+    ],
+    "correct": "b",
+    "explanation": "M2 (and M1) memory-optimized machines are designed specifically for large in-memory workloads and offer up to 12 TB of memory, making them ideal for 200 GB datasets. A 1-year committed use contract provides up to a 57% discount for a predictable 6-month-plus workload. E2 machines are cost-optimized general-purpose instances not suited for extreme memory workloads. Spot VMs can be preempted, making them unsuitable for long-running analytics jobs. T2D machines are optimized for scale-out compute, not memory-intensive workloads.",
+    "topics": ["planning-configuring"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Machine families overview", "url": "https://cloud.google.com/compute/docs/machine-resource" },
+      { "label": "Memory-optimized machine types", "url": "https://cloud.google.com/compute/docs/memory-optimized-machines" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-pc-015",
+    "type": "single_choice",
+    "prompt": "You want instances in your VPC to access Google APIs (such as Cloud Storage) without traversing the public internet and without assigning external IP addresses to the instances. Which feature should you enable?",
+    "choices": [
+      { "id": "a", "text": "VPC peering to Google's infrastructure network" },
+      { "id": "b", "text": "Private Google Access on the subnet" },
+      { "id": "c", "text": "Cloud NAT on the VPC" },
+      { "id": "d", "text": "Identity-Aware Proxy for the Cloud Storage API" }
+    ],
+    "correct": "b",
+    "explanation": "Private Google Access, when enabled on a subnet, allows instances that only have internal (private) IP addresses to reach Google APIs and services using Google's internal network without traversal over the public internet. VPC peering is for connecting separate VPC networks, not for API access. Cloud NAT allows instances without external IPs to initiate connections to the public internet, which still routes through the internet rather than Google's internal network. Identity-Aware Proxy controls access to applications, not to Google API endpoints.",
+    "topics": ["planning-configuring"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Private Google Access", "url": "https://cloud.google.com/vpc/docs/private-google-access" },
+      { "label": "Configuring Private Google Access", "url": "https://cloud.google.com/vpc/docs/configure-private-google-access" }
+    ],
+    "version": 1
+  }
+]

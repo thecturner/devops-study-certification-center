@@ -1,0 +1,121 @@
+[
+  {
+    "id": "ccaf-ao-001",
+    "type": "single_choice",
+    "prompt": "A developer writes an agentic loop that checks whether the assistant message contains the word \"done\" to decide when to stop. Why is this approach an anti-pattern?",
+    "choices": [
+      { "id": "a", "text": "\"done\" is a reserved keyword in the Claude API and will cause a request error" },
+      { "id": "b", "text": "Parsing assistant text for termination signals is unreliable because Claude may use that word in any natural language context; the correct signal is `stop_reason: \"end_turn\"` in the API response" },
+      { "id": "c", "text": "Checking response text is significantly slower than checking the API response object, causing unnecessary latency" },
+      { "id": "d", "text": "Claude never produces natural prose in agentic mode, so the word \"done\" would never appear in a response" }
+    ],
+    "correct": "b",
+    "explanation": "Termination logic must rely on the structured `stop_reason` field in the API response, not on natural language parsing. Claude may legitimately use the word \"done\" in any context — a summary, an explanation, a file comment — making text-based detection unreliable. The authoritative signal that Claude has finished responding is `stop_reason: \"end_turn\"`, not words within the message content.",
+    "topics": ["agentic-orchestration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude API — Agentic Loop Control Flow" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-ao-002",
+    "type": "single_choice",
+    "prompt": "In an agentic loop built on the Claude API, what is the correct condition to continue the loop and invoke tools versus the condition to terminate?",
+    "choices": [
+      { "id": "a", "text": "Continue when `stop_reason` is `\"end_turn\"`; terminate when `stop_reason` is `\"tool_use\"`" },
+      { "id": "b", "text": "Continue when `stop_reason` is `\"tool_use\"`; terminate when `stop_reason` is `\"end_turn\"`. Iteration caps should be a safety backstop, not the primary stop condition." },
+      { "id": "c", "text": "Terminate after a fixed number of iterations as the primary stop condition; never rely on `stop_reason`" },
+      { "id": "d", "text": "Check whether the response content array contains a `tool_use` block by scanning the text; stop when no block is found" }
+    ],
+    "correct": "b",
+    "explanation": "When Claude returns `stop_reason: \"tool_use\"`, it has requested one or more tool calls and expects results to continue. When it returns `stop_reason: \"end_turn\"`, it has finished its response and no tool result is needed. Fixed iteration caps are a useful safety backstop against runaway loops but must not replace the `stop_reason` check as the primary termination signal.",
+    "topics": ["agentic-orchestration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude API — Agentic Loop and stop_reason" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-ao-003",
+    "type": "single_choice",
+    "prompt": "A developer builds an orchestrator agent and grants it these `allowedTools`: `[\"Read\", \"Grep\", \"Bash\"]`. The orchestrator attempts to spawn subagents but they never launch. What is missing?",
+    "choices": [
+      { "id": "a", "text": "Subagents require a separate MCP server to be configured and running before they can be spawned" },
+      { "id": "b", "text": "The `allowedTools` array must be empty to grant the coordinator unrestricted access including subagent spawning" },
+      { "id": "c", "text": "`\"Task\"` must be included in the coordinator's `allowedTools`; the Task tool is what spawns subagents, and without it in the allowlist the coordinator cannot delegate" },
+      { "id": "d", "text": "The parent agent needs a `fork_session` permission flag in its configuration file before it can spawn child agents" }
+    ],
+    "correct": "c",
+    "explanation": "The `Task` tool is the mechanism by which an orchestrating agent spawns subagents. If it is not present in the coordinator's `allowedTools`, the coordinator has no way to initiate delegation. The listed tools (Read, Grep, Bash) are for direct file and shell operations, not for spawning child sessions. Adding `\"Task\"` to the allowlist is the required fix.",
+    "topics": ["agentic-orchestration"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Task Tool and Subagent Orchestration" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-ao-004",
+    "type": "single_choice",
+    "prompt": "An orchestrator needs to run three independent analysis subagents in parallel. Which implementation correctly achieves parallelism?",
+    "choices": [
+      { "id": "a", "text": "Send one Task tool call per conversation turn, waiting for each subagent to finish before sending the next" },
+      { "id": "b", "text": "The coordinator issues all three Task tool calls in a single response turn; multiple Task calls within one assistant message run in parallel" },
+      { "id": "c", "text": "Use the Bash tool to launch three background processes and poll their output files" },
+      { "id": "d", "text": "Open three separate Claude Code sessions manually and coordinate them via shared files" }
+    ],
+    "correct": "b",
+    "explanation": "Parallelism in Claude Code orchestration requires the coordinator to emit all parallel Task calls within a single assistant message turn. When multiple tool calls appear in one turn, Claude Code executes them concurrently. Sending one Task call per turn forces sequential execution regardless of whether the tasks are independent, defeating the purpose of delegation.",
+    "topics": ["agentic-orchestration"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Parallel Subagent Orchestration" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-ao-005",
+    "type": "single_choice",
+    "prompt": "A developer pauses a long-running Claude Code session and wants to resume it later with the same context, continuing exactly where work stopped. Which command achieves this?",
+    "choices": [
+      { "id": "a", "text": "`/restore` typed at the start of the new session restores the previous session's state" },
+      { "id": "b", "text": "`--resume <name>` passed to the CLI resumes a named session, restoring its context" },
+      { "id": "c", "text": "`--continue` passed to the CLI picks up the last session automatically" },
+      { "id": "d", "text": "Sessions cannot be resumed once closed; the developer must start a new session and re-establish context manually" }
+    ],
+    "correct": "b",
+    "explanation": "`--resume <name>` (or `-r <name>`) is the CLI flag for restoring a previously named or saved Claude Code session. Sessions can be named at creation and resumed by that name, allowing long-running workflows to be paused and continued across restarts. `/restore` and `--continue` are not valid Claude Code commands.",
+    "topics": ["agentic-orchestration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Session Management and --resume" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-ao-006",
+    "type": "single_choice",
+    "prompt": "A developer is midway through a session and wants to explore two different implementation approaches without losing the shared setup work already done. What is the correct mechanism?",
+    "choices": [
+      { "id": "a", "text": "Open two new, independent sessions and manually re-enter the setup context in each" },
+      { "id": "b", "text": "`fork_session` creates a divergent branch from the current session state, allowing independent exploration of each approach while preserving the shared context up to the fork point" },
+      { "id": "c", "text": "Use `--resume` twice to open two copies of the session from the same checkpoint" },
+      { "id": "d", "text": "Create two CLAUDE.md files with different instructions and restart the session for each" }
+    ],
+    "correct": "b",
+    "explanation": "`fork_session` is designed specifically for this scenario: it branches the current session state into two independent contexts that can diverge from the fork point forward. Both branches retain the full shared history up to the fork, so no setup work is lost. Creating new sessions or duplicating context manually discards the shared history and defeats the purpose.",
+    "topics": ["agentic-orchestration"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Session Forking" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-ao-007",
+    "type": "single_choice",
+    "prompt": "A financial services company uses Claude to process expense reimbursements. They add this instruction to the system prompt: \"Never approve reimbursements over $500 without manager sign-off.\" A tester submits a $600 expense and Claude approves it. What is the root cause and correct fix?",
+    "choices": [
+      { "id": "a", "text": "The system prompt wording is too vague; rewording it with a more explicit prohibition will reliably prevent the approval" },
+      { "id": "b", "text": "Adding concrete examples of non-compliant approvals to the system prompt will provide the signal Claude needs to comply 100% of the time" },
+      { "id": "c", "text": "System prompt instructions are probabilistic — Claude may not comply in every case. The correct fix is a programmatic gate: a `PreToolUse` hook or prerequisite check that intercepts the approval tool call and blocks it when the amount exceeds the threshold before Claude can act" },
+      { "id": "d", "text": "The rule should be placed in CLAUDE.md rather than the system prompt, as CLAUDE.md instructions carry higher enforcement priority" }
+    ],
+    "correct": "c",
+    "explanation": "System prompt instructions represent guidance that Claude generally follows, but they are probabilistic by nature — edge cases, prompt injections, or subtle reasoning failures can cause non-compliance. For binary financial thresholds that must be enforced 100% of the time, the correct pattern is deterministic programmatic control: a `PreToolUse` hook that reads the expense amount from the tool call arguments and blocks execution before Claude can approve, regardless of what the model decides. Prompts alone cannot satisfy a hard compliance requirement.",
+    "topics": ["agentic-orchestration"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Hooks and Deterministic Enforcement" }],
+    "version": 1
+  }
+]

@@ -1,0 +1,331 @@
+[
+  {
+    "id": "aws-dop-rc-001",
+    "type": "single_choice",
+    "prompt": "An Auto Scaling group uses target tracking scaling to maintain 60% average CPU utilization. During a sudden traffic spike, CPU jumps to 95% within 30 seconds. The team observes that the scale-out takes 4 minutes despite the alarm firing at 60 seconds. What is the most likely cause of the delay?",
+    "choices": [
+      { "id": "a", "text": "Target tracking uses a longer stabilization period to avoid oscillation; the policy waits for the metric to stabilize before adding capacity" },
+      { "id": "b", "text": "The EC2 instance warm-up time is set to 300 seconds, which delays the addition of new capacity to the scaling calculation" },
+      { "id": "c", "text": "CloudWatch metrics have a 5-minute delay for Auto Scaling groups" },
+      { "id": "d", "text": "Target tracking scaling only evaluates metrics every 5 minutes" }
+    ],
+    "correct": "a",
+    "explanation": "Target tracking policies have built-in stabilization buffers that prevent rapid scale-in/scale-out oscillation. During rapid spikes, target tracking may wait for multiple consecutive data points before scaling aggressively, which can add minutes to the response time. For workloads with sudden, steep spikes, step scaling policies with tight CloudWatch alarms respond faster because they scale based on defined thresholds immediately. The instance warm-up setting affects how new instances contribute to the target metric, not the alarm response time itself.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Target Tracking Scaling Policies for Amazon EC2 Auto Scaling",
+        "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-002",
+    "type": "single_choice",
+    "prompt": "A web application runs across us-east-1 and eu-west-1. Users in Europe must be served from eu-west-1 with automatic failover to us-east-1 if the European region becomes unhealthy. Which Route 53 routing policy and record configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Latency-based routing records for both regions with health checks; Route 53 automatically fails over to the healthy lower-latency region" },
+      { "id": "b", "text": "Geolocation routing with a Europe record pointing to eu-west-1 with an associated health check, and a default failover record pointing to us-east-1" },
+      { "id": "c", "text": "Weighted routing with 90% weight to eu-west-1 and 10% to us-east-1, with health checks on both" },
+      { "id": "d", "text": "Failover routing with eu-west-1 as PRIMARY and us-east-1 as SECONDARY, with health checks on both" }
+    ],
+    "correct": "b",
+    "explanation": "Geolocation routing lets you route based on the geographic location of the client. A record for the Europe continent routes European users to eu-west-1. With a health check on that record, if eu-west-1 becomes unhealthy, Route 53 falls back to the default record (us-east-1). Latency-based routing chooses the lowest-latency healthy region but does not enforce geographic preference. Weighted routing is for traffic splitting, not geographic preference with failover. Simple failover routing serves PRIMARY/SECONDARY globally, not by geography.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Amazon Route 53 Geolocation Routing",
+        "url": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geo.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-003",
+    "type": "single_choice",
+    "prompt": "An RDS Multi-AZ instance experiences a failover. The application uses the RDS endpoint DNS name in its connection string. After failover, the application cannot reconnect for 3 minutes. What is the most likely cause?",
+    "choices": [
+      { "id": "a", "text": "The application DNS TTL is set to 300 seconds, caching the old IP address of the primary instance" },
+      { "id": "b", "text": "RDS Multi-AZ failover takes up to 3 minutes for the new primary to become available" },
+      { "id": "c", "text": "The security group rules are not automatically updated during failover" },
+      { "id": "d", "text": "The application must call rds:DescribeDBInstances to discover the new endpoint after failover" }
+    ],
+    "correct": "a",
+    "explanation": "RDS Multi-AZ failover updates the DNS record for the instance endpoint to point to the new primary within 60-120 seconds. If the application has a long DNS TTL (e.g., 300 seconds via Java default DNS caching or OS resolver caching), it continues to connect to the old IP, which is now the failed standby. The fix is to set the JVM DNS TTL (networkaddress.cache.ttl) or application DNS TTL to 0 or a very low value. RDS failover itself is typically complete in 60-120 seconds. Security groups apply to the endpoint, which is updated. The endpoint DNS name remains the same.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Amazon RDS Multi-AZ Deployments",
+        "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-004",
+    "type": "single_choice",
+    "prompt": "An application load balancer health check is configured with a healthy threshold of 2, unhealthy threshold of 5, interval of 30 seconds, and timeout of 5 seconds. How long does it take for a newly launched instance to be considered healthy and receive traffic?",
+    "choices": [
+      { "id": "a", "text": "5 seconds (one timeout period)" },
+      { "id": "b", "text": "60 seconds (2 intervals of 30 seconds)" },
+      { "id": "c", "text": "150 seconds (5 intervals)" },
+      { "id": "d", "text": "It depends on the deregistration delay setting" }
+    ],
+    "correct": "b",
+    "explanation": "An instance must pass the health check consecutively the number of times specified by the healthy threshold (2) before being considered healthy. With a 30-second interval, the ALB checks every 30 seconds. Two successful consecutive checks require approximately 60 seconds (first check at 30s, second check at 60s). The timeout (5s) is how long the ALB waits for a health check response; it does not affect the calculation when checks pass. The unhealthy threshold applies to marking a healthy instance unhealthy. Deregistration delay applies when removing instances, not adding them.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Health Checks for Your Target Groups",
+        "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-005",
+    "type": "true_false",
+    "prompt": "A scheduled scaling action can be combined with target tracking scaling in the same Auto Scaling group, and the scheduled action will temporarily override the target tracking policy's calculated desired capacity during the scheduled window.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Auto Scaling supports combining scheduled scaling with dynamic policies. A scheduled action sets the minimum, maximum, or desired capacity at a specific time. Target tracking then adjusts within those bounds. If a scheduled action sets the minimum to 20 instances for an anticipated traffic surge, target tracking cannot scale below 20 even if CPU drops, until the scheduled action ends. This pattern is used for predictable load patterns (e.g., business hours) combined with dynamic adjustment.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Scheduled Scaling for Amazon EC2 Auto Scaling",
+        "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-006",
+    "type": "single_choice",
+    "prompt": "A company wants to implement chaos engineering on AWS to test their application's resilience to EC2 instance failures. They need a controlled approach that targets specific instance tags and generates a detailed report after each experiment. Which AWS-native service provides this capability?",
+    "choices": [
+      { "id": "a", "text": "AWS Fault Injection Service (FIS) with experiment templates targeting EC2 instances by tag, using stop-condition CloudWatch alarms" },
+      { "id": "b", "text": "Systems Manager Run Command with the AWS-StopEC2Instance document targeting instances by tag" },
+      { "id": "c", "text": "AWS Config rule with auto-remediation that terminates non-compliant instances" },
+      { "id": "d", "text": "Lambda function triggered by EventBridge that randomly terminates instances in the tagged group" }
+    ],
+    "correct": "a",
+    "explanation": "AWS Fault Injection Service (FIS) is the native chaos engineering service. It provides experiment templates that define actions (stop EC2 instances), targets (by tag), and stop conditions (CloudWatch alarms that halt the experiment if things get too bad). FIS generates experiment reports with timelines. Run Command can stop instances but has no stop conditions or experiment reporting. Config remediation is for compliance, not chaos testing. Custom Lambda lacks stop conditions and reporting.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "AWS Fault Injection Service User Guide",
+        "url": "https://docs.aws.amazon.com/fis/latest/userguide/what-is.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-007",
+    "type": "single_choice",
+    "prompt": "An application uses an Aurora Global Database with a primary cluster in us-east-1 and a secondary cluster in eu-west-1. In a region failure scenario, the team needs to promote the eu-west-1 cluster to primary in under 1 minute. What must be pre-configured to achieve this RTO?",
+    "choices": [
+      { "id": "a", "text": "Enable Aurora Global Database managed failover (planned failover); the promotion completes in under 1 minute when triggered" },
+      { "id": "b", "text": "Use Aurora cross-region read replicas with automatic promotion configured in the cluster settings" },
+      { "id": "c", "text": "Configure Route 53 health checks pointing to the primary cluster; Route 53 automatically promotes the secondary on health check failure" },
+      { "id": "d", "text": "Pre-warm the secondary cluster's writer instance by running read queries; promotion time depends on writer warmup" }
+    ],
+    "correct": "a",
+    "explanation": "Aurora Global Database supports managed planned failover and unplanned failover. For planned failover, Aurora promotes the secondary cluster with typically sub-1-minute RPO and RTO. Unplanned failover (detach and promote) can also complete in under 1 minute for Aurora Global Database. Standard Aurora cross-region read replicas are a different feature with longer promotion times and are not Global Database clusters. Route 53 updates DNS but does not promote database clusters. Pre-warming affects query plan cache but is not relevant to promotion time.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Amazon Aurora Global Databases",
+        "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-008",
+    "type": "multi_choice",
+    "prompt": "A step scaling policy for an Auto Scaling group defines three steps: add 2 instances when CPU is between 60-70%, add 4 when 70-80%, and add 6 when above 80%. CloudWatch reports CPU at 85%. Which statements about how Auto Scaling applies the policy are correct? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "Auto Scaling adds 6 instances immediately because CPU exceeds 80%" },
+      { "id": "b", "text": "Auto Scaling applies all three steps cumulatively, adding 12 instances total" },
+      { "id": "c", "text": "After adding 6 instances, Auto Scaling waits for the cooldown period before evaluating the metric again" },
+      { "id": "d", "text": "Step scaling ignores the cooldown period and immediately adds more instances if the metric remains above threshold" },
+      { "id": "e", "text": "Step scaling applies only the highest matching step (the 80%+ step), adding 6 instances" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Step scaling applies the adjustment for the step whose range includes the current metric value. At 85% CPU, the highest step (above 80%, add 6) applies, adding 6 instances. Steps are not cumulative; only the matching step fires. After the scaling action, the cooldown period (default 300 seconds) applies before further evaluations. Step scaling does respect cooldown periods, unlike simple scaling which was the old behavior. Options B and E are contradictory; the correct behavior is option A (add 6, the highest matching step).",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Step and Simple Scaling Policies for Amazon EC2 Auto Scaling",
+        "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-009",
+    "type": "single_choice",
+    "prompt": "A Route 53 health check is configured for an ALB endpoint with a threshold of 3 failures and an interval of 10 seconds. The ALB becomes unreachable. How long until Route 53 marks the endpoint unhealthy and stops routing traffic to it?",
+    "choices": [
+      { "id": "a", "text": "10 seconds (one interval)" },
+      { "id": "b", "text": "30 seconds (3 intervals of 10 seconds)" },
+      { "id": "c", "text": "90 seconds (Route 53 uses 18 health checkers; quorum takes longer)" },
+      { "id": "d", "text": "60 seconds due to DNS TTL propagation delay" }
+    ],
+    "correct": "b",
+    "explanation": "Route 53 health checks use an unhealthy threshold that counts consecutive failures. With a threshold of 3 and a 10-second interval, Route 53 marks the endpoint unhealthy after 3 consecutive failures: 30 seconds. Route 53 does use distributed health checkers globally, but the threshold counts how many health checkers must report failure (a percentage-based quorum) rather than adding to the time calculation. DNS TTL affects how quickly clients pick up the record change after Route 53 marks it unhealthy.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "How Amazon Route 53 Determines Whether a Health Check Is Healthy",
+        "url": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-010",
+    "type": "single_choice",
+    "prompt": "A company wants to implement an active-active multi-region architecture for a DynamoDB-backed application. Writes can occur in either us-east-1 or eu-west-1. Read and write latency must be under 10ms for users in both regions. Which DynamoDB feature enables this?",
+    "choices": [
+      { "id": "a", "text": "DynamoDB Global Tables with multi-region replication and last-writer-wins conflict resolution" },
+      { "id": "b", "text": "DynamoDB cross-region read replicas with a global secondary index in each region" },
+      { "id": "c", "text": "DynamoDB Streams with a Lambda function replicating writes to a table in the secondary region" },
+      { "id": "d", "text": "DynamoDB Accelerator (DAX) deployed in both regions with cross-region synchronization" }
+    ],
+    "correct": "a",
+    "explanation": "DynamoDB Global Tables enable multi-region, multi-active (active-active) replication. Any replica table can accept reads and writes, with changes propagated to all other replicas typically within 1 second. Conflict resolution uses last-writer-wins based on timestamps. This provides low single-digit millisecond latency for both reads and writes in each region. DynamoDB does not have native cross-region read replicas as a separate feature. Streams-based Lambda replication is eventually consistent and adds latency. DAX is an in-memory cache that does not support cross-region active-active writes.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Amazon DynamoDB Global Tables",
+        "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-011",
+    "type": "single_choice",
+    "prompt": "A predictive scaling policy for an EC2 Auto Scaling group is enabled in forecast-only mode. After 14 days, the team wants to activate it. What must they verify before switching to forecast-and-scale mode?",
+    "choices": [
+      { "id": "a", "text": "Verify that the predicted capacity values align with observed traffic patterns and that the Auto Scaling group's maximum capacity is sufficient to accommodate the predicted peaks" },
+      { "id": "b", "text": "Ensure that target tracking is disabled; predictive and target tracking policies cannot coexist" },
+      { "id": "c", "text": "Confirm that the EC2 instances use the latest generation instance type to support predictive scaling" },
+      { "id": "d", "text": "Apply a scheduled action that matches the predictive scaling schedule to serve as a fallback" }
+    ],
+    "correct": "a",
+    "explanation": "After 14 days in forecast-only mode, the team should review the generated forecast to confirm it accurately models the load pattern and that the predicted instance counts are within the group's maximum capacity. If the maximum is too low, predictive scaling cannot launch the predicted instances. Target tracking can coexist with predictive scaling (they complement each other). Instance generation does not affect predictive scaling eligibility. A matching scheduled action is redundant if predictive scaling is activated.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Predictive Scaling for Amazon EC2 Auto Scaling",
+        "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-012",
+    "type": "single_choice",
+    "prompt": "A company's application uses SQS as a buffer for order processing. During peak load, the queue depth grows to 50,000 messages. EC2 workers are not scaling fast enough. Which Auto Scaling configuration most directly addresses scaling based on queue backlog?",
+    "choices": [
+      { "id": "a", "text": "Target tracking scaling using a custom CloudWatch metric: (SQS ApproximateNumberOfMessagesVisible) / (number of running EC2 instances), targeting an acceptable backlog per instance" },
+      { "id": "b", "text": "Step scaling based on SQS ApproximateNumberOfMessagesVisible alarm thresholds" },
+      { "id": "c", "text": "Scheduled scaling that pre-provisions workers at peak hours" },
+      { "id": "d", "text": "Enable SQS FIFO queue to reduce processing time and decrease queue depth naturally" }
+    ],
+    "correct": "a",
+    "explanation": "The AWS recommended pattern for SQS-driven Auto Scaling is a custom metric: backlog per instance = SQS visible messages / number of running instances. Target tracking on this metric scales the fleet to maintain an acceptable backlog per instance (e.g., 100 messages). This provides proportional, smooth scaling. Step scaling on raw queue depth works but can oscillate. Scheduled scaling addresses known patterns but not unexpected spikes. FIFO queues provide ordering, not faster throughput, and do not address scaling.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Scaling Based on Amazon SQS",
+        "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-using-sqs-queue.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-013",
+    "type": "single_choice",
+    "prompt": "A company uses AWS Elastic Load Balancing with EC2 Auto Scaling. During scale-in, instances are terminated before completing in-flight requests, causing user-facing errors. Which two settings must be configured to allow in-flight requests to complete before termination?",
+    "choices": [
+      { "id": "a", "text": "Set the Auto Scaling group's default instance warmup to 600 seconds" },
+      { "id": "b", "text": "Enable connection draining (deregistration delay) on the target group and configure Auto Scaling lifecycle hooks for the terminating state" },
+      { "id": "c", "text": "Set the ELB idle timeout to 600 seconds and enable keep-alive on the application" },
+      { "id": "d", "text": "Configure a scale-in protection policy and use Step scaling with a negative adjustment" }
+    ],
+    "correct": "b",
+    "explanation": "Two mechanisms work together. The target group deregistration delay (connection draining) tells the ALB to stop sending new requests to the deregistering instance and wait up to the delay timeout for existing connections to complete. Auto Scaling lifecycle hooks on the EC2_INSTANCE_TERMINATING transition pause termination, giving the instance time to drain. Without lifecycle hooks, Auto Scaling may terminate the instance before the ALB draining window completes. Instance warmup affects new instance registration metrics, not termination. ELB idle timeout and keep-alive are connection settings, not drain controls.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Amazon EC2 Auto Scaling Lifecycle Hooks",
+        "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-014",
+    "type": "single_choice",
+    "prompt": "An ECS Fargate service uses Application Auto Scaling to scale based on ALB request count per target. During a deployment, the task count drops to zero momentarily causing a service disruption. Which ECS deployment configuration prevents the task count from dropping below a minimum healthy percentage during rolling updates?",
+    "choices": [
+      { "id": "a", "text": "Set minimumHealthyPercent to 100 and maximumPercent to 200 in the ECS service deployment configuration" },
+      { "id": "b", "text": "Enable ECS service circuit breaker with rollback enabled" },
+      { "id": "c", "text": "Set the ECS service desired count to 0 and use Application Auto Scaling to maintain minimum capacity" },
+      { "id": "d", "text": "Use CodeDeploy blue/green deployment to ensure tasks run on a separate task set during updates" }
+    ],
+    "correct": "a",
+    "explanation": "ECS service deployment configuration includes minimumHealthyPercent (minimum percentage of desired tasks that must remain running during a deployment) and maximumPercent (maximum percentage of desired tasks that can be running at once). Setting minimumHealthyPercent to 100 ensures no running tasks are stopped before new replacement tasks start, preventing the service from dropping below full capacity. This requires maximumPercent to be greater than 100 so ECS has headroom to start new tasks. Circuit breaker handles rollback of failed deployments but does not prevent capacity drops. Blue/green avoids drops but requires CodeDeploy.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Amazon ECS Deployment Configuration",
+        "url": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-rc-015",
+    "type": "single_choice",
+    "prompt": "A company is designing a fault isolation architecture for a multi-tenant SaaS application. They want to ensure that a noisy tenant cannot degrade performance for other tenants. Which pattern best implements fault isolation at the tenant level on AWS?",
+    "choices": [
+      { "id": "a", "text": "Deploy a separate SQS queue per tenant and use separate ECS task pools per tier of tenant, with rate limiting at the API Gateway level" },
+      { "id": "b", "text": "Use a single shared SQS queue with message attributes for tenant ID and filter messages in the Lambda consumer" },
+      { "id": "c", "text": "Apply CloudFront rate limiting per tenant using WAF rules on the IP address" },
+      { "id": "d", "text": "Use DynamoDB on-demand capacity mode to automatically absorb noisy tenant load" }
+    ],
+    "correct": "a",
+    "explanation": "True fault isolation requires separate processing resources per tenant or tenant tier. Separate SQS queues per tenant prevent a high-volume tenant from filling a shared queue and starving others. Dedicated ECS task pools ensure a resource-intensive tenant cannot consume compute resources belonging to other tenants. API Gateway rate limiting per tenant API key provides the API-layer throttle. A shared queue with filtering still shares queue depth and Lambda concurrency. WAF IP-based limiting is impractical for SaaS tenants. DynamoDB on-demand mitigates database throughput issues but not compute or queue isolation.",
+    "topics": ["resilient-cloud-solutions"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "AWS Fault Isolation Boundaries Whitepaper",
+        "url": "https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/aws-fault-isolation-boundaries.html"
+      }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,291 @@
+[
+  {
+    "id": "aws-sap-nd-001",
+    "type": "single_choice",
+    "prompt": "A company is designing a new e-commerce platform with peak traffic that is 20x baseline during flash sales. The architecture must scale automatically, minimize cold starts for payment processing, and keep costs near zero during idle periods. Payment processing requires sub-100ms response times 99th percentile. Which compute architecture best meets all constraints?",
+    "choices": [
+      { "id": "a", "text": "EC2 Auto Scaling group with scheduled scaling actions for known flash sale windows" },
+      { "id": "b", "text": "AWS Lambda with Provisioned Concurrency for the payment processing function, on-demand concurrency for all other functions" },
+      { "id": "c", "text": "Amazon ECS on Fargate with Application Auto Scaling on CPU utilization" },
+      { "id": "d", "text": "Amazon EKS with Cluster Autoscaler and KEDA for event-driven pod scaling" }
+    ],
+    "correct": "b",
+    "explanation": "Lambda with Provisioned Concurrency pre-warms execution environments for latency-sensitive paths, eliminating cold starts for the payment function. On-demand concurrency for other functions scales to zero and costs nothing at idle. EC2 Auto Scaling has boot latency that makes sub-100ms cold-path responses unreliable during sudden 20x spikes. ECS Fargate scales faster than EC2 but has startup latency of 30-90 seconds. EKS with Cluster Autoscaler similarly has node provisioning lag. Provisioned Concurrency is the purpose-built tool for Lambda latency SLAs.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Lambda Provisioned Concurrency", "url": "https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-002",
+    "type": "single_choice",
+    "prompt": "An online gaming company needs to store player session state that must be readable with single-digit millisecond latency, written thousands of times per second per player, and automatically expire after 30 minutes of inactivity. Which database choice and configuration is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Amazon RDS Aurora MySQL with read replicas and a connection pool" },
+      { "id": "b", "text": "Amazon DynamoDB with TTL enabled on the session expiration attribute and DAX for read caching" },
+      { "id": "c", "text": "Amazon ElastiCache for Redis with a session TTL set per key and Multi-AZ replication" },
+      { "id": "d", "text": "Amazon Neptune with in-memory graph traversals for session graph relationships" }
+    ],
+    "correct": "c",
+    "explanation": "ElastiCache for Redis is purpose-built for in-memory session storage with sub-millisecond read/write latency. Redis native TTL per key handles automatic expiration without a background job. Multi-AZ with automatic failover provides high availability. DynamoDB with TTL is a valid distributed alternative but DynamoDB TTL expiry is not immediate (items may survive up to 48 hours past TTL, and write latency at high concurrency is higher than Redis). Aurora is not designed for this access pattern and does not offer in-memory sub-ms latency. Neptune is a graph database inappropriate for session state.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ElastiCache for Redis Use Cases", "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-use-cases.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-003",
+    "type": "single_choice",
+    "prompt": "A company is building a new SaaS platform with a multi-step onboarding workflow: identity verification (external API, up to 3 minutes), credit check (up to 30 seconds), contract generation (2 seconds), and email notification. Each step can fail independently and must be retried. Total workflow duration must be tracked for SLA reporting. Which service orchestrates this most appropriately?",
+    "choices": [
+      { "id": "a", "text": "Amazon SQS with visibility timeout and a polling Lambda that chains through steps" },
+      { "id": "b", "text": "Amazon EventBridge with rules routing events between steps and DynamoDB tracking workflow state" },
+      { "id": "c", "text": "AWS Step Functions Standard Workflow with each step as a Lambda Task state and retry/catch configurations" },
+      { "id": "d", "text": "Amazon SNS FIFO topic fanout to SQS queues per step with Lambda consumers" }
+    ],
+    "correct": "c",
+    "explanation": "Step Functions Standard Workflows are ideal for long-running (up to 1 year), auditable workflows with built-in retry logic, error handling, and execution history. Each workflow step (identity verification, credit check, contract generation, notification) maps to a Task state. Retry and Catch blocks handle per-step failures and retries. Standard Workflow execution history provides built-in SLA tracking with start/end timestamps. SQS chaining requires custom state management code. EventBridge with DynamoDB requires building the state machine logic manually. SNS/SQS fanout does not provide ordered step execution or workflow state visibility.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Step Functions Developer Guide", "url": "https://docs.aws.amazon.com/step-functions/latest/dg/concepts-standard-vs-express.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-004",
+    "type": "single_choice",
+    "prompt": "A financial services company needs to process stock trade events with strict ordering per stock symbol, at least 10,000 events per second across 500 symbols, with the ability to replay all events from the past 7 days for back-testing. Which service and configuration meets all requirements?",
+    "choices": [
+      { "id": "a", "text": "Amazon SQS FIFO queue with one queue per stock symbol and a 7-day message retention period" },
+      { "id": "b", "text": "Amazon Kinesis Data Streams with one shard per 50 symbols (10 shards), 7-day retention, and symbol as the partition key" },
+      { "id": "c", "text": "Amazon SNS FIFO topic with SQS FIFO subscription per symbol and extended retention" },
+      { "id": "d", "text": "Amazon EventBridge with a custom event bus, archive enabled for 7 days, and target Lambda per symbol group" }
+    ],
+    "correct": "b",
+    "explanation": "Kinesis Data Streams uses the partition key (stock symbol) to guarantee ordering within a shard. A shard supports 1,000 records/second for writes and 2 MB/second; 10 shards easily handle 10,000 events/second across 500 symbols. Retention can be configured to 7 days (or up to 365 days with extended retention). Replay is native via shard iterator positioning. SQS FIFO has a throughput limit of 3,000 messages/second per API (even with batching), cannot match 10,000/second across 500 queues, and cannot replay after message deletion. SNS FIFO inherits SQS FIFO throughput limits. EventBridge archive supports replay but ordering per symbol is not guaranteed across Lambda invocations.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Amazon Kinesis Data Streams", "url": "https://docs.aws.amazon.com/streams/latest/dev/key-concepts.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-005",
+    "type": "single_choice",
+    "prompt": "A media company needs to serve personalized video recommendations to 50 million users globally with a p99 read latency of under 10ms. The recommendation dataset is 500 GB, read-heavy (100:1 read to write ratio), and updated nightly. Which architecture achieves this?",
+    "choices": [
+      { "id": "a", "text": "Amazon DynamoDB global tables with DAX clusters in each region" },
+      { "id": "b", "text": "Amazon RDS Aurora Global Database with read replicas in 5 regions" },
+      { "id": "c", "text": "Amazon ElastiCache for Redis Global Datastore with the recommendation dataset loaded at night" },
+      { "id": "d", "text": "Amazon CloudFront with Lambda@Edge to query DynamoDB on cache miss" }
+    ],
+    "correct": "a",
+    "explanation": "DynamoDB global tables provide multi-region active-active replication, giving low-latency reads globally. DAX (DynamoDB Accelerator) clusters front each regional table, providing in-memory read caching at microsecond latency, well under 10ms for 99th percentile. The 100:1 read ratio makes DAX highly effective at absorbing read traffic. At 500 GB the dataset fits within DynamoDB's unlimited storage model. Aurora Global Database has read latency of 1-5ms within a region but writes must go to the primary region; nightly updates would replicate but the setup is heavier. ElastiCache Global Datastore is valid but requires managing 500 GB in Redis across regions and the bulk-load process is more complex. CloudFront + Lambda@Edge + DynamoDB has compounding latencies on cache miss.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "DynamoDB Global Tables", "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html" },
+      { "label": "DynamoDB Accelerator (DAX)", "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-006",
+    "type": "multi_choice",
+    "prompt": "An IoT company ingests sensor data from 100,000 devices at 10 messages/second each (1 million messages/second total). The data must be stored for real-time dashboards (5-second latency), batch analytics (daily aggregations), and ML model training. Which TWO services form the core of the ingestion and storage layer? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "Amazon Kinesis Data Streams as the ingestion layer with multiple shards" },
+      { "id": "b", "text": "Amazon SQS standard queues distributed across all devices" },
+      { "id": "c", "text": "Amazon S3 as the primary storage for all tiers using Kinesis Firehose for delivery" },
+      { "id": "d", "text": "Amazon RDS as the storage backend for all three use cases" },
+      { "id": "e", "text": "Amazon Managed Streaming for Apache Kafka (Amazon MSK)" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Kinesis Data Streams handles 1 million messages/second with sufficient shards (each shard handles 1,000 records/second write). From Kinesis, Kinesis Data Firehose can deliver to S3 for batch analytics and ML, while Kinesis Data Analytics or a Lambda consumer serves real-time dashboards. S3 with appropriate partitioning (by device/date) serves as the durable, cost-effective store for batch analytics and ML training data. SQS does not support throughput at this scale reliably and has no native analytics integration. RDS cannot handle this write rate. MSK (Kafka) is a valid alternative to Kinesis but is operationally heavier and Kinesis is the AWS-native first choice for this pattern.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Amazon Kinesis Data Streams", "url": "https://docs.aws.amazon.com/streams/latest/dev/key-concepts.html" },
+      { "label": "Amazon Kinesis Data Firehose", "url": "https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-007",
+    "type": "single_choice",
+    "prompt": "A company is designing a disaster recovery architecture for a critical workload currently running in us-east-1. The RTO is 4 hours and the RPO is 1 hour. The workload uses an RDS MySQL database (2 TB), EC2 Auto Scaling groups, and an Application Load Balancer. What is the most cost-effective DR strategy that meets these requirements?",
+    "choices": [
+      { "id": "a", "text": "Multi-site active/active with identical infrastructure in us-west-2 and Route 53 load balancing between regions" },
+      { "id": "b", "text": "Warm standby with a scaled-down RDS read replica in us-west-2, minimal EC2 instances, and Route 53 health check failover" },
+      { "id": "c", "text": "Pilot light with RDS read replica in us-west-2, AMIs stored cross-region, and infrastructure-as-code ready to deploy" },
+      { "id": "d", "text": "Backup and restore with RDS snapshots replicated to us-west-2 every 6 hours" }
+    ],
+    "correct": "b",
+    "explanation": "Warm standby meets a 4-hour RTO and 1-hour RPO with a cost-effective footprint. A continuously replicating RDS read replica in us-west-2 provides near-real-time data replication (RPO typically < 1 minute). A small set of EC2 instances keeps the application layer warm, dramatically reducing recovery time. On failover, promote the read replica, scale out the Auto Scaling group, and flip Route 53. Pilot light has a lower running cost but typically takes longer to restore (hours for DB promotion and full-scale EC2 provisioning), making RTO 4 hours tight. Backup and restore with 6-hour snapshot intervals violates the 1-hour RPO. Multi-site active/active exceeds requirements and doubles running costs.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Disaster Recovery of Workloads on AWS", "url": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-workloads-on-aws.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-008",
+    "type": "single_choice",
+    "prompt": "A company builds a microservices platform on Amazon ECS. Services need to discover each other by name within the cluster, and external clients access the platform through a REST API. There are 20 services, each with multiple tasks. What is the recommended service discovery and API exposure architecture?",
+    "choices": [
+      { "id": "a", "text": "Hardcode service endpoints as environment variables in each ECS task definition" },
+      { "id": "b", "text": "Use AWS Cloud Map for internal service-to-service discovery and API Gateway with a VPC link to an internal ALB for external clients" },
+      { "id": "c", "text": "Place all 20 services behind a single Application Load Balancer with path-based routing for both internal and external traffic" },
+      { "id": "d", "text": "Use a self-managed Consul cluster for service discovery and an EC2-based NGINX reverse proxy for external access" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Cloud Map provides DNS-based service discovery natively integrated with ECS. When tasks register with Cloud Map, services can resolve each other by name (e.g., orders.local). API Gateway with a VPC Link connects to an internal Application Load Balancer, providing a managed, scalable, and secured external API endpoint with request throttling, authorization, and caching. Hardcoded endpoints break when tasks are replaced. A single ALB with path routing creates a single point of coupling and does not separate internal from external concerns. Self-managed Consul adds operational complexity that Cloud Map eliminates.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Cloud Map", "url": "https://docs.aws.amazon.com/cloud-map/latest/dg/what-is-cloud-map.html" },
+      { "label": "API Gateway VPC Links", "url": "https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vpc-links.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-009",
+    "type": "single_choice",
+    "prompt": "A data analytics company runs complex SQL queries against petabyte-scale datasets. Queries take 5-30 minutes and are run by 200 analysts concurrently. The data is updated hourly. Cost optimization is critical. Which primary query engine is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Amazon RDS Aurora PostgreSQL with read replicas to distribute analyst queries" },
+      { "id": "b", "text": "Amazon Redshift with RA3 nodes, Concurrency Scaling enabled, and AQUA for caching" },
+      { "id": "c", "text": "Amazon Athena querying data directly from S3 with partitioning and columnar formats" },
+      { "id": "d", "text": "Amazon EMR with Spark SQL and a dedicated cluster per analyst team" }
+    ],
+    "correct": "b",
+    "explanation": "Amazon Redshift is purpose-built for petabyte-scale OLAP with complex SQL queries from many concurrent users. RA3 nodes separate compute from storage, enabling cost-effective scaling. Concurrency Scaling adds transient cluster capacity when many analysts run simultaneous queries, then releases it, charging only for usage. AQUA (Advanced Query Accelerator) caches frequently accessed data at the storage layer, reducing per-query cost. Aurora is an OLTP database; concurrent complex analytical queries will saturate it and it cannot handle petabyte scale. Athena is serverless and great for ad-hoc queries but 30-minute queries with 200 concurrent users leads to high per-query scan costs. EMR per-team clusters over-provision resources and are expensive.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Amazon Redshift Overview", "url": "https://docs.aws.amazon.com/redshift/latest/dg/welcome.html" },
+      { "label": "Redshift Concurrency Scaling", "url": "https://docs.aws.amazon.com/redshift/latest/dg/concurrency-scaling.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-010",
+    "type": "single_choice",
+    "prompt": "A SaaS company wants to implement a fan-out pattern where a single order event triggers three downstream systems: inventory deduction, payment processing, and shipping initiation. Each downstream system processes independently and must not block the others. Failed messages must be retried and stored for manual inspection after 3 failures. What is the correct architecture?",
+    "choices": [
+      { "id": "a", "text": "Publish to Amazon SQS; three Lambda functions poll the same queue using different message group IDs" },
+      { "id": "b", "text": "Publish to Amazon SNS topic; subscribe an SQS queue per downstream system; configure a dead-letter queue on each SQS queue" },
+      { "id": "c", "text": "Publish to Amazon EventBridge; create one rule per downstream system targeting a Lambda function directly" },
+      { "id": "d", "text": "Publish to Amazon Kinesis Data Streams; each downstream system reads from the same shard" }
+    ],
+    "correct": "b",
+    "explanation": "SNS fan-out with SQS subscriptions is the canonical pattern for parallel, independent processing of the same event. SNS delivers the message to all subscribed SQS queues simultaneously. Each downstream system has its own SQS queue, allowing independent scaling, failure isolation, and retry configuration. A dead-letter queue (DLQ) on each SQS queue captures messages that fail 3 processing attempts, enabling manual inspection. Option A is incorrect: a single SQS queue means messages are consumed by only one consumer, not all three. EventBridge with direct Lambda targets lacks built-in retry buffering (no DLQ unless you add SQS). Kinesis shards deliver records to all consumers but ordering and failure handling is more complex.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "SNS Fan-out to SQS", "url": "https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-011",
+    "type": "single_choice",
+    "prompt": "A company needs a social graph database to store and query relationships between 100 million users (followers, friends, likes). The most common query is 'find all users within 3 hops of a given user who also liked a specific article.' Which database service is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Amazon DynamoDB with adjacency list design pattern and recursive queries" },
+      { "id": "b", "text": "Amazon Neptune using Gremlin or SPARQL traversal queries" },
+      { "id": "c", "text": "Amazon RDS PostgreSQL with recursive CTEs for graph traversal" },
+      { "id": "d", "text": "Amazon Redshift with graph extension functions" }
+    ],
+    "correct": "b",
+    "explanation": "Amazon Neptune is AWS's purpose-built graph database supporting both Property Graph (Gremlin) and RDF (SPARQL) query languages. Multi-hop traversal queries (find users within N hops) are native graph operations that Neptune executes efficiently with optimized index structures. At 100 million users, graph traversals across relationship edges are the defining workload. DynamoDB adjacency lists require multiple queries to traverse hops and lack native graph query semantics for complex traversals. PostgreSQL recursive CTEs work for small graphs but become inefficient at 100M nodes due to join costs. Redshift is an analytical columnar store, not a graph database.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon Neptune", "url": "https://docs.aws.amazon.com/neptune/latest/userguide/intro.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-012",
+    "type": "single_choice",
+    "prompt": "A company wants to build an API that exposes machine learning inference to mobile clients. The inference Lambda function takes 800ms-2s per request. The API must support JWT authentication, throttle per-client to 100 requests/minute, and cache responses for identical inputs for 60 seconds. Which architecture handles this with minimal custom code?",
+    "choices": [
+      { "id": "a", "text": "Application Load Balancer with target group pointing to Lambda, custom JWT authorizer in Lambda, and ElastiCache for response caching" },
+      { "id": "b", "text": "Amazon API Gateway (REST API) with a Lambda authorizer for JWT validation, usage plan with throttling per API key, and API Gateway caching at 60-second TTL" },
+      { "id": "c", "text": "Amazon CloudFront with a Lambda@Edge origin request function for JWT validation and a 60-second cache behavior TTL" },
+      { "id": "d", "text": "AWS AppSync GraphQL API with JWT authentication and resolver-level caching" }
+    ],
+    "correct": "b",
+    "explanation": "API Gateway REST API provides all three requirements as native managed features: Lambda authorizer for JWT validation (or Cognito authorizer for standard JWT claims), usage plans with API keys for per-client throttling (100 requests/minute per key), and API Gateway response caching with configurable TTL (60 seconds) keyed on request parameters. This requires minimal custom code. ALB lacks native response caching and per-client throttling. CloudFront caches static responses effectively but cannot perform per-client throttling. AppSync is optimized for GraphQL, not REST inference APIs.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "API Gateway REST API Features", "url": "https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" },
+      { "label": "API Gateway Caching", "url": "https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-013",
+    "type": "single_choice",
+    "prompt": "An enterprise needs a disaster recovery strategy for an Aurora MySQL cluster (RPO: 5 minutes, RTO: 15 minutes) with failover to a different AWS Region. The secondary region must be able to accept writes within the RTO. Which configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Aurora Multi-AZ with automatic failover within the same region" },
+      { "id": "b", "text": "Aurora Global Database with a secondary cluster in a different region; promote the secondary cluster on failure" },
+      { "id": "c", "text": "RDS MySQL cross-region read replica promoted to primary on failure" },
+      { "id": "d", "text": "Aurora Serverless v2 with Global Database and automatic cross-region failover" }
+    ],
+    "correct": "b",
+    "explanation": "Aurora Global Database replicates data from the primary region to up to 5 secondary regions with typical lag under 1 second (satisfying 5-minute RPO with significant margin). On a regional failure, you can promote a secondary cluster to full read/write capability, a process that typically completes in under 1 minute (satisfying 15-minute RTO with margin). Multi-AZ is intra-region only and does not address regional failures. A standard RDS MySQL cross-region read replica can be promoted but the promotion process can take 5-30 minutes (RTO may be violated) and replication lag is higher than Aurora Global. Aurora Serverless v2 with Global Database supports managed planned failover but unplanned failover promotion still requires a manual or automated promotion step.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Aurora Global Database", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-014",
+    "type": "true_false",
+    "prompt": "AWS Step Functions Express Workflows can run for up to 1 year, support exactly-once execution semantics, and maintain execution history accessible via the console for the lifetime of the execution.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "This statement describes Standard Workflows, not Express Workflows. Express Workflows have a maximum duration of 5 minutes, support at-least-once execution semantics (not exactly-once), and do not retain execution history in the console (you must use CloudWatch Logs for observability). Standard Workflows support up to 1-year duration, exactly-once execution, and full console execution history. The choice between Standard and Express depends on duration, execution volume, and semantic requirements.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Standard vs. Express Workflows", "url": "https://docs.aws.amazon.com/step-functions/latest/dg/concepts-standard-vs-express.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-nd-015",
+    "type": "single_choice",
+    "prompt": "A company wants to implement a write-through cache for a high-traffic DynamoDB table to reduce read costs. Reads must always reflect the latest write. Cache entries should expire after 10 minutes. Which approach correctly implements write-through caching?",
+    "choices": [
+      { "id": "a", "text": "Use DynamoDB Accelerator (DAX) in write-through mode; DAX automatically writes to both cache and DynamoDB" },
+      { "id": "b", "text": "Use ElastiCache for Redis; in the application layer, write to both Redis and DynamoDB atomically, set TTL of 600 seconds on each Redis key" },
+      { "id": "c", "text": "Enable DynamoDB Streams and trigger a Lambda function to populate ElastiCache on every write" },
+      { "id": "d", "text": "Use DynamoDB Accelerator (DAX); DAX's default read-through, write-through cache satisfies both requirements" }
+    ],
+    "correct": "d",
+    "explanation": "DynamoDB Accelerator (DAX) operates as a write-through cache by default: when a write (PutItem, UpdateItem, DeleteItem) is sent to DAX, it writes to DynamoDB and updates the cache simultaneously. Reads from DAX always reflect the latest write because the cache is updated at write time. You can configure item TTL in DAX. DAX is the purpose-built, zero-code-change caching layer for DynamoDB. Option A incorrectly states 'write-through mode' as a configuration; write-through is DAX's default behavior. Option B is an application-level implementation that works but requires extra application code. Option C (Streams + Lambda) is an asynchronous write-behind pattern, not write-through, and has a propagation delay.",
+    "topics": ["new-solutions-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "DynamoDB Accelerator (DAX)", "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.html" }
+    ],
+    "version": 1
+  }
+]

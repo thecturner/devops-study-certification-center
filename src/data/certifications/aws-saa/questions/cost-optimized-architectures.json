@@ -1,0 +1,288 @@
+[
+  {
+    "id": "aws-saa-co-001",
+    "type": "single_choice",
+    "prompt": "A company runs 10 EC2 instances continuously for a production application that has been running steadily for two years with no planned changes. The instances are currently On-Demand. Which purchasing option provides the greatest cost savings for this workload?",
+    "choices": [
+      { "id": "a", "text": "Spot Instances" },
+      { "id": "b", "text": "Standard Reserved Instances with a 1-year All Upfront payment" },
+      { "id": "c", "text": "Standard Reserved Instances with a 3-year All Upfront payment" },
+      { "id": "d", "text": "Convertible Reserved Instances with a 1-year No Upfront payment" }
+    ],
+    "correct": "c",
+    "explanation": "For workloads that run continuously with no anticipated changes, Standard Reserved Instances with a 3-year All Upfront commitment provide the maximum discount (up to 72% versus On-Demand). Spot Instances can be interrupted and are not suitable for always-on production workloads. Standard Reserved Instances with a 1-year term provide less discount than 3-year. Convertible RIs offer flexibility to change instance attributes but provide less discount than Standard RIs for the same commitment period. No Upfront payments provide the smallest discount within Reserved pricing.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon EC2 Reserved Instances", "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-reserved-instances.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-002",
+    "type": "single_choice",
+    "prompt": "A company stores compliance logs in S3 Standard. Logs are accessed frequently for the first 30 days, rarely accessed from days 31-90, and must be retained for 7 years but are never accessed after 90 days. Which lifecycle policy minimizes storage cost?",
+    "choices": [
+      { "id": "a", "text": "Transition to S3-IA after 30 days, then to S3 Glacier Deep Archive after 90 days" },
+      { "id": "b", "text": "Transition to S3 Intelligent-Tiering after 30 days" },
+      { "id": "c", "text": "Delete objects after 90 days" },
+      { "id": "d", "text": "Keep all objects in S3 Standard and use S3 Versioning for compliance" }
+    ],
+    "correct": "a",
+    "explanation": "Transitioning to S3-IA (Infrequent Access) at 30 days reduces cost for rarely accessed data at a lower per-GB price. After 90 days, transitioning to S3 Glacier Deep Archive (the lowest-cost S3 storage class, at roughly $0.00099/GB/month) minimizes cost for the remaining 6+ years of mandatory retention. Intelligent-Tiering is appropriate when access patterns are unknown; the access pattern here is known and predictable. Deleting after 90 days violates the 7-year retention requirement. Keeping everything in S3 Standard is the most expensive option.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon S3 Storage Classes", "url": "https://aws.amazon.com/s3/storage-classes/" },
+      { "label": "Managing Your Storage Lifecycle", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-003",
+    "type": "single_choice",
+    "prompt": "A development team runs test environments Monday through Friday from 8 AM to 6 PM. The EC2 instances are left running nights and weekends. Which solution reduces cost with the least operational effort?",
+    "choices": [
+      { "id": "a", "text": "Purchase Reserved Instances for the test environment" },
+      { "id": "b", "text": "Use AWS Instance Scheduler to automatically stop instances outside business hours" },
+      { "id": "c", "text": "Migrate the test environment to Lambda functions" },
+      { "id": "d", "text": "Enable Spot Instances for the test environment" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Instance Scheduler (or CloudWatch Events + Lambda) can automatically stop EC2 instances outside business hours and restart them in the morning. Stopping instances eliminates compute charges during nights and weekends (about 65% of the week), with minimal operational effort after initial setup. Reserved Instances reduce the per-hour cost but still charge for all hours, including nights and weekends. Migrating to Lambda requires significant rearchitecting. Spot Instances can be interrupted at any time, which is disruptive for developer workflows.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS Instance Scheduler", "url": "https://aws.amazon.com/solutions/implementations/instance-scheduler-on-aws/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-004",
+    "type": "single_choice",
+    "prompt": "A company processes customer images that are uploaded sporadically throughout the day. Some hours receive no uploads; other hours receive thousands. The processing function runs for up to 30 seconds per image. Which compute model minimizes cost for this unpredictable, spiky workload?",
+    "choices": [
+      { "id": "a", "text": "EC2 On-Demand instances that scale based on CPU utilization" },
+      { "id": "b", "text": "AWS Lambda triggered by S3 events" },
+      { "id": "c", "text": "EC2 Reserved Instances sized for peak load" },
+      { "id": "d", "text": "ECS on EC2 with a fixed cluster" }
+    ],
+    "correct": "b",
+    "explanation": "Lambda charges only for the actual execution time and number of invocations, with no charge during idle periods. For a spiky, unpredictable workload with a 30-second execution time, Lambda eliminates the cost of always-on compute. S3 events trigger Lambda automatically per image. EC2 Auto Scaling still incurs minimum instance costs during quiet periods. Reserved Instances sized for peak load waste money when load is low. ECS on EC2 requires managing cluster capacity and incurs ongoing instance costs.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS Lambda Pricing", "url": "https://aws.amazon.com/lambda/pricing/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-005",
+    "type": "single_choice",
+    "prompt": "A company wants to identify underutilized EC2 instances and Reserved Instance coverage gaps across its AWS account without writing custom reports. Which AWS service provides these recommendations automatically?",
+    "choices": [
+      { "id": "a", "text": "AWS Cost Explorer" },
+      { "id": "b", "text": "AWS Trusted Advisor" },
+      { "id": "c", "text": "Amazon CloudWatch" },
+      { "id": "d", "text": "AWS Compute Optimizer" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Trusted Advisor checks for underutilized EC2 instances (low CPU and network utilization), idle load balancers, unassociated Elastic IP addresses, and Reserved Instance purchase recommendations, all without custom configuration. Cost Explorer provides cost visualization and RI/Savings Plan purchase recommendations but requires user-driven analysis. CloudWatch monitors metrics but doesn't provide automated cost/utilization recommendations. AWS Compute Optimizer focuses on rightsizing EC2, ECS, Lambda, and EBS based on usage, and is a good complement to Trusted Advisor.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS Trusted Advisor", "url": "https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-006",
+    "type": "single_choice",
+    "prompt": "A company uses multiple EC2 instance families across its workloads. They want the flexibility to change instance families over a 3-year commitment while still receiving a meaningful discount over On-Demand pricing. Which purchasing option is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Standard Reserved Instances with a 3-year term" },
+      { "id": "b", "text": "Convertible Reserved Instances with a 3-year term" },
+      { "id": "c", "text": "EC2 Instance Savings Plans" },
+      { "id": "d", "text": "Compute Savings Plans" }
+    ],
+    "correct": "d",
+    "explanation": "Compute Savings Plans offer up to 66% discount versus On-Demand and apply automatically to any EC2 instance regardless of family, size, OS, tenancy, or Region, as well as to Fargate and Lambda. They provide the most flexibility. Convertible Reserved Instances allow instance type changes but are scoped to a specific Region and offer lower discount than Standard RIs (up to 54%). EC2 Instance Savings Plans apply to a specific instance family in a Region. Standard RIs cannot be changed across instance families. For maximum flexibility across multiple families and potential Fargate/Lambda usage, Compute Savings Plans are optimal.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Savings Plans", "url": "https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-007",
+    "type": "single_choice",
+    "prompt": "A company archives infrequently accessed research data in S3. Retrieval is needed within 12 hours when required. Which S3 storage class provides the lowest storage cost while meeting the retrieval time requirement?",
+    "choices": [
+      { "id": "a", "text": "S3 Standard-IA" },
+      { "id": "b", "text": "S3 Glacier Instant Retrieval" },
+      { "id": "c", "text": "S3 Glacier Flexible Retrieval" },
+      { "id": "d", "text": "S3 Glacier Deep Archive" }
+    ],
+    "correct": "c",
+    "explanation": "S3 Glacier Flexible Retrieval (formerly Glacier) offers bulk retrieval within 5-12 hours and is substantially cheaper than S3 Standard-IA or Glacier Instant Retrieval. Since the requirement is 12-hour retrieval, bulk retrieval satisfies it. S3 Standard-IA provides millisecond retrieval but at higher cost. S3 Glacier Instant Retrieval provides millisecond retrieval at a price between Standard-IA and Glacier Flexible, more expensive than needed given the 12-hour window. S3 Glacier Deep Archive has retrieval times of 12-48 hours and may not reliably meet a 12-hour SLA.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "S3 Glacier Storage Classes", "url": "https://docs.aws.amazon.com/amazonglacier/latest/dev/introduction.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-008",
+    "type": "single_choice",
+    "prompt": "A company runs an application that has variable traffic. Peak load requires 20 EC2 instances; average load requires 8; minimum load (nights/weekends) requires 3. What is the most cost-effective EC2 purchasing strategy?",
+    "choices": [
+      { "id": "a", "text": "20 On-Demand instances to handle all scenarios" },
+      { "id": "b", "text": "3 Reserved Instances for baseline, On-Demand for the 8-instance average, and Spot for peak capacity" },
+      { "id": "c", "text": "20 Spot Instances with Auto Scaling" },
+      { "id": "d", "text": "8 Reserved Instances for average load and On-Demand for peak" }
+    ],
+    "correct": "b",
+    "explanation": "The layered approach: Reserve 3 instances (minimum baseline, always running), use On-Demand for predictable daily average capacity above the baseline, and use Spot to cost-effectively handle peak bursts that can tolerate interruption. This minimizes Reserved Instance waste (you only commit to the minimum), avoids On-Demand costs for peak spikes, and uses the cheapest On-Demand for the predictable middle band. Using 20 On-Demand wastes money. All Spot risks capacity during peak. 8 Reserved instances wastes RI commitment during low-traffic periods.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "EC2 Purchasing Options", "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-009",
+    "type": "single_choice",
+    "prompt": "A company is evaluating whether to run a workload on always-on EC2 instances or use AWS Lambda. The workload runs continuously, processes requests for 500ms per request, and handles approximately 1 million requests per day. The Lambda memory requirement is 512 MB. Which option is likely more cost-effective?",
+    "choices": [
+      { "id": "a", "text": "Lambda, because serverless is always cheaper than EC2" },
+      { "id": "b", "text": "EC2 On-Demand, because Lambda charges for every invocation and the volume is high" },
+      { "id": "c", "text": "EC2 Reserved Instances, which will be more cost-effective than Lambda at this sustained volume" },
+      { "id": "d", "text": "The costs are identical; choose based on operational preference" }
+    ],
+    "correct": "c",
+    "explanation": "At 1 million requests/day with 500ms execution and 512 MB memory, the Lambda cost is approximately: 1M requests * $0.0000002 (request cost) = $0.20/day, plus 1M * 0.5s * 0.5 GB = 250,000 GB-seconds * $0.0000166667 = $4.17/day. Total ~$4.37/day or ~$130/month. A t3.small Reserved Instance (1 year, partial upfront) costs roughly $12-15/month. For sustained workloads at scale, Reserved EC2 frequently beats Lambda. Lambda is cheapest for intermittent or spiky workloads, not continuous high-volume processing.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "AWS Lambda Pricing", "url": "https://aws.amazon.com/lambda/pricing/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-010",
+    "type": "multi_choice",
+    "prompt": "A company wants to reduce data transfer costs between AWS services and the internet. Which TWO actions directly reduce data transfer out charges? (Select two.)",
+    "choices": [
+      { "id": "a", "text": "Use Amazon CloudFront to serve content, reducing origin data transfer out charges" },
+      { "id": "b", "text": "Use VPC endpoints to access S3 from EC2, eliminating NAT Gateway data processing charges" },
+      { "id": "c", "text": "Move EC2 instances from us-east-1 to us-west-2" },
+      { "id": "d", "text": "Enable S3 Intelligent-Tiering to reduce storage costs" },
+      { "id": "e", "text": "Compress API responses before sending them to clients" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "CloudFront has lower data transfer rates than direct S3 or EC2 data transfer out, and the first 1 TB/month to the internet from CloudFront is free. Using VPC endpoints for S3 eliminates both NAT Gateway data processing charges ($0.045/GB) and the associated data transfer out charges for traffic that now stays within the AWS network. Changing Regions doesn't reduce per-GB charges. Intelligent-Tiering reduces storage charges, not transfer charges. Compressing responses reduces the amount of data transferred (which indirectly reduces cost) and is a good practice, but it's not an AWS service feature that directly reduces transfer billing rates.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "AWS Data Transfer Pricing", "url": "https://aws.amazon.com/ec2/pricing/on-demand/#Data_Transfer" },
+      { "label": "CloudFront Pricing", "url": "https://aws.amazon.com/cloudfront/pricing/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-011",
+    "type": "single_choice",
+    "prompt": "A company's RDS MySQL instance is oversized. AWS Compute Optimizer shows CPU utilization averaging 5% and memory at 15%. The database has predictable load and the company wants to reduce cost. Which action provides the most immediate cost reduction?",
+    "choices": [
+      { "id": "a", "text": "Migrate to DynamoDB to eliminate RDS costs" },
+      { "id": "b", "text": "Downsize the RDS instance to a smaller instance class" },
+      { "id": "c", "text": "Enable RDS storage autoscaling" },
+      { "id": "d", "text": "Convert from Multi-AZ to a Single-AZ deployment" }
+    ],
+    "correct": "b",
+    "explanation": "Rightsizing the RDS instance to a smaller class (e.g., from db.m5.xlarge to db.m5.large or db.t3.medium) directly reduces the hourly instance cost, which is the largest RDS cost component. If utilization is 5% CPU and 15% memory, multiple instance size reductions may be appropriate. Migrating to DynamoDB requires a full application rewrite. Storage autoscaling reduces the risk of running out of storage but doesn't reduce costs for unused provisioned storage. Converting from Multi-AZ to Single-AZ eliminates the standby cost but introduces a single point of failure, which may be inappropriate for production.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Modifying an Amazon RDS DB Instance", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-012",
+    "type": "single_choice",
+    "prompt": "A startup hosts a static website on S3 with global users. Currently the S3 bucket is configured as a website endpoint in us-east-1. The team wants to reduce costs while keeping the site globally fast. What is the most cost-effective configuration?",
+    "choices": [
+      { "id": "a", "text": "Create S3 buckets in every AWS Region and sync content using S3 Cross-Region Replication" },
+      { "id": "b", "text": "Place CloudFront in front of the S3 bucket origin" },
+      { "id": "c", "text": "Move the website to EC2 instances behind a Global Load Balancer" },
+      { "id": "d", "text": "Enable S3 Transfer Acceleration for faster global access" }
+    ],
+    "correct": "b",
+    "explanation": "CloudFront in front of S3 caches content at edge locations globally, improving performance for international users. CloudFront's data transfer rate from origin to edge is free, and CloudFront's data transfer out rates are lower than direct S3 data transfer out rates. S3 CRR across all Regions multiplies storage costs significantly. EC2 with a global load balancer introduces unnecessary compute costs for a static site. S3 Transfer Acceleration speeds up uploads from users to S3 but doesn't help with serving static website content to visitors.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Using CloudFront for a Static Website", "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/getting-started-secure-static-website-cloudformation-template.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-013",
+    "type": "single_choice",
+    "prompt": "A company wants to purchase Reserved Instances but their workload may need to change instance types in the future. Which RI attribute allows them to exchange the RI for a different instance type, OS, or tenancy during the commitment period?",
+    "choices": [
+      { "id": "a", "text": "Standard Reserved Instances" },
+      { "id": "b", "text": "Scheduled Reserved Instances" },
+      { "id": "c", "text": "Convertible Reserved Instances" },
+      { "id": "d", "text": "Regional Reserved Instances" }
+    ],
+    "correct": "c",
+    "explanation": "Convertible Reserved Instances can be exchanged for other Convertible RIs with a different instance type, operating system, tenancy, or payment option during the commitment term, as long as the exchange is for equal or greater value. Standard RIs provide greater discounts but cannot be exchanged (though they can be modified within the same instance family). Scheduled RIs were discontinued by AWS. Regional RIs describe the scope (as opposed to Zonal RIs) and can be Standard or Convertible.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Convertible Reserved Instances", "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-convertible-exchange.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-014",
+    "type": "true_false",
+    "prompt": "AWS Cost Explorer can generate Reserved Instance purchase recommendations that estimate how much you would save if you purchased RIs based on your historical On-Demand usage over the past 7, 30, or 60 days.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "AWS Cost Explorer provides Reserved Instance purchase recommendations by analyzing your On-Demand EC2 usage over a lookback period of 7, 30, or 60 days. It estimates the break-even point, monthly savings, and upfront cost for different RI options. This is a built-in feature of Cost Explorer that requires no additional configuration beyond enabling Cost Explorer.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Getting Reserved Instance Recommendations", "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/ri-recommendations.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-co-015",
+    "type": "single_choice",
+    "prompt": "A company's data analytics workload runs nightly for 3-4 hours on a large Spark cluster using Amazon EMR. The job can tolerate a task being restarted if a node is reclaimed. How should the company configure the EMR cluster to minimize cost?",
+    "choices": [
+      { "id": "a", "text": "Use On-Demand Instances for the entire cluster" },
+      { "id": "b", "text": "Use Reserved Instances for the entire cluster on a 1-year term" },
+      { "id": "c", "text": "Use On-Demand for the master node and Spot Instances for the core and task nodes" },
+      { "id": "d", "text": "Use Spot Instances for the master node and On-Demand for the core and task nodes" }
+    ],
+    "correct": "c",
+    "explanation": "The EMR master node coordinates the cluster and must not be interrupted, so On-Demand is required for reliability. Core nodes store HDFS data and should generally be On-Demand or kept stable, but task nodes are stateless (they only process data, not store it) and can safely be Spot Instances. Spot Instances can reduce task node costs by up to 90%. Using Spot for the master risks losing cluster coordination. Reserved Instances are cost-effective for always-on workloads, not nightly batch jobs. All On-Demand is the safest but most expensive option.",
+    "topics": ["cost-optimized-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Use Spot Instances in EMR", "url": "https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-instance-purchasing-options.html" }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-itsm-chg-001",
+    "type": "single_choice",
+    "prompt": "Which change type in ServiceNow is used for routine, low-risk changes that have been pre-approved through the standard change catalog?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Standard change"
+      },
+      {
+        "id": "b",
+        "text": "Normal change"
+      },
+      {
+        "id": "c",
+        "text": "Emergency change"
+      },
+      {
+        "id": "d",
+        "text": "Expedited change"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Standard Change in ServiceNow is a pre-approved, routine change that follows a well-established procedure with accepted risk. Standard changes are defined in the Standard Change Catalog and do not require CAB approval each time they are executed. They are used for repetitive, low-risk activities such as user account provisioning or routine software updates.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-002",
+    "type": "single_choice",
+    "prompt": "What is the default change lifecycle for a Normal change in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "New > Assess > Authorize > Scheduled > Implement > Review > Closed"
+      },
+      {
+        "id": "b",
+        "text": "Draft > Open > Approve > Implement > Close"
+      },
+      {
+        "id": "c",
+        "text": "New > In Progress > Approved > Implemented > Closed"
+      },
+      {
+        "id": "d",
+        "text": "New > Risk Assessment > CAB Review > Approve > Implement > Close"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The default OOTB Normal change lifecycle in ServiceNow follows: New, Assess, Authorize, Scheduled, Implement, Review, and Closed. Each state represents a phase in the change process from initial request through impact assessment, approval, scheduling, implementation, and post-implementation review. This lifecycle ensures all governance steps are completed.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-003",
+    "type": "single_choice",
+    "prompt": "What is the Change Advisory Board (CAB) responsible for in ServiceNow change management?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Reviewing and approving Normal and Emergency changes to assess risk and impact"
+      },
+      {
+        "id": "b",
+        "text": "Implementing approved changes in the production environment"
+      },
+      {
+        "id": "c",
+        "text": "Conducting post-implementation reviews for all changes"
+      },
+      {
+        "id": "d",
+        "text": "Managing the standard change catalog"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Change Advisory Board (CAB) is a group of stakeholders who review and make decisions on Normal and Emergency change requests. Their primary responsibility is to evaluate the risk, impact, and necessity of proposed changes before they are approved for implementation. CAB meetings are typically scheduled regularly, and ServiceNow provides CAB workbench functionality to facilitate these reviews.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-004",
+    "type": "single_choice",
+    "prompt": "Which change type is used when an urgent fix is required to restore service and cannot wait for the normal CAB review cycle?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Normal change"
+      },
+      {
+        "id": "b",
+        "text": "Standard change"
+      },
+      {
+        "id": "c",
+        "text": "Emergency change"
+      },
+      {
+        "id": "d",
+        "text": "Expedited normal change"
+      }
+    ],
+    "correct": "c",
+    "explanation": "An Emergency Change in ServiceNow is used when an urgent fix is needed to restore or prevent significant service disruption and cannot wait for the standard CAB review. Emergency changes follow an accelerated approval process using an Emergency CAB (ECAB) or predefined approvers. They carry higher risk due to compressed review timelines and require a post-implementation review.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-005",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a Blackout Window in ServiceNow change management?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A defined period during which changes cannot be scheduled due to business sensitivity"
+      },
+      {
+        "id": "b",
+        "text": "A scheduled maintenance period during which services are intentionally taken offline"
+      },
+      {
+        "id": "c",
+        "text": "A window during which only emergency changes can be implemented"
+      },
+      {
+        "id": "d",
+        "text": "A period reserved for CAB meetings and change reviews"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Blackout Window in ServiceNow is a defined time period during which changes cannot be scheduled or implemented due to business sensitivity, such as financial year-end, major product launches, or peak trading periods. Changes scheduled during a blackout window generate a conflict alert. Administrators configure blackout windows in the Change Schedule to protect critical business periods.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-006",
+    "type": "single_choice",
+    "prompt": "What is the role of the Change Coordinator in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To implement the technical changes in the production environment"
+      },
+      {
+        "id": "b",
+        "text": "To approve all change requests on behalf of the CAB"
+      },
+      {
+        "id": "c",
+        "text": "To manage and facilitate the change management process including scheduling, coordination, and governance"
+      },
+      {
+        "id": "d",
+        "text": "To conduct post-implementation reviews"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Change Coordinator in ServiceNow manages the change management process from intake to closure. Responsibilities include reviewing change requests for completeness, scheduling CAB reviews, monitoring change progress, identifying conflicts, and ensuring the change lifecycle is followed. The Change Implementer is responsible for the technical execution of the change.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-007",
+    "type": "single_choice",
+    "prompt": "What is a Post-Implementation Review (PIR) in ServiceNow change management?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A review held before a change is approved to assess its risk"
+      },
+      {
+        "id": "b",
+        "text": "A report generated automatically when a change is closed"
+      },
+      {
+        "id": "c",
+        "text": "An assessment conducted after a change is implemented to verify success and capture lessons learned"
+      },
+      {
+        "id": "d",
+        "text": "A review triggered when a change causes an incident"
+      }
+    ],
+    "correct": "c",
+    "explanation": "A Post-Implementation Review (PIR) is conducted after a change has been implemented to verify that it achieved its intended objectives, assess any unintended side effects, and capture lessons learned for future improvement. In ServiceNow, the PIR typically occurs during the Review state of the change lifecycle before the change is Closed.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-008",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature detects scheduling conflicts between change requests, such as two changes affecting the same CI at the same time?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Change Advisory Board workbench"
+      },
+      {
+        "id": "b",
+        "text": "Change Calendar"
+      },
+      {
+        "id": "c",
+        "text": "Conflict Detection"
+      },
+      {
+        "id": "d",
+        "text": "CI Relationship Map"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Conflict Detection in ServiceNow automatically analyzes change requests for scheduling conflicts, such as overlapping maintenance windows on the same CI or changes scheduled during blackout windows. When conflicts are detected, warnings are displayed on the change record and in the change calendar, enabling the change coordinator to take corrective action before implementation.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-009",
+    "type": "single_choice",
+    "prompt": "What is a Change Model in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A template that pre-populates standard fields and workflow for a specific type of change"
+      },
+      {
+        "id": "b",
+        "text": "A diagram showing the CI relationships affected by a change"
+      },
+      {
+        "id": "c",
+        "text": "A risk scoring algorithm used by the CAB"
+      },
+      {
+        "id": "d",
+        "text": "A report showing historical change success rates"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Change Model in ServiceNow is a template that pre-populates fields, approval workflows, change tasks, and risk assessments for a specific and repeatable type of change. Change Models reduce the effort required to create routine change requests and ensure consistency in how similar changes are handled. They are the underlying mechanism behind Standard Change Catalog items.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-010",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow module provides a visual calendar view of all scheduled changes and maintenance windows?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Change Schedule / Change Calendar"
+      },
+      {
+        "id": "b",
+        "text": "CAB Workbench"
+      },
+      {
+        "id": "c",
+        "text": "CMDB Dependency View"
+      },
+      {
+        "id": "d",
+        "text": "Change Overview Dashboard"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Change Calendar (also called Change Schedule) in ServiceNow provides a visual timeline and calendar view of all scheduled change requests, planned maintenance windows, and blackout periods. It helps change coordinators identify scheduling conflicts, overlapping changes, and periods of high change volume before approving change schedules.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-011",
+    "type": "single_choice",
+    "prompt": "What is the difference between a Change Task and a Change Request in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A Change Task is a type of change request for minor updates; a Change Request is for major changes"
+      },
+      {
+        "id": "b",
+        "text": "Change Tasks require CAB approval; Change Requests do not"
+      },
+      {
+        "id": "c",
+        "text": "A Change Request is the parent record; Change Tasks are sub-tasks created to assign specific work activities within the change"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference; they are interchangeable terms"
+      }
+    ],
+    "correct": "c",
+    "explanation": "A Change Request is the parent record that governs the overall change. Change Tasks are sub-tasks created within a change request to assign specific implementation, testing, or rollback activities to different team members or groups. All Change Tasks must be completed before the parent Change Request can advance to the next state in the lifecycle.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-012",
+    "type": "single_choice",
+    "prompt": "Which field on a Change Request defines the steps to be taken if the change fails and the environment must be restored?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Backout Plan"
+      },
+      {
+        "id": "b",
+        "text": "Recovery Notes"
+      },
+      {
+        "id": "c",
+        "text": "Revert Steps"
+      },
+      {
+        "id": "d",
+        "text": "Risk and Impact analysis"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Backout Plan (also called Rollback Plan) field on a ServiceNow Change Request documents the step-by-step procedure to reverse the change and restore the environment to its previous state if the implementation fails. Having a documented backout plan is required before a Normal change can be approved and helps minimize the impact of failed changes.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-013",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, which state does a Normal change enter when it has been approved by the CAB and is awaiting its implementation window?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Authorize"
+      },
+      {
+        "id": "b",
+        "text": "Approved"
+      },
+      {
+        "id": "c",
+        "text": "Scheduled"
+      },
+      {
+        "id": "d",
+        "text": "Implement"
+      }
+    ],
+    "correct": "c",
+    "explanation": "After a Normal change has received all required approvals (including CAB authorization), it enters the Scheduled state, indicating it is approved and waiting for the planned implementation window to begin. When the implementation starts, the change moves to the Implement state. The Authorize state is where approvals are gathered, not where the change waits.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-014",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the Standard Change Catalog in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To provide end users with a menu of pre-approved service requests"
+      },
+      {
+        "id": "b",
+        "text": "To display all open and pending change requests in the organization"
+      },
+      {
+        "id": "c",
+        "text": "To archive completed change requests for audit purposes"
+      },
+      {
+        "id": "d",
+        "text": "To list pre-approved standard change templates that teams can use to quickly create compliant change requests"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Standard Change Catalog in ServiceNow is a collection of pre-defined, pre-approved change templates for routine, low-risk changes. When a change is created from the Standard Change Catalog, the approval process is streamlined or bypassed because the change has already been vetted through its template approval. This significantly reduces the administrative overhead for common changes.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-015",
+    "type": "single_choice",
+    "prompt": "How is an Emergency Change's approval process different from a Normal change in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Emergency changes require more approvers than Normal changes"
+      },
+      {
+        "id": "b",
+        "text": "Emergency changes do not require any approval"
+      },
+      {
+        "id": "c",
+        "text": "Emergency changes are automatically approved when the incident priority is 1-Critical"
+      },
+      {
+        "id": "d",
+        "text": "Emergency changes use an expedited approval process with the ECAB or a designated approver, bypassing the standard CAB cycle"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Emergency changes in ServiceNow use an expedited approval workflow that typically involves the Emergency CAB (ECAB), which is a smaller group of senior approvers available on short notice. The standard CAB meeting schedule is bypassed. The change may be approved verbally or via immediate electronic approval. A PIR is still required after implementation.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-016",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature allows a CAB manager to review multiple changes at once during a CAB meeting?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Change Overview Dashboard"
+      },
+      {
+        "id": "b",
+        "text": "Change Calendar"
+      },
+      {
+        "id": "c",
+        "text": "Approval Center"
+      },
+      {
+        "id": "d",
+        "text": "CAB Workbench"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The CAB Workbench in ServiceNow is a dedicated interface for CAB managers to manage Change Advisory Board meetings. It allows the CAB manager to create meeting agendas, add change requests for review, record discussions and decisions, send notifications to CAB members, and capture votes or approvals for multiple changes in a single session.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-017",
+    "type": "single_choice",
+    "prompt": "What does the 'Risk' field on a Change Request in ServiceNow represent?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The probability that the change will fail"
+      },
+      {
+        "id": "b",
+        "text": "The number of CIs affected by the change"
+      },
+      {
+        "id": "c",
+        "text": "The time required to implement the change"
+      },
+      {
+        "id": "d",
+        "text": "A calculated or manually assigned assessment of the potential negative impact if the change goes wrong"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Risk field on a ServiceNow Change Request represents an assessment of the potential negative business impact if the change were to fail or have unintended consequences. It can be manually set or calculated automatically using a risk calculator questionnaire. Risk is one of the key inputs the CAB uses when deciding whether to approve a change.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-018",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature automatically calculates a risk score for a change request based on answers to a set of questions?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Risk Calculator"
+      },
+      {
+        "id": "b",
+        "text": "Change Impact Assessment"
+      },
+      {
+        "id": "c",
+        "text": "Predictive Intelligence Risk Model"
+      },
+      {
+        "id": "d",
+        "text": "Change Risk Matrix"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Risk Calculator in ServiceNow change management presents a set of configurable questions about the change (such as number of users affected, complexity, whether it has been tested, etc.) and calculates an overall risk score based on the weighted answers. This provides a consistent, objective basis for risk assessment and helps the CAB make informed approval decisions.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-019",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what happens when a change request is rejected by an approver?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The change is automatically cancelled"
+      },
+      {
+        "id": "b",
+        "text": "The change is placed on hold pending CAB review"
+      },
+      {
+        "id": "c",
+        "text": "The change is escalated to the Change Manager for override"
+      },
+      {
+        "id": "d",
+        "text": "The change state moves back to Assess and the requestor is notified to revise and resubmit"
+      }
+    ],
+    "correct": "d",
+    "explanation": "When a change request is rejected by an approver in ServiceNow, the default behavior moves the change state back to Assess (or the configured revision state) and sends a notification to the change requester explaining the rejection. The requester can then revise the change record and resubmit it for approval. The change is not automatically cancelled unless configured to do so.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-020",
+    "type": "single_choice",
+    "prompt": "Which field on a change request identifies the person technically responsible for executing the implementation steps?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Requested by"
+      },
+      {
+        "id": "b",
+        "text": "Assigned to (Change Coordinator)"
+      },
+      {
+        "id": "c",
+        "text": "Implemented by (Change Implementer)"
+      },
+      {
+        "id": "d",
+        "text": "Opened by"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The 'Implemented by' or Implementer field on a ServiceNow Change Request identifies the technical person responsible for carrying out the actual implementation steps. This is distinct from the Change Coordinator (Assigned to), who manages the process. In practice, the Implementer is often a team lead or engineer with the specific technical skills needed for the change.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-021",
+    "type": "single_choice",
+    "prompt": "What is the purpose of automated approvals for change requests in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To bypass human review entirely for all change types"
+      },
+      {
+        "id": "b",
+        "text": "To assign changes to the CAB for automatic voting"
+      },
+      {
+        "id": "c",
+        "text": "To create a digital signature record of approvals"
+      },
+      {
+        "id": "d",
+        "text": "To automatically approve changes that meet predefined low-risk criteria, reducing manual overhead"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Automated approvals in ServiceNow change management are configured to automatically approve change requests that meet specific predefined criteria, such as being a Standard change type, having a risk score below a threshold, or affecting only certain non-critical CIs. This reduces manual approval overhead for low-risk changes while ensuring higher-risk changes still receive human review.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-022",
+    "type": "single_choice",
+    "prompt": "Which table in ServiceNow stores Change Request records?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "task"
+      },
+      {
+        "id": "b",
+        "text": "change_request"
+      },
+      {
+        "id": "c",
+        "text": "chg_request"
+      },
+      {
+        "id": "d",
+        "text": "sc_change"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Change Request records in ServiceNow are stored in the 'chg_request' table. Like incidents (incident table) and problems (problem table), chg_request extends the base task table, inheriting common task fields. Understanding the correct table names is important for scripting, reporting, and access control configuration.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-023",
+    "type": "single_choice",
+    "prompt": "What does 'conflict detection' in ServiceNow change management check for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Duplicate change requests for the same CI"
+      },
+      {
+        "id": "b",
+        "text": "Approval workflow errors"
+      },
+      {
+        "id": "c",
+        "text": "Whether the implementer has the correct access to the target CI"
+      },
+      {
+        "id": "d",
+        "text": "Schedule overlaps, blackout window violations, and CI-level conflicts with other changes"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Conflict detection in ServiceNow change management automatically analyzes a change request's planned schedule and CIs against other scheduled changes and blackout windows. It identifies schedule overlaps (two changes affecting the same CI simultaneously), blackout window violations, and maintenance schedule conflicts. Conflicts are flagged on the change record and in the Change Calendar for review.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-024",
+    "type": "single_choice",
+    "prompt": "A change request is in 'Implement' state. The implementer realizes the change is causing unexpected issues. What is the recommended action in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Continue implementing and create an incident after completion"
+      },
+      {
+        "id": "b",
+        "text": "Cancel the change immediately without documentation"
+      },
+      {
+        "id": "c",
+        "text": "Escalate to the CAB for emergency re-approval"
+      },
+      {
+        "id": "d",
+        "text": "Execute the backout plan, move the change to Review state, and document the failure"
+      }
+    ],
+    "correct": "d",
+    "explanation": "When unexpected issues occur during a change implementation, the recommended action is to execute the documented backout plan to restore the environment, then move the change to Review state to document what went wrong and conduct a post-implementation analysis. An incident may also need to be raised if service has been disrupted. The backout plan exists specifically for this scenario.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-025",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow module allows a change manager to view all upcoming changes on a timeline alongside maintenance windows and blackout periods?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "CAB Workbench"
+      },
+      {
+        "id": "b",
+        "text": "Service Portfolio"
+      },
+      {
+        "id": "c",
+        "text": "Event Management"
+      },
+      {
+        "id": "d",
+        "text": "Change Schedule"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Change Schedule in ServiceNow provides a Gantt chart or calendar view of all scheduled change requests, maintenance windows, and blackout periods on a unified timeline. This gives change managers the visibility needed to identify congested change periods, overlapping implementations, and potential conflicts before changes are approved for execution.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-026",
+    "type": "single_choice",
+    "prompt": "What is the significance of the 'Planned start date' and 'Planned end date' fields on a change request?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "They trigger the SLA timers for the change"
+      },
+      {
+        "id": "b",
+        "text": "They schedule the CAB meeting to review the change"
+      },
+      {
+        "id": "c",
+        "text": "They determine the change's priority in the approval queue"
+      },
+      {
+        "id": "d",
+        "text": "They define the maintenance window during which the change will be implemented"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Planned Start Date and Planned End Date fields on a ServiceNow Change Request define the maintenance window during which the change is intended to be implemented. These dates are used by the conflict detection engine to identify scheduling conflicts, blackout window violations, and overlaps with other changes. They are also displayed on the Change Calendar for visibility.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-027",
+    "type": "single_choice",
+    "prompt": "How does a Standard Change differ from a Normal Change in terms of CAB involvement?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Standard changes require CAB approval every time; Normal changes require one-time approval"
+      },
+      {
+        "id": "b",
+        "text": "Standard changes are pre-approved via their template and do not require individual CAB review; Normal changes require CAB review each time"
+      },
+      {
+        "id": "c",
+        "text": "Standard changes go to the full CAB; Normal changes go to the ECAB"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference in CAB involvement"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Standard Changes are pre-approved when their template (Standard Change Proposal) is approved. Individual instances created from that template do not require CAB review, as the risk and procedure have already been vetted. Normal Changes require CAB review and approval each time they are submitted because they represent unique or higher-risk activities that haven't been pre-vetted.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-028",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow ITSM process is initiated when a change is implemented but causes an unplanned service outage?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Problem Management"
+      },
+      {
+        "id": "b",
+        "text": "Incident Management"
+      },
+      {
+        "id": "c",
+        "text": "Service Request Management"
+      },
+      {
+        "id": "d",
+        "text": "Event Management"
+      }
+    ],
+    "correct": "b",
+    "explanation": "When a change implementation causes an unplanned service outage, an incident should be raised immediately to restore service. Incident management focuses on restoring normal service as quickly as possible, which may involve executing the change backout plan. Problem management may also be initiated to investigate why the change caused the outage and prevent recurrence.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-029",
+    "type": "single_choice",
+    "prompt": "What must be completed before a change request can be moved from 'Implement' to 'Review' state in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "All change tasks must be closed or cancelled"
+      },
+      {
+        "id": "b",
+        "text": "A new CAB approval must be obtained"
+      },
+      {
+        "id": "c",
+        "text": "The backout plan must be executed"
+      },
+      {
+        "id": "d",
+        "text": "A linked incident must be created"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Before a change request can advance from Implement to Review state in ServiceNow, all associated change tasks must be in Closed or Cancelled state. This enforces the discipline of completing all planned implementation activities before the post-implementation review phase begins. Open change tasks indicate incomplete work that should not be overlooked.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-030",
+    "type": "single_choice",
+    "prompt": "Which field on a change request in ServiceNow records the specific configuration items that will be modified by the change?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Affected Services"
+      },
+      {
+        "id": "b",
+        "text": "Configuration Item (CI)"
+      },
+      {
+        "id": "c",
+        "text": "Impacted CIs related list"
+      },
+      {
+        "id": "d",
+        "text": "Business Service"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Configuration Item (CI) field on a ServiceNow Change Request identifies the primary CI that the change will modify. Additionally, an Affected CIs or Impacted CIs related list can capture all CIs involved. Linking CIs to the change is important for conflict detection (which checks whether those CIs have overlapping maintenance), as well as for the CMDB audit trail.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-031",
+    "type": "single_choice",
+    "prompt": "What is the purpose of change templates in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To automatically generate change requests from incident records"
+      },
+      {
+        "id": "b",
+        "text": "To pre-populate change request fields, reducing data entry time for recurring change types"
+      },
+      {
+        "id": "c",
+        "text": "To define the approval workflow for different change types"
+      },
+      {
+        "id": "d",
+        "text": "To import change data from external project management tools"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Change Templates in ServiceNow pre-populate fields on a new change request with default values for recurring change types. When an agent creates a change request from a template, fields like category, risk, assignment group, and implementation plan are automatically filled in. This improves consistency and reduces the time required to create compliant change requests.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-032",
+    "type": "single_choice",
+    "prompt": "In the context of ServiceNow Change Management, what does 'unauthorized change' mean?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A change made without a valid change request in the system"
+      },
+      {
+        "id": "b",
+        "text": "A change approved by only one person instead of the full CAB"
+      },
+      {
+        "id": "c",
+        "text": "A standard change implemented outside business hours"
+      },
+      {
+        "id": "d",
+        "text": "A change that fails its post-implementation review"
+      }
+    ],
+    "correct": "a",
+    "explanation": "An unauthorized change is one that is made to the IT environment without a corresponding approved change request in ServiceNow. Unauthorized changes are a significant risk because they bypass the governance, risk assessment, and communication processes that change management provides. Detecting unauthorized changes is one of the key audit functions of ITSM.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-033",
+    "type": "single_choice",
+    "prompt": "Which approval type in ServiceNow change management requires ALL designated approvers to approve before the change can proceed?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Anyone"
+      },
+      {
+        "id": "b",
+        "text": "One approver"
+      },
+      {
+        "id": "c",
+        "text": "Everyone"
+      },
+      {
+        "id": "d",
+        "text": "Majority"
+      }
+    ],
+    "correct": "c",
+    "explanation": "In ServiceNow approval workflows, the 'Everyone' approval condition requires all designated approvers to individually approve the record before the process advances. This is commonly used for Normal changes that require sign-off from multiple stakeholders. The 'Anyone' option requires only one approver from the group to approve, which is faster but provides less governance.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-034",
+    "type": "single_choice",
+    "prompt": "A change request is created to address a critical security vulnerability. The change needs to be implemented within 4 hours. Which change type should be used?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Normal change with expedited CAB review"
+      },
+      {
+        "id": "b",
+        "text": "Standard change from the security patch catalog"
+      },
+      {
+        "id": "c",
+        "text": "Emergency change"
+      },
+      {
+        "id": "d",
+        "text": "A problem record with an immediate fix task"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Given the 4-hour implementation requirement for a critical security vulnerability, an Emergency Change is the appropriate type. Emergency changes use an accelerated ECAB approval process and can be authorized and implemented outside the normal change schedule. Using a Normal change would be too slow; a Standard change may not apply unless a pre-approved security patch template exists.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-035",
+    "type": "single_choice",
+    "prompt": "How does a Standard Change Proposal differ from a Standard Change in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A Standard Change Proposal is a draft change request; a Standard Change is an approved one"
+      },
+      {
+        "id": "b",
+        "text": "A Standard Change Proposal is the template record that goes through approval to become a reusable Standard Change type"
+      },
+      {
+        "id": "c",
+        "text": "A Standard Change Proposal is reviewed by the ECAB; a Standard Change is reviewed by the full CAB"
+      },
+      {
+        "id": "d",
+        "text": "They are interchangeable terms for the same record type"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A Standard Change Proposal in ServiceNow is the template record that must be reviewed and approved before it can be published as a reusable Standard Change type in the catalog. The proposal goes through an approval workflow to establish that the procedure is documented, tested, and acceptably low-risk. Once approved, instances of the Standard Change can be created without individual CAB review.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-036",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature ensures that a change affecting a business-critical CI cannot be scheduled during a financial quarter-end period?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Change Calendar freeze period"
+      },
+      {
+        "id": "b",
+        "text": "Blackout Window configured for the quarter-end dates"
+      },
+      {
+        "id": "c",
+        "text": "CI maintenance schedule restriction"
+      },
+      {
+        "id": "d",
+        "text": "CAB mandatory veto for critical CIs"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Blackout Windows in ServiceNow are configured for specific time periods during which changes cannot be scheduled, such as financial quarter-end, year-end close, or major business events. When a change is scheduled during a blackout window, the conflict detection engine raises an alert. This protects critical business periods from the risk introduced by IT changes.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-037",
+    "type": "single_choice",
+    "prompt": "What is the 'Assess' state used for in the Normal change lifecycle in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Gathering CAB approvals"
+      },
+      {
+        "id": "b",
+        "text": "Reviewing the change for completeness, risk assessment, and scheduling before submitting for authorization"
+      },
+      {
+        "id": "c",
+        "text": "Implementing the change and monitoring for issues"
+      },
+      {
+        "id": "d",
+        "text": "Conducting the post-implementation review"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Assess state in the Normal change lifecycle is the evaluation phase where the change coordinator and change team review the request for completeness, conduct or review the risk assessment, define the implementation and backout plans, and schedule the change. This state prepares the change for submission to the CAB (Authorize state) and ensures all required information is present.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-038",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, a Normal change has received all required approvals. The planned start date has arrived. To which state should the change coordinator move the record?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Scheduled"
+      },
+      {
+        "id": "b",
+        "text": "Implement"
+      },
+      {
+        "id": "c",
+        "text": "In Progress"
+      },
+      {
+        "id": "d",
+        "text": "Active"
+      }
+    ],
+    "correct": "b",
+    "explanation": "When the planned start date arrives and implementation work begins, the change coordinator moves the change from Scheduled to Implement state. The Implement state signifies that the technical team is actively executing the change. This state transition is important for tracking actual implementation timing versus planned, and for ensuring change tasks are being worked.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-039",
+    "type": "single_choice",
+    "prompt": "Which of the following correctly describes the 'Change Implementer' role in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The person who approves changes on behalf of the business"
+      },
+      {
+        "id": "b",
+        "text": "The technical person responsible for executing the change implementation steps"
+      },
+      {
+        "id": "c",
+        "text": "The CAB chairperson who facilitates the change review meeting"
+      },
+      {
+        "id": "d",
+        "text": "The service desk agent who logs the change request"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Change Implementer in ServiceNow is the technical person or team responsible for physically executing the change steps in the production environment. This role is distinct from the Change Coordinator (who manages the process) and the Change Manager (who oversees the overall change management program). Change Tasks within the change request are typically assigned to the implementer.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-chg-040",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Review' state in the Normal change lifecycle in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To gather approvals from the CAB before implementation"
+      },
+      {
+        "id": "b",
+        "text": "To conduct the post-implementation review, verify change success, and capture lessons learned before closing"
+      },
+      {
+        "id": "c",
+        "text": "To reassess the risk of the change before it is scheduled"
+      },
+      {
+        "id": "d",
+        "text": "To review the change backout plan with the implementation team"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Review state in the Normal change lifecycle is the post-implementation review (PIR) phase. After implementation is complete, the change team verifies that the change achieved its intended outcome, identifies any unintended side effects, and documents lessons learned. The change is only moved to Closed after the review confirms success or formally records what occurred.",
+    "topics": [
+      "change-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

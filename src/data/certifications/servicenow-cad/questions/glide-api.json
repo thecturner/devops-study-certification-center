@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-cad-glide-001",
+    "type": "single_choice",
+    "prompt": "Which GlideRecord method is used to query all records matching a condition and prepare the cursor for iteration?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.query()"
+      },
+      {
+        "id": "b",
+        "text": "gr.execute()"
+      },
+      {
+        "id": "c",
+        "text": "gr.fetch()"
+      },
+      {
+        "id": "d",
+        "text": "gr.load()"
+      }
+    ],
+    "correct": "a",
+    "explanation": "gr.query() executes the query defined by any addQuery(), addEncodedQuery(), or addNullQuery() calls and positions the cursor before the first result record. After calling query(), gr.next() is used to advance through each record. If no filter conditions are set before calling query(), all records in the table are returned.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-002",
+    "type": "single_choice",
+    "prompt": "What does GlideRecord.get() return when no record matches the provided sys_id?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "null"
+      },
+      {
+        "id": "b",
+        "text": "false"
+      },
+      {
+        "id": "c",
+        "text": "An empty GlideRecord object"
+      },
+      {
+        "id": "d",
+        "text": "An exception is thrown"
+      }
+    ],
+    "correct": "b",
+    "explanation": "GlideRecord.get(sys_id) returns false when no record with the specified sys_id is found in the table. It returns true when a matching record is found and the cursor is positioned on it. Developers should always check the return value of gr.get() before accessing field values to avoid null reference errors on an empty cursor.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-003",
+    "type": "single_choice",
+    "prompt": "What is the correct method to get the number of rows returned by a GlideRecord query?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.length()"
+      },
+      {
+        "id": "b",
+        "text": "gr.getCount()"
+      },
+      {
+        "id": "c",
+        "text": "gr.getRowCount()"
+      },
+      {
+        "id": "d",
+        "text": "gr.size()"
+      }
+    ],
+    "correct": "c",
+    "explanation": "gr.getRowCount() returns the number of records that matched the query. However, this method loads all rows into memory before counting them, making it inefficient for large tables. For better performance, GlideAggregate with COUNT is preferred. getRowCount() is most appropriate when you already need to iterate through the records and also need the count.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-004",
+    "type": "single_choice",
+    "prompt": "What is the difference between GlideRecord.setValue() and directly assigning a value to a field property?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "setValue() triggers business rules; direct assignment does not"
+      },
+      {
+        "id": "b",
+        "text": "setValue() should be used for all field types; direct assignment only works for string fields"
+      },
+      {
+        "id": "c",
+        "text": "There is no functional difference; both are equivalent"
+      },
+      {
+        "id": "d",
+        "text": "setValue() is preferred and handles type coercion correctly; direct assignment can cause type issues for certain field types"
+      }
+    ],
+    "correct": "d",
+    "explanation": "gr.setValue('field', value) is the preferred approach because it properly handles type coercion for all field types (dates, booleans, reference fields, etc.) and correctly triggers client-side events when used in client context. Direct assignment (gr.field_name = 'value') works for simple cases but can cause issues with complex field types, particularly in scoped applications where type handling matters.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-005",
+    "type": "single_choice",
+    "prompt": "What does GlideRecord.setDisplayValue() do differently than setValue()?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "setDisplayValue() accepts human-readable display values (like usernames for reference fields) and resolves them to internal values"
+      },
+      {
+        "id": "b",
+        "text": "setDisplayValue() sets the value shown in the UI label; setValue() sets the database value"
+      },
+      {
+        "id": "c",
+        "text": "setDisplayValue() is used only for read-only fields; setValue() is for editable fields"
+      },
+      {
+        "id": "d",
+        "text": "Both methods do the same thing; setDisplayValue() is deprecated"
+      }
+    ],
+    "correct": "a",
+    "explanation": "setDisplayValue() accepts the human-readable display value and the platform resolves it to the corresponding internal value. For example, for a reference field, you can pass the record's display name instead of its sys_id. For a choice field, you can pass the label instead of the value. This is useful when processing data from external sources that use human-readable identifiers.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-006",
+    "type": "single_choice",
+    "prompt": "How do you add an OR condition between two different fields in a GlideRecord query?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.addQuery('field1', 'value1').or().addQuery('field2', 'value2')"
+      },
+      {
+        "id": "b",
+        "text": "var qc = gr.addQuery('field1', 'value1'); qc.addOrCondition('field2', 'value2');"
+      },
+      {
+        "id": "c",
+        "text": "gr.addOrQuery('field1', 'value1', 'field2', 'value2')"
+      },
+      {
+        "id": "d",
+        "text": "gr.addQuery('field1=value1^ORfield2=value2')"
+      }
+    ],
+    "correct": "b",
+    "explanation": "To add an OR condition between conditions in GlideRecord, call addQuery() to get a GlideQueryCondition object, then call addOrCondition() on that object. The result creates a condition group where either condition1 OR condition2 must be true. The conditions are still ANDed with other top-level addQuery() calls outside the group. This is the programmatic equivalent of the '^OR' separator in encoded queries.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-007",
+    "type": "single_choice",
+    "prompt": "What does calling GlideAggregate.addAggregate('COUNT') do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It counts the number of non-null values in the result set"
+      },
+      {
+        "id": "b",
+        "text": "It counts the number of fields on each returned record"
+      },
+      {
+        "id": "c",
+        "text": "It adds a COUNT aggregation to the query, returning the total number of records matching the filter"
+      },
+      {
+        "id": "d",
+        "text": "It counts the number of unique values in the specified field"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ga.addAggregate('COUNT') adds a COUNT(*) aggregation to the GlideAggregate query. After executing the query with ga.query() and calling ga.next(), the count value is retrieved with ga.getAggregate('COUNT'). This performs a database-level count without loading record data, making it highly efficient for counting large result sets.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-008",
+    "type": "single_choice",
+    "prompt": "How do you group results in a GlideAggregate query (equivalent to SQL GROUP BY)?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "ga.groupBy('field_name')"
+      },
+      {
+        "id": "b",
+        "text": "ga.addQuery('field_name', 'GROUP')"
+      },
+      {
+        "id": "c",
+        "text": "ga.setGroup('field_name', true)"
+      },
+      {
+        "id": "d",
+        "text": "ga.addGroupBy('field_name')"
+      }
+    ],
+    "correct": "d",
+    "explanation": "ga.addGroupBy('field_name') adds a GROUP BY clause to the GlideAggregate query, grouping aggregate results by the specified field. For example, adding COUNT aggregation with groupBy('assigned_to') returns the count of records per assignee. Multiple groupBy fields can be added to create multi-level groupings.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-009",
+    "type": "single_choice",
+    "prompt": "What does GlideDateTime.addDaysUTC(n) do differently than addDays(n)?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "addDaysUTC() adds days to the UTC representation; addDays() adds days to the local time representation"
+      },
+      {
+        "id": "b",
+        "text": "addDaysUTC() adds business days only, skipping weekends; addDays() adds calendar days"
+      },
+      {
+        "id": "c",
+        "text": "addDaysUTC() is deprecated; addDays() is the correct method to use"
+      },
+      {
+        "id": "d",
+        "text": "There is no functional difference; both operate on the same underlying UTC timestamp"
+      }
+    ],
+    "correct": "a",
+    "explanation": "GlideDateTime.addDays() adds days to the local time representation of the date (considering the user's time zone), while addDaysUTC() adds days to the UTC representation. Near daylight saving time transitions, these can produce different results. For server-side scripts where consistency is important, addDaysUTC() is often preferred to avoid time zone ambiguity.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-010",
+    "type": "single_choice",
+    "prompt": "What does GlideDateTime.getDayOfWeekLocalTime() return?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A string like 'Monday' or 'Tuesday'"
+      },
+      {
+        "id": "b",
+        "text": "An integer from 1 (Sunday) to 7 (Saturday) in the user's local time zone"
+      },
+      {
+        "id": "c",
+        "text": "An integer from 0 (Monday) to 6 (Sunday)"
+      },
+      {
+        "id": "d",
+        "text": "The number of days since the start of the week in UTC"
+      }
+    ],
+    "correct": "b",
+    "explanation": "GlideDateTime.getDayOfWeekLocalTime() returns an integer from 1 to 7 representing the day of the week in the user's local time zone, where 1 is Sunday and 7 is Saturday. This follows the Java Calendar convention. The corresponding UTC version is getDayOfWeekUTC(). These methods are useful for business day calculations and scheduling logic.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-011",
+    "type": "single_choice",
+    "prompt": "What is GlideDuration and what is it used for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A timer object used to measure script execution performance"
+      },
+      {
+        "id": "b",
+        "text": "A date range object representing a start and end time"
+      },
+      {
+        "id": "c",
+        "text": "A class representing a duration of time (days, hours, minutes, seconds) used for time interval calculations"
+      },
+      {
+        "id": "d",
+        "text": "A wrapper around JavaScript's Date.now() for ServiceNow compatibility"
+      }
+    ],
+    "correct": "c",
+    "explanation": "GlideDuration represents a duration of time and is used for time interval calculations, such as computing how much time remains on an SLA, calculating business hours elapsed, or adding/subtracting time periods from dates. It stores duration as days, hours, minutes, and seconds. GlideDuration objects can be added to or subtracted from GlideDateTime objects to compute new date/times.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-012",
+    "type": "single_choice",
+    "prompt": "What does gs.getUser() return in a server-side script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The sys_id of the currently logged-in user"
+      },
+      {
+        "id": "b",
+        "text": "The username (login name) of the currently logged-in user"
+      },
+      {
+        "id": "c",
+        "text": "A GlideRecord of the currently logged-in user's sys_user record"
+      },
+      {
+        "id": "d",
+        "text": "A GlideUser object representing the currently logged-in user"
+      }
+    ],
+    "correct": "d",
+    "explanation": "gs.getUser() returns a GlideUser object representing the currently logged-in user. The GlideUser object provides methods like getName() for the username, getFullName() for the display name, getID() for the sys_id, hasRole() for role checks, and isMemberOf() for group membership checks. For a GlideRecord of the user, you would use a GlideRecord query on sys_user with the current user's sys_id.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-013",
+    "type": "single_choice",
+    "prompt": "Which GlideSystem method retrieves the value of a system property?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gs.getProperty('name')"
+      },
+      {
+        "id": "b",
+        "text": "gs.getSystemProperty('name')"
+      },
+      {
+        "id": "c",
+        "text": "gs.property('name')"
+      },
+      {
+        "id": "d",
+        "text": "gs.readProperty('name')"
+      }
+    ],
+    "correct": "a",
+    "explanation": "gs.getProperty('property.name') retrieves the value of a system property from the sys_properties table. An optional second parameter provides a default value if the property does not exist: gs.getProperty('property.name', 'default_value'). This is the standard way to read configurable settings in server-side scripts, making applications configurable without code changes.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-014",
+    "type": "single_choice",
+    "prompt": "What does GlideElement.nil() return?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The field value formatted as nil/null"
+      },
+      {
+        "id": "b",
+        "text": "true if the field is empty or null; false if it contains a value"
+      },
+      {
+        "id": "c",
+        "text": "A null GlideElement that can be assigned to clear a field"
+      },
+      {
+        "id": "d",
+        "text": "true if the field has a nil default value defined in the dictionary"
+      }
+    ],
+    "correct": "b",
+    "explanation": "GlideElement.nil() returns true if the field has no value (is empty or null) and false if it contains a value. This is the preferred way to check for empty fields in server-side scripts because it handles all field types correctly, including reference fields and boolean fields, where simple equality checks may not work reliably. Example: if (current.assigned_to.nil()) { ... }",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-015",
+    "type": "single_choice",
+    "prompt": "What does GlideElement.canRead() check?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Whether the field has a non-null value that can be read"
+      },
+      {
+        "id": "b",
+        "text": "Whether the field is included in the current form view"
+      },
+      {
+        "id": "c",
+        "text": "Whether the currently logged-in user has read access to this field based on ACLs"
+      },
+      {
+        "id": "d",
+        "text": "Whether the field value can be read without a database query"
+      }
+    ],
+    "correct": "c",
+    "explanation": "GlideElement.canRead() returns true if the currently logged-in user has read access to the field based on ACL evaluation. Similarly, canWrite() checks write access. These methods are used in scripts to conditionally process fields based on the user's access rights, allowing code to behave appropriately across different user roles without hardcoding role checks.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-016",
+    "type": "single_choice",
+    "prompt": "How do you retrieve a journal field's entries (e.g., Work Notes) using the GlideElement API?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.work_notes.getValue()"
+      },
+      {
+        "id": "b",
+        "text": "gr.work_notes.getHistory()"
+      },
+      {
+        "id": "c",
+        "text": "gr.work_notes.getEntries()"
+      },
+      {
+        "id": "d",
+        "text": "gr.work_notes.getJournalEntry(1)"
+      }
+    ],
+    "correct": "d",
+    "explanation": "GlideElement.getJournalEntry(n) retrieves the nth most recent journal entry for a journal field like work_notes or comments. Passing 1 retrieves the most recent entry. Journal fields are special aggregated fields where each call to getValue() returns all entries concatenated, while getJournalEntry() allows access to individual entries. The return value is a string.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-017",
+    "type": "single_choice",
+    "prompt": "In a client script, what does g_form.setValue('state', '6') do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It sets the state field's internal value to '6' and updates the display value automatically"
+      },
+      {
+        "id": "b",
+        "text": "It sets the state field's display value to '6'"
+      },
+      {
+        "id": "c",
+        "text": "It sets the state field to the 6th option in the choice list"
+      },
+      {
+        "id": "d",
+        "text": "It triggers a validation check on the state field with value '6'"
+      }
+    ],
+    "correct": "a",
+    "explanation": "g_form.setValue('field', value) sets the internal value of a field in a client script and automatically updates the display value shown in the UI. For a choice field, passing the internal value (e.g., '6' for Resolved) updates the dropdown to display the corresponding label. The change triggers any onChange client scripts registered for that field.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-018",
+    "type": "single_choice",
+    "prompt": "What does g_form.setVisible('field_name', false) do in a client script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It hides the field from the form and prevents its value from being saved"
+      },
+      {
+        "id": "b",
+        "text": "It hides the field label and input from view but the field value is still saved"
+      },
+      {
+        "id": "c",
+        "text": "It sets the field's CSS visibility to hidden while keeping its space on the form"
+      },
+      {
+        "id": "d",
+        "text": "It removes the field from the form layout permanently"
+      }
+    ],
+    "correct": "b",
+    "explanation": "g_form.setVisible('field_name', false) hides the field's label and input control from the form view, but the field's value is still present and will be saved when the form is submitted. To prevent saving, the field value should also be cleared. Note that for security-sensitive hiding, server-side ACLs should be used as client-side visibility can be bypassed.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-019",
+    "type": "single_choice",
+    "prompt": "What is the correct way to make a field mandatory using the GlideForm API in a client script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "g_form.setRequired('field_name', true)"
+      },
+      {
+        "id": "b",
+        "text": "g_form.makeRequired('field_name')"
+      },
+      {
+        "id": "c",
+        "text": "g_form.setMandatory('field_name', true)"
+      },
+      {
+        "id": "d",
+        "text": "g_form.addAttribute('field_name', 'mandatory', 'true')"
+      }
+    ],
+    "correct": "c",
+    "explanation": "g_form.setMandatory('field_name', true) makes a field mandatory in a client script, displaying the red asterisk indicator and preventing form submission if the field is empty. Passing false removes the mandatory requirement. This provides dynamic mandatory control based on conditions, complementing the static mandatory setting in the dictionary entry and the declarative approach using UI Policies.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-020",
+    "type": "single_choice",
+    "prompt": "What does g_form.addOption('choice_field', 'value', 'label') do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Adds a new choice to the sys_choice table permanently"
+      },
+      {
+        "id": "b",
+        "text": "Adds an option to all forms that use this choice field"
+      },
+      {
+        "id": "c",
+        "text": "Creates a new choice list entry and saves it to the database"
+      },
+      {
+        "id": "d",
+        "text": "Dynamically adds a selectable option to the choice field in the current form session"
+      }
+    ],
+    "correct": "d",
+    "explanation": "g_form.addOption('field', 'value', 'label') dynamically adds a selectable option to a choice field in the current browser session only. This does not modify the sys_choice table. It is used in client scripts to add temporary options based on context or user roles. g_form.clearOptions() can remove all options first, and addOption() calls rebuild the choices for the current session.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-021",
+    "type": "single_choice",
+    "prompt": "What is the GlideAjax pattern used for in ServiceNow client scripting?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Calling server-side Script Include methods from client scripts asynchronously"
+      },
+      {
+        "id": "b",
+        "text": "Making synchronous REST API calls from client scripts"
+      },
+      {
+        "id": "c",
+        "text": "Sending form data to the server without navigating away from the page"
+      },
+      {
+        "id": "d",
+        "text": "Loading external JavaScript libraries dynamically in the browser"
+      }
+    ],
+    "correct": "a",
+    "explanation": "GlideAjax is the client-side component of a pattern that allows client scripts to call methods in server-side Script Includes asynchronously. The client creates a GlideAjax object pointing to a client-callable Script Include (which extends AbstractAjaxProcessor), adds parameters, and calls getXML() with a callback function. The server-side method executes and returns an XML response that the callback processes.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-022",
+    "type": "single_choice",
+    "prompt": "What does gs.getUserID() return?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The numeric user ID from the database"
+      },
+      {
+        "id": "b",
+        "text": "The sys_id of the currently logged-in user"
+      },
+      {
+        "id": "c",
+        "text": "The username (login name) of the current user"
+      },
+      {
+        "id": "d",
+        "text": "A GlideUser object for the current user"
+      }
+    ],
+    "correct": "b",
+    "explanation": "gs.getUserID() returns the sys_id of the currently logged-in user as a string. This is useful for setting reference fields pointing to the current user or for querying records associated with the current user. gs.getUserName() returns the login name, gs.getUser() returns the GlideUser object, and gs.getUser().getFullName() returns the display name.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-023",
+    "type": "single_choice",
+    "prompt": "What is GlideScopedEvaluator used for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Evaluating mathematical expressions in server-side scripts"
+      },
+      {
+        "id": "b",
+        "text": "Evaluating ACL conditions from within a Script Include"
+      },
+      {
+        "id": "c",
+        "text": "Safely executing scripts stored as field values in records from within a different scope"
+      },
+      {
+        "id": "d",
+        "text": "Running scripts from one instance in another instance's context"
+      }
+    ],
+    "correct": "c",
+    "explanation": "GlideScopedEvaluator is used to execute scripts stored as string values in record fields (such as condition scripts or action scripts) in a controlled, scoped context. It is particularly useful for platform features that need to evaluate user-defined scripts stored in table fields while maintaining proper scope isolation. It prevents the evaluated scripts from having unintended access to the calling scope's variables.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-024",
+    "type": "single_choice",
+    "prompt": "How do you format a GlideDateTime value as a string in a specific format?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gdt.toString('yyyy-MM-dd')"
+      },
+      {
+        "id": "b",
+        "text": "gdt.formatUTC('yyyy-MM-dd')"
+      },
+      {
+        "id": "c",
+        "text": "gdt.getLocalDate()"
+      },
+      {
+        "id": "d",
+        "text": "gdt.format('yyyy-MM-dd')"
+      }
+    ],
+    "correct": "d",
+    "explanation": "GlideDateTime.format('format_string') returns a string representation of the date/time using the specified format pattern. The format uses Java SimpleDateFormat conventions (yyyy for year, MM for month, dd for day, HH for hours, mm for minutes, ss for seconds). For example, gdt.format('yyyy-MM-dd HH:mm:ss') returns a formatted UTC date/time string.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-025",
+    "type": "single_choice",
+    "prompt": "What does GlideRecord.orderBy('field_name') do when added before query()?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It adds an ORDER BY field_name ASC clause to the query"
+      },
+      {
+        "id": "b",
+        "text": "It orders the results by field_name in descending order"
+      },
+      {
+        "id": "c",
+        "text": "It orders only the first page of results"
+      },
+      {
+        "id": "d",
+        "text": "It sorts records in memory after the query executes"
+      }
+    ],
+    "correct": "a",
+    "explanation": "gr.orderBy('field_name') adds an ascending ORDER BY clause for the specified field to the underlying SQL query. gr.orderByDesc('field_name') adds a descending order. Multiple orderBy() calls can be chained for multi-level sorting. Sorting is performed by the database engine, not in application memory, making it efficient for large result sets.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-026",
+    "type": "single_choice",
+    "prompt": "What does GlideRecord.newRecord() do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It creates and immediately inserts a new blank record into the database"
+      },
+      {
+        "id": "b",
+        "text": "It initializes the GlideRecord with default values and navigates the form to a new record view"
+      },
+      {
+        "id": "c",
+        "text": "It is equivalent to initialize() and is used to prepare a GlideRecord for insertion"
+      },
+      {
+        "id": "d",
+        "text": "It creates a new record and returns its sys_id"
+      }
+    ],
+    "correct": "b",
+    "explanation": "gr.newRecord() initializes the GlideRecord with default field values and navigates the browser to a new record form view (in UI context). In server-side scripts, it is equivalent to initialize() \u2014 it prepares the GlideRecord for a new record insertion by setting default values without creating a database record. It is distinct from insert(), which actually writes the record to the database.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-027",
+    "type": "single_choice",
+    "prompt": "What is the GlideExpressionWrapper class used for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Wrapping complex GlideRecord queries in a reusable object"
+      },
+      {
+        "id": "b",
+        "text": "Building regex expressions for use in GlideRecord queries"
+      },
+      {
+        "id": "c",
+        "text": "Evaluating ServiceNow condition expressions (like those used in filter conditions) against a GlideRecord"
+      },
+      {
+        "id": "d",
+        "text": "Formatting field values with expression syntax for display"
+      }
+    ],
+    "correct": "c",
+    "explanation": "GlideExpressionWrapper evaluates ServiceNow condition filter expressions against a GlideRecord object. It takes a condition string in the encoded query format and evaluates whether a specific record matches that condition. This is useful when you need to programmatically test whether a record matches stored filter criteria without executing a new GlideRecord query.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-028",
+    "type": "single_choice",
+    "prompt": "What does GlideAggregate.getAggregate('SUM', 'field_name') return?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A GlideAggregate object representing the SUM aggregation for further manipulation"
+      },
+      {
+        "id": "b",
+        "text": "The sum of all numeric fields on the current record"
+      },
+      {
+        "id": "c",
+        "text": "The field name with the highest total value in the table"
+      },
+      {
+        "id": "d",
+        "text": "The sum of all non-null values in the specified field across matching records"
+      }
+    ],
+    "correct": "d",
+    "explanation": "After calling ga.addAggregate('SUM', 'field_name') and executing the query, ga.getAggregate('SUM', 'field_name') returns the sum of all non-null values in the specified field across all records matching the query conditions. This is the database-level equivalent of summing a column with SQL SUM(). The result is returned as a string.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-029",
+    "type": "single_choice",
+    "prompt": "What is the purpose of GlideRecord.chooseWindow(firstRow, lastRow)?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It limits the query to return only the records in the specified row range (for pagination)"
+      },
+      {
+        "id": "b",
+        "text": "It displays a dialog window with the specified range of records"
+      },
+      {
+        "id": "c",
+        "text": "It selects a specific time window for querying time-based records"
+      },
+      {
+        "id": "d",
+        "text": "It configures the visible columns in the list view for the specified rows"
+      }
+    ],
+    "correct": "a",
+    "explanation": "gr.chooseWindow(firstRow, lastRow) limits a GlideRecord query to return only the records in the specified row range, effectively implementing offset and limit pagination in a single call. For example, chooseWindow(0, 9) returns the first 10 records, chooseWindow(10, 19) returns records 11-20. This is an alternative to using setLimit() and manually tracking offset.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-030",
+    "type": "single_choice",
+    "prompt": "In a client script, what does g_form.getReference('reference_field', callbackFunction) do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It returns a reference to the DOM element for the specified field"
+      },
+      {
+        "id": "b",
+        "text": "It asynchronously retrieves the referenced record as a GlideRecord object, passing it to the callback"
+      },
+      {
+        "id": "c",
+        "text": "It synchronously fetches the display value of the reference field"
+      },
+      {
+        "id": "d",
+        "text": "It creates a hyperlink to the referenced record"
+      }
+    ],
+    "correct": "b",
+    "explanation": "g_form.getReference('reference_field', callbackFunction) asynchronously fetches the referenced record using an AJAX call to the server. When the data is available, the callback function is called with the referenced record's data as a GlideRecord-like object. Because the call is asynchronous, all logic that depends on the referenced record's data must be placed inside the callback function.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-031",
+    "type": "single_choice",
+    "prompt": "What method is used to get the current date and time as a GlideDateTime object in server-side scripts?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "GlideDateTime.now()"
+      },
+      {
+        "id": "b",
+        "text": "gs.nowGDT()"
+      },
+      {
+        "id": "c",
+        "text": "new GlideDateTime()"
+      },
+      {
+        "id": "d",
+        "text": "GlideDateTime.getCurrent()"
+      }
+    ],
+    "correct": "c",
+    "explanation": "new GlideDateTime() (with no arguments) creates a GlideDateTime object initialized to the current date and time in UTC. Passing a string argument creates a GlideDateTime from a formatted date string. This is the standard way to get the current moment as a GlideDateTime object for date arithmetic. gs.now() returns the current time as a formatted string, not a GlideDateTime object.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-032",
+    "type": "single_choice",
+    "prompt": "What does calling GlideRecord.addActiveQuery() on a query do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It adds a condition that only returns records that were recently modified"
+      },
+      {
+        "id": "b",
+        "text": "It is not a valid GlideRecord method"
+      },
+      {
+        "id": "c",
+        "text": "It activates the query for real-time result updates"
+      },
+      {
+        "id": "d",
+        "text": "It adds a condition that filters results to only include records where the 'active' field is true"
+      }
+    ],
+    "correct": "d",
+    "explanation": "gr.addActiveQuery() is a convenience method that adds a condition equivalent to gr.addQuery('active', true). It filters the query results to only include records where the 'active' field equals true. This is commonly used on tables that have an active flag (like sys_user, sys_group, etc.) to filter out deactivated records.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-033",
+    "type": "single_choice",
+    "prompt": "What is the purpose of GlideRecord.setAbortAction(true) in a before business rule?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It cancels the database insert or update operation for the current record"
+      },
+      {
+        "id": "b",
+        "text": "It aborts the current GlideRecord query and clears all results"
+      },
+      {
+        "id": "c",
+        "text": "It stops all subsequent business rules from firing"
+      },
+      {
+        "id": "d",
+        "text": "It rolls back the entire database transaction"
+      }
+    ],
+    "correct": "a",
+    "explanation": "current.setAbortAction(true) in a before business rule cancels the pending database insert or update operation for the current record. The record is not saved to the database. This is the primary mechanism for server-side validation in business rules \u2014 if validation fails, the developer calls setAbortAction(true) and optionally displays an error message to the user with gs.addErrorMessage().",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-034",
+    "type": "single_choice",
+    "prompt": "How do you check if a GlideUser is a member of a specific group in a server-side script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gs.getUser().isInGroup('group_name')"
+      },
+      {
+        "id": "b",
+        "text": "gs.getUser().isMemberOf('group_name')"
+      },
+      {
+        "id": "c",
+        "text": "gs.inGroup('group_name')"
+      },
+      {
+        "id": "d",
+        "text": "gs.getUser().hasGroup('group_name')"
+      }
+    ],
+    "correct": "b",
+    "explanation": "gs.getUser().isMemberOf('group_name') returns true if the currently logged-in user is a member of the specified group. The method accepts either the group's name or sys_id. Group membership is checked against the sys_user_grmember table. This is commonly used in business rules and Script Includes to gate functionality based on group membership rather than roles.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-035",
+    "type": "single_choice",
+    "prompt": "What happens when you call gr.update() on a GlideRecord in a server-side script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It runs an UPDATE SQL on all records matching the current query conditions"
+      },
+      {
+        "id": "b",
+        "text": "It refreshes the GlideRecord with the latest values from the database"
+      },
+      {
+        "id": "c",
+        "text": "It saves any pending field changes to the currently positioned record in the database"
+      },
+      {
+        "id": "d",
+        "text": "It triggers all associated business rules to re-evaluate"
+      }
+    ],
+    "correct": "c",
+    "explanation": "gr.update() saves any pending field changes to the currently positioned record in the database. It triggers all applicable business rules (unless setWorkflow(false) was called). It should be used with caution inside business rules on the same table to avoid infinite loops. In Script Includes and other server-side contexts, it is the standard method for persisting record changes.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-036",
+    "type": "single_choice",
+    "prompt": "What does the GlideRecord.getUniqueValue() method return?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A unique hash of all field values for change detection"
+      },
+      {
+        "id": "b",
+        "text": "A unique identifier generated for the current script execution"
+      },
+      {
+        "id": "c",
+        "text": "The value of the table's unique key field (may not always be sys_id)"
+      },
+      {
+        "id": "d",
+        "text": "The sys_id of the current record"
+      }
+    ],
+    "correct": "d",
+    "explanation": "gr.getUniqueValue() returns the sys_id of the current record as a string. It is equivalent to gr.getValue('sys_id') or gr.sys_id.toString(). This method is commonly used to retrieve the sys_id of a record after an insert operation (though gr.insert() also returns the sys_id) or to pass the current record's identifier to other functions.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-037",
+    "type": "single_choice",
+    "prompt": "In a client script, what does g_form.getControl('field_name') return?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The HTML DOM element (input/select/etc.) for the field in the browser"
+      },
+      {
+        "id": "b",
+        "text": "The GlideElement object for the field on the server"
+      },
+      {
+        "id": "c",
+        "text": "A control object with methods to manipulate the field's UI Policy state"
+      },
+      {
+        "id": "d",
+        "text": "The field's current validation status"
+      }
+    ],
+    "correct": "a",
+    "explanation": "g_form.getControl('field_name') returns the HTML DOM element for the specified field in the browser. This allows direct DOM manipulation when g_form API methods are insufficient. However, using g_form.getControl() for DOM manipulation is discouraged as it relies on internal HTML structure that may change between ServiceNow releases. Prefer g_form API methods whenever possible.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-038",
+    "type": "single_choice",
+    "prompt": "What is the correct way to check if a GlideDateTime is before another GlideDateTime?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gdt1 < gdt2"
+      },
+      {
+        "id": "b",
+        "text": "gdt1.compareTo(gdt2) < 0"
+      },
+      {
+        "id": "c",
+        "text": "gdt1.before(gdt2)"
+      },
+      {
+        "id": "d",
+        "text": "gdt1.getNumericValue() < gdt2.getNumericValue()"
+      }
+    ],
+    "correct": "b",
+    "explanation": "GlideDateTime.compareTo(other) returns a negative number if the calling GlideDateTime is before the other, 0 if they are equal, and a positive number if it is after. So gdt1.compareTo(gdt2) < 0 correctly checks if gdt1 is before gdt2. Using < directly on GlideDateTime objects performs string comparison, not date comparison, and may produce incorrect results.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-039",
+    "type": "single_choice",
+    "prompt": "What does gs.eventQueue('event.name', current, param1, param2) do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Schedules a message to be sent to an external event bus"
+      },
+      {
+        "id": "b",
+        "text": "Adds a task to the async business rule execution queue"
+      },
+      {
+        "id": "c",
+        "text": "Creates an event record in the sysevent table that triggers registered event handlers and notifications"
+      },
+      {
+        "id": "d",
+        "text": "Publishes a Flow Designer event that triggers flows with a matching event trigger"
+      }
+    ],
+    "correct": "c",
+    "explanation": "gs.eventQueue() creates a record in the sysevent table representing a named event, optionally passing the current record and two string parameters. Event handlers (business rules or Script Actions listening for the event name) are then triggered asynchronously. Notifications can also be configured to fire on specific events. This is the platform's event-driven programming mechanism.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-glide-040",
+    "type": "single_choice",
+    "prompt": "When GlideRecord.canCreate() returns false for a table, what does that indicate?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The table has reached its maximum row count"
+      },
+      {
+        "id": "b",
+        "text": "The application scope does not have write access to the table"
+      },
+      {
+        "id": "c",
+        "text": "The table is read-only and was created by ServiceNow"
+      },
+      {
+        "id": "d",
+        "text": "The current user does not have ACL-based create access to the table"
+      }
+    ],
+    "correct": "d",
+    "explanation": "GlideRecord.canCreate() returns false when the currently logged-in user does not have the necessary ACL permissions to create (insert) new records in the table. This evaluates the full ACL chain for the 'create' operation, including role requirements, conditions, and script-based ACLs. Developers use this to conditionally show UI elements or skip operations when the user lacks the required access.",
+    "topics": [
+      "glide-api"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-mp-hv-001",
+    "type": "single_choice",
+    "prompt": "A platform engineering team is tracking their error budget for a critical payment service. The SLO is 99.9% availability over a 30-day window, giving an error budget of approximately 43.8 minutes per month. With 12 days remaining in the month, the team has consumed 80% of the error budget. What is the most appropriate response?",
+    "choices": [
+      { "id": "a", "text": "Freeze all deployments immediately and wait for the month to reset before resuming feature work." },
+      { "id": "b", "text": "Continue normal deployment cadence because 20% of the budget remains and the month is not yet over." },
+      { "id": "c", "text": "Shift engineering focus toward reliability improvements and apply additional caution to changes, using the remaining budget as signal to prioritise stability over new features." },
+      { "id": "d", "text": "Renegotiate the SLO upward to 99.5% to recover budget headroom and unblock deployments." }
+    ],
+    "correct": "c",
+    "explanation": "Error budget management is a disciplined practice, not a binary freeze-or-go decision. Consuming 80% with 12 days remaining signals that reliability work should be prioritised over feature velocity. The team should apply heightened change caution and actively improve reliability. A hard freeze ignores the nuance the error budget framework is designed to provide. Continuing at normal pace risks exhausting the budget before month end. Renegotiating the SLO to recover headroom defeats the purpose of having an accountability mechanism and undermines trust with users.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-002",
+    "type": "single_choice",
+    "prompt": "An SRE team conducts a blameless postmortem after an outage caused by a misconfigured load balancer change. The engineer who made the change is present. Which outcome best demonstrates that the blameless postmortem principle was correctly applied?",
+    "choices": [
+      { "id": "a", "text": "The engineer receives a formal warning to deter future configuration errors." },
+      { "id": "b", "text": "The postmortem identifies the systemic conditions that made the misconfiguration possible and produces action items to improve the change process, with no personal blame attributed." },
+      { "id": "c", "text": "The team agrees not to discuss the incident publicly so that the engineer's reputation is protected." },
+      { "id": "d", "text": "The postmortem concludes that the engineer should not be assigned infrastructure changes until they complete additional training." }
+    ],
+    "correct": "b",
+    "explanation": "Blameless postmortems focus on systemic conditions and process failures that made the incident possible, not on individual fault. The goal is to improve the system so that no individual's mistake alone can cause the same outcome. Issuing a formal warning or restricting the engineer's work assigns individual blame and discourages honest disclosure in future incidents. Keeping the incident private does not address systemic issues and does not produce organisational learning. Systemic action items that improve the change process are the hallmark of a successful blameless postmortem.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-003",
+    "type": "single_choice",
+    "prompt": "A development team is considering adopting continuous delivery (CD). The team currently deploys every six weeks and their deployment process takes two days of manual effort. Continuous delivery would require significant automation investment. What is the strongest justification for making this investment?",
+    "choices": [
+      { "id": "a", "text": "Continuous delivery is required by ITIL 4 for all IT organisations." },
+      { "id": "b", "text": "Smaller, more frequent deployments reduce the size of each change, lowering risk per deployment and reducing the time between a feature being coded and delivering value to users." },
+      { "id": "c", "text": "Continuous delivery eliminates the need for change management review because deployments are automated." },
+      { "id": "d", "text": "It allows the team to deploy features without testing because the pipeline includes rollback capability." }
+    ],
+    "correct": "b",
+    "explanation": "The core value proposition of continuous delivery is that smaller, more frequent releases reduce risk per change and shorten the feedback loop between development and production value delivery. Large infrequent releases accumulate changes, making the blast radius of any single issue larger and delaying when users benefit from completed work. ITIL 4 does not mandate CD for all organisations. CD does not eliminate change management; it changes how change management is implemented. CD absolutely requires comprehensive automated testing; rollback is a safety net, not a substitute for quality gates.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-004",
+    "type": "single_choice",
+    "prompt": "An engineering team is applying the Cynefin framework to categorise a series of work items. One item involves diagnosing an intermittent performance degradation in a distributed microservices system where the interactions between services are poorly understood and previous fixes have had unpredictable side effects. In which Cynefin domain does this work item sit?",
+    "choices": [
+      { "id": "a", "text": "Simple (Clear), because microservices architectures have well-established performance troubleshooting playbooks." },
+      { "id": "b", "text": "Complicated, because the system is technically demanding but an expert can apply known methods to diagnose it." },
+      { "id": "c", "text": "Complex, because the system exhibits unpredictable, emergent behaviour where cause and effect are only understood in retrospect." },
+      { "id": "d", "text": "Chaotic, because the team has no understanding of what is causing the degradation." }
+    ],
+    "correct": "c",
+    "explanation": "In the Cynefin framework, Complex domains are characterised by systems where cause-and-effect relationships are entangled and only clear in hindsight, and where expert analysis alone is insufficient because interventions produce emergent, unpredictable responses. An intermittent degradation in a distributed system with unpredictable side effects from previous fixes is a Complex problem. Simple problems have obvious cause-and-effect relationships. Complicated problems are difficult but solvable with expert analysis and known methods. Chaotic problems involve no discernible cause-and-effect; the team would be unable to even theorise about causes.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-005",
+    "type": "single_choice",
+    "prompt": "An SRE team calculates that engineers spend 45% of their time on toil: manual, repetitive operational tasks that do not improve the system or advance features. Google SRE practice recommends keeping toil below a specific threshold. What is that recommended ceiling for toil, and what should teams do when they exceed it?",
+    "choices": [
+      { "id": "a", "text": "Below 10%; teams exceeding this should immediately stop all feature work until toil is eliminated." },
+      { "id": "b", "text": "Below 50%; the team in this scenario is within acceptable limits and no action is required." },
+      { "id": "c", "text": "Below 50%; the team at 45% is approaching the ceiling and should begin automating toil reduction proactively before it consumes further capacity." },
+      { "id": "d", "text": "Toil has no defined ceiling; it is acceptable as long as SLOs are being met." }
+    ],
+    "correct": "c",
+    "explanation": "Google SRE practice establishes a 50% ceiling for toil as a proportion of SRE working time, with the expectation that teams actively work to automate and eliminate toil when it approaches this limit. At 45%, the team in this scenario is approaching the ceiling and should proactively invest in automation before capacity is further eroded. The 10% threshold in option A is not the SRE guideline. Option B correctly states the threshold but incorrectly concludes that no action is required when the team is clearly approaching the limit. Toil without a defined ceiling contradicts the SRE discipline of treating operational work as an engineering problem to be solved.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-006",
+    "type": "single_choice",
+    "prompt": "An organisation is developing its technical debt management strategy. A legacy monolith has accumulated years of deferred refactoring and undocumented hacks. The CTO argues that technical debt should be paid down opportunistically as developers touch related code. An architect argues for a dedicated quarterly 'debt sprint.' Which approach best reflects mature technical debt management in a high-velocity IT context?",
+    "choices": [
+      { "id": "a", "text": "The CTO's approach, because coupling debt repayment to feature work is the most cost-effective strategy." },
+      { "id": "b", "text": "The architect's approach, because separating debt work into dedicated sprints ensures it is never crowded out by feature priorities." },
+      { "id": "c", "text": "A combination: opportunistic refactoring for small, well-understood items encountered during feature work, plus scheduled capacity allocated explicitly to strategic debt reduction with measurable targets." },
+      { "id": "d", "text": "Neither approach; technical debt should be addressed only when it causes incidents or blocks feature development." }
+    ],
+    "correct": "c",
+    "explanation": "High-velocity IT practice recognises that technical debt must be actively managed, not merely tolerated. Opportunistic refactoring during feature work is efficient for small, adjacent debt but insufficient for systemic legacy issues. Dedicated scheduled capacity ensures strategic debt reduction is never perpetually deprioritised. A combined approach provides both tactical coverage and strategic progress. Coupling all debt work to feature changes risks overlooking isolated debt modules. Addressing debt only reactively (when incidents occur) is the root cause of the problem the organisation is trying to escape.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-007",
+    "type": "single_choice",
+    "prompt": "The HVIT module defines five objectives of an 'IT-intensive digital organisation.' One objective is to be 'resilient.' In the context of HVIT, what does organisational resilience specifically require beyond high-availability infrastructure?",
+    "choices": [
+      { "id": "a", "text": "Redundant hardware in every data centre." },
+      { "id": "b", "text": "A culture and set of practices that enable the organisation to absorb disruption, adapt continuously, and recover quickly, including from self-inflicted failures." },
+      { "id": "c", "text": "A disaster recovery plan with an RTO of less than four hours." },
+      { "id": "d", "text": "A change freeze policy during peak business periods to prevent self-inflicted outages." }
+    ],
+    "correct": "b",
+    "explanation": "In HVIT, resilience is broader than infrastructure redundancy or formal DR plans. It encompasses the organisational capability to absorb disruption, maintain key functions under stress, and adapt to changing conditions — including the ability to learn from and recover quickly from self-inflicted incidents (such as bad deployments). Redundant hardware and RTO targets are necessary infrastructure elements but do not constitute organisational resilience in the HVIT sense. Change freezes during peak periods are a risk mitigation tactic, but mature resilience means being able to deploy safely even during critical periods, not avoiding change altogether.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-008",
+    "type": "single_choice",
+    "prompt": "A team is evaluating where its current automation capability sits on the AIOps adoption model. Their monitoring system generates alerts, engineers review and correlate them manually, and they apply pre-approved remediation scripts for known alert patterns. Where does this capability sit, and what is the next maturity level?",
+    "choices": [
+      { "id": "a", "text": "Autonomous; no further maturity is possible." },
+      { "id": "b", "text": "Manual; the next level is assisted automation where tools provide recommendations but humans decide." },
+      { "id": "c", "text": "Assisted; the team receives alert signals but acts manually. The next level is automated, where the system executes pre-approved remediations without human intervention for known patterns." },
+      { "id": "d", "text": "Automated; the next level would be autonomous AI-driven self-healing with no human oversight." }
+    ],
+    "correct": "c",
+    "explanation": "In the automation adoption model, 'assisted' describes the stage where tools provide signals and support (alerts, correlation recommendations), but humans perform the remediation decisions and actions. The team is at this level: they receive alerts and manually apply pre-approved scripts. The next maturity level is 'automated,' where the system itself executes pre-approved remediations for known patterns without requiring a human to trigger each action. Autonomous represents the highest maturity, where AI-driven systems handle novel situations with minimal human oversight — a stage beyond automated.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-009",
+    "type": "single_choice",
+    "prompt": "A product manager wants to apply Lean IT principles to reduce time-to-market for new features. The team's current value stream shows that code review takes one day but sits in a two-day queue, and deployment approval takes four hours but waits three days for the approval board to convene. Which Lean principle should guide the improvement approach?",
+    "choices": [
+      { "id": "a", "text": "Perfection: keep improving every step until the process is completely free of waste." },
+      { "id": "b", "text": "Pull: only start work when the next step is ready to receive it, eliminating in-process inventory." },
+      { "id": "c", "text": "Flow: optimise for smooth, continuous movement of work through the value stream by reducing queues and batch sizes." },
+      { "id": "d", "text": "Value: redefine what 'value' means to justify longer lead times to stakeholders." }
+    ],
+    "correct": "c",
+    "explanation": "Both bottlenecks described are flow problems: work is completing quickly but stalling in queues between steps. The Lean principle of Flow focuses specifically on achieving smooth, uninterrupted movement through the value stream. Reducing queue depths and enabling work to progress without waiting between steps directly addresses the bottleneck pattern. Pull is a related concept about not overloading downstream steps, but the primary diagnosis here is queue-driven flow disruption. Perfection is a long-term aspiration, not the immediate principle to apply. Redefining value to justify wait times is rationalisation, not improvement.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-010",
+    "type": "single_choice",
+    "prompt": "An organisation's security team insists on manual approval of every infrastructure change before it is applied to production, citing compliance requirements. The platform team argues this approval step adds three to five days of delay to every change. Which approach best reconciles safety culture with high-velocity IT delivery?",
+    "choices": [
+      { "id": "a", "text": "Automate all infrastructure changes so they deploy without any security review, relying on post-deployment monitoring to detect issues." },
+      { "id": "b", "text": "Embed security checks and compliance validation into the CI/CD pipeline as automated gates, shifting security left so that manual approval is only required for genuinely high-risk changes." },
+      { "id": "c", "text": "Accept the three-to-five day delay because compliance requirements cannot be modified." },
+      { "id": "d", "text": "Create a separate 'fast lane' pipeline for non-security-related changes that bypasses the approval step entirely." }
+    ],
+    "correct": "b",
+    "explanation": "A safety culture in HVIT does not mean choosing between security and velocity; it means embedding security controls into the delivery process so compliance is continuously validated rather than manually reviewed after the fact. Automated compliance gates in the CI/CD pipeline provide the coverage security needs while removing the queue delay for pre-validated changes. Manual review is reserved for genuinely high-risk or policy-defined exceptions. Removing all security review eliminates the control entirely. Accepting delay without improvement is not high-velocity practice. A bypass fast lane creates an uncontrolled path that circumvents security intent.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-011",
+    "type": "single_choice",
+    "prompt": "A team is applying design thinking to improve an internal developer portal. After defining the problem, they run a 30-minute ideation session using 'How Might We' prompts and generate 45 ideas on sticky notes. No ideas are evaluated during the session. What is the purpose of deferring evaluation during ideation?",
+    "choices": [
+      { "id": "a", "text": "To reduce meeting time by separating generation from decision-making." },
+      { "id": "b", "text": "To prevent premature convergence and critical judgment from suppressing creative or unconventional ideas before the space has been fully explored." },
+      { "id": "c", "text": "To ensure that all 45 ideas will eventually be implemented in the product roadmap." },
+      { "id": "d", "text": "Because ITIL 4 requires a minimum of 40 ideas before evaluation can begin." }
+    ],
+    "correct": "b",
+    "explanation": "In design thinking, the ideate phase deliberately defers evaluation to create psychological safety for generating unconventional, creative, or seemingly impractical ideas. When evaluation is mixed with generation, people self-censor and group dynamics suppress divergent thinking. Separating the phases allows the full idea space to emerge before convergence begins. This is about creative output quality, not meeting efficiency. Ideas will be filtered and prioritised; not all 45 will be implemented. ITIL 4 specifies no minimum idea count; this is a design thinking facilitation principle.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-012",
+    "type": "single_choice",
+    "prompt": "A digital product manager is applying the digital product lifecycle to manage a B2B payment integration service. The service is currently used by 12 enterprise customers and the team is receiving requests to add new payment rails. The CTO asks where the product sits in its lifecycle and what the appropriate investment posture should be. What lifecycle stage is described and what investment posture applies?",
+    "choices": [
+      { "id": "a", "text": "Introduction: invest heavily in marketing to acquire the first customers before optimising the product." },
+      { "id": "b", "text": "Growth: the product has proven market fit with initial customers; investment should focus on scaling adoption, expanding capabilities, and hardening reliability to support broader rollout." },
+      { "id": "c", "text": "Maturity: the product is established and investment should shift to cost efficiency and deprecation planning." },
+      { "id": "d", "text": "Decline: the product has peaked and new feature requests should be rejected to manage down costs." }
+    ],
+    "correct": "b",
+    "explanation": "With 12 enterprise customers and incoming feature requests for expanded capability, the service is in the Growth phase of its product lifecycle. It has proven market fit beyond initial adoption. The appropriate investment posture in Growth is to scale adoption, expand capabilities to capture new use cases, and invest in reliability and scalability to support a larger customer base. Introduction describes pre-customer or early-adopter stages. Maturity applies to established, plateauing products where efficiency is the priority. Decline is characterised by shrinking usage and market contraction, the opposite of what is described.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-013",
+    "type": "single_choice",
+    "prompt": "An organisation's HVIT transformation is progressing but the team notices that security and compliance colleagues are resistant because they feel excluded from decisions about new automated pipelines. What does the 'ethically driven' HVIT objective require in this situation?",
+    "choices": [
+      { "id": "a", "text": "Override security objections when they slow down delivery, because velocity is the primary HVIT goal." },
+      { "id": "b", "text": "Include security and compliance stakeholders as active participants in designing the pipelines, ensuring controls are embedded rather than bolted on." },
+      { "id": "c", "text": "Create a separate compliance approval board to review pipelines after they are built." },
+      { "id": "d", "text": "Accept that some security controls will need to be relaxed as a trade-off for achieving HVIT velocity targets." }
+    ],
+    "correct": "b",
+    "explanation": "The 'ethically driven' HVIT objective requires that organisations maintain integrity, transparency, and accountability in how they operate digitally, which includes ensuring security and compliance are embedded into delivery processes rather than ignored or bypassed. Excluding security colleagues and overriding their concerns is not consistent with being ethically driven. A post-build approval board reintroduces the batch approval delay that high-velocity delivery is trying to eliminate. Relaxing security controls to hit velocity targets conflicts directly with the trust-based and ethically driven HVIT principles.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-014",
+    "type": "single_choice",
+    "prompt": "A DevOps team introduces psychological safety practices including a team agreement that no question is too basic and that mistakes are discussed openly in retrospectives. Six months later, the team reports faster identification of production issues and fewer incidents recur. What is the primary mechanism through which psychological safety contributed to this outcome?",
+    "choices": [
+      { "id": "a", "text": "Psychological safety increased team happiness, which correlates with better performance." },
+      { "id": "b", "text": "Psychological safety enabled engineers to surface concerns, report near-misses, and discuss failures honestly without fear of blame, accelerating learning and preventing recurrence." },
+      { "id": "c", "text": "Psychological safety reduced the number of meetings, freeing time for incident investigation." },
+      { "id": "d", "text": "Psychological safety is unrelated to technical outcomes and the improvement was likely caused by other factors." }
+    ],
+    "correct": "b",
+    "explanation": "Psychological safety enables the information flows that high-performing engineering teams require: engineers surface concerns early (reducing incidents), report near-misses (enabling preventive action), and discuss failures openly (enabling systemic learning that prevents recurrence). This is the causal mechanism between safety culture and reliability outcomes. Happiness as a sole mechanism is too indirect. Psychological safety does not specifically reduce meeting count. Research across DevOps organisations — including the DORA research programme — consistently shows psychological safety as a technical performance enabler, not a coincidental factor.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-hv-015",
+    "type": "single_choice",
+    "prompt": "A team is deciding whether to migrate a customer-facing API gateway to a new cloud-native architecture or maintain the current on-premises deployment. They create a prototype of the new architecture and test it with synthetic traffic. In design thinking terms, what is the purpose of this prototype at this stage?",
+    "choices": [
+      { "id": "a", "text": "To build the production-ready system incrementally so that it is ready to deploy once testing is complete." },
+      { "id": "b", "text": "To learn quickly and cheaply whether the proposed solution solves the defined problem and is feasible, before committing to full implementation." },
+      { "id": "c", "text": "To demonstrate technical capability to stakeholders and secure budget for the full migration project." },
+      { "id": "d", "text": "To satisfy a governance requirement for a proof-of-concept before any infrastructure change is approved." }
+    ],
+    "correct": "b",
+    "explanation": "In design thinking, prototyping is an explicit learning mechanism: build a rough but testable version of the solution to generate insight about whether it solves the problem and whether it is technically feasible, at the lowest possible cost before committing to full implementation. It is explicitly not incremental production development. While prototypes can inform stakeholder decisions, the primary purpose is learning and validation, not budget acquisition. Governance proof-of-concept requirements may use similar artefacts but that is an organisational process concern; it does not define the design thinking purpose of a prototype.",
+    "topics": ["high-velocity-it"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: High-velocity IT", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  }
+]

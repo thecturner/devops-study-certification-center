@@ -1,0 +1,206 @@
+[
+  {
+    "id": "ccaf-mcpa-001",
+    "type": "single_choice",
+    "prompt": "In MCP, what is 'sampling' and which entity initiates it?",
+    "choices": [
+      { "id": "a", "text": "Sampling selects tools from a server's list for inclusion in a prompt; the client initiates it" },
+      { "id": "b", "text": "Sampling allows an MCP server to request the client's LLM to generate a completion; the server initiates the request through the client" },
+      { "id": "c", "text": "Sampling is how clients throttle the rate of requests to servers to avoid overload; the client initiates it" },
+      { "id": "d", "text": "Sampling randomly selects context items for prompt augmentation; it happens automatically" }
+    ],
+    "correct": "b",
+    "explanation": "Sampling is an MCP capability that inverts the usual flow: instead of the client asking the server for tool results, the server asks the client to run an LLM inference and return the result. This lets server-side logic incorporate LLM reasoning without needing direct model access. The server sends a sampling request through the established connection; the client performs the inference and returns the response.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP Specification — Sampling" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-002",
+    "type": "single_choice",
+    "prompt": "How does an MCP server send a progress update to the client during a long-running tool execution?",
+    "choices": [
+      { "id": "a", "text": "By returning a partial result in the tool's main response body with a 'partial: true' flag" },
+      { "id": "b", "text": "By calling a progress reporting method on the context object passed to the tool handler" },
+      { "id": "c", "text": "By opening a separate WebSocket connection directly to the client for streaming" },
+      { "id": "d", "text": "By appending a progress field to the tool's JSON schema definition at registration time" }
+    ],
+    "correct": "b",
+    "explanation": "MCP tool handlers receive a context object that exposes lifecycle methods including progress reporting. The server calls the context's progress method (e.g., ctx.report_progress in the Python SDK) with the current and total values, and the MCP framework converts this into a notifications/progress JSON-RPC notification sent to the client. This keeps progress updates decoupled from the tool's final response.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Progress Notifications" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-003",
+    "type": "single_choice",
+    "prompt": "What MCP mechanism allows a server to emit structured log messages that the client can capture or display?",
+    "choices": [
+      { "id": "a", "text": "Logging is handled exclusively by the transport layer and is not accessible to application code" },
+      { "id": "b", "text": "Servers emit log messages through logging methods on the context object, such as ctx.info() or ctx.error()" },
+      { "id": "c", "text": "Log messages are embedded in the metadata field of every tool response" },
+      { "id": "d", "text": "Servers write log entries directly to a shared log file on the client's local filesystem" }
+    ],
+    "correct": "b",
+    "explanation": "MCP servers use the context object's logging methods (ctx.debug, ctx.info, ctx.warning, ctx.error in the Python SDK) to emit notifications/message notifications toward the client. These are JSON-RPC notifications, not responses, so they do not block tool execution. Clients can display or route these messages independently of tool results.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Logging Notifications" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-004",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'roots' in the MCP specification?",
+    "choices": [
+      { "id": "a", "text": "Roots define the entry-point tool that a compliant MCP server must expose" },
+      { "id": "b", "text": "Roots declare a set of resource URIs or filesystem paths the client grants the server permission to access" },
+      { "id": "c", "text": "Roots specify the JSON-RPC namespace prefix used for all MCP method names" },
+      { "id": "d", "text": "Roots identify the primary LLM model the server was designed to work with" }
+    ],
+    "correct": "b",
+    "explanation": "Roots are a capability where the client communicates to the server a list of URIs — typically file:// paths — representing the boundaries within which the server is allowed to operate. This creates an explicit security boundary: the server knows which directories or resources it has been granted access to, and a well-behaved server restricts its file operations to those roots.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP Specification — Roots" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-005",
+    "type": "single_choice",
+    "prompt": "In the MCP JSON-RPC message architecture, what is the key structural difference between a request and a notification?",
+    "choices": [
+      { "id": "a", "text": "Requests use HTTP GET; notifications use HTTP POST" },
+      { "id": "b", "text": "Requests carry an 'id' field and expect a response; notifications have no 'id' and no response is ever sent" },
+      { "id": "c", "text": "Notifications flow only from client to server; requests flow in both directions" },
+      { "id": "d", "text": "Requests carry tool definitions; notifications carry log and progress messages" }
+    ],
+    "correct": "b",
+    "explanation": "JSON-RPC 2.0 (which MCP uses) defines two outgoing message types: requests, which include an 'id' field and require a matching response, and notifications, which omit the 'id' and must not receive a response. MCP uses requests for operations that need a result (tool calls, resource reads, initialize) and notifications for one-way signals like progress updates and log messages.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — JSON-RPC Message Architecture" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-006",
+    "type": "single_choice",
+    "prompt": "During the stdio transport initialization handshake, what must the client send immediately after launching the server subprocess?",
+    "choices": [
+      { "id": "a", "text": "A 'ping' request to verify the server process started successfully" },
+      { "id": "b", "text": "An 'initialize' request declaring the client's protocol version and capabilities" },
+      { "id": "c", "text": "A 'tools/list' request to enumerate the available tools before any other operation" },
+      { "id": "d", "text": "An authentication token embedded as the first JSON-RPC message" }
+    ],
+    "correct": "b",
+    "explanation": "The MCP initialization handshake requires the client to send an 'initialize' request as the very first message after the subprocess starts. This request includes the client's protocol version and capabilities. The server responds with its own version and capabilities. Only after the client sends the subsequent 'initialized' notification is the connection considered ready for normal operation.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — stdio Transport Initialization" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-007",
+    "type": "single_choice",
+    "prompt": "A developer is implementing Streamable HTTP transport. Under what condition does the server respond to a client's POST request with a text/event-stream SSE response rather than a plain JSON body?",
+    "choices": [
+      { "id": "a", "text": "Whenever the POST body contains a tool invocation of any kind" },
+      { "id": "b", "text": "When the client includes Accept: text/event-stream in its request headers, signaling it can consume a streaming response" },
+      { "id": "c", "text": "SSE is always used for all Streamable HTTP responses; plain JSON is never permitted" },
+      { "id": "d", "text": "SSE is reserved for authentication flows; tool invocations always receive a JSON response" }
+    ],
+    "correct": "b",
+    "explanation": "Streamable HTTP is content-negotiated. If the client includes Accept: text/event-stream, the server may respond with an SSE stream to push multiple messages (progress events, partial results, or batched notifications) before the final response. If the client sends only Accept: application/json, the server must return a single JSON response. This design makes the transport flexible for both simple request-response and streaming patterns.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Streamable HTTP Transport" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-008",
+    "type": "single_choice",
+    "prompt": "The legacy HTTP+SSE transport used a dedicated GET endpoint for server-to-client messages. Why would a production deployment prefer Streamable HTTP over this pattern?",
+    "choices": [
+      { "id": "a", "text": "The legacy GET endpoint requires stateful long-lived connections that complicate horizontal scaling and load balancer configuration" },
+      { "id": "b", "text": "The legacy pattern uses polling instead of SSE, which is too slow for production workloads" },
+      { "id": "c", "text": "The legacy pattern forces all responses to be synchronous, blocking the event loop" },
+      { "id": "d", "text": "The legacy pattern is HTTP/1.1 only and cannot run on servers that require HTTP/2" }
+    ],
+    "correct": "a",
+    "explanation": "The legacy HTTP+SSE transport required a persistent SSE connection on a GET endpoint, meaning each client maintained a long-lived stateful connection to a specific server instance. This is hostile to horizontal scaling because load balancers cannot easily route follow-up requests to the correct instance. Streamable HTTP avoids persistent connections by streaming responses inline on POST requests, making each request independently routable.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — HTTP Transport Evolution" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-009",
+    "type": "single_choice",
+    "prompt": "An engineering team deploys an MCP server behind a load balancer with three stateless instances. Which design allows any instance to handle any request, and what trade-off does it introduce?",
+    "choices": [
+      { "id": "a", "text": "stdio transport with a process pool; each request forks a new process (stateless) but has significant per-request startup overhead" },
+      { "id": "b", "text": "Stateless Streamable HTTP transport with session state externalized to a shared store such as Redis; enables horizontal scaling but requires shared-state infrastructure" },
+      { "id": "c", "text": "SSE transport with sticky sessions enforced at the load balancer; stateless within a session but breaks when an instance restarts" },
+      { "id": "d", "text": "HTTP+SSE transport with server-sent sequence numbers; naturally stateless because SSE is a connectionless protocol" }
+    ],
+    "correct": "b",
+    "explanation": "For truly stateless horizontal scaling, any per-request or per-session state (such as session IDs or in-progress tool state) must be stored outside the server process. Externalizing to Redis or a similar shared store allows any load-balanced instance to reconstruct the necessary context for any request. The trade-off is the operational complexity and latency of an additional infrastructure dependency.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Production Scaling" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-010",
+    "type": "single_choice",
+    "prompt": "An MCP server receives a roots/list result from the client containing a single path: file:///home/user/project/src. The server's tool logic attempts to read /home/user/project/.env. What is the correct server behavior?",
+    "choices": [
+      { "id": "a", "text": "Read the file; .env is in the project directory, which is implied by the declared src root" },
+      { "id": "b", "text": "Decline to read the file; .env is outside the declared root src and violates the security boundary established by roots" },
+      { "id": "c", "text": "Send a roots/update request asking the client to expand the root to cover the parent directory" },
+      { "id": "d", "text": "Read the file but emit a ctx.warning() logging notification to inform the client of the access" }
+    ],
+    "correct": "b",
+    "explanation": "The roots mechanism is a security boundary. The client declared file:///home/user/project/src as the permitted path, meaning the server is authorized only within that subtree. The file /home/user/project/.env is in the parent directory, outside the declared root. A security-conscious server must reject this access. Implying access to parent directories based on a child declaration would defeat the purpose of roots.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Roots Security Boundaries" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-011",
+    "type": "single_choice",
+    "prompt": "A developer must deploy an MCP server with two hard requirements: it must run as a long-lived subprocess on the same machine as the client, and it must not open any network ports. Which transport is correct, and why?",
+    "choices": [
+      { "id": "a", "text": "Streamable HTTP, because it is the most feature-complete transport and supports all MCP capabilities" },
+      { "id": "b", "text": "stdio, because it communicates entirely through the process's standard input and output streams with no network binding required" },
+      { "id": "c", "text": "HTTP+SSE over localhost, because localhost traffic does not expose a public port" },
+      { "id": "d", "text": "WebSocket over a Unix domain socket, because it avoids TCP port allocation" }
+    ],
+    "correct": "b",
+    "explanation": "stdio transport is purpose-built for local subprocess communication. The client launches the server as a child process and communicates via stdin/stdout pipes. No network stack is involved, no ports are bound, and the server lifecycle is fully tied to the client process. HTTP-based transports — even over localhost — still open a TCP port, violating the second requirement.",
+    "topics": ["mcp-advanced"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Transport Selection" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcpa-012",
+    "type": "single_choice",
+    "prompt": "In JSON-RPC 2.0 as used by MCP, what is the significance of the 'id' field, and what must a server do when it receives a message with no 'id'?",
+    "choices": [
+      { "id": "a", "text": "'id' correlates requests with responses; a message with no 'id' is a notification and the server MUST NOT send any response" },
+      { "id": "b", "text": "'id' is an authentication token; a missing 'id' means the request is anonymous and the server may reject it" },
+      { "id": "c", "text": "'id' tracks session continuity; a null 'id' signals that the session should be reset" },
+      { "id": "d", "text": "'id' is optional metadata and the server's response behavior is fully implementation-defined" }
+    ],
+    "correct": "a",
+    "explanation": "In JSON-RPC 2.0, the 'id' field exists solely to allow the sender to match a response to its original request. When a message arrives without an 'id' — or with an explicit null 'id' — it is by definition a notification. The JSON-RPC specification is explicit: a server MUST NOT reply to a notification. Sending a response to a notification is a protocol violation. MCP relies on this distinction to separate request-response flows (tool calls, resource reads) from fire-and-forget signals (progress updates, log messages).",
+    "topics": ["mcp-advanced"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — JSON-RPC 2.0 Message Architecture" }],
+    "version": 1
+  }
+]

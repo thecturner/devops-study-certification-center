@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-itsm-cmdb-001",
+    "type": "single_choice",
+    "prompt": "What is a Configuration Item (CI) in the context of ServiceNow CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Any component that needs to be managed and controlled in order to deliver an IT service"
+      },
+      {
+        "id": "b",
+        "text": "Any IT asset that has been purchased and recorded in the financial system"
+      },
+      {
+        "id": "c",
+        "text": "Any server or network device tracked in the data center"
+      },
+      {
+        "id": "d",
+        "text": "Any software license that is tracked for compliance"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Configuration Item (CI) in ITIL and ServiceNow is any component that needs to be managed and controlled in order to deliver an IT service. CIs can include hardware, software, documentation, people, and processes. The CMDB (Configuration Management Database) stores records for all CIs and their relationships.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-002",
+    "type": "single_choice",
+    "prompt": "What is the base table for all Configuration Items in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "cmdb_ci"
+      },
+      {
+        "id": "b",
+        "text": "cmdb"
+      },
+      {
+        "id": "c",
+        "text": "asset"
+      },
+      {
+        "id": "d",
+        "text": "ci_base"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The base table for all Configuration Items in ServiceNow is cmdb_ci. All specific CI class tables (such as cmdb_ci_server, cmdb_ci_application, cmdb_ci_computer) extend this base table. The cmdb table is the parent of cmdb_ci and contains the most basic CI fields, while cmdb_ci adds CMDB-specific attributes.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-003",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature is used to automatically discover and populate CIs in the CMDB from the network?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Discovery"
+      },
+      {
+        "id": "b",
+        "text": "Import Sets"
+      },
+      {
+        "id": "c",
+        "text": "Transform Maps"
+      },
+      {
+        "id": "d",
+        "text": "Integration Hub"
+      }
+    ],
+    "correct": "a",
+    "explanation": "ServiceNow Discovery is the platform feature that automatically scans the network, identifies IT infrastructure components, and populates or updates CI records in the CMDB. Discovery uses probe and sensor patterns to collect hardware and software configuration data. It can be scheduled to run regularly to keep the CMDB current without manual data entry.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-004",
+    "type": "single_choice",
+    "prompt": "Which relationship type in ServiceNow CMDB indicates that one CI relies on another CI to function?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Depends on::Used by"
+      },
+      {
+        "id": "b",
+        "text": "Runs on"
+      },
+      {
+        "id": "c",
+        "text": "Hosted on::Hosts"
+      },
+      {
+        "id": "d",
+        "text": "Contains::Contained by"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The 'Depends on::Used by' relationship type in ServiceNow CMDB indicates a dependency where one CI relies on another to function correctly. For example, an application CI may 'Depend on' a database CI. This relationship is critical for impact analysis: when the database CI is affected, the application CI is identified as a dependent component that will also be impacted.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-005",
+    "type": "single_choice",
+    "prompt": "What does the 'Operational Status' field on a CI record represent in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The current operational lifecycle state of the CI (e.g., Operational, In Maintenance, Retired)"
+      },
+      {
+        "id": "b",
+        "text": "Whether the CI has been approved for use by the CAB"
+      },
+      {
+        "id": "c",
+        "text": "The number of active incidents associated with the CI"
+      },
+      {
+        "id": "d",
+        "text": "The asset management status of the CI"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Operational Status field on a CI record indicates the current operational lifecycle state of that CI in the production environment. Common values include Operational (in active use), Non-Operational, In Maintenance, Pending Install, and Retired. This field helps service desk agents understand whether a CI is in production and relevant to incident or problem investigations.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-006",
+    "type": "single_choice",
+    "prompt": "What is the 'CI Class' in ServiceNow CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The category or type of CI, represented by a specific table in the CMDB hierarchy (e.g., Server, Application, Network Gear)"
+      },
+      {
+        "id": "b",
+        "text": "The priority category assigned to a CI based on its business value"
+      },
+      {
+        "id": "c",
+        "text": "The SLA category associated with incidents linked to the CI"
+      },
+      {
+        "id": "d",
+        "text": "The group of users who manage the CI"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A CI Class in ServiceNow represents the type or category of a CI and corresponds to a specific table in the CMDB table hierarchy. For example, 'Server' is a CI class corresponding to the cmdb_ci_server table, 'Application' corresponds to cmdb_ci_appl, and 'Network Gear' corresponds to cmdb_ci_netgear. CI Classes organize CIs by type and define the specific attributes relevant to each type.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-007",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the ServiceNow CMDB Query Builder?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To visually search and filter CI records and their relationships based on configurable criteria"
+      },
+      {
+        "id": "b",
+        "text": "To build and execute complex SQL queries against the CMDB database"
+      },
+      {
+        "id": "c",
+        "text": "To configure CMDB health scoring rules"
+      },
+      {
+        "id": "d",
+        "text": "To create new CI class tables in the CMDB hierarchy"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The CMDB Query Builder in ServiceNow is a visual tool that allows users to search for CIs based on their attributes and relationships without writing scripts. Users can define conditions on CI fields and traverse CI relationships to find specific sets of CIs, such as all applications that run on servers in a particular data center. Query Builder results can be used in change impact analysis and reporting.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-008",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature provides a visual diagram of CI relationships and dependencies?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "CMDB Query Builder"
+      },
+      {
+        "id": "b",
+        "text": "CI Relationship Map"
+      },
+      {
+        "id": "c",
+        "text": "Dependency Views"
+      },
+      {
+        "id": "d",
+        "text": "Service Map"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Dependency Views in ServiceNow CMDB provide a visual, interactive diagram showing a selected CI and all its upstream and downstream relationships. This helps IT teams understand the full impact of a potential change or incident by visualizing which CIs depend on the affected component and which components the affected CI relies on. It is accessible from the CI record form.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-009",
+    "type": "single_choice",
+    "prompt": "What is an 'Application Service' in ServiceNow CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A software application installed on a single server"
+      },
+      {
+        "id": "b",
+        "text": "A service catalog item for requesting software"
+      },
+      {
+        "id": "c",
+        "text": "A logical grouping of related CIs that together deliver a business service, representing the full technology stack"
+      },
+      {
+        "id": "d",
+        "text": "An API integration between two applications"
+      }
+    ],
+    "correct": "c",
+    "explanation": "An Application Service in ServiceNow CMDB is a logical grouping of related CIs that collectively deliver a specific business service. For example, an e-commerce application service might include web servers, application servers, databases, and load balancers. Application Services enable service mapping, impact analysis, and business service management by linking the technology stack to business outcomes.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-010",
+    "type": "single_choice",
+    "prompt": "What is the CI Identification and Reconciliation Engine (IRE) in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A tool that merges duplicate incident records"
+      },
+      {
+        "id": "b",
+        "text": "A discovery scanner that identifies CIs on the network"
+      },
+      {
+        "id": "c",
+        "text": "An engine that identifies existing CI records during data import and merges or updates them rather than creating duplicates"
+      },
+      {
+        "id": "d",
+        "text": "A workflow that approves CI changes before they are committed to the CMDB"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The CI Identification and Reconciliation Engine (IRE) in ServiceNow is the mechanism that processes incoming CI data (from Discovery, imports, or integrations) and determines whether a CI record already exists in the CMDB based on identification rules. If a match is found, IRE updates the existing record rather than creating a duplicate. If no match is found, it creates a new CI. IRE is central to maintaining CMDB data quality.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-011",
+    "type": "single_choice",
+    "prompt": "Which relationship type should be used to indicate that an application runs on a specific server in ServiceNow CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Depends on::Used by"
+      },
+      {
+        "id": "b",
+        "text": "Hosted on::Hosts"
+      },
+      {
+        "id": "c",
+        "text": "Runs on::Runs"
+      },
+      {
+        "id": "d",
+        "text": "Installed on::Installs"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The 'Runs on::Runs' relationship in ServiceNow CMDB is used to indicate that an application or software component runs on a specific hardware or platform CI. For example, a 'Web Application' CI 'Runs on' a 'Server' CI. This relationship is automatically created by Discovery when it identifies running processes and their host systems.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-012",
+    "type": "single_choice",
+    "prompt": "What is the CMDB Health dashboard used for in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Monitoring the availability of servers tracked in the CMDB"
+      },
+      {
+        "id": "b",
+        "text": "Tracking the number of incidents associated with each CI"
+      },
+      {
+        "id": "c",
+        "text": "Measuring and reporting on CMDB data quality including completeness, compliance, and correctness of CI records"
+      },
+      {
+        "id": "d",
+        "text": "Managing the Discovery scan schedule"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The CMDB Health dashboard in ServiceNow provides metrics and scorecards that assess the quality of CMDB data. It measures dimensions such as completeness (required fields populated), compliance (CIs conforming to class rules), correctness (CI attributes match expected values), and staleness (CIs not updated recently). This helps CMDB teams identify and remediate data quality issues.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-013",
+    "type": "single_choice",
+    "prompt": "When a CI is associated with an incident in ServiceNow, what benefit does this provide?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The incident is automatically prioritized based on the CI's business value"
+      },
+      {
+        "id": "b",
+        "text": "The CI's operational status is automatically changed to 'In Maintenance'"
+      },
+      {
+        "id": "c",
+        "text": "Context about the affected infrastructure component is available, and assignment rules can route the incident to the correct team"
+      },
+      {
+        "id": "d",
+        "text": "The incident SLA is automatically set based on the CI type"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Linking a CI to an incident provides contextual information about the affected infrastructure component and enables assignment rules to automatically route the incident to the correct support team based on the CI's support group. It also populates the CI's incident history, enabling problem management to identify recurring issues with specific CIs and assess the business impact of the outage.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-014",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Managed By Group' field on a CI record in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The approval group for changes to the CI"
+      },
+      {
+        "id": "b",
+        "text": "The team that purchased and owns the CI asset"
+      },
+      {
+        "id": "c",
+        "text": "The support group responsible for maintaining and supporting that CI"
+      },
+      {
+        "id": "d",
+        "text": "The group that performs CMDB health audits for this CI"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Managed By Group field on a CI record identifies the support group responsible for maintaining, supporting, and managing that CI. This information is used by assignment rules to automatically route incidents related to that CI to the correct team. It is an important field for both operational efficiency and accountability.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-015",
+    "type": "single_choice",
+    "prompt": "Which table extension model does ServiceNow use for its CMDB CI class hierarchy?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Flat table model where each CI class is a separate, unrelated table"
+      },
+      {
+        "id": "b",
+        "text": "Document-based model where CI attributes are stored as JSON in a single table"
+      },
+      {
+        "id": "c",
+        "text": "Hierarchical table extension where specific CI class tables extend parent class tables up to cmdb_ci"
+      },
+      {
+        "id": "d",
+        "text": "Many-to-many relational model with a separate attribute table"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow CMDB uses a hierarchical table extension model. Specific CI class tables (e.g., cmdb_ci_server) extend parent class tables (e.g., cmdb_ci_hardware), which in turn extend cmdb_ci, which extends cmdb. This inheritance allows CI records to inherit common attributes from parent classes while adding class-specific attributes at each level. Querying a parent table returns records from all child tables.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-016",
+    "type": "single_choice",
+    "prompt": "What is the difference between a 'Hardware CI' and a 'Software CI' in ServiceNow CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Hardware CIs are tracked in the CMDB; software CIs are tracked in the asset module"
+      },
+      {
+        "id": "b",
+        "text": "Hardware CIs can have incidents; software CIs can only have problems"
+      },
+      {
+        "id": "c",
+        "text": "There is no distinction; all CIs are stored in the same table regardless of type"
+      },
+      {
+        "id": "d",
+        "text": "Hardware CIs represent physical infrastructure components (servers, network gear); software CIs represent applications, databases, and other software components"
+      }
+    ],
+    "correct": "d",
+    "explanation": "In ServiceNow CMDB, Hardware CIs represent physical infrastructure components such as servers (cmdb_ci_server), network gear (cmdb_ci_netgear), and storage devices. Software CIs represent applications (cmdb_ci_appl), databases (cmdb_ci_db), web services, and other software components. Both types extend the cmdb_ci base table but are stored in different class tables with different attributes.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-017",
+    "type": "single_choice",
+    "prompt": "What is the purpose of CI deduplication in ServiceNow CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To delete obsolete or retired CI records"
+      },
+      {
+        "id": "b",
+        "text": "To prevent the same CI from being assigned to multiple incidents simultaneously"
+      },
+      {
+        "id": "c",
+        "text": "To ensure each CI has a unique IP address"
+      },
+      {
+        "id": "d",
+        "text": "To identify and merge duplicate CI records that represent the same physical or logical component"
+      }
+    ],
+    "correct": "d",
+    "explanation": "CI deduplication in ServiceNow CMDB identifies and merges duplicate records that represent the same real-world CI, which can arise when data is loaded from multiple sources (Discovery, imports, manual entry). The CMDB Deduplication plugin and the IRE engine work together to detect duplicates based on identification rules and merge them, preserving the most accurate data from each source.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-018",
+    "type": "single_choice",
+    "prompt": "What is the 'Service Map' in ServiceNow CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A diagram showing the geographic locations of data centers"
+      },
+      {
+        "id": "b",
+        "text": "A ServiceNow module for managing service catalog items"
+      },
+      {
+        "id": "c",
+        "text": "A network topology map generated by Discovery"
+      },
+      {
+        "id": "d",
+        "text": "A visual representation of the CIs and their relationships that together make up a business service or application service"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Service Map in ServiceNow CMDB is a visual representation of all the CIs (servers, applications, databases, network components) and their relationships that collectively make up a specific business service or application service. It provides a complete topology view of the service stack, enabling rapid impact assessment when any component CI is affected by an incident or change.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-019",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow mechanism is used to import CI data from an external source (such as a spreadsheet) into the CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "CMDB Certification"
+      },
+      {
+        "id": "b",
+        "text": "Discovery with a custom probe"
+      },
+      {
+        "id": "c",
+        "text": "IRE identification rules only"
+      },
+      {
+        "id": "d",
+        "text": "Import Sets with a Transform Map targeting CMDB tables"
+      }
+    ],
+    "correct": "d",
+    "explanation": "External CI data (such as a spreadsheet export from another tool) can be imported into the ServiceNow CMDB using Import Sets. A staging table receives the raw data, and a Transform Map defines how source fields map to target CMDB table fields. The Import Set also triggers IRE to identify and reconcile records, ensuring existing CIs are updated rather than duplicated.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-020",
+    "type": "single_choice",
+    "prompt": "What is 'CMDB Certification' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A training certification for CMDB administrators"
+      },
+      {
+        "id": "b",
+        "text": "The process of certifying a CI for production use after testing"
+      },
+      {
+        "id": "c",
+        "text": "An automated CMDB health check that runs nightly"
+      },
+      {
+        "id": "d",
+        "text": "A periodic review process where CI owners confirm the accuracy of their CI records"
+      }
+    ],
+    "correct": "d",
+    "explanation": "CMDB Certification in ServiceNow is a process where designated CI owners are asked to periodically review and certify the accuracy of their CI records. The system generates certification tasks for CIs that haven't been reviewed recently or that may contain stale data. This human-in-the-loop validation supplements automated Discovery by catching inaccuracies that automated tools may miss.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-021",
+    "type": "single_choice",
+    "prompt": "In a ServiceNow incident record, what is the benefit of populating the 'Business Service' field versus just the 'Configuration Item' field?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Business Service determines the SLA; CI determines the assignment group"
+      },
+      {
+        "id": "b",
+        "text": "The Business Service field is required; the CI field is optional"
+      },
+      {
+        "id": "c",
+        "text": "There is no practical difference between the two fields"
+      },
+      {
+        "id": "d",
+        "text": "Business Service links the incident to the impacted service visible to customers; CI links to the specific technical component"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Populating both the Business Service and CI fields on an incident provides complementary context. The Business Service field links the incident to the higher-level service that is impacted from the customer's perspective, enabling business impact reporting. The CI field identifies the specific technical component at fault. Together they provide a complete picture of what is affected and why.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-022",
+    "type": "single_choice",
+    "prompt": "What is the 'Hosted on::Hosts' relationship type used for in ServiceNow CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To indicate that a virtual machine is hosted on a physical server or hypervisor"
+      },
+      {
+        "id": "b",
+        "text": "To indicate that an application depends on a database"
+      },
+      {
+        "id": "c",
+        "text": "To link a server CI to its network switch"
+      },
+      {
+        "id": "d",
+        "text": "To record that a CI is managed by a specific team"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The 'Hosted on::Hosts' relationship type in ServiceNow CMDB is used to record hosting relationships, most commonly where a virtual machine CI is hosted on a physical server or hypervisor CI. This relationship is important for impact analysis: if the physical host goes down, all virtual machines hosted on it are affected. Discovery automatically creates these relationships when virtualisation environments are scanned.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-023",
+    "type": "single_choice",
+    "prompt": "What does 'CMDB Health Completeness' measure in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Whether Discovery has scanned all CIs in the last 30 days"
+      },
+      {
+        "id": "b",
+        "text": "The number of CI relationships defined relative to expected relationships"
+      },
+      {
+        "id": "c",
+        "text": "Whether all CI records have a linked support group"
+      },
+      {
+        "id": "d",
+        "text": "The percentage of required fields on CI records that are populated"
+      }
+    ],
+    "correct": "d",
+    "explanation": "CMDB Health Completeness in ServiceNow measures the percentage of mandatory or recommended fields on CI records that are populated with data. Incomplete CI records reduce the utility of the CMDB for incident routing, impact analysis, and reporting. The CMDB Health dashboard identifies classes of CIs with the most incomplete records, enabling administrators to prioritize data enrichment efforts.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-024",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow CMDB feature allows data from multiple authoritative sources to be reconciled into a single CI record?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "CMDB Certification"
+      },
+      {
+        "id": "b",
+        "text": "CMDB Deduplication plugin"
+      },
+      {
+        "id": "c",
+        "text": "Discovery patterns"
+      },
+      {
+        "id": "d",
+        "text": "CI Identification and Reconciliation Engine (IRE) with data source precedence rules"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The CI Identification and Reconciliation Engine (IRE) with data source precedence rules allows ServiceNow to merge data from multiple authoritative sources (such as Discovery, SCCM, and manual entry) into a single CI record. Precedence rules define which data source wins for each field when multiple sources provide conflicting values, ensuring the most trusted data is preserved.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-025",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is the purpose of the 'CMDB Data Manager'?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A role that grants admin access to all CMDB tables"
+      },
+      {
+        "id": "b",
+        "text": "The module used to configure Discovery schedules"
+      },
+      {
+        "id": "c",
+        "text": "A dashboard showing the real-time performance of CMDB queries"
+      },
+      {
+        "id": "d",
+        "text": "A feature that automates CMDB data lifecycle tasks such as retiring, archiving, and remediating stale or duplicate CIs"
+      }
+    ],
+    "correct": "d",
+    "explanation": "CMDB Data Manager in ServiceNow is a feature that automates the lifecycle management of CI data. It provides tasks and workflows to identify and remediate data quality issues such as stale CIs (not updated by Discovery in a defined period), duplicate records, and CIs with missing required fields. It enables CMDB teams to proactively maintain data quality through automated governance.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-026",
+    "type": "single_choice",
+    "prompt": "Which CI lifecycle state would be appropriate for a server that is being decommissioned and removed from service?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Non-Operational"
+      },
+      {
+        "id": "b",
+        "text": "In Maintenance"
+      },
+      {
+        "id": "c",
+        "text": "Retired"
+      },
+      {
+        "id": "d",
+        "text": "Absent"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The 'Retired' operational status is the appropriate CI lifecycle state for a server that has been decommissioned and permanently removed from service. Setting the CI to Retired (rather than deleting it) preserves the historical record, including all associated incidents, changes, and problems. This is important for audit trails and for understanding past service history.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-027",
+    "type": "single_choice",
+    "prompt": "What is the purpose of CI Identification Rules in ServiceNow IRE?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To define which users can create new CI records"
+      },
+      {
+        "id": "b",
+        "text": "To classify CIs into categories for reporting purposes"
+      },
+      {
+        "id": "c",
+        "text": "To define the required fields for each CI class"
+      },
+      {
+        "id": "d",
+        "text": "To define the criteria used to match incoming CI data to existing CMDB records to prevent duplicates"
+      }
+    ],
+    "correct": "d",
+    "explanation": "CI Identification Rules in ServiceNow's IRE define the attributes used to match incoming CI data against existing CMDB records. For example, a server might be identified by its serial number or hostname. If a match is found based on these rules, the existing record is updated rather than a new duplicate being created. Accurate identification rules are critical to CMDB data integrity.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-028",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow CMDB feature helps identify which business services would be impacted if a specific CI fails?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "CMDB Query Builder"
+      },
+      {
+        "id": "b",
+        "text": "CMDB Health Dashboard"
+      },
+      {
+        "id": "c",
+        "text": "Service Map / Dependency View"
+      },
+      {
+        "id": "d",
+        "text": "CI Certification"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Service Map and Dependency View in ServiceNow CMDB allow analysts to visually trace the upstream impact of a CI failure through its relationship chain to the business services it supports. Starting from the failing CI, the dependency map shows all CIs and business services that depend on it, enabling rapid impact assessment for incident prioritization and major incident declaration decisions.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-029",
+    "type": "single_choice",
+    "prompt": "A Discovery scan finds a server that is already in the CMDB but with a different hostname. The IRE identification rule uses the serial number as the identifier. What happens?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A new CI record is created for the server with the new hostname"
+      },
+      {
+        "id": "b",
+        "text": "The existing CI record is updated with the new hostname from Discovery, since the serial number matches"
+      },
+      {
+        "id": "c",
+        "text": "The Discovery scan is flagged as an error and the CMDB is not updated"
+      },
+      {
+        "id": "d",
+        "text": "Both the old and new hostname records are merged into one"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Because the IRE identification rule uses the serial number to identify existing CIs, and the serial number matches, the IRE engine recognizes this as an existing CI record. It updates the existing CI record with the new hostname discovered by the scan, rather than creating a duplicate. This is the core function of IRE: reconcile incoming data to existing records based on configured identification criteria.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-030",
+    "type": "single_choice",
+    "prompt": "What is the relationship between the CMDB and the Asset Management module in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "They are the same thing; CMDB and Asset Management use the same table"
+      },
+      {
+        "id": "b",
+        "text": "CMDB tracks technical configuration attributes for service management; Asset Management tracks financial and contractual attributes for lifecycle management"
+      },
+      {
+        "id": "c",
+        "text": "Asset Management is only for hardware; CMDB is only for software"
+      },
+      {
+        "id": "d",
+        "text": "The CMDB is a subset of Asset Management"
+      }
+    ],
+    "correct": "b",
+    "explanation": "In ServiceNow, the CMDB (cmdb_ci table hierarchy) focuses on configuration attributes needed for IT service management: relationships, operational status, support groups, and service context. Asset Management (alm_asset table) focuses on the financial and contractual lifecycle: purchase cost, depreciation, vendor contracts, and disposal. A hardware CI in the CMDB can be linked to its corresponding asset record, combining both perspectives.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-031",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow CMDB feature provides a historical audit trail of all changes made to a CI record?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "CI Certification history"
+      },
+      {
+        "id": "b",
+        "text": "Audit log (sys_audit table)"
+      },
+      {
+        "id": "c",
+        "text": "CMDB Health history"
+      },
+      {
+        "id": "d",
+        "text": "Discovery history"
+      }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow's audit log (sys_audit table) tracks all field-level changes to records across the platform, including CI records. When auditing is enabled for a CMDB table, every change to a CI field is recorded with the before value, after value, the user who made the change, and the timestamp. This provides a complete historical audit trail for CMDB governance and compliance purposes.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-032",
+    "type": "single_choice",
+    "prompt": "What information does the 'Short Description' field on a CI record typically contain?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A one-line identifier or label for the CI (e.g., the server's hostname or the application's name)"
+      },
+      {
+        "id": "b",
+        "text": "The SLA commitment associated with the CI"
+      },
+      {
+        "id": "c",
+        "text": "The most recent incident description for that CI"
+      },
+      {
+        "id": "d",
+        "text": "The CI's IP address and MAC address"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Short Description (also called the Name or Display Name) on a CI record typically contains a brief, human-readable identifier for the CI, such as the server's hostname, the application's display name, or the network device's label. This is the primary field shown in lists, searches, and related list lookups when users are looking for a specific CI.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-033",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, how does linking a CI to a change request benefit the change management process?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It automatically approves the change based on the CI's risk profile"
+      },
+      {
+        "id": "b",
+        "text": "It enables conflict detection, provides context for the CAB, and creates an audit trail of changes made to that CI"
+      },
+      {
+        "id": "c",
+        "text": "It restricts the change to be implemented only by the CI's managed group"
+      },
+      {
+        "id": "d",
+        "text": "It auto-generates change tasks based on the CI type"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Linking a CI to a change request in ServiceNow enables conflict detection (identifying scheduling overlaps with other changes on the same CI), provides the CAB with context about the affected infrastructure, and creates an audit trail recording all changes made to that CI over time. This historical view helps the CAB assess risk based on the frequency and success of previous changes to the same component.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-034",
+    "type": "single_choice",
+    "prompt": "What does it mean when a CI has an operational status of 'In Maintenance' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The CI is scheduled for decommissioning"
+      },
+      {
+        "id": "b",
+        "text": "The CI is temporarily out of normal service for scheduled maintenance work"
+      },
+      {
+        "id": "c",
+        "text": "The CI has had a major incident and is being repaired"
+      },
+      {
+        "id": "d",
+        "text": "The CI has not been discovered by Discovery in the last 30 days"
+      }
+    ],
+    "correct": "b",
+    "explanation": "An 'In Maintenance' operational status on a CI indicates the CI is temporarily taken out of normal production service for planned maintenance activities. This status is relevant for incident management (an incident on a CI that is already In Maintenance may be expected) and for SLA considerations (some organizations configure SLA pause conditions based on CI maintenance status).",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-035",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature automatically creates relationships between CIs discovered in the same subnet or environment?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "CMDB Certification"
+      },
+      {
+        "id": "b",
+        "text": "Discovery with relationship sensors"
+      },
+      {
+        "id": "c",
+        "text": "IRE relationship rules"
+      },
+      {
+        "id": "d",
+        "text": "Service Mapping patterns"
+      }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow Discovery uses relationship sensors as part of its patterns to automatically create CI relationships in the CMDB. For example, when Discovery identifies that an application connects to a database, it creates a 'Depends on' relationship between them. Service Mapping builds on Discovery to construct application service topologies, while Discovery itself handles the raw relationship detection.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-036",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'Reconciliation Rules' in ServiceNow IRE?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To define how SLA values are reconciled when multiple SLAs apply"
+      },
+      {
+        "id": "b",
+        "text": "To define which data source's values take precedence when multiple sources provide conflicting attribute values for the same CI"
+      },
+      {
+        "id": "c",
+        "text": "To merge duplicate incident records with CMDB data"
+      },
+      {
+        "id": "d",
+        "text": "To reconcile budget allocations for CI purchases"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Reconciliation Rules in ServiceNow IRE define source precedence: when multiple data sources (such as Discovery and an import from SCCM) provide different values for the same CI attribute, Reconciliation Rules determine which source's value wins. This allows organizations to define, for example, that Discovery always wins for IP address, but SCCM wins for installed software versions.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-037",
+    "type": "single_choice",
+    "prompt": "A problem record is being created to investigate a recurring failure in a payment processing service. Which CMDB feature would help the problem team identify all the CIs involved in that service?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "CMDB Health Dashboard"
+      },
+      {
+        "id": "b",
+        "text": "Application Service / Service Map for the payment processing service"
+      },
+      {
+        "id": "c",
+        "text": "CI Certification report"
+      },
+      {
+        "id": "d",
+        "text": "CMDB Query Builder filtered by incident count"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Application Service and its associated Service Map provide the problem team with a complete visual list of all CIs that make up the payment processing service. This context is essential for scoping the investigation: knowing which servers, databases, load balancers, and network devices are part of the service helps the team determine which components to investigate and assess the blast radius of the recurring failure.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-038",
+    "type": "single_choice",
+    "prompt": "What is the risk of not keeping CMDB data current in ServiceNow ITSM operations?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The CMDB will automatically delete stale records after 90 days"
+      },
+      {
+        "id": "b",
+        "text": "Incidents may be misrouted, change impact assessments will be inaccurate, and problem analysis will lack context"
+      },
+      {
+        "id": "c",
+        "text": "ServiceNow Discovery will stop running until the CMDB is updated"
+      },
+      {
+        "id": "d",
+        "text": "SLA calculations will fail for incidents without a valid CI"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Stale or inaccurate CMDB data undermines the effectiveness of all ITSM processes that rely on it. Incidents may be routed to the wrong team if CI ownership data is outdated. Change impact assessments may miss affected components if relationships are incorrect. Problem investigations may reach wrong root cause conclusions if CI attributes are inaccurate. A well-maintained CMDB is foundational to effective IT service management.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-039",
+    "type": "single_choice",
+    "prompt": "What does CMDB Health 'Staleness' measure in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The age of incident records associated with CIs"
+      },
+      {
+        "id": "b",
+        "text": "The percentage of CI records that have not been updated by an authoritative source within a defined time period"
+      },
+      {
+        "id": "c",
+        "text": "How long ago Discovery was last configured"
+      },
+      {
+        "id": "d",
+        "text": "The number of CI records that have no associated change requests"
+      }
+    ],
+    "correct": "b",
+    "explanation": "CMDB Health Staleness measures the percentage of CI records that have not been updated by an authoritative source (such as Discovery or an import) within a configurable time period. Stale CIs may no longer accurately reflect the current state of the infrastructure, reducing the reliability of CMDB-dependent processes. The CMDB Health dashboard highlights stale CIs so administrators can investigate and remediate.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-cmdb-040",
+    "type": "single_choice",
+    "prompt": "Which best describes the difference between 'Contains::Contained by' and 'Runs on::Runs' relationship types in ServiceNow CMDB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "'Contains' describes a physical containment (e.g., chassis contains blade server); 'Runs on' describes a software-to-hardware execution relationship"
+      },
+      {
+        "id": "b",
+        "text": "Both relationship types are used interchangeably for hardware-to-software links"
+      },
+      {
+        "id": "c",
+        "text": "'Contains' is for software dependencies; 'Runs on' is for hardware dependencies"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference; the names are just display labels"
+      }
+    ],
+    "correct": "a",
+    "explanation": "'Contains::Contained by' describes a physical containment hierarchy, such as a rack containing a chassis, or a chassis containing blade servers. 'Runs on::Runs' describes the relationship where a software component (application, process, database instance) executes on a hardware or platform CI. Using the correct relationship type ensures accurate service maps and impact analysis in the ServiceNow CMDB.",
+    "topics": [
+      "cmdb"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  }
+]

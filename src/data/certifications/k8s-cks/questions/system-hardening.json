@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-cks-sh-001",
+    "type": "single_choice",
+    "prompt": "An AppArmor profile named 'k8s-deny-write' is loaded on a node. How do you apply it to a specific container named 'web' in a Pod manifest?",
+    "choices": [
+      { "id": "a", "text": "Set appArmorProfile.type: Localhost in the container's securityContext with localhostProfile: k8s-deny-write" },
+      { "id": "b", "text": "Add the annotation container.apparmor.security.beta.kubernetes.io/web: localhost/k8s-deny-write to the Pod metadata" },
+      { "id": "c", "text": "Set securityContext.appArmor: k8s-deny-write in the container spec" },
+      { "id": "d", "text": "Both A and B are valid; A uses the newer GA field, B uses the legacy annotation" }
+    ],
+    "correct": "d",
+    "explanation": "AppArmor support in Kubernetes evolved over time. The legacy method (pre-1.30) uses the annotation 'container.apparmor.security.beta.kubernetes.io/<container-name>: localhost/<profile-name>' on the Pod. From Kubernetes 1.30 GA, you can use securityContext.appArmorProfile.type: Localhost with localhostProfile: <profile-name> at the container or Pod level. Both are valid depending on cluster version; the CKS exam may test either.",
+    "topics": ["system-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "AppArmor", "url": "https://kubernetes.io/docs/tutorials/security/apparmor/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-002",
+    "type": "single_choice",
+    "prompt": "Which command verifies that an AppArmor profile is loaded and enforced on a Linux node?",
+    "choices": [
+      { "id": "a", "text": "aa-status" },
+      { "id": "b", "text": "systemctl status apparmor" },
+      { "id": "c", "text": "apparmor --list-profiles" },
+      { "id": "d", "text": "kubectl describe node | grep apparmor" }
+    ],
+    "correct": "a",
+    "explanation": "The 'aa-status' command (or 'apparmor_status') lists all loaded AppArmor profiles and their modes (enforce, complain, or unconfined). It shows which profiles are active on the node. This is essential before applying a profile to a Pod — if the profile isn't loaded on the node, the Pod will fail to start.",
+    "topics": ["system-hardening"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AppArmor", "url": "https://kubernetes.io/docs/tutorials/security/apparmor/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-003",
+    "type": "single_choice",
+    "prompt": "What is the difference between a seccomp profile type of 'RuntimeDefault' and 'Localhost'?",
+    "choices": [
+      { "id": "a", "text": "RuntimeDefault uses the kernel's default syscall filter; Localhost uses a custom JSON profile file on the node" },
+      { "id": "b", "text": "RuntimeDefault allows all syscalls; Localhost denies all syscalls" },
+      { "id": "c", "text": "RuntimeDefault requires a JSON file; Localhost uses the container runtime's built-in profile" },
+      { "id": "d", "text": "RuntimeDefault applies per-container; Localhost applies per-node" }
+    ],
+    "correct": "a",
+    "explanation": "RuntimeDefault applies the container runtime's default seccomp profile (e.g., Docker's or containerd's default), which blocks a broad set of dangerous syscalls while allowing those needed for typical container workloads. Localhost loads a custom seccomp profile from a JSON file on the node (in the kubelet's seccomp profile directory, typically /var/lib/kubelet/seccomp/). Localhost profiles allow fine-grained control over allowed syscalls.",
+    "topics": ["system-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Seccomp Security Profiles", "url": "https://kubernetes.io/docs/tutorials/security/seccomp/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-004",
+    "type": "single_choice",
+    "prompt": "A container is running with securityContext.privileged: true. Why is this dangerous and how should it be mitigated?",
+    "choices": [
+      { "id": "a", "text": "Privileged containers get more CPU; mitigate by setting resource limits" },
+      { "id": "b", "text": "Privileged containers have full access to the host kernel and all devices, effectively giving root on the node; mitigate by removing privileged: true and dropping all capabilities" },
+      { "id": "c", "text": "Privileged containers bypass network policies; mitigate with Calico" },
+      { "id": "d", "text": "Privileged containers can access other Pods' memory; mitigate with PodAffinity" }
+    ],
+    "correct": "b",
+    "explanation": "A privileged container runs with the same access as the host root user. It can mount host filesystems, load kernel modules, modify network interfaces, and escape the container to compromise the node. Mitigation includes: removing privileged: true, dropping all Linux capabilities (securityContext.capabilities.drop: [ALL]), adding only the specific capabilities needed, and enforcing a restrictive seccomp profile.",
+    "topics": ["system-hardening"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Pod Security Standards", "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-005",
+    "type": "single_choice",
+    "prompt": "The 'restricted' Pod Security Standard requires which seccomp profile setting?",
+    "choices": [
+      { "id": "a", "text": "No seccomp profile is required by the 'restricted' standard" },
+      { "id": "b", "text": "Unconfined profile" },
+      { "id": "c", "text": "RuntimeDefault or Localhost profile" },
+      { "id": "d", "text": "A custom Localhost profile with all syscalls blocked" }
+    ],
+    "correct": "c",
+    "explanation": "The 'restricted' Pod Security Standard (the most restrictive built-in standard) requires that the seccomp profile be set to either RuntimeDefault or Localhost. An Unconfined profile (no seccomp) is explicitly not allowed under the 'restricted' standard. This ensures all containers in namespaces enforcing 'restricted' have syscall filtering applied.",
+    "topics": ["system-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Pod Security Standards", "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-006",
+    "type": "single_choice",
+    "prompt": "You need to reduce the OS attack surface on Kubernetes nodes by removing unnecessary services. Which command lists all enabled systemd services?",
+    "choices": [
+      { "id": "a", "text": "ps aux | grep service" },
+      { "id": "b", "text": "systemctl list-units --type=service --state=active" },
+      { "id": "c", "text": "service --status-all" },
+      { "id": "d", "text": "netstat -tlnp" }
+    ],
+    "correct": "b",
+    "explanation": "On systemd-based Linux systems (Ubuntu, CentOS, etc.), 'systemctl list-units --type=service --state=active' lists all currently running services. You can further filter with '--state=enabled' to see services configured to start at boot. Unnecessary services (like avahi, cups, rpcbind) should be disabled with 'systemctl disable --now <service>' to reduce the attack surface.",
+    "topics": ["system-hardening"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Securing a Cluster", "url": "https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-007",
+    "type": "multi_choice",
+    "prompt": "Which of the following capabilities should be dropped from containers following the principle of least privilege? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "NET_RAW" },
+      { "id": "b", "text": "SYS_ADMIN" },
+      { "id": "c", "text": "CHOWN" },
+      { "id": "d", "text": "NET_BIND_SERVICE (when binding to ports > 1024)" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "NET_RAW allows creating raw sockets (used in some network attacks). SYS_ADMIN is an extremely broad capability that enables many privileged operations and should almost never be granted. CHOWN allows changing file ownership, which is rarely needed by application containers. NET_BIND_SERVICE allows binding to ports below 1024, which is needed if the container must bind to ports like 80 or 443 — dropping it when only high ports are used is correct, but the question specifies ports > 1024, so it is not applicable here.",
+    "topics": ["system-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Security Context", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-008",
+    "type": "single_choice",
+    "prompt": "A seccomp profile JSON file is stored at /var/lib/kubelet/seccomp/profiles/audit.json on the node. How do you reference it in a Pod spec?",
+    "choices": [
+      { "id": "a", "text": "securityContext.seccompProfile: { type: Localhost, localhostProfile: profiles/audit.json }" },
+      { "id": "b", "text": "securityContext.seccompProfile: { type: RuntimeDefault, localhostProfile: /var/lib/kubelet/seccomp/profiles/audit.json }" },
+      { "id": "c", "text": "annotations: seccomp.security.alpha.kubernetes.io/pod: localhost/profiles/audit.json" },
+      { "id": "d", "text": "Both A and C are valid methods depending on cluster version" }
+    ],
+    "correct": "d",
+    "explanation": "The localhostProfile value is a path relative to the kubelet's seccomp root directory (/var/lib/kubelet/seccomp/), so for a file at /var/lib/kubelet/seccomp/profiles/audit.json, you specify 'profiles/audit.json'. The modern approach (option A) uses securityContext.seccompProfile with type: Localhost. The legacy annotation (option C) was deprecated but remains valid on older clusters. On the CKS exam, knowing both is valuable.",
+    "topics": ["system-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Seccomp Security Profiles", "url": "https://kubernetes.io/docs/tutorials/security/seccomp/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-009",
+    "type": "single_choice",
+    "prompt": "What does 'runAsNonRoot: true' in a container's securityContext enforce?",
+    "choices": [
+      { "id": "a", "text": "The container must run with a UID greater than 0; the kubelet will refuse to start it if the effective UID is 0" },
+      { "id": "b", "text": "The container drops all Linux capabilities" },
+      { "id": "c", "text": "The container filesystem is mounted read-only" },
+      { "id": "d", "text": "The container is restricted to the 'restricted' Pod Security Standard" }
+    ],
+    "correct": "a",
+    "explanation": "Setting runAsNonRoot: true causes the kubelet to validate that the container's effective user ID is not 0 (root) before starting it. If the container image runs as root and no runAsUser override is specified, the kubelet will refuse to start the container. This is a key defense against privilege escalation within a container.",
+    "topics": ["system-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Security Context", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-010",
+    "type": "true_false",
+    "prompt": "An AppArmor profile in 'complain' mode will prevent a container from executing restricted operations.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "False. An AppArmor profile in 'complain' mode logs policy violations but does not enforce them — the container can still perform restricted operations. Only 'enforce' mode actually blocks the operations. Complain mode is useful for developing and testing a new profile before enforcing it, but it provides no runtime protection.",
+    "topics": ["system-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AppArmor", "url": "https://kubernetes.io/docs/tutorials/security/apparmor/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-011",
+    "type": "single_choice",
+    "prompt": "The 'restricted' Pod Security Standard forbids which hostPath volume usage?",
+    "choices": [
+      { "id": "a", "text": "Any hostPath volume" },
+      { "id": "b", "text": "hostPath volumes pointing to /etc only" },
+      { "id": "c", "text": "hostPath volumes with readOnly: false" },
+      { "id": "d", "text": "hostPath volumes are not addressed by Pod Security Standards" }
+    ],
+    "correct": "a",
+    "explanation": "The 'restricted' Pod Security Standard forbids all hostPath volumes entirely. hostPath mounts allow containers to access the host filesystem, which can be used to read sensitive files, modify node configuration, or escape the container. The 'baseline' standard also restricts hostPath volumes. Only the 'privileged' standard allows unrestricted hostPath usage.",
+    "topics": ["system-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Pod Security Standards", "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-012",
+    "type": "single_choice",
+    "prompt": "Which command loads an AppArmor profile from a file into the kernel on a node?",
+    "choices": [
+      { "id": "a", "text": "apparmor-load /path/to/profile" },
+      { "id": "b", "text": "apparmor_parser -r /path/to/profile" },
+      { "id": "c", "text": "systemctl reload apparmor /path/to/profile" },
+      { "id": "d", "text": "aa-enforce /path/to/profile" }
+    ],
+    "correct": "b",
+    "explanation": "The 'apparmor_parser -r' command (replace/reload) loads or reloads an AppArmor profile from a file into the running kernel. You can also use '-a' (add) for a new profile. After loading, verify with 'aa-status | grep <profile-name>' that the profile is present and in enforce mode before referencing it in a Pod.",
+    "topics": ["system-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "AppArmor", "url": "https://kubernetes.io/docs/tutorials/security/apparmor/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-013",
+    "type": "single_choice",
+    "prompt": "A CKS candidate wants to minimize the Linux kernel attack surface on Kubernetes nodes by disabling kernel modules that are not needed. Which of the following is the recommended approach?",
+    "choices": [
+      { "id": "a", "text": "Use apparmor_parser to restrict module loading" },
+      { "id": "b", "text": "Recompile the kernel without unneeded module support" },
+      { "id": "c", "text": "Create /etc/modprobe.d/ configuration files that blacklist unnecessary modules, and use 'install /bin/true' for those that auto-load" },
+      { "id": "d", "text": "Use Falco to detect and kill processes that load kernel modules" }
+    ],
+    "correct": "c",
+    "explanation": "The standard OS-hardening approach for kernel modules is to blacklist them using /etc/modprobe.d/ configuration files. Adding 'blacklist <module>' prevents manual loading, while 'install <module> /bin/true' prevents automatic loading on device detection. This reduces the kernel attack surface without recompilation. Tools like lynis can help audit loaded modules.",
+    "topics": ["system-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Securing a Cluster", "url": "https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-014",
+    "type": "single_choice",
+    "prompt": "What is the effect of setting 'allowPrivilegeEscalation: false' in a container's securityContext?",
+    "choices": [
+      { "id": "a", "text": "The container cannot be started by a privileged user" },
+      { "id": "b", "text": "The no_new_privs flag is set, preventing the container process from gaining more privileges than its parent (e.g., via setuid binaries)" },
+      { "id": "c", "text": "The container's root filesystem is mounted read-only" },
+      { "id": "d", "text": "The container cannot access host ports" }
+    ],
+    "correct": "b",
+    "explanation": "Setting allowPrivilegeEscalation: false sets the Linux no_new_privs bit on the container's main process. This prevents any child process from gaining additional privileges through setuid/setgid binaries or file capabilities. For example, a container with a setuid root binary (like sudo or ping) cannot use it to escalate privileges. This is required by the 'restricted' Pod Security Standard.",
+    "topics": ["system-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Security Context", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sh-015",
+    "type": "single_choice",
+    "prompt": "An open port scan of a Kubernetes worker node shows port 10255 is listening. What is this port, and how should it be secured?",
+    "choices": [
+      { "id": "a", "text": "It is the Kubernetes API server proxy port; disable with --disable-proxy-port=true" },
+      { "id": "b", "text": "It is the kubelet read-only port that serves unauthenticated metrics and node information; set --read-only-port=0 on the kubelet to disable it" },
+      { "id": "c", "text": "It is the kube-proxy metrics port; remove with --metrics-port=0" },
+      { "id": "d", "text": "It is the container runtime gRPC port; it is required for pod operations" }
+    ],
+    "correct": "b",
+    "explanation": "Port 10255 is the kubelet's read-only HTTP port. It serves unauthenticated Pod and node metrics without any authentication or authorization. An attacker with access to this port can enumerate all Pods running on the node, resource usage, and other sensitive metadata. The CIS Benchmark recommends disabling it by setting --read-only-port=0 in the kubelet configuration.",
+    "topics": ["system-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Securing a Cluster", "url": "https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/" }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,287 @@
+[
+  {
+    "id": "azure-az900-cc-001",
+    "type": "single_choice",
+    "prompt": "Which cloud service model gives customers the most control over the underlying operating system and runtime environment?",
+    "choices": [
+      { "id": "a", "text": "Software as a Service (SaaS)" },
+      { "id": "b", "text": "Platform as a Service (PaaS)" },
+      { "id": "c", "text": "Infrastructure as a Service (IaaS)" },
+      { "id": "d", "text": "Function as a Service (FaaS)" }
+    ],
+    "correct": "c",
+    "explanation": "IaaS provides virtualized compute, storage, and networking infrastructure, giving customers direct control over the operating system, middleware, and runtime. PaaS abstracts the OS and runtime so customers only manage their application and data. SaaS abstracts everything — users simply consume a hosted application. FaaS (serverless) is a subset of PaaS with even less customer control.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Shared responsibility in the cloud", "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-002",
+    "type": "single_choice",
+    "prompt": "A company uses Microsoft 365 for email and collaboration. Which cloud service model does this represent?",
+    "choices": [
+      { "id": "a", "text": "IaaS" },
+      { "id": "b", "text": "PaaS" },
+      { "id": "c", "text": "SaaS" },
+      { "id": "d", "text": "On-premises" }
+    ],
+    "correct": "c",
+    "explanation": "Microsoft 365 is a Software as a Service (SaaS) offering — the application is fully managed and hosted by Microsoft, and users simply access it via a browser or client. IaaS provides raw infrastructure like virtual machines. PaaS provides a platform for building applications. On-premises means the company manages the hardware and software itself.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: What is SaaS?", "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-003",
+    "type": "single_choice",
+    "prompt": "Under the shared responsibility model for IaaS, which of the following is the customer's responsibility?",
+    "choices": [
+      { "id": "a", "text": "Physical datacenter security" },
+      { "id": "b", "text": "Network infrastructure hardware" },
+      { "id": "c", "text": "Operating system patches and updates" },
+      { "id": "d", "text": "Hypervisor maintenance" }
+    ],
+    "correct": "c",
+    "explanation": "In IaaS, the cloud provider is responsible for physical security, network hardware, and the hypervisor layer. The customer is responsible for the operating system (including patching), applications, and data. Physical datacenter security and network hardware are always the provider's responsibility regardless of service model.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Shared responsibility in the cloud", "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-004",
+    "type": "single_choice",
+    "prompt": "What term describes a cloud environment where resources are dedicated to a single organization and are not shared with other tenants?",
+    "choices": [
+      { "id": "a", "text": "Public cloud" },
+      { "id": "b", "text": "Hybrid cloud" },
+      { "id": "c", "text": "Community cloud" },
+      { "id": "d", "text": "Private cloud" }
+    ],
+    "correct": "d",
+    "explanation": "A private cloud is operated exclusively for a single organization, either on-premises or hosted by a third party, and resources are not shared with other organizations. A public cloud shares infrastructure across multiple tenants. A hybrid cloud combines public and private. A community cloud is shared among organizations with common concerns.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: What is a private cloud?", "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/cloud-concepts" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-005",
+    "type": "single_choice",
+    "prompt": "A retailer runs its core inventory system on-premises but hosts its customer-facing website on Azure. This is an example of which cloud model?",
+    "choices": [
+      { "id": "a", "text": "Public cloud" },
+      { "id": "b", "text": "Private cloud" },
+      { "id": "c", "text": "Hybrid cloud" },
+      { "id": "d", "text": "Multi-cloud" }
+    ],
+    "correct": "c",
+    "explanation": "A hybrid cloud combines on-premises (or private cloud) infrastructure with public cloud resources, allowing data and applications to be shared between them. Public cloud uses only the provider's infrastructure. Private cloud uses only dedicated infrastructure. Multi-cloud uses services from multiple public cloud providers.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: What is hybrid cloud?", "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/cloud-concepts" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-006",
+    "type": "single_choice",
+    "prompt": "Which cloud benefit refers to the ability to quickly increase or decrease resources in response to demand?",
+    "choices": [
+      { "id": "a", "text": "High availability" },
+      { "id": "b", "text": "Elasticity" },
+      { "id": "c", "text": "Fault tolerance" },
+      { "id": "d", "text": "Disaster recovery" }
+    ],
+    "correct": "b",
+    "explanation": "Elasticity is the ability to automatically scale resources up or down quickly in response to changing demand. High availability focuses on keeping services running with minimal downtime. Fault tolerance means a system can continue operating even when components fail. Disaster recovery refers to the process of restoring systems after a major outage.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Describe the benefits of using cloud services", "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-007",
+    "type": "single_choice",
+    "prompt": "What does high availability mean in the context of cloud computing?",
+    "choices": [
+      { "id": "a", "text": "The ability to add more resources when demand increases" },
+      { "id": "b", "text": "The ability to recover data after a major disaster" },
+      { "id": "c", "text": "The ability to keep services running with minimal downtime" },
+      { "id": "d", "text": "The ability to serve users across multiple geographic regions" }
+    ],
+    "correct": "c",
+    "explanation": "High availability ensures that services remain accessible with minimal interruption, typically expressed as a percentage uptime (e.g., 99.9%). Scalability and elasticity address adding resources. Disaster recovery addresses major failures and data restoration. Geographic distribution is related to global reach, not specifically high availability.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Describe the benefits of using cloud services", "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-008",
+    "type": "single_choice",
+    "prompt": "Which financial model do cloud services primarily use, where customers pay only for what they consume?",
+    "choices": [
+      { "id": "a", "text": "Capital Expenditure (CapEx)" },
+      { "id": "b", "text": "Operational Expenditure (OpEx)" },
+      { "id": "c", "text": "Fixed-cost licensing" },
+      { "id": "d", "text": "Depreciation-based accounting" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud services use an OpEx (Operational Expenditure) model where costs are pay-as-you-go and counted as ongoing operational expenses. Traditional on-premises infrastructure uses a CapEx (Capital Expenditure) model where companies purchase hardware upfront and depreciate it over time. The shift from CapEx to OpEx is a key financial benefit of cloud adoption.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Compare CapEx and OpEx", "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/5-define-cloud-models" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-009",
+    "type": "single_choice",
+    "prompt": "A system continues to function correctly even when one of its components fails. Which cloud concept does this describe?",
+    "choices": [
+      { "id": "a", "text": "Scalability" },
+      { "id": "b", "text": "Elasticity" },
+      { "id": "c", "text": "Fault tolerance" },
+      { "id": "d", "text": "Agility" }
+    ],
+    "correct": "c",
+    "explanation": "Fault tolerance is the ability of a system to continue operating without interruption when one or more of its components fail. Scalability is the ability to grow capacity. Elasticity is the ability to dynamically scale based on demand. Agility refers to the speed with which cloud resources can be provisioned and deployed.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Describe the benefits of using cloud services", "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-010",
+    "type": "single_choice",
+    "prompt": "Which of the following is an advantage of moving to the cloud compared to maintaining an on-premises datacenter?",
+    "choices": [
+      { "id": "a", "text": "You must purchase hardware to meet peak capacity requirements" },
+      { "id": "b", "text": "You are responsible for maintaining all physical infrastructure" },
+      { "id": "c", "text": "You can deploy applications to customers in multiple geographic regions quickly" },
+      { "id": "d", "text": "You have complete control over the physical security of your servers" }
+    ],
+    "correct": "c",
+    "explanation": "Cloud providers have datacenters in many regions around the world, so you can deploy your applications closer to your users globally within minutes. On-premises solutions require purchasing hardware for peak capacity and managing physical infrastructure. Maintaining physical security of servers is the cloud provider's responsibility, not the customer's.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Describe the benefits of using cloud services", "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-011",
+    "type": "single_choice",
+    "prompt": "A company uses Azure for most workloads but also uses AWS for specific machine learning services. What cloud model does this represent?",
+    "choices": [
+      { "id": "a", "text": "Hybrid cloud" },
+      { "id": "b", "text": "Private cloud" },
+      { "id": "c", "text": "Multi-cloud" },
+      { "id": "d", "text": "Community cloud" }
+    ],
+    "correct": "c",
+    "explanation": "Multi-cloud refers to using services from more than one public cloud provider simultaneously (e.g., Azure and AWS). Hybrid cloud combines on-premises infrastructure with at least one public cloud. Private cloud is dedicated infrastructure for a single organization. Community cloud is shared by organizations with common interests.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Describe cloud deployment models", "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/5-define-cloud-models" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-012",
+    "type": "single_choice",
+    "prompt": "Which cloud benefit describes the ability to quickly provision and de-provision resources, enabling rapid response to changing business needs?",
+    "choices": [
+      { "id": "a", "text": "Reliability" },
+      { "id": "b", "text": "Predictability" },
+      { "id": "c", "text": "Agility" },
+      { "id": "d", "text": "Governance" }
+    ],
+    "correct": "c",
+    "explanation": "Agility in cloud computing means you can quickly provision new resources (virtual machines, databases, etc.) in minutes and de-provision them just as fast, allowing businesses to respond rapidly to opportunities or changing requirements. Reliability focuses on dependable delivery. Predictability relates to consistent performance and costs. Governance involves policy compliance and management.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Describe the benefits of using cloud services", "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-013",
+    "type": "single_choice",
+    "prompt": "Azure App Service is an example of which cloud service model?",
+    "choices": [
+      { "id": "a", "text": "IaaS" },
+      { "id": "b", "text": "PaaS" },
+      { "id": "c", "text": "SaaS" },
+      { "id": "d", "text": "On-premises" }
+    ],
+    "correct": "b",
+    "explanation": "Azure App Service is a Platform as a Service (PaaS) offering — Microsoft manages the underlying operating system, runtime, and infrastructure, while customers deploy and manage their web applications and APIs. Azure Virtual Machines is an IaaS example. Microsoft 365 is a SaaS example.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: What is Azure App Service?", "url": "https://learn.microsoft.com/en-us/azure/app-service/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-014",
+    "type": "single_choice",
+    "prompt": "Which statement correctly describes scalability in cloud computing?",
+    "choices": [
+      { "id": "a", "text": "Scalability means a system can recover from failure automatically" },
+      { "id": "b", "text": "Scalability means a system can increase resources to handle growing workloads" },
+      { "id": "c", "text": "Scalability means a system runs in multiple geographic regions simultaneously" },
+      { "id": "d", "text": "Scalability means a system is available 99.999% of the time" }
+    ],
+    "correct": "b",
+    "explanation": "Scalability is the ability to increase (scale up or scale out) resources to accommodate growing demand. Automatic recovery from failure describes fault tolerance or self-healing. Running in multiple regions describes global distribution or geo-redundancy. A 99.999% uptime target is a measure of high availability.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Describe the benefits of using cloud services", "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-cc-015",
+    "type": "single_choice",
+    "prompt": "Which of the following is always the cloud provider's responsibility, regardless of the service model (IaaS, PaaS, or SaaS)?",
+    "choices": [
+      { "id": "a", "text": "Application data" },
+      { "id": "b", "text": "User identity management" },
+      { "id": "c", "text": "Physical datacenter security" },
+      { "id": "d", "text": "Operating system configuration" }
+    ],
+    "correct": "c",
+    "explanation": "Physical datacenter security (securing the building, hardware, and physical access) is always the cloud provider's responsibility regardless of service model. Application data and identity management are always the customer's responsibility. Operating system configuration is the customer's responsibility in IaaS but shifts to the provider in PaaS and SaaS.",
+    "topics": ["cloud-concepts"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Shared responsibility in the cloud", "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility" }
+    ],
+    "version": 1
+  }
+]

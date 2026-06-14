@@ -1,0 +1,641 @@
+[
+  {
+    "id": "sn-csa-po-001",
+    "type": "single_choice",
+    "prompt": "What is the primary database used by ServiceNow to store all platform data?",
+    "choices": [
+      { "id": "a", "text": "MySQL" },
+      { "id": "b", "text": "The Now Platform's proprietary database (NowDB)" },
+      { "id": "c", "text": "PostgreSQL" },
+      { "id": "d", "text": "Microsoft SQL Server" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow uses its own proprietary database layer called NowDB, which is built on top of a relational database but abstracted through the Now Platform's table and record model.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Now Platform Architecture", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/navigation-and-ui/concept/c_NavigatingServiceNow.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-002",
+    "type": "single_choice",
+    "prompt": "Which URL pattern is used to access a specific ServiceNow table in the list view?",
+    "choices": [
+      { "id": "a", "text": "instance.service-now.com/table_name_list.do" },
+      { "id": "b", "text": "instance.service-now.com/list/table_name" },
+      { "id": "c", "text": "instance.service-now.com/table_name.list" },
+      { "id": "d", "text": "instance.service-now.com/tables/table_name" }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow uses the pattern `table_name.list` to display the list view of a table. For forms, you would use `table_name.do`.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-003",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is a 'sys_id'?",
+    "choices": [
+      { "id": "a", "text": "The sequential number assigned to a record (e.g., INC0001234)" },
+      { "id": "b", "text": "A globally unique identifier (GUID) assigned to every record in the platform" },
+      { "id": "c", "text": "The system administrator's user ID" },
+      { "id": "d", "text": "A field type used for encrypted data" }
+    ],
+    "correct": "b",
+    "explanation": "A sys_id is a 32-character GUID that uniquely identifies every record in ServiceNow across all tables and instances. It is the primary key for all records.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-004",
+    "type": "single_choice",
+    "prompt": "What does the term 'application scope' mean in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "The number of users licensed to access a specific application" },
+      { "id": "b", "text": "A namespace that isolates application artifacts to prevent naming conflicts" },
+      { "id": "c", "text": "The geographic region where the ServiceNow instance is hosted" },
+      { "id": "d", "text": "The set of modules visible in the application navigator" }
+    ],
+    "correct": "b",
+    "explanation": "Application scope is a namespace in ServiceNow that isolates artifacts (tables, scripts, UI policies) belonging to a specific application. This prevents naming conflicts between applications and controls what can access or modify the application's artifacts.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-005",
+    "type": "single_choice",
+    "prompt": "Which environment type in a ServiceNow deployment pipeline is intended for production-like testing before going live?",
+    "choices": [
+      { "id": "a", "text": "Development" },
+      { "id": "b", "text": "Sandbox" },
+      { "id": "c", "text": "Sub-production / UAT" },
+      { "id": "d", "text": "Personal Developer Instance (PDI)" }
+    ],
+    "correct": "c",
+    "explanation": "A sub-production or UAT (User Acceptance Testing) instance mirrors production data and configuration and is used for final testing before promoting changes to the production instance.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-006",
+    "type": "single_choice",
+    "prompt": "What is the standard URL format for a ServiceNow instance?",
+    "choices": [
+      { "id": "a", "text": "https://instance-name.servicenow.net" },
+      { "id": "b", "text": "https://instance-name.service-now.com" },
+      { "id": "c", "text": "https://instance-name.now.com" },
+      { "id": "d", "text": "https://servicenow.com/instance-name" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow instances are accessed using the format `https://<instance-name>.service-now.com`. Each customer's instance has a unique subdomain on the service-now.com domain.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ServiceNow Instance URL", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/navigation-and-ui/concept/c_NavigatingServiceNow.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-007",
+    "type": "single_choice",
+    "prompt": "Which UI in ServiceNow is primarily designed to deliver a consumer-grade experience for end users requesting services?",
+    "choices": [
+      { "id": "a", "text": "Application Navigator" },
+      { "id": "b", "text": "Service Portal" },
+      { "id": "c", "text": "Studio" },
+      { "id": "d", "text": "List View" }
+    ],
+    "correct": "b",
+    "explanation": "Service Portal is a modern, responsive UI framework in ServiceNow designed to present services to end users in a clean, consumer-grade experience. It differs from the classic 'backend' UI used by administrators and agents.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-008",
+    "type": "single_choice",
+    "prompt": "In the classic ServiceNow UI, what is the 'Application Navigator' used for?",
+    "choices": [
+      { "id": "a", "text": "Navigating between different ServiceNow instances" },
+      { "id": "b", "text": "The left-side panel used to search for and access modules and applications" },
+      { "id": "c", "text": "A breadcrumb trail showing where you are in the platform" },
+      { "id": "d", "text": "The header bar containing notifications and settings" }
+    ],
+    "correct": "b",
+    "explanation": "The Application Navigator is the left-side navigation panel in ServiceNow's classic UI. It allows users to filter and find applications and modules, add favorites, and jump to recently visited items.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-009",
+    "type": "true_false",
+    "prompt": "In ServiceNow, the 'Favorites' section in the Application Navigator allows users to bookmark frequently visited modules and records for quick access.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "Users can star any module or record to add it to their Favorites in the Application Navigator. The History section similarly shows recently visited items. Both are personal and per-user.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-010",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature provides a unified search across multiple tables and record types from a single search bar?",
+    "choices": [
+      { "id": "a", "text": "List filter" },
+      { "id": "b", "text": "Global search" },
+      { "id": "c", "text": "Quick find" },
+      { "id": "d", "text": "Table lookup" }
+    ],
+    "correct": "b",
+    "explanation": "Global Search in ServiceNow allows users to search across multiple tables simultaneously from the header search bar. Results are grouped by table and administrators can configure which tables participate in global search.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-011",
+    "type": "single_choice",
+    "prompt": "What are 'Related Lists' in a ServiceNow form?",
+    "choices": [
+      { "id": "a", "text": "A dropdown showing suggested values for a field" },
+      { "id": "b", "text": "Tabs or sections at the bottom of a form displaying records from other tables linked to the current record" },
+      { "id": "c", "text": "A list of recently modified records in the same table" },
+      { "id": "d", "text": "A sidebar showing knowledge articles related to the current record" }
+    ],
+    "correct": "b",
+    "explanation": "Related Lists appear at the bottom of a ServiceNow form and show records from other tables that have a relationship (typically via a reference field) to the current record. For example, an Incident form may have a related list of Tasks or Attachments.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-012",
+    "type": "single_choice",
+    "prompt": "In a ServiceNow list view, what does the 'Column Chooser' allow a user to do?",
+    "choices": [
+      { "id": "a", "text": "Sort the list by a selected column" },
+      { "id": "b", "text": "Filter the list by values in a column" },
+      { "id": "c", "text": "Add, remove, or reorder columns displayed in the list" },
+      { "id": "d", "text": "Group records by a specific column value" }
+    ],
+    "correct": "c",
+    "explanation": "The Column Chooser (accessed via the gear icon or list settings) lets users customize which columns appear in a list view and in what order. Changes can be saved per user or applied to all users by administrators.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-013",
+    "type": "single_choice",
+    "prompt": "What is an 'Update Set' in ServiceNow primarily used for?",
+    "choices": [
+      { "id": "a", "text": "A mechanism to restore deleted records" },
+      { "id": "b", "text": "A container that captures configuration changes so they can be moved between instances" },
+      { "id": "c", "text": "A scheduled batch job that updates multiple records at once" },
+      { "id": "d", "text": "A report showing all changes made to a specific record" }
+    ],
+    "correct": "b",
+    "explanation": "Update Sets capture configuration changes (scripts, UI policies, forms, workflows) made in one instance so they can be exported and applied to another instance. They are the primary mechanism for promoting changes from development to production.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Update Sets Overview", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/build/system-update-sets/concept/system-update-sets.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-014",
+    "type": "true_false",
+    "prompt": "Update Sets in ServiceNow capture both configuration changes and data record changes (such as new incidents or user records).",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Update Sets capture only configuration changes, such as scripts, business rules, UI elements, and workflows. They do not capture data records like incidents, users, or CMDB entries. Data migration requires different tools such as import sets or data exports.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-015",
+    "type": "single_choice",
+    "prompt": "Which of the following describes a 'Local' update set vs a 'Remote' update set?",
+    "choices": [
+      { "id": "a", "text": "A local update set is editable; a remote update set has been retrieved from another instance and is read-only until committed" },
+      { "id": "b", "text": "A local update set exists only in development; a remote update set is in production" },
+      { "id": "c", "text": "A local update set captures data changes; a remote update set captures configuration changes" },
+      { "id": "d", "text": "There is no distinction between local and remote update sets" }
+    ],
+    "correct": "a",
+    "explanation": "A local update set is created on the current instance and is in progress or complete. A remote update set is an XML file retrieved from another instance. Before the changes in a remote update set can take effect, it must be previewed and committed.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-016",
+    "type": "single_choice",
+    "prompt": "What is the prefix (scope namespace) format used by scoped applications in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "app_" },
+      { "id": "b", "text": "x_<company_code>_<app_name>" },
+      { "id": "c", "text": "sn_<application_name>" },
+      { "id": "d", "text": "custom_<application_name>" }
+    ],
+    "correct": "b",
+    "explanation": "Third-party scoped applications use the prefix format `x_<vendor_code>_<app_name>_`. ServiceNow-provided applications use the `sn_` prefix. This namespace prefix appears on all artifacts within the scoped application, such as table names and script names.",
+    "topics": ["platform-overview"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-017",
+    "type": "single_choice",
+    "prompt": "Which field on every ServiceNow record stores the username of the person who created the record?",
+    "choices": [
+      { "id": "a", "text": "sys_created_on" },
+      { "id": "b", "text": "sys_created_by" },
+      { "id": "c", "text": "sys_updated_by" },
+      { "id": "d", "text": "sys_user_id" }
+    ],
+    "correct": "b",
+    "explanation": "The `sys_created_by` field stores the username (not display name) of the user who created the record. The `sys_created_on` field stores the timestamp of creation. These are system-generated fields present on every table.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-018",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, which field type is used to store a reference to a record in another table?",
+    "choices": [
+      { "id": "a", "text": "String" },
+      { "id": "b", "text": "Choice" },
+      { "id": "c", "text": "Reference" },
+      { "id": "d", "text": "Glide List" }
+    ],
+    "correct": "c",
+    "explanation": "A Reference field type stores a pointer to a single record in another table, identified by its sys_id. The display value shown to users is typically the record's display value field. This is how relationships between tables are built in ServiceNow.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-019",
+    "type": "single_choice",
+    "prompt": "What is the difference between a 'Reference' field type and a 'Glide List' field type in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Reference stores text; Glide List stores numbers" },
+      { "id": "b", "text": "Reference stores a link to one record; Glide List stores links to multiple records from the same table" },
+      { "id": "c", "text": "Reference is for users; Glide List is for configuration items" },
+      { "id": "d", "text": "They are identical in functionality" }
+    ],
+    "correct": "b",
+    "explanation": "A Reference field links to exactly one record in a specified table. A Glide List field can reference multiple records from the same table, storing a comma-separated list of sys_ids. Glide List is used, for example, to reference multiple groups on a record.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-020",
+    "type": "single_choice",
+    "prompt": "What is a 'Journal' field type in ServiceNow used for?",
+    "choices": [
+      { "id": "a", "text": "Storing the audit history of all field changes on a record" },
+      { "id": "b", "text": "Storing append-only text entries, such as work notes or additional comments" },
+      { "id": "c", "text": "Storing large text documents or attachments" },
+      { "id": "d", "text": "Scheduling future actions on a record" }
+    ],
+    "correct": "b",
+    "explanation": "Journal fields (such as 'Work Notes' and 'Additional Comments') in ServiceNow store append-only text entries. Each entry is timestamped and attributed to the author. Existing entries cannot be edited or deleted, making them suitable for audit trails of communications.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-021",
+    "type": "single_choice",
+    "prompt": "What is a Personal Developer Instance (PDI) in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A production instance purchased for a single-person company" },
+      { "id": "b", "text": "A free ServiceNow instance provided to individuals for learning and development purposes" },
+      { "id": "c", "text": "A sandboxed environment within an enterprise instance for individual testing" },
+      { "id": "d", "text": "An instance that only supports personal use and not developer tools" }
+    ],
+    "correct": "b",
+    "explanation": "A Personal Developer Instance (PDI) is a free ServiceNow instance provided to developers and learners through the Now Learning program. It gives individuals access to a full ServiceNow environment to practice development and prepare for certifications.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-022",
+    "type": "single_choice",
+    "prompt": "In ServiceNow's table inheritance model, if Table B extends Table A, what happens to Table B's records?",
+    "choices": [
+      { "id": "a", "text": "Table B is a copy of Table A and is completely independent" },
+      { "id": "b", "text": "Table B inherits all fields from Table A, and Table B records also appear in Table A queries" },
+      { "id": "c", "text": "Table B only inherits Table A's field names, but not the data types" },
+      { "id": "d", "text": "Records in Table B cannot be queried from Table A" }
+    ],
+    "correct": "b",
+    "explanation": "In ServiceNow, table extension (inheritance) means the child table inherits all fields from the parent. Records in the child table are also accessible via the parent table's list view. The 'sys_class_name' field identifies which specific child table a record belongs to.",
+    "topics": ["platform-overview"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-023",
+    "type": "true_false",
+    "prompt": "The 'Task' table in ServiceNow is the base table that Incident, Problem, Change, and Request all extend.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "The Task [task] table is the core parent table in ITSM. Incident, Problem, Change Request, Request, and other task-like records all extend the Task table, inheriting common fields such as number, short description, state, assignment group, and assigned to.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-024",
+    "type": "single_choice",
+    "prompt": "Which form element in ServiceNow groups related fields together visually within a form using a labeled border?",
+    "choices": [
+      { "id": "a", "text": "Related List" },
+      { "id": "b", "text": "Section" },
+      { "id": "c", "text": "Formatter" },
+      { "id": "d", "text": "Tab" }
+    ],
+    "correct": "b",
+    "explanation": "A Section in a ServiceNow form groups related fields together within a labeled box. Sections help organize complex forms and can be set to collapsible or hidden. They are configured in the form layout using the Form Designer.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-025",
+    "type": "single_choice",
+    "prompt": "What is a 'Formatter' in a ServiceNow form?",
+    "choices": [
+      { "id": "a", "text": "A script that formats field values before they are displayed" },
+      { "id": "b", "text": "A special form element that displays non-field content such as activity stream, approvals, or attachments" },
+      { "id": "c", "text": "A tool for adjusting the visual layout of field labels" },
+      { "id": "d", "text": "A validation rule that formats input data" }
+    ],
+    "correct": "b",
+    "explanation": "Formatters are special elements added to forms that display functional UI components beyond simple fields. Examples include the Activity Formatter (shows journal entries and field changes), the Approval Formatter, and the Attachment Formatter. They are added to forms via Form Designer.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-026",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow UI is referred to as 'Next Experience UI' (also known as Polaris)?",
+    "choices": [
+      { "id": "a", "text": "The legacy UI available before the Istanbul release" },
+      { "id": "b", "text": "The modern, updated UI introduced to replace the classic UI with a new visual framework" },
+      { "id": "c", "text": "The Service Portal framework used by end users" },
+      { "id": "d", "text": "The mobile application interface" }
+    ],
+    "correct": "b",
+    "explanation": "Next Experience UI (codenamed Polaris) is the modern interface introduced by ServiceNow to refresh the look and feel of the platform for administrators and agents. It features updated navigation, a unified shell, and improved workspace experiences while maintaining backward compatibility.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-027",
+    "type": "single_choice",
+    "prompt": "In a ServiceNow list view, how do you add a filter condition using the built-in filter breadcrumbs?",
+    "choices": [
+      { "id": "a", "text": "Right-click on a column header and select 'Filter by'" },
+      { "id": "b", "text": "Use the funnel icon to open the condition builder and add filter criteria" },
+      { "id": "c", "text": "Type a query directly in the URL bar" },
+      { "id": "d", "text": "Select records and use the Actions menu" }
+    ],
+    "correct": "b",
+    "explanation": "In a ServiceNow list view, clicking the funnel/filter icon opens the condition builder where you can add 'AND' and 'OR' filter conditions. Applied conditions appear as breadcrumbs above the list. You can also right-click column values to filter by a specific value.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-028",
+    "type": "single_choice",
+    "prompt": "What does the platform version name 'Washington DC' represent in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "The server location of the ServiceNow data centers" },
+      { "id": "b", "text": "A major platform release, named after a city following ServiceNow's alphabetical city naming convention" },
+      { "id": "c", "text": "A US government-specific edition of ServiceNow" },
+      { "id": "d", "text": "The codename for the ServiceNow mobile application" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow names its major platform releases after cities in alphabetical order. Washington DC (W) follows Vancouver (V), Utah (U), Tokyo (T), and San Diego (S). Each release brings new features and enhancements to the platform.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-029",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid attachment handling behaviors in ServiceNow? Select TWO.",
+    "choices": [
+      { "id": "a", "text": "Attachments can be added to any form that has the Attachment formatter or attachment icon enabled" },
+      { "id": "b", "text": "Attachments are stored in the database as base64-encoded values in the record's fields" },
+      { "id": "c", "text": "Administrators can restrict attachment file types and maximum file sizes via system properties" },
+      { "id": "d", "text": "Attachments are automatically deleted after 90 days by default" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Attachments in ServiceNow are stored in the Attachments [sys_attachment] table, not embedded in field values. Administrators can configure allowed file extensions and maximum file sizes through system properties (glide.attachment.extensions and glide.attachment.max_size). Attachments do not auto-delete by default.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-030",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Currency' field type in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "To restrict a field to numeric values only" },
+      { "id": "b", "text": "To store a monetary value along with a currency code, supporting multi-currency display" },
+      { "id": "c", "text": "To configure exchange rates between different currencies" },
+      { "id": "d", "text": "To convert field values to the user's local currency on the fly" }
+    ],
+    "correct": "b",
+    "explanation": "The Currency field type in ServiceNow stores a numeric value paired with a currency code (e.g., USD, EUR). The platform can display currency fields in the user's preferred currency using defined exchange rates configured in the system.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-031",
+    "type": "single_choice",
+    "prompt": "Which of the following actions does committing a remote update set perform?",
+    "choices": [
+      { "id": "a", "text": "Sends the update set to another instance for review" },
+      { "id": "b", "text": "Applies the configuration changes contained in the update set to the current instance" },
+      { "id": "c", "text": "Deletes the update set from the system after backing it up" },
+      { "id": "d", "text": "Locks the update set to prevent further changes" }
+    ],
+    "correct": "b",
+    "explanation": "Committing a remote update set applies all of its captured configuration changes to the current instance. Before committing, administrators should preview the update set to identify any conflicts or errors. Once committed, the changes are live in the instance.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-032",
+    "type": "true_false",
+    "prompt": "A scoped application in ServiceNow can access tables and records from the global scope without any restrictions.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Scoped applications are isolated from each other and from the global scope by default. Cross-scope access requires explicit configuration: the owning scope must grant access using application cross-scope access policies. This prevents scoped apps from unintentionally or maliciously accessing data they shouldn't.",
+    "topics": ["platform-overview"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-033",
+    "type": "single_choice",
+    "prompt": "When viewing a ServiceNow form, how can a user copy the sys_id of the current record to the clipboard?",
+    "choices": [
+      { "id": "a", "text": "Open the record in a new tab and read the sys_id from the URL" },
+      { "id": "b", "text": "Right-click the form header and select 'Copy sys_id'" },
+      { "id": "c", "text": "Right-click the record number field (e.g., INC number) and select 'Copy sys_id', or use the menu icon" },
+      { "id": "d", "text": "Run a script in the browser console" }
+    ],
+    "correct": "c",
+    "explanation": "You can retrieve a record's sys_id by right-clicking the record's identifier field (such as the incident number) and selecting 'Copy sys_id' from the context menu. The sys_id also appears in the URL when viewing a specific record.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-034",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow release immediately preceded 'Washington DC'?",
+    "choices": [
+      { "id": "a", "text": "Utah" },
+      { "id": "b", "text": "Tokyo" },
+      { "id": "c", "text": "Vancouver" },
+      { "id": "d", "text": "San Diego" }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow release names follow alphabetical city order. Vancouver (V) came before Washington DC (W). The sequence for recent releases is: Tokyo, Utah, Vancouver, Washington DC, Xanadu.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-035",
+    "type": "single_choice",
+    "prompt": "What does the '.do' suffix in a ServiceNow URL indicate?",
+    "choices": [
+      { "id": "a", "text": "The record is in draft (do-not-publish) status" },
+      { "id": "b", "text": "It signals the platform to display the record form for that table" },
+      { "id": "c", "text": "It is a domain override parameter" },
+      { "id": "d", "text": "It indicates the request uses the REST API" }
+    ],
+    "correct": "b",
+    "explanation": "In ServiceNow, the `.do` suffix in a URL triggers the platform to render the form view. For example, `incident.do?sys_id=abc123` opens the form for that specific incident record. Similarly, `.list` shows the list view.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-036",
+    "type": "multi_choice",
+    "prompt": "Which of the following are standard system metadata fields automatically present on every ServiceNow record? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "sys_id" },
+      { "id": "b", "text": "sys_created_by" },
+      { "id": "c", "text": "sys_updated_on" },
+      { "id": "d", "text": "sys_priority" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Every record in ServiceNow automatically includes system fields: sys_id (unique identifier), sys_created_by (creator username), sys_created_on (creation timestamp), sys_updated_by (last updater username), and sys_updated_on (last update timestamp). There is no system field named sys_priority; priority is a custom field on specific tables like Incident.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-037",
+    "type": "single_choice",
+    "prompt": "In the ServiceNow list view, what happens when you click a column header?",
+    "choices": [
+      { "id": "a", "text": "It opens the column configuration options" },
+      { "id": "b", "text": "It sorts the list by that column in ascending order, and clicking again reverses the sort" },
+      { "id": "c", "text": "It applies a filter for that column" },
+      { "id": "d", "text": "It opens the field definition for that column" }
+    ],
+    "correct": "b",
+    "explanation": "Clicking a column header in a ServiceNow list view sorts the records by that column in ascending order. Clicking the same header again reverses the sort to descending order. An arrow indicator shows the current sort column and direction.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-038",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a 'Scoped Application' as opposed to developing in the Global scope?",
+    "choices": [
+      { "id": "a", "text": "Scoped applications run faster because they use fewer database resources" },
+      { "id": "b", "text": "Scoped applications encapsulate all artifacts in a named namespace, enabling controlled packaging, distribution, and access management" },
+      { "id": "c", "text": "Scoped applications can only be created by ServiceNow employees" },
+      { "id": "d", "text": "Scoped applications automatically generate documentation for all artifacts" }
+    ],
+    "correct": "b",
+    "explanation": "Scoped applications isolate all their artifacts (tables, scripts, UI components) within a named namespace prefix. This enables packaging the application for distribution via the ServiceNow Store, prevents naming conflicts, and provides granular cross-scope access control.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-039",
+    "type": "true_false",
+    "prompt": "A Personal Developer Instance (PDI) is associated with a single ServiceNow developer account and cannot be shared among multiple users.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "PDIs are granted one per registered developer account on the ServiceNow developer program. They are personal instances used for individual learning and development. While you can create user accounts within the PDI, the instance itself belongs to one developer account.",
+    "topics": ["platform-overview"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-po-040",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, when you navigate to a list view and apply a saved filter, what happens if you share that filter with a group?",
+    "choices": [
+      { "id": "a", "text": "The filter is permanently applied for all group members and cannot be removed" },
+      { "id": "b", "text": "Group members can see and apply the shared filter in the filter condition builder" },
+      { "id": "c", "text": "The filter is automatically applied every time group members load the list" },
+      { "id": "d", "text": "Sharing a filter requires administrator approval before it becomes available" }
+    ],
+    "correct": "b",
+    "explanation": "When a filter is saved and shared with a group in ServiceNow, group members can see that filter in their available filters when using the condition builder. They can then apply it themselves as needed. It does not force the filter on users automatically.",
+    "topics": ["platform-overview"],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

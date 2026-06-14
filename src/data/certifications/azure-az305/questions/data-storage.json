@@ -1,0 +1,302 @@
+[
+  {
+    "id": "azure-az305-ds-001",
+    "type": "single_choice",
+    "prompt": "A media company stores 500 TB of video files in Azure Blob Storage. Files are accessed frequently for the first 30 days after upload, then accessed on average once per year. The company wants to minimize storage cost while maintaining immediate read access at all times without rehydration delays. Which storage tier strategy minimizes cost?",
+    "choices": [
+      { "id": "a", "text": "Store all files in Cool tier, which is optimized for infrequently accessed data" },
+      { "id": "b", "text": "Store files in Hot tier for 30 days, then use a lifecycle management policy to move them to Archive tier" },
+      { "id": "c", "text": "Store files in Hot tier for 30 days, then use a lifecycle management policy to move them to Cold tier" },
+      { "id": "d", "text": "Store all files in Premium block blob storage for lowest latency access at any frequency" }
+    ],
+    "correct": "c",
+    "explanation": "Cold tier (GA in 2023) is designed for data accessed rarely but requiring sub-second read access without rehydration — unlike Archive tier which requires rehydration of 1-15 hours. Cold tier storage costs are lower than Cool tier, making it ideal for this once-per-year access pattern. Archive tier (option B) would cause read delays that violate the 'immediate access at all times' requirement. Cool tier (option A) is more expensive than Cold for this access frequency and doesn't use lifecycle transitions. Premium block blob storage (option D) is the most expensive option and is intended for transaction-heavy latency-sensitive workloads, not archival.",
+    "topics": ["data-storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Blob Storage access tiers", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview" },
+      { "label": "Configure a lifecycle management policy", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-002",
+    "type": "single_choice",
+    "prompt": "A company is migrating a Windows-based file server with 20 TB of data to Azure. The application servers (running on Azure VMs) access files using the SMB protocol and require NTFS-level permissions and Active Directory authentication. The storage must support files larger than 1 TB. Which Azure storage solution is the correct fit?",
+    "choices": [
+      { "id": "a", "text": "Azure Blob Storage with NFS 3.0 protocol support enabled" },
+      { "id": "b", "text": "Azure Files Premium tier with Active Directory Domain Services authentication" },
+      { "id": "c", "text": "Azure NetApp Files with an SMB volume and Active Directory connection" },
+      { "id": "d", "text": "Azure Files Standard tier with storage account key authentication and NTFS permissions set via DFS-N" }
+    ],
+    "correct": "c",
+    "explanation": "Azure NetApp Files supports SMB volumes with full Active Directory integration, NTFS ACLs, and supports individual file sizes up to 16 TiB. It is the recommended solution for enterprise NAS lift-and-shift scenarios requiring high throughput and large file sizes. Azure Files Premium supports SMB with AD authentication and NTFS permissions but has a maximum share size of 100 TiB per share and individual files are limited to the share's capacity — however, single-file limits can be constraining for certain workloads; more critically, Azure Files does not match Azure NetApp Files' performance for latency-sensitive NAS workloads. Azure Blob Storage with NFS 3.0 does not support SMB or NTFS permissions. Azure Files Standard with storage account key authentication does not provide AD authentication.",
+    "topics": ["data-storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure NetApp Files overview", "url": "https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-introduction" },
+      { "label": "Azure Files vs Azure NetApp Files comparison", "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-netapp-comparison" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-003",
+    "type": "single_choice",
+    "prompt": "A healthcare company stores patient records in Azure SQL Database. Compliance requires that data be encrypted at rest using keys controlled by the company (not Microsoft), and key rotation must happen without any application downtime or connection string changes. The company already uses Azure Key Vault. Which configuration satisfies these requirements?",
+    "choices": [
+      { "id": "a", "text": "Enable Transparent Data Encryption (TDE) with service-managed keys — Microsoft rotates keys automatically" },
+      { "id": "b", "text": "Enable TDE with customer-managed keys (CMK) stored in Azure Key Vault, using automatic key rotation in Key Vault" },
+      { "id": "c", "text": "Use Always Encrypted with column-level encryption keys stored in a Key Vault-backed column master key" },
+      { "id": "d", "text": "Encrypt database backups using Azure Backup encryption with a Key Vault key and disable TDE" }
+    ],
+    "correct": "b",
+    "explanation": "TDE with customer-managed keys (BYOK) in Azure Key Vault gives the company full control over the encryption key while Azure SQL handles the encryption/decryption transparently to the application — no connection string or application changes needed. Key Vault supports automatic key rotation policies that rotate the key and automatically update the TDE protector reference, achieving zero-downtime rotation. Service-managed keys (option A) are controlled by Microsoft, not the company. Always Encrypted (option C) encrypts specific columns and requires client-side key management and driver support — it does not encrypt the entire database at rest and adds application complexity. Encrypting only backups (option D) leaves data unencrypted at rest in the live database.",
+    "topics": ["data-storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure SQL TDE with customer-managed keys", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/transparent-data-encryption-byok-overview" },
+      { "label": "Configure automatic key rotation for TDE", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/transparent-data-encryption-byok-key-rotation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-004",
+    "type": "single_choice",
+    "prompt": "A company needs a relational database for a new application with these constraints: it requires SQL Server Agent for scheduled jobs, cross-database queries via linked servers to other on-premises databases, and must use an existing on-premises SQL Server license (Software Assurance). The database is 3 TB. Which Azure SQL offering is correct?",
+    "choices": [
+      { "id": "a", "text": "Azure SQL Database (single database, General Purpose tier) with Azure Hybrid Benefit" },
+      { "id": "b", "text": "Azure SQL Managed Instance (Business Critical tier) with Azure Hybrid Benefit" },
+      { "id": "c", "text": "SQL Server on Azure VM with Azure Hybrid Benefit" },
+      { "id": "d", "text": "Azure SQL Managed Instance (General Purpose tier) with Azure Hybrid Benefit" }
+    ],
+    "correct": "d",
+    "explanation": "Azure SQL Managed Instance supports SQL Server Agent, cross-database queries, and linked servers — features not available in Azure SQL Database. General Purpose tier supports up to 8 TB of storage, sufficient for 3 TB. Azure Hybrid Benefit applies to Managed Instance, reducing licensing cost for customers with existing SQL Server Software Assurance licenses. Business Critical tier (option B) is unnecessary here — it adds in-memory OLTP and a read replica, significantly increasing cost without addressing the stated requirements. SQL Server on Azure VM (option C) also supports all these features but requires full OS management, patching, and HA setup, making it higher operational overhead than MI. Azure SQL Database (option A) lacks SQL Server Agent and linked server support.",
+    "topics": ["data-storage"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure SQL Managed Instance overview", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/sql-managed-instance-paas-overview" },
+      { "label": "Feature comparison: Azure SQL Database vs SQL Managed Instance", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/features-comparison" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-005",
+    "type": "single_choice",
+    "prompt": "A globally distributed e-commerce application uses Azure Cosmos DB. Shopping cart data must be readable in any Azure region within milliseconds, writes originate from whichever region the user is closest to, and the company can tolerate reading data that may be up to 2 minutes stale in non-write regions to reduce cost. Which consistency level should the architect configure?",
+    "choices": [
+      { "id": "a", "text": "Strong consistency" },
+      { "id": "b", "text": "Session consistency" },
+      { "id": "c", "text": "Bounded Staleness" },
+      { "id": "d", "text": "Eventual consistency" }
+    ],
+    "correct": "c",
+    "explanation": "Bounded Staleness allows reads in non-write regions to lag behind the write region by a configured time interval (e.g., 120 seconds) or number of versions. This matches the requirement exactly: millisecond reads (no quorum required), multi-region writes supported, and bounded staleness guarantee satisfies the 'up to 2 minutes stale' tolerance. Strong consistency would route reads to the write region (or quorum), adding significant latency for global reads — inconsistent with the millisecond read requirement in all regions. Session consistency guarantees 'read your own writes' within a session but not a global time-bounded staleness across sessions. Eventual consistency provides no staleness bound, which could exceed the 2-minute tolerance accepted by the business.",
+    "topics": ["data-storage"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Consistency levels in Azure Cosmos DB", "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels" },
+      { "label": "Choose the right consistency level", "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/sql/consistency-levels-choosing" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-006",
+    "type": "single_choice",
+    "prompt": "A team is building an analytics solution that needs to query both structured relational data from Azure SQL Database and unstructured log files in Azure Data Lake Storage Gen2 using standard SQL, without moving data between systems. Which Azure service enables this federated query capability?",
+    "choices": [
+      { "id": "a", "text": "Azure Databricks with Delta Lake connectors for both SQL Database and ADLS Gen2" },
+      { "id": "b", "text": "Azure Synapse Analytics with serverless SQL pool using OPENROWSET for ADLS Gen2 and linked services for Azure SQL" },
+      { "id": "c", "text": "Azure Data Factory with a mapping data flow that reads from both sources into a single pipeline" },
+      { "id": "d", "text": "Azure HDInsight with Hive external tables over ADLS Gen2 and JDBC connection to Azure SQL" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Synapse Analytics' serverless SQL pool can query files in ADLS Gen2 directly using OPENROWSET with standard T-SQL, and Synapse linked services connect to Azure SQL Database for federated queries — all without ETL pipelines or data movement. The analyst uses familiar SQL syntax across both sources. Databricks (option A) can access both sources but requires Spark/Python/Scala or SparkSQL rather than standard SQL, and is more complex for a SQL-focused analytics team. Azure Data Factory (option C) is an orchestration and ETL tool, not a query engine — it moves data but does not allow interactive SQL queries. HDInsight with Hive (option D) uses HQL rather than standard SQL and requires cluster management overhead.",
+    "topics": ["data-storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Serverless SQL pool in Azure Synapse Analytics", "url": "https://learn.microsoft.com/en-us/azure/synapse-analytics/sql/on-demand-workspace-overview" },
+      { "label": "Query storage files with serverless SQL pool", "url": "https://learn.microsoft.com/en-us/azure/synapse-analytics/sql/query-data-storage" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-007",
+    "type": "single_choice",
+    "prompt": "A company migrates its graph-based recommendation engine from Neo4j to Azure Cosmos DB. The engine queries deeply connected social graphs using Gremlin traversal language and requires low-latency reads with horizontal scalability. Which Cosmos DB API should the architect select?",
+    "choices": [
+      { "id": "a", "text": "Cosmos DB for NoSQL (Core SQL) API" },
+      { "id": "b", "text": "Cosmos DB for MongoDB API" },
+      { "id": "c", "text": "Cosmos DB for Apache Gremlin API" },
+      { "id": "d", "text": "Cosmos DB for Apache Cassandra API" }
+    ],
+    "correct": "c",
+    "explanation": "The Cosmos DB Gremlin API is purpose-built for graph data models and supports Gremlin traversal language natively, providing a direct migration path from Neo4j without rewriting query logic. It stores data as vertices and edges and supports graph traversals with low latency at scale. The NoSQL (Core SQL) API (option A) stores JSON documents and cannot express graph traversals. The MongoDB API (option B) supports document data with aggregation pipelines — not graph traversal. The Cassandra API (option D) models wide-column data appropriate for time-series and event data, not connected graph relationships.",
+    "topics": ["data-storage"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Introduction to Gremlin API in Azure Cosmos DB", "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/gremlin/introduction" },
+      { "label": "Choose an API in Azure Cosmos DB", "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/choose-api" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-008",
+    "type": "single_choice",
+    "prompt": "A financial institution must ensure that audit log blobs in Azure Blob Storage cannot be modified or deleted for 7 years to meet SEC 17a-4 compliance. Administrators must not be able to override or bypass this protection even with Owner-level access. Which configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Enable Azure Backup for the storage account with a 7-year retention policy" },
+      { "id": "b", "text": "Configure a time-based retention policy with a locked immutability policy on the Blob Storage container" },
+      { "id": "c", "text": "Apply a resource lock (CanNotDelete) to the storage account" },
+      { "id": "d", "text": "Configure soft delete for blobs with a 7-year retention period and enable versioning" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Blob Storage immutability policies in WORM (Write Once, Read Many) mode prevent blobs from being modified or deleted during the retention interval. When a time-based retention policy is locked, even subscription owners and storage account administrators cannot delete the data or shorten the retention period — this satisfies the SEC 17a-4 requirement for tamper-proof audit records. Microsoft has obtained a Cohasset Associates assessment confirming this compliance. Azure Backup (option A) provides recovery copies but does not prevent deletion of the originals. Resource locks (option C) prevent deletion of the storage account itself but can be removed by a user with appropriate permissions, and do not protect individual blobs. Soft delete and versioning (option D) retain deleted data temporarily but can be disabled by an administrator.",
+    "topics": ["data-storage"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Store business-critical blob data with immutable storage", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview" },
+      { "label": "Time-based retention policies for immutable blob data", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-time-based-retention-policy-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-009",
+    "type": "single_choice",
+    "prompt": "A data engineering team needs to process 100 TB of raw clickstream data daily using Apache Spark, manage schema evolution of Parquet files with ACID transactions, and support time travel queries to roll back to yesterday's data version. The team has deep Spark expertise but limited Azure-specific knowledge. Which Azure analytics service best fits these requirements?",
+    "choices": [
+      { "id": "a", "text": "Azure Synapse Analytics with dedicated SQL pool and PolyBase" },
+      { "id": "b", "text": "Azure Databricks with Delta Lake on Azure Data Lake Storage Gen2" },
+      { "id": "c", "text": "Azure HDInsight with Apache Hive ACID tables" },
+      { "id": "d", "text": "Azure Stream Analytics for real-time processing with ADLS Gen2 output" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Databricks with Delta Lake is the purpose-built solution for this combination of requirements. Delta Lake runs on Spark, providing ACID transactions, schema enforcement and evolution, and time travel (via transaction log versioning) — exactly matching the stated needs. The team's existing Spark expertise transfers directly to Databricks. Azure Synapse with dedicated SQL pool (option A) is a columnar MPP warehouse optimized for SQL analytics, not Spark-native workloads with Delta Lake ACID semantics. HDInsight with Hive ACID (option C) provides ACID transactions but Hive is not Spark and has significantly lower performance for 100 TB daily processing; the ecosystem is also in maintenance mode. Azure Stream Analytics (option D) is a real-time streaming engine — batch processing 100 TB daily is not its design point.",
+    "topics": ["data-storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Databricks and Delta Lake", "url": "https://learn.microsoft.com/en-us/azure/databricks/delta/" },
+      { "label": "Delta Lake on Azure Databricks overview", "url": "https://learn.microsoft.com/en-us/azure/databricks/delta/delta-intro" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-010",
+    "type": "single_choice",
+    "prompt": "A company operates in the European Union and must comply with GDPR data residency requirements — all customer data must remain within EU Azure regions at all times, including backups and disaster recovery replicas. They use Azure SQL Database and Azure Blob Storage. Which configuration guarantees data residency?",
+    "choices": [
+      { "id": "a", "text": "Configure geo-redundant storage (GRS) for Blob Storage and active geo-replication for Azure SQL Database, choosing EU paired regions" },
+      { "id": "b", "text": "Use Zone-Redundant Storage (ZRS) for Blob Storage and configure Azure SQL Database with zone-redundant HA, deployed in an EU region" },
+      { "id": "c", "text": "Use Read-Access Geo-Redundant Storage (RA-GRS) for Blob Storage and a geo-replication group for SQL Database, choosing the West Europe and North Europe region pair" },
+      { "id": "d", "text": "Deploy Azure SQL Database in a sovereign cloud (Azure Government) and use locally-redundant storage for Blob Storage in the same region" }
+    ],
+    "correct": "b",
+    "explanation": "Zone-Redundant Storage (ZRS) replicates data synchronously across three availability zones within a single Azure region, ensuring data never leaves that region. Azure SQL Database with zone-redundant HA replicates across AZs in the same region. Both services remain entirely within the EU region, guaranteeing GDPR data residency. GRS and RA-GRS (options A and C) asynchronously replicate data to a paired region — even if both West Europe and North Europe are in the EU, replication across regions may violate stricter interpretations of data residency requirements for regulated industries. Azure Government (option D) serves US government requirements and is irrelevant to GDPR/EU residency.",
+    "topics": ["data-storage"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure Storage redundancy overview", "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy" },
+      { "label": "Azure SQL Database high availability and disaster recovery", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/high-availability-sla-local-zone-redundancy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-011",
+    "type": "single_choice",
+    "prompt": "A company's IoT platform ingests 50,000 events per second from sensors. Each event is a small JSON message. The data must be queryable by device ID across the last 90 days with point-read latency under 10 milliseconds, and the write throughput must scale horizontally as device count grows. Which database solution is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Azure SQL Database Hyperscale tier with a read replica for IoT query offloading" },
+      { "id": "b", "text": "Azure Cosmos DB for NoSQL API with device ID as the partition key and provisioned throughput" },
+      { "id": "c", "text": "Azure Table Storage with device ID as the partition key" },
+      { "id": "d", "text": "Azure Cache for Redis with TTL set to 90 days for IoT event storage" }
+    ],
+    "correct": "b",
+    "explanation": "Cosmos DB is designed for globally distributed, massively scalable, low-latency workloads exactly like this IoT scenario. With device ID as the partition key, both writes and point reads are routed directly to the correct partition, achieving single-digit millisecond latency. Provisioned throughput scales horizontally by adding RU/s across partitions as device count grows. Azure SQL Database Hyperscale (option A) is a relational database that scales read replicas but is not designed for 50,000 writes/second with sub-10ms latency at this IoT scale. Azure Table Storage (option C) can work but lacks guaranteed SLA for sub-10ms reads and has limited query expressiveness. Azure Cache for Redis (option D) is an in-memory cache, not a persistent database — a 90-day TTL would require enormous memory capacity and data would be lost on eviction or restart.",
+    "topics": ["data-storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Cosmos DB for IoT workloads", "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/use-cases" },
+      { "label": "Partitioning in Azure Cosmos DB", "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-012",
+    "type": "single_choice",
+    "prompt": "A company's Azure SQL Database contains columns storing personally identifiable information (PII) including Social Security Numbers. Application developers must never see these values in query results, even during development and debugging. However, the production application must read and write the data normally. DBAs who manage the database must also not see plaintext SSNs. Which Azure SQL feature achieves this without application rewrites?",
+    "choices": [
+      { "id": "a", "text": "Transparent Data Encryption (TDE) with customer-managed keys" },
+      { "id": "b", "text": "Dynamic Data Masking with a custom mask applied to the SSN column" },
+      { "id": "c", "text": "Always Encrypted with randomized encryption and the column master key stored in a developer-controlled Key Vault" },
+      { "id": "d", "text": "Row-level security with a predicate function that filters SSN values for non-privileged users" }
+    ],
+    "correct": "c",
+    "explanation": "Always Encrypted encrypts column data client-side before it reaches the database — the database engine only ever sees ciphertext. Even DBAs with full database access see encrypted values because decryption happens in the client driver using keys in Key Vault or a certificate store. Critically, when the column master key is controlled by the application team (not DBAs), DBAs cannot decrypt the data even with sa privileges. The production application uses the client-side driver transparently. TDE (option A) encrypts data at rest and in transport but the database engine decrypts it internally — DBAs can still query plaintext. Dynamic Data Masking (option B) masks data in query results for non-privileged users, but DBAs with Unmask permission or administrator rights can always see plaintext. Row-level security (option D) filters rows, not column values.",
+    "topics": ["data-storage"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Always Encrypted in Azure SQL", "url": "https://learn.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-database-engine" },
+      { "label": "Always Encrypted with secure enclaves", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/always-encrypted-enclaves-getting-started-sgx" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-013",
+    "type": "single_choice",
+    "prompt": "A retail company generates 5 TB of transactional data daily in Azure SQL Database. The analytics team queries this data using complex aggregations, but these queries are degrading OLTP performance. The company wants to run analytics queries on data no more than 1 hour old without impacting the transactional workload, and does not want to manage a separate database server. Which feature should the architect enable?",
+    "choices": [
+      { "id": "a", "text": "Azure SQL Database geo-replication with a read-only replica in a second region" },
+      { "id": "b", "text": "Azure SQL Database Hyperscale with named replicas for analytics" },
+      { "id": "c", "text": "Azure Synapse Link for Azure SQL with the analytical store enabled on the SQL Database" },
+      { "id": "d", "text": "Azure SQL Database built-in read scale-out replica on Business Critical or Premium tier" }
+    ],
+    "correct": "d",
+    "explanation": "Azure SQL Database Business Critical and Premium tiers include a built-in read-scale-out replica that is always available at no extra cost. Analytics queries are routed to this replica by setting ApplicationIntent=ReadOnly in the connection string, completely isolating them from the OLTP workload. The replica is kept in sync via the internal Always On availability group, typically within seconds — well within the 1-hour freshness requirement. No separate server management is needed. Geo-replication (option A) creates a readable secondary in another region — possible, but requires managing a secondary server and incurs additional compute costs. Hyperscale named replicas (option B) are Hyperscale-specific features. Azure Synapse Link (option C) is a near-real-time analytical store, but is available for Cosmos DB and SQL MI; direct Synapse Link for Azure SQL Database is generally available but is a more complex architecture than simply using the built-in read replica.",
+    "topics": ["data-storage"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Read scale-out for Azure SQL Database", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/read-scale-out" },
+      { "label": "Azure SQL Database service tiers", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/service-tiers-general-purpose-business-critical" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-014",
+    "type": "single_choice",
+    "prompt": "An architect needs to design a data archiving strategy for an Azure Blob Storage account that automatically transitions blobs based on age: Hot for the first 7 days, Cool from day 7 to day 90, Archive after day 90, and delete permanently after 3 years. This must operate without manual intervention. Which mechanism implements this?",
+    "choices": [
+      { "id": "a", "text": "Azure Automation runbooks scheduled to run daily, calling the Azure Storage REST API to move blobs" },
+      { "id": "b", "text": "Azure Blob Storage lifecycle management policies with tiering and delete actions based on blob age" },
+      { "id": "c", "text": "Azure Data Factory pipeline with a copy activity scheduled to move blobs to different containers with different storage tiers" },
+      { "id": "d", "text": "Azure Event Grid subscription on BlobCreated events triggering an Azure Function to set the tier" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Blob Storage lifecycle management policies are declarative rules evaluated daily that automatically transition blob tiers and delete blobs based on the last modified date or other conditions. A single policy with multiple rule actions handles all four transitions (Hot to Cool at 7 days, Cool to Archive at 90 days, delete at 3 years) natively without any external compute or custom code. Automation runbooks (option A) and Azure Functions (option D) require maintaining custom code and scheduling infrastructure. Data Factory (option C) is an ETL orchestration tool — moving blobs between containers does not change the access tier of an existing blob in-place and adds pipeline management overhead.",
+    "topics": ["data-storage"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Optimize costs by automatically managing the data lifecycle", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview" },
+      { "label": "Configure a lifecycle management policy", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ds-015",
+    "type": "single_choice",
+    "prompt": "A company's analytics platform needs to process both batch (petabytes of historical data) and real-time streaming data from Azure Event Hubs. The team wants a single platform to unify batch and streaming with Apache Spark, and the solution must integrate natively with Azure Data Lake Storage Gen2. Which service should the architect recommend over the alternatives for this unified workload?",
+    "choices": [
+      { "id": "a", "text": "Azure Stream Analytics for streaming, Azure Synapse Analytics dedicated SQL pool for batch — two separate platforms" },
+      { "id": "b", "text": "Azure Databricks with Structured Streaming for real-time and Spark batch jobs for historical data, using ADLS Gen2 as storage" },
+      { "id": "c", "text": "Azure HDInsight Kafka for streaming and HDInsight Spark for batch — two separate HDInsight clusters" },
+      { "id": "d", "text": "Azure Synapse Analytics with Apache Spark pools for batch and Synapse Link for streaming data ingestion" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Databricks with Structured Streaming is the leading choice for unified batch and streaming on a single Spark platform. Structured Streaming uses the same DataFrame API for both streaming (reading from Event Hubs via the connector) and batch processing, allowing reuse of business logic. ADLS Gen2 integration is first-class via ABFS driver. Databricks also supports Delta Lake for exactly-once streaming guarantees. Option A uses two completely separate platforms with different programming models, contradicting the unified platform requirement. Option C uses two HDInsight clusters — also not unified and higher operational burden. Option D is possible but Synapse Spark pools have fewer optimization features than Databricks and Synapse Link does not ingest from Event Hubs natively.",
+    "topics": ["data-storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Structured Streaming on Azure Databricks", "url": "https://learn.microsoft.com/en-us/azure/databricks/structured-streaming/" },
+      { "label": "Azure Databricks with ADLS Gen2", "url": "https://learn.microsoft.com/en-us/azure/databricks/storage/azure-storage" }
+    ],
+    "version": 1
+  }
+]

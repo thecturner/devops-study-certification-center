@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-f-pr-001",
+    "type": "single_choice",
+    "prompt": "What is the PRIMARY purpose of the Incident Management practice?",
+    "choices": [
+      { "id": "a", "text": "To identify the root cause of recurring failures and implement permanent fixes" },
+      { "id": "b", "text": "To restore normal service operation as quickly as possible and minimize the adverse impact on business operations" },
+      { "id": "c", "text": "To assess and authorize changes to production services" },
+      { "id": "d", "text": "To record and track all configuration items in the CMDB" }
+    ],
+    "correct": "b",
+    "explanation": "The Incident Management practice is focused on restoring normal service operation as quickly as possible and minimizing the adverse impact on business operations. Speed of restoration is the priority — it does not seek root cause (that is Problem Management) or authorize changes (that is Change Enablement). The CMDB is managed by Service Configuration Management.",
+    "topics": ["practices"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-002",
+    "type": "single_choice",
+    "prompt": "A user calls the service desk to report that their laptop has stopped connecting to Wi-Fi. The service desk agent follows a known solution and restores connectivity within minutes without escalating. What has the service desk resolved?",
+    "choices": [
+      { "id": "a", "text": "A problem" },
+      { "id": "b", "text": "A service request" },
+      { "id": "c", "text": "An incident" },
+      { "id": "d", "text": "A change" }
+    ],
+    "correct": "c",
+    "explanation": "An incident is an unplanned interruption to a service or a reduction in the quality of a service. A laptop losing Wi-Fi connectivity is an unplanned disruption — it is an incident. A problem is the underlying cause of one or more incidents. A service request is a formal request for something pre-approved and low risk (e.g., a password reset or new software installation). A change is a modification to something that could affect services.",
+    "topics": ["practices"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-003",
+    "type": "single_choice",
+    "prompt": "Which of the following correctly describes the three phases of the Problem Management practice?",
+    "choices": [
+      { "id": "a", "text": "Incident identification, escalation, and resolution" },
+      { "id": "b", "text": "Problem identification, problem control, and error control" },
+      { "id": "c", "text": "Triage, investigation, and closure" },
+      { "id": "d", "text": "Detection, diagnosis, and correction" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 defines three phases in Problem Management: problem identification (recognizing and logging problems), problem control (analyzing problems to understand their nature, impact, and workarounds — resulting in known errors), and error control (managing known errors through to permanent resolution). Option A describes incident phases. Option C uses informal terminology. Option D describes a generic diagnostic model, not the ITIL 4 Problem Management phases.",
+    "topics": ["practices"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-004",
+    "type": "single_choice",
+    "prompt": "What is a 'known error' in ITIL 4?",
+    "choices": [
+      { "id": "a", "text": "Any error that has been reported by a user to the service desk" },
+      { "id": "b", "text": "A problem that has been analyzed and for which the root cause and a workaround are documented" },
+      { "id": "c", "text": "An incident that has been resolved but whose resolution is not yet verified" },
+      { "id": "d", "text": "A change that introduced a defect into a production service" }
+    ],
+    "correct": "b",
+    "explanation": "A known error is a problem that has been analyzed — the root cause is understood and a workaround has been documented — but a permanent fix has not yet been applied. Known errors are recorded in the known error database (or knowledge base) so that service desk agents can apply the workaround quickly when related incidents occur. A known error is not simply any reported error (A), a resolved incident (C), or a defective change (D).",
+    "topics": ["practices"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-005",
+    "type": "single_choice",
+    "prompt": "Which type of change has pre-defined steps, is low risk, frequently occurring, and can be implemented without additional approvals?",
+    "choices": [
+      { "id": "a", "text": "Normal change" },
+      { "id": "b", "text": "Emergency change" },
+      { "id": "c", "text": "Standard change" },
+      { "id": "d", "text": "Major change" }
+    ],
+    "correct": "c",
+    "explanation": "A standard change is a pre-authorized change that is low risk, well-understood, follows a documented procedure, and does not require individual authorization each time. Examples include provisioning a new user account or patching a standard workstation build. Normal changes require authorization from a change authority before implementation. Emergency changes are used for urgent fixes and follow an expedited approval path.",
+    "topics": ["practices"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-006",
+    "type": "single_choice",
+    "prompt": "A critical production database has failed and must be patched immediately to restore services. The normal change process would take three days. Which change type should be used?",
+    "choices": [
+      { "id": "a", "text": "Standard change" },
+      { "id": "b", "text": "Normal change" },
+      { "id": "c", "text": "Emergency change" },
+      { "id": "d", "text": "Expedited change" }
+    ],
+    "correct": "c",
+    "explanation": "An emergency change must be implemented as quickly as possible — for example, to resolve a major incident or implement a critical security fix. Emergency changes follow an expedited, often reduced, authorization process managed by a subset of the change authority (sometimes called the Emergency Change Advisory Board, or ECAB). Standard changes are routine and pre-authorized. Normal changes follow the standard process. 'Expedited change' is not an ITIL 4 change type.",
+    "topics": ["practices"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-007",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the Service Desk practice?",
+    "choices": [
+      { "id": "a", "text": "To manage IT assets throughout their lifecycle" },
+      { "id": "b", "text": "To capture demand for incident resolution and service requests, and act as the single point of contact between the service provider and all users" },
+      { "id": "c", "text": "To authorize and schedule all changes to production infrastructure" },
+      { "id": "d", "text": "To define and agree service level targets with customers" }
+    ],
+    "correct": "b",
+    "explanation": "The Service Desk practice captures demand for incident resolution and service requests and acts as the single point of contact (SPOC) between the service provider and users. It handles user interactions through multiple channels (phone, portal, chat, email) and is the first point of contact for most user needs. Asset lifecycle management is IT Asset Management. Change authorization is Change Enablement. Service level targets are set by Service Level Management.",
+    "topics": ["practices"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-008",
+    "type": "single_choice",
+    "prompt": "What does 'shift-left' mean in the context of the Service Desk practice?",
+    "choices": [
+      { "id": "a", "text": "Moving service desk operations to an offshore location" },
+      { "id": "b", "text": "Enabling users to resolve more issues themselves through self-service portals and knowledge articles, reducing reliance on specialist support" },
+      { "id": "c", "text": "Transferring responsibility for incident resolution to the development team" },
+      { "id": "d", "text": "Shifting support hours to cover earlier time zones" }
+    ],
+    "correct": "b",
+    "explanation": "Shift-left in the Service Desk context means moving resolution capability closer to the user — empowering users to self-serve and enabling first-line agents to handle more complex issues through better knowledge tools, reducing escalation to second or third line. It is about bringing more resolution capability to the front of the support chain (the left of a support tier diagram), not about geography (A), team ownership (C), or time zones (D).",
+    "topics": ["practices"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-009",
+    "type": "single_choice",
+    "prompt": "Which of the following BEST distinguishes a 'service request' from an 'incident'?",
+    "choices": [
+      { "id": "a", "text": "Service requests are always more urgent than incidents" },
+      { "id": "b", "text": "An incident is an unplanned interruption to a service; a service request is a formal request for something pre-defined and low risk" },
+      { "id": "c", "text": "Incidents are handled by the service desk; service requests are handled by development teams" },
+      { "id": "d", "text": "Service requests require change authorization; incidents do not" }
+    ],
+    "correct": "b",
+    "explanation": "An incident is an unplanned interruption to or reduction in quality of a service. A service request is a formal request from a user for something pre-defined, pre-approved, and low risk — such as a password reset, software installation, or information request. Service requests are not emergencies and follow a standardized fulfillment workflow. They are not inherently more urgent (A), are not handled only by development (C), and typically do not require separate change authorization because they are already pre-approved (D).",
+    "topics": ["practices"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-010",
+    "type": "single_choice",
+    "prompt": "Which practice is responsible for setting, monitoring, and reviewing service level targets agreed with customers?",
+    "choices": [
+      { "id": "a", "text": "Service Request Management" },
+      { "id": "b", "text": "Incident Management" },
+      { "id": "c", "text": "Service Level Management" },
+      { "id": "d", "text": "Service Configuration Management" }
+    ],
+    "correct": "c",
+    "explanation": "Service Level Management (SLM) is responsible for setting clear business-based targets for service levels, monitoring performance against those targets, and reviewing results with customers through service reviews. SLM manages SLAs (with customers), OLAs (with internal teams), and Underpinning Contracts (with suppliers). It is the practice that makes the connection between technical performance metrics and customer-agreed expectations.",
+    "topics": ["practices"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-011",
+    "type": "single_choice",
+    "prompt": "What is the key difference between Release Management and Deployment Management in ITIL 4?",
+    "choices": [
+      { "id": "a", "text": "Release Management moves components between environments; Deployment Management makes new functionality available for use" },
+      { "id": "b", "text": "Deployment Management moves components between environments; Release Management makes new or changed services available for use" },
+      { "id": "c", "text": "They are the same practice with different names used in different organizations" },
+      { "id": "d", "text": "Release Management applies to software; Deployment Management applies to hardware" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 distinguishes these two practices: Deployment Management moves new or changed hardware, software, documentation, or any other component from one environment to another (e.g., from development to testing, or testing to production). Release Management makes new and changed services and features available for use by customers and users — it is about packaging and communicating availability, not just the physical movement of components. The distinction is subtle but exam-critical.",
+    "topics": ["practices"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-012",
+    "type": "single_choice",
+    "prompt": "The Continual Improvement practice uses a model that starts with 'What is the vision?' Which question comes NEXT in the model?",
+    "choices": [
+      { "id": "a", "text": "How do we get there?" },
+      { "id": "b", "text": "Where are we now?" },
+      { "id": "c", "text": "Did we get there?" },
+      { "id": "d", "text": "Where do we want to be?" }
+    ],
+    "correct": "b",
+    "explanation": "The ITIL 4 Continual Improvement model progresses: (1) What is the vision? (2) Where are we now? (3) Where do we want to be? (4) How do we get there? (5) Take action. (6) Did we get there? After establishing the vision, the next step is to assess the current state ('where are we now?') before defining targets ('where do we want to be?'). Skipping the current-state assessment leads to poorly informed improvement plans.",
+    "topics": ["practices"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-013",
+    "type": "single_choice",
+    "prompt": "Which practice maintains information about configuration items and the relationships between them?",
+    "choices": [
+      { "id": "a", "text": "IT Asset Management" },
+      { "id": "b", "text": "Service Configuration Management" },
+      { "id": "c", "text": "Problem Management" },
+      { "id": "d", "text": "Release Management" }
+    ],
+    "correct": "b",
+    "explanation": "Service Configuration Management maintains accurate information about configuration items (CIs) and the relationships between them in a configuration management database (CMDB) or system (CMS). This information supports other practices by providing visibility of the IT infrastructure. IT Asset Management focuses on financial and lifecycle tracking of assets. Problem Management uses CI data but does not maintain it. Release Management is concerned with making services available.",
+    "topics": ["practices"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-014",
+    "type": "single_choice",
+    "prompt": "Which practice classifies events as informational, warning, or exception, and determines appropriate responses?",
+    "choices": [
+      { "id": "a", "text": "Incident Management" },
+      { "id": "b", "text": "Problem Management" },
+      { "id": "c", "text": "Service Level Management" },
+      { "id": "d", "text": "Monitoring and Event Management" }
+    ],
+    "correct": "d",
+    "explanation": "Monitoring and Event Management systematically observes services and components, classifies events into three types — informational (no action needed), warning (potential issue developing), and exception (something has gone wrong) — and determines the appropriate response for each. Incident Management handles the exception events that become incidents. Problem Management investigates underlying causes. Service Level Management reviews performance against targets.",
+    "topics": ["practices"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-pr-015",
+    "type": "single_choice",
+    "prompt": "The same email server has caused five separate incidents in the past month. No single incident was severe enough to trigger major incident procedures, but the pattern of failures is impacting productivity. Which practice should be engaged to address this pattern?",
+    "choices": [
+      { "id": "a", "text": "Change Enablement" },
+      { "id": "b", "text": "Service Request Management" },
+      { "id": "c", "text": "Problem Management" },
+      { "id": "d", "text": "Release Management" }
+    ],
+    "correct": "c",
+    "explanation": "Problem Management is triggered to investigate the underlying cause of one or more related incidents. A recurring pattern of failures from the same component — even if individual incidents are minor — indicates a problem that needs root cause analysis and a permanent fix. Problem Management identifies the problem, investigates its root cause, documents a workaround as a known error, and drives toward a permanent resolution through error control. Change Enablement would implement the fix once identified, but it is Problem Management that identifies the need.",
+    "topics": ["practices"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: Key ITIL Management Practices", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  }
+]

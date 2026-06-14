@@ -1,0 +1,288 @@
+[
+  {
+    "id": "azure-az104-ig-001",
+    "type": "single_choice",
+    "prompt": "A global organization uses Microsoft Entra ID and needs to allow partner company employees to access internal SharePoint sites without creating full member accounts. What is the correct approach?",
+    "choices": [
+      { "id": "a", "text": "Create guest accounts manually for each partner user and assign them to a security group" },
+      { "id": "b", "text": "Invite partner users as B2B guests using Microsoft Entra External Identities" },
+      { "id": "c", "text": "Create a separate Entra ID tenant for partner users and configure cross-tenant synchronization" },
+      { "id": "d", "text": "Enable federation between the organization's tenant and the partner's identity provider" }
+    ],
+    "correct": "b",
+    "explanation": "Microsoft Entra B2B collaboration allows external users to be invited as guests, using their own identity provider credentials to access resources in your tenant — no full account creation required. Manually creating accounts (A) is valid but misses the core B2B value of federated identity. A separate tenant with cross-tenant sync (C) is more complex and intended for mergers, not partner access. Federation (D) is a broader infrastructure change and not the typical lightweight approach for partner access.",
+    "topics": ["identity-governance"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Microsoft Entra B2B collaboration overview", "url": "https://learn.microsoft.com/en-us/entra/external-id/what-is-b2b" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-002",
+    "type": "single_choice",
+    "prompt": "An administrator needs to assign the built-in Azure RBAC role that allows a user to manage all resources in a subscription but not grant access to others. Which role is correct?",
+    "choices": [
+      { "id": "a", "text": "Owner" },
+      { "id": "b", "text": "Contributor" },
+      { "id": "c", "text": "Reader" },
+      { "id": "d", "text": "User Access Administrator" }
+    ],
+    "correct": "b",
+    "explanation": "The Contributor role grants full access to create and manage Azure resources but does not allow granting access to others (no Microsoft.Authorization/roleAssignments/write). Owner includes the ability to grant access. Reader is read-only. User Access Administrator can manage access but cannot create or manage most resources.",
+    "topics": ["identity-governance"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure built-in roles", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-003",
+    "type": "single_choice",
+    "prompt": "A security team wants to ensure that all virtual machines deployed in a subscription are tagged with a mandatory 'CostCenter' tag. Deployments without this tag should be denied. Which Azure feature should be used?",
+    "choices": [
+      { "id": "a", "text": "Azure Blueprints with a resource lock" },
+      { "id": "b", "text": "An Azure Policy with the 'Deny' effect requiring the CostCenter tag" },
+      { "id": "c", "text": "An Azure Policy with the 'Append' effect to add the tag automatically" },
+      { "id": "d", "text": "A management group custom RBAC role that restricts deployments" }
+    ],
+    "correct": "b",
+    "explanation": "An Azure Policy with the 'Deny' effect will block deployments that do not include the specified tag, satisfying the requirement to prevent non-compliant resources from being created. The 'Append' effect (C) adds a tag with a default value but does not block the deployment or force the user to supply a specific value. Blueprints (A) orchestrate policies and resource locks but do not themselves enforce tags. A custom RBAC role (D) controls what actions are permitted, not resource property requirements.",
+    "topics": ["identity-governance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Policy effects", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects" },
+      { "label": "Enforce tag with Azure Policy", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/tutorials/govern-tags" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-004",
+    "type": "single_choice",
+    "prompt": "An organization needs to create 500 new user accounts in Microsoft Entra ID simultaneously as part of a migration. Which method is most efficient?",
+    "choices": [
+      { "id": "a", "text": "Use the Azure portal to create users one at a time with the Entra ID Users blade" },
+      { "id": "b", "text": "Write a PowerShell script using the Az module to loop through a user list" },
+      { "id": "c", "text": "Use the Bulk create operation in the Entra ID portal with a CSV template" },
+      { "id": "d", "text": "Create an ARM template that defines all 500 users and deploy it" }
+    ],
+    "correct": "c",
+    "explanation": "The Bulk create feature in the Microsoft Entra ID portal accepts a CSV file with required user attributes and creates all users in a single operation, making it the most efficient portal-native approach for large volumes. Creating users one at a time (A) does not scale. PowerShell (B) works but requires scripting effort and is less efficient than the built-in bulk operation. ARM templates (D) do not support bulk Entra ID user creation.",
+    "topics": ["identity-governance"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Bulk create users in Microsoft Entra ID", "url": "https://learn.microsoft.com/en-us/entra/identity/users/users-bulk-add" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-005",
+    "type": "single_choice",
+    "prompt": "A company has three business units, each with its own Azure subscription. Management wants to enforce corporate-wide policies while allowing each business unit to have its own subscription-level policies. Which hierarchy best supports this?",
+    "choices": [
+      { "id": "a", "text": "Place all subscriptions directly under the Tenant Root Group and assign corporate policies at the tenant root" },
+      { "id": "b", "text": "Create a management group for each business unit under the Tenant Root Group, then place subscriptions inside, and assign corporate policies at the root" },
+      { "id": "c", "text": "Create one management group containing all subscriptions and assign corporate policies at the management group level" },
+      { "id": "d", "text": "Assign corporate policies individually to each subscription and allow business units to add additional policies at the resource group level" }
+    ],
+    "correct": "b",
+    "explanation": "Creating a management group per business unit under the Tenant Root Group gives each unit a scope for their own policies, while policies assigned at the Tenant Root Group cascade to all management groups and subscriptions beneath it — providing both corporate-wide enforcement and business-unit-level flexibility. Option A assigns at the root but provides no intermediate scope for business unit policies. Option C combines everything into one group, eliminating per-unit flexibility. Option D requires manual assignment per subscription and is error-prone at scale.",
+    "topics": ["identity-governance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure management groups overview", "url": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-006",
+    "type": "single_choice",
+    "prompt": "An administrator creates a custom RBAC role. The role definition includes 'Microsoft.Compute/virtualMachines/*' in Actions and 'Microsoft.Compute/virtualMachines/delete' in NotActions. What operations can a user with this role perform on virtual machines?",
+    "choices": [
+      { "id": "a", "text": "All virtual machine operations including delete" },
+      { "id": "b", "text": "All virtual machine operations except delete" },
+      { "id": "c", "text": "Only read operations on virtual machines" },
+      { "id": "d", "text": "No operations, because conflicting definitions result in a deny" }
+    ],
+    "correct": "b",
+    "explanation": "In Azure RBAC, NotActions subtracts permissions from the set granted by Actions. Because 'Microsoft.Compute/virtualMachines/delete' is in NotActions, the effective permission set is all VM operations except delete. NotActions is not a deny; it simply removes an action from the allowed set. There is no blanket deny-by-conflict behavior in RBAC.",
+    "topics": ["identity-governance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure RBAC role definitions", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-definitions" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-007",
+    "type": "single_choice",
+    "prompt": "An organization's compliance policy requires that existing non-compliant Azure resources be remediated automatically by a policy, not just flagged. Which policy effect and additional configuration are required?",
+    "choices": [
+      { "id": "a", "text": "Use the 'Audit' effect; non-compliant resources are automatically remediated during the next evaluation cycle" },
+      { "id": "b", "text": "Use the 'DeployIfNotExists' or 'Modify' effect, and create a remediation task with a managed identity" },
+      { "id": "c", "text": "Use the 'Deny' effect; all future deployments will be compliant and existing resources will be updated" },
+      { "id": "d", "text": "Use the 'Append' effect with a managed identity to update existing resources" }
+    ],
+    "correct": "b",
+    "explanation": "The 'DeployIfNotExists' and 'Modify' effects can make changes to existing resources, but they require a remediation task to be created and a managed identity with appropriate permissions to perform the remediation. 'Audit' only flags non-compliant resources without changing them. 'Deny' blocks new deployments but does not fix existing resources. 'Append' adds properties to new resources at deploy time but cannot remediate existing ones.",
+    "topics": ["identity-governance"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Remediate non-compliant resources with Azure Policy", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/how-to/remediate-resources" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-008",
+    "type": "single_choice",
+    "prompt": "A company wants to enforce multi-factor authentication only when users sign in from outside the corporate network. Which Entra ID feature should be configured?",
+    "choices": [
+      { "id": "a", "text": "Entra ID Identity Protection with a user risk policy" },
+      { "id": "b", "text": "A Conditional Access policy that targets MFA when the named location condition is not met" },
+      { "id": "c", "text": "Security defaults in the Entra ID tenant settings" },
+      { "id": "d", "text": "Per-user MFA configured in the Entra ID Legacy MFA settings" }
+    ],
+    "correct": "b",
+    "explanation": "Conditional Access policies support named locations (IP ranges representing the corporate network) as conditions. You can require MFA when the sign-in location does not match the defined named location, satisfying the requirement precisely. Security defaults (C) enable MFA for all sign-ins with no location-based exceptions. Identity Protection user risk policies (A) evaluate risk, not location. Per-user MFA (D) applies uniformly to the user regardless of location.",
+    "topics": ["identity-governance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Conditional Access: Named locations", "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/location-condition" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-009",
+    "type": "single_choice",
+    "prompt": "A user is assigned the Owner role at a resource group scope. The same user is explicitly assigned the Reader role at the subscription scope. What is the user's effective permission on resources in the resource group?",
+    "choices": [
+      { "id": "a", "text": "Reader, because subscription-level assignments take precedence over resource group assignments" },
+      { "id": "b", "text": "Owner, because Azure RBAC uses additive permissions and the most permissive role wins at any scope" },
+      { "id": "c", "text": "Owner at the resource group and Reader on all other resource groups in the subscription" },
+      { "id": "d", "text": "The roles conflict and neither applies; the administrator must resolve the conflict" }
+    ],
+    "correct": "c",
+    "explanation": "Azure RBAC is additive: permissions accumulate across all assigned scopes. The Reader role at subscription scope gives the user read access across all resources in the subscription. The Owner role at the specific resource group grants full control within that resource group. There is no conflict; the user is an Owner in the target resource group and a Reader everywhere else in the subscription.",
+    "topics": ["identity-governance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "How Azure RBAC works", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-010",
+    "type": "single_choice",
+    "prompt": "An Entra ID administrator needs to delegate the ability to reset passwords for users in a specific region without giving those delegated admins access to users in other regions. Which Entra ID feature supports this?",
+    "choices": [
+      { "id": "a", "text": "Assign the Helpdesk Administrator role at the subscription scope" },
+      { "id": "b", "text": "Create an administrative unit containing only regional users and assign the Helpdesk Administrator role scoped to that administrative unit" },
+      { "id": "c", "text": "Create a dynamic group for regional users and assign the Helpdesk Administrator role to the group" },
+      { "id": "d", "text": "Use Privileged Identity Management to provide just-in-time Helpdesk Administrator access limited by time" }
+    ],
+    "correct": "b",
+    "explanation": "Administrative units allow you to scope Entra ID roles to a subset of users, groups, or devices. By placing regional users in an administrative unit and assigning the Helpdesk Administrator role scoped to that unit, the delegated admins can only manage password resets for users within that unit. RBAC subscription scope (A) is for Azure resources, not Entra directory objects. Dynamic groups (C) manage membership but do not scope directory roles. PIM (D) provides time-limited elevation but does not restrict the scope of the role to a subset of users.",
+    "topics": ["identity-governance"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Administrative units in Microsoft Entra ID", "url": "https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/administrative-units" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-011",
+    "type": "single_choice",
+    "prompt": "An administrator needs to assign Azure Policy to multiple subscriptions simultaneously, applying the same set of policies as a group. What is the correct mechanism?",
+    "choices": [
+      { "id": "a", "text": "Create a policy definition and assign it individually to each subscription" },
+      { "id": "b", "text": "Create a policy initiative (set definition) and assign it at the management group scope" },
+      { "id": "c", "text": "Use Azure Blueprints to assign policies and deploy them to each subscription" },
+      { "id": "d", "text": "Create a custom RBAC role that includes policy enforcement actions" }
+    ],
+    "correct": "b",
+    "explanation": "A policy initiative (also called a policy set definition) groups multiple policy definitions into a single assignable unit. Assigning the initiative at the management group scope cascades it to all subscriptions beneath that group, achieving uniform enforcement without individual assignments. Individual assignment per subscription (A) does not scale. Blueprints (C) can include policies but add complexity and are being deprecated in favor of management group policies. Custom RBAC roles (D) control resource access, not policy enforcement.",
+    "topics": ["identity-governance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Policy initiative definitions", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/concepts/initiative-definition-structure" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-012",
+    "type": "single_choice",
+    "prompt": "A company wants to ensure that a privileged administrator role in Entra ID requires approval from a second administrator before being activated and that the activation expires after 2 hours. Which feature provides this capability?",
+    "choices": [
+      { "id": "a", "text": "Conditional Access with session control limiting session duration to 2 hours" },
+      { "id": "b", "text": "Entra ID Privileged Identity Management (PIM) with approval-required eligible role assignment" },
+      { "id": "c", "text": "Custom RBAC role with an expiry condition set to 2 hours" },
+      { "id": "d", "text": "Entra ID Identity Protection with a sign-in risk policy requiring step-up authentication" }
+    ],
+    "correct": "b",
+    "explanation": "Privileged Identity Management (PIM) supports just-in-time activation of eligible role assignments with configurable approval requirements, maximum activation duration, and notifications. When a user requests activation, a designated approver must approve it before the role becomes active, and the activation automatically expires. Conditional Access session controls (A) affect browser sessions, not role activation. Custom RBAC roles (C) do not support time-bounded activation or approval workflows. Identity Protection (D) manages risk-based sign-in controls, not role lifecycle.",
+    "topics": ["identity-governance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "What is Privileged Identity Management?", "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-013",
+    "type": "single_choice",
+    "prompt": "An Entra ID tenant has security defaults enabled. An administrator attempts to create a Conditional Access policy but finds the option is unavailable. What must be done first?",
+    "choices": [
+      { "id": "a", "text": "Upgrade the tenant to Microsoft Entra ID P2 to access Conditional Access policies" },
+      { "id": "b", "text": "Disable security defaults in the tenant properties before creating Conditional Access policies" },
+      { "id": "c", "text": "Assign the Conditional Access Administrator role to the administrator account" },
+      { "id": "d", "text": "Enable the Conditional Access preview feature in Entra ID settings" }
+    ],
+    "correct": "b",
+    "explanation": "Security defaults and Conditional Access are mutually exclusive in Microsoft Entra ID. Security defaults provide a baseline set of security controls, but they must be disabled before you can create or enable Conditional Access policies, which provide more granular control. Conditional Access requires at least Entra ID P1 (not P2 exclusively). The Conditional Access Administrator role (C) is needed to manage policies but is not the reason the option is unavailable. There is no preview toggle (D) needed.",
+    "topics": ["identity-governance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Security defaults in Microsoft Entra ID", "url": "https://learn.microsoft.com/en-us/entra/fundamentals/security-defaults" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-014",
+    "type": "single_choice",
+    "prompt": "A DevOps team needs read access to all resources in a subscription but must not be able to make any changes. The team lead also needs to assign the Reader role to new team members within the subscription. Which role assignments satisfy these requirements with least privilege?",
+    "choices": [
+      { "id": "a", "text": "Assign Owner to the team lead and Reader to all team members" },
+      { "id": "b", "text": "Assign Reader to all team members and User Access Administrator to the team lead" },
+      { "id": "c", "text": "Assign Contributor to the team lead and Reader to all team members" },
+      { "id": "d", "text": "Assign Reader to the team lead and Security Admin to team members" }
+    ],
+    "correct": "b",
+    "explanation": "Reader grants read-only access for all team members as required. User Access Administrator allows the team lead to manage role assignments (such as adding new members to the Reader role) without granting any resource management rights. Owner (A) gives the team lead full resource management, violating least privilege. Contributor (C) allows resource changes for the team lead. Security Admin (D) is not an Azure RBAC subscription role and applies to Defender for Cloud.",
+    "topics": ["identity-governance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure built-in roles", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-ig-015",
+    "type": "single_choice",
+    "prompt": "An administrator observes that a policy assignment shows 20 non-compliant resources. The policy uses the 'Modify' effect to add a required tag. The administrator wants to fix the existing resources without redeploying them. What should the administrator do?",
+    "choices": [
+      { "id": "a", "text": "Delete the non-compliant resources and redeploy them so the Modify effect applies on creation" },
+      { "id": "b", "text": "Create a remediation task for the policy assignment with an appropriate managed identity" },
+      { "id": "c", "text": "Change the policy effect from 'Modify' to 'DeployIfNotExists' and re-evaluate" },
+      { "id": "d", "text": "Manually add the tag to each of the 20 resources using the Azure portal" }
+    ],
+    "correct": "b",
+    "explanation": "For policies with the 'Modify' or 'DeployIfNotExists' effect, a remediation task triggers the policy action against existing non-compliant resources. The task runs using a managed identity that must have sufficient permissions to make the required changes (such as tagging resources). Deleting and redeploying (A) is disruptive and unnecessary. Switching to 'DeployIfNotExists' (C) changes the policy behavior and is not appropriate for a simple tag. Manual tagging (D) is not scalable and does not use policy automation.",
+    "topics": ["identity-governance"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Remediate non-compliant resources with Azure Policy", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/how-to/remediate-resources" }
+    ],
+    "version": 1
+  }
+]

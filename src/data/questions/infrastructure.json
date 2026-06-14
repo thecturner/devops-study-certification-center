@@ -1,0 +1,913 @@
+[
+  {
+    "id": "inf-001",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of the Datadog Host Map?",
+    "choices": [
+      { "id": "a", "text": "To display log streams from all hosts in real time" },
+      { "id": "b", "text": "To provide a visual overview of all hosts colored by a chosen metric" },
+      { "id": "c", "text": "To manage alert thresholds for individual hosts" },
+      { "id": "d", "text": "To show network topology between hosts" }
+    ],
+    "correct": "b",
+    "explanation": "The Host Map provides a hexagonal tile visualization of all hosts, where each tile can be colored by a metric (such as CPU usage) to give an at-a-glance health overview of your infrastructure.",
+    "topics": ["host-map"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Host Map" }],
+    "version": 1
+  },
+  {
+    "id": "inf-002",
+    "type": "single_choice",
+    "prompt": "In the Host Map, what does the 'Group by' option allow you to do?",
+    "choices": [
+      { "id": "a", "text": "Sort hosts alphabetically by hostname" },
+      { "id": "b", "text": "Filter hosts to only those reporting a specific metric" },
+      { "id": "c", "text": "Organize host tiles into clusters based on a tag value" },
+      { "id": "d", "text": "Change the color scheme of the map" }
+    ],
+    "correct": "c",
+    "explanation": "The 'Group by' option in the Host Map lets you cluster host tiles into logical groups based on a tag key (e.g., group by 'env' to see separate clusters for production and staging).",
+    "topics": ["host-map"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Host Map" }],
+    "version": 1
+  },
+  {
+    "id": "inf-003",
+    "type": "true_false",
+    "prompt": "In the Datadog Host Map, you can filter the displayed hosts using tags.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "You can use the filter bar in the Host Map to show only hosts that match specific tags, such as 'env:production' or 'role:webserver', making it easy to focus on a subset of your infrastructure.",
+    "topics": ["host-map"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Host Map" }],
+    "version": 1
+  },
+  {
+    "id": "inf-004",
+    "type": "single_choice",
+    "prompt": "Where in the Datadog UI can you see a detailed view of a single host including its system metrics, running processes, and installed Agent checks?",
+    "choices": [
+      { "id": "a", "text": "The Service Map" },
+      { "id": "b", "text": "The Infrastructure List host detail panel" },
+      { "id": "c", "text": "The Log Explorer" },
+      { "id": "d", "text": "The Network Performance Monitoring page" }
+    ],
+    "correct": "b",
+    "explanation": "Clicking on a host in the Infrastructure List opens a detail panel that shows system metrics (CPU, memory, disk, network), running processes, Agent checks, and associated tags for that specific host.",
+    "topics": ["infrastructure-list"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Infrastructure List" }],
+    "version": 1
+  },
+  {
+    "id": "inf-005",
+    "type": "single_choice",
+    "prompt": "How long does a host remain listed in the Datadog Infrastructure List after it stops reporting metrics?",
+    "choices": [
+      { "id": "a", "text": "1 hour" },
+      { "id": "b", "text": "24 hours" },
+      { "id": "c", "text": "2 hours" },
+      { "id": "d", "text": "3 hours" }
+    ],
+    "correct": "d",
+    "explanation": "A host remains visible in the Infrastructure List for 3 hours after it stops reporting data. After that period, it is removed from the list, though historical data is retained according to your retention settings.",
+    "topics": ["infrastructure-list"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Infrastructure List" }],
+    "version": 1
+  },
+  {
+    "id": "inf-006",
+    "type": "true_false",
+    "prompt": "The Datadog Infrastructure List can display both cloud-based and on-premises hosts in the same view.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The Infrastructure List is a unified view of all hosts reporting to your Datadog account, regardless of whether they are cloud instances, on-premises servers, or containers, as long as the Datadog Agent is installed.",
+    "topics": ["infrastructure-list"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Infrastructure List" }],
+    "version": 1
+  },
+  {
+    "id": "inf-007",
+    "type": "single_choice",
+    "prompt": "Which Datadog integration is required to collect Docker container metrics such as CPU and memory usage?",
+    "choices": [
+      { "id": "a", "text": "The Kubernetes integration" },
+      { "id": "b", "text": "The Docker integration, enabled by mounting the Docker socket into the Agent container" },
+      { "id": "c", "text": "The Linux system check" },
+      { "id": "d", "text": "The Container Network Monitoring integration" }
+    ],
+    "correct": "b",
+    "explanation": "To collect Docker metrics, the Datadog Agent uses the Docker integration, which requires access to the Docker socket (typically /var/run/docker.sock). This allows the Agent to query the Docker daemon for container resource usage.",
+    "topics": ["container-monitoring"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Docker Integration" }],
+    "version": 1
+  },
+  {
+    "id": "inf-008",
+    "type": "single_choice",
+    "prompt": "What is the recommended way to deploy the Datadog Agent on a Kubernetes cluster to monitor all nodes?",
+    "choices": [
+      { "id": "a", "text": "Deploy a single Agent pod in the kube-system namespace" },
+      { "id": "b", "text": "Deploy the Agent as a DaemonSet so that one Agent pod runs on every node" },
+      { "id": "c", "text": "Deploy the Agent as a Deployment with a replica count equal to the number of nodes" },
+      { "id": "d", "text": "Install the Agent directly on each node's host OS using a package manager" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Agent is deployed as a Kubernetes DaemonSet, which ensures that exactly one Agent pod runs on every node in the cluster. This guarantees full coverage for node-level metrics, container metrics, and logs.",
+    "topics": ["kubernetes", "datadog-agent"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Kubernetes Agent Installation" }],
+    "version": 1
+  },
+  {
+    "id": "inf-009",
+    "type": "single_choice",
+    "prompt": "What is the role of the Datadog Cluster Agent in a Kubernetes environment?",
+    "choices": [
+      { "id": "a", "text": "It replaces the node-level DaemonSet Agents entirely" },
+      { "id": "b", "text": "It collects application logs from all pods" },
+      { "id": "c", "text": "It provides a centralized point for cluster-level metric collection and serves as a proxy between node Agents and the Kubernetes API server" },
+      { "id": "d", "text": "It manages auto-scaling of Datadog Agent pods" }
+    ],
+    "correct": "c",
+    "explanation": "The Datadog Cluster Agent acts as a centralized hub for cluster-level data (such as Kubernetes state metrics and events) and proxies node Agent requests to the Kubernetes API server, reducing the load on the API server from many individual Agents.",
+    "topics": ["kubernetes", "cluster-agent"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Cluster Agent" }],
+    "version": 1
+  },
+  {
+    "id": "inf-010",
+    "type": "multi_choice",
+    "prompt": "Which of the following metrics are provided by the Kubernetes State Metrics integration (kube-state-metrics)?",
+    "choices": [
+      { "id": "a", "text": "kubernetes_state.deployment.replicas_available" },
+      { "id": "b", "text": "kubernetes_state.pod.status_phase" },
+      { "id": "c", "text": "container.cpu.usage" },
+      { "id": "d", "text": "kubernetes_state.node.status" },
+      { "id": "e", "text": "system.cpu.user" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "kube-state-metrics exposes Kubernetes object state as metrics, including deployment replica counts, pod phase status, and node conditions. Container CPU usage comes from cAdvisor/kubelet, and system.cpu.user comes from the host-level system check.",
+    "topics": ["kubernetes", "kube-state-metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Kubernetes State Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "inf-011",
+    "type": "true_false",
+    "prompt": "The Datadog Cluster Agent is required for Kubernetes State Metrics collection.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "While the Cluster Agent simplifies the collection of Kubernetes State Metrics and is recommended, it is not strictly required. The kube-state-metrics check can also run on a node Agent. However, the Cluster Agent is the recommended approach for scalability.",
+    "topics": ["kubernetes", "cluster-agent"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Kubernetes State Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "inf-012",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature allows you to view real-time process-level information including CPU, memory, and command for processes running on monitored hosts?",
+    "choices": [
+      { "id": "a", "text": "Infrastructure List" },
+      { "id": "b", "text": "Live Processes" },
+      { "id": "c", "text": "Log Management" },
+      { "id": "d", "text": "APM Service Map" }
+    ],
+    "correct": "b",
+    "explanation": "Live Processes provides a real-time, top-like view of all processes running across your infrastructure. It shows per-process CPU, memory, I/O, and command details, and allows you to filter and search across all hosts.",
+    "topics": ["process-monitoring"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Live Processes" }],
+    "version": 1
+  },
+  {
+    "id": "inf-013",
+    "type": "single_choice",
+    "prompt": "What must be enabled in the Datadog Agent configuration to activate Live Processes collection?",
+    "choices": [
+      { "id": "a", "text": "apm_config.enabled: true" },
+      { "id": "b", "text": "logs_enabled: true" },
+      { "id": "c", "text": "process_config.process_collection.enabled: true" },
+      { "id": "d", "text": "network_config.enabled: true" }
+    ],
+    "correct": "c",
+    "explanation": "To enable Live Process collection, you must set process_config.process_collection.enabled to true in the Agent's datadog.yaml configuration file. This instructs the Agent to collect and report process-level data.",
+    "topics": ["process-monitoring"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Process Monitoring Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "inf-014",
+    "type": "true_false",
+    "prompt": "Live Processes in Datadog can show the full command-line arguments of running processes.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "By default, Live Processes captures the command name and arguments for each process. Datadog also provides process argument scrubbing to redact sensitive values (like passwords) from command-line strings before they are sent.",
+    "topics": ["process-monitoring"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Live Processes" }],
+    "version": 1
+  },
+  {
+    "id": "inf-015",
+    "type": "single_choice",
+    "prompt": "Which Datadog product monitors TCP/UDP connection data between services and hosts, including retransmits and latency, without requiring code changes?",
+    "choices": [
+      { "id": "a", "text": "APM Distributed Tracing" },
+      { "id": "b", "text": "Network Performance Monitoring (NPM)" },
+      { "id": "c", "text": "Synthetic Monitoring" },
+      { "id": "d", "text": "Real User Monitoring (RUM)" }
+    ],
+    "correct": "b",
+    "explanation": "Network Performance Monitoring (NPM) uses eBPF to capture network flow data at the kernel level, providing connection volume, retransmits, latency, and DNS metrics between any two endpoints without requiring instrumentation of application code.",
+    "topics": ["npm"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Network Performance Monitoring" }],
+    "version": 1
+  },
+  {
+    "id": "inf-016",
+    "type": "single_choice",
+    "prompt": "What technology does Datadog Network Performance Monitoring use to capture network connection data at the kernel level?",
+    "choices": [
+      { "id": "a", "text": "libpcap packet capture" },
+      { "id": "b", "text": "iptables rules" },
+      { "id": "c", "text": "eBPF (extended Berkeley Packet Filter)" },
+      { "id": "d", "text": "SNMP polling" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog NPM uses eBPF programs that run in the Linux kernel to capture TCP and UDP connection data with minimal overhead. This approach provides visibility into network flows without modifying application code or capturing raw packets.",
+    "topics": ["npm"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: NPM Architecture" }],
+    "version": 1
+  },
+  {
+    "id": "inf-017",
+    "type": "multi_choice",
+    "prompt": "Which of the following data points does Datadog NPM's DNS Monitoring provide?",
+    "choices": [
+      { "id": "a", "text": "DNS request volume per server" },
+      { "id": "b", "text": "DNS response code distribution (NXDOMAIN, SERVFAIL, etc.)" },
+      { "id": "c", "text": "DNS query latency" },
+      { "id": "d", "text": "Full DNS query payloads and domain names requested" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Datadog DNS Monitoring (part of NPM) tracks request volume, response code distributions (to detect NXDOMAIN spikes), and query latency per DNS server. It does not capture full DNS payload content.",
+    "topics": ["npm"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: DNS Monitoring" }],
+    "version": 1
+  },
+  {
+    "id": "inf-018",
+    "type": "single_choice",
+    "prompt": "What Agent configuration key must be set to true to enable Network Performance Monitoring?",
+    "choices": [
+      { "id": "a", "text": "process_config.network_collection.enabled" },
+      { "id": "b", "text": "network_config.enabled" },
+      { "id": "c", "text": "system_probe_config.enabled" },
+      { "id": "d", "text": "apm_config.network_monitoring.enabled" }
+    ],
+    "correct": "c",
+    "explanation": "NPM requires the Datadog system probe, which is enabled by setting system_probe_config.enabled: true in the Agent configuration. The system probe is a separate binary that uses eBPF to capture network telemetry.",
+    "topics": ["npm"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: NPM Setup" }],
+    "version": 1
+  },
+  {
+    "id": "inf-019",
+    "type": "single_choice",
+    "prompt": "When you install the AWS integration in Datadog, which resource is automatically created in your AWS account to allow Datadog to collect CloudWatch metrics?",
+    "choices": [
+      { "id": "a", "text": "An EC2 instance running the Datadog Agent" },
+      { "id": "b", "text": "An IAM Role with a cross-account trust policy that Datadog assumes via STS" },
+      { "id": "c", "text": "A Lambda function in each region" },
+      { "id": "d", "text": "A VPC peering connection to Datadog's network" }
+    ],
+    "correct": "b",
+    "explanation": "The AWS integration uses IAM Role-based cross-account access. You create an IAM Role in your AWS account with a trust policy that allows Datadog's AWS account to assume it via STS AssumeRole. This grants Datadog read-only access to pull CloudWatch metrics and resource metadata.",
+    "topics": ["cloud-integrations"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: AWS Integration" }],
+    "version": 1
+  },
+  {
+    "id": "inf-020",
+    "type": "true_false",
+    "prompt": "Installing the Datadog AWS integration automatically installs the Datadog Agent on all EC2 instances.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "The AWS integration pulls CloudWatch metrics and resource metadata via the AWS APIs, but it does not install the Datadog Agent on EC2 instances. To get deeper host-level metrics, you must separately install and configure the Agent on each EC2 instance.",
+    "topics": ["cloud-integrations"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: AWS Integration" }],
+    "version": 1
+  },
+  {
+    "id": "inf-021",
+    "type": "single_choice",
+    "prompt": "What is the purpose of host aliases in Datadog?",
+    "choices": [
+      { "id": "a", "text": "To rename metrics collected by the Agent" },
+      { "id": "b", "text": "To associate multiple identifiers (e.g., EC2 instance ID, hostname) with a single host entry" },
+      { "id": "c", "text": "To forward metrics from one host to another" },
+      { "id": "d", "text": "To group multiple physical hosts into a single logical host" }
+    ],
+    "correct": "b",
+    "explanation": "Host aliases allow Datadog to merge data from multiple sources that refer to the same physical or virtual machine using different identifiers. For example, an EC2 instance might be identified by its hostname from the Agent and its instance ID from the AWS integration; aliases unify these into a single host.",
+    "topics": ["host-tags"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Host Aliases" }],
+    "version": 1
+  },
+  {
+    "id": "inf-022",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid ways to apply tags to a Datadog host?",
+    "choices": [
+      { "id": "a", "text": "Setting tags in the Agent's datadog.yaml configuration file" },
+      { "id": "b", "text": "Using environment variables prefixed with DD_TAGS" },
+      { "id": "c", "text": "Applying tags in the Datadog UI on the host detail panel" },
+      { "id": "d", "text": "Using AWS resource tags, which are automatically imported by the AWS integration" },
+      { "id": "e", "text": "Defining tags in a metric's name using dot notation" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Tags can be applied to hosts via the Agent config file, DD_TAGS environment variables, manually in the Datadog UI, and automatically from cloud provider resource tags (like AWS EC2 tags) via the corresponding integration. Embedding tags in metric names is not a valid approach.",
+    "topics": ["host-tags"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Tagging" }],
+    "version": 1
+  },
+  {
+    "id": "inf-023",
+    "type": "single_choice",
+    "prompt": "What tag format does Datadog recommend for key-value tags?",
+    "choices": [
+      { "id": "a", "text": "key=value" },
+      { "id": "b", "text": "key:value" },
+      { "id": "c", "text": "key/value" },
+      { "id": "d", "text": "key.value" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog uses a colon-separated format for key-value tags, for example 'env:production' or 'team:platform'. This format is standard across the Datadog platform and is required for consistent querying and filtering.",
+    "topics": ["host-tags"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Getting Started with Tags" }],
+    "version": 1
+  },
+  {
+    "id": "inf-024",
+    "type": "single_choice",
+    "prompt": "Which of the following best describes an OOTB (out-of-the-box) integration dashboard in Datadog?",
+    "choices": [
+      { "id": "a", "text": "A custom dashboard that you build from scratch using integration metrics" },
+      { "id": "b", "text": "A pre-built, read-only dashboard automatically provided by an integration that visualizes that integration's key metrics" },
+      { "id": "c", "text": "A dashboard that is automatically created for every new alert you configure" },
+      { "id": "d", "text": "A shared dashboard template that can be imported from the Datadog community" }
+    ],
+    "correct": "b",
+    "explanation": "OOTB integration dashboards are pre-built dashboards that ship with each Datadog integration. They are read-only by default (you can clone and customize them) and provide immediate visibility into the most important metrics for that technology.",
+    "topics": ["integration-dashboards"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Integration Dashboards" }],
+    "version": 1
+  },
+  {
+    "id": "inf-025",
+    "type": "true_false",
+    "prompt": "Datadog OOTB integration dashboards can be directly edited and saved without cloning them first.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "OOTB integration dashboards are read-only. To customize them, you must first clone the dashboard, which creates an editable copy in your account. The original OOTB dashboard remains unchanged.",
+    "topics": ["integration-dashboards"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Dashboards" }],
+    "version": 1
+  },
+  {
+    "id": "inf-026",
+    "type": "single_choice",
+    "prompt": "In a Kubernetes environment, what is the primary difference between the Datadog DaemonSet Agent and the Datadog Cluster Agent?",
+    "choices": [
+      { "id": "a", "text": "The DaemonSet Agent collects cluster-level metrics; the Cluster Agent collects node-level metrics" },
+      { "id": "b", "text": "The DaemonSet Agent runs on every node to collect node and container metrics; the Cluster Agent runs centrally to collect cluster-level data and proxy API server requests" },
+      { "id": "c", "text": "The Cluster Agent replaces the DaemonSet Agent in production clusters" },
+      { "id": "d", "text": "There is no functional difference; they are the same component deployed differently" }
+    ],
+    "correct": "b",
+    "explanation": "The DaemonSet Agent (node Agent) runs on every worker node and collects host-level and container-level metrics. The Cluster Agent is a single centralized deployment that gathers Kubernetes state metrics, handles Horizontal Pod Autoscaler (HPA) metric queries, and reduces API server load by acting as a proxy for node Agents.",
+    "topics": ["kubernetes", "cluster-agent", "datadog-agent"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Cluster Agent Architecture" }],
+    "version": 1
+  },
+  {
+    "id": "inf-027",
+    "type": "single_choice",
+    "prompt": "Which Kubernetes object does Datadog recommend for deploying the node-level Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "Deployment" },
+      { "id": "b", "text": "StatefulSet" },
+      { "id": "c", "text": "DaemonSet" },
+      { "id": "d", "text": "ReplicaSet" }
+    ],
+    "correct": "c",
+    "explanation": "A DaemonSet ensures that one pod of the Datadog Agent runs on every node (including new nodes added to the cluster). This is the standard deployment pattern for node-level monitoring agents like Datadog.",
+    "topics": ["kubernetes", "datadog-agent"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Kubernetes Agent Installation" }],
+    "version": 1
+  },
+  {
+    "id": "inf-028",
+    "type": "multi_choice",
+    "prompt": "Which of the following metrics are typically collected by the Datadog Agent's container check on a Docker host?",
+    "choices": [
+      { "id": "a", "text": "docker.cpu.percent" },
+      { "id": "b", "text": "docker.mem.rss" },
+      { "id": "c", "text": "docker.net.bytes_sent" },
+      { "id": "d", "text": "docker.image.virtual_size" },
+      { "id": "e", "text": "kubernetes.pod.ready" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "The Docker integration collects container-level CPU percentage, memory resident set size, and network I/O bytes. docker.image.virtual_size is not a standard container runtime metric, and kubernetes.pod.ready is a Kubernetes state metric, not a Docker metric.",
+    "topics": ["container-monitoring"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Docker Integration Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "inf-029",
+    "type": "single_choice",
+    "prompt": "What is the purpose of setting the DD_KUBERNETES_POD_LABELS_AS_TAGS environment variable on the Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "It causes the Agent to ignore pods without specific labels" },
+      { "id": "b", "text": "It maps Kubernetes pod label key-value pairs to Datadog tags on collected metrics" },
+      { "id": "c", "text": "It enables the Agent to discover services based on pod labels" },
+      { "id": "d", "text": "It restricts metric collection to labeled pods only" }
+    ],
+    "correct": "b",
+    "explanation": "DD_KUBERNETES_POD_LABELS_AS_TAGS allows you to specify which Kubernetes pod labels should be automatically converted into Datadog tags. This enriches your metrics with contextual information from Kubernetes without manual tag configuration.",
+    "topics": ["kubernetes", "host-tags"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Kubernetes Tags" }],
+    "version": 1
+  },
+  {
+    "id": "inf-030",
+    "type": "true_false",
+    "prompt": "The Datadog Azure integration can automatically collect metrics from Azure Monitor without requiring the Datadog Agent on Azure VMs.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The Datadog Azure integration pulls metrics from Azure Monitor APIs using app registration credentials (client ID and secret). This provides cloud-level metrics for Azure services without requiring Agent installation. Installing the Agent on VMs provides additional host-level metrics.",
+    "topics": ["cloud-integrations"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Azure Integration" }],
+    "version": 1
+  },
+  {
+    "id": "inf-031",
+    "type": "single_choice",
+    "prompt": "When configuring the Datadog GCP integration, which authentication mechanism is used?",
+    "choices": [
+      { "id": "a", "text": "A GCP service account key file or Workload Identity Federation" },
+      { "id": "b", "text": "A GCP API key provided in the Datadog UI" },
+      { "id": "c", "text": "OAuth 2.0 user credentials" },
+      { "id": "d", "text": "GCP Cloud IAP tunnel" }
+    ],
+    "correct": "a",
+    "explanation": "The Datadog GCP integration authenticates using a GCP service account with the appropriate IAM roles. You can provide a downloaded JSON key file, or use Workload Identity Federation for keyless authentication in supported environments.",
+    "topics": ["cloud-integrations"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: GCP Integration" }],
+    "version": 1
+  },
+  {
+    "id": "inf-032",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature provides a visual representation of the network flow between your Kubernetes services and other endpoints?",
+    "choices": [
+      { "id": "a", "text": "The APM Service Map" },
+      { "id": "b", "text": "The Network Map in Network Performance Monitoring" },
+      { "id": "c", "text": "The Kubernetes Cluster Map" },
+      { "id": "d", "text": "The Infrastructure Host Map" }
+    ],
+    "correct": "b",
+    "explanation": "The Network Map, part of NPM, visualizes network traffic flows between your services, hosts, availability zones, and other groupings. It helps identify sources of high traffic, retransmits, and latency in your network.",
+    "topics": ["npm"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Network Map" }],
+    "version": 1
+  },
+  {
+    "id": "inf-033",
+    "type": "true_false",
+    "prompt": "The Datadog Agent can use Autodiscovery to automatically configure checks for containerized services based on container labels or annotations.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog Autodiscovery allows the Agent to dynamically configure integration checks by detecting container labels (Docker) or pod annotations (Kubernetes) that specify which check to run and how to configure it. This eliminates the need to manually update check configurations when containers start and stop.",
+    "topics": ["container-monitoring", "kubernetes"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Autodiscovery" }],
+    "version": 1
+  },
+  {
+    "id": "inf-034",
+    "type": "single_choice",
+    "prompt": "In the context of Datadog's infrastructure monitoring, what does a 'mute' action on a host do?",
+    "choices": [
+      { "id": "a", "text": "It stops the Datadog Agent on that host" },
+      { "id": "b", "text": "It suppresses alerts and notifications for that host for a specified time period" },
+      { "id": "c", "text": "It hides the host from the Infrastructure List permanently" },
+      { "id": "d", "text": "It pauses metric collection from that host" }
+    ],
+    "correct": "b",
+    "explanation": "Muting a host in Datadog suppresses monitor notifications for that host for a defined duration. Metrics continue to be collected and displayed, but alerts are silenced. This is useful during maintenance windows.",
+    "topics": ["infrastructure-list"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Downtimes" }],
+    "version": 1
+  },
+  {
+    "id": "inf-035",
+    "type": "single_choice",
+    "prompt": "Which metric namespace prefix is used for Kubernetes kubelet metrics collected by the Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "kube." },
+      { "id": "b", "text": "kubernetes." },
+      { "id": "c", "text": "kubelet." },
+      { "id": "d", "text": "container." }
+    ],
+    "correct": "b",
+    "explanation": "Metrics collected from the Kubernetes kubelet (such as container CPU and memory) are prefixed with 'kubernetes.' in Datadog, for example kubernetes.cpu.usage.total and kubernetes.memory.working_set.",
+    "topics": ["kubernetes"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Kubernetes Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "inf-036",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid sources for populating host tags in Datadog?",
+    "choices": [
+      { "id": "a", "text": "EC2 instance tags imported by the AWS integration" },
+      { "id": "b", "text": "Tags defined in the Agent's datadog.yaml under the 'tags' key" },
+      { "id": "c", "text": "Kubernetes node labels imported by the Datadog Agent" },
+      { "id": "d", "text": "Tags manually applied in the Datadog Infrastructure List UI" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "All four options are valid tag sources. The AWS integration imports EC2 instance tags, the Agent config file allows static tag definitions, the Kubernetes Agent imports node labels, and users can manually tag hosts through the Datadog UI.",
+    "topics": ["host-tags"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Tagging" }],
+    "version": 1
+  },
+  {
+    "id": "inf-037",
+    "type": "single_choice",
+    "prompt": "What does the 'container_exclude' configuration option in the Datadog Agent do?",
+    "choices": [
+      { "id": "a", "text": "It prevents the Agent from running inside the specified containers" },
+      { "id": "b", "text": "It excludes specific containers from metric and log collection based on image name or container name patterns" },
+      { "id": "c", "text": "It removes container tags from collected metrics" },
+      { "id": "d", "text": "It stops Autodiscovery from running on the specified containers" }
+    ],
+    "correct": "b",
+    "explanation": "The container_exclude setting in the Agent's datadog.yaml allows you to define patterns (by image name, container name, or Kubernetes namespace) to exclude specific containers from being monitored. This helps reduce noise from infrastructure containers like the Agent itself.",
+    "topics": ["container-monitoring"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Container Discovery Management" }],
+    "version": 1
+  },
+  {
+    "id": "inf-038",
+    "type": "true_false",
+    "prompt": "Datadog's Network Performance Monitoring supports monitoring of Windows hosts in addition to Linux hosts.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog NPM supports both Linux and Windows operating systems. On Windows, NPM uses Windows Filtering Platform (WFP) drivers instead of eBPF to capture network connection data.",
+    "topics": ["npm"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: NPM Requirements" }],
+    "version": 1
+  },
+  {
+    "id": "inf-039",
+    "type": "single_choice",
+    "prompt": "What is the default data collection interval for most Datadog Agent checks?",
+    "choices": [
+      { "id": "a", "text": "10 seconds" },
+      { "id": "b", "text": "15 seconds" },
+      { "id": "c", "text": "30 seconds" },
+      { "id": "d", "text": "60 seconds" }
+    ],
+    "correct": "b",
+    "explanation": "The default collection interval for most Datadog Agent checks is 15 seconds. This means metrics are sent to Datadog every 15 seconds by default, though individual checks can be configured with different intervals.",
+    "topics": ["datadog-agent"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Agent Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "inf-040",
+    "type": "single_choice",
+    "prompt": "Which command is used to check the status of all running Datadog Agent checks on a Linux host?",
+    "choices": [
+      { "id": "a", "text": "datadog-agent info" },
+      { "id": "b", "text": "datadog-agent status" },
+      { "id": "c", "text": "datadog-agent check --list" },
+      { "id": "d", "text": "service datadog-agent status" }
+    ],
+    "correct": "b",
+    "explanation": "The 'datadog-agent status' command outputs a comprehensive report of the Agent's health, including which checks are running, any errors, collector stats, and forwarder information. It is the primary diagnostic command for the Agent.",
+    "topics": ["datadog-agent"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Agent CLI Commands" }],
+    "version": 1
+  },
+  {
+    "id": "inf-041",
+    "type": "multi_choice",
+    "prompt": "Which of the following are components installed as part of the standard Datadog Agent package?",
+    "choices": [
+      { "id": "a", "text": "The Core Agent (collector and forwarder)" },
+      { "id": "b", "text": "The APM Trace Agent" },
+      { "id": "c", "text": "The Process Agent" },
+      { "id": "d", "text": "The Log Agent" },
+      { "id": "e", "text": "The Cluster Agent" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "The standard Datadog Agent package includes the Core Agent, APM Trace Agent, Process Agent, and Log Agent as sub-agents in a single installation. The Cluster Agent is a separate deployment designed specifically for Kubernetes cluster-level monitoring.",
+    "topics": ["datadog-agent"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Agent Architecture" }],
+    "version": 1
+  },
+  {
+    "id": "inf-042",
+    "type": "true_false",
+    "prompt": "You can use the Datadog Host Map to hex-tile hosts colored by a custom metric, not just system metrics.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The Host Map allows you to select any metric available in your Datadog account as the coloring metric, including custom business metrics or application metrics, not just system-level metrics like CPU or memory.",
+    "topics": ["host-map"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Host Map" }],
+    "version": 1
+  },
+  {
+    "id": "inf-043",
+    "type": "single_choice",
+    "prompt": "What does the 'kubernetes_state.pod.status_phase' metric value 'Pending' indicate?",
+    "choices": [
+      { "id": "a", "text": "The pod has been accepted by the cluster but its containers are not yet running" },
+      { "id": "b", "text": "The pod has completed its work successfully" },
+      { "id": "c", "text": "The pod has been evicted from its node" },
+      { "id": "d", "text": "The pod is in the process of terminating" }
+    ],
+    "correct": "a",
+    "explanation": "A pod in the 'Pending' phase has been accepted by the Kubernetes API server but has not yet been scheduled onto a node, or its containers are still being pulled or initialized. This is a normal transitional state but persistent 'Pending' status may indicate scheduling issues.",
+    "topics": ["kubernetes", "kube-state-metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Kubernetes Docs: Pod Lifecycle" }],
+    "version": 1
+  },
+  {
+    "id": "inf-044",
+    "type": "single_choice",
+    "prompt": "How does Datadog handle host metadata from cloud providers like AWS, GCP, and Azure?",
+    "choices": [
+      { "id": "a", "text": "Cloud metadata is only available if the Agent is running on the cloud instance" },
+      { "id": "b", "text": "The Agent automatically queries the cloud provider's instance metadata service to enrich host data with cloud-specific tags and attributes" },
+      { "id": "c", "text": "Cloud metadata must be manually entered in the Datadog UI for each host" },
+      { "id": "d", "text": "Cloud metadata is only available through the cloud provider's integration, not the Agent" }
+    ],
+    "correct": "b",
+    "explanation": "When the Datadog Agent runs on a cloud instance, it automatically queries the cloud provider's instance metadata service (e.g., AWS IMDSv1/v2, GCP metadata server, Azure IMDS) to collect cloud-specific tags like region, availability zone, instance type, and instance ID.",
+    "topics": ["cloud-integrations", "host-tags"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Cloud Provider Metadata" }],
+    "version": 1
+  },
+  {
+    "id": "inf-045",
+    "type": "true_false",
+    "prompt": "Datadog's Live Container view requires the Cluster Agent to be deployed in order to display container data.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Live Containers can display container data using just the node-level DaemonSet Agent with the process_config settings enabled. The Cluster Agent enhances the experience with additional Kubernetes metadata but is not required for basic container visibility.",
+    "topics": ["container-monitoring"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Live Containers" }],
+    "version": 1
+  },
+  {
+    "id": "inf-046",
+    "type": "single_choice",
+    "prompt": "In Datadog, what is a 'tag cardinality' concern when designing your tagging strategy?",
+    "choices": [
+      { "id": "a", "text": "Having too few tags, making it difficult to filter metrics" },
+      { "id": "b", "text": "Using high-cardinality tags (like pod IDs or request IDs) which create excessive unique metric timeseries and increase costs" },
+      { "id": "c", "text": "Using reserved tag keys that conflict with Datadog's internal tags" },
+      { "id": "d", "text": "Applying tags to metrics after they have already been collected" }
+    ],
+    "correct": "b",
+    "explanation": "High-cardinality tags (those with many unique values, like UUID-based container IDs or individual request IDs) can explode the number of unique metric timeseries in Datadog, significantly increasing costs and potentially causing performance issues in queries.",
+    "topics": ["host-tags"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Tagging Best Practices" }],
+    "version": 1
+  },
+  {
+    "id": "inf-047",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature provides out-of-the-box Kubernetes dashboards showing cluster health, node utilization, and pod status?",
+    "choices": [
+      { "id": "a", "text": "The Kubernetes integration's OOTB dashboards" },
+      { "id": "b", "text": "The APM Kubernetes service map" },
+      { "id": "c", "text": "The Kubernetes Events explorer" },
+      { "id": "d", "text": "The Cluster Agent web UI" }
+    ],
+    "correct": "a",
+    "explanation": "The Kubernetes integration ships with multiple OOTB dashboards covering Kubernetes cluster overview, node-level resource usage, pod status, deployment health, and more. These are automatically available after installing the Kubernetes integration.",
+    "topics": ["kubernetes", "integration-dashboards"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Kubernetes Integration Dashboards" }],
+    "version": 1
+  },
+  {
+    "id": "inf-048",
+    "type": "multi_choice",
+    "prompt": "Which of the following AWS services have native Datadog integrations that collect metrics via CloudWatch?",
+    "choices": [
+      { "id": "a", "text": "Amazon EC2" },
+      { "id": "b", "text": "Amazon RDS" },
+      { "id": "c", "text": "Amazon SQS" },
+      { "id": "d", "text": "Amazon S3" },
+      { "id": "e", "text": "Amazon Redshift" }
+    ],
+    "correct": ["a", "b", "c", "d", "e"],
+    "explanation": "All five AWS services have Datadog integrations that collect metrics from CloudWatch. Datadog has integrations for over 50 AWS services, including compute, database, messaging, storage, and analytics services.",
+    "topics": ["cloud-integrations"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: AWS Integrations" }],
+    "version": 1
+  },
+  {
+    "id": "inf-049",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'process check' in the Datadog Agent, as distinct from Live Processes?",
+    "choices": [
+      { "id": "a", "text": "The process check monitors specific named processes and alerts if they are not running or exceed resource thresholds" },
+      { "id": "b", "text": "The process check provides real-time streaming of all process data to the Datadog UI" },
+      { "id": "c", "text": "The process check collects container process data exclusively" },
+      { "id": "d", "text": "The process check is an older name for Live Processes" }
+    ],
+    "correct": "a",
+    "explanation": "The process check (configured in process.d/conf.yaml) monitors specific named processes and collects metrics about them (CPU, memory, count). It can also alert if the number of running instances of a process falls outside a configured range. Live Processes is a separate feature providing a real-time UI view of all processes.",
+    "topics": ["process-monitoring"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Process Check" }],
+    "version": 1
+  },
+  {
+    "id": "inf-050",
+    "type": "true_false",
+    "prompt": "Datadog's Infrastructure List displays hosts that have been decommissioned and stopped reporting data indefinitely.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Hosts are removed from the Infrastructure List approximately 3 hours after they stop reporting data to Datadog. Historical metric data from those hosts is retained according to your account's data retention policy, but the host entry disappears from the live Infrastructure List.",
+    "topics": ["infrastructure-list"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Infrastructure List" }],
+    "version": 1
+  },
+  {
+    "id": "inf-051",
+    "type": "single_choice",
+    "prompt": "A host looks busy at a high level, and the exam asks which Datadog view helps you identify the exact process consuming CPU on that machine. Which answer is best?",
+    "choices": [
+      { "id": "a", "text": "Live Processes" },
+      { "id": "b", "text": "Session Replay" },
+      { "id": "c", "text": "Trace Search" },
+      { "id": "d", "text": "Log Archives" }
+    ],
+    "correct": "a",
+    "explanation": "Live Processes is the Datadog feature for process-level visibility across hosts. Fundamentals questions often contrast broad infrastructure views like Host Map or Infrastructure List with the more specific Live Processes view that shows which command or process is actually consuming resources.",
+    "topics": ["infrastructure"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Live Processes", "url": "https://docs.datadoghq.com/infrastructure/process/" },
+      { "label": "Infrastructure Overview", "url": "https://docs.datadoghq.com/infrastructure/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "inf-052",
+    "type": "single_choice",
+    "prompt": "A platform team wants a fast visual overview of many hosts colored by CPU or memory so they can spot unhealthy clusters quickly. Which Datadog infrastructure feature best matches this fundamentals scenario?",
+    "choices": [
+      { "id": "a", "text": "Host Map" },
+      { "id": "b", "text": "Session Replay" },
+      { "id": "c", "text": "Trace Search" },
+      { "id": "d", "text": "Watchdog RCA" }
+    ],
+    "correct": "a",
+    "explanation": "Host Map is the feature built for at-a-glance visualization of many hosts, including grouping and coloring by metrics. Fundamentals questions often contrast this broad visual summary against more detailed host or process-level views.",
+    "topics": ["infrastructure"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Host Map", "url": "https://docs.datadoghq.com/infrastructure/hostmap/" },
+      { "label": "Infrastructure Monitoring", "url": "https://docs.datadoghq.com/infrastructure/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "inf-053",
+    "type": "single_choice",
+    "prompt": "A Dockerized app is running on a host, and the team wants container CPU and memory usage in Datadog. Which fundamentals answer describes the required integration approach?",
+    "choices": [
+      { "id": "a", "text": "Enable the Docker integration and give the Agent access to the Docker socket" },
+      { "id": "b", "text": "Use Session Replay because containers are browser workloads" },
+      { "id": "c", "text": "Only install the Cluster Agent; no node Agent is needed" },
+      { "id": "d", "text": "Create a log archive for each container" }
+    ],
+    "correct": "a",
+    "explanation": "Container metrics in Docker environments are typically collected through the Docker integration, which needs access to the Docker daemon through its socket. This is a standard fundamentals concept for container monitoring questions.",
+    "topics": ["infrastructure"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Docker Integration", "url": "https://docs.datadoghq.com/integrations/docker_daemon/" },
+      { "label": "Container Monitoring", "url": "https://docs.datadoghq.com/containers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "inf-054",
+    "type": "single_choice",
+    "prompt": "A host is visible in Datadog, but the team wants a list-like view with host details, tags, and quick drill-down into one machine rather than a tile-based map. Which feature best fits this fundamentals scenario?",
+    "choices": [
+      { "id": "a", "text": "Infrastructure List" },
+      { "id": "b", "text": "Service Catalog" },
+      { "id": "c", "text": "Trace Explorer" },
+      { "id": "d", "text": "Log Pipelines" }
+    ],
+    "correct": "a",
+    "explanation": "Infrastructure List is the right host-centric inventory and drill-down view when the scenario calls for filtering, sorting, and inspecting one machine's details. Fundamentals questions often contrast it with Host Map's higher-level visual summary.",
+    "topics": ["infrastructure"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Infrastructure List", "url": "https://docs.datadoghq.com/infrastructure/" },
+      { "label": "Host Map", "url": "https://docs.datadoghq.com/infrastructure/hostmap/" }
+    ],
+    "version": 1
+  }
+]

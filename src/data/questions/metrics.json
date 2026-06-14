@@ -1,0 +1,837 @@
+[
+  {
+    "id": "met-001",
+    "type": "single_choice",
+    "prompt": "Which metric type stores the most recent value it receives during a flush interval, making it ideal for tracking the current state of a resource such as free memory?",
+    "choices": [
+      { "id": "a", "text": "Count" },
+      { "id": "b", "text": "Rate" },
+      { "id": "c", "text": "Gauge" },
+      { "id": "d", "text": "Histogram" }
+    ],
+    "correct": "c",
+    "explanation": "A Gauge metric represents a single value at a point in time. The Agent reports the last value it received during a flush interval. It is ideal for things like memory usage or CPU temperature where you care about the current reading, not an accumulation.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Metric Types" }],
+    "version": 1
+  },
+  {
+    "id": "met-002",
+    "type": "single_choice",
+    "prompt": "A Count metric submitted via DogStatsD will be flushed to Datadog as which metric type by default?",
+    "choices": [
+      { "id": "a", "text": "GAUGE" },
+      { "id": "b", "text": "RATE" },
+      { "id": "c", "text": "COUNT" },
+      { "id": "d", "text": "DISTRIBUTION" }
+    ],
+    "correct": "c",
+    "explanation": "When you submit a COUNT metric via DogStatsD, it is stored in Datadog as a COUNT type. It tracks the total number of event occurrences within a flush interval. Contrast this with RATE, which normalizes the count by the flush interval duration.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: DogStatsD Data Types" }],
+    "version": 1
+  },
+  {
+    "id": "met-003",
+    "type": "single_choice",
+    "prompt": "What is the default DogStatsD flush interval when using the Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "5 seconds" },
+      { "id": "b", "text": "10 seconds" },
+      { "id": "c", "text": "30 seconds" },
+      { "id": "d", "text": "60 seconds" }
+    ],
+    "correct": "b",
+    "explanation": "DogStatsD aggregates metrics over a 10-second flush interval by default before sending them to the Datadog Agent. This means counters, histograms, and other metrics are accumulated over 10 seconds and then flushed.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: DogStatsD" }],
+    "version": 1
+  },
+  {
+    "id": "met-004",
+    "type": "true_false",
+    "prompt": "A RATE metric in Datadog represents the number of events per second, calculated by dividing the submitted count by the flush interval duration.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. A RATE metric is the per-second rate of change. Datadog divides the total count received during the flush interval by the length of that interval (in seconds) to compute the rate. This normalizes the metric across different flush periods.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Metric Types - Rate" }],
+    "version": 1
+  },
+  {
+    "id": "met-005",
+    "type": "single_choice",
+    "prompt": "Which DogStatsD metric type computes statistics (count, min, max, median, average, 95th percentile) server-side for a set of submitted values?",
+    "choices": [
+      { "id": "a", "text": "Gauge" },
+      { "id": "b", "text": "Set" },
+      { "id": "c", "text": "Histogram" },
+      { "id": "d", "text": "Rate" }
+    ],
+    "correct": "c",
+    "explanation": "A Histogram metric computes a statistical distribution of submitted values on the DogStatsD server side. By default it emits .avg, .count, .median, .95percentile, .max, and .min suffixed metrics. This makes it ideal for measuring latencies or payload sizes.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Histogram" }],
+    "version": 1
+  },
+  {
+    "id": "met-006",
+    "type": "single_choice",
+    "prompt": "Which metric type tracks the number of unique values submitted during a flush interval, such as counting the number of unique users who visited a page?",
+    "choices": [
+      { "id": "a", "text": "Count" },
+      { "id": "b", "text": "Gauge" },
+      { "id": "c", "text": "Distribution" },
+      { "id": "d", "text": "Set" }
+    ],
+    "correct": "d",
+    "explanation": "A Set metric counts the number of unique values submitted during a flush interval. For example, submitting a user ID with each request and tracking it as a Set will give you the count of unique users seen during that flush window.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: DogStatsD Set" }],
+    "version": 1
+  },
+  {
+    "id": "met-007",
+    "type": "single_choice",
+    "prompt": "What distinguishes a Distribution metric from a Histogram metric in Datadog?",
+    "choices": [
+      { "id": "a", "text": "Distributions are aggregated agent-side; Histograms are aggregated server-side" },
+      { "id": "b", "text": "Distributions are aggregated globally server-side; Histograms are aggregated per-host agent-side" },
+      { "id": "c", "text": "Distributions only support p50; Histograms support up to p99" },
+      { "id": "d", "text": "Distributions use UDP; Histograms use TCP" }
+    ],
+    "correct": "b",
+    "explanation": "Distribution metrics are aggregated globally on Datadog's backend, meaning percentiles are calculated across all hosts. Histogram metrics are aggregated on the Agent (per-host), and percentiles represent only that single host's data. Distributions provide more accurate global percentiles.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Distribution Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "met-008",
+    "type": "true_false",
+    "prompt": "Distribution metrics in Datadog allow you to query percentiles (p50, p75, p90, p95, p99) across the entire infrastructure globally without pre-aggregation on each Agent.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Distribution metrics are sent as raw data to Datadog's servers where global aggregation is performed. This means percentile calculations reflect the true global distribution across all sources, not just per-host approximations.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Distribution Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "met-009",
+    "type": "single_choice",
+    "prompt": "By default, how long does Datadog retain high-resolution (1-second) metric data?",
+    "choices": [
+      { "id": "a", "text": "1 hour" },
+      { "id": "b", "text": "6 hours" },
+      { "id": "c", "text": "15 months" },
+      { "id": "d", "text": "1 day" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog retains high-resolution (1-second granularity) metric data for 6 hours. After that, data is rolled up to higher granularities: 1-minute resolution for 15 days, and 5-minute resolution for 2 months, and 1-hour resolution for 15 months.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Metrics Retention" }],
+    "version": 1
+  },
+  {
+    "id": "met-010",
+    "type": "single_choice",
+    "prompt": "Which of the following is the correct DogStatsD format to submit a gauge metric named 'web.page.load' with value 42 and a tag 'env:prod'?",
+    "choices": [
+      { "id": "a", "text": "web.page.load:42|g|#env:prod" },
+      { "id": "b", "text": "web.page.load,42,g,env:prod" },
+      { "id": "c", "text": "gauge:web.page.load=42 env=prod" },
+      { "id": "d", "text": "web.page.load|42|gauge|env:prod" }
+    ],
+    "correct": "a",
+    "explanation": "The DogStatsD UDP datagram format is: <metric_name>:<value>|<type>|#<tag1>,<tag2>. The type code for a gauge is 'g'. So the correct format is 'web.page.load:42|g|#env:prod'.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: DogStatsD Datagram Format" }],
+    "version": 1
+  },
+  {
+    "id": "met-011",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid methods for submitting custom metrics to Datadog? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "DogStatsD over UDP" },
+      { "id": "b", "text": "Datadog Agent checks (Python)" },
+      { "id": "c", "text": "Datadog REST API (/api/v1/series)" },
+      { "id": "d", "text": "SSH tunnel directly to metric store" },
+      { "id": "e", "text": "AWS CloudWatch metric stream" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Custom metrics can be submitted via DogStatsD (UDP or UDS), Agent checks written in Python, or the Datadog REST API endpoint /api/v1/series. There is no SSH-based metric submission and AWS CloudWatch metrics come in via integration, not as custom metrics.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Custom Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "met-012",
+    "type": "single_choice",
+    "prompt": "In Datadog billing, what is the primary factor that determines the number of custom metrics you are billed for?",
+    "choices": [
+      { "id": "a", "text": "The number of unique metric names submitted" },
+      { "id": "b", "text": "The number of unique metric name + tag value combination time series" },
+      { "id": "c", "text": "The total number of data points submitted per hour" },
+      { "id": "d", "text": "The number of Agents submitting metrics" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog counts custom metrics as unique time series, where a time series is defined by a unique combination of metric name and tag values. For example, requests.count{env:prod, host:web-1} and requests.count{env:staging, host:web-2} are two separate custom metrics.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Custom Metrics Billing" }],
+    "version": 1
+  },
+  {
+    "id": "met-013",
+    "type": "true_false",
+    "prompt": "Adding a high-cardinality tag (such as user_id or request_id) to a custom metric can significantly increase your custom metric count and billing costs.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Each unique combination of tag values creates a new time series. A tag like user_id with millions of unique values would create millions of time series from a single metric name, dramatically increasing custom metric counts and billing.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Custom Metrics Billing" }],
+    "version": 1
+  },
+  {
+    "id": "met-014",
+    "type": "single_choice",
+    "prompt": "What is the 'rollup' function used for in Datadog metric queries?",
+    "choices": [
+      { "id": "a", "text": "To combine metrics from multiple accounts into one view" },
+      { "id": "b", "text": "To control the time interval and aggregation method used when displaying metric data" },
+      { "id": "c", "text": "To merge two different metric names into a single series" },
+      { "id": "d", "text": "To forward metrics to an external system" }
+    ],
+    "correct": "b",
+    "explanation": "The .rollup() function allows you to specify the time interval (bucket size) and the aggregation method (sum, avg, min, max, count) applied within each bucket when displaying the metric. This overrides Datadog's automatic rollup based on your time window.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Rollup" }],
+    "version": 1
+  },
+  {
+    "id": "met-015",
+    "type": "single_choice",
+    "prompt": "Which aggregation method would you use in a Datadog metric query when you want to see the total number of errors across all hosts in your infrastructure?",
+    "choices": [
+      { "id": "a", "text": "avg by {host}" },
+      { "id": "b", "text": "min by {host}" },
+      { "id": "c", "text": "sum by {host}" },
+      { "id": "d", "text": "sum by {*}" }
+    ],
+    "correct": "d",
+    "explanation": "To get the total count across all hosts, you use 'sum' as the space aggregation and group by everything (or omit the group-by). 'sum by {*}' sums across all tag combinations, giving a single total value. 'sum by {host}' would give a separate sum per host.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Querying" }],
+    "version": 1
+  },
+  {
+    "id": "met-016",
+    "type": "multi_choice",
+    "prompt": "Which of the following statements about Histogram metrics in Datadog are correct? (Select two)",
+    "choices": [
+      { "id": "a", "text": "Histograms are aggregated on the Agent before being sent to Datadog" },
+      { "id": "b", "text": "A single histogram submission generates multiple metric time series (e.g., .avg, .max, .count)" },
+      { "id": "c", "text": "Histograms are aggregated globally across all hosts on Datadog's backend" },
+      { "id": "d", "text": "Histograms cannot include percentile aggregations" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "Histograms are aggregated locally on each Agent (unlike Distributions which are aggregated globally). A single histogram metric generates multiple time series suffixed with .avg, .count, .max, .median, and .95percentile by default, each counting as a separate custom metric.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Histogram" }],
+    "version": 1
+  },
+  {
+    "id": "met-017",
+    "type": "single_choice",
+    "prompt": "What does a 'sparse metric' mean in the context of Datadog?",
+    "choices": [
+      { "id": "a", "text": "A metric that uses very few tags" },
+      { "id": "b", "text": "A metric that is only submitted intermittently, not at every flush interval" },
+      { "id": "c", "text": "A metric with only two possible values (0 or 1)" },
+      { "id": "d", "text": "A metric that is compressed before transmission" }
+    ],
+    "correct": "b",
+    "explanation": "A sparse metric is one that is not submitted at every flush interval, it has gaps in its time series. This can happen for event-driven metrics or metrics from short-lived processes. Datadog can interpolate or show gaps depending on graph configuration.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "met-018",
+    "type": "single_choice",
+    "prompt": "When configuring a Datadog Agent check, in which file format are check configuration files written?",
+    "choices": [
+      { "id": "a", "text": "JSON" },
+      { "id": "b", "text": "TOML" },
+      { "id": "c", "text": "YAML" },
+      { "id": "d", "text": "XML" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog Agent check configurations are written in YAML format. Each integration has a corresponding YAML configuration file (e.g., conf.yaml) located in the Agent's conf.d directory.",
+    "topics": ["metrics", "agents"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Agent Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "met-019",
+    "type": "true_false",
+    "prompt": "The Datadog Agent can submit metrics over Unix Domain Sockets (UDS) in addition to UDP when using DogStatsD.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. DogStatsD supports both UDP (default port 8125) and Unix Domain Sockets (UDS) for metric submission. UDS provides lower overhead and better performance on the same host since it avoids network stack processing.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: DogStatsD Unix Socket" }],
+    "version": 1
+  },
+  {
+    "id": "met-020",
+    "type": "single_choice",
+    "prompt": "What is the maximum number of custom metrics included per host in the Datadog Pro plan (as of the standard plan tier)?",
+    "choices": [
+      { "id": "a", "text": "50" },
+      { "id": "b", "text": "100" },
+      { "id": "c", "text": "200" },
+      { "id": "d", "text": "500" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Pro plan includes 100 custom metrics per host. Additional custom metrics beyond this allocation are billed at an overage rate. Enterprise plans include 200 custom metrics per host.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Custom Metrics Billing" }],
+    "version": 1
+  },
+  {
+    "id": "met-021",
+    "type": "single_choice",
+    "prompt": "Which DogStatsD type code is used to submit a histogram metric?",
+    "choices": [
+      { "id": "a", "text": "|h|" },
+      { "id": "b", "text": "|g|" },
+      { "id": "c", "text": "|c|" },
+      { "id": "d", "text": "|s|" }
+    ],
+    "correct": "a",
+    "explanation": "In DogStatsD datagram format, the type code for a histogram is 'h'. The type codes are: 'g' for gauge, 'c' for count, 'ms' for timer, 'h' for histogram, 's' for set, and 'd' for distribution.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: DogStatsD Datagram Format" }],
+    "version": 1
+  },
+  {
+    "id": "met-022",
+    "type": "single_choice",
+    "prompt": "In Datadog, what is 'tag inheritance' for metrics submitted via the Agent?",
+    "choices": [
+      { "id": "a", "text": "Child metrics automatically receive all tags from their parent metric" },
+      { "id": "b", "text": "Metrics automatically receive host-level tags (from host tags, integrations, and the Agent config) at submission time" },
+      { "id": "c", "text": "Tags from one metric are copied to all other metrics with the same name" },
+      { "id": "d", "text": "Child processes inherit metric configurations from parent processes" }
+    ],
+    "correct": "b",
+    "explanation": "When metrics are submitted via the Datadog Agent, they automatically inherit host-level tags including tags set in the Agent configuration, tags from cloud provider integrations (e.g., AWS instance tags), and tags defined in the Agent's tags configuration.",
+    "topics": ["metrics", "tagging"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Tagging" }],
+    "version": 1
+  },
+  {
+    "id": "met-023",
+    "type": "multi_choice",
+    "prompt": "Which of the following aggregation functions are available when using the .rollup() method in a Datadog metric query? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "sum" },
+      { "id": "b", "text": "avg" },
+      { "id": "c", "text": "median" },
+      { "id": "d", "text": "max" },
+      { "id": "e", "text": "count" }
+    ],
+    "correct": ["a", "b", "d", "e"],
+    "explanation": "The .rollup() function supports sum, avg, min, max, and count aggregation methods. Median is not a supported rollup aggregation method. These methods control how data points within each rollup bucket are combined.",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Rollup Function" }],
+    "version": 1
+  },
+  {
+    "id": "met-024",
+    "type": "true_false",
+    "prompt": "Metrics submitted via the Datadog API endpoint /api/v1/series must be in Unix timestamp format (seconds since epoch).",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. When submitting metrics via the Datadog API, the timestamp field must be a Unix POSIX timestamp in seconds. Datadog will reject submissions with timestamps that are too far in the past (more than 1 hour) or too far in the future.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Metrics API" }],
+    "version": 1
+  },
+  {
+    "id": "met-025",
+    "type": "single_choice",
+    "prompt": "What happens to a COUNT metric's value in Datadog if no data is submitted during a flush interval?",
+    "choices": [
+      { "id": "a", "text": "It reports zero" },
+      { "id": "b", "text": "It interpolates from the previous value" },
+      { "id": "c", "text": "No data point is reported for that interval (gap in the series)" },
+      { "id": "d", "text": "It reports null and triggers an alert" }
+    ],
+    "correct": "c",
+    "explanation": "If no COUNT data is submitted during a flush interval, no data point is reported, the metric will show a gap in the time series. This is important for monitors and graphs that need to handle sparse data, often requiring the 'as_count()' or 'fill()' function.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Metric Types" }],
+    "version": 1
+  },
+  {
+    "id": "met-026",
+    "type": "single_choice",
+    "prompt": "Which function in Datadog metric queries would you use to convert a RATE metric back into a COUNT for a given time window?",
+    "choices": [
+      { "id": "a", "text": "as_rate()" },
+      { "id": "b", "text": "as_count()" },
+      { "id": "c", "text": "cumsum()" },
+      { "id": "d", "text": "rollup(sum)" }
+    ],
+    "correct": "b",
+    "explanation": "The as_count() function converts a metric stored as a RATE type into a COUNT representation by multiplying by the rollup interval. Conversely, as_rate() converts a COUNT into a per-second RATE. These are important for accurate monitor evaluations.",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: as_count() vs as_rate()" }],
+    "version": 1
+  },
+  {
+    "id": "met-027",
+    "type": "single_choice",
+    "prompt": "In Datadog, what is the difference between 'space aggregation' and 'time aggregation' for metrics?",
+    "choices": [
+      { "id": "a", "text": "Space aggregation combines values from multiple sources (hosts/tags); time aggregation combines values within a time bucket" },
+      { "id": "b", "text": "Space aggregation applies to cloud metrics; time aggregation applies to on-premises metrics" },
+      { "id": "c", "text": "Space aggregation is performed client-side; time aggregation is performed server-side" },
+      { "id": "d", "text": "Space aggregation is for gauges; time aggregation is for counters" }
+    ],
+    "correct": "a",
+    "explanation": "Space aggregation (also called group-by aggregation) combines metric values across multiple sources like different hosts or tag values into a single value. Time aggregation (rollup) combines data points that fall within the same time bucket. Both are separate dimensions of aggregation in Datadog queries.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Metrics Aggregation" }],
+    "version": 1
+  },
+  {
+    "id": "met-028",
+    "type": "true_false",
+    "prompt": "Datadog's Distribution metric type counts each unique combination of tags as a separate custom metric toward your billing allocation.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Like other metric types, Distribution metrics are billed per unique time series (metric name + tag value combination). Additionally, enabling percentile aggregations on a Distribution metric increases the custom metric count further because each percentile (p50, p75, p90, p95, p99) creates additional time series.",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Distribution Metrics Billing" }],
+    "version": 1
+  },
+  {
+    "id": "met-029",
+    "type": "single_choice",
+    "prompt": "How does enabling percentile aggregations on a Distribution metric affect your custom metric count?",
+    "choices": [
+      { "id": "a", "text": "It has no effect, percentiles are computed on-the-fly without additional time series" },
+      { "id": "b", "text": "Each enabled percentile (p50, p75, p90, p95, p99) multiplies the number of custom metrics by the number of unique tag combinations" },
+      { "id": "c", "text": "It adds exactly 5 additional custom metrics total regardless of tag cardinality" },
+      { "id": "d", "text": "It reduces the custom metric count because distributions are more efficient" }
+    ],
+    "correct": "b",
+    "explanation": "When percentile aggregations are enabled for a Distribution metric, Datadog creates additional time series for each enabled percentile across all unique tag combinations. This can significantly multiply your custom metric count. Datadog recommends only enabling percentiles for the specific tag sets you need.",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Distribution Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "met-030",
+    "type": "single_choice",
+    "prompt": "What is the recommended approach for submitting metrics from a containerized application to DogStatsD when the Agent is running as a sidecar?",
+    "choices": [
+      { "id": "a", "text": "Use the host's external IP address and port 8125" },
+      { "id": "b", "text": "Use the DD_AGENT_HOST environment variable pointing to the Agent's address and port 8125" },
+      { "id": "c", "text": "Write metrics to a shared volume for the Agent to read" },
+      { "id": "d", "text": "Use the Datadog API directly from the application to avoid the Agent" }
+    ],
+    "correct": "b",
+    "explanation": "The recommended approach for containerized environments is to set the DD_AGENT_HOST environment variable to point to the Datadog Agent's address (e.g., the node's IP or a Kubernetes service). DogStatsD clients automatically use this environment variable to locate the Agent.",
+    "topics": ["metrics", "agents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Kubernetes DogStatsD" }],
+    "version": 1
+  },
+  {
+    "id": "met-031",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid space aggregation methods available in Datadog metric queries? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "avg" },
+      { "id": "b", "text": "sum" },
+      { "id": "c", "text": "min" },
+      { "id": "d", "text": "max" },
+      { "id": "e", "text": "percentile" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Datadog supports avg, sum, min, and max as space aggregation methods. Percentile is not a space aggregation method, it is a metric type feature available for Distribution metrics. Space aggregation controls how values from multiple sources are combined into a single line.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Metrics Aggregation" }],
+    "version": 1
+  },
+  {
+    "id": "met-032",
+    "type": "single_choice",
+    "prompt": "What metric type should you use to track the total number of requests handled by your service since the Agent started (a monotonically increasing counter)?",
+    "choices": [
+      { "id": "a", "text": "Gauge" },
+      { "id": "b", "text": "Rate" },
+      { "id": "c", "text": "Count" },
+      { "id": "d", "text": "Histogram" }
+    ],
+    "correct": "c",
+    "explanation": "A Count metric is used to track things that accumulate over time, like total requests. You increment the counter each time a request is processed. Datadog will show you the count within each flush interval. For a monotonically increasing counter, Count is more appropriate than Gauge.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Metric Types" }],
+    "version": 1
+  },
+  {
+    "id": "met-033",
+    "type": "true_false",
+    "prompt": "Metrics submitted to Datadog can be backdated up to 1 hour in the past using the API.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. The Datadog API accepts metric timestamps up to 1 hour in the past (and up to 10 minutes in the future). Submissions outside this window will be rejected. This allows for some tolerance in delayed batch processing but prevents arbitrary historical data insertion.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Metrics API" }],
+    "version": 1
+  },
+  {
+    "id": "met-034",
+    "type": "single_choice",
+    "prompt": "In DogStatsD, what is the purpose of the sample rate parameter (e.g., |@0.5) in a metric datagram?",
+    "choices": [
+      { "id": "a", "text": "It sets the priority of the metric for processing" },
+      { "id": "b", "text": "It tells DogStatsD what fraction of events are being submitted, so it can scale the count correctly" },
+      { "id": "c", "text": "It limits the metric to only 50% of hosts" },
+      { "id": "d", "text": "It compresses the metric value by the given factor" }
+    ],
+    "correct": "b",
+    "explanation": "The sample rate (@0.5) indicates that only 50% of events are being tracked and submitted. DogStatsD scales the counter appropriately, if you submit a count of 1 with @0.5, DogStatsD treats it as if 2 events actually occurred. This reduces network overhead for high-frequency events.",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: DogStatsD Sample Rate" }],
+    "version": 1
+  },
+  {
+    "id": "met-035",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature allows you to add tags to metrics at the Agent level without modifying your application code?",
+    "choices": [
+      { "id": "a", "text": "Metric metadata API" },
+      { "id": "b", "text": "Tag filters in dashboards" },
+      { "id": "c", "text": "Advanced tagging using Agent tags configuration or environment variable DD_TAGS" },
+      { "id": "d", "text": "Log-based metric tagging" }
+    ],
+    "correct": "c",
+    "explanation": "The Datadog Agent can be configured to add tags to all metrics it submits using the 'tags' key in datadog.yaml or by setting the DD_TAGS environment variable. This allows platform teams to add environment or role tags without requiring application code changes.",
+    "topics": ["metrics", "tagging"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Agent Configuration - Tags" }],
+    "version": 1
+  },
+  {
+    "id": "met-036",
+    "type": "single_choice",
+    "prompt": "What is the Metrics Explorer in Datadog primarily used for?",
+    "choices": [
+      { "id": "a", "text": "Creating and saving new dashboards" },
+      { "id": "b", "text": "Browsing and visualizing individual metrics with ad-hoc queries without saving to a dashboard" },
+      { "id": "c", "text": "Configuring metric retention policies" },
+      { "id": "d", "text": "Setting up metric-based alerts" }
+    ],
+    "correct": "b",
+    "explanation": "The Metrics Explorer is an interactive tool for browsing, querying, and visualizing metrics on the fly without needing to create a saved dashboard. It is useful for troubleshooting and ad-hoc investigation of metric behavior.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Metrics Explorer" }],
+    "version": 1
+  },
+  {
+    "id": "met-037",
+    "type": "true_false",
+    "prompt": "Datadog automatically aggregates metrics with the same name but different tag values into a single time series by default.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "False. Each unique combination of metric name and tag values creates a distinct time series. Aggregation across tag values must be explicitly requested in queries using space aggregation functions like avg, sum, min, or max with a group-by clause.",
+    "topics": ["metrics", "tagging"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "met-038",
+    "type": "single_choice",
+    "prompt": "What does the 'fill' function do in a Datadog metric query?",
+    "choices": [
+      { "id": "a", "text": "It adds color fills to graph areas" },
+      { "id": "b", "text": "It fills in gaps in sparse metric time series with a specified value or interpolation method" },
+      { "id": "c", "text": "It fills the metric with test data for alerting purposes" },
+      { "id": "d", "text": "It pads the metric query with additional time on either side" }
+    ],
+    "correct": "b",
+    "explanation": "The fill() function handles gaps in sparse metrics by filling missing data points with a specified method: fill(zero) fills with 0, fill(null) leaves gaps, fill(linear) interpolates, or fill(last) uses the last known value. This is important for maintaining consistent monitor evaluations.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Fill Function" }],
+    "version": 1
+  },
+  {
+    "id": "met-039",
+    "type": "multi_choice",
+    "prompt": "Which of the following are true about the DogStatsD 'distribution' type (type code 'd')? (Select two)",
+    "choices": [
+      { "id": "a", "text": "It sends raw data to Datadog servers for global aggregation" },
+      { "id": "b", "text": "It is aggregated per-host by the Agent before transmission" },
+      { "id": "c", "text": "It enables accurate global percentile calculations across all hosts" },
+      { "id": "d", "text": "It is identical to a histogram but uses less bandwidth" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Distribution metrics (type code 'd') send raw samples to Datadog's backend for global aggregation, unlike histograms which are aggregated per-host by the Agent. This global aggregation enables accurate percentile calculations across all hosts, not just per-host approximations.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Distribution Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "met-040",
+    "type": "single_choice",
+    "prompt": "What is the maximum length of a Datadog metric name?",
+    "choices": [
+      { "id": "a", "text": "100 characters" },
+      { "id": "b", "text": "200 characters" },
+      { "id": "c", "text": "256 characters" },
+      { "id": "d", "text": "1024 characters" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog metric names have a maximum length of 200 characters. Metric names must start with a letter and can only contain ASCII alphanumerics, underscores, and periods. Names are converted to lowercase.",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Metric Naming" }],
+    "version": 1
+  },
+  {
+    "id": "met-041",
+    "type": "single_choice",
+    "prompt": "Which Datadog metric feature allows you to define the unit, description, and type metadata for a custom metric displayed in the UI?",
+    "choices": [
+      { "id": "a", "text": "Metric Tagging API" },
+      { "id": "b", "text": "Metric Metadata API" },
+      { "id": "c", "text": "Metric Namespace API" },
+      { "id": "d", "text": "Metric Annotation feature" }
+    ],
+    "correct": "b",
+    "explanation": "The Metric Metadata API (or the Metrics Summary page in the UI) allows you to set the unit (e.g., bytes, requests/second), description, and short description for custom metrics. This metadata improves the readability of dashboards and alerts.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Metric Metadata" }],
+    "version": 1
+  },
+  {
+    "id": "met-042",
+    "type": "true_false",
+    "prompt": "In Datadog, a metric tag key is case-sensitive, so 'ENV:prod' and 'env:prod' are treated as different tags.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "False. Datadog converts all tag keys and values to lowercase. 'ENV:prod' and 'env:prod' are treated as the same tag. This is important to know when designing your tagging schema to avoid accidental duplication.",
+    "topics": ["metrics", "tagging"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Tagging" }],
+    "version": 1
+  },
+  {
+    "id": "met-043",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Metrics without Limits' feature in Datadog?",
+    "choices": [
+      { "id": "a", "text": "It removes all rate limits from the Datadog API for metrics submission" },
+      { "id": "b", "text": "It allows you to continue ingesting all metric data but only index a subset of tag combinations, reducing costs while retaining full ingestion" },
+      { "id": "c", "text": "It enables unlimited custom metrics for enterprise customers" },
+      { "id": "d", "text": "It removes the 200-character metric name limit" }
+    ],
+    "correct": "b",
+    "explanation": "Metrics without Limits allows you to ingest all your metric data but configure which tag combinations are actually indexed and available for queries. You can reduce your indexed custom metric count (and cost) while retaining the raw ingested data, with the ability to re-index more tag combinations later.",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Metrics without Limits" }],
+    "version": 1
+  },
+  {
+    "id": "met-044",
+    "type": "single_choice",
+    "prompt": "When using the Datadog Python client library to submit a gauge metric, which method would you call?",
+    "choices": [
+      { "id": "a", "text": "statsd.increment('metric.name', value)" },
+      { "id": "b", "text": "statsd.gauge('metric.name', value)" },
+      { "id": "c", "text": "statsd.set_gauge('metric.name', value)" },
+      { "id": "d", "text": "datadog.api.Metric.send(metric='metric.name', points=value)" }
+    ],
+    "correct": "b",
+    "explanation": "In the Datadog Python DogStatsD client (datadogpy), you use statsd.gauge('metric.name', value) to submit a gauge metric. statsd.increment() is for counts. The API method datadog.api.Metric.send() is for the REST API, not DogStatsD.",
+    "topics": ["metrics"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: DogStatsD Python" }],
+    "version": 1
+  },
+  {
+    "id": "met-045",
+    "type": "multi_choice",
+    "prompt": "Which of the following actions can increase your Datadog custom metric count? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Adding a new tag key-value pair to an existing metric" },
+      { "id": "b", "text": "Enabling percentile aggregations on a distribution metric" },
+      { "id": "c", "text": "Submitting the same metric from multiple hosts" },
+      { "id": "d", "text": "Creating a log-based metric" },
+      { "id": "e", "text": "Adding a dashboard graph that visualizes an existing metric" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Adding new tag combinations, enabling distribution percentiles, submitting from multiple hosts (each host creates new time series), and creating log-based metrics all increase your custom metric count. Simply adding a dashboard graph does not create new time series, it only visualizes existing ones.",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Custom Metrics Billing" }],
+    "version": 1
+  },
+  {
+    "id": "met-046",
+    "type": "single_choice",
+    "prompt": "What does the Datadog metric type 'DISTRIBUTION' use to represent data vs. 'HISTOGRAM' from a storage perspective?",
+    "choices": [
+      { "id": "a", "text": "Distributions store raw data points; histograms store bucket counts" },
+      { "id": "b", "text": "Distributions store pre-computed percentiles; histograms store raw data" },
+      { "id": "c", "text": "Both store identical data structures" },
+      { "id": "d", "text": "Distributions use floating point; histograms use integers" }
+    ],
+    "correct": "a",
+    "explanation": "Distribution metrics transmit raw data points to Datadog's servers, enabling global percentile computation. Histogram metrics are pre-aggregated on the Agent into statistical summaries (min, max, avg, count, percentiles) before submission, which means only these aggregates are stored, not the raw data.",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Distribution vs Histogram" }],
+    "version": 1
+  },
+  {
+    "id": "met-047",
+    "type": "true_false",
+    "prompt": "You can use Datadog's API to retrieve the list of active metrics (metrics that have reported data in the last 24 hours) for your organization.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. The Datadog API includes a GET /api/v1/metrics endpoint (List active metrics) that returns all metrics that have reported data in the last 24 hours. This is useful for auditing your metric landscape and identifying unused metrics.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Metrics API - List Active Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "met-048",
+    "type": "single_choice",
+    "prompt": "In Datadog, what is the 'cumsum' function used for in metric queries?",
+    "choices": [
+      { "id": "a", "text": "It computes a running cumulative sum of a metric's values over the selected time window" },
+      { "id": "b", "text": "It aggregates metrics across multiple namespaces" },
+      { "id": "c", "text": "It sums all metrics that match a tag filter" },
+      { "id": "d", "text": "It calculates the cumulative error rate across services" }
+    ],
+    "correct": "a",
+    "explanation": "The cumsum() function computes a running cumulative total of a metric's values from the start of the selected time window. It is useful for visualizing total accumulated counts (e.g., total errors today) as an ever-increasing line on a graph.",
+    "topics": ["metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Cumsum Function" }],
+    "version": 1
+  },
+  {
+    "id": "met-049",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature allows you to use a metric query to automatically detect anomalous metric behavior based on historical patterns, without setting a fixed threshold?",
+    "choices": [
+      { "id": "a", "text": "Composite monitors" },
+      { "id": "b", "text": "Anomaly Detection monitors" },
+      { "id": "c", "text": "Threshold alerts" },
+      { "id": "d", "text": "Watchdog" }
+    ],
+    "correct": "b",
+    "explanation": "Anomaly Detection monitors use machine learning algorithms to detect when a metric deviates from its expected historical pattern. Unlike threshold alerts which require fixed values, anomaly detection automatically accounts for seasonality, day-of-week patterns, and trends.",
+    "topics": ["metrics", "monitors"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Anomaly Detection" }],
+    "version": 1
+  },
+  {
+    "id": "met-050",
+    "type": "multi_choice",
+    "prompt": "Which of the following are characteristics of Datadog's Histogram metric type? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Aggregated on the Datadog Agent before being sent to Datadog's servers" },
+      { "id": "b", "text": "Emits multiple sub-metrics (e.g., .avg, .max, .95percentile) by default" },
+      { "id": "c", "text": "The emitted sub-metrics can be customized in the Agent configuration" },
+      { "id": "d", "text": "Provides globally accurate percentiles across all hosts" },
+      { "id": "e", "text": "Each sub-metric counts toward your custom metric total" }
+    ],
+    "correct": ["a", "b", "c", "e"],
+    "explanation": "Histograms are aggregated per-host on the Agent and emit multiple sub-metrics (.avg, .count, .max, .median, .95percentile) by default, each counting as a separate custom metric. The list of emitted sub-metrics can be customized via the histogram_aggregates and histogram_percentiles settings. However, because aggregation is per-host, percentiles are NOT globally accurate across all hosts (that requires Distribution metrics).",
+    "topics": ["metrics"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Histogram Configuration" }],
+    "version": 1
+  }
+]

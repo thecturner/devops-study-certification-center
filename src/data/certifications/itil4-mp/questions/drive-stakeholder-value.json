@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-mp-sv-001",
+    "type": "single_choice",
+    "prompt": "A service design team is mapping the customer journey for an onboarding process. They identify a step where new customers must submit the same information in three separate forms because different internal systems do not share data. Customers report this step as highly frustrating. In journey mapping terms, what is this step called?",
+    "choices": [
+      { "id": "a", "text": "A moment of truth" },
+      { "id": "b", "text": "A pain point" },
+      { "id": "c", "text": "A touchpoint" },
+      { "id": "d", "text": "A service interaction" }
+    ],
+    "correct": "b",
+    "explanation": "A pain point is a step in the customer journey that creates friction, frustration, or effort for the customer. Submitting the same data three times due to disconnected systems is a textbook pain point. A touchpoint is any point of contact between the customer and the service provider, which this step is, but the question specifically asks about the frustration characteristic. A moment of truth is a touchpoint whose outcome disproportionately shapes customer perception. A service interaction is a broader term for any exchange between provider and customer.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-002",
+    "type": "single_choice",
+    "prompt": "A cloud services provider has agreed to a 99.9% monthly availability SLA with a customer. The operations team tracks availability using a 99.95% SLO internally and measures it via SLIs from the load balancer and application health checks. A reviewer asks why the SLO is tighter than the SLA. What is the best explanation?",
+    "choices": [
+      { "id": "a", "text": "The SLO should always equal the SLA so that there is no ambiguity about what the operations team needs to achieve." },
+      { "id": "b", "text": "The SLO is set tighter than the SLA to give the operations team an early warning buffer, so they can take corrective action before the external commitment is breached." },
+      { "id": "c", "text": "SLOs are contractual and therefore must exceed SLA commitments to create legal headroom." },
+      { "id": "d", "text": "The tighter SLO is required because SLIs measure a subset of availability and their readings are inherently lower than true service availability." }
+    ],
+    "correct": "b",
+    "explanation": "Setting an internal SLO above the external SLA creates a safety buffer. When the team's own target (99.95%) is approached, they have warning and can intervene before the customer-facing SLA (99.9%) is breached. This is standard SRE and service management practice. SLOs and SLAs should not be set equal because that removes any reaction time. SLOs are internal operational targets, not contractual commitments to the customer; SLAs are the contractual layer. Option D mischaracterises how SLIs relate to overall availability measurement.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-003",
+    "type": "single_choice",
+    "prompt": "A service review meeting is scheduled monthly between the provider's account team and the customer's operations director. The meeting consistently covers SLA performance, incident trends, and open change requests. The customer's CIO, who attends quarterly, always asks about strategic value and business outcomes rather than operational metrics. How should the service review approach be adapted?",
+    "choices": [
+      { "id": "a", "text": "Replace the monthly operational review with a quarterly strategic review attended by the CIO only." },
+      { "id": "b", "text": "Add a CIO-focused executive summary at the start of the monthly meeting that translates operational data into business impact and outcome language." },
+      { "id": "c", "text": "Maintain separate but coordinated review formats: an operational cadence for the operations director and a strategic narrative for the CIO, each tailored to the audience." },
+      { "id": "d", "text": "Ask the operations director to relay strategic context to the CIO so that a single meeting format is sufficient." }
+    ],
+    "correct": "c",
+    "explanation": "Different stakeholders require different information at different cadences. An operations director needs granular SLA and incident data monthly; a CIO needs strategic outcome and business value narratives quarterly. Maintaining separate, coordinated formats respects each audience's information needs without forcing one format to serve both. Replacing the operational review eliminates necessary operational oversight. Adding a CIO summary to the monthly meeting may be partially effective but is less tailored than dedicated formats. Relaying through the operations director introduces information loss and does not satisfy the CIO's need for direct engagement.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-004",
+    "type": "single_choice",
+    "prompt": "A service provider sends a quarterly satisfaction survey and receives a Net Promoter Score (NPS) of 22. The CX team wants a more actionable signal about where effort is being wasted in user interactions. Which complementary metric would best surface high-effort interactions?",
+    "choices": [
+      { "id": "a", "text": "Customer Satisfaction Score (CSAT), measured after each contact." },
+      { "id": "b", "text": "Customer Effort Score (CES), measured after each service interaction to gauge how easy it was to get help." },
+      { "id": "c", "text": "First Contact Resolution (FCR) rate, measured across all incidents." },
+      { "id": "d", "text": "Mean Time to Resolve (MTTR), measured per incident priority category." }
+    ],
+    "correct": "b",
+    "explanation": "Customer Effort Score (CES) directly measures the ease of an interaction from the user's perspective, making it the most direct signal for identifying high-effort, friction-heavy touchpoints. NPS measures loyalty and advocacy but is too broad to pinpoint effort. CSAT measures satisfaction after individual interactions but does not specifically focus on effort. FCR and MTTR are operational metrics that may correlate with effort but do not capture the user's perception of how much effort they personally had to expend.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-005",
+    "type": "single_choice",
+    "prompt": "A customer is offboarding from a managed security service after a contract ends. Which consideration is most important for the service provider to include in the offboarding plan?",
+    "choices": [
+      { "id": "a", "text": "Collecting a final CSAT score before service termination." },
+      { "id": "b", "text": "Ensuring all customer data, security credentials, and access rights are transferred, revoked, or destroyed in accordance with contractual and regulatory requirements." },
+      { "id": "c", "text": "Offering a discounted rate to retain the customer before the contract formally ends." },
+      { "id": "d", "text": "Documenting lessons learned from the engagement for internal knowledge management." }
+    ],
+    "correct": "b",
+    "explanation": "During offboarding from a security-sensitive managed service, the most critical obligation is the secure handling of customer data, credentials, and access rights, including transfer to the customer, revocation of provider access, and data destruction where required. Failure to do this creates regulatory and liability exposure for both parties. Collecting CSAT and documenting lessons learned are valuable but secondary operational activities. Retention offers are a commercial decision and do not address the offboarding obligations once the decision to leave is confirmed.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-006",
+    "type": "single_choice",
+    "prompt": "A service catalogue is being redesigned. The current catalogue lists 340 technical configuration items available for IT teams to consume. Business users report they cannot find what they need because the terminology is too technical. What is the most important design change to make?",
+    "choices": [
+      { "id": "a", "text": "Reduce the catalogue to fewer than 50 items by consolidating similar technical components." },
+      { "id": "b", "text": "Organise the catalogue around business outcomes and user needs using language that reflects what users want to achieve, rather than how IT delivers it." },
+      { "id": "c", "text": "Add a search function so users can find items by keyword even if terminology differs." },
+      { "id": "d", "text": "Create separate catalogues for each department to reduce the volume of items each user sees." }
+    ],
+    "correct": "b",
+    "explanation": "A service catalogue should present services in terms of what business users want to accomplish, not the underlying technical components. Redesigning around business outcomes and plain language directly addresses the stated problem. Reducing item count or creating department catalogues may help with navigability but do not solve the core issue of technical jargon. A search function is a useful navigational aid but does not fix the underlying language mismatch; users must still know the technical term to search for it.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-007",
+    "type": "single_choice",
+    "prompt": "A business relationship manager is facilitating a quarterly review. The customer is satisfied with SLA performance but raises a concern that the IT service team seems unaware of upcoming business changes that will significantly affect demand. What practice should the BRM strengthen to address this gap?",
+    "choices": [
+      { "id": "a", "text": "Incident Management, by improving the speed of incident resolution." },
+      { "id": "b", "text": "Demand Management, by establishing mechanisms to understand and anticipate future business patterns of demand." },
+      { "id": "c", "text": "Capacity and Performance Management, by modelling current load against available infrastructure." },
+      { "id": "d", "text": "Service Level Management, by renegotiating SLAs to include demand forecasting clauses." }
+    ],
+    "correct": "b",
+    "explanation": "Demand Management is the practice of understanding, anticipating, and influencing customer demand for services so the provider can ensure adequate capacity and responsiveness. The gap described is that IT does not have visibility of upcoming business changes that will shift demand patterns. Strengthening Demand Management by embedding earlier communication channels and business planning alignment directly addresses this. Capacity Management is a downstream consumer of demand information. SLA renegotiation and incident speed are irrelevant to the stated concern.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-008",
+    "type": "single_choice",
+    "prompt": "A service provider is designing a new SLA for a customer. The customer wants guaranteed uptime measured as a monthly percentage. The provider's legal team wants a rolling 12-month average. The operations team prefers event-based availability windows tied to business hours only. Which consideration should drive the final measurement approach?",
+    "choices": [
+      { "id": "a", "text": "The measurement window that results in the numerically highest availability percentage, to make the provider's performance look best." },
+      { "id": "b", "text": "The measurement approach that most accurately reflects business impact: how availability failures affect the customer's ability to operate." },
+      { "id": "c", "text": "The approach preferred by the provider's legal team, since they are accountable for enforcing the SLA." },
+      { "id": "d", "text": "A simple monthly percentage because it matches the customer's stated preference and simplifies reporting." }
+    ],
+    "correct": "b",
+    "explanation": "SLA measurement approaches should reflect business impact on the customer. If a 24x7 availability window is measured but the customer only operates business hours, downtime at 3am has far less impact than downtime at 10am, and a business-hours-only window may better reflect real harm. The goal is an SLA that meaningful represents value and consequence. Optimising for the metric that looks best is unethical and misleading. Legal team preference governs enforcement, not what the right measurement approach is. Simply adopting the customer's stated preference without validating it against business impact may result in a measurement that does not capture actual value delivery.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-009",
+    "type": "single_choice",
+    "prompt": "A service provider is co-designing a new analytics platform with a customer. The project team proposes weekly working sessions where the customer's data analysts participate in sprint reviews and provide direct feedback on feature development. Which value co-creation principle does this practice best exemplify?",
+    "choices": [
+      { "id": "a", "text": "The customer pays for the service and therefore defines all requirements upfront before development begins." },
+      { "id": "b", "text": "Value is co-created when both provider and customer actively collaborate throughout the service lifecycle, not just at contract signing." },
+      { "id": "c", "text": "The provider is solely responsible for value delivery and must protect the customer from involvement in technical decisions." },
+      { "id": "d", "text": "Co-creation adds overhead and should be used only when the customer lacks technical expertise to specify requirements." }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 establishes that value is co-created through active collaboration between the service provider and consumer across the service lifecycle. Weekly working sessions with embedded customer participation in sprint reviews exemplify this principle: both parties contribute knowledge, decisions, and direction. Value co-creation is not limited to requirements gathering at the start; it is ongoing. The notion that providers should protect customers from involvement inverts the co-creation model. Co-creation is not a compensatory measure for lack of customer expertise — it is a fundamental model for creating better outcomes.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-010",
+    "type": "single_choice",
+    "prompt": "A service provider's account manager discovers that a key customer contact has been frustrated for months by a recurring billing discrepancy but never raised it formally, assuming 'IT wouldn't care anyway.' This attitude represents a breakdown in which aspect of the service relationship?",
+    "choices": [
+      { "id": "a", "text": "Service Continuity Management, because the billing system is unreliable." },
+      { "id": "b", "text": "The feedback loop and trust dimension of the service relationship, where the customer does not believe their concerns will be heard or acted on." },
+      { "id": "c", "text": "Change Enablement, because the billing discrepancy has not been raised as a formal change request." },
+      { "id": "d", "text": "Financial Management for Services, because billing accuracy is solely a financial practice concern." }
+    ],
+    "correct": "b",
+    "explanation": "When customers do not raise concerns because they assume the provider will be unresponsive, it signals a breakdown in the feedback loop and trust that underpin a healthy service relationship. ITIL 4 emphasises continual feedback mechanisms as essential for value co-creation. Without them, service quality drifts and relationship health deteriorates silently. The billing discrepancy may be a financial management issue, but the failure to surface it is a relationship and feedback failure. Change Enablement and Service Continuity are unrelated to this dynamic.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-011",
+    "type": "single_choice",
+    "prompt": "A CX team conducts a design thinking workshop to improve the new employee onboarding service. In the 'empathize' phase, they shadow new hires on their first day and discover that employees spend two hours hunting for system access credentials sent to their manager's inbox, not their own. What should the team do with this finding immediately after the empathize phase?",
+    "choices": [
+      { "id": "a", "text": "Immediately implement an automated credential delivery workflow to fix the problem discovered." },
+      { "id": "b", "text": "Document the finding as a 'define' artefact that frames the problem statement: new employees cannot access systems on day one because credentials are misrouted." },
+      { "id": "c", "text": "Present the finding to the IT security team and ask them to authorise a solution before proceeding." },
+      { "id": "d", "text": "Add the finding to the backlog without further analysis and proceed to the ideate phase." }
+    ],
+    "correct": "b",
+    "explanation": "In design thinking, the empathize phase generates insight; the define phase synthesises those insights into a clear, human-centred problem statement. The finding about credential misrouting should be framed as a defined problem that guides ideation and prototyping. Immediately implementing a fix skips define and ideate, risking solving the symptom without understanding the full problem space. Seeking security authorisation before even defining the problem is premature. Adding it to the backlog without synthesis loses the insight and breaks the design thinking sequence.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-012",
+    "type": "single_choice",
+    "prompt": "A service provider is managing a conflict with a customer over whether an incident caused by the customer's misconfiguration of a provider-managed API gateway is covered under the SLA. The contract is ambiguous. What is the most appropriate first step for the business relationship manager?",
+    "choices": [
+      { "id": "a", "text": "Escalate to legal counsel immediately to prepare for a contractual dispute." },
+      { "id": "b", "text": "Unilaterally declare the incident out of scope and close the related SLA breach claim." },
+      { "id": "c", "text": "Engage the customer in a candid joint review of the incident facts, clarify each party's responsibilities, and work toward a mutually agreed resolution that preserves the relationship." },
+      { "id": "d", "text": "Apply the SLA in the interpretation most favourable to the provider and document it for the next contract renewal." }
+    ],
+    "correct": "c",
+    "explanation": "Business relationship management prioritises preserving and strengthening the long-term relationship. When a contract is ambiguous, a joint factual review and collaborative resolution — rather than adversarial positioning — is the most appropriate first step. This approach builds trust and often resolves ambiguity faster than legal escalation. Immediately escalating to legal converts an ambiguity into an adversarial situation. Unilaterally declaring the incident out of scope or interpreting the contract in the provider's favour without discussion damages trust and may be contractually incorrect.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-013",
+    "type": "single_choice",
+    "prompt": "An IT organisation distinguishes between customer experience (CX) and user experience (UX) in its service design work. Which statement correctly describes the difference?",
+    "choices": [
+      { "id": "a", "text": "CX and UX are interchangeable; both refer to how individuals interact with service interfaces." },
+      { "id": "b", "text": "UX focuses on the quality of interactions with a specific product or interface; CX encompasses the entirety of a customer's perceptions and feelings across all interactions with the organisation over time." },
+      { "id": "c", "text": "CX is measured by NPS and UX is measured by CSAT; they are different names for the same concept." },
+      { "id": "d", "text": "UX applies to external customers and CX applies to internal employees using IT services." }
+    ],
+    "correct": "b",
+    "explanation": "User Experience (UX) is concerned with the quality of a person's interaction with a specific product, application, or interface at a given moment. Customer Experience (CX) is the broader accumulation of all perceptions, emotions, and impressions a customer forms through every interaction with the organisation across the relationship lifecycle. CX contains many UX moments but is not limited to them. They are not interchangeable, not simply different metrics, and the internal/external distinction in option D does not reflect how the terms are used in ITIL 4 or industry practice.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-014",
+    "type": "single_choice",
+    "prompt": "A service provider wants to formalise how it communicates service level achievement to customers. Currently, reports are sent monthly as raw availability percentages without context. Customers struggle to understand whether performance was acceptable. What should be added to make reporting more meaningful?",
+    "choices": [
+      { "id": "a", "text": "More frequent reporting, such as weekly, to give customers more data points." },
+      { "id": "b", "text": "Context: what was agreed (the SLA target), what was achieved (SLI measurements), whether the SLO was met, and the business impact of any shortfall." },
+      { "id": "c", "text": "Raw infrastructure metrics such as server CPU utilisation and network throughput to give customers full visibility." },
+      { "id": "d", "text": "A certification from an independent auditor confirming the accuracy of the reported figures." }
+    ],
+    "correct": "b",
+    "explanation": "Meaningful service level reporting places measured performance in the context of what was agreed (the SLA), how it was measured (SLIs), whether internal targets (SLOs) were met, and the real-world business impact of any shortfall. This narrative context is what allows customers to assess whether performance was acceptable and where it fell short. More frequent raw data increases volume without improving meaning. Raw infrastructure metrics are too technical for most customers. Audit certification addresses accuracy but not comprehension.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-sv-015",
+    "type": "single_choice",
+    "prompt": "A service provider is introducing a new cloud storage service. To stimulate adoption, the marketing team wants to communicate value to potential internal customers. Which approach best aligns with service marketing principles in ITIL 4?",
+    "choices": [
+      { "id": "a", "text": "Publish technical specifications and uptime guarantees so users can make an informed comparison with existing solutions." },
+      { "id": "b", "text": "Frame communications around the outcomes users will achieve, the problems the service solves, and the reduction in effort required, rather than technical features." },
+      { "id": "c", "text": "Require all departments to migrate to the new service on a fixed date, eliminating the need for adoption marketing." },
+      { "id": "d", "text": "Offer a temporary discount on the new service to incentivise early adoption by budget-conscious departments." }
+    ],
+    "correct": "b",
+    "explanation": "Service marketing in ITIL 4 emphasises communicating value in terms that matter to the consumer: outcomes achieved, problems solved, and effort reduced. Technical specifications are provider-centric and do not address the 'what's in it for me' question that drives adoption. Mandatory migration removes choice and bypasses the relationship-building purpose of marketing. Discounting may drive short-term adoption but does not build lasting understanding of value and can set poor pricing expectations.",
+    "topics": ["drive-stakeholder-value"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Drive Stakeholder Value", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  }
+]

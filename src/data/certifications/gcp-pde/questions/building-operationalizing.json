@@ -1,0 +1,296 @@
+[
+  {
+    "id": "gcp-pde-bo-001",
+    "type": "single_choice",
+    "prompt": "A BigQuery table holds 10 years of e-commerce orders (2 TB) and the majority of queries filter on order_date with an optional filter on customer_region. Which optimization provides the greatest query performance improvement at the lowest cost?",
+    "choices": [
+      { "id": "a", "text": "Partition the table on order_date and cluster on customer_region" },
+      { "id": "b", "text": "Create a materialized view that pre-aggregates totals by date" },
+      { "id": "c", "text": "Enable BigQuery BI Engine reservation for the project" },
+      { "id": "d", "text": "Copy the table to a regional dataset closer to the BI tool" }
+    ],
+    "correct": "a",
+    "explanation": "Partitioning on order_date causes BigQuery to scan only the partitions that match the date filter, eliminating terabytes from each query. Clustering on customer_region further prunes blocks within each partition for queries that also filter on region. Together, they reduce both query cost (bytes billed) and latency. A materialized view is useful for aggregated dashboards but does not help ad-hoc queries on raw data. BI Engine accelerates repeated dashboard queries using in-memory caching but does not reduce bytes scanned. Copying the table to another region reduces network latency only marginally and increases storage cost.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "BigQuery partitioned tables", "url": "https://cloud.google.com/bigquery/docs/partitioned-tables" },
+      { "label": "BigQuery clustered tables", "url": "https://cloud.google.com/bigquery/docs/clustered-tables" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-002",
+    "type": "single_choice",
+    "prompt": "A Dataflow streaming pipeline is falling behind on processing Pub/Sub messages (increasing backlog). Metrics show CPU utilization is at 90% across all workers. What is the correct remediation?",
+    "choices": [
+      { "id": "a", "text": "Increase the Pub/Sub acknowledgment deadline" },
+      { "id": "b", "text": "Enable Dataflow autoscaling and increase the maximum number of workers" },
+      { "id": "c", "text": "Switch the pipeline to batch mode to process the backlog faster" },
+      { "id": "d", "text": "Add a Cloud Tasks queue between Pub/Sub and Dataflow" }
+    ],
+    "correct": "b",
+    "explanation": "When a Dataflow streaming pipeline is CPU-bound and falling behind, increasing the maximum worker count via autoscaling allows Dataflow to scale out and consume the backlog. Dataflow's autoscaler monitors backlog and worker utilization and adjusts the worker pool automatically within the configured bounds. Increasing the Pub/Sub acknowledgment deadline only delays redelivery and does not address the throughput deficit. Switching to batch mode is not possible for a streaming source and would miss in-flight messages. Adding Cloud Tasks introduces unnecessary complexity without addressing the compute bottleneck.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Dataflow autoscaling", "url": "https://cloud.google.com/dataflow/docs/guides/deploying-a-pipeline#autoscaling" },
+      { "label": "Dataflow monitoring", "url": "https://cloud.google.com/dataflow/docs/guides/using-cloud-monitoring" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-003",
+    "type": "single_choice",
+    "prompt": "A Cloud Composer (Airflow) DAG has a task that downloads a file from an external API, processes it with a Python function, and loads data to BigQuery. The Python processing step sometimes fails due to transient network issues. What is the best way to configure automatic retries for just that task?",
+    "choices": [
+      { "id": "a", "text": "Set retries=3 and retry_delay=timedelta(minutes=5) on the specific PythonOperator task" },
+      { "id": "b", "text": "Set the DAG-level default_args retries parameter to 3" },
+      { "id": "c", "text": "Wrap the Python function in a try/except loop that sleeps and retries" },
+      { "id": "d", "text": "Use a TriggerDagRunOperator to re-run the entire DAG on failure" }
+    ],
+    "correct": "a",
+    "explanation": "Airflow allows per-task retry configuration via the retries and retry_delay parameters on any operator. Setting these directly on the PythonOperator ensures only that task retries on failure, leaving other tasks unaffected. Setting DAG-level default_args retries applies the same retry policy to every task in the DAG, which may cause unnecessary retries on tasks that should fail fast. A sleep-retry loop inside the Python function blocks an Airflow worker slot and prevents Airflow from recording the retry in its metadata. Using TriggerDagRunOperator re-runs the entire DAG, including already-succeeded tasks, which is wasteful and incorrect.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Composer managing DAGs", "url": "https://cloud.google.com/composer/docs/how-to/using/writing-dags" },
+      { "label": "Airflow task retries", "url": "https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/tasks.html#retries" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-004",
+    "type": "single_choice",
+    "prompt": "A BigQuery query joins a 2 TB fact table with a 500 MB dimension table. The query takes 8 minutes. After analysis, you find that BigQuery performs a full shuffle join. What optimization will most likely resolve this?",
+    "choices": [
+      { "id": "a", "text": "Partition both tables on the join key" },
+      { "id": "b", "text": "Enable BI Engine to cache both tables" },
+      { "id": "c", "text": "No action needed; BigQuery automatically uses broadcast join when one table is under 1 GB" },
+      { "id": "d", "text": "Rewrite the query to use a CROSS JOIN UNNEST pattern" }
+    ],
+    "correct": "a",
+    "explanation": "BigQuery automatically uses a broadcast join when the smaller table fits in memory (historically 1 GB threshold, though this varies). At 500 MB the dimension table may be near the threshold but is not guaranteed to broadcast. Partitioning the fact table on the join key co-locates related rows and can enable partition pruning during the join, significantly reducing shuffle volume. Additionally, ensuring the smaller table is genuinely under the broadcast threshold by filtering or restructuring it can force a broadcast join. BI Engine only accelerates in-memory cached queries and does not affect join strategies for large query workloads. CROSS JOIN UNNEST applies to arrays, not dimension table joins.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "BigQuery query optimization", "url": "https://cloud.google.com/bigquery/docs/best-practices-performance-compute" },
+      { "label": "BigQuery joins", "url": "https://cloud.google.com/bigquery/docs/best-practices-performance-compute#avoid_joins_that_generate_more_outputs_than_inputs" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-005",
+    "type": "single_choice",
+    "prompt": "A team uses Pub/Sub as a buffer between an event producer and a Dataflow pipeline. Some messages fail processing repeatedly and clog the subscription. The team wants failed messages automatically moved to a separate topic after 5 delivery attempts without modifying pipeline code. What should they configure?",
+    "choices": [
+      { "id": "a", "text": "Configure a dead-letter topic on the Pub/Sub subscription with max_delivery_attempts=5" },
+      { "id": "b", "text": "Add a try/except in the Dataflow DoFn and publish failed messages to a second topic" },
+      { "id": "c", "text": "Use Pub/Sub Lite with a separate partition for failed messages" },
+      { "id": "d", "text": "Set the subscription's acknowledgment deadline to 1 second so messages expire quickly" }
+    ],
+    "correct": "a",
+    "explanation": "Pub/Sub natively supports dead-letter topics (also called dead-letter queues). When a subscription's max_delivery_attempts threshold is reached, Pub/Sub automatically forwards the message to the configured dead-letter topic, requiring no changes to subscriber or pipeline code. The failed messages can then be inspected, replayed, or discarded separately. Adding error handling code to the Dataflow DoFn achieves a similar result but requires code modification. Pub/Sub Lite partitions do not support per-message routing based on delivery failure. Setting a very short acknowledgment deadline would cause all messages to be redelivered rapidly, not just the failing ones, and would not isolate them.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Pub/Sub dead-letter topics", "url": "https://cloud.google.com/pubsub/docs/dead-letter-topics" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-006",
+    "type": "single_choice",
+    "prompt": "A data team needs to replicate near-real-time changes from a production Cloud SQL (MySQL) database to BigQuery for analytics, capturing inserts, updates, and deletes. Which GCP service is purpose-built for this use case?",
+    "choices": [
+      { "id": "a", "text": "BigQuery Data Transfer Service with a MySQL connector" },
+      { "id": "b", "text": "Datastream for MySQL, writing change events to BigQuery" },
+      { "id": "c", "text": "Cloud Data Fusion with a JDBC connector polling every minute" },
+      { "id": "d", "text": "Dataflow with the JdbcIO connector reading full table snapshots" }
+    ],
+    "correct": "b",
+    "explanation": "Datastream is GCP's managed change data capture (CDC) service. It reads MySQL binary logs to capture inserts, updates, and deletes with low latency and streams them to BigQuery (or Cloud Storage) without impacting the source database. BigQuery Data Transfer Service does not support real-time CDC from Cloud SQL. A Cloud Data Fusion JDBC polling approach reads full snapshots on a schedule — it captures the current state but cannot reliably capture deletes without custom logic. Dataflow with JdbcIO can do full-table reads but cannot track row-level changes.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Datastream overview", "url": "https://cloud.google.com/datastream/docs/overview" },
+      { "label": "Datastream to BigQuery", "url": "https://cloud.google.com/datastream/docs/use-cases#bigquery" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-007",
+    "type": "single_choice",
+    "prompt": "A Cloud Composer DAG runs a nightly BigQuery job that takes 45 minutes on average. Occasionally the job runs for over 3 hours due to data skew. The team wants the DAG to fail and alert rather than hang indefinitely. What is the correct Airflow configuration?",
+    "choices": [
+      { "id": "a", "text": "Set execution_timeout=timedelta(hours=2) on the BigQueryOperator task" },
+      { "id": "b", "text": "Set dagrun_timeout=timedelta(hours=6) on the DAG definition" },
+      { "id": "c", "text": "Use a SLA miss callback on the DAG to send alerts" },
+      { "id": "d", "text": "Set max_active_runs=1 to prevent overlapping runs" }
+    ],
+    "correct": "a",
+    "explanation": "The execution_timeout parameter on a task causes Airflow to raise a TaskTimeout exception if the task runs longer than the specified duration, failing the task and triggering any configured retry or failure callbacks. This directly addresses the requirement to fail the task rather than let it hang. The dagrun_timeout parameter limits the total DAG run duration but allows all constituent tasks to keep running until the DAG is forcibly marked failed; it is less precise for a single long-running task. SLA miss callbacks fire an alert but do not terminate the task — the task continues running. max_active_runs prevents concurrent DAG runs but does not limit individual task duration.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Composer DAG timeouts", "url": "https://cloud.google.com/composer/docs/how-to/using/writing-dags#task-timeouts" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-008",
+    "type": "single_choice",
+    "prompt": "A BigQuery analytics team runs 200 concurrent on-demand queries per day from a BI tool. Several high-priority executive dashboards frequently compete with long-running ad-hoc queries, causing dashboard slowdowns. What is the recommended solution?",
+    "choices": [
+      { "id": "a", "text": "Move executive dashboards to a separate BigQuery project with its own on-demand quota" },
+      { "id": "b", "text": "Switch to flat-rate slot reservations, create separate reservations for executive and ad-hoc workloads, and assign assignments accordingly" },
+      { "id": "c", "text": "Use BigQuery materialized views for all dashboard queries to eliminate compute competition" },
+      { "id": "d", "text": "Enable BigQuery BI Engine for the dashboard project" }
+    ],
+    "correct": "b",
+    "explanation": "BigQuery's slot reservations (flat-rate or editions model) allow teams to allocate dedicated compute slots to specific workloads. By creating a high-priority reservation for executive dashboards and a separate reservation for ad-hoc queries, the two workloads cannot starve each other. Unused slots from one reservation can be shared, but priority assignments ensure isolation. Separate projects with on-demand quotas may help with project-level limits but both projects still share the same on-demand pool. Materialized views help for repetitive aggregation queries but do not address resource contention for arbitrary BI queries. BI Engine accelerates in-memory queries but does not guarantee resource isolation from competing queries.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "BigQuery slot reservations", "url": "https://cloud.google.com/bigquery/docs/reservations-intro" },
+      { "label": "BigQuery editions", "url": "https://cloud.google.com/bigquery/docs/editions-intro" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-009",
+    "type": "single_choice",
+    "prompt": "A Cloud Composer environment promotes DAGs from a development environment to production. DAG files live in a Git repository. What is the recommended approach for automated DAG deployment to production?",
+    "choices": [
+      { "id": "a", "text": "Manually copy DAG files to the production Composer bucket after testing" },
+      { "id": "b", "text": "Use a Cloud Build trigger that, on merge to main, runs DAG validation tests and syncs the DAG folder to the production Composer Cloud Storage bucket" },
+      { "id": "c", "text": "Grant the development Composer environment write access to the production Composer bucket" },
+      { "id": "d", "text": "Use the Airflow REST API to upload DAG files directly from the development environment" }
+    ],
+    "correct": "b",
+    "explanation": "A Cloud Build CI/CD pipeline triggered on Git push/merge is the standard DevOps approach for DAG promotion. Cloud Build can run Python unit tests and DAG validation (e.g., airflow dags test) and then use gsutil or the GCS API to sync DAG files to the production Composer bucket, ensuring only tested code reaches production. Manual copying is error-prone and not reproducible. Granting dev environments write access to production storage violates the principle of least privilege and separation of environments. Using the Airflow REST API for direct environment-to-environment file transfer bypasses version control and CI validation.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "CI/CD for Cloud Composer DAGs", "url": "https://cloud.google.com/composer/docs/how-to/using/managing-dags" },
+      { "label": "Cloud Build overview", "url": "https://cloud.google.com/build/docs/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-010",
+    "type": "single_choice",
+    "prompt": "A data pipeline writes Avro files to Cloud Storage and then triggers a BigQuery batch load job. The pipeline sometimes produces empty Avro files when the source has no new data. What is the best way to handle this in BigQuery without causing errors?",
+    "choices": [
+      { "id": "a", "text": "Configure the load job with WRITE_TRUNCATE disposition to overwrite with an empty file" },
+      { "id": "b", "text": "Check the file record count before submitting the load job and skip the load if the file is empty" },
+      { "id": "c", "text": "Set the BigQuery load job to ignore unknown values so empty files are skipped" },
+      { "id": "d", "text": "Use a wildcard URI pattern to automatically skip empty files" }
+    ],
+    "correct": "b",
+    "explanation": "The cleanest approach is to check whether the source file contains records before submitting a BigQuery load job. If the file is empty, skip the load job entirely. This avoids unnecessary API calls and prevents potential errors with zero-record loads. WRITE_TRUNCATE with an empty file would delete all existing data in the target table, which is destructive and incorrect. The ignore_unknown_values flag controls handling of extra fields in source data, not empty files. BigQuery wildcard URIs match files by name pattern but do not filter by content; an empty file matching the pattern would still be included in the load.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "BigQuery loading data best practices", "url": "https://cloud.google.com/bigquery/docs/loading-data" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-011",
+    "type": "single_choice",
+    "prompt": "A Dataflow streaming job's System Lag metric is steadily increasing over 24 hours despite stable input throughput. Which is the most likely root cause?",
+    "choices": [
+      { "id": "a", "text": "The Pub/Sub topic has too many partitions" },
+      { "id": "b", "text": "A hot key in GroupByKey or windowed aggregation is causing skewed processing on one worker" },
+      { "id": "c", "text": "The BigQuery write sink has exceeded its streaming quota" },
+      { "id": "d", "text": "Cloud Monitoring is not configured correctly for the pipeline" }
+    ],
+    "correct": "b",
+    "explanation": "Steadily increasing System Lag with stable throughput typically indicates a processing bottleneck caused by data skew. A hot key occurs when a disproportionate number of elements share the same key in a GroupByKey operation, forcing all those elements to a single worker while others are underutilized. The hot worker becomes the bottleneck. Solutions include adding a random salt to the key for partial aggregation before the final GroupByKey, or using Combine.perKey which applies partial combining at each worker. Pub/Sub does not have topic partitions in the same sense as Kafka. BigQuery streaming quota errors would manifest as write errors, not lag. Monitoring misconfiguration affects visibility, not processing speed.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Dataflow troubleshooting streaming pipelines", "url": "https://cloud.google.com/dataflow/docs/guides/troubleshoot-streaming" },
+      { "label": "Dataflow key-based shuffling", "url": "https://cloud.google.com/dataflow/docs/concepts/shuffle" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-012",
+    "type": "single_choice",
+    "prompt": "A BigQuery materialized view is used to pre-aggregate daily sales totals. The base table is updated throughout the day via streaming inserts. How does BigQuery handle queries against the materialized view when the base table has changed since the last materialized view refresh?",
+    "choices": [
+      { "id": "a", "text": "BigQuery blocks the query until the materialized view is refreshed" },
+      { "id": "b", "text": "BigQuery automatically reads the materialized view for the refreshed portion and queries the base table delta for the remaining rows, combining both results" },
+      { "id": "c", "text": "BigQuery always scans the full base table and ignores the materialized view if it is stale" },
+      { "id": "d", "text": "BigQuery returns stale results from the last refresh without merging base table changes" }
+    ],
+    "correct": "b",
+    "explanation": "BigQuery smart materialized views use a delta-merge strategy: the query engine reads pre-computed results from the materialized view for the data that has been refreshed and scans only the incremental changes (delta) in the base table since the last refresh. This provides fresher results than a fully stale view while still reducing total scan cost compared to always querying the base table. BigQuery does not block queries waiting for a refresh. It does not always fall back to a full base table scan. It does not return fully stale results without merging new data.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "BigQuery materialized views", "url": "https://cloud.google.com/bigquery/docs/materialized-views-intro" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-013",
+    "type": "single_choice",
+    "prompt": "A Pub/Sub subscription has a snapshot taken for disaster recovery. The engineering team wants to use the snapshot to replay all messages from the last 2 hours. What is the correct procedure?",
+    "choices": [
+      { "id": "a", "text": "Seek the subscription to the snapshot timestamp to reset message delivery to that point" },
+      { "id": "b", "text": "Create a new topic from the snapshot and attach a new subscription" },
+      { "id": "c", "text": "Delete and recreate the subscription, restoring from the snapshot backup" },
+      { "id": "d", "text": "Use the Pub/Sub replay API to push all messages from the snapshot to the subscriber" }
+    ],
+    "correct": "a",
+    "explanation": "Pub/Sub snapshots capture the acknowledgment state of a subscription at a point in time. The Seek operation rewinds a subscription to a snapshot (or a timestamp), causing Pub/Sub to redeliver all messages that were acknowledged after the snapshot was taken. This enables replay without any topic or subscription recreation. Creating a new topic from a snapshot is not a supported Pub/Sub operation. Deleting and recreating a subscription loses all acknowledgment state and does not restore message backlog. There is no separate 'replay API' in Pub/Sub — Seek is the mechanism.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Pub/Sub snapshots and seek", "url": "https://cloud.google.com/pubsub/docs/replay-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-014",
+    "type": "single_choice",
+    "prompt": "A company schedules 50 BigQuery jobs per night. They need to transfer Google Ads performance data into BigQuery on a recurring daily basis without writing custom ETL code. Which service handles this with minimal configuration?",
+    "choices": [
+      { "id": "a", "text": "Cloud Data Fusion with a Google Ads connector" },
+      { "id": "b", "text": "BigQuery Data Transfer Service with a Google Ads data source" },
+      { "id": "c", "text": "Datastream replicating from Google Ads API" },
+      { "id": "d", "text": "Cloud Composer DAG calling the Google Ads API and loading to BigQuery" }
+    ],
+    "correct": "b",
+    "explanation": "BigQuery Data Transfer Service (DTS) provides native, scheduled connectors for Google Marketing Platform products including Google Ads, Campaign Manager, Google Ad Manager, and YouTube. It can be configured in minutes via the console with no custom code and automatically lands data in BigQuery on a configurable schedule. Cloud Data Fusion has a Google Ads connector but requires more configuration effort. Datastream is a CDC tool for relational databases, not for SaaS API ingestion. A Cloud Composer DAG could work but requires writing and maintaining API integration code, which defeats the minimal-configuration requirement.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "BigQuery Data Transfer Service overview", "url": "https://cloud.google.com/bigquery/docs/dts-introduction" },
+      { "label": "Google Ads transfer", "url": "https://cloud.google.com/bigquery/docs/google-ads-transfer" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-bo-015",
+    "type": "single_choice",
+    "prompt": "A Dataflow pipeline reads from Cloud Storage, transforms data, and writes to BigQuery. During a production incident, the team needs to drain the pipeline gracefully: finish processing in-flight elements and stop accepting new work, without losing data. What is the correct action?",
+    "choices": [
+      { "id": "a", "text": "Cancel the job immediately using gcloud dataflow jobs cancel" },
+      { "id": "b", "text": "Drain the job using gcloud dataflow jobs drain, which flushes windows and checkpoints before stopping" },
+      { "id": "c", "text": "Delete the Pub/Sub subscription to stop incoming data, then wait for the job to finish" },
+      { "id": "d", "text": "Scale the worker count to 0 using the Dataflow REST API" }
+    ],
+    "correct": "b",
+    "explanation": "Dataflow's drain operation flushes all buffered data, closes open windows, commits pending checkpoints, and then stops the job. This ensures no in-flight elements are lost. Canceling a job immediately stops all workers and discards any in-flight data that has not been committed. Deleting the Pub/Sub subscription would cause unacknowledged messages to be lost. Scaling workers to 0 is not a supported Dataflow operation; worker count is managed by the autoscaler within configured bounds.",
+    "topics": ["building-operationalizing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Stopping a Dataflow pipeline", "url": "https://cloud.google.com/dataflow/docs/guides/stopping-a-pipeline" }
+    ],
+    "version": 1
+  }
+]

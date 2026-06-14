@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-cad-auto-001",
+    "type": "single_choice",
+    "prompt": "What is Flow Designer in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A no-code/low-code automation platform for building flows, actions, and subflows using a visual interface"
+      },
+      {
+        "id": "b",
+        "text": "A visual drag-and-drop form designer for building custom ServiceNow forms"
+      },
+      {
+        "id": "c",
+        "text": "A diagram tool for documenting process workflows in ServiceNow"
+      },
+      {
+        "id": "d",
+        "text": "A replacement for the Workflow Editor that only supports ITSM processes"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Flow Designer is ServiceNow's no-code/low-code automation platform that allows developers and process owners to build automated workflows using a visual, trigger-based interface. It consists of flows (end-to-end automations), actions (reusable operation steps), subflows (reusable flow segments), and spokes (pre-built integration action libraries). It is the modern successor to the Workflow Editor.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-002",
+    "type": "single_choice",
+    "prompt": "What are the four types of triggers available in Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Record-based, Scheduled, Application, and Service Catalog"
+      },
+      {
+        "id": "b",
+        "text": "Record-based, Scheduled, Inbound Email, and REST API"
+      },
+      {
+        "id": "c",
+        "text": "Event, Timer, Approval, and Service Request"
+      },
+      {
+        "id": "d",
+        "text": "OnLoad, OnChange, OnSubmit, and OnDelete"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Flow Designer supports four primary trigger types: Record-based (fires when a record is created, updated, or deleted), Scheduled (fires on a recurring schedule), Inbound Email (fires when an email matching criteria is received), and REST API (fires when a specific REST endpoint is called). These cover the main automation entry points in ServiceNow.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-003",
+    "type": "single_choice",
+    "prompt": "What is the difference between a Flow, an Action, and a Subflow in Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Flows are for IT processes, Actions are for HR processes, Subflows are for integrations"
+      },
+      {
+        "id": "b",
+        "text": "Flows run asynchronously, Actions run synchronously, Subflows run in parallel"
+      },
+      {
+        "id": "c",
+        "text": "A Flow is an end-to-end automation with a trigger; a Subflow is a reusable flow segment called by flows; an Action is a single reusable operation step"
+      },
+      {
+        "id": "d",
+        "text": "Actions and Subflows are the same; Flows are a special type of Subflow with a trigger"
+      }
+    ],
+    "correct": "c",
+    "explanation": "In Flow Designer: a Flow is a complete automation with a trigger and a sequence of steps; a Subflow is a reusable segment of automation logic that can be called by multiple flows (like a function), accepting inputs and returning outputs; an Action is a single, reusable operation step (like 'Create Record' or 'Send Email') that can be composed within flows and subflows.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-004",
+    "type": "single_choice",
+    "prompt": "In Flow Designer, what does the 'For Each' flow logic step do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It assigns a task to each member of a group"
+      },
+      {
+        "id": "b",
+        "text": "It repeats a set of steps a specified fixed number of times"
+      },
+      {
+        "id": "c",
+        "text": "It creates a record for each item in a related list"
+      },
+      {
+        "id": "d",
+        "text": "It runs a set of steps for each record in a list retrieved from a query"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The 'For Each' flow logic step in Flow Designer iterates over a list of records or items, executing the contained steps once for each item. The list is typically provided as output from a 'Look Up Records' step or another step that returns a collection. This allows batch processing of multiple records within a single flow execution.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-005",
+    "type": "single_choice",
+    "prompt": "What is a Service Catalog 'Variable Set' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A named collection of catalog item variables that can be reused across multiple catalog items"
+      },
+      {
+        "id": "b",
+        "text": "A set of predefined answers that customers can select for catalog item variables"
+      },
+      {
+        "id": "c",
+        "text": "A group of related variables that always appear together in an order guide"
+      },
+      {
+        "id": "d",
+        "text": "A script that dynamically populates variable options based on user input"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Variable Set is a reusable collection of Service Catalog variables that can be shared across multiple catalog items. Instead of creating the same variables on each catalog item individually, a Variable Set is created once and then linked to multiple items. This promotes consistency and reduces maintenance \u2014 when a variable in the set is updated, all linked items automatically inherit the change.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-006",
+    "type": "single_choice",
+    "prompt": "What is an Order Guide in the ServiceNow Service Catalog?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A document that provides instructions for fulfilling catalog items"
+      },
+      {
+        "id": "b",
+        "text": "A catalog item type that bundles multiple items into a single, multi-item request"
+      },
+      {
+        "id": "c",
+        "text": "A guided process that walks users through ordering catalog items step by step"
+      },
+      {
+        "id": "d",
+        "text": "A reporting dashboard that shows the order volume for catalog items"
+      }
+    ],
+    "correct": "b",
+    "explanation": "An Order Guide is a type of Service Catalog item that bundles multiple catalog items into a single ordering experience. Users fill out one set of common variables, and the Order Guide automatically creates the individual underlying catalog item requests. This is used when ordering a resource always requires multiple dependent items to be requested together.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-007",
+    "type": "single_choice",
+    "prompt": "When should a developer use the Workflow Editor instead of Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "For all new automation development; Workflow Editor is more powerful"
+      },
+      {
+        "id": "b",
+        "text": "For automations that need to run on a MID Server"
+      },
+      {
+        "id": "c",
+        "text": "For maintaining existing workflows already built in the Workflow Editor, or for complex timer-based SLA workflows"
+      },
+      {
+        "id": "d",
+        "text": "Workflow Editor should never be used; it is fully replaced by Flow Designer"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow recommends Flow Designer for all new automation development. The Workflow Editor remains relevant for maintaining existing workflows that were built before Flow Designer was available, and for certain legacy platform features (like SLA workflows) that still depend on the Workflow Editor. For all new development, Flow Designer is the strategic tool.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-008",
+    "type": "single_choice",
+    "prompt": "How are approval actions configured in a Flow Designer flow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Using the Workflow Editor's approval node embedded inside a flow"
+      },
+      {
+        "id": "b",
+        "text": "Approvals must be triggered from business rules; Flow Designer cannot handle approvals"
+      },
+      {
+        "id": "c",
+        "text": "Using a Wait condition that polls the approval table every minute"
+      },
+      {
+        "id": "d",
+        "text": "Using the Approval action step, which creates an approval record and waits for a response"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Flow Designer includes built-in Approval action steps that create approval records in the sysapproval_approver table and pause flow execution until the approval is resolved (approved, rejected, or cancelled). The flow can then branch based on the approval outcome using conditional logic. Multiple approvers and group approvals are supported.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-009",
+    "type": "single_choice",
+    "prompt": "How are email notifications sent from a Flow Designer flow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Using the Send Email core action step, which triggers a configured Notification record"
+      },
+      {
+        "id": "b",
+        "text": "Calling gs.sendEmail() in a Script step within the flow"
+      },
+      {
+        "id": "c",
+        "text": "Creating a sysevent record that triggers an email-type Notification"
+      },
+      {
+        "id": "d",
+        "text": "Both A and B are valid approaches; they are equivalent"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Flow Designer includes a 'Send Email' core action that sends an email notification by referencing a configured Notification record (sys_notification). The action supports dynamic recipient lists, template selection, and passing record context. Alternatively, an 'Ask for Approval' step includes built-in email notification. Scripts in flows can also use gs.eventQueue() to trigger notification events.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-010",
+    "type": "single_choice",
+    "prompt": "What is a Scheduled Script Execution in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A business rule configured to run on a time delay after a record change"
+      },
+      {
+        "id": "b",
+        "text": "A server-side script that runs automatically on a defined time schedule"
+      },
+      {
+        "id": "c",
+        "text": "A client script that fires when a form auto-saves on a schedule"
+      },
+      {
+        "id": "d",
+        "text": "A Flow Designer flow trigger that fires on a recurring schedule"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A Scheduled Script Execution (found in System Definition > Scheduled Jobs) is a server-side script that runs automatically on a defined schedule using cron expressions or predefined intervals. Common uses include periodic data maintenance, report generation, and integration syncs. The script runs with admin-level permissions in a background context separate from user sessions.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-011",
+    "type": "single_choice",
+    "prompt": "What method registers a custom event name in ServiceNow so it can be used with gs.eventQueue()?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gs.registerEvent('event.name')"
+      },
+      {
+        "id": "b",
+        "text": "Declare the event in the application's manifest.xml file"
+      },
+      {
+        "id": "c",
+        "text": "Create a record in the sysevent_register table with the event name"
+      },
+      {
+        "id": "d",
+        "text": "Call gs.eventQueue() once with an unregistered name to auto-register it"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Custom events are registered by creating records in the sysevent_register table with the event name, description, and the application scope. This table is the event registry. Registered events can then be fired using gs.eventQueue() and handled by Script Actions or Notifications configured to listen for that event name.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-012",
+    "type": "single_choice",
+    "prompt": "What is an Escalation Rule in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A rule that automatically escalates a Priority 1 incident to the manager"
+      },
+      {
+        "id": "b",
+        "text": "A notification that fires when an incident has not been assigned within a set time"
+      },
+      {
+        "id": "c",
+        "text": "A business rule that detects when a field has been at a certain value too long"
+      },
+      {
+        "id": "d",
+        "text": "A rule that fires a time-based action (like sending an email or changing a field) when an SLA condition is met or a time threshold is breached"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Escalation Rules define time-based actions that execute when a specified condition on a record has been true for a defined duration. For example, if an Incident's state remains 'New' for more than 4 hours, an escalation rule can send an email, change a field, or fire an event. They are configured under the Escalation module and complement SLA definitions.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-013",
+    "type": "single_choice",
+    "prompt": "What is an Inbound Action in ServiceNow email processing?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A rule that processes incoming emails and performs actions like creating or updating records"
+      },
+      {
+        "id": "b",
+        "text": "An action that fires when an email is sent from ServiceNow to an external recipient"
+      },
+      {
+        "id": "c",
+        "text": "A scheduled job that checks the email inbox periodically"
+      },
+      {
+        "id": "d",
+        "text": "An approval action triggered by an email reply"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Inbound Actions define processing rules for emails received by ServiceNow. When an email arrives, the platform evaluates Inbound Action conditions (matching on subject, sender, email account, etc.) and executes the action's script to create new records, update existing records, or add journal entries. Multiple Inbound Actions can exist with order-based evaluation.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-014",
+    "type": "single_choice",
+    "prompt": "In Action Designer, what are 'inputs' and 'outputs' on a custom action?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Inputs are REST parameters sent to external APIs; outputs are the API responses"
+      },
+      {
+        "id": "b",
+        "text": "Inputs are the data the action receives from the flow; outputs are data the action returns to the flow for use in later steps"
+      },
+      {
+        "id": "c",
+        "text": "Inputs are form fields the user fills in; outputs are records created by the action"
+      },
+      {
+        "id": "d",
+        "text": "Inputs and outputs are the same as parameters in a Script Include"
+      }
+    ],
+    "correct": "b",
+    "explanation": "In Action Designer, Inputs define the data a custom action receives from the calling flow or subflow \u2014 they are the parameters that configure the action's behavior. Outputs define data the action makes available to subsequent steps in the flow after it executes (e.g., the sys_id of a created record). This input/output contract makes actions composable and reusable.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-015",
+    "type": "single_choice",
+    "prompt": "What is the 'Wait for Condition' flow logic step in Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A step that adds a fixed time delay before the flow continues"
+      },
+      {
+        "id": "b",
+        "text": "A step that waits for a user to complete a task before proceeding"
+      },
+      {
+        "id": "c",
+        "text": "A step that pauses flow execution until a specified condition on a record becomes true"
+      },
+      {
+        "id": "d",
+        "text": "A step that checks a condition and retries it up to 10 times before failing"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The 'Wait for Condition' flow logic step pauses flow execution until a specified field condition on a record becomes true. The flow engine periodically checks the condition and resumes execution when it is satisfied. This is used for scenarios like waiting for an external system to update a status field before the flow continues to the next step.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-016",
+    "type": "single_choice",
+    "prompt": "What is a Service Catalog 'Record Producer' and when should it be used instead of a standard catalog item?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A catalog item that generates multiple records at once from a template"
+      },
+      {
+        "id": "b",
+        "text": "A special catalog item for administrators to create records in bulk"
+      },
+      {
+        "id": "c",
+        "text": "A catalog item that is auto-populated from existing records in the system"
+      },
+      {
+        "id": "d",
+        "text": "A catalog item that creates a record in a specified non-catalog table (like Incident or Change) when submitted"
+      }
+    ],
+    "correct": "d",
+    "explanation": "A Record Producer is a Service Catalog item type that creates a record in any specified table (not just sc_request/sc_req_item) when submitted. It is used when you want a user-friendly catalog interface for creating records in operational tables like Incident, Change, or custom tables. Users see a catalog form with variables, and on submission, the mapping script creates the target record.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-017",
+    "type": "single_choice",
+    "prompt": "What is a Data Policy in ServiceNow and how does it differ from a business rule for enforcing field requirements?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Data Policies enforce mandatory and read-only rules on both client and server for all data entry paths; business rules only run on server-side operations"
+      },
+      {
+        "id": "b",
+        "text": "Data Policies run on the client side only; business rules run on the server side"
+      },
+      {
+        "id": "c",
+        "text": "Data Policies apply to all tables globally; business rules apply to one specific table"
+      },
+      {
+        "id": "d",
+        "text": "There is no functional difference; both enforce the same rules in the same way"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Data Policies enforce mandatory and read-only field rules at both the client (form) and server levels, ensuring the rules apply regardless of how data is inserted \u2014 through the UI, REST API, imports, or scripts. Business rules only run on the server, so client-side enforcement requires separate UI policies or client scripts. Data Policies provide a single, comprehensive enforcement mechanism for field requirements.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-018",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a UI Macro in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A script that automates repetitive keyboard actions in the UI"
+      },
+      {
+        "id": "b",
+        "text": "A reusable Jelly template fragment that can be embedded in forms and portal pages to render custom UI components"
+      },
+      {
+        "id": "c",
+        "text": "A macro that runs a sequence of UI actions when a button is clicked"
+      },
+      {
+        "id": "d",
+        "text": "A client-side script that is automatically executed when a user opens a form"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A UI Macro is a reusable Jelly template fragment that produces HTML output and can be embedded in forms, formatters, and ServiceNow UI pages. UI Macros allow developers to create custom UI components that display dynamic data, charts, or interactive elements using Jelly markup and embedded scripts. They are referenced by name using the <g:macro> tag.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-019",
+    "type": "single_choice",
+    "prompt": "In Flow Designer, how is a flow triggered by a record being created?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Configure an event listener on the table for insert operations"
+      },
+      {
+        "id": "b",
+        "text": "Create a business rule that calls the Flow API from its script"
+      },
+      {
+        "id": "c",
+        "text": "Set the trigger type to 'Record-based' and configure the table and 'Created' condition"
+      },
+      {
+        "id": "d",
+        "text": "Set up a scheduled trigger that queries for recently created records"
+      }
+    ],
+    "correct": "c",
+    "explanation": "To trigger a flow when a record is created, set the trigger type to 'Record-based', select the target table, and configure the trigger condition to 'Created'. Additional filter conditions can be added to limit when the flow fires (e.g., only when a specific field has a certain value). The flow executes asynchronously after the record creation is committed.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-020",
+    "type": "single_choice",
+    "prompt": "What is IntegrationHub and how does it extend Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "IntegrationHub is a separate product that replaces Flow Designer for integration workflows"
+      },
+      {
+        "id": "b",
+        "text": "IntegrationHub is a MID Server tool for on-premises integrations"
+      },
+      {
+        "id": "c",
+        "text": "IntegrationHub manages inbound REST API connections to ServiceNow"
+      },
+      {
+        "id": "d",
+        "text": "IntegrationHub provides pre-built spoke libraries with ready-to-use action steps for third-party services (Slack, Jira, AWS, etc.)"
+      }
+    ],
+    "correct": "d",
+    "explanation": "IntegrationHub extends Flow Designer by providing pre-built spoke libraries containing action steps for popular third-party services (Slack, Jira, ServiceNow instances, AWS, Salesforce, and many more). These spokes can be used directly in flows without custom REST scripting. Custom spokes can also be created using Action Designer to package custom integration actions for reuse.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-021",
+    "type": "single_choice",
+    "prompt": "When building a Service Catalog item, what is the purpose of a 'Variable Map' on a catalog item workflow or flow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It defines how catalog item variable values are passed into a linked workflow or flow as inputs"
+      },
+      {
+        "id": "b",
+        "text": "It maps workflow variables to flow designer data pills for compatibility"
+      },
+      {
+        "id": "c",
+        "text": "It creates a visual map of all variables on the catalog item form"
+      },
+      {
+        "id": "d",
+        "text": "It automatically populates catalog variables from data in the user's profile"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Variable Map on a catalog item defines how variable values collected from the customer's form submission are passed as inputs to the associated workflow or flow. Without a Variable Map, the automation would not have access to the specific values the customer entered. Variable Map entries link each catalog item variable to the corresponding workflow/flow input parameter.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-022",
+    "type": "single_choice",
+    "prompt": "What is a Transform Map in ServiceNow and when is it used?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A map that transforms the visual layout of a form from one view to another"
+      },
+      {
+        "id": "b",
+        "text": "A configuration that maps fields from a staging (import set) table to fields on a target table, with optional transformation scripts"
+      },
+      {
+        "id": "c",
+        "text": "A script that transforms JSON payloads from REST APIs into ServiceNow records"
+      },
+      {
+        "id": "d",
+        "text": "A Flow Designer action that converts data from one format to another"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A Transform Map defines field-to-field mappings from an import set staging table to a target table. When import data is processed, the Transform Map's mappings (with optional scripts for each field) determine how staging data is translated and written to the target table. Transform Maps also support coalesce for matching existing records, onBefore/onAfter scripts for custom logic, and conditional mapping.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-023",
+    "type": "single_choice",
+    "prompt": "What is the 'Do the Following' logic construct in Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A conditional branch that executes steps only if a condition is true"
+      },
+      {
+        "id": "b",
+        "text": "A flow logic grouping that executes a set of parallel steps simultaneously"
+      },
+      {
+        "id": "c",
+        "text": "A simple sequential block of steps that execute in order"
+      },
+      {
+        "id": "d",
+        "text": "A loop that repeats until a condition is met"
+      }
+    ],
+    "correct": "c",
+    "explanation": "'Do the Following' in Flow Designer is a sequential step block that groups actions to be executed in order. It is the basic building block for organizing flow logic. Within a flow, multiple 'Do the Following' blocks can be nested inside conditional branches or loops to create complex automation logic. Steps inside the block execute one after another.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-024",
+    "type": "single_choice",
+    "prompt": "How does a Flow Designer flow handle SLA management differently from the Workflow Editor?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Flow Designer has native SLA tracking built in; Workflow Editor requires external SLA plugins"
+      },
+      {
+        "id": "b",
+        "text": "There is no difference; both handle SLA management identically"
+      },
+      {
+        "id": "c",
+        "text": "Flow Designer calculates SLA breach times automatically from the flow's trigger time"
+      },
+      {
+        "id": "d",
+        "text": "SLA workflows are still managed in the Workflow Editor; Flow Designer handles other automation tasks"
+      }
+    ],
+    "correct": "d",
+    "explanation": "As of the current ServiceNow platform, SLA (Service Level Agreement) workflows \u2014 the workflows that manage SLA stages, pause/resume logic, and breach notifications \u2014 are still primarily managed in the Workflow Editor. Flow Designer handles general automation workflows but does not natively replace SLA-specific Workflow Editor functionality. Developers maintain SLA workflows in the legacy editor.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-025",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'If' flow logic step in Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It evaluates a condition and executes different branches based on whether the condition is true or false"
+      },
+      {
+        "id": "b",
+        "text": "It terminates the flow if a specified condition is false"
+      },
+      {
+        "id": "c",
+        "text": "It checks if a record exists before attempting to update it"
+      },
+      {
+        "id": "d",
+        "text": "It combines multiple conditions into a single true/false output"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The 'If' flow logic step evaluates a specified condition and branches the flow execution path. If the condition is true, the steps in the 'Then' branch execute; if false, an optional 'Else' branch executes. Multiple 'Else If' branches can be added for more complex conditional routing. This is equivalent to if/else logic in scripting.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-026",
+    "type": "single_choice",
+    "prompt": "What is a Service Catalog 'Variable' and how is it different from a table field?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Variables and fields are the same concept; the name just differs by context"
+      },
+      {
+        "id": "b",
+        "text": "Variables capture user input on a catalog item form and are stored in the sc_item_option table; they are separate from the table fields they may map to"
+      },
+      {
+        "id": "c",
+        "text": "Variables are dynamic fields calculated from business rules; table fields are static"
+      },
+      {
+        "id": "d",
+        "text": "Variables are visible to customers; table fields are hidden system values"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Service Catalog Variables capture user input on a catalog item form and are stored in the sc_item_option and sc_item_option_mtom tables, separate from any operational table. They are specific to the catalog item experience. A fulfillment flow or workflow then maps variable values to fields on actual records (like Incident or a custom table). Variables support types like single-line text, reference, check box, date, and more.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-027",
+    "type": "single_choice",
+    "prompt": "How do you pass data between steps in a Flow Designer flow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Using flow-scoped variables declared at the top of the flow"
+      },
+      {
+        "id": "b",
+        "text": "Using GlideRecord objects stored in script steps"
+      },
+      {
+        "id": "c",
+        "text": "Using 'data pills' that reference output values from previous steps"
+      },
+      {
+        "id": "d",
+        "text": "Data cannot be passed between steps; each step operates independently"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Data pills are references to output values from previous steps, trigger data, or lookup results that can be used as inputs to subsequent steps in a flow. They are represented as clickable tokens in the Flow Designer interface. When a step produces output (like a record's field values or an action's return data), those values are accessible as data pills in all following steps.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-028",
+    "type": "single_choice",
+    "prompt": "What does the 'Run As' setting on a Flow Designer flow control?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It controls which user receives notifications about the flow's status"
+      },
+      {
+        "id": "b",
+        "text": "It specifies which user's time zone is used for scheduled trigger calculations"
+      },
+      {
+        "id": "c",
+        "text": "It determines which user is set as the requestor on records created by the flow"
+      },
+      {
+        "id": "d",
+        "text": "It specifies which user account the flow's steps execute as, determining what access the flow has"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The 'Run As' setting on a flow determines the user context in which the flow's steps execute. Options typically include the system user (admin-level access), the user who triggered the flow, or a specific service account. This affects what records the flow can read/write based on ACLs. Running as the triggering user applies that user's ACLs, while running as System bypasses them.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-029",
+    "type": "single_choice",
+    "prompt": "What is a Script Action (Notification) in ServiceNow and how is it triggered?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A server-side script that executes when a specific event is fired via gs.eventQueue()"
+      },
+      {
+        "id": "b",
+        "text": "A script that runs when a user clicks a Notification button in the UI"
+      },
+      {
+        "id": "c",
+        "text": "A scheduled script that generates and sends notifications on a timer"
+      },
+      {
+        "id": "d",
+        "text": "A client script that displays browser notifications to the user"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Script Action (also called a Notification Script Action) is a server-side script that executes when a specific system event is fired using gs.eventQueue(). Script Actions are registered in the sysevent_script_action table and listen for specific event names. When the platform fires that event, the Script Action's script runs with the event's record context and parameters available.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-030",
+    "type": "single_choice",
+    "prompt": "What type of Flow Designer trigger should be used to start a flow when a Scheduled Task fires?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Record-based trigger on the sys_trigger table"
+      },
+      {
+        "id": "b",
+        "text": "Scheduled trigger with a defined repeat interval or cron expression"
+      },
+      {
+        "id": "c",
+        "text": "REST trigger called by the Scheduled Script Execution"
+      },
+      {
+        "id": "d",
+        "text": "Event trigger listening for a scheduled job event"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A Scheduled trigger in Flow Designer fires the flow on a recurring schedule defined by a time interval (every hour, daily, weekly) or a custom cron expression. This replaces the need for Scheduled Script Executions when the automation logic is better expressed as a flow. The scheduled trigger is the direct way to run a flow on a time-based schedule without requiring an external job to call it.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-031",
+    "type": "single_choice",
+    "prompt": "When using the Flow Designer REST trigger, how does an external system initiate the flow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "By sending an email to a ServiceNow email address associated with the flow"
+      },
+      {
+        "id": "b",
+        "text": "By inserting a record into the sys_hub_flow_trigger table via the Table API"
+      },
+      {
+        "id": "c",
+        "text": "By sending an HTTP POST request to the flow's generated REST endpoint URL"
+      },
+      {
+        "id": "d",
+        "text": "By calling a Scripted REST API that calls the flow's start() method"
+      }
+    ],
+    "correct": "c",
+    "explanation": "When a flow uses a REST trigger, Flow Designer generates a unique REST endpoint URL for that flow. External systems initiate the flow by sending an HTTP POST request to this endpoint with the expected payload. The payload data is available to the flow as trigger inputs. Authentication is required and the external system must have permission to trigger the endpoint.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-032",
+    "type": "single_choice",
+    "prompt": "What is the key difference between a 'Look Up Record' and 'Look Up Records' step in Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Look Up Record retrieves one record by sys_id; Look Up Records queries for multiple records by conditions"
+      },
+      {
+        "id": "b",
+        "text": "They are identical; the naming difference is cosmetic only"
+      },
+      {
+        "id": "c",
+        "text": "Look Up Record is faster but limited to 10 records; Look Up Records can handle any number"
+      },
+      {
+        "id": "d",
+        "text": "Look Up Record returns a single record; Look Up Records returns a list of matching records"
+      }
+    ],
+    "correct": "d",
+    "explanation": "In Flow Designer, 'Look Up Record' retrieves a single GlideRecord matching specified conditions and provides that one record's fields as data pills. 'Look Up Records' retrieves a list of all matching records, which can then be iterated over using a 'For Each' step. When only one record is expected, 'Look Up Record' is appropriate; when multiple records need processing, 'Look Up Records' is used.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-033",
+    "type": "single_choice",
+    "prompt": "What happens when a Flow Designer flow encounters an unhandled error during execution?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The flow execution is terminated and an error is logged to the flow execution log"
+      },
+      {
+        "id": "b",
+        "text": "The flow restarts from the beginning automatically"
+      },
+      {
+        "id": "c",
+        "text": "The flow pauses and sends an alert to the flow owner for manual intervention"
+      },
+      {
+        "id": "d",
+        "text": "The flow rolls back all database changes made by previous steps"
+      }
+    ],
+    "correct": "a",
+    "explanation": "When a Flow Designer flow encounters an unhandled error, the current flow execution is terminated and the error is recorded in the flow's execution log (viewable in Flow Designer > Executions). The error details, including which step failed and the error message, are captured for troubleshooting. Database changes made by steps before the error are not automatically rolled back unless explicit compensation logic is built into the flow.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-034",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a 'Subflow' in Flow Designer and when should it be used?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A subflow is a flow that runs inside another flow's transaction, sharing the same database context"
+      },
+      {
+        "id": "b",
+        "text": "A subflow is a reusable sequence of steps with defined inputs and outputs that can be called from multiple flows"
+      },
+      {
+        "id": "c",
+        "text": "A subflow is a simplified flow that can only contain one step"
+      },
+      {
+        "id": "d",
+        "text": "A subflow is a flow that automatically runs after the parent flow completes"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A Subflow is a reusable automation sequence with defined input parameters and output values that can be called from multiple flows or other subflows. Subflows promote the DRY principle \u2014 common logic (like 'notify manager' or 'create approval') is defined once as a subflow and reused across many flows. This simplifies maintenance: updating the subflow updates all flows that use it.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-035",
+    "type": "single_choice",
+    "prompt": "What does the 'Active' field on a Flow Designer flow control?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Whether the flow is currently executing a run"
+      },
+      {
+        "id": "b",
+        "text": "Whether the flow is visible in the Flow Designer editor"
+      },
+      {
+        "id": "c",
+        "text": "Whether the flow's trigger is enabled and will fire when conditions are met"
+      },
+      {
+        "id": "d",
+        "text": "Whether the flow has passed automated testing"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The 'Active' field on a Flow Designer flow controls whether the flow's trigger is enabled and will fire when trigger conditions are met. Setting a flow to inactive disables its trigger, preventing it from starting new executions while preserving the flow configuration. This allows developers to disable a flow temporarily without deleting it, useful during maintenance or troubleshooting.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-036",
+    "type": "single_choice",
+    "prompt": "How are Service Catalog item fulfillment flows associated with a catalog item?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "By naming the flow with the catalog item's sys_id"
+      },
+      {
+        "id": "b",
+        "text": "By adding the catalog item as a trigger condition on the flow"
+      },
+      {
+        "id": "c",
+        "text": "Flows are automatically discovered by the platform based on the catalog item's category"
+      },
+      {
+        "id": "d",
+        "text": "By configuring the Flow field on the catalog item record"
+      }
+    ],
+    "correct": "d",
+    "explanation": "A fulfillment flow is associated with a catalog item by setting the Flow field on the catalog item record to the desired flow. When a customer submits the catalog item, the platform automatically triggers the linked flow. The flow receives the submitted request (sc_req_item) as context and can access catalog variable values through the request item's variable data.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-037",
+    "type": "single_choice",
+    "prompt": "What is the Content Management System (CMS) in ServiceNow used for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Building and managing custom web portals and pages for external users or employees"
+      },
+      {
+        "id": "b",
+        "text": "Managing attachments and file content uploaded to records"
+      },
+      {
+        "id": "c",
+        "text": "Storing and versioning business rule scripts and other platform content"
+      },
+      {
+        "id": "d",
+        "text": "Managing the Knowledge Base article approval and publishing workflow"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Content Management System (CMS) in ServiceNow is used to build and manage custom web portals with pages, navigation, themes, and content blocks. It enables organizations to create branded self-service portals for employees or customers. CMS portals are built using portal pages, themes, and content components. Service Portal is the newer, more modern alternative to CMS.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-038",
+    "type": "single_choice",
+    "prompt": "In a Flow Designer 'Ask for Approval' step, what happens if all approvers reject?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The step times out and the flow continues to the next step"
+      },
+      {
+        "id": "b",
+        "text": "The flow branches to the 'Rejected' outcome, where specific logic for handling rejection can be defined"
+      },
+      {
+        "id": "c",
+        "text": "The flow terminates immediately and cannot be restarted"
+      },
+      {
+        "id": "d",
+        "text": "The approval request is escalated to the manager automatically"
+      }
+    ],
+    "correct": "b",
+    "explanation": "When approvers reject in a Flow Designer 'Ask for Approval' step, the flow follows the 'Rejected' outcome branch. Developers configure specific logic in this branch to handle rejection scenarios, such as sending rejection notifications, reverting record changes, or requesting clarification. The 'Approved' and 'Rejected' outcome branches allow different post-approval logic to be defined clearly.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-039",
+    "type": "single_choice",
+    "prompt": "What does the 'Run As' option 'System User' mean in Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The flow runs as the user who created it"
+      },
+      {
+        "id": "b",
+        "text": "The flow runs with the permissions of the last user who edited it"
+      },
+      {
+        "id": "c",
+        "text": "The flow runs with admin-level permissions, bypassing standard ACLs"
+      },
+      {
+        "id": "d",
+        "text": "The flow runs as a dedicated service account with configurable permissions"
+      }
+    ],
+    "correct": "c",
+    "explanation": "When a Flow Designer flow is set to 'Run As: System User', the flow executes with admin-level (system administrator) permissions, bypassing ACL restrictions. This is appropriate when the flow needs to read or write data that the triggering user might not have access to. However, it should be used carefully as it grants full data access and can bypass intended security controls.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-auto-040",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Inbound Email' trigger in Flow Designer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It fires when ServiceNow sends an outbound email successfully"
+      },
+      {
+        "id": "b",
+        "text": "It fires when an email notification fails to deliver"
+      },
+      {
+        "id": "c",
+        "text": "It fires when a user clicks an email link that contains a ServiceNow URL"
+      },
+      {
+        "id": "d",
+        "text": "It fires when an email matching specified criteria is received by ServiceNow's email account"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Inbound Email trigger in Flow Designer fires when an email matching specified criteria (such as subject line pattern, sender address, or target email account) is received by ServiceNow. The flow can then process the email content, extract information, create or update records, and send responses. This is the Flow Designer equivalent of the legacy Inbound Action mechanism for email-driven automation.",
+    "topics": [
+      "automation"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

@@ -1,0 +1,144 @@
+{
+  "topics": [
+    {
+      "id": "digital-strategy",
+      "label": "Digital Strategy",
+      "description": "Covers how organizations position themselves in a digitally disrupted landscape using frameworks such as PESTLE, Porter's Five Forces, and SWOT, and how they design digital business models including platforms, subscriptions, and data-as-a-service. Includes the CIO and CDO's role in aligning IT investment to enterprise strategy, managing innovation-stability trade-offs, and building ecosystem strategies through APIs and partner networks.",
+      "studyPointers": [
+        {
+          "label": "ITIL 4: Digital and IT Strategy publication overview",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader"
+        },
+        {
+          "label": "ITIL 4 Strategic Leader certification path",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader/itil-4-digital-and-it-strategy"
+        },
+        {
+          "label": "Platform Revolution: How Networked Markets Are Transforming the Economy (Parker, Van Alstyne, Choudary)",
+          "url": "https://www.platformrevolution.com"
+        },
+        {
+          "label": "Jobs to Be Done theory overview (Harvard Business Review)",
+          "url": "https://hbr.org/2016/09/know-your-customers-jobs-to-be-done"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Choosing a digital business model",
+          "prompt": "A board is asking the CIO to recommend which of three digital business model options to pursue over the next three years. What strategic analysis framework and evaluation criteria should guide the recommendation?",
+          "focus": "Use PESTLE and Porter's Five Forces to assess external context, SWOT to evaluate internal capability fit, then score options against criteria including revenue potential, time to market, and strategic alignment."
+        },
+        {
+          "title": "IT and enterprise strategy misalignment",
+          "prompt": "A CIO discovers that the company's IT strategy was written independently of the enterprise strategy and the two are diverging. What steps should the CIO take to restore strategic alignment without losing delivery momentum?",
+          "focus": "Establish a joint strategy review with business leadership, map IT capability investments to enterprise strategic objectives, and implement a governance cadence that syncs IT roadmap decisions to business planning cycles."
+        }
+      ]
+    },
+    {
+      "id": "governance-risk",
+      "label": "Governance and Risk",
+      "description": "Addresses the distinction between board-level governance and management execution, covering frameworks including COBIT and ISO 20000 in the context of digital services. Examines enterprise risk management concepts including risk appetite and tolerance, digital risk categories, regulatory compliance obligations such as GDPR and SOX, third-party and supply chain risk, and responsible AI governance in high-stakes automated decision-making scenarios.",
+      "studyPointers": [
+        {
+          "label": "COBIT 2019 Framework overview",
+          "url": "https://www.isaca.org/resources/cobit"
+        },
+        {
+          "label": "ITIL 4: Digital and IT Strategy governance guidance",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader"
+        },
+        {
+          "label": "ISO/IEC 20000-1:2018 Service Management System",
+          "url": "https://www.iso.org/standard/70636.html"
+        },
+        {
+          "label": "GDPR Article 22: Automated individual decision-making",
+          "url": "https://gdpr-info.eu/art-22-gdpr/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Governance of autonomous AI decisions",
+          "prompt": "The board is presented with a new AI-driven underwriting system that will make binding financial decisions without human review. What governance framework and specific control requirements should the CIO recommend before approving production deployment?",
+          "focus": "Apply GDPR Article 22 obligations for automated decision-making, establish a model risk committee, require explainability logging, define a human override process, and mandate bias audits at defined intervals."
+        },
+        {
+          "title": "Third-party supply chain risk after major outage",
+          "prompt": "Following a third-party supply chain incident that caused a 72-hour service outage, the CEO asks the CIO to present a revised third-party risk management strategy to the board. What elements must the strategy address?",
+          "focus": "The strategy must cover supplier tiering by criticality, contractual SLA and audit rights, concentration risk limits, exit and substitution plans, and joint resilience testing."
+        }
+      ]
+    },
+    {
+      "id": "organizational-direction",
+      "label": "Organizational Direction",
+      "description": "Examines how senior IT leaders set strategic direction through operating model design, objective frameworks such as OKRs and Balanced Scorecards, and portfolio management of digital initiatives. Covers capabilities versus resources in strategic planning, strategic workforce planning for digital skills, platform thinking and internal product management, and measuring value realization at the organizational level rather than at the project delivery level.",
+      "studyPointers": [
+        {
+          "label": "ITIL 4: Direct, Plan and Improve publication overview",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional"
+        },
+        {
+          "label": "ITIL 4: Digital and IT Strategy",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader"
+        },
+        {
+          "label": "Team Topologies: Organizing Business and Technology Teams for Fast Flow (Skelton, Pais)",
+          "url": "https://teamtopologies.com"
+        },
+        {
+          "label": "Balanced Scorecard Institute overview",
+          "url": "https://balancedscorecard.org/bsc-basics/what-is-a-balanced-scorecard/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Projects delivering scope but missing business benefits",
+          "prompt": "An executive review reveals that 70% of completed digital projects delivered their technical scope but missed projected business benefits. The CEO asks the CIO to redesign the investment governance process. What structural changes are required?",
+          "focus": "Shift from output-based approval gates to outcome-based benefit tracking. Require a benefit owner for each initiative, establish post-implementation reviews, and link portfolio prioritization to realized value rather than delivery completion."
+        },
+        {
+          "title": "Workforce capability strategy for a digital roadmap",
+          "prompt": "A CIO must present a workforce capability strategy to support a five-year digital roadmap that requires skills the organization does not currently possess at scale. How should the strategy balance build, buy, and borrow approaches?",
+          "focus": "Tier skills by strategic importance and lead time to develop. Use build for core differentiating capabilities, buy for scarce senior roles, and borrow (contractors/partners) for time-boxed specialist needs while internal capability matures."
+        }
+      ]
+    },
+    {
+      "id": "leading-change",
+      "label": "Leading Change",
+      "description": "Focuses on the knowledge and skills required to lead large-scale organizational change in digital transformation contexts. Covers change leadership frameworks including Kotter's 8 steps, McKinsey 7S, and Prosci ADKAR at organizational scale, stakeholder mapping and coalition building at executive level, managing resistance and political dynamics, communicating transformation vision, sustaining momentum through change fatigue, and embedding continual improvement as an organizational culture rather than a program.",
+      "studyPointers": [
+        {
+          "label": "ITIL 4: Direct, Plan and Improve publication overview",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional"
+        },
+        {
+          "label": "Kotter's 8-Step Change Model (Kotter Inc.)",
+          "url": "https://www.kotterinc.com/methodology/8-steps/"
+        },
+        {
+          "label": "Prosci ADKAR Model overview",
+          "url": "https://www.prosci.com/methodology/adkar"
+        },
+        {
+          "label": "McKinsey 7S Framework",
+          "url": "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/enduring-ideas-the-7-s-framework"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Regression after transformation progress",
+          "prompt": "Eighteen months into a digital transformation, a CIO observes that teams are reverting to previous ways of working after initial successes. Using a recognized change management framework, what diagnosis and remediation plan should the CIO present to the executive team?",
+          "focus": "Using Kotter's model, steps 7 and 8 (sustaining acceleration and anchoring changes in culture) were not completed. The remediation plan must reinforce new behaviors through recognition systems, leadership modeling, and revised performance metrics."
+        },
+        {
+          "title": "Differentiated stakeholder engagement",
+          "prompt": "A CIO has identified a high-power, skeptical CFO and a low-authority but highly influential informal network leader as key stakeholders in a cloud migration program. What differentiated engagement strategy should the CIO deploy for each?",
+          "focus": "For the CFO: present a financial case with NPV, risk reduction, and TCO evidence; schedule regular executive briefings. For the informal influencer: co-opt as a change champion, involve in design decisions early, and leverage their peer credibility to build grassroots support."
+        }
+      ]
+    }
+  ]
+}

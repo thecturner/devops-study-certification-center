@@ -1,0 +1,300 @@
+[
+  {
+    "id": "gcp-ace-ce-001",
+    "type": "single_choice",
+    "prompt": "Your organization is new to Google Cloud. The security team requires that all employees authenticate using the company's existing Active Directory identities and that Google Cloud access is managed centrally. Which Google Cloud service should you configure first?",
+    "choices": [
+      { "id": "a", "text": "Cloud Identity with SAML federation to Active Directory" },
+      { "id": "b", "text": "Firebase Authentication connected to Active Directory" },
+      { "id": "c", "text": "Google Workspace with password sync only" },
+      { "id": "d", "text": "Cloud IAP with LDAP direct bind" }
+    ],
+    "correct": "a",
+    "explanation": "Cloud Identity supports SAML 2.0 federation with existing identity providers like Active Directory, allowing employees to use their existing credentials while Google Cloud access is managed centrally. Firebase Authentication is designed for app end-users, not employee identity management. Google Workspace password sync does not provide SSO or centralized access control. Cloud IAP handles application-level access but is not an identity directory.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Identity overview", "url": "https://cloud.google.com/identity/docs/overview" },
+      { "label": "Federating Google Cloud with an external identity provider", "url": "https://cloud.google.com/architecture/identity/federating-gcp-with-active-directory-introduction" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-002",
+    "type": "single_choice",
+    "prompt": "A company wants to organize its Google Cloud resources so that the development, staging, and production workloads are completely isolated from each other in terms of billing, IAM policies, and network configuration. What is the recommended approach?",
+    "choices": [
+      { "id": "a", "text": "Create one project and use labels to distinguish workloads" },
+      { "id": "b", "text": "Create separate projects for each environment under a shared folder" },
+      { "id": "c", "text": "Use separate VPCs within a single project to isolate workloads" },
+      { "id": "d", "text": "Use billing sub-accounts to separate cost tracking within one project" }
+    ],
+    "correct": "b",
+    "explanation": "Projects are the fundamental isolation boundary in Google Cloud for billing, IAM, and networking. Placing each environment in its own project under a shared folder allows per-project IAM, separate billing, and independent network configurations, while the folder enables shared organizational policies. Labels within a single project do not provide IAM or network isolation. Separate VPCs still share the same project-level IAM and billing. Billing sub-accounts track cost but do not isolate IAM or network.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "GCP Resource Hierarchy", "url": "https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy" },
+      { "label": "Best practices for enterprise organizations", "url": "https://cloud.google.com/docs/enterprise/best-practices-for-enterprise-organizations" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-003",
+    "type": "single_choice",
+    "prompt": "You are setting up the gcloud CLI on a new developer workstation and need to authenticate with your personal Google account, set the default project to `my-project`, and set the default Compute Engine zone to `us-central1-a`. Which sequence of commands accomplishes this?",
+    "choices": [
+      { "id": "a", "text": "gcloud auth login → gcloud config set project my-project → gcloud config set compute/zone us-central1-a" },
+      { "id": "b", "text": "gcloud init → gcloud auth application-default login" },
+      { "id": "c", "text": "gcloud auth application-default login → gcloud config set project my-project" },
+      { "id": "d", "text": "gcloud login → gcloud set project my-project → gcloud set zone us-central1-a" }
+    ],
+    "correct": "a",
+    "explanation": "`gcloud auth login` authenticates as a user account, `gcloud config set project` sets the active project, and `gcloud config set compute/zone` sets the default zone. Option B uses `gcloud init` which is interactive and also sets application default credentials, which is a separate concern from user authentication. Option C uses application-default credentials intended for SDK libraries, not CLI user sessions. Option D uses invalid command syntax.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "gcloud CLI overview", "url": "https://cloud.google.com/sdk/gcloud" },
+      { "label": "gcloud config set", "url": "https://cloud.google.com/sdk/gcloud/reference/config/set" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-004",
+    "type": "single_choice",
+    "prompt": "Your organization has a hierarchy with an Organization node, two folders (Finance and Engineering), and multiple projects under each folder. You need to apply a policy that prevents any project in the entire organization from disabling audit logging. At which level should you apply this policy to minimize administrative overhead?",
+    "choices": [
+      { "id": "a", "text": "On each individual project" },
+      { "id": "b", "text": "On both the Finance and Engineering folders" },
+      { "id": "c", "text": "On the Organization node" },
+      { "id": "d", "text": "On the billing account" }
+    ],
+    "correct": "c",
+    "explanation": "Policies set at the Organization node are inherited by all folders and projects below it, providing the broadest coverage with a single configuration. Applying the policy per project requires repeated effort and is error-prone as new projects are added. Applying it to both folders would miss any projects created outside those folders and requires two configurations. Billing accounts do not control resource policies like audit logging.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "GCP Resource Hierarchy — policy inheritance", "url": "https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy#policy-inheritance" },
+      { "label": "Organization Policy Service", "url": "https://cloud.google.com/resource-manager/docs/organization-policy/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-005",
+    "type": "single_choice",
+    "prompt": "A developer on your team reports that their `gcloud compute instances create` commands are failing with a quota error for CPUs in `us-east1`. The team needs to provision 50 additional vCPUs in that region immediately. What is the correct way to address this?",
+    "choices": [
+      { "id": "a", "text": "Switch to a different region where CPU quota is available" },
+      { "id": "b", "text": "Request a quota increase for CPUs in us-east1 via the Google Cloud Console" },
+      { "id": "c", "text": "Create an additional GCP project to get a fresh quota allocation" },
+      { "id": "d", "text": "Upgrade the billing account to a higher tier to automatically increase quotas" }
+    ],
+    "correct": "b",
+    "explanation": "Quota increases are requested through the Google Cloud Console under IAM & Admin > Quotas, and Google typically processes requests quickly for standard quota increases. Switching regions may not satisfy the architectural requirement to run in us-east1. Creating a new project provides a separate quota but adds unnecessary organizational complexity. Billing account tier does not automatically grant higher quotas.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Quotas and limits", "url": "https://cloud.google.com/compute/quotas" },
+      { "label": "Requesting higher quota", "url": "https://cloud.google.com/docs/quota/view-manage" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-006",
+    "type": "single_choice",
+    "prompt": "Your company uses multiple departments, each with their own GCP projects. Finance requires a single invoice and the ability to set spending budgets across all departmental projects. Which billing configuration should you implement?",
+    "choices": [
+      { "id": "a", "text": "Link all projects to a single billing account and configure budget alerts on the billing account" },
+      { "id": "b", "text": "Create a separate billing account per project and export all billing data to BigQuery" },
+      { "id": "c", "text": "Use Cloud Billing sub-accounts, one per department, under a single master billing account" },
+      { "id": "d", "text": "Enable billing export on each project and aggregate in Looker Studio" }
+    ],
+    "correct": "a",
+    "explanation": "Linking all projects to one billing account produces a single invoice, and budget alerts can be scoped to the whole billing account or to individual projects. Sub-accounts (option C) are typically used by resellers, not by end organizations managing their own departments. Separate billing accounts (option B) produce separate invoices and require more administrative overhead. Billing export to BigQuery is useful for analysis but does not simplify invoicing or enable centralized budget controls.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Billing overview", "url": "https://cloud.google.com/billing/docs/how-to/billing-access" },
+      { "label": "Set budgets and budget alerts", "url": "https://cloud.google.com/billing/docs/how-to/budgets" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-007",
+    "type": "single_choice",
+    "prompt": "You need to manage multiple gcloud configurations on your workstation so you can switch quickly between a personal project and a work project, each requiring different accounts and default regions. Which gcloud feature should you use?",
+    "choices": [
+      { "id": "a", "text": "gcloud config groups" },
+      { "id": "b", "text": "gcloud auth switch" },
+      { "id": "c", "text": "gcloud config configurations" },
+      { "id": "d", "text": "gcloud profiles" }
+    ],
+    "correct": "c",
+    "explanation": "`gcloud config configurations` allows you to create named configurations (e.g., `work` and `personal`) each with their own account, project, and region settings. You activate a configuration with `gcloud config configurations activate <name>`. `gcloud config groups` and `gcloud profiles` are not valid gcloud commands. `gcloud auth switch` does not exist; switching accounts is done by activating a different configuration or running `gcloud config set account`.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Managing gcloud configurations", "url": "https://cloud.google.com/sdk/docs/configurations" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-008",
+    "type": "single_choice",
+    "prompt": "An auditor asks you to demonstrate which GCP services are enabled in a project and which APIs were enabled or disabled in the last 30 days, without logging into the Google Cloud Console directly. Which command provides this information?",
+    "choices": [
+      { "id": "a", "text": "gcloud services list --enabled" },
+      { "id": "b", "text": "gcloud projects describe PROJECT_ID" },
+      { "id": "c", "text": "gcloud logging read 'resource.type=audited_resource' --limit=100" },
+      { "id": "d", "text": "gcloud iam audit-configs list --project PROJECT_ID" }
+    ],
+    "correct": "a",
+    "explanation": "`gcloud services list --enabled` lists all currently enabled APIs and services in the active project. To see changes over the past 30 days, you would additionally query Admin Activity audit logs via Cloud Logging, but for a point-in-time view of enabled services, this is the correct command. `gcloud projects describe` shows project metadata but not enabled services. The logging command shown uses an imprecise filter and is not the direct service-listing tool. `gcloud iam audit-configs list` shows audit log configuration, not enabled services.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Listing services", "url": "https://cloud.google.com/sdk/gcloud/reference/services/list" },
+      { "label": "Service Usage overview", "url": "https://cloud.google.com/service-usage/docs/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-009",
+    "type": "single_choice",
+    "prompt": "Your organization administrator wants to ensure that newly created GCP projects are automatically placed in the correct folder based on their purpose, and that default IAM bindings are applied at creation time. Which approach best achieves this?",
+    "choices": [
+      { "id": "a", "text": "Use organization policies to enforce folder placement on project creation" },
+      { "id": "b", "text": "Configure a project factory using Terraform and enforce it through a CI/CD pipeline" },
+      { "id": "c", "text": "Manually move projects to the correct folder after creation using the Cloud Console" },
+      { "id": "d", "text": "Set default IAM bindings using Cloud Identity group membership rules" }
+    ],
+    "correct": "b",
+    "explanation": "A project factory implemented in Terraform and enforced through a CI/CD pipeline automates folder placement, IAM bindings, and API enablement consistently for every new project. Organization policies can restrict where projects can be created but do not automatically assign folders or IAM bindings. Manual moves are error-prone and do not scale. Cloud Identity group membership controls group-level access but does not automate project folder placement or per-project IAM bindings.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "GCP Project Factory example", "url": "https://cloud.google.com/resource-manager/docs/creating-managing-projects" },
+      { "label": "Terraform on Google Cloud", "url": "https://cloud.google.com/docs/terraform" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-010",
+    "type": "single_choice",
+    "prompt": "You need to install the Google Cloud SDK on a new Linux server that does not have internet access from a browser. Which installation method is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Download and run the interactive installer from dl.google.com using curl, then run gcloud init" },
+      { "id": "b", "text": "Install via snap: sudo snap install google-cloud-cli" },
+      { "id": "c", "text": "Clone the gcloud source from GitHub and compile locally" },
+      { "id": "d", "text": "Use apt or yum to install from the Cloud SDK package repository" }
+    ],
+    "correct": "d",
+    "explanation": "Google provides official apt (Debian/Ubuntu) and yum (RHEL/CentOS) repositories for the Cloud SDK, which is the recommended approach for Linux servers managed by a package manager. The curl-based installer also works but is less suitable for servers managed by configuration management tools. Snap is available but less commonly used in server environments and may not be available on all distributions. The Cloud SDK is not open-source; the source is not available on GitHub for compilation.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Install the gcloud CLI on Linux", "url": "https://cloud.google.com/sdk/docs/install#linux" },
+      { "label": "Cloud SDK package repository", "url": "https://cloud.google.com/sdk/docs/install#rpm_package" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-011",
+    "type": "single_choice",
+    "prompt": "A newly hired engineer needs read-only access to view billing reports for the entire organization but should not be able to modify any resources or billing settings. Which predefined role should you grant at the billing account level?",
+    "choices": [
+      { "id": "a", "text": "roles/billing.admin" },
+      { "id": "b", "text": "roles/billing.viewer" },
+      { "id": "c", "text": "roles/viewer" },
+      { "id": "d", "text": "roles/billing.projectManager" }
+    ],
+    "correct": "b",
+    "explanation": "`roles/billing.viewer` grants read-only access to billing account information and reports without any ability to modify billing settings or link/unlink projects. `roles/billing.admin` grants full control including the ability to modify billing settings. `roles/viewer` is a project-level primitive role and does not grant access to billing account data. `roles/billing.projectManager` allows linking/unlinking projects to billing accounts, which exceeds the requirement.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Billing access control", "url": "https://cloud.google.com/billing/docs/how-to/billing-access" },
+      { "label": "Billing IAM roles", "url": "https://cloud.google.com/billing/docs/how-to/billing-access#overview-of-cloud-billing-roles-in-cloud-iam" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-012",
+    "type": "single_choice",
+    "prompt": "Your team is working in Cloud Shell and needs to run a script that provisions several GCP resources across multiple projects. The script will run unattended. Which credential type should the script use?",
+    "choices": [
+      { "id": "a", "text": "User credentials obtained via gcloud auth login" },
+      { "id": "b", "text": "API key generated in the Cloud Console" },
+      { "id": "c", "text": "Application Default Credentials from a service account key file" },
+      { "id": "d", "text": "OAuth 2.0 client ID and secret for a web application" }
+    ],
+    "correct": "c",
+    "explanation": "Service accounts are designed for application and script authentication. Using Application Default Credentials (ADC) with a service account key file allows the script to authenticate without human interaction. User credentials from `gcloud auth login` are tied to a human user and are not appropriate for unattended scripts. API keys are not supported for most GCP resource management APIs. OAuth 2.0 client IDs are for applications that act on behalf of end users, not for server-to-server automation.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Application Default Credentials", "url": "https://cloud.google.com/docs/authentication/application-default-credentials" },
+      { "label": "Service accounts overview", "url": "https://cloud.google.com/iam/docs/service-account-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-013",
+    "type": "single_choice",
+    "prompt": "You need to view all current IAM policy bindings at the organization level, including inherited policies, using the gcloud CLI. Which command is correct?",
+    "choices": [
+      { "id": "a", "text": "gcloud organizations get-iam-policy ORGANIZATION_ID" },
+      { "id": "b", "text": "gcloud iam policies list --organization ORGANIZATION_ID" },
+      { "id": "c", "text": "gcloud projects get-iam-policy --organization ORGANIZATION_ID" },
+      { "id": "d", "text": "gcloud resource-manager org-policies list --organization ORGANIZATION_ID" }
+    ],
+    "correct": "a",
+    "explanation": "`gcloud organizations get-iam-policy ORGANIZATION_ID` retrieves the IAM policy bound directly to the organization resource. This is the correct command for viewing organization-level IAM bindings. `gcloud iam policies list` lists deny policies, not IAM bindings. `gcloud projects get-iam-policy` operates at the project level and does not accept an `--organization` flag. `gcloud resource-manager org-policies list` lists organization constraint policies, not IAM role bindings.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "gcloud organizations get-iam-policy", "url": "https://cloud.google.com/sdk/gcloud/reference/organizations/get-iam-policy" },
+      { "label": "Viewing IAM policies", "url": "https://cloud.google.com/iam/docs/managing-policies" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-014",
+    "type": "single_choice",
+    "prompt": "Your organization recently acquired a startup. The startup has an existing Google Cloud organization with several projects. You need to move those projects into your main organization's resource hierarchy with minimal disruption. What is the correct approach?",
+    "choices": [
+      { "id": "a", "text": "Export all resources using Deployment Manager and import them into the new organization" },
+      { "id": "b", "text": "Migrate the projects using the Cloud Console or gcloud beta projects move command" },
+      { "id": "c", "text": "Delete the projects and recreate them under the new organization" },
+      { "id": "d", "text": "Transfer billing account ownership and the projects migrate automatically" }
+    ],
+    "correct": "b",
+    "explanation": "Google Cloud supports migrating projects between organizations using the Cloud Console or the `gcloud beta projects move` command. This preserves all resources within the project during the migration. Exporting and recreating resources is error-prone, disruptive, and loses resource history. Deleting and recreating projects results in downtime and data loss. Transferring billing account ownership does not move a project between organizations.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Migrating projects between organizations", "url": "https://cloud.google.com/resource-manager/docs/project-migration" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-ce-015",
+    "type": "single_choice",
+    "prompt": "A project owner notices that a team has been using far more Compute Engine vCPUs than expected. They want to be notified automatically if spending in the project exceeds $5,000 in any given month. Which combination of GCP features accomplishes this?",
+    "choices": [
+      { "id": "a", "text": "Cloud Monitoring alert policy on the compute.googleapis.com/instance/uptime metric" },
+      { "id": "b", "text": "Cloud Billing budget with an email alert threshold set at 100% of $5,000" },
+      { "id": "c", "text": "Cloud Asset Inventory export to BigQuery with a scheduled query" },
+      { "id": "d", "text": "Billing export to BigQuery with a Looker Studio dashboard alert" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Billing budgets let you set a monthly budget amount and configure alert thresholds (e.g., 50%, 90%, 100%) that trigger email notifications or Pub/Sub messages when spending reaches those levels. A Monitoring alert on uptime metrics measures availability, not cost. Cloud Asset Inventory and BigQuery scheduled queries can track spending but require significant setup and do not provide real-time alerting as easily. Looker Studio does not have native alerting; it would require additional pipeline configuration.",
+    "topics": ["cloud-solution-environment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Set budgets and budget alerts", "url": "https://cloud.google.com/billing/docs/how-to/budgets" },
+      { "label": "Programmatic budget notifications", "url": "https://cloud.google.com/billing/docs/how-to/budgets-programmatic-notifications" }
+    ],
+    "version": 1
+  }
+]

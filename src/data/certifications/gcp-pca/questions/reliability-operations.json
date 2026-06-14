@@ -1,0 +1,302 @@
+[
+  {
+    "id": "gcp-pca-ro-001",
+    "type": "single_choice",
+    "prompt": "An SRE team defines an SLI for their search API as: the proportion of search requests that return a valid response in under 500ms, measured over a rolling 28-day window. Their SLO is 99.5%. Over the past 28 days, they have consumed 85% of their error budget. The development team wants to ship a risky new feature. What is the appropriate SRE response based on error budget policy?",
+    "choices": [
+      { "id": "a", "text": "Block the feature deployment; the error budget is too depleted to accept additional reliability risk" },
+      { "id": "b", "text": "Proceed with the deployment; 15% of the error budget remains and that is sufficient for a single feature release" },
+      { "id": "c", "text": "Require the development team to improve the SLO target from 99.5% to 99.9% before the feature can be deployed" },
+      { "id": "d", "text": "Suspend SLO measurement for 7 days to allow the error budget to reset, then deploy the feature" }
+    ],
+    "correct": "a",
+    "explanation": "At 85% error budget consumption, the team has consumed most of its reliability buffer for the 28-day window. SRE error budget policy typically specifies that once budget consumption crosses a threshold (commonly 50-75% or higher), new feature work is paused in favour of reliability investment. Proceeding with a risky feature at 85% consumption risks breaching the SLO, which would damage customer trust and trigger SLA penalties. Raising the SLO target increases the reliability requirement and is counterproductive when the current target is already under stress. SLO measurement windows cannot be suspended; they are continuous measurement instruments, not resettable timers.",
+    "topics": ["reliability-operations"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "SRE: Error Budgets", "url": "https://cloud.google.com/blog/products/management-tools/sre-error-budgets-and-their-role-in-the-sre-practice" },
+      { "label": "Cloud Monitoring: SLOs", "url": "https://cloud.google.com/monitoring/slo-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-002",
+    "type": "single_choice",
+    "prompt": "A team is designing SLIs for a Cloud Run-based payment processing service. They want to measure availability from the user's perspective, not just whether the service is running. Which SLI definition best captures user-perceived availability?",
+    "choices": [
+      { "id": "a", "text": "The percentage of time the Cloud Run service has at least one active instance with CPU utilisation below 80%" },
+      { "id": "b", "text": "The ratio of successful payment transactions (HTTP 200 responses) to total payment attempts over a rolling time window" },
+      { "id": "c", "text": "The average response time of the payment service measured by a Cloud Monitoring synthetic monitor" },
+      { "id": "d", "text": "The uptime percentage reported by the Cloud Run health check endpoint returning HTTP 200" }
+    ],
+    "correct": "b",
+    "explanation": "A request-success-rate SLI measures the proportion of user-initiated requests that succeed, which directly captures user experience. A payment service that processes 200 requests/second but fails 10% of them is highly unavailable from the user's perspective, even if the service is running and the health check returns 200. Instance count and CPU utilisation are infrastructure metrics that do not reflect whether users can complete transactions. Average response time is a latency SLI, not an availability SLI. Health check uptime measures whether the service can respond to a synthetic probe, not whether it can process real transactions with business-logic correctness.",
+    "topics": ["reliability-operations"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "SRE: SLI, SLO, SLA Overview", "url": "https://cloud.google.com/blog/products/management-tools/practical-guide-to-setting-slos" },
+      { "label": "Cloud Monitoring: SLO Monitoring", "url": "https://cloud.google.com/monitoring/slo-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-003",
+    "type": "single_choice",
+    "prompt": "A GKE-based application experiences memory pressure during traffic spikes, causing OOMKilled pod restarts. The team wants to automatically right-size container memory requests based on actual usage patterns without manual tuning or pod restarts during business hours. Which GKE feature best addresses this?",
+    "choices": [
+      { "id": "a", "text": "Horizontal Pod Autoscaler (HPA) with memory utilisation as the scaling metric to add pods instead of increasing per-pod memory" },
+      { "id": "b", "text": "Vertical Pod Autoscaler (VPA) in Recommendation-only mode to observe usage and suggest requests, combined with a maintenance-window-based update cycle to apply recommendations during off-peak hours" },
+      { "id": "c", "text": "VPA in Auto mode to automatically update resource requests in real time, restarting pods as needed to apply new values" },
+      { "id": "d", "text": "Set resource limits to 10x the requested values so containers can burst without OOMKill" }
+    ],
+    "correct": "b",
+    "explanation": "VPA in Recommendation-only mode analyses historical resource usage and generates recommendations without making any changes, satisfying the no-restarts-during-business-hours requirement. The team can review recommendations and apply them during maintenance windows by updating the deployment resource requests. VPA in Auto mode restarts pods to apply new resource values, which violates the no-restarts-during-business-hours constraint. HPA adds replica instances rather than increasing per-pod memory allocation; if the application is OOMKilled due to a single-thread memory spike, more replicas do not help. Setting limits to 10x requests wastes cluster capacity and does not address the root cause of under-specified requests.",
+    "topics": ["reliability-operations"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "GKE: Vertical Pod Autoscaler", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/verticalpodautoscaler" },
+      { "label": "GKE: VPA Modes", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/vertical-pod-autoscaling" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-004",
+    "type": "single_choice",
+    "prompt": "A company runs a microservices application on GKE. An SRE investigates a latency spike and needs to trace a specific slow request across 12 services, identifying which service introduced the latency. Each service is a separate Cloud Run or GKE deployment. Which GCP observability tool provides end-to-end request tracing across all services without code changes to each service?",
+    "choices": [
+      { "id": "a", "text": "Cloud Logging with structured log correlation using a common request-id field manually added to each service's logs" },
+      { "id": "b", "text": "Cloud Trace with automatic trace context propagation via the Cloud Service Mesh (Istio) sidecar, which injects and propagates trace headers for all service-to-service calls" },
+      { "id": "c", "text": "Cloud Profiler running on each service to capture CPU flame graphs for the specific slow request" },
+      { "id": "d", "text": "Cloud Monitoring with a custom dashboard displaying per-service latency percentiles across the P50, P95, and P99 metrics" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Service Mesh (managed Istio) with Cloud Trace integration automatically propagates trace context headers (B3 or W3C TraceContext) across all service-to-service calls via the Envoy sidecar proxy, without requiring code changes. Cloud Trace then assembles the spans from all services into a single end-to-end trace waterfall. Log correlation with a request-id requires manual instrumentation in each service. Cloud Profiler captures continuous CPU samples and cannot reconstruct a single request's cross-service execution path. Cloud Monitoring latency percentiles show aggregate behaviour, not individual request traces.",
+    "topics": ["reliability-operations"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Trace Overview", "url": "https://cloud.google.com/trace/docs/overview" },
+      { "label": "Cloud Service Mesh: Distributed Tracing", "url": "https://cloud.google.com/service-mesh/docs/observability/access-cloud-trace" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-005",
+    "type": "single_choice",
+    "prompt": "A team configures a Cloud Monitoring alert to notify when their GKE cluster's average CPU utilisation exceeds 80% for 5 consecutive minutes. They want to minimise false positives from transient spikes while ensuring they are alerted before the cluster becomes resource-constrained. The cluster handles bursty workloads lasting 2-3 minutes. Which alerting configuration best balances sensitivity and false-positive reduction?",
+    "choices": [
+      { "id": "a", "text": "Alert when CPU exceeds 80% for 1 consecutive minute to catch issues as early as possible" },
+      { "id": "b", "text": "Alert when CPU exceeds 80% for 10 consecutive minutes; this ensures only sustained high utilisation triggers an alert" },
+      { "id": "c", "text": "Alert when CPU exceeds 80% for 5 minutes using a rolling average (MQL alignment window), filtering out sub-2-minute transient spikes" },
+      { "id": "d", "text": "Set separate alerts for P50 and P95 CPU utilisation percentiles, alerting when P95 exceeds 80% for 3 consecutive minutes" }
+    ],
+    "correct": "c",
+    "explanation": "Using a 5-minute rolling average alignment window in Cloud Monitoring's Monitoring Query Language (MQL) smooths out transient spikes (which the team knows last 2-3 minutes) while still detecting genuine sustained high utilisation that requires action. The average must remain above 80% for the full 5-minute window, meaning a 2-3 minute burst will lower the average below the threshold. A 1-minute threshold generates many false positives from the known bursty workload. A 10-minute threshold may delay notification until the cluster is already resource-constrained and pods are being throttled or evicted. Per-percentile CPU alerts are uncommon in Cloud Monitoring for cluster-level CPU; percentile alerting is more typical for request latency.",
+    "topics": ["reliability-operations"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Monitoring: Alerting Policies", "url": "https://cloud.google.com/monitoring/alerts/concepts-indepth" },
+      { "label": "Cloud Monitoring: MQL Alignment", "url": "https://cloud.google.com/monitoring/mql/reference#time-series-alignment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-006",
+    "type": "single_choice",
+    "prompt": "An SRE team wants to set up burn rate alerting for their payment API SLO (99.9% availability, 30-day rolling window). They want to be paged urgently when the error budget will be exhausted in less than 1 hour at the current burn rate, and receive a non-urgent notification when the budget will be exhausted in less than 5 days. Which burn rate thresholds should they configure?",
+    "choices": [
+      { "id": "a", "text": "Urgent page at burn rate > 1.0; non-urgent alert at burn rate > 0.1" },
+      { "id": "b", "text": "Urgent page at burn rate > 720 (30 days x 24 hours); non-urgent alert at burn rate > 6 (30 days / 5 days)" },
+      { "id": "c", "text": "Urgent page at burn rate > 1%; non-urgent alert at burn rate > 0.1%" },
+      { "id": "d", "text": "Urgent page when 1-hour error rate > 0.1%; non-urgent alert when 24-hour error rate > 0.01%" }
+    ],
+    "correct": "b",
+    "explanation": "Burn rate is measured relative to the SLO. A burn rate of 1.0 means you are consuming the error budget at exactly the rate that will exhaust it by window end. To exhaust the budget in 1 hour from a 30-day (720-hour) window, the burn rate must be 720x (burning in 1 hour what should last 720 hours). For exhaustion in 5 days (120 hours) from 720 hours, the burn rate is 6x. These are the standard Google SRE multiwindow alert thresholds. Burn rate > 1.0 means you will breach the SLO by window end but does not indicate imminent exhaustion within 1 hour. Percentage error rates do not translate directly to burn rate relative to an SLO budget without accounting for the window length.",
+    "topics": ["reliability-operations"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "SRE Workbook: Alerting on SLOs", "url": "https://sre.google/workbook/alerting-on-slos/" },
+      { "label": "Cloud Monitoring: Burn Rate Alerting", "url": "https://cloud.google.com/monitoring/slo-overview#burn-rate" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-007",
+    "type": "single_choice",
+    "prompt": "A company's Cloud Run service receives unpredictable traffic bursts that cause the first request to a cold instance to take 8 seconds (cold start latency), violating their 2-second P99 latency SLO. The service processes only 1,000 requests per day on average. Minimising cost is important. Which configuration most cost-effectively reduces cold start impact?",
+    "choices": [
+      { "id": "a", "text": "Set min-instances to 10 to always have warm capacity available" },
+      { "id": "b", "text": "Set min-instances to 2 and enable CPU always-allocated so instances stay warm between requests; the 2-instance floor handles moderate bursts" },
+      { "id": "c", "text": "Switch to a Cloud Run job on a fixed schedule to pre-warm instances before expected traffic" },
+      { "id": "d", "text": "Migrate to GKE with 3 dedicated minimum replicas behind a Kubernetes HPA to eliminate cold starts" }
+    ],
+    "correct": "b",
+    "explanation": "Setting min-instances to 2 keeps two warm instances ready to handle incoming requests without cold starts, addressing the P99 latency violation for moderate bursts. CPU always-allocated ensures the instances stay responsive between requests (without it, CPU is throttled to near-zero between requests, potentially adding startup delay on the first request after an idle period). With only 1,000 requests/day, keeping 2 warm instances is far cheaper than 10. Cloud Run jobs are for batch execution, not serving request traffic. Migrating to GKE with dedicated replicas is significantly more expensive for a 1,000-request/day workload and adds operational overhead.",
+    "topics": ["reliability-operations"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Run: Min Instances", "url": "https://cloud.google.com/run/docs/configuring/min-instances" },
+      { "label": "Cloud Run: CPU Allocation", "url": "https://cloud.google.com/run/docs/configuring/cpu-allocation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-008",
+    "type": "single_choice",
+    "prompt": "A team uses Cloud Logging for their GKE workloads. After a production incident, they discover that critical error logs were mixed with thousands of debug-level logs, making it difficult to isolate the root cause. They want to route only ERROR and CRITICAL severity logs from production GKE pods to a dedicated log bucket with a longer retention period, while keeping DEBUG logs in the default bucket with standard retention. Which Cloud Logging feature achieves this routing?",
+    "choices": [
+      { "id": "a", "text": "Configure application code to write to separate log names based on severity, then create separate sinks per log name" },
+      { "id": "b", "text": "Create a Cloud Logging sink with a filter `severity >= ERROR AND resource.labels.cluster_name = 'production'` routing to a dedicated log bucket with custom retention" },
+      { "id": "c", "text": "Enable Log Severity Filters in the Cloud Console log viewer to show only ERROR logs during incident investigation" },
+      { "id": "d", "text": "Use Cloud Monitoring log-based metrics to count ERROR logs and create a dashboard, then archive full logs to Cloud Storage" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Logging sinks support inclusion filters using the same query syntax as Log Explorer. A sink with `severity >= ERROR AND resource.labels.cluster_name = 'production'` will route all ERROR and CRITICAL logs from the production cluster to a dedicated log bucket where custom retention can be configured (up to 10 years). The default _Default bucket continues to receive all logs including DEBUG. Modifying application code to write to different log names adds overhead and inconsistency. Log viewer filters are a UI-only view setting and do not change routing or retention. Log-based metrics count log occurrences for alerting; they do not route or store logs in separate buckets.",
+    "topics": ["reliability-operations"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Logging: Log Sinks", "url": "https://cloud.google.com/logging/docs/export/configure_export_v2" },
+      { "label": "Cloud Logging: Log Buckets", "url": "https://cloud.google.com/logging/docs/buckets" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-009",
+    "type": "single_choice",
+    "prompt": "A company's GKE application processes user-uploaded files via a queue. During peak hours, the queue depth grows from 100 to 50,000 messages in Cloud Pub/Sub. The file processing pods take 5 seconds per file. They want to scale pods based on Pub/Sub queue depth, not CPU, to process messages at a constant rate. Which GKE autoscaling mechanism supports scaling based on a Pub/Sub subscription message count?",
+    "choices": [
+      { "id": "a", "text": "Horizontal Pod Autoscaler (HPA) with the Pub/Sub subscription's `num_undelivered_messages` metric via Cloud Monitoring external metrics" },
+      { "id": "b", "text": "Cluster Autoscaler watching Pub/Sub queue depth and adding nodes when the backlog exceeds a threshold" },
+      { "id": "c", "text": "Vertical Pod Autoscaler (VPA) increasing CPU and memory requests so pods process files faster as queue depth grows" },
+      { "id": "d", "text": "GKE Autopilot's built-in queue-depth autoscaling that integrates natively with Cloud Pub/Sub" }
+    ],
+    "correct": "a",
+    "explanation": "HPA supports scaling based on external metrics, including Cloud Monitoring metrics. The Pub/Sub subscription metric `pubsub.googleapis.com/subscription/num_undelivered_messages` can be configured as an HPA external metric source. HPA will scale pod replicas to maintain a target messages-per-pod ratio, enabling queue-depth-based autoscaling. Cluster Autoscaler adds and removes nodes based on pending pods, not directly based on Pub/Sub metrics; it works in conjunction with HPA but does not observe Pub/Sub independently. VPA adjusts resource requests and limits for individual pods; it cannot make pods process files faster unless they are CPU-bound. GKE Autopilot does not have a built-in Pub/Sub queue-depth autoscaler; it relies on the same HPA mechanism.",
+    "topics": ["reliability-operations"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "GKE: HPA with External Metrics", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler#external-metrics" },
+      { "label": "GKE: Scaling with Pub/Sub", "url": "https://cloud.google.com/kubernetes-engine/docs/tutorials/autoscaling-metrics#pubsub" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-010",
+    "type": "single_choice",
+    "prompt": "A team performs a post-incident review after a 45-minute outage caused by a bad configuration deployment. The deployment went from code commit to production in 8 minutes with no automated testing. They want to implement a safer deployment pipeline for configuration changes on Cloud Run. Which set of pipeline controls most directly addresses the root cause?",
+    "choices": [
+      { "id": "a", "text": "Add a manual approval gate in Cloud Build that requires a team lead to approve the deployment before it reaches production" },
+      { "id": "b", "text": "Implement gradual traffic splitting: deploy to a canary Cloud Run revision at 5% traffic, run automated smoke tests and SLO checks for 10 minutes, then promote to 100% or roll back" },
+      { "id": "c", "text": "Require all configuration changes to be reviewed in a pull request by two reviewers before merging" },
+      { "id": "d", "text": "Increase the Cloud Build pipeline timeout from 8 minutes to 30 minutes to allow more time for manual verification" }
+    ],
+    "correct": "b",
+    "explanation": "The root cause was a bad configuration reaching 100% of production instantly with no validation. Canary deployment with automated SLO checks addresses this directly: the bad configuration would affect only 5% of traffic, automated tests would detect the degraded SLO within 10 minutes, and an automatic rollback would limit the blast radius to a fraction of the actual 45-minute outage. Manual approval gates (option A) slow the pipeline but rely on humans to catch configuration errors that may only manifest under production load. PR reviews (option C) improve change quality but do not catch runtime configuration errors. Increasing timeout (option D) does not add any validation.",
+    "topics": ["reliability-operations"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Run: Traffic Splitting", "url": "https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration" },
+      { "label": "Cloud Deploy: Canary Deployments", "url": "https://cloud.google.com/deploy/docs/deployment-strategies/canary" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-011",
+    "type": "single_choice",
+    "prompt": "A company uses Cloud Tasks to handle asynchronous job processing with Cloud Run workers. Occasionally, workers crash mid-task, leaving tasks in a processing state. The team wants tasks to be retried automatically with exponential backoff if a worker fails to acknowledge the task within 30 seconds. Which Cloud Tasks configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Set the task's `dispatchDeadline` to 30 seconds; Cloud Tasks will retry automatically with exponential backoff if no acknowledgement is received within this window" },
+      { "id": "b", "text": "Configure the Cloud Run worker to call the Cloud Tasks API to reset the task visibility timeout every 25 seconds to prevent retry" },
+      { "id": "c", "text": "Use Pub/Sub instead of Cloud Tasks, with acknowledgement deadline set to 30 seconds and a dead-letter topic for failed messages" },
+      { "id": "d", "text": "Set `maxAttempts` to 10 in the Cloud Tasks queue configuration; tasks will be retried 10 times regardless of the acknowledgement window" }
+    ],
+    "correct": "a",
+    "explanation": "Cloud Tasks' `dispatchDeadline` defines the maximum time the worker has to process a task and return a success response (2xx). If the deadline is exceeded (worker crash or timeout), Cloud Tasks automatically retries the task according to the queue's retry configuration, which supports exponential backoff via `minBackoff`, `maxBackoff`, and `maxDoublings` settings. Option B describes manually extending a lease, which is a Pub/Sub pattern not applicable to Cloud Tasks (Cloud Tasks does not have visibility timeout extension). Using Pub/Sub is a valid alternative but is a different service and architectural change. `maxAttempts` controls how many times a task is retried but must be combined with `dispatchDeadline` to define when a single attempt is considered failed.",
+    "topics": ["reliability-operations"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud Tasks: Retry Configuration", "url": "https://cloud.google.com/tasks/docs/configuring-queues#retry" },
+      { "label": "Cloud Tasks: Dispatch Deadline", "url": "https://cloud.google.com/tasks/docs/reference/rest/v2/projects.locations.queues.tasks#Task" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-012",
+    "type": "single_choice",
+    "prompt": "A team discovers through Cloud Profiler that their Go-based API service is spending 40% of CPU cycles on JSON serialisation. The service runs on Cloud Run and handles 10,000 requests per second. Reducing serialisation overhead would directly improve latency and reduce compute costs. Which approach is most effective for reducing JSON serialisation CPU cost in a Cloud Run context?",
+    "choices": [
+      { "id": "a", "text": "Increase Cloud Run instance CPU allocation from 1 to 4 vCPUs to process serialisation faster" },
+      { "id": "b", "text": "Switch the API serialisation format from JSON to Protocol Buffers (protobuf) for internal service-to-service calls, reducing serialisation CPU by 5-10x" },
+      { "id": "c", "text": "Add Cloud CDN in front of Cloud Run to cache API responses and eliminate serialisation for repeated identical requests" },
+      { "id": "d", "text": "Use Cloud Memorystore to cache serialised JSON responses keyed by request parameters, serving cached responses without re-serialising" }
+    ],
+    "correct": "b",
+    "explanation": "Protocol Buffers are a binary serialisation format that is 5-10x faster to serialise and deserialise than JSON for most payload types, directly reducing the 40% CPU overhead identified by Cloud Profiler. For internal service-to-service calls where both sides can use protobuf, this is the highest-impact change with no loss of expressiveness. Increasing vCPUs adds cost and allows more parallelism but does not reduce the CPU cost of each serialisation operation. Cloud CDN caching helps for read-heavy, cacheable responses but does not apply to dynamic, user-specific API calls. Memorystore caching can reduce serialisation for repeated identical requests but adds cache management complexity and network latency on cache misses; it does not address the 40% CPU cost for requests that must be processed.",
+    "topics": ["reliability-operations"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud Profiler Overview", "url": "https://cloud.google.com/profiler/docs/about-profiler" },
+      { "label": "Protocol Buffers: Performance Guide", "url": "https://protobuf.dev/programming-guides/techniques/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-013",
+    "type": "single_choice",
+    "prompt": "A company wants to implement structured logging in their Cloud Run service to enable efficient log querying in Cloud Logging. They write logs in JSON format to stdout. During an incident, the on-call engineer needs to query all logs for a specific `user_id` field across a 6-hour window in under 3 seconds. Which structured logging practice makes this query performant in Cloud Logging?",
+    "choices": [
+      { "id": "a", "text": "Write logs to a file on the Cloud Run instance filesystem and use Cloud Logging agent to ship them to a BigQuery table with a user_id column" },
+      { "id": "b", "text": "Include `user_id` as a JSON field in the log payload; Cloud Logging indexes the `jsonPayload` fields automatically, enabling fast field-based queries in Log Explorer" },
+      { "id": "c", "text": "Prefix every log message with `USER_ID=<value>` in the textPayload field and use regex queries in Log Explorer to filter by user" },
+      { "id": "d", "text": "Write a log-based metric that counts log entries per user_id and query the metric in Cloud Monitoring for the 6-hour window" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Logging automatically indexes the fields in `jsonPayload` for structured log entries written as JSON to stdout. Queries like `jsonPayload.user_id = 'u123'` execute against the index and return results in seconds even over a 6-hour window with millions of log entries. Cloud Run automatically detects JSON stdout output and sets the payload type to `jsonPayload`. Writing to a filesystem and shipping to BigQuery adds latency and complexity. Regex queries on `textPayload` do not use indexed fields and perform full-text scans that are significantly slower on large log volumes. Log-based metrics aggregate counts and cannot retrieve individual log entries for incident investigation.",
+    "topics": ["reliability-operations"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Logging: Structured Logging", "url": "https://cloud.google.com/logging/docs/structured-logging" },
+      { "label": "Cloud Run: Structured Logs", "url": "https://cloud.google.com/run/docs/logging#structured-logging" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-014",
+    "type": "single_choice",
+    "prompt": "A team wants to use Cloud Scheduler to trigger a Cloud Run job every night at 2:00 AM UTC to process daily reports. The job takes between 45 minutes and 3 hours depending on data volume. If the job fails, it should be retried up to 3 times before the team is notified. Which Cloud Scheduler and Cloud Run configuration supports this reliability pattern?",
+    "choices": [
+      { "id": "a", "text": "Configure Cloud Scheduler with a retry count of 3 and a deadline of 4 hours; the scheduler retries the HTTP endpoint if it returns a non-2xx response within the deadline" },
+      { "id": "b", "text": "Configure Cloud Scheduler to trigger Cloud Run jobs via the Jobs API; set the Cloud Run job's `maxRetries` to 3 and `taskTimeout` to 4 hours; use Cloud Monitoring to alert on job failure after all retries" },
+      { "id": "c", "text": "Use Cloud Composer (Airflow) to schedule and retry the job rather than Cloud Scheduler, as Scheduler cannot handle jobs longer than 60 minutes" },
+      { "id": "d", "text": "Configure Cloud Scheduler to publish to Pub/Sub; the Cloud Run job subscribes and retries internally by re-reading the Pub/Sub message on failure" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Run Jobs is the appropriate execution model for long-running batch tasks. Cloud Scheduler can invoke Cloud Run Jobs via the Cloud Run API. Cloud Run Job configuration supports `maxRetries` (number of retries per task on failure) and `taskTimeout` (maximum duration per task attempt). After all retries are exhausted, the job transitions to a failed state, which can trigger a Cloud Monitoring alert via a log-based metric or job state monitor. Cloud Scheduler's own retry configuration applies to the HTTP call to trigger the job, not to the job execution itself. Cloud Composer is valid but is significantly more expensive and complex for a single nightly job. Pub/Sub-based retry adds unnecessary indirection and complexity.",
+    "topics": ["reliability-operations"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Run Jobs Overview", "url": "https://cloud.google.com/run/docs/create-jobs" },
+      { "label": "Cloud Scheduler: Invoking Cloud Run Jobs", "url": "https://cloud.google.com/run/docs/execute/jobs-on-schedule" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-ro-015",
+    "type": "single_choice",
+    "prompt": "A platform team wants to implement capacity planning for their GKE cluster. They need to predict whether their current node pool will be able to handle a projected 3x traffic increase in 6 months without adding nodes prematurely. Which GCP tool and approach gives them the most accurate forward-looking capacity estimate?",
+    "choices": [
+      { "id": "a", "text": "Review GKE cluster utilisation in the GKE dashboard and add nodes when current utilisation exceeds 70%" },
+      { "id": "b", "text": "Export historical Cloud Monitoring metrics (CPU, memory, pod count) to BigQuery; use BigQuery ML with a time-series forecasting model to project resource consumption at 3x traffic and compare against node pool capacity" },
+      { "id": "c", "text": "Run a load test at 3x current traffic levels in a staging environment and extrapolate node requirements from the observed resource usage" },
+      { "id": "d", "text": "Use GKE Autopilot instead of Standard; Autopilot provisions capacity automatically so no pre-planning is required" }
+    ],
+    "correct": "c",
+    "explanation": "A load test at 3x current traffic in a staging environment that mirrors production provides the most accurate capacity estimate because it measures actual resource consumption under the projected load, accounting for non-linear scaling effects, garbage collection pressure, connection pool exhaustion, and other workload-specific behaviours that time-series forecasting cannot predict. Monitoring current utilisation and adding nodes at 70% is a reactive, not capacity planning, approach. BigQuery ML forecasting extrapolates historical trends but cannot account for non-linear resource scaling as traffic triples or for code changes in the next 6 months. GKE Autopilot's automatic provisioning addresses operational overhead but does not provide advance capacity planning for cost budgeting or quota requests.",
+    "topics": ["reliability-operations"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "GKE: Cluster Scaling", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler" },
+      { "label": "GCP: Capacity Planning", "url": "https://cloud.google.com/architecture/framework/reliability/design-capacity-planning" }
+    ],
+    "version": 1
+  }
+]

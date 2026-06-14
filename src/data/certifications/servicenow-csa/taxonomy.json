@@ -1,0 +1,62 @@
+{
+  "topics": [
+    {
+      "id": "platform-overview",
+      "label": "Platform Overview",
+      "description": "ServiceNow platform architecture, instance hierarchy, and core concepts like tables, records, and the Now Platform.",
+      "studyPointers": [
+        { "label": "Now Platform Overview", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/navigation-and-ui/concept/c_NavigatingServiceNow.html" },
+        { "label": "ServiceNow Instance Hierarchy", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/instance-configuration/concept/c_InstanceHierarchy.html" }
+      ],
+      "subtopics": ["navigation", "tables", "records", "forms", "lists"]
+    },
+    {
+      "id": "user-administration",
+      "label": "User Administration",
+      "description": "Managing users, groups, roles, and access controls in ServiceNow.",
+      "studyPointers": [
+        { "label": "User Administration", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/users-and-groups/concept/c_UserAdministration.html" },
+        { "label": "Roles and Access Control", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/roles/concept/c_Roles.html" }
+      ],
+      "subtopics": ["users", "groups", "roles", "acls"]
+    },
+    {
+      "id": "itsm-fundamentals",
+      "label": "ITSM Fundamentals",
+      "description": "Core IT Service Management concepts including incidents, problems, changes, and requests.",
+      "studyPointers": [
+        { "label": "IT Service Management", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/product/incident-management/concept/c_IncidentManagement.html" }
+      ],
+      "subtopics": ["incident", "problem", "change", "request"]
+    },
+    {
+      "id": "reporting",
+      "label": "Reporting & Dashboards",
+      "description": "Creating and managing reports, performance analytics, and dashboards in ServiceNow.",
+      "studyPointers": [
+        { "label": "Reports Overview", "url": "https://docs.servicenow.com/bundle/washingtondc-now-intelligence/page/use/reporting/concept/c_CreatingReports.html" },
+        { "label": "Dashboards", "url": "https://docs.servicenow.com/bundle/washingtondc-now-intelligence/page/use/dashboards/concept/c_DashboardOverview.html" }
+      ],
+      "subtopics": ["reports", "dashboards", "performance-analytics"]
+    },
+    {
+      "id": "notifications",
+      "label": "Notifications",
+      "description": "Email notifications, notification rules, and communication templates in ServiceNow.",
+      "studyPointers": [
+        { "label": "Email Notifications", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/notification/concept/c_NotificationSetup.html" }
+      ],
+      "subtopics": ["email-notifications", "notification-rules", "templates"]
+    },
+    {
+      "id": "data-management",
+      "label": "Data Management",
+      "description": "Import sets, data policies, coalesce keys, and maintaining data integrity in ServiceNow.",
+      "studyPointers": [
+        { "label": "Import Sets", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/import-sets/concept/c_ImportSets.html" },
+        { "label": "Data Policies", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/data-management/concept/c_DataPolicies.html" }
+      ],
+      "subtopics": ["import-sets", "data-policies", "coalesce", "transform-maps"]
+    }
+  ]
+}

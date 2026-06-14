@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-cad-br-001",
+    "type": "single_choice",
+    "prompt": "Which business rule 'When' setting runs the script BEFORE the record is written to the database?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Before"
+      },
+      {
+        "id": "b",
+        "text": "After"
+      },
+      {
+        "id": "c",
+        "text": "Async"
+      },
+      {
+        "id": "d",
+        "text": "Display"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A 'Before' business rule runs before the record is inserted or updated in the database, making it ideal for data validation, field manipulation, and setting calculated values. Because it runs synchronously before the save, it can abort the operation using current.setAbortAction(true) and modify field values that will be persisted.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-002",
+    "type": "single_choice",
+    "prompt": "What is the key behavioral difference between an 'After' business rule and an 'Async' business rule?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "After rules run in a separate thread; async rules run in the main transaction"
+      },
+      {
+        "id": "b",
+        "text": "After rules run synchronously in the same transaction; async rules run in a separate background thread after the transaction commits"
+      },
+      {
+        "id": "c",
+        "text": "After rules can abort the save; async rules cannot"
+      },
+      {
+        "id": "d",
+        "text": "Async rules have access to the previous object; after rules do not"
+      }
+    ],
+    "correct": "b",
+    "explanation": "After business rules run synchronously within the same database transaction as the record save, meaning any error causes the whole transaction to roll back. Async business rules execute in a separate background thread after the main transaction has committed successfully, making them suitable for operations like sending notifications or updating related records that do not need to block the user.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-003",
+    "type": "single_choice",
+    "prompt": "In a business rule script, what does the 'current' object represent?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The currently logged-in user's GlideRecord"
+      },
+      {
+        "id": "b",
+        "text": "The previous version of the record before any changes"
+      },
+      {
+        "id": "c",
+        "text": "The record being inserted, updated, or deleted by the current operation"
+      },
+      {
+        "id": "d",
+        "text": "The session context for the current request"
+      }
+    ],
+    "correct": "c",
+    "explanation": "In business rule scripts, 'current' is a GlideRecord object representing the record being acted upon by the current database operation (insert, update, or delete). For insert operations, current contains the new record values. For updates, current contains the new values being saved. The 'previous' object holds the record's state before the update.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-004",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'previous' object available in business rule scripts?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It represents the record that was processed before the current one in a batch operation"
+      },
+      {
+        "id": "b",
+        "text": "It stores the last saved version from the update set"
+      },
+      {
+        "id": "c",
+        "text": "It is a reference to the parent record in a hierarchy"
+      },
+      {
+        "id": "d",
+        "text": "It holds the field values of the record as they were before the current update"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The 'previous' object is a read-only GlideRecord containing the field values of the record as they existed before the current update operation. It is available in before and after business rules on update operations. Developers use previous to compare old and new values, such as detecting when a specific field has changed: if (current.state != previous.state).",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-005",
+    "type": "single_choice",
+    "prompt": "How can a before business rule prevent a record from being saved to the database?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Call current.setAbortAction(true)"
+      },
+      {
+        "id": "b",
+        "text": "Call current.cancel()"
+      },
+      {
+        "id": "c",
+        "text": "Return false from the business rule function"
+      },
+      {
+        "id": "d",
+        "text": "Throw an exception in the script"
+      }
+    ],
+    "correct": "a",
+    "explanation": "current.setAbortAction(true) is the correct method to prevent a record from being saved in a before business rule. When this is called, the database operation is aborted and an error message can be displayed to the user using gs.addErrorMessage(). This is the standard approach for server-side validation in business rules.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-006",
+    "type": "single_choice",
+    "prompt": "What is the 'Order' field on a business rule used for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It determines the order in which the business rule's conditions are evaluated"
+      },
+      {
+        "id": "b",
+        "text": "It controls the sequence in which multiple business rules on the same table and trigger fire"
+      },
+      {
+        "id": "c",
+        "text": "It sets the priority of the business rule relative to workflows on the same record"
+      },
+      {
+        "id": "d",
+        "text": "It determines the order records are processed when the business rule fires on a list"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Order field controls the sequence in which multiple business rules with the same table, When condition, and operation fire. Business rules with lower Order values execute first. When business rules depend on each other (e.g., one rule sets a field that another rule reads), Order ensures they execute in the correct sequence.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-007",
+    "type": "single_choice",
+    "prompt": "A business rule on the Incident table updates a field, which triggers another business rule that updates a field, creating an infinite loop. What is the best way to prevent this?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Disable one of the business rules"
+      },
+      {
+        "id": "b",
+        "text": "Add a condition to check if the update was made by a business rule using gs.getUser()"
+      },
+      {
+        "id": "c",
+        "text": "Use current.setWorkflow(false) to prevent subsequent business rules from firing during the update"
+      },
+      {
+        "id": "d",
+        "text": "Use an async business rule instead to break the synchronous chain"
+      }
+    ],
+    "correct": "c",
+    "explanation": "current.setWorkflow(false) prevents other business rules and workflow activities from being triggered when the current record is saved. This is the standard technique to avoid infinite loops in business rules. The method instructs the platform not to fire subsequent business rules or workflows when this specific save operation occurs.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-008",
+    "type": "single_choice",
+    "prompt": "What is g_scratchpad and which business rule type populates it for use by client scripts?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "g_scratchpad is a server-side cache; it is populated by before business rules"
+      },
+      {
+        "id": "b",
+        "text": "g_scratchpad is a temporary database table populated by async business rules"
+      },
+      {
+        "id": "c",
+        "text": "g_scratchpad is a client-side object populated by onChange client scripts"
+      },
+      {
+        "id": "d",
+        "text": "g_scratchpad is a shared object populated by display business rules that is then accessible in client scripts"
+      }
+    ],
+    "correct": "d",
+    "explanation": "g_scratchpad is a JavaScript object that serves as a bridge between the server and the client. Display business rules (which run before the form is displayed) can set properties on g_scratchpad, and those values are then serialized and made available to client scripts running in the browser via the same g_scratchpad object. This allows server-side data to be passed to the client without a GlideAjax call.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-009",
+    "type": "single_choice",
+    "prompt": "A business rule needs to redirect the user to a specific URL after a record is saved. Which method is used?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "action.setRedirectURL(answer)"
+      },
+      {
+        "id": "b",
+        "text": "current.setRedirectURL(answer)"
+      },
+      {
+        "id": "c",
+        "text": "gs.redirect(url)"
+      },
+      {
+        "id": "d",
+        "text": "response.sendRedirect(url)"
+      }
+    ],
+    "correct": "a",
+    "explanation": "action.setRedirectURL(answer) is used in a business rule script to redirect the user to a specific URL after the record is saved. The 'action' object is available in business rule scripts and provides methods for controlling user navigation. This is commonly used in after business rules to navigate users to a confirmation page or related record.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-010",
+    "type": "single_choice",
+    "prompt": "When does a 'Display' business rule execute?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "When a record is saved and displayed in a list view"
+      },
+      {
+        "id": "b",
+        "text": "Before a form is rendered and displayed to the user, not during a save operation"
+      },
+      {
+        "id": "c",
+        "text": "When a field value is changed and displayed on the form"
+      },
+      {
+        "id": "d",
+        "text": "After every database operation to refresh the display"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Display business rules run before a form is rendered and sent to the user's browser. They do not fire during database save operations. Their primary use case is populating g_scratchpad with server-side computed data that client scripts can then use without making additional server calls. They have read access to the record being displayed.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-011",
+    "type": "single_choice",
+    "prompt": "Which business rule operation triggers when a user opens a record form by navigating to it in a browser?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Insert"
+      },
+      {
+        "id": "b",
+        "text": "Update"
+      },
+      {
+        "id": "c",
+        "text": "Query"
+      },
+      {
+        "id": "d",
+        "text": "Delete"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Query business rules fire when a record is queried (read) from the database. This includes when a user opens a record form, when a list loads, or when an API reads a record. Query business rules can be used to transform data before it is displayed or to add computed values to records when they are retrieved. They are less common than insert/update rules but serve important read-path use cases.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-012",
+    "type": "single_choice",
+    "prompt": "What does current.autoSysFields(false) do when called in a before business rule?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It stops sys_id from being auto-generated on insert"
+      },
+      {
+        "id": "b",
+        "text": "It disables all automatic field calculations on the current record"
+      },
+      {
+        "id": "c",
+        "text": "It prevents the current record from triggering workflow activities"
+      },
+      {
+        "id": "d",
+        "text": "It prevents the system from auto-populating audit fields like sys_updated_by and sys_updated_on"
+      }
+    ],
+    "correct": "d",
+    "explanation": "current.autoSysFields(false) prevents the platform from automatically updating the system audit fields (sys_updated_by, sys_updated_on, sys_created_by, sys_created_on) during the current save operation. This is useful when performing data migrations or system updates where you want to preserve the original audit trail rather than stamping the record with the current user and timestamp.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-013",
+    "type": "single_choice",
+    "prompt": "Where do asynchronous business rules store their pending execution before being processed?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "In the sys_trigger table"
+      },
+      {
+        "id": "b",
+        "text": "In the syslog table"
+      },
+      {
+        "id": "c",
+        "text": "In the sys_queue table"
+      },
+      {
+        "id": "d",
+        "text": "In an in-memory job queue on the application node"
+      }
+    ],
+    "correct": "a",
+    "explanation": "When an async business rule fires, the platform creates a record in the sys_trigger table representing the pending execution. The scheduled job processor picks up these records and executes the business rule script in a background thread. Monitoring sys_trigger records can help diagnose issues with async business rule processing and backlogs.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-014",
+    "type": "single_choice",
+    "prompt": "A developer needs a business rule to only fire when a specific field changes. What is the correct approach?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Set the 'Filter Conditions' on the business rule to include a condition on that field"
+      },
+      {
+        "id": "b",
+        "text": "Use the 'Changes' condition in the Condition field, or check current.field.changes() in the script"
+      },
+      {
+        "id": "c",
+        "text": "Create a separate before business rule that sets a flag when the field changes"
+      },
+      {
+        "id": "d",
+        "text": "Use an onChange client script to trigger the business rule only when needed"
+      }
+    ],
+    "correct": "b",
+    "explanation": "To fire a business rule only when a specific field changes, use the 'Changes' operator in the Filter Conditions for that field, or within the script check current.field_name.changes() which returns true if the field value has changed from the previous value. Both approaches ensure the rule's logic only executes when the relevant field has been modified.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-015",
+    "type": "single_choice",
+    "prompt": "What is the recommended best practice for a business rule that needs to perform complex, reusable logic?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Copy the logic into each business rule that needs it"
+      },
+      {
+        "id": "b",
+        "text": "Place the logic in a scheduled job that runs frequently"
+      },
+      {
+        "id": "c",
+        "text": "Extract the logic into a Script Include and call it from the business rule"
+      },
+      {
+        "id": "d",
+        "text": "Put the logic in a UI macro and reference it from the business rule"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The best practice is to extract complex, reusable logic into a Script Include and call it from the business rule script. This follows the DRY (Don't Repeat Yourself) principle, makes the logic easier to maintain, test, and reuse across multiple business rules or other server-side scripts. Business rule scripts should be kept short and delegate to Script Includes for complex operations.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-016",
+    "type": "single_choice",
+    "prompt": "A global business rule and a scoped business rule both apply to the same table and operation. Which fires first?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The scoped business rule always fires first"
+      },
+      {
+        "id": "b",
+        "text": "The global business rule always fires first"
+      },
+      {
+        "id": "c",
+        "text": "Global and scoped business rules never apply to the same table simultaneously"
+      },
+      {
+        "id": "d",
+        "text": "Execution order is determined by the Order field; global and scoped rules are sequenced together"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Both global and scoped business rules on the same table are sequenced together based on their Order field values. A scoped business rule with Order 100 will fire before a global business rule with Order 200, regardless of scope. Understanding the combined Order sequence is essential when both global and scoped rules exist on the same table and operation.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-017",
+    "type": "single_choice",
+    "prompt": "How does a before insert business rule differ from a before update business rule in what it can access?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Before update rules have access to the 'previous' object; before insert rules do not because there is no prior state"
+      },
+      {
+        "id": "b",
+        "text": "Before insert rules have access to previous; before update rules do not"
+      },
+      {
+        "id": "c",
+        "text": "Before insert rules have access to current; before update rules only have access to previous"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference in what they can access"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Before update business rules have access to the 'previous' object, which holds the record's field values as they were before the current update. Before insert business rules do not have a meaningful 'previous' object because the record is being created for the first time and there is no prior state to reference. This distinction is important when writing validation logic that checks for field changes.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-018",
+    "type": "single_choice",
+    "prompt": "What does current.setWorkflow(false) do in a business rule script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It stops any running workflow on the current record"
+      },
+      {
+        "id": "b",
+        "text": "It prevents subsequent business rules and workflow activities from firing when this record is saved"
+      },
+      {
+        "id": "c",
+        "text": "It marks the record as exempt from all future workflow processing"
+      },
+      {
+        "id": "d",
+        "text": "It disables the workflow engine for the entire current session"
+      }
+    ],
+    "correct": "b",
+    "explanation": "current.setWorkflow(false) instructs the platform not to execute other business rules or trigger workflow activities when the current save operation completes. This is the primary technique for preventing infinite loops when a business rule updates a record that would otherwise re-trigger the same or other business rules. It applies only to the specific save operation on the current record.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-019",
+    "type": "single_choice",
+    "prompt": "How should a developer debug a business rule that is not firing as expected?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Enable 'Debug mode' on the business rule record and check the system log"
+      },
+      {
+        "id": "b",
+        "text": "Run a background script that calls the business rule directly"
+      },
+      {
+        "id": "c",
+        "text": "Add gs.log() statements to the script and check the system log, or use the Script Debugger to set breakpoints"
+      },
+      {
+        "id": "d",
+        "text": "Check the sys_trigger table for the pending business rule execution"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The most common debugging techniques for business rules are adding gs.info() or gs.log() statements to write output to the system log, and using the Script Debugger to set breakpoints and step through execution. The Session Debug Business Rules feature (found in System Diagnostics) can also show when business rules are evaluated and whether their conditions are met.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-020",
+    "type": "single_choice",
+    "prompt": "A business rule needs to update a related record when an incident is closed. Which business rule type is most appropriate?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Display business rule"
+      },
+      {
+        "id": "b",
+        "text": "Before business rule"
+      },
+      {
+        "id": "c",
+        "text": "Query business rule"
+      },
+      {
+        "id": "d",
+        "text": "Async business rule"
+      }
+    ],
+    "correct": "d",
+    "explanation": "An async business rule is most appropriate for updating related records because it runs in a background thread after the main transaction commits, so it does not slow down the user's save operation. Updating related records as an after rule in the same transaction is possible but adds latency to the user's experience. Async rules are the preferred pattern for operations that do not need to block the user.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-021",
+    "type": "single_choice",
+    "prompt": "What is the correct way to add a server-side error message that is displayed to the user when a before business rule aborts a save?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gs.addErrorMessage('Error message');"
+      },
+      {
+        "id": "b",
+        "text": "current.error = 'Error message';"
+      },
+      {
+        "id": "c",
+        "text": "gs.setError('Error message');"
+      },
+      {
+        "id": "d",
+        "text": "action.setMessage('Error message');"
+      }
+    ],
+    "correct": "a",
+    "explanation": "gs.addErrorMessage('Error message') adds an error message that is displayed to the user at the top of the form when the save operation is aborted. This is used in conjunction with current.setAbortAction(true) to provide user-friendly feedback explaining why the save was blocked. Multiple error messages can be added before the abort.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-022",
+    "type": "single_choice",
+    "prompt": "Which of the following conditions in a business rule's Filter Conditions detects that a specific field's value has changed from its previous state?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Using the 'is not empty' operator on the field"
+      },
+      {
+        "id": "b",
+        "text": "Using the 'changes' operator on the field"
+      },
+      {
+        "id": "c",
+        "text": "Using the 'is not' operator with the previous value"
+      },
+      {
+        "id": "d",
+        "text": "Using the 'contains changes' operator on the table"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The 'changes' operator in the business rule Filter Conditions evaluates whether the specified field's value has changed from its previous value during the current update operation. This is equivalent to checking current.field_name.changes() in the script. Using 'changes' as a filter condition is cleaner than scripted comparisons because it uses the platform's built-in change detection mechanism.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-023",
+    "type": "single_choice",
+    "prompt": "A before business rule on the incident table checks current.active.changesTo(false). What does this condition evaluate?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Whether the active field is currently false"
+      },
+      {
+        "id": "b",
+        "text": "Whether the active field will be changed to false on the next save"
+      },
+      {
+        "id": "c",
+        "text": "Whether the active field changed from any value to false in the current update"
+      },
+      {
+        "id": "d",
+        "text": "Whether the active field was false before the current update"
+      }
+    ],
+    "correct": "c",
+    "explanation": "current.field_name.changesTo(value) returns true if the field's value has changed and the new value equals the specified value. In this case, current.active.changesTo(false) returns true only when the active field is being changed to false in the current update \u2014 meaning the incident is being closed. This is more precise than just checking the current value, because it requires both a change and a specific target value.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-024",
+    "type": "single_choice",
+    "prompt": "What is the difference between a business rule and a Flow Designer flow for automating record updates?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Business rules require admin access to create; flows can be built by any user"
+      },
+      {
+        "id": "b",
+        "text": "Business rules run on any table; flows can only run on the incident table"
+      },
+      {
+        "id": "c",
+        "text": "Flows can only be triggered by record changes; business rules support more trigger types"
+      },
+      {
+        "id": "d",
+        "text": "Business rules are scripted JavaScript logic; flows are a no-code/low-code visual automation tool"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Business rules are scripted JavaScript logic that runs directly against database operations. Flow Designer is a no-code/low-code visual automation platform that uses a graphical interface with pre-built actions and flow logic. Flows are generally preferred for citizen developers and simple automations, while business rules provide more granular control and are preferred for performance-critical or complex data operations.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-025",
+    "type": "single_choice",
+    "prompt": "A before business rule runs on every record update and contains a GlideRecord query. What is the performance concern?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The GlideRecord query adds database overhead to every save operation, potentially slowing user interactions"
+      },
+      {
+        "id": "b",
+        "text": "Before business rules cannot contain GlideRecord queries"
+      },
+      {
+        "id": "c",
+        "text": "GlideRecord queries in before rules always cause transaction rollbacks"
+      },
+      {
+        "id": "d",
+        "text": "There is no performance concern because before rules run asynchronously"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Before business rules run synchronously in the user's save transaction. If the script contains a GlideRecord query, that query executes as part of every save, adding database overhead and latency to every user interaction on that table. Best practices include adding specific conditions to limit when the rule fires, using indexed fields in queries, and minimizing the number of additional queries in before rules.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-026",
+    "type": "single_choice",
+    "prompt": "What happens when two before business rules on the same table and operation have the same Order value?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Only the first one created will fire; the second is ignored"
+      },
+      {
+        "id": "b",
+        "text": "They will fire in an undefined order relative to each other"
+      },
+      {
+        "id": "c",
+        "text": "The platform throws an error and neither rule fires"
+      },
+      {
+        "id": "d",
+        "text": "They fire alphabetically by name"
+      }
+    ],
+    "correct": "b",
+    "explanation": "When two business rules have the same Order value, their relative execution order is not guaranteed and may vary. This is why developers should assign distinct Order values to business rules that depend on each other's output. When business rules with the same order exist, the platform may execute them in any sequence, leading to unpredictable results if they share data or depend on each other.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-027",
+    "type": "single_choice",
+    "prompt": "A business rule script uses current.update() to update the current record. What is the risk of this pattern?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "current.update() is not allowed in business rules and will throw an error"
+      },
+      {
+        "id": "b",
+        "text": "current.update() saves the record to a separate audit table instead of the main table"
+      },
+      {
+        "id": "c",
+        "text": "current.update() can cause an infinite loop by re-triggering the same business rule"
+      },
+      {
+        "id": "d",
+        "text": "current.update() cannot be used in before rules, only in after rules"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Calling current.update() inside a business rule on the same table triggers another save operation, which re-fires all matching business rules on that table \u2014 including the one currently running. This causes an infinite loop. To update fields and have them saved, simply set them on the current object in a before rule (the platform saves them with the main transaction). Use current.setWorkflow(false) before any necessary current.update() calls to prevent re-triggering.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-028",
+    "type": "single_choice",
+    "prompt": "Which condition in the business rule editor is used to check if the current user is performing a specific action (such as 'Save' vs 'Update')?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Check gs.getAction() in the script"
+      },
+      {
+        "id": "b",
+        "text": "Check gs.getCurrentScopeName() for the triggering action"
+      },
+      {
+        "id": "c",
+        "text": "Use the 'Action name' condition in the Filter Conditions editor"
+      },
+      {
+        "id": "d",
+        "text": "Use the action.getName() method in the script"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The action.getName() method in a business rule script returns the name of the UI action that triggered the save operation (e.g., 'sysverb_update', 'sysverb_insert', 'sysverb_save'). This allows a business rule to conditionally execute different logic based on which button the user clicked to submit the form, distinguishing between different save actions.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-029",
+    "type": "single_choice",
+    "prompt": "In a before business rule running on insert, what value does current.sys_id contain?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A newly generated sys_id that will be used for the new record"
+      },
+      {
+        "id": "b",
+        "text": "An empty string because the record has not been saved yet"
+      },
+      {
+        "id": "c",
+        "text": "The sys_id of the user creating the record"
+      },
+      {
+        "id": "d",
+        "text": "A temporary placeholder ID that changes after the record is saved"
+      }
+    ],
+    "correct": "a",
+    "explanation": "In a before insert business rule, current.sys_id already contains the newly generated sys_id that will be used for the record being created. The platform generates the sys_id before firing before business rules, so it is available for use in the script \u2014 for example, to set reference fields on related records that need to point back to the new record.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-030",
+    "type": "single_choice",
+    "prompt": "What is the recommended approach to test a business rule without affecting production data?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Set the business rule to inactive, then re-activate it after testing"
+      },
+      {
+        "id": "b",
+        "text": "Use the ATF (Automated Test Framework) or test in a sub-production instance"
+      },
+      {
+        "id": "c",
+        "text": "Add a condition checking gs.getProperty('instance.name') to skip production"
+      },
+      {
+        "id": "d",
+        "text": "Use background scripts to simulate the business rule without committing changes"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The recommended approach is to use the Automated Test Framework (ATF) to write automated tests for business rules, or to develop and test in a sub-production instance (development or test) before promoting to production via update sets. ATF allows developers to create repeatable test scenarios that verify business rule behavior without manual testing or risk to production data.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-031",
+    "type": "single_choice",
+    "prompt": "How does a business rule differ from a Data Policy?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Business rules run on the server; data policies run in the browser only"
+      },
+      {
+        "id": "b",
+        "text": "Data policies can abort record saves; business rules cannot"
+      },
+      {
+        "id": "c",
+        "text": "Data policies enforce mandatory and read-only rules on both the client and server; business rules are server-side only"
+      },
+      {
+        "id": "d",
+        "text": "Business rules apply to all applications; data policies only apply to Service Catalog items"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Data Policies enforce field-level rules (mandatory and read-only) at both the client and server levels, ensuring enforcement regardless of how data is inserted (UI, API, or import). Business rules are server-side scripts with broader scripting capabilities. Data Policies are the preferred mechanism when you need to enforce field requirements consistently across all data entry paths.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-032",
+    "type": "single_choice",
+    "prompt": "A business rule is configured to run 'Before' on 'Update'. A developer sets a field value using current.setValue('field', 'value'). When is this value persisted?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Immediately when current.setValue() is called"
+      },
+      {
+        "id": "b",
+        "text": "In a separate transaction after the main save completes"
+      },
+      {
+        "id": "c",
+        "text": "Only if the developer also calls current.update() at the end of the script"
+      },
+      {
+        "id": "d",
+        "text": "After the business rule script completes, as part of the main update transaction"
+      }
+    ],
+    "correct": "d",
+    "explanation": "In a before business rule, changes made to the current object (via setValue() or direct field assignment) are automatically included in the main save transaction when the business rule script completes. There is no need to call current.update() \u2014 the platform handles writing the modified current object to the database. Calling current.update() explicitly would create an extra save and risk triggering business rules again.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-033",
+    "type": "single_choice",
+    "prompt": "What does the 'Advanced' checkbox on a business rule enable?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It enables the Script field, allowing a custom JavaScript script in addition to or instead of simple field actions"
+      },
+      {
+        "id": "b",
+        "text": "It unlocks access to the current.previous object"
+      },
+      {
+        "id": "c",
+        "text": "It grants the business rule admin-level database access"
+      },
+      {
+        "id": "d",
+        "text": "It enables the business rule to fire on related tables"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The 'Advanced' checkbox on a business rule enables the Script field, which allows a developer to write custom JavaScript. Without Advanced mode, only simple field actions (Set field value, Abort action) are available through the Actions tab. Checking Advanced unlocks the full scripting capability, providing access to current, previous, gs, and other server-side objects.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-034",
+    "type": "single_choice",
+    "prompt": "Which of the following is a valid reason to use an async business rule instead of an after business rule?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Async rules can abort the save operation; after rules cannot"
+      },
+      {
+        "id": "b",
+        "text": "Async rules execute after the transaction commits, reducing user-facing latency for non-critical operations"
+      },
+      {
+        "id": "c",
+        "text": "Async rules have access to the previous object; after rules do not"
+      },
+      {
+        "id": "d",
+        "text": "Async rules can modify the current record; after rules cannot"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Async business rules execute in a separate background thread after the main database transaction has committed. This means the user's save operation completes quickly without waiting for the async logic to finish. For non-critical operations like sending emails, updating reporting tables, or calling external APIs, async rules improve responsiveness. After rules run in the same transaction and add to the user's wait time.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-035",
+    "type": "single_choice",
+    "prompt": "A business rule has a condition 'Priority changes to 1'. What operation(s) will cause this condition to evaluate?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Insert only"
+      },
+      {
+        "id": "b",
+        "text": "Update only, when the Priority field changes from another value to 1"
+      },
+      {
+        "id": "c",
+        "text": "Insert and Update, when Priority is being set to 1"
+      },
+      {
+        "id": "d",
+        "text": "All operations including Delete and Query"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The 'changes to' condition evaluates on both insert and update operations when the field is being set to the specified value. On insert, the field is transitioning from no value to the specified value. On update, it detects a change from a different value to the specified value. The condition does not apply to Delete or Query operations.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-036",
+    "type": "single_choice",
+    "prompt": "What is 'Session Debug Business Rules' and when would a developer use it?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It is a setting that logs all business rule executions to the system log globally"
+      },
+      {
+        "id": "b",
+        "text": "It disables all business rules in the current session for safe data manipulation"
+      },
+      {
+        "id": "c",
+        "text": "It is a plugin that provides a visual debugger for business rule scripts"
+      },
+      {
+        "id": "d",
+        "text": "It is a session-scoped debugging tool that shows which business rules evaluated and whether their conditions were met"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Session Debug Business Rules is a debugging feature in ServiceNow (activated via System Diagnostics or the URL parameter) that outputs debug information for every business rule that is evaluated in the current session. It shows rule names, conditions, whether conditions passed or failed, and script output \u2014 helping developers understand why a business rule did or did not fire as expected.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-037",
+    "type": "single_choice",
+    "prompt": "A business rule needs to call an external REST API when a record is created. Which business rule type is most appropriate?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Async insert"
+      },
+      {
+        "id": "b",
+        "text": "After insert"
+      },
+      {
+        "id": "c",
+        "text": "Before insert"
+      },
+      {
+        "id": "d",
+        "text": "Display insert"
+      }
+    ],
+    "correct": "a",
+    "explanation": "An async insert business rule is most appropriate for calling external REST APIs because external HTTP calls introduce network latency that would otherwise block the user's session in an after rule. Running the API call asynchronously means the record save completes immediately for the user, and the external call happens in a background thread without impacting response time.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-038",
+    "type": "single_choice",
+    "prompt": "What does current.changes() return in a business rule script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A list of field names that have changed in the current update"
+      },
+      {
+        "id": "b",
+        "text": "True if any field on the record has changed; false otherwise"
+      },
+      {
+        "id": "c",
+        "text": "A GlideRecord of all historical changes to the current record"
+      },
+      {
+        "id": "d",
+        "text": "True if the current record has unsaved changes that need to be committed"
+      }
+    ],
+    "correct": "b",
+    "explanation": "current.changes() returns true if any field on the current record has changed in the current update operation, and false if no fields have changed. This can be useful in after business rules to check whether any actual changes were made before executing expensive logic. For checking a specific field, use current.field_name.changes() instead.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-039",
+    "type": "single_choice",
+    "prompt": "A business rule on the Task table will also fire on Incident, Change, and Problem records because those tables extend Task. This is an example of:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Cross-scope inheritance"
+      },
+      {
+        "id": "b",
+        "text": "A misconfiguration that should be corrected by specifying child tables explicitly"
+      },
+      {
+        "id": "c",
+        "text": "Table inheritance \u2014 business rules on a parent table fire on all child tables"
+      },
+      {
+        "id": "d",
+        "text": "Global scope propagation"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Table inheritance in ServiceNow means that business rules defined on a parent table (like Task) automatically apply to all child tables that extend it (Incident, Change, Problem, etc.). This is intentional and powerful \u2014 it allows shared logic to be defined once on the parent table. Developers must be aware of this when creating business rules on parent tables to avoid unintended effects on child tables.",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-br-040",
+    "type": "single_choice",
+    "prompt": "What is the correct method to check if a field's value has changed FROM a specific value in the current update?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "current.field_name.changesTo(oldValue)"
+      },
+      {
+        "id": "b",
+        "text": "current.field_name.previousValue() == oldValue"
+      },
+      {
+        "id": "c",
+        "text": "previous.field_name == oldValue && current.field_name.changes()"
+      },
+      {
+        "id": "d",
+        "text": "current.field_name.changesFrom(oldValue)"
+      }
+    ],
+    "correct": "d",
+    "explanation": "current.field_name.changesFrom(value) returns true if the field was previously set to the specified value and has now changed to something different. This is the complementary method to changesTo(). For example, current.state.changesFrom('1') detects when a record's state changes away from 'New' (value 1). It is equivalent to checking previous.field_name == value && current.field_name.changes().",
+    "topics": [
+      "business-rules"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  }
+]

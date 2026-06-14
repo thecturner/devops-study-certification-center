@@ -1,0 +1,286 @@
+[
+  {
+    "id": "k8s-cks-mv-001",
+    "type": "single_choice",
+    "prompt": "What are the two OPA Gatekeeper resources needed to enforce a policy (e.g., requiring all Pods to have resource limits)?",
+    "choices": [
+      { "id": "a", "text": "Policy and PolicyBinding" },
+      { "id": "b", "text": "ConstraintTemplate and Constraint" },
+      { "id": "c", "text": "AdmissionPolicy and AdmissionPolicyBinding" },
+      { "id": "d", "text": "OPAPolicy and OPARuleSet" }
+    ],
+    "correct": "b",
+    "explanation": "OPA Gatekeeper uses two resources: a ConstraintTemplate (which defines the Rego policy logic and creates a new CRD) and a Constraint (an instance of that CRD that specifies which resources the policy applies to and any parameters). For example, a 'K8sRequiredLabels' ConstraintTemplate enables a 'K8sRequiredLabels' Constraint that specifies which labels are mandatory.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "OPA Gatekeeper", "url": "https://open-policy-agent.github.io/gatekeeper/website/docs/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-002",
+    "type": "single_choice",
+    "prompt": "A namespace is labeled with 'pod-security.kubernetes.io/enforce: restricted'. A Pod is submitted that runs as root. What happens?",
+    "choices": [
+      { "id": "a", "text": "The Pod is created but a warning is logged" },
+      { "id": "b", "text": "The Pod is rejected by the PodSecurity admission controller because running as root violates the 'restricted' standard" },
+      { "id": "c", "text": "The Pod is created and automatically restarted as a non-root user" },
+      { "id": "d", "text": "The Pod is created in a separate quarantine namespace" }
+    ],
+    "correct": "b",
+    "explanation": "When a namespace enforces the 'restricted' Pod Security Standard, the PodSecurity admission controller validates every Pod and workload controller against the 'restricted' profile at admission time. Running as root (without runAsNonRoot: true or a non-zero runAsUser) violates the standard, and the Pod creation request is rejected with an error. The 'warn' and 'audit' modes would allow the Pod but log the violation.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Pod Security Standards", "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-003",
+    "type": "single_choice",
+    "prompt": "A Kubernetes Secret stores a database password. Which of the following practices best hardens Secret management?",
+    "choices": [
+      { "id": "a", "text": "Store the Secret in a ConfigMap since they have the same security model" },
+      { "id": "b", "text": "Enable etcd encryption at rest, restrict Secret access via RBAC, use projected volumes instead of environment variables, and consider an external secrets operator" },
+      { "id": "c", "text": "Base64-encode the Secret value twice for extra security" },
+      { "id": "d", "text": "Store the Secret in a hostPath volume accessible only by the application Pod" }
+    ],
+    "correct": "b",
+    "explanation": "Hardening Secret management requires multiple layers: (1) encrypt Secrets at rest in etcd via EncryptionConfiguration; (2) restrict who can read Secrets using RBAC; (3) prefer volume mounts over environment variables since env vars are visible in process listings and crash dumps; (4) consider external solutions like HashiCorp Vault or AWS Secrets Manager via an operator. Base64 provides no security and ConfigMaps are not Secret-appropriate.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Secrets", "url": "https://kubernetes.io/docs/concepts/configuration/secret/" },
+      { "label": "Encrypting Secret Data at Rest", "url": "https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-004",
+    "type": "single_choice",
+    "prompt": "What is the difference between gVisor and Kata Containers as container sandbox runtimes?",
+    "choices": [
+      { "id": "a", "text": "gVisor intercepts syscalls in a user-space kernel; Kata Containers runs each Pod in a lightweight VM with its own kernel" },
+      { "id": "b", "text": "gVisor uses hardware virtualization; Kata Containers uses a user-space kernel" },
+      { "id": "c", "text": "Both use the same isolation mechanism; gVisor is optimized for stateless workloads" },
+      { "id": "d", "text": "gVisor is an OCI runtime; Kata Containers is a CRI plugin, not an OCI runtime" }
+    ],
+    "correct": "a",
+    "explanation": "gVisor (runsc) implements a user-space kernel called the Sentry that intercepts and handles system calls, providing a sandbox layer between the container and the host kernel. Kata Containers launches each Pod inside a lightweight VM using hardware virtualization (KVM/QEMU), providing stronger isolation at the cost of higher overhead. Both are OCI-compatible runtimes that can be used as Kubernetes RuntimeClasses.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "gVisor", "url": "https://gvisor.dev/docs/user_guide/quick_start/kubernetes/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-005",
+    "type": "single_choice",
+    "prompt": "A ConstraintTemplate is deployed in a cluster. A new Constraint instance of that template is created with 'enforcementAction: deny'. What happens when a violating Pod is submitted?",
+    "choices": [
+      { "id": "a", "text": "The Pod is created and the violation is logged but not blocked" },
+      { "id": "b", "text": "The Pod creation request is rejected at admission with a violation message" },
+      { "id": "c", "text": "The Pod is created and then immediately deleted by the Gatekeeper controller" },
+      { "id": "d", "text": "The Constraint must be enforced by a separate Rego rule; the enforcementAction has no effect on its own" }
+    ],
+    "correct": "b",
+    "explanation": "With enforcementAction: deny, OPA Gatekeeper's validating admission webhook rejects the request at admission time — the object is never created. The alternative enforcementAction: warn allows the object to be created but emits a warning. The enforcementAction: dryrun action audits violations of existing resources without blocking new ones. This is how Gatekeeper prevents policy violations at the point of API server admission.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "OPA Gatekeeper", "url": "https://open-policy-agent.github.io/gatekeeper/website/docs/constrainttemplates" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-006",
+    "type": "single_choice",
+    "prompt": "What does mutual TLS (mTLS) provide that standard TLS does not?",
+    "choices": [
+      { "id": "a", "text": "Encryption of traffic between services" },
+      { "id": "b", "text": "Both encryption and bidirectional authentication — the server authenticates the client AND the client authenticates the server" },
+      { "id": "c", "text": "Protection against DDoS attacks" },
+      { "id": "d", "text": "Automatic certificate rotation for Kubernetes Secrets" }
+    ],
+    "correct": "b",
+    "explanation": "Standard TLS only authenticates the server to the client (the client verifies the server's certificate). Mutual TLS (mTLS) adds bidirectional authentication — the server also verifies the client's certificate. In Kubernetes microservice environments, mTLS ensures that both communicating services have valid certificates issued by a trusted CA, preventing unauthorized service-to-service communication even within the cluster.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Securing a Cluster", "url": "https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-007",
+    "type": "multi_choice",
+    "prompt": "Which of the following securityContext settings are required by the Kubernetes 'restricted' Pod Security Standard? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "runAsNonRoot: true" },
+      { "id": "b", "text": "allowPrivilegeEscalation: false" },
+      { "id": "c", "text": "seccompProfile.type set to RuntimeDefault or Localhost" },
+      { "id": "d", "text": "hostNetwork: false" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "The 'restricted' Pod Security Standard requires: runAsNonRoot: true (containers must not run as root), allowPrivilegeEscalation: false (no privilege escalation via setuid), and a seccompProfile of RuntimeDefault or Localhost. It also requires dropping all capabilities and forbids privileged containers, hostPath volumes, and host namespaces. While hostNetwork: false is forbidden by 'restricted', it's not a required positive field — the standard simply disallows hostNetwork: true.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Pod Security Standards", "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-008",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a RuntimeClass in Kubernetes?",
+    "choices": [
+      { "id": "a", "text": "It defines CPU and memory resource classes for Pods" },
+      { "id": "b", "text": "It specifies which container runtime handler (e.g., runc, runsc, kata) a Pod should use" },
+      { "id": "c", "text": "It classifies Pods into priority tiers for scheduling" },
+      { "id": "d", "text": "It defines the security context class applied to all containers" }
+    ],
+    "correct": "b",
+    "explanation": "A RuntimeClass is a cluster-scoped resource that maps a name to a specific runtime handler configured in the container runtime (containerd, CRI-O, etc.). By setting spec.runtimeClassName in a Pod, you select which runtime to use — for example, 'gvisor' maps to the runsc handler, and 'kata' maps to the Kata Containers handler. This enables running different workloads with different isolation levels in the same cluster.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Runtime Class", "url": "https://kubernetes.io/docs/concepts/containers/runtime-class/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-009",
+    "type": "single_choice",
+    "prompt": "An OPA Gatekeeper ConstraintTemplate's Rego violation rule returns a message. Which Rego function is used to emit the violation?",
+    "choices": [
+      { "id": "a", "text": "deny[msg]" },
+      { "id": "b", "text": "violation[{\"msg\": msg}]" },
+      { "id": "c", "text": "reject[msg]" },
+      { "id": "d", "text": "block[{\"reason\": msg}]" }
+    ],
+    "correct": "b",
+    "explanation": "Gatekeeper ConstraintTemplate Rego code uses the 'violation[{\"msg\": msg}]' rule to signal a policy violation. The Gatekeeper framework collects all violation objects returned by this rule and uses the 'msg' field as the human-readable error message returned to the user when a request is rejected. The older OPA style used 'deny[msg]' but Gatekeeper specifically requires the violation rule.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "OPA Gatekeeper ConstraintTemplates", "url": "https://open-policy-agent.github.io/gatekeeper/website/docs/constrainttemplates" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-010",
+    "type": "single_choice",
+    "prompt": "A Secret is mounted as an environment variable in a container. Why is this generally considered less secure than mounting it as a volume?",
+    "choices": [
+      { "id": "a", "text": "Environment variables are not encrypted by etcd, unlike volume mounts" },
+      { "id": "b", "text": "Environment variables are visible in process listings, crash dumps, and child processes, increasing the risk of accidental exposure" },
+      { "id": "c", "text": "Volume mounts automatically rotate Secret values; environment variables do not" },
+      { "id": "d", "text": "Environment variables are stored in the container image layers" }
+    ],
+    "correct": "b",
+    "explanation": "Secrets injected as environment variables are visible in /proc/<pid>/environ, can appear in application crash dumps, logging libraries that dump env vars, and are inherited by all child processes. Volume-mounted Secrets appear as files that can be read only when the application explicitly opens them, reducing accidental exposure. Volume mounts also support live updates when the Secret changes (with some configuration), whereas env var values are fixed at Pod start.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Secrets", "url": "https://kubernetes.io/docs/concepts/configuration/secret/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-011",
+    "type": "single_choice",
+    "prompt": "A namespace has the label 'pod-security.kubernetes.io/warn: baseline'. A privileged Pod is submitted to it. What is the outcome?",
+    "choices": [
+      { "id": "a", "text": "The Pod is rejected" },
+      { "id": "b", "text": "The Pod is created and a user-facing warning is returned but no error" },
+      { "id": "c", "text": "The Pod is created silently" },
+      { "id": "d", "text": "The Pod is quarantined pending admin review" }
+    ],
+    "correct": "b",
+    "explanation": "The 'warn' mode of the PodSecurity admission controller evaluates the Pod against the specified standard and returns a warning message in the API response if the Pod violates it, but the Pod is still created. This allows teams to assess the impact of a stricter standard before enforcing it. The 'enforce' mode would reject the Pod, and 'audit' would log the violation to the audit log.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Pod Security Admission", "url": "https://kubernetes.io/docs/concepts/security/pod-security-admission/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-012",
+    "type": "true_false",
+    "prompt": "Kubernetes Secrets are encrypted at rest by default in a standard kubeadm installation.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "False. By default, Kubernetes Secrets are stored in etcd in base64-encoded form, which is NOT encryption. Anyone with access to the etcd database can decode them trivially. Encryption at rest must be explicitly configured by providing an EncryptionConfiguration file and setting --encryption-provider-config on the kube-apiserver. The CKS exam tests this distinction heavily.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Encrypting Secret Data at Rest", "url": "https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-013",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'baseline' Pod Security Standard compared to 'privileged' and 'restricted'?",
+    "choices": [
+      { "id": "a", "text": "Baseline allows everything; it is the same as privileged" },
+      { "id": "b", "text": "Baseline prevents known privilege escalation while allowing common application patterns that require some elevated settings" },
+      { "id": "c", "text": "Baseline is the most restrictive standard, stricter than restricted" },
+      { "id": "d", "text": "Baseline only applies to system namespaces like kube-system" }
+    ],
+    "correct": "b",
+    "explanation": "The three Pod Security Standards are: 'privileged' (no restrictions), 'baseline' (prevents known privilege escalations while allowing legitimate use cases like host ports and certain volume types), and 'restricted' (hardened, requiring non-root users, dropping capabilities, seccomp, etc.). 'Baseline' strikes a practical middle ground for most application workloads.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Pod Security Standards", "url": "https://kubernetes.io/docs/concepts/security/pod-security-standards/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-014",
+    "type": "single_choice",
+    "prompt": "A Gatekeeper Constraint has 'enforcementAction: dryrun'. An existing Deployment in the cluster violates the policy. How do you find the violations?",
+    "choices": [
+      { "id": "a", "text": "kubectl get events | grep gatekeeper" },
+      { "id": "b", "text": "kubectl describe constraint <constraint-name> — violations are listed in the status.violations field" },
+      { "id": "c", "text": "Check /var/log/gatekeeper.log on each node" },
+      { "id": "d", "text": "Violations only appear when the Pod is restarted" }
+    ],
+    "correct": "b",
+    "explanation": "In dryrun mode, Gatekeeper's audit controller periodically evaluates all existing resources against active Constraints and stores the results in the Constraint's status.violations field. Running 'kubectl describe constraint <name>' or 'kubectl get constraint <name> -o yaml' shows the list of violating resources with their details. This is the standard way to audit an existing cluster's compliance before switching to 'deny' mode.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "OPA Gatekeeper Audit", "url": "https://open-policy-agent.github.io/gatekeeper/website/docs/audit" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-mv-015",
+    "type": "single_choice",
+    "prompt": "Which field in a Pod spec enables the use of a custom sandbox runtime like gVisor?",
+    "choices": [
+      { "id": "a", "text": "spec.sandboxProfile" },
+      { "id": "b", "text": "spec.runtimeClassName" },
+      { "id": "c", "text": "spec.containerRuntime" },
+      { "id": "d", "text": "spec.securityContext.runtimeHandler" }
+    ],
+    "correct": "b",
+    "explanation": "The spec.runtimeClassName field in a Pod spec references a RuntimeClass object by name. The RuntimeClass maps to a specific handler in the container runtime (e.g., 'runsc' for gVisor, 'kata' for Kata Containers). This tells the kubelet to use that specific runtime for all containers in the Pod. If the RuntimeClass doesn't exist or the node doesn't support the handler, the Pod will fail to schedule.",
+    "topics": ["microservice-vulnerabilities"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Runtime Class", "url": "https://kubernetes.io/docs/concepts/containers/runtime-class/" }
+    ],
+    "version": 1
+  }
+]

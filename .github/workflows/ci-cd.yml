@@ -1,0 +1,363 @@
+name: Unified CI/CD
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  changes:
+    name: Detect Changed Areas
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      app_changed: ${{ steps.filter.outputs.app }}
+      iac_changed: ${{ steps.filter.outputs.iac }}
+      docker_changed: ${{ steps.filter.outputs.docker }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Filter paths
+        id: filter
+        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        with:
+          filters: |
+            app:
+              - 'src/**'
+              - 'public/**'
+              - 'e2e/**'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'next.config.ts'
+              - 'jest.config.js'
+              - 'playwright.config.ts'
+              - 'tsconfig.json'
+              - '.lighthouserc.json'
+            iac:
+              - '**/*.tf'
+              - '**/*.tfvars'
+              - '**/*.yaml'
+              - '**/*.yml'
+              - 'Dockerfile'
+              - 'docker-compose*.yml'
+            docker:
+              - 'Dockerfile'
+              - '.dockerignore'
+
+  node_quality:
+    name: Lint, Typecheck, Unit, Integration, Build
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.app_changed == 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test:unit -- --ci
+
+      - name: Integration tests
+        run: npm run test:integration -- --ci
+
+      - name: Coverage
+        run: npm test -- --ci --coverage --coverageReporters=text-summary
+
+      - name: Build
+        run: npm run build
+
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    needs:
+      - changes
+      - node_quality
+    if: needs.changes.outputs.app_changed == 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: |
+          npm run build
+          cp -r public .next/standalone/
+          cp -r .next/static .next/standalone/.next/
+
+      - name: Run Lighthouse CI
+        run: npx lhci autorun
+        env:
+          LHCI_CHROMEPATH: /usr/bin/google-chrome-stable
+
+  e2e:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    needs:
+      - changes
+      - node_quality
+    if: needs.changes.outputs.app_changed == 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run e2e tests
+        run: npm run test:e2e
+
+  dependency_security:
+    name: Dependency Security (npm audit)
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.app_changed == 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm audit (high+, production deps only)
+        run: npm audit --audit-level=high --omit=dev
+
+  semgrep_sast:
+    name: SAST (Semgrep)
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.app_changed == 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Semgrep
+        run: |
+          python -m pip install --upgrade pip
+          pip install semgrep
+
+      - name: Run Semgrep
+        run: semgrep scan --config p/default --error --metrics=off --exclude node_modules --exclude .next .
+
+  secrets_scan:
+    name: Secret Scan (Gitleaks)
+    runs-on: ubuntu-latest
+    needs: changes
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Install Gitleaks (OSS)
+        env:
+          GITLEAKS_VERSION: 8.24.2
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz
+          mkdir -p "$HOME/bin"
+          mv gitleaks "$HOME/bin/gitleaks"
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Run Gitleaks
+        run: gitleaks git --redact --verbose --exit-code 1 .
+
+  hadolint:
+    name: Dockerfile Lint (Hadolint)
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.docker_changed == 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf # v3.1.0
+        with:
+          dockerfile: Dockerfile
+
+  iac_security:
+    name: IaC Security (Checkov)
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.iac_changed == 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@002cd2e8cc0fe0535e6f364509e091c1a9870efa # v12.3093.0
+        with:
+          directory: .
+          quiet: true
+          soft_fail: false
+
+  trivy_fs:
+    name: Filesystem Security (Trivy)
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.app_changed == 'true' || needs.changes.outputs.iac_changed == 'true' || needs.changes.outputs.docker_changed == 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Run Trivy (fs)
+        uses: aquasecurity/trivy-action@1f0aa582c8c8f5f7639610d6d38baddfea4fdcee # v0.9.2
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          ignore-unfixed: true
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          exit-code: 1
+
+  container_verify:
+    name: Container Build & Smoke Test
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.app_changed == 'true' || needs.changes.outputs.docker_changed == 'true'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Build image
+        run: docker build -t local/dd-foundations:${{ github.sha }} .
+
+      - name: Run container smoke test
+        run: |
+          docker run -d --name dd-foundations-smoke -p 3000:3000 local/dd-foundations:${{ github.sha }}
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:3000/ >/dev/null; then
+              echo "Container responded successfully."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Container did not become ready in time."
+          docker logs dd-foundations-smoke || true
+          exit 1
+
+      - name: Stop smoke container
+        if: always()
+        run: docker rm -f dd-foundations-smoke || true
+
+  publish:
+    name: Publish Container
+    needs:
+      - changes
+      - node_quality
+      - lighthouse
+      - e2e
+      - dependency_security
+      - semgrep_sast
+      - secrets_scan
+      - hadolint
+      - iac_security
+      - trivy_fs
+      - container_verify
+    if: |
+      always() &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      (needs.changes.outputs.app_changed == 'true' || needs.changes.outputs.docker_changed == 'true') &&
+      needs.node_quality.result != 'failure' &&
+      needs.node_quality.result != 'cancelled' &&
+      needs.lighthouse.result != 'failure' &&
+      needs.lighthouse.result != 'cancelled' &&
+      needs.e2e.result != 'failure' &&
+      needs.e2e.result != 'cancelled' &&
+      needs.dependency_security.result != 'failure' &&
+      needs.dependency_security.result != 'cancelled' &&
+      needs.semgrep_sast.result != 'failure' &&
+      needs.semgrep_sast.result != 'cancelled' &&
+      needs.secrets_scan.result != 'failure' &&
+      needs.secrets_scan.result != 'cancelled' &&
+      needs.hadolint.result != 'failure' &&
+      needs.hadolint.result != 'cancelled' &&
+      needs.iac_security.result != 'failure' &&
+      needs.iac_security.result != 'cancelled' &&
+      needs.trivy_fs.result != 'failure' &&
+      needs.trivy_fs.result != 'cancelled' &&
+      needs.container_verify.result != 'failure' &&
+      needs.container_verify.result != 'cancelled'
+    permissions:
+      contents: read
+      id-token: write
+    uses: ./.github/workflows/publish.yml
+    secrets: inherit
+

@@ -1,0 +1,96 @@
+{
+  "topics": [
+    {
+      "id": "secure-architectures",
+      "label": "Design Secure Architectures",
+      "description": "Designing access controls, network security, and data protection using IAM, VPC, KMS, and AWS security services. Covers identity and resource policies, encryption strategies, and threat detection.",
+      "studyPointers": [
+        { "label": "IAM Best Practices", "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html" },
+        { "label": "VPC Security: Security Groups and NACLs", "url": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html" },
+        { "label": "AWS KMS Developer Guide", "url": "https://docs.aws.amazon.com/kms/latest/developerguide/overview.html" },
+        { "label": "AWS Secrets Manager User Guide", "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Restrict S3 access to a specific VPC",
+          "prompt": "A company wants to ensure that an S3 bucket is only accessible from EC2 instances in a specific VPC and not over the public internet. Design the access control.",
+          "focus": "VPC endpoints for S3, endpoint policies, bucket policies with aws:SourceVpc condition"
+        },
+        {
+          "title": "Rotate database credentials automatically",
+          "prompt": "An application stores RDS credentials in environment variables on EC2 instances. The security team requires automatic rotation without application code changes.",
+          "focus": "AWS Secrets Manager rotation, IAM role for EC2, Secrets Manager SDK integration"
+        }
+      ]
+    },
+    {
+      "id": "resilient-architectures",
+      "label": "Design Resilient Architectures",
+      "description": "Building highly available and fault-tolerant systems using multi-AZ and multi-Region patterns, load balancing, auto scaling, managed database services, and asynchronous decoupling.",
+      "studyPointers": [
+        { "label": "AWS Well-Architected: Reliability Pillar", "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html" },
+        { "label": "Amazon RDS Multi-AZ Deployments", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html" },
+        { "label": "Elastic Load Balancing Features", "url": "https://aws.amazon.com/elasticloadbalancing/features/" },
+        { "label": "Amazon SQS Developer Guide", "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Design a multi-AZ web tier",
+          "prompt": "A web application must survive the loss of an Availability Zone with zero downtime. Design the compute and load balancing layers.",
+          "focus": "ALB with cross-zone load balancing, Auto Scaling groups spanning multiple AZs, health checks"
+        },
+        {
+          "title": "Decouple a synchronous processing pipeline",
+          "prompt": "An order processing system becomes slow when the downstream fulfillment service is overwhelmed. Redesign to prevent backpressure from affecting order submission.",
+          "focus": "SQS for decoupling, producer/consumer pattern, visibility timeout, dead-letter queues"
+        }
+      ]
+    },
+    {
+      "id": "high-performing-architectures",
+      "label": "Design High-Performing Architectures",
+      "description": "Selecting and sizing compute, storage, database, and network resources for performance. Covers caching strategies, content delivery, database read scaling, and data streaming.",
+      "studyPointers": [
+        { "label": "Amazon EC2 Instance Types", "url": "https://aws.amazon.com/ec2/instance-types/" },
+        { "label": "Amazon ElastiCache for Redis", "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/WhatIs.html" },
+        { "label": "Amazon CloudFront Developer Guide", "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html" },
+        { "label": "Amazon Kinesis Data Streams Developer Guide", "url": "https://docs.aws.amazon.com/streams/latest/dev/introduction.html" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Reduce read latency for a global application",
+          "prompt": "A read-heavy application with users across North America, Europe, and Asia Pacific has high database read latency. Design a solution to reduce query response times globally.",
+          "focus": "RDS read replicas, ElastiCache, CloudFront for API caching, Global Accelerator"
+        },
+        {
+          "title": "Handle a real-time clickstream at scale",
+          "prompt": "A media platform generates millions of user click events per hour and needs to process them in near real-time for recommendations. Design the ingestion and processing layer.",
+          "focus": "Kinesis Data Streams, shard capacity, Lambda consumers, Kinesis Data Firehose"
+        }
+      ]
+    },
+    {
+      "id": "cost-optimized-architectures",
+      "label": "Design Cost-Optimized Architectures",
+      "description": "Reducing AWS spend through right-sizing, appropriate pricing models, storage tiering, serverless patterns, and using Cost Explorer and Trusted Advisor to identify savings.",
+      "studyPointers": [
+        { "label": "AWS Cost Optimization Pillar", "url": "https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html" },
+        { "label": "Amazon EC2 Purchasing Options", "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html" },
+        { "label": "Amazon S3 Storage Classes", "url": "https://aws.amazon.com/s3/storage-classes/" },
+        { "label": "AWS Trusted Advisor", "url": "https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Optimize EC2 spend for a steady-state workload",
+          "prompt": "A company runs 20 EC2 instances continuously for a production application that has been stable for 18 months. Identify the most cost-effective purchasing strategy.",
+          "focus": "Reserved Instances vs Savings Plans, commitment terms, convertible vs standard"
+        },
+        {
+          "title": "Tier old log data to reduce storage costs",
+          "prompt": "Application logs accumulate in S3 Standard. Logs older than 30 days are rarely accessed; logs older than 1 year are never accessed but must be retained for compliance.",
+          "focus": "S3 lifecycle policies, S3-IA, S3 Glacier Instant Retrieval, S3 Glacier Deep Archive"
+        }
+      ]
+    }
+  ]
+}

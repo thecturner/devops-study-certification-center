@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-ckad-ao-001",
+    "type": "single_choice",
+    "prompt": "Which probe type is used to determine whether a container is ready to accept traffic from a Service?",
+    "choices": [
+      { "id": "a", "text": "livenessProbe" },
+      { "id": "b", "text": "startupProbe" },
+      { "id": "c", "text": "readinessProbe" },
+      { "id": "d", "text": "healthProbe" }
+    ],
+    "correct": "c",
+    "explanation": "A readinessProbe controls whether a pod's IP is included in the Endpoints of a Service. If the probe fails, the pod is removed from the Service's load balancer pool until it passes again. This prevents traffic from being sent to pods that are still warming up or temporarily overloaded. A livenessProbe controls whether to restart the container; it does not affect Service routing.",
+    "topics": ["application-observability"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Configure Liveness, Readiness and Startup Probes", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-002",
+    "type": "single_choice",
+    "prompt": "A container takes 60 seconds to start. Without a startupProbe, a liveness probe with failureThreshold: 3 and periodSeconds: 10 will cause the container to be killed during startup. How does adding a startupProbe fix this?",
+    "choices": [
+      { "id": "a", "text": "The startupProbe disables the livenessProbe permanently" },
+      { "id": "b", "text": "The startupProbe runs instead of the livenessProbe until it succeeds once, giving the container extra time to start" },
+      { "id": "c", "text": "The startupProbe increases the livenessProbe's failureThreshold automatically" },
+      { "id": "d", "text": "The startupProbe delays scheduling of the pod until the node has capacity" }
+    ],
+    "correct": "b",
+    "explanation": "The startupProbe is checked first. While it is running, liveness and readiness probes are disabled. Once the startupProbe succeeds once, it is no longer checked and the other probes take over. You can set a high failureThreshold on the startupProbe (e.g., 30 x periodSeconds: 5 = 150 seconds) to give slow-starting apps time to initialize without being killed by the liveness probe.",
+    "topics": ["application-observability"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Protect slow starting containers with startup probes", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-003",
+    "type": "single_choice",
+    "prompt": "A container's liveness probe fails 3 consecutive times. What does Kubernetes do?",
+    "choices": [
+      { "id": "a", "text": "Removes the pod from Service endpoints until the probe passes" },
+      { "id": "b", "text": "Restarts the container according to the pod's restartPolicy" },
+      { "id": "c", "text": "Marks the node as NotReady" },
+      { "id": "d", "text": "Evicts the pod and reschedules it on a different node" }
+    ],
+    "correct": "b",
+    "explanation": "When a liveness probe fails consecutively beyond failureThreshold, the kubelet kills and restarts the container. Restart behavior follows the pod's restartPolicy (Always, OnFailure, Never). The pod is NOT rescheduled to a different node; only the container within the existing pod is restarted. Removing from Service endpoints is readiness probe behavior.",
+    "topics": ["application-observability"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Configure Liveness, Readiness and Startup Probes", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-004",
+    "type": "single_choice",
+    "prompt": "How do you view the logs of a container that has already crashed and been restarted by Kubernetes?",
+    "choices": [
+      { "id": "a", "text": "kubectl logs mypod --all-containers" },
+      { "id": "b", "text": "kubectl logs mypod --previous" },
+      { "id": "c", "text": "kubectl describe pod mypod --history" },
+      { "id": "d", "text": "kubectl get events --field-selector involvedObject.name=mypod" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl logs <pod> --previous (or -p) retrieves the logs from the terminated previous instance of the container, not the current running one. This is the primary way to diagnose why a container crashed before it was restarted. The logs are kept on the node until the pod is deleted or garbage collected.",
+    "topics": ["application-observability"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Logging Architecture", "url": "https://kubernetes.io/docs/concepts/cluster-administration/logging/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-005",
+    "type": "single_choice",
+    "prompt": "What is the recommended logging practice for containerized applications running on Kubernetes?",
+    "choices": [
+      { "id": "a", "text": "Write logs to files in /var/log inside the container" },
+      { "id": "b", "text": "Write logs to stdout and stderr so the container runtime captures them" },
+      { "id": "c", "text": "Write logs to a shared emptyDir volume that a sidecar ships to a log aggregator" },
+      { "id": "d", "text": "Use the Kubernetes Events API to emit structured log events" }
+    ],
+    "correct": "b",
+    "explanation": "The twelve-factor app methodology and Kubernetes logging architecture both recommend writing to stdout/stderr. The container runtime captures these streams and stores them on the node. kubectl logs reads from there. A node-level log agent (like Fluent Bit or Fluentd) can then forward logs to a central aggregator. Writing to files requires extra sidecar or hostPath volume setup.",
+    "topics": ["application-observability"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Logging Architecture", "url": "https://kubernetes.io/docs/concepts/cluster-administration/logging/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-006",
+    "type": "single_choice",
+    "prompt": "A Deployment references apps/v1beta1 in its apiVersion. The cluster is running Kubernetes 1.22+. What will happen when you apply the manifest?",
+    "choices": [
+      { "id": "a", "text": "The Deployment is created but flagged with a deprecation warning" },
+      { "id": "b", "text": "The apply succeeds and Kubernetes silently upgrades the version" },
+      { "id": "c", "text": "The apply fails because apps/v1beta1 was removed in Kubernetes 1.16" },
+      { "id": "d", "text": "The Deployment is created in a compatibility mode and runs with reduced features" }
+    ],
+    "correct": "c",
+    "explanation": "apps/v1beta1 and apps/v1beta2 were deprecated in Kubernetes 1.9 and removed entirely in 1.16. On any cluster running 1.16 or later, applying a manifest with these removed API versions results in a hard error: the server will return 404 Not Found for that API group/version. The correct version for Deployments is apps/v1, available since 1.9.",
+    "topics": ["application-observability"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Deprecated API Migration Guide", "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-007",
+    "type": "single_choice",
+    "prompt": "Which kubectl command lets you attach a temporary debug container to a running pod without restarting it?",
+    "choices": [
+      { "id": "a", "text": "kubectl exec mypod -- /bin/sh" },
+      { "id": "b", "text": "kubectl debug mypod -it --image=busybox" },
+      { "id": "c", "text": "kubectl attach mypod --container debug" },
+      { "id": "d", "text": "kubectl run debug --image=busybox --attach --rm" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl debug injects an ephemeral container into a running pod. This is useful when the pod's main container lacks debugging tools (e.g., a distroless image). The ephemeral container shares the pod's network and, optionally, process namespace. It does not require restarting the pod. kubectl exec runs a command in an existing container but requires the container to already have the needed binary.",
+    "topics": ["application-observability"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Debugging Running Pods", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-008",
+    "type": "single_choice",
+    "prompt": "A pod is stuck in Pending state. Which kubectl command gives you the most actionable information to diagnose the issue?",
+    "choices": [
+      { "id": "a", "text": "kubectl logs mypod" },
+      { "id": "b", "text": "kubectl top pod mypod" },
+      { "id": "c", "text": "kubectl describe pod mypod" },
+      { "id": "d", "text": "kubectl get pod mypod -o yaml" }
+    ],
+    "correct": "c",
+    "explanation": "kubectl describe pod shows the Events section, which typically reveals why a pod is stuck in Pending: insufficient CPU/memory, no nodes match the affinity/taint rules, PVC not bound, image pull failure, etc. kubectl logs fails for Pending pods because no container has started yet. kubectl get -o yaml is useful for inspecting the full spec but the Events section from describe is faster for diagnosing scheduling issues.",
+    "topics": ["application-observability"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Debugging Pods", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-009",
+    "type": "multi_choice",
+    "prompt": "Which probe action types does Kubernetes support? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "httpGet" },
+      { "id": "b", "text": "exec" },
+      { "id": "c", "text": "tcpSocket" },
+      { "id": "d", "text": "grpc" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Kubernetes supports four probe action types: httpGet (issues an HTTP GET and checks the response code), exec (runs a command inside the container and checks exit code), tcpSocket (attempts a TCP connection to a port), and grpc (calls the gRPC health checking protocol, stable since Kubernetes 1.27). All four work with liveness, readiness, and startup probes.",
+    "topics": ["application-observability"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Configure Liveness, Readiness and Startup Probes", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-010",
+    "type": "single_choice",
+    "prompt": "A pod is in CrashLoopBackOff. The backoff delay has reached its maximum. What is the maximum backoff delay between restart attempts?",
+    "choices": [
+      { "id": "a", "text": "30 seconds" },
+      { "id": "b", "text": "2 minutes" },
+      { "id": "c", "text": "5 minutes" },
+      { "id": "d", "text": "10 minutes" }
+    ],
+    "correct": "c",
+    "explanation": "Kubernetes uses exponential backoff for container restarts: 10s, 20s, 40s, 80s, 160s, and then caps at 300 seconds (5 minutes). After a successful reset period (currently ~10 minutes without a crash), the backoff resets to 10 seconds. This prevents thrashing while still recovering from transient failures.",
+    "topics": ["application-observability"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Pod lifecycle: container restart policy", "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-restart-policy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-011",
+    "type": "true_false",
+    "prompt": "True or False: An API version marked as 'deprecated' in Kubernetes means it has already been removed and will cause an error if used.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Deprecated means the API version is still functional but will be removed in a future release. Kubernetes follows a deprecation policy: deprecated stable APIs must be supported for at least 12 months or 3 releases after deprecation. Using a deprecated API typically produces a warning header in the API response but does not fail. Only removed APIs cause errors.",
+    "topics": ["application-observability"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Kubernetes Deprecation Policy", "url": "https://kubernetes.io/docs/reference/using-api/deprecation-policy/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-012",
+    "type": "single_choice",
+    "prompt": "You want to stream logs from all containers in a pod in real time. Which kubectl command achieves this?",
+    "choices": [
+      { "id": "a", "text": "kubectl logs mypod --all-containers --follow" },
+      { "id": "b", "text": "kubectl logs mypod -c all --watch" },
+      { "id": "c", "text": "kubectl attach mypod --multi" },
+      { "id": "d", "text": "kubectl logs mypod --stream" }
+    ],
+    "correct": "a",
+    "explanation": "kubectl logs --all-containers streams logs from every container in the pod, and --follow (-f) tails them in real time. Each line is prefixed with the container name. This is useful for debugging multi-container pods such as those with sidecars. The -c flag targets a single specific container, not all containers.",
+    "topics": ["application-observability"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Logging Architecture", "url": "https://kubernetes.io/docs/concepts/cluster-administration/logging/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-013",
+    "type": "single_choice",
+    "prompt": "What does the initialDelaySeconds field on a probe control?",
+    "choices": [
+      { "id": "a", "text": "The maximum amount of time the probe waits for a response before timing out" },
+      { "id": "b", "text": "How many seconds after the container starts before the first probe is run" },
+      { "id": "c", "text": "How many seconds to wait between consecutive probe checks" },
+      { "id": "d", "text": "How long to wait before marking a passing probe as a success" }
+    ],
+    "correct": "b",
+    "explanation": "initialDelaySeconds tells the kubelet to wait that many seconds after the container starts before running the first probe. This is important for applications that take time to initialize. Without it, the probe might fail immediately and cause unnecessary restarts. 'timeoutSeconds' is the response timeout, 'periodSeconds' is the interval between checks, and 'successThreshold' controls when a probe is considered passing.",
+    "topics": ["application-observability"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Configure Probes", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-014",
+    "type": "single_choice",
+    "prompt": "A pod's container has an exit code of 137. What does this most likely indicate?",
+    "choices": [
+      { "id": "a", "text": "The application exited cleanly with a custom error code" },
+      { "id": "b", "text": "The container was killed by the OOM (Out-of-Memory) killer" },
+      { "id": "c", "text": "The liveness probe failed and the kubelet stopped the container gracefully" },
+      { "id": "d", "text": "The container image was not found (ImagePullBackOff)" }
+    ],
+    "correct": "b",
+    "explanation": "Exit code 137 is 128 + 9 (SIGKILL). Linux processes killed with SIGKILL exit with code 137. The most common cause in Kubernetes is the OOM killer sending SIGKILL when a container exceeds its memory limit. You can confirm with kubectl describe pod and looking for 'OOMKilled' in the container's last state. Exit code 143 (128 + 15) indicates SIGTERM, which is a graceful termination.",
+    "topics": ["application-observability"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Debugging Pods", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ao-015",
+    "type": "single_choice",
+    "prompt": "Which tool comes built into Kubernetes to expose basic pod and node resource usage metrics (CPU and memory)?",
+    "choices": [
+      { "id": "a", "text": "kube-state-metrics" },
+      { "id": "b", "text": "Prometheus" },
+      { "id": "c", "text": "Metrics Server" },
+      { "id": "d", "text": "cAdvisor standalone" }
+    ],
+    "correct": "c",
+    "explanation": "Metrics Server is a scalable, efficient source of container resource metrics. When installed, it enables kubectl top node and kubectl top pod commands. It collects metrics via the kubelet's summary API (which uses cAdvisor under the hood) and exposes them through the Kubernetes Metrics API. It is not a full monitoring solution: it does not store historical data. Prometheus and kube-state-metrics together provide deeper, longer-term monitoring.",
+    "topics": ["application-observability"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Resource metrics pipeline", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/" }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-f-gp-001",
+    "type": "single_choice",
+    "prompt": "An IT team is redesigning its incident management process. Before rebuilding the process from scratch, they assess what currently works well in the existing workflow. Which guiding principle are they applying?",
+    "choices": [
+      { "id": "a", "text": "Focus on value" },
+      { "id": "b", "text": "Start where you are" },
+      { "id": "c", "text": "Keep it simple and practical" },
+      { "id": "d", "text": "Progress iteratively with feedback" }
+    ],
+    "correct": "b",
+    "explanation": "Start where you are advises organizations to assess what already exists before discarding it. The principle encourages reusing working components, practices, and capabilities rather than starting from zero — which wastes effort and can destroy functioning elements. 'Focus on value' is about ensuring activities contribute to value for stakeholders. 'Keep it simple and practical' is about eliminating unnecessary complexity. 'Progress iteratively with feedback' is about incremental delivery.",
+    "topics": ["guiding-principles"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-002",
+    "type": "single_choice",
+    "prompt": "Which guiding principle recommends delivering improvements in smaller, manageable increments so that feedback can be used to adapt the direction?",
+    "choices": [
+      { "id": "a", "text": "Collaborate and promote visibility" },
+      { "id": "b", "text": "Think and work holistically" },
+      { "id": "c", "text": "Progress iteratively with feedback" },
+      { "id": "d", "text": "Optimize and automate" }
+    ],
+    "correct": "c",
+    "explanation": "Progress iteratively with feedback recommends making improvements in small, manageable increments rather than large, infrequent changes. Each increment provides an opportunity to gather feedback, inspect results, and adapt — reducing risk and ensuring the direction remains aligned with actual needs. This is aligned with Agile and Lean thinking. 'Collaborate and promote visibility' is about breaking silos and sharing information. 'Optimize and automate' is about improving efficiency.",
+    "topics": ["guiding-principles"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-003",
+    "type": "single_choice",
+    "prompt": "A service desk team is redesigning its ticket escalation procedure. Instead of documenting hundreds of edge-case scenarios, they create a clear, minimal decision tree that handles 95% of cases. Which guiding principle is being applied?",
+    "choices": [
+      { "id": "a", "text": "Start where you are" },
+      { "id": "b", "text": "Focus on value" },
+      { "id": "c", "text": "Optimize and automate" },
+      { "id": "d", "text": "Keep it simple and practical" }
+    ],
+    "correct": "d",
+    "explanation": "Keep it simple and practical advises eliminating unnecessary complexity and bureaucracy — focusing on the minimum number of steps, rules, or documents needed to achieve the objective. Creating a minimal, clear decision tree that handles most cases without over-engineering edge cases is a direct application of this principle. 'Focus on value' ensures activities connect to stakeholder value. 'Optimize and automate' is about improving efficiency through streamlining before automation.",
+    "topics": ["guiding-principles"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-004",
+    "type": "single_choice",
+    "prompt": "Which guiding principle states that before automating a process, the organization should first ensure the process is optimized?",
+    "choices": [
+      { "id": "a", "text": "Keep it simple and practical" },
+      { "id": "b", "text": "Progress iteratively with feedback" },
+      { "id": "c", "text": "Optimize and automate" },
+      { "id": "d", "text": "Think and work holistically" }
+    ],
+    "correct": "c",
+    "explanation": "Optimize and automate recommends that organizations first optimize work manually before automating it — automating a broken or inefficient process simply speeds up the waste. The principle emphasizes reviewing and improving processes using Lean and other techniques before applying automation, so that the automation reinforces good practice rather than embedding inefficiency. 'Keep it simple and practical' addresses reducing unnecessary complexity.",
+    "topics": ["guiding-principles"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-005",
+    "type": "single_choice",
+    "prompt": "An organization is improving its change management process in isolation, without considering the impact on incident management or the service desk. This is a violation of which guiding principle?",
+    "choices": [
+      { "id": "a", "text": "Focus on value" },
+      { "id": "b", "text": "Collaborate and promote visibility" },
+      { "id": "c", "text": "Think and work holistically" },
+      { "id": "d", "text": "Start where you are" }
+    ],
+    "correct": "c",
+    "explanation": "Think and work holistically requires considering how all parts of the organization, its services, and practices interact and affect one another. Improving change management without considering the downstream impact on incident management and the service desk creates sub-optimization — optimizing one part at the expense of the whole. 'Collaborate and promote visibility' is about breaking silos through communication, but the core issue here is failing to take an end-to-end perspective.",
+    "topics": ["guiding-principles"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-006",
+    "type": "single_choice",
+    "prompt": "Which guiding principle encourages breaking down organizational silos and ensuring that information is visible to those who need it to make effective decisions?",
+    "choices": [
+      { "id": "a", "text": "Think and work holistically" },
+      { "id": "b", "text": "Collaborate and promote visibility" },
+      { "id": "c", "text": "Progress iteratively with feedback" },
+      { "id": "d", "text": "Keep it simple and practical" }
+    ],
+    "correct": "b",
+    "explanation": "Collaborate and promote visibility is specifically about breaking down silos, involving the right stakeholders, and ensuring that work, progress, priorities, and risks are visible to those who need the information. Transparency and collaboration reduce duplication, misunderstanding, and rework. 'Think and work holistically' is about taking an end-to-end perspective on how components fit together — related but distinct from the communication and visibility focus of this principle.",
+    "topics": ["guiding-principles"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-007",
+    "type": "single_choice",
+    "prompt": "Which guiding principle is MOST directly applicable when a team asks 'what does the customer actually need from this service, and how does our work contribute to it?'",
+    "choices": [
+      { "id": "a", "text": "Focus on value" },
+      { "id": "b", "text": "Start where you are" },
+      { "id": "c", "text": "Think and work holistically" },
+      { "id": "d", "text": "Collaborate and promote visibility" }
+    ],
+    "correct": "a",
+    "explanation": "Focus on value is the guiding principle that requires everything the organization does to link — directly or indirectly — to value for stakeholders, including customers and users. When a team asks how their work contributes to what the customer needs, they are applying this principle. It encourages all staff to understand and continuously evaluate the value created by their activities. The other principles address how work is done, not whether it creates value.",
+    "topics": ["guiding-principles"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-008",
+    "type": "single_choice",
+    "prompt": "A new CIO wants to replace the current ITSM platform with a brand-new system, discarding all existing processes and data. An ITIL advisor suggests reviewing what is working well before making decisions. Which principle supports the advisor's recommendation?",
+    "choices": [
+      { "id": "a", "text": "Optimize and automate" },
+      { "id": "b", "text": "Start where you are" },
+      { "id": "c", "text": "Keep it simple and practical" },
+      { "id": "d", "text": "Progress iteratively with feedback" }
+    ],
+    "correct": "b",
+    "explanation": "Start where you are directs organizations to observe and measure the current state carefully before deciding what to change. Not everything needs to be replaced — existing processes, knowledge, and capabilities may be valuable assets worth preserving or adapting. The principle guards against the 'greenfield fallacy' where organizations waste effort rebuilding things that already work. 'Progress iteratively with feedback' addresses how changes are implemented once the direction is set.",
+    "topics": ["guiding-principles"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-009",
+    "type": "single_choice",
+    "prompt": "Which statement about the seven guiding principles is correct?",
+    "choices": [
+      { "id": "a", "text": "Only one guiding principle should be applied at a time to avoid conflict" },
+      { "id": "b", "text": "The guiding principles are mandatory rules that must be followed in sequence" },
+      { "id": "c", "text": "Multiple guiding principles may interact and support each other in a given situation" },
+      { "id": "d", "text": "Guiding principles apply only to service management practices, not to governance" }
+    ],
+    "correct": "c",
+    "explanation": "The seven guiding principles are not mutually exclusive or sequential — multiple principles often apply simultaneously and reinforce each other. For example, keeping it simple and practical (simplicity) supports focusing on value (efficiency). Collaborating and promoting visibility supports thinking and working holistically. ITIL 4 explicitly states that the principles interact and should be considered together, not applied in isolation. They are not mandatory rules but universal recommendations.",
+    "topics": ["guiding-principles"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-010",
+    "type": "single_choice",
+    "prompt": "A major service improvement initiative has been scoped to take 18 months and deliver all changes at once. An ITIL consultant recommends breaking it into three 6-month phases, each delivering usable improvements. Which guiding principle is the consultant applying?",
+    "choices": [
+      { "id": "a", "text": "Collaborate and promote visibility" },
+      { "id": "b", "text": "Think and work holistically" },
+      { "id": "c", "text": "Progress iteratively with feedback" },
+      { "id": "d", "text": "Start where you are" }
+    ],
+    "correct": "c",
+    "explanation": "Progress iteratively with feedback is directly applied here: the consultant is recommending that the large, monolithic delivery be broken into smaller, iterative increments. Each phase delivers real value and creates an opportunity to collect feedback and adjust the direction for subsequent phases. This reduces risk and keeps the initiative aligned with actual business needs. 'Think and work holistically' would apply if the concern was about considering all dimensions; 'collaborate' is about stakeholder involvement.",
+    "topics": ["guiding-principles"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-011",
+    "type": "single_choice",
+    "prompt": "Which guiding principle is being violated when an IT team deploys a complex automated workflow without first reviewing whether the underlying manual process is efficient?",
+    "choices": [
+      { "id": "a", "text": "Focus on value" },
+      { "id": "b", "text": "Optimize and automate" },
+      { "id": "c", "text": "Keep it simple and practical" },
+      { "id": "d", "text": "Progress iteratively with feedback" }
+    ],
+    "correct": "b",
+    "explanation": "Optimize and automate explicitly states that optimization should precede automation. Automating an inefficient process encodes and accelerates the inefficiency rather than eliminating it. The principle requires teams to review, simplify, and optimize processes before applying automation so that automation amplifies good practice. 'Keep it simple and practical' is related but focuses on avoiding unnecessary complexity in the design, not specifically on the sequencing of optimization before automation.",
+    "topics": ["guiding-principles"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-012",
+    "type": "single_choice",
+    "prompt": "End users are not informed about a major planned maintenance window that will cause a 4-hour service outage. The users only find out when the service goes down. Which guiding principle was most clearly violated?",
+    "choices": [
+      { "id": "a", "text": "Think and work holistically" },
+      { "id": "b", "text": "Collaborate and promote visibility" },
+      { "id": "c", "text": "Keep it simple and practical" },
+      { "id": "d", "text": "Optimize and automate" }
+    ],
+    "correct": "b",
+    "explanation": "Collaborate and promote visibility requires making information visible to all stakeholders who need it. Failing to communicate a planned maintenance window to affected users is a direct violation of this principle — users were not given the information they needed to plan their work accordingly. 'Think and work holistically' would be violated if the team failed to consider downstream impacts of the outage on other services, but the core issue here is the failure to communicate.",
+    "topics": ["guiding-principles"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-013",
+    "type": "single_choice",
+    "prompt": "Which of the following is the BEST example of applying the 'Focus on value' guiding principle?",
+    "choices": [
+      { "id": "a", "text": "An IT team creates detailed documentation for every internal process, even those rarely used" },
+      { "id": "b", "text": "A service improvement is evaluated by measuring whether it reduces customer effort and improves satisfaction" },
+      { "id": "c", "text": "A team completes all outstanding projects before starting any new work" },
+      { "id": "d", "text": "Managers attend weekly status meetings to ensure visibility of progress" }
+    ],
+    "correct": "b",
+    "explanation": "Focus on value requires that activities are evaluated based on the value they create for stakeholders. Measuring whether a service improvement reduces customer effort and improves satisfaction is a direct application — the team is asking 'did this create value?' and using customer-centric metrics to answer it. Creating documentation for rarely used processes (A) risks creating waste. Attending status meetings (D) relates more to visibility than value. Finishing projects before starting others (C) is a prioritization decision, not a value-focused one.",
+    "topics": ["guiding-principles"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-014",
+    "type": "single_choice",
+    "prompt": "A service transition team is considering every individual aspect of a new deployment checklist without thinking about how the deployment will affect production users and downstream support teams. Which principle should the team apply?",
+    "choices": [
+      { "id": "a", "text": "Keep it simple and practical" },
+      { "id": "b", "text": "Start where you are" },
+      { "id": "c", "text": "Think and work holistically" },
+      { "id": "d", "text": "Progress iteratively with feedback" }
+    ],
+    "correct": "c",
+    "explanation": "Think and work holistically requires teams to consider the end-to-end picture, not just their own immediate task. A deployment checklist that ignores downstream impacts on users and support teams is a classic example of siloed thinking. The principle directs teams to understand how their activities connect to and affect other services, teams, and stakeholders — avoiding the sub-optimization that occurs when each team optimizes only its own piece.",
+    "topics": ["guiding-principles"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-gp-015",
+    "type": "single_choice",
+    "prompt": "Which of the following BEST describes why guiding principles are considered 'universal'?",
+    "choices": [
+      { "id": "a", "text": "They are enforceable by law across all industries that use ITIL" },
+      { "id": "b", "text": "They apply regardless of changes in an organization's goals, strategies, type of work, or management structure" },
+      { "id": "c", "text": "Every organization must implement all seven principles simultaneously or none at all" },
+      { "id": "d", "text": "They are shared by ITIL, COBIT, and ISO 20000 and are therefore industry-standardized rules" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 describes guiding principles as universal because they apply in all circumstances, regardless of changes in organizational goals, strategies, type of work, or management structure. They are enduring recommendations, not situational rules. They are not legally enforceable (A), do not need to be applied all simultaneously or not at all (C), and while some may align with other frameworks, their universality is defined by their context-independence within ITIL 4, not by cross-framework standardization (D).",
+    "topics": ["guiding-principles"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Seven Guiding Principles", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  }
+]

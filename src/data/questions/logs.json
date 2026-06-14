@@ -1,0 +1,919 @@
+[
+  {
+    "id": "log-001",
+    "type": "single_choice",
+    "prompt": "Which Datadog Agent component is responsible for collecting and forwarding log data?",
+    "choices": [
+      { "id": "a", "text": "The Trace Agent" },
+      { "id": "b", "text": "The Process Agent" },
+      { "id": "c", "text": "The Logs Agent (built into the core Agent)" },
+      { "id": "d", "text": "The Security Agent" }
+    ],
+    "correct": "c",
+    "explanation": "Log collection is handled by the Logs Agent, which is built into the core Datadog Agent (v6+). It must be explicitly enabled by setting 'logs_enabled: true' in the datadog.yaml configuration file. The Trace, Process, and Security Agents are separate specialized components.",
+    "topics": ["logs", "agents"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Collection" }],
+    "version": 1
+  },
+  {
+    "id": "log-002",
+    "type": "single_choice",
+    "prompt": "What must you set in the Datadog Agent's main configuration file to enable log collection?",
+    "choices": [
+      { "id": "a", "text": "logs_collection: enabled" },
+      { "id": "b", "text": "logs_enabled: true" },
+      { "id": "c", "text": "enable_logs: yes" },
+      { "id": "d", "text": "log_agent: true" }
+    ],
+    "correct": "b",
+    "explanation": "To enable log collection in the Datadog Agent, you must add 'logs_enabled: true' to the datadog.yaml file. Log collection is disabled by default and must be explicitly enabled. You also need to configure log sources in individual integration configuration files.",
+    "topics": ["logs", "agents"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Collection - Agent" }],
+    "version": 1
+  },
+  {
+    "id": "log-003",
+    "type": "single_choice",
+    "prompt": "Which log processor in a Datadog pipeline is used to parse unstructured log messages into structured attributes using pattern matching?",
+    "choices": [
+      { "id": "a", "text": "Attribute Remapper" },
+      { "id": "b", "text": "Date Remapper" },
+      { "id": "c", "text": "Grok Parser" },
+      { "id": "d", "text": "URL Parser" }
+    ],
+    "correct": "c",
+    "explanation": "The Grok Parser is used to parse raw, unstructured log messages into structured JSON attributes. It uses grok patterns (a combination of named regular expressions) to extract fields like timestamps, log levels, IP addresses, and custom fields from log strings.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Grok Parser" }],
+    "version": 1
+  },
+  {
+    "id": "log-004",
+    "type": "true_false",
+    "prompt": "Datadog log pipelines are applied to logs in real time during ingestion, before the logs are indexed.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Log pipelines and their processors (grok parsers, attribute remappers, etc.) are applied during the ingestion phase, before logs are indexed. This means the structured attributes and transformed fields are available in the index and for log-based metrics.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Processing Pipelines" }],
+    "version": 1
+  },
+  {
+    "id": "log-005",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a log pipeline 'filter' in Datadog?",
+    "choices": [
+      { "id": "a", "text": "To set the log retention period for the pipeline's output" },
+      { "id": "b", "text": "To define which logs the pipeline applies to based on a query filter" },
+      { "id": "c", "text": "To block logs matching a pattern from being ingested" },
+      { "id": "d", "text": "To route logs to different indexes based on their content" }
+    ],
+    "correct": "b",
+    "explanation": "A pipeline filter is a query that determines which logs enter the pipeline for processing. Only logs that match the filter query will have the pipeline's processors applied to them. This allows you to direct specific log sources (e.g., source:nginx) to the appropriate parsing pipeline.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Pipelines" }],
+    "version": 1
+  },
+  {
+    "id": "log-006",
+    "type": "single_choice",
+    "prompt": "Which log processor would you use to map a non-standard timestamp field (e.g., 'log_time') to be recognized as the official log timestamp?",
+    "choices": [
+      { "id": "a", "text": "Grok Parser" },
+      { "id": "b", "text": "Attribute Remapper" },
+      { "id": "c", "text": "Date Remapper" },
+      { "id": "d", "text": "Category Processor" }
+    ],
+    "correct": "c",
+    "explanation": "The Date Remapper processor designates one or more log attributes as the official timestamp of the log. Without this, Datadog uses the ingestion time as the log timestamp. This processor is critical for accurate log ordering when logs are collected with a delay.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Date Remapper" }],
+    "version": 1
+  },
+  {
+    "id": "log-007",
+    "type": "single_choice",
+    "prompt": "What is a log 'facet' in Datadog?",
+    "choices": [
+      { "id": "a", "text": "A visual chart component on the log explorer sidebar" },
+      { "id": "b", "text": "A qualitative attribute (string) extracted from logs that can be used to filter and group logs in the Log Explorer" },
+      { "id": "c", "text": "A quantitative attribute (number) used to filter and compute statistics on logs" },
+      { "id": "d", "text": "A saved search query in the Log Explorer" }
+    ],
+    "correct": "b",
+    "explanation": "A facet is a qualitative (string/boolean) attribute indexed from your logs that appears in the Log Explorer's facet panel. Facets allow you to filter and group logs by values like status, service, or environment. Quantitative numeric attributes are called 'measures'.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Facets" }],
+    "version": 1
+  },
+  {
+    "id": "log-008",
+    "type": "single_choice",
+    "prompt": "What is a log 'measure' in Datadog, and how does it differ from a facet?",
+    "choices": [
+      { "id": "a", "text": "A measure is a string attribute; a facet is a numeric attribute" },
+      { "id": "b", "text": "A measure is a numeric attribute used for quantitative analysis; a facet is a string attribute used for filtering and grouping" },
+      { "id": "c", "text": "Measures are used for APM traces; facets are used for logs" },
+      { "id": "d", "text": "A measure is a calculated field; a facet is a raw field" }
+    ],
+    "correct": "b",
+    "explanation": "In Datadog Log Management, a measure is a numeric attribute extracted from logs that enables quantitative operations like min, max, avg, and sum across log events. A facet is a qualitative (string) attribute used for filtering and group-by operations. Examples: response_time (measure), http.status_code (facet).",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Measures" }],
+    "version": 1
+  },
+  {
+    "id": "log-009",
+    "type": "true_false",
+    "prompt": "Datadog's Live Tail feature shows all logs ingested in real time, regardless of whether they are indexed in any log index.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Live Tail streams all ingested logs in real time, including logs that match exclusion filters and are not stored in any index. This makes it a powerful debugging tool for accessing logs that would otherwise not be searchable or retained.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Live Tail" }],
+    "version": 1
+  },
+  {
+    "id": "log-010",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of a log exclusion filter in a Datadog log index?",
+    "choices": [
+      { "id": "a", "text": "To prevent certain logs from being ingested into Datadog at all" },
+      { "id": "b", "text": "To exclude certain logs from being stored in the index, reducing storage costs while still allowing them to pass through Live Tail" },
+      { "id": "c", "text": "To remove sensitive data from logs before they are stored" },
+      { "id": "d", "text": "To block logs from triggering log-based monitors" }
+    ],
+    "correct": "b",
+    "explanation": "Exclusion filters in a log index drop logs that match the filter from being stored in that index, reducing indexed log volume and costs. However, excluded logs still pass through the ingestion pipeline and appear in Live Tail. They can also still generate log-based metrics and be archived.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Indexes - Exclusion Filters" }],
+    "version": 1
+  },
+  {
+    "id": "log-011",
+    "type": "single_choice",
+    "prompt": "What does configuring a log archive in Datadog allow you to do?",
+    "choices": [
+      { "id": "a", "text": "Compress logs to save space in Datadog's index" },
+      { "id": "b", "text": "Forward all ingested logs to your own cloud storage (S3, GCS, or Azure Blob) for long-term retention" },
+      { "id": "c", "text": "Archive old dashboards and log-based monitors" },
+      { "id": "d", "text": "Store logs in Datadog for up to 10 years" }
+    ],
+    "correct": "b",
+    "explanation": "Log archives allow you to forward all ingested logs to your own cloud storage (AWS S3, Google Cloud Storage, or Azure Blob Storage) in compressed JSON format. This enables long-term retention at low cost and allows you to rehydrate archived logs back into Datadog indexes for analysis when needed.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Archives" }],
+    "version": 1
+  },
+  {
+    "id": "log-012",
+    "type": "multi_choice",
+    "prompt": "Which cloud storage destinations are supported for Datadog log archives? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Amazon S3" },
+      { "id": "b", "text": "Google Cloud Storage (GCS)" },
+      { "id": "c", "text": "Azure Blob Storage" },
+      { "id": "d", "text": "Dropbox" },
+      { "id": "e", "text": "Snowflake" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Datadog log archives support Amazon S3, Google Cloud Storage (GCS), and Azure Blob Storage as destinations. Dropbox and Snowflake are not supported archive destinations.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Archives" }],
+    "version": 1
+  },
+  {
+    "id": "log-013",
+    "type": "single_choice",
+    "prompt": "What is 'log rehydration' in Datadog?",
+    "choices": [
+      { "id": "a", "text": "Re-sending failed log events from your application" },
+      { "id": "b", "text": "The process of loading archived logs from cloud storage back into a Datadog index for querying" },
+      { "id": "c", "text": "Restoring log-based metric data after a retention period" },
+      { "id": "d", "text": "Converting logs from one format to another within a pipeline" }
+    ],
+    "correct": "b",
+    "explanation": "Rehydration is the process of loading logs from a configured cloud storage archive (S3, GCS, or Azure Blob) back into a Datadog log index for querying and analysis. This allows you to investigate historical incidents using logs that have aged out of the standard index retention period.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Rehydrate from Archives" }],
+    "version": 1
+  },
+  {
+    "id": "log-014",
+    "type": "true_false",
+    "prompt": "Log-based metrics in Datadog count toward your custom metrics billing allocation.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Log-based metrics are generated from ingested log data and are billed as custom metrics. Each unique time series generated (metric name + tag value combination) counts toward your custom metrics allocation, just like any other custom metric.",
+    "topics": ["logs", "metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log-Based Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "log-015",
+    "type": "single_choice",
+    "prompt": "Which log processor allows you to rename a log attribute (e.g., rename 'http.url_details.path' to 'url.path')?",
+    "choices": [
+      { "id": "a", "text": "Grok Parser" },
+      { "id": "b", "text": "Attribute Remapper" },
+      { "id": "c", "text": "Field Renamer" },
+      { "id": "d", "text": "Status Remapper" }
+    ],
+    "correct": "b",
+    "explanation": "The Attribute Remapper processor maps one or more source attributes to a target attribute, effectively renaming or copying attributes within a log event. It supports both attribute-to-attribute and tag-to-attribute mappings, enabling normalization across diverse log sources.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Attribute Remapper" }],
+    "version": 1
+  },
+  {
+    "id": "log-016",
+    "type": "single_choice",
+    "prompt": "What is the default retention period for logs in the Datadog Log Management standard index?",
+    "choices": [
+      { "id": "a", "text": "3 days" },
+      { "id": "b", "text": "7 days" },
+      { "id": "c", "text": "15 days" },
+      { "id": "d", "text": "30 days" }
+    ],
+    "correct": "c",
+    "explanation": "The default log retention period in Datadog is 15 days. Customers can configure retention at 3, 7, 15, 30, 45, 60, 90, or 180 days depending on their plan and requirements. Longer retention periods incur additional costs.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Indexes Retention" }],
+    "version": 1
+  },
+  {
+    "id": "log-017",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature automatically groups similar log patterns together to help identify common log structures without manual configuration?",
+    "choices": [
+      { "id": "a", "text": "Log Facets" },
+      { "id": "b", "text": "Log Patterns" },
+      { "id": "c", "text": "Log Pipelines" },
+      { "id": "d", "text": "Log Exclusion Filters" }
+    ],
+    "correct": "b",
+    "explanation": "Log Patterns automatically clusters similar log messages together using machine learning, replacing variable parts (like IDs or timestamps) with wildcards. This makes it easy to identify the most common log structures and spot anomalous patterns without manual rule configuration.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Patterns" }],
+    "version": 1
+  },
+  {
+    "id": "log-018",
+    "type": "true_false",
+    "prompt": "Sensitive Data Scanner in Datadog can automatically detect and redact PII (like credit card numbers and email addresses) from logs before they are indexed.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. The Sensitive Data Scanner is a stream-based pattern matching service that scans logs in the ingestion pipeline. It can detect PII patterns like credit card numbers, social security numbers, and email addresses, then redact, hash, or partially mask them before the logs are indexed or archived.",
+    "topics": ["logs", "security"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Sensitive Data Scanner" }],
+    "version": 1
+  },
+  {
+    "id": "log-019",
+    "type": "single_choice",
+    "prompt": "Which log processor in Datadog is used to add a log status (INFO, WARN, ERROR) based on the value of a log attribute?",
+    "choices": [
+      { "id": "a", "text": "Attribute Remapper" },
+      { "id": "b", "text": "Category Processor" },
+      { "id": "c", "text": "Status Remapper" },
+      { "id": "d", "text": "Severity Parser" }
+    ],
+    "correct": "c",
+    "explanation": "The Status Remapper assigns the official Datadog log status (DEBUG, INFO, WARNING, ERROR, CRITICAL) based on the value of a specified attribute. Without this processor, logs may not have the correct severity level displayed in the Log Explorer.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Status Remapper" }],
+    "version": 1
+  },
+  {
+    "id": "log-020",
+    "type": "single_choice",
+    "prompt": "What is the maximum size of a single log event that Datadog will accept during ingestion?",
+    "choices": [
+      { "id": "a", "text": "64 KB" },
+      { "id": "b", "text": "256 KB" },
+      { "id": "c", "text": "1 MB" },
+      { "id": "d", "text": "5 MB" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog accepts log events up to 256 KB in size. Log events larger than this limit are truncated. If you are submitting payloads via the API, each request can contain up to 5 MB of data total, split across multiple log events.",
+    "topics": ["logs"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Log Collection Limits" }],
+    "version": 1
+  },
+  {
+    "id": "log-021",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid methods for sending logs to Datadog? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Datadog Agent log collection" },
+      { "id": "b", "text": "Datadog Logs API (HTTP endpoint)" },
+      { "id": "c", "text": "AWS Lambda forwarder" },
+      { "id": "d", "text": "Fluentd or Logstash output plugins" },
+      { "id": "e", "text": "Direct SNMP trap forwarding" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Logs can be sent to Datadog via the Agent, the HTTP Logs API, the AWS Lambda Forwarder (for AWS service logs), and third-party log shippers like Fluentd, Logstash, and Fluent Bit using Datadog output plugins. SNMP traps are not a log ingestion method for Datadog.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Collection" }],
+    "version": 1
+  },
+  {
+    "id": "log-022",
+    "type": "single_choice",
+    "prompt": "In a Datadog log pipeline, which processor would you use to add a new static attribute to all logs that pass through the pipeline?",
+    "choices": [
+      { "id": "a", "text": "Trace Remapper" },
+      { "id": "b", "text": "Service Remapper" },
+      { "id": "c", "text": "String Builder Processor" },
+      { "id": "d", "text": "Lookup Processor" }
+    ],
+    "correct": "c",
+    "explanation": "The String Builder Processor creates a new attribute from a template, which can include static strings and references to other attributes using '%{attribute_name}' notation. It is useful for adding computed or static fields to all logs in a pipeline.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: String Builder Processor" }],
+    "version": 1
+  },
+  {
+    "id": "log-023",
+    "type": "true_false",
+    "prompt": "You can configure multiple log indexes in Datadog, each with different retention periods and access controls.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Datadog supports multiple log indexes, each with its own filter (determining which logs are routed to it), retention period, and RBAC-based access controls (restricting which roles can query each index). This enables compliance and cost optimization by routing high-value logs to longer-retention indexes.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Indexes" }],
+    "version": 1
+  },
+  {
+    "id": "log-024",
+    "type": "single_choice",
+    "prompt": "What does the Lookup Processor in a Datadog log pipeline do?",
+    "choices": [
+      { "id": "a", "text": "Looks up the geolocation of IP addresses in log events" },
+      { "id": "b", "text": "Maps a log attribute value to a new value using a user-defined lookup table" },
+      { "id": "c", "text": "Searches for a pattern in a log message and extracts it" },
+      { "id": "d", "text": "Looks up related APM traces for correlation" }
+    ],
+    "correct": "b",
+    "explanation": "The Lookup Processor maps an attribute's value to a new value using a user-defined lookup table. For example, you could map HTTP status codes (200, 404, 500) to descriptive strings ('OK', 'Not Found', 'Server Error') by providing a table of source value to target value mappings.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Lookup Processor" }],
+    "version": 1
+  },
+  {
+    "id": "log-025",
+    "type": "single_choice",
+    "prompt": "Which log processor should you use to map a log attribute to the Datadog reserved 'service' attribute so that logs are correctly associated with an APM service?",
+    "choices": [
+      { "id": "a", "text": "Attribute Remapper" },
+      { "id": "b", "text": "Service Remapper" },
+      { "id": "c", "text": "Trace Remapper" },
+      { "id": "d", "text": "Grok Parser" }
+    ],
+    "correct": "b",
+    "explanation": "The Service Remapper designates a log attribute as the official 'service' field, which is a Datadog reserved attribute. This allows logs to be associated with the correct service in the Service Catalog and enables correlation with APM trace data.",
+    "topics": ["logs", "apm"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Remapper" }],
+    "version": 1
+  },
+  {
+    "id": "log-026",
+    "type": "multi_choice",
+    "prompt": "Which of the following are true about Datadog Log-Based Metrics? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "They can be created from any ingested log, even ones excluded from indexes" },
+      { "id": "b", "text": "They support both count and distribution metric types" },
+      { "id": "c", "text": "They can only be created from logs that are stored in an index" },
+      { "id": "d", "text": "They allow you to derive long-term trending data from logs without retaining all log content" },
+      { "id": "e", "text": "They are billed as custom metrics" }
+    ],
+    "correct": ["a", "b", "d", "e"],
+    "explanation": "Log-based metrics can be generated from all ingested logs, including those excluded from indexes. They support count and distribution types. They enable cost-effective long-term trending since metrics have longer retention than logs. They are billed as custom metrics. Logs do NOT need to be indexed to generate log-based metrics.",
+    "topics": ["logs", "metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Generate Metrics from Logs" }],
+    "version": 1
+  },
+  {
+    "id": "log-027",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the Trace Remapper processor in a Datadog log pipeline?",
+    "choices": [
+      { "id": "a", "text": "To convert log events into distributed traces" },
+      { "id": "b", "text": "To designate a log attribute as the trace ID, enabling log-to-trace correlation" },
+      { "id": "c", "text": "To add tracing headers to outbound HTTP calls recorded in logs" },
+      { "id": "d", "text": "To filter logs to only those associated with a traced request" }
+    ],
+    "correct": "b",
+    "explanation": "The Trace Remapper designates a log attribute as the official trace ID, enabling Datadog to correlate log events with APM traces. When a log has a trace ID that matches an active trace, you can pivot directly from the log to the corresponding distributed trace in the APM view.",
+    "topics": ["logs", "apm"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Trace Remapper" }],
+    "version": 1
+  },
+  {
+    "id": "log-028",
+    "type": "true_false",
+    "prompt": "Log patterns in Datadog are computed in real time during ingestion and are stored permanently.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "False. Log patterns are computed on-the-fly when you open the Patterns view in the Log Explorer, they are not computed at ingestion time or stored permanently. The clustering is applied to the currently queried set of logs in the selected time range.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Patterns" }],
+    "version": 1
+  },
+  {
+    "id": "log-029",
+    "type": "single_choice",
+    "prompt": "Which of the following correctly describes how log index routing works when a log matches multiple index filters in Datadog?",
+    "choices": [
+      { "id": "a", "text": "The log is stored in all matching indexes" },
+      { "id": "b", "text": "The log is stored in the index with the highest priority (first match wins)" },
+      { "id": "c", "text": "The log is stored in the index with the lowest cost" },
+      { "id": "d", "text": "The log generates an error and is dropped" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog evaluates log indexes in order of priority. A log is routed to the first index whose filter it matches (first match wins). Subsequent indexes are not evaluated for that log. Index order can be changed in the Datadog UI to control routing precedence.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Indexes - Routing" }],
+    "version": 1
+  },
+  {
+    "id": "log-030",
+    "type": "single_choice",
+    "prompt": "How does Datadog's Sensitive Data Scanner determine what data to redact in logs?",
+    "choices": [
+      { "id": "a", "text": "It uses a fixed, non-configurable list of common PII patterns" },
+      { "id": "b", "text": "It uses user-defined scanning rules with built-in or custom regex patterns and a specified action (redact, hash, or partial redact)" },
+      { "id": "c", "text": "It applies machine learning to detect sensitive data automatically without configuration" },
+      { "id": "d", "text": "It only redacts data in archived logs, not indexed logs" }
+    ],
+    "correct": "b",
+    "explanation": "Sensitive Data Scanner uses scanning rules that define: (1) a regex pattern (built-in library or custom), (2) the scope (full text or specific attributes), and (3) an action (redact entirely, hash, or partial mask). Users configure scanning groups and rules to match their data sensitivity requirements.",
+    "topics": ["logs", "security"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Sensitive Data Scanner" }],
+    "version": 1
+  },
+  {
+    "id": "log-031",
+    "type": "single_choice",
+    "prompt": "What is the 'source' reserved attribute in Datadog logs used for?",
+    "choices": [
+      { "id": "a", "text": "Identifying the geographic region where the log originated" },
+      { "id": "b", "text": "Specifying the technology or integration that generated the log (e.g., nginx, java, aws.s3)" },
+      { "id": "c", "text": "Identifying the network source IP address of the log sender" },
+      { "id": "d", "text": "Specifying the Datadog Agent version that collected the log" }
+    ],
+    "correct": "b",
+    "explanation": "The 'source' reserved attribute identifies the technology or integration that generated the log (e.g., 'nginx', 'python', 'aws.lambda'). Datadog uses the source attribute to automatically apply the appropriate out-of-the-box parsing pipeline for that technology.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Reserved Attributes" }],
+    "version": 1
+  },
+  {
+    "id": "log-032",
+    "type": "true_false",
+    "prompt": "You can use the Datadog Agent to tail log files on disk as well as collect logs from TCP/UDP sockets.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. The Datadog Agent supports multiple log source types: tailing files from disk (type: file), listening on TCP or UDP sockets (type: tcp or type: udp), reading from journald (type: journald), collecting from Docker containers, and reading from Windows Events (type: windows_event).",
+    "topics": ["logs", "agents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Collection from Files" }],
+    "version": 1
+  },
+  {
+    "id": "log-033",
+    "type": "single_choice",
+    "prompt": "In the Datadog Log Explorer, what does the 'Analytics' view allow you to do that the 'List' view does not?",
+    "choices": [
+      { "id": "a", "text": "View raw log messages" },
+      { "id": "b", "text": "Aggregate log data into charts and compute statistics like count, unique count, or measure averages over time" },
+      { "id": "c", "text": "Access archived logs" },
+      { "id": "d", "text": "Enable live tail for real-time viewing" }
+    ],
+    "correct": "b",
+    "explanation": "The Analytics view in the Log Explorer allows you to aggregate log data and visualize it as charts, computing metrics like event counts, unique value counts, or averages of numeric measures grouped by facets over time. The List view shows individual log events as raw lines.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Analytics" }],
+    "version": 1
+  },
+  {
+    "id": "log-034",
+    "type": "multi_choice",
+    "prompt": "Which of the following log processors are available in Datadog log pipelines? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Grok Parser" },
+      { "id": "b", "text": "Date Remapper" },
+      { "id": "c", "text": "GeoIP Parser" },
+      { "id": "d", "text": "Arithmetic Processor" },
+      { "id": "e", "text": "SQL Query Processor" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Datadog log pipelines support: Grok Parser, Date Remapper, GeoIP Parser (enriches logs with geolocation data from IP addresses), Arithmetic Processor (computes math operations on numeric attributes), as well as many others. SQL Query Processor is not a supported log processor type.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Processors" }],
+    "version": 1
+  },
+  {
+    "id": "log-035",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the Category Processor in Datadog log pipelines?",
+    "choices": [
+      { "id": "a", "text": "To categorize logs into different indexes based on their source" },
+      { "id": "b", "text": "To create a new attribute by matching log content against a set of filter conditions and assigning category labels" },
+      { "id": "c", "text": "To tag logs with taxonomy categories from the Datadog service catalog" },
+      { "id": "d", "text": "To sort logs into priority queues for processing" }
+    ],
+    "correct": "b",
+    "explanation": "The Category Processor creates a new attribute based on user-defined conditions. You define multiple categories, each with a filter query (e.g., '@http.status_code:[500 TO 599]') and a label (e.g., 'server_error'). The first matching condition's label is assigned to the new attribute.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Category Processor" }],
+    "version": 1
+  },
+  {
+    "id": "log-036",
+    "type": "true_false",
+    "prompt": "In Datadog, log exclusion filters can be configured to drop only a percentage of matching logs (e.g., drop 90% of debug logs), rather than excluding all matches.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Datadog exclusion filters support a configurable exclusion percentage between 0% and 100%. This allows you to sample-exclude logs, for example, excluding 90% of debug logs to reduce storage costs while still retaining a 10% sample for troubleshooting purposes.",
+    "topics": ["logs"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Exclusion Filters" }],
+    "version": 1
+  },
+  {
+    "id": "log-037",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature monitors your logs for unusual spikes or drops in log volume and can alert you when anomalies are detected?",
+    "choices": [
+      { "id": "a", "text": "Log Patterns" },
+      { "id": "b", "text": "Log-Based Metrics with Anomaly Detection Monitor" },
+      { "id": "c", "text": "Live Tail Alerts" },
+      { "id": "d", "text": "Log Anomaly Detector" }
+    ],
+    "correct": "b",
+    "explanation": "To alert on unusual log volume, you create a log-based metric that counts log events (or events matching a specific filter), then create an Anomaly Detection monitor on that metric. There is no standalone 'Log Anomaly Detector' feature, it requires combining log-based metrics with monitor types.",
+    "topics": ["logs", "monitors"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Log Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "log-038",
+    "type": "single_choice",
+    "prompt": "What format does Datadog use when writing log archives to cloud storage?",
+    "choices": [
+      { "id": "a", "text": "Plain text (.log)" },
+      { "id": "b", "text": "CSV" },
+      { "id": "c", "text": "Compressed JSON (.json.gz)" },
+      { "id": "d", "text": "Apache Parquet" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog writes archived logs as gzip-compressed JSON files (NDJSON format). Each file contains one log event per line in JSON format, compressed with gzip. The archives are organized in cloud storage by date and hour in a predictable directory structure.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Archives Format" }],
+    "version": 1
+  },
+  {
+    "id": "log-039",
+    "type": "single_choice",
+    "prompt": "Which Datadog log processor would you use to parse a JSON log message that arrives as a raw string and expand its fields into individual log attributes?",
+    "choices": [
+      { "id": "a", "text": "Grok Parser" },
+      { "id": "b", "text": "String Builder Processor" },
+      { "id": "c", "text": "JSON Parser" },
+      { "id": "d", "text": "Attribute Remapper" }
+    ],
+    "correct": "c",
+    "explanation": "The JSON Parser processor parses a JSON-encoded string attribute and expands its key-value pairs into individual log attributes. It is commonly used when applications embed a JSON object in the log message field, rather than submitting structured JSON logs directly.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: JSON Parser" }],
+    "version": 1
+  },
+  {
+    "id": "log-040",
+    "type": "multi_choice",
+    "prompt": "Which of the following are reserved attributes in Datadog logs that have special meaning in the platform? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "host" },
+      { "id": "b", "text": "service" },
+      { "id": "c", "text": "source" },
+      { "id": "d", "text": "status" },
+      { "id": "e", "text": "request_id" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Datadog has several reserved log attributes with special platform meaning: 'host' (the originating host), 'service' (the application or microservice), 'source' (the technology generating the log), 'status' (log severity level), and 'trace_id'. The 'request_id' attribute is not a reserved Datadog attribute.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Reserved Attributes" }],
+    "version": 1
+  },
+  {
+    "id": "log-041",
+    "type": "single_choice",
+    "prompt": "In Datadog's Grok Parser, what does the '%{word:attribute_name}' pattern do?",
+    "choices": [
+      { "id": "a", "text": "Matches any word character sequence and discards it" },
+      { "id": "b", "text": "Matches any word character sequence and captures it as a log attribute named 'attribute_name'" },
+      { "id": "c", "text": "Matches a reserved word from a predefined dictionary" },
+      { "id": "d", "text": "Matches an entire line and assigns it to a log field" }
+    ],
+    "correct": "b",
+    "explanation": "In Grok syntax, '%{pattern:name}' matches text using the named pattern (e.g., 'word', 'number', 'ip') and captures the matched value as a log attribute with the given name. '%{word:attribute_name}' captures a sequence of word characters (letters, digits, underscores) and stores it as the attribute 'attribute_name'.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Grok Parser Syntax" }],
+    "version": 1
+  },
+  {
+    "id": "log-042",
+    "type": "true_false",
+    "prompt": "The Datadog Lambda Forwarder automatically enriches forwarded AWS service logs with AWS resource tags from those services.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. The Datadog Forwarder Lambda function enriches logs forwarded from AWS services (CloudWatch, S3, etc.) with relevant AWS resource tags such as function name, region, and account. It also adds standard Datadog tags like 'forwarder_version'.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: AWS Lambda Forwarder" }],
+    "version": 1
+  },
+  {
+    "id": "log-043",
+    "type": "single_choice",
+    "prompt": "What is the 'message' reserved attribute in Datadog logs?",
+    "choices": [
+      { "id": "a", "text": "An optional metadata field for operator notes about the log" },
+      { "id": "b", "text": "The full text of the log event, which is indexed and full-text searchable" },
+      { "id": "c", "text": "A field that maps to the Datadog event title" },
+      { "id": "d", "text": "The error message when a log has status ERROR" }
+    ],
+    "correct": "b",
+    "explanation": "The 'message' attribute is a Datadog reserved attribute that contains the full content of the log entry. It is the main field that is full-text searchable without a specific attribute qualifier. If no 'message' field exists, Datadog treats the entire log body as the message.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Reserved Attributes" }],
+    "version": 1
+  },
+  {
+    "id": "log-044",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature allows you to use logs to detect security threats and policy violations in real time?",
+    "choices": [
+      { "id": "a", "text": "Log-Based Metrics" },
+      { "id": "b", "text": "Cloud SIEM (Security Information and Event Management)" },
+      { "id": "c", "text": "Log Patterns" },
+      { "id": "d", "text": "Sensitive Data Scanner" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog Cloud SIEM analyzes logs in real time using detection rules to identify security threats, unauthorized access, and policy violations. It generates security signals when threats are detected and integrates with log management for investigation. It is a separate product add-on.",
+    "topics": ["logs", "security"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Cloud SIEM" }],
+    "version": 1
+  },
+  {
+    "id": "log-045",
+    "type": "single_choice",
+    "prompt": "In the Datadog Log Explorer, how do you perform a full-text search for the phrase 'connection refused'?",
+    "choices": [
+      { "id": "a", "text": "message:connection refused" },
+      { "id": "b", "text": "*:\"connection refused\"" },
+      { "id": "c", "text": "\"connection refused\"" },
+      { "id": "d", "text": "fulltext:connection refused" }
+    ],
+    "correct": "c",
+    "explanation": "In the Datadog Log Explorer, you can perform a full-text search simply by typing the search terms. To search for an exact phrase, wrap it in double quotes: \"connection refused\". This searches across all text content in the log message and attributes.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Log Search Syntax" }],
+    "version": 1
+  },
+  {
+    "id": "log-046",
+    "type": "multi_choice",
+    "prompt": "Which of the following are true about Datadog log indexes? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Multiple indexes can be created with different retention periods" },
+      { "id": "b", "text": "Each index can have its own exclusion filters to drop specific logs" },
+      { "id": "c", "text": "RBAC controls can restrict which roles can read logs from specific indexes" },
+      { "id": "d", "text": "Logs can be stored in multiple indexes simultaneously" },
+      { "id": "e", "text": "Each index requires a dedicated Datadog Agent" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Log indexes support different retention periods, exclusion filters per index, and RBAC-based access controls per index. Because routing is first-match-wins, a log is only stored in the first matching index, not in multiple indexes simultaneously. Indexes are server-side constructs and do not require dedicated Agents.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Log Indexes" }],
+    "version": 1
+  },
+  {
+    "id": "log-047",
+    "type": "single_choice",
+    "prompt": "What happens to logs that do not match any index filter in Datadog?",
+    "choices": [
+      { "id": "a", "text": "They are stored in a default catch-all index" },
+      { "id": "b", "text": "They are dropped and not indexed (though still available in Live Tail and archives if configured)" },
+      { "id": "c", "text": "They trigger an automatic alert to the Datadog administrator" },
+      { "id": "d", "text": "They are returned to the Agent for resubmission" }
+    ],
+    "correct": "b",
+    "explanation": "If a log does not match any index filter, it is not indexed and therefore not searchable in the Log Explorer. However, it still passes through the ingestion pipeline, it will appear in Live Tail and will be included in configured log archives. It can also be used to generate log-based metrics.",
+    "topics": ["logs"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Log Indexes" }],
+    "version": 1
+  },
+  {
+    "id": "log-048",
+    "type": "true_false",
+    "prompt": "The Datadog Logs Agent supports multi-line log detection, allowing it to properly handle stack traces that span multiple lines as a single log event.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. The Datadog Agent supports multi-line log aggregation using the 'log_processing_rules' configuration with type 'multi_line'. You provide a regex pattern that matches the beginning of each new log entry (e.g., a timestamp), and the Agent groups subsequent lines until the next match, treating them as a single log event.",
+    "topics": ["logs", "agents"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Multi-Line Aggregation" }],
+    "version": 1
+  },
+  {
+    "id": "log-049",
+    "type": "single_choice",
+    "prompt": "What is the maximum number of log-based metric queries you can create per Datadog organization (as of the standard limit)?",
+    "choices": [
+      { "id": "a", "text": "20" },
+      { "id": "b", "text": "50" },
+      { "id": "c", "text": "100" },
+      { "id": "d", "text": "200" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog allows up to 100 log-based metric queries per organization by default. If you need more, you can contact Datadog support to request an increase. This limit applies to the number of distinct metric generation queries, not the number of resulting time series.",
+    "topics": ["logs"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Log-Based Metrics Limits" }],
+    "version": 1
+  },
+  {
+    "id": "log-050",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid use cases for Datadog log-based metrics? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Tracking the count of error logs per service over time" },
+      { "id": "b", "text": "Monitoring p95 request latency extracted from access logs" },
+      { "id": "c", "text": "Replacing log storage entirely with metric data" },
+      { "id": "d", "text": "Creating long-term trending data that persists beyond the log retention window" },
+      { "id": "e", "text": "Setting up cost-effective alerting on log patterns without indexing all logs" }
+    ],
+    "correct": ["a", "b", "d", "e"],
+    "explanation": "Log-based metrics are excellent for counting errors per service, computing distribution metrics like p95 latency from log attributes, creating long-term data that outlasts log retention, and alerting without needing to index expensive high-volume logs. However, they do not replace log storage, you still need logs for detailed investigation. Metrics only retain aggregated values, not the original log content.",
+    "topics": ["logs", "metrics"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Generate Metrics from Logs" }],
+    "version": 1
+  },
+  {
+    "id": "log-051",
+    "type": "single_choice",
+    "prompt": "A training app emits plain-text access logs that include status codes, but responders cannot reliably filter for 500 errors in Log Explorer. Which Datadog concept best fixes the exam scenario?",
+    "choices": [
+      { "id": "a", "text": "Increase host retention in the Infrastructure List" },
+      { "id": "b", "text": "Add a log pipeline parser so status code becomes a structured attribute" },
+      { "id": "c", "text": "Create a dashboard template variable for the raw log line" },
+      { "id": "d", "text": "Turn the logs into traces with the Trace Agent" }
+    ],
+    "correct": "b",
+    "explanation": "When logs arrive as unstructured text, Datadog cannot reliably filter or group on fields that have not been parsed. A log pipeline with a Grok parser and any needed remappers turns fields like status code and service into searchable attributes, which is what the exam scenario is testing.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Log Pipelines and Processors", "url": "https://docs.datadoghq.com/logs/log_configuration/pipelines/" },
+      { "label": "Grok Parser", "url": "https://docs.datadoghq.com/logs/log_configuration/processors/?tab=ui#grok-parser" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "log-052",
+    "type": "single_choice",
+    "prompt": "A team wants to alert on spikes in application errors from logs, but they do not want to keep every matching log indexed for long-term search. Which Datadog feature best fits this fundamentals scenario?",
+    "choices": [
+      { "id": "a", "text": "Generate a log-based metric from the error pattern" },
+      { "id": "b", "text": "Move the logs into the Trace Explorer" },
+      { "id": "c", "text": "Create a Host Map grouped by service" },
+      { "id": "d", "text": "Enable Session Replay for the service" }
+    ],
+    "correct": "a",
+    "explanation": "Log-based metrics let you turn matching log events into time-series data for dashboards and monitors. This is a common fundamentals pattern when you want trending and alerting value from logs without depending on long indexed-log retention for every event.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Log-based Metrics", "url": "https://docs.datadoghq.com/logs/log_configuration/logs_to_metrics/" },
+      { "label": "Log Monitors", "url": "https://docs.datadoghq.com/monitors/types/log/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "log-053",
+    "type": "single_choice",
+    "prompt": "A service buffers logs locally and sends them to Datadog several minutes late, so entries appear out of order unless the application timestamp field is used. Which processor solves this exam-style scenario?",
+    "choices": [
+      { "id": "a", "text": "Category Processor" },
+      { "id": "b", "text": "Date Remapper" },
+      { "id": "c", "text": "Service Remapper" },
+      { "id": "d", "text": "Status Remapper" }
+    ],
+    "correct": "b",
+    "explanation": "A Date Remapper tells Datadog which parsed field should become the official log timestamp. That is the correct solution when log arrival time and event time differ, which is a common exam scenario around ingestion and ordering.",
+    "topics": ["logs"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Date Remapper", "url": "https://docs.datadoghq.com/logs/log_configuration/processors/?tab=ui#log-date-remapper" },
+      { "label": "Log Pipelines", "url": "https://docs.datadoghq.com/logs/log_configuration/pipelines/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "log-054",
+    "type": "single_choice",
+    "prompt": "A responder needs to investigate an incident from several months ago after the original indexed logs have expired. Which Datadog capability supports this fundamentals use case?",
+    "choices": [
+      { "id": "a", "text": "Rehydrate archived logs back into an index" },
+      { "id": "b", "text": "Replay the incident with Session Replay" },
+      { "id": "c", "text": "Rebuild the trace from RED metrics" },
+      { "id": "d", "text": "Restore the Host Map from a notebook export" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog archives can store ingested logs in cloud storage for long-term retention, and rehydration loads a selected time range back into an index for investigation. That is the direct answer for historical log-access scenarios in fundamentals prep.",
+    "topics": ["logs"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Log Archives", "url": "https://docs.datadoghq.com/logs/log_configuration/archives/" },
+      { "label": "Rehydrate from Archives", "url": "https://docs.datadoghq.com/logs/guide/rehydrating/" }
+    ],
+    "version": 1
+  }
+]

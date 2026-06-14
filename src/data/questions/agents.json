@@ -1,0 +1,916 @@
+[
+  {
+    "id": "agt-001",
+    "type": "single_choice",
+    "prompt": "Which component of the Datadog Agent is responsible for collecting metrics from the host and integrations?",
+    "choices": [
+      { "id": "a", "text": "Forwarder" },
+      { "id": "b", "text": "DogStatsD" },
+      { "id": "c", "text": "Collector" },
+      { "id": "d", "text": "Trace Agent" }
+    ],
+    "correct": "c",
+    "explanation": "The Collector is the core component of the Datadog Agent that runs checks, gathers host and integration metrics, and passes data to the Forwarder for transmission to Datadog's backend.",
+    "topics": ["agent-architecture"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Architecture" }],
+    "version": 1
+  },
+  {
+    "id": "agt-002",
+    "type": "single_choice",
+    "prompt": "What is the role of the Forwarder component in the Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "It listens for custom StatsD metrics on UDP port 8125" },
+      { "id": "b", "text": "It buffers and sends collected data to the Datadog platform over HTTPS" },
+      { "id": "c", "text": "It discovers containers and generates check configurations" },
+      { "id": "d", "text": "It runs APM trace sampling decisions" }
+    ],
+    "correct": "b",
+    "explanation": "The Forwarder sends data collected by the Collector and DogStatsD to Datadog's intake API over HTTPS. It handles buffering, compression, and retry logic to ensure reliable data transmission.",
+    "topics": ["agent-architecture"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Forwarder" }],
+    "version": 1
+  },
+  {
+    "id": "agt-003",
+    "type": "single_choice",
+    "prompt": "What port does DogStatsD listen on by default for custom application metrics?",
+    "choices": [
+      { "id": "a", "text": "8126" },
+      { "id": "b", "text": "8125" },
+      { "id": "c", "text": "5000" },
+      { "id": "d", "text": "9090" }
+    ],
+    "correct": "b",
+    "explanation": "DogStatsD listens on UDP port 8125 by default for custom metrics submitted using the StatsD protocol. Applications send metrics to this port and DogStatsD forwards them to Datadog.",
+    "topics": ["agent-architecture"],
+    "difficulty": "easy",
+    "refs": [{ "label": "DogStatsD" }],
+    "version": 1
+  },
+  {
+    "id": "agt-004",
+    "type": "single_choice",
+    "prompt": "What is the primary configuration file for the Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "agent.conf" },
+      { "id": "b", "text": "datadog.yaml" },
+      { "id": "c", "text": "dd-agent.json" },
+      { "id": "d", "text": "config.toml" }
+    ],
+    "correct": "b",
+    "explanation": "The main Datadog Agent configuration file is datadog.yaml, located at /etc/datadog-agent/datadog.yaml on Linux. It controls global settings like the API key, site, log level, and feature toggles.",
+    "topics": ["agent-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Configuration File" }],
+    "version": 1
+  },
+  {
+    "id": "agt-005",
+    "type": "single_choice",
+    "prompt": "Where does the Datadog Agent look for integration check configuration files?",
+    "choices": [
+      { "id": "a", "text": "/etc/datadog-agent/integrations.d/" },
+      { "id": "b", "text": "/etc/datadog-agent/conf.d/" },
+      { "id": "c", "text": "/etc/datadog-agent/checks.d/" },
+      { "id": "d", "text": "/etc/datadog-agent/plugins/" }
+    ],
+    "correct": "b",
+    "explanation": "Integration check configuration files (e.g., nginx.d/conf.yaml, postgres.d/conf.yaml) are placed in the conf.d/ directory under the Agent's configuration directory (/etc/datadog-agent/conf.d/ on Linux).",
+    "topics": ["agent-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Integration Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "agt-006",
+    "type": "true_false",
+    "prompt": "The Datadog Agent can be installed using a one-line installer command that downloads and runs the installation script automatically.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog provides a one-line installation command (available in the Datadog UI under Integrations > Agent) that uses a shell script to detect the OS, download, and install the Agent automatically.",
+    "topics": ["agent-installation"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Installation" }],
+    "version": 1
+  },
+  {
+    "id": "agt-007",
+    "type": "single_choice",
+    "prompt": "What command is used to send a diagnostic bundle to Datadog Support for troubleshooting Agent issues?",
+    "choices": [
+      { "id": "a", "text": "datadog-agent diagnose" },
+      { "id": "b", "text": "datadog-agent flare" },
+      { "id": "c", "text": "datadog-agent status" },
+      { "id": "d", "text": "datadog-agent debug" }
+    ],
+    "correct": "b",
+    "explanation": "The `datadog-agent flare` command creates a compressed archive of Agent logs, configuration (with secrets redacted), and diagnostic information, then offers to send it directly to Datadog Support.",
+    "topics": ["agent-troubleshooting"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Flare" }],
+    "version": 1
+  },
+  {
+    "id": "agt-008",
+    "type": "single_choice",
+    "prompt": "Which Autodiscovery mechanism is used to configure integrations for containers based on Docker labels?",
+    "choices": [
+      { "id": "a", "text": "Container annotations" },
+      { "id": "b", "text": "Docker labels" },
+      { "id": "c", "text": "Environment variables in the Agent container" },
+      { "id": "d", "text": "A ConfigMap in Kubernetes" }
+    ],
+    "correct": "b",
+    "explanation": "In Docker environments, Autodiscovery reads labels on containers to determine which check configurations to apply. Labels follow the format com.datadoghq.ad.check_names, .init_configs, and .instances.",
+    "topics": ["autodiscovery"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Autodiscovery Docker Labels" }],
+    "version": 1
+  },
+  {
+    "id": "agt-009",
+    "type": "single_choice",
+    "prompt": "In Kubernetes, where are Autodiscovery integration templates typically stored to configure checks on pods?",
+    "choices": [
+      { "id": "a", "text": "Pod spec environment variables" },
+      { "id": "b", "text": "Pod annotations using the ad.datadoghq.com/ prefix" },
+      { "id": "c", "text": "The datadog.yaml ConfigMap" },
+      { "id": "d", "text": "Node-level labels" }
+    ],
+    "correct": "b",
+    "explanation": "In Kubernetes, Autodiscovery check configurations are set as pod annotations using the prefix ad.datadoghq.com/<container_identifier>. The Agent reads these annotations and applies the corresponding integration checks.",
+    "topics": ["autodiscovery"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Autodiscovery Kubernetes Annotations" }],
+    "version": 1
+  },
+  {
+    "id": "agt-010",
+    "type": "true_false",
+    "prompt": "Agent-based integrations run checks inside the Datadog Agent process and can only collect metrics from the local host.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Agent-based integrations run inside the Agent but can connect to remote services over the network (e.g., a MySQL Agent check connecting to a remote database host). They are not restricted to only localhost services.",
+    "topics": ["integration-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent-based Integrations" }],
+    "version": 1
+  },
+  {
+    "id": "agt-011",
+    "type": "single_choice",
+    "prompt": "What type of Datadog integration does NOT require the Datadog Agent and instead polls an external service's API directly from Datadog's backend?",
+    "choices": [
+      { "id": "a", "text": "Agent-based integration" },
+      { "id": "b", "text": "Crawler integration" },
+      { "id": "c", "text": "DogStatsD integration" },
+      { "id": "d", "text": "Custom check integration" }
+    ],
+    "correct": "b",
+    "explanation": "Crawler (API-based) integrations have Datadog's backend poll external services' APIs directly without needing an Agent installed. Examples include AWS CloudWatch, Azure Monitor, and GCP Stackdriver integrations.",
+    "topics": ["integration-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Integration Types" }],
+    "version": 1
+  },
+  {
+    "id": "agt-012",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the checks.d/ directory in the Datadog Agent configuration path?",
+    "choices": [
+      { "id": "a", "text": "It stores integration configuration YAML files" },
+      { "id": "b", "text": "It stores custom Python Agent check scripts" },
+      { "id": "c", "text": "It stores log collection configuration files" },
+      { "id": "d", "text": "It stores Autodiscovery template files" }
+    ],
+    "correct": "b",
+    "explanation": "The checks.d/ directory (at /etc/datadog-agent/checks.d/ on Linux) is where you place custom Python check files (.py). Each file defines a custom Agent check class that the Agent discovers and runs automatically.",
+    "topics": ["agent-check-development", "agent-configuration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Custom Agent Checks" }],
+    "version": 1
+  },
+  {
+    "id": "agt-013",
+    "type": "true_false",
+    "prompt": "The Datadog Agent can collect logs from files, Windows Event logs, TCP/UDP sockets, and Docker container stdout/stderr.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The Datadog Agent's log collection feature supports multiple sources: tailing log files, Windows Event Viewer, TCP/UDP listening, and Docker container stdout/stderr streams, making it versatile for different environments.",
+    "topics": ["log-collection"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Log Collection Sources" }],
+    "version": 1
+  },
+  {
+    "id": "agt-014",
+    "type": "single_choice",
+    "prompt": "What must be set to true in datadog.yaml to enable log collection on the Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "log_enabled: true" },
+      { "id": "b", "text": "logs_enabled: true" },
+      { "id": "c", "text": "collect_logs: true" },
+      { "id": "d", "text": "enable_log_collection: true" }
+    ],
+    "correct": "b",
+    "explanation": "To enable the Agent's log collection feature, you must set `logs_enabled: true` in datadog.yaml. Without this, log collection configurations in conf.d/ files are ignored.",
+    "topics": ["log-collection", "agent-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Log Collection Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "agt-015",
+    "type": "single_choice",
+    "prompt": "Which command shows the current status of all running Agent checks and component health?",
+    "choices": [
+      { "id": "a", "text": "datadog-agent info" },
+      { "id": "b", "text": "datadog-agent status" },
+      { "id": "c", "text": "datadog-agent health" },
+      { "id": "d", "text": "datadog-agent check --all" }
+    ],
+    "correct": "b",
+    "explanation": "The `datadog-agent status` command displays a comprehensive view of the Agent's health, all running checks, their status, metrics collected, errors encountered, and component connectivity.",
+    "topics": ["agent-troubleshooting"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Status Command" }],
+    "version": 1
+  },
+  {
+    "id": "agt-016",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid methods for installing the Datadog Agent? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "One-line installer script" },
+      { "id": "b", "text": "Ansible role" },
+      { "id": "c", "text": "Kubernetes DaemonSet" },
+      { "id": "d", "text": "Docker container" },
+      { "id": "e", "text": "Browser-based direct installation" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "The Datadog Agent can be installed via the one-line installer, configuration management tools like Ansible, as a DaemonSet on Kubernetes, or as a Docker container. Browser-based direct installation is not a supported method.",
+    "topics": ["agent-installation"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Installation Methods" }],
+    "version": 1
+  },
+  {
+    "id": "agt-017",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the Autodiscovery feature in the Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "To automatically install new Agent integrations from the marketplace" },
+      { "id": "b", "text": "To dynamically apply check configurations to containerized services as they start and stop" },
+      { "id": "c", "text": "To auto-generate dashboards based on detected metrics" },
+      { "id": "d", "text": "To automatically upgrade the Agent when a new version is released" }
+    ],
+    "correct": "b",
+    "explanation": "Autodiscovery solves the challenge of monitoring ephemeral containers. It detects when containers start or stop and dynamically applies or removes integration check configurations without requiring Agent restarts.",
+    "topics": ["autodiscovery"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Autodiscovery Overview" }],
+    "version": 1
+  },
+  {
+    "id": "agt-018",
+    "type": "single_choice",
+    "prompt": "In a custom Agent check, which method must be implemented and is called by the Agent on each check interval?",
+    "choices": [
+      { "id": "a", "text": "run()" },
+      { "id": "b", "text": "execute()" },
+      { "id": "c", "text": "check()" },
+      { "id": "d", "text": "collect()" }
+    ],
+    "correct": "c",
+    "explanation": "Custom Agent checks must implement the `check(self, instance)` method, which the Agent calls on each collection interval. This method contains the logic for collecting metrics, events, or service checks.",
+    "topics": ["agent-check-development"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Custom Check Development" }],
+    "version": 1
+  },
+  {
+    "id": "agt-019",
+    "type": "true_false",
+    "prompt": "The Datadog Agent can be configured to collect APM traces in addition to infrastructure metrics and logs.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The Datadog Agent includes a built-in Trace Agent component that receives APM trace data from instrumented applications and forwards it to Datadog. APM collection is enabled by setting apm_config.enabled: true in datadog.yaml.",
+    "topics": ["apm-tracing"],
+    "difficulty": "easy",
+    "refs": [{ "label": "APM Agent Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "agt-020",
+    "type": "single_choice",
+    "prompt": "Which port does the Datadog Trace Agent listen on by default to receive APM traces?",
+    "choices": [
+      { "id": "a", "text": "8125" },
+      { "id": "b", "text": "8126" },
+      { "id": "c", "text": "4317" },
+      { "id": "d", "text": "9411" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Trace Agent listens on TCP port 8126 by default for APM traces. Instrumented applications send trace data to http://localhost:8126 (or the Agent's host) using the Datadog trace format.",
+    "topics": ["apm-tracing"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Trace Agent Port" }],
+    "version": 1
+  },
+  {
+    "id": "agt-021",
+    "type": "single_choice",
+    "prompt": "When deploying the Datadog Agent on Kubernetes, what is the recommended deployment method?",
+    "choices": [
+      { "id": "a", "text": "Deployment with a single replica" },
+      { "id": "b", "text": "StatefulSet" },
+      { "id": "c", "text": "DaemonSet" },
+      { "id": "d", "text": "CronJob" }
+    ],
+    "correct": "c",
+    "explanation": "The Datadog Agent should be deployed as a DaemonSet on Kubernetes, ensuring one Agent pod runs on every node in the cluster. This provides complete coverage for node-level metrics, logs, and traces.",
+    "topics": ["agent-installation"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Kubernetes Agent Deployment" }],
+    "version": 1
+  },
+  {
+    "id": "agt-022",
+    "type": "single_choice",
+    "prompt": "What is the preferred way to provide the Datadog API key to the Agent when deploying on Kubernetes?",
+    "choices": [
+      { "id": "a", "text": "Hardcode it in the DaemonSet YAML" },
+      { "id": "b", "text": "Store it in a Kubernetes Secret and reference it as an environment variable" },
+      { "id": "c", "text": "Write it to a ConfigMap mounted as a volume" },
+      { "id": "d", "text": "Pass it as a command-line argument to the Agent process" }
+    ],
+    "correct": "b",
+    "explanation": "The recommended approach is to store the API key in a Kubernetes Secret and reference it via the DD_API_KEY environment variable in the DaemonSet spec. This avoids exposing sensitive credentials in plain-text YAML files.",
+    "topics": ["agent-installation", "agent-configuration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Kubernetes Secrets" }],
+    "version": 1
+  },
+  {
+    "id": "agt-023",
+    "type": "true_false",
+    "prompt": "The Agent flare command automatically redacts sensitive information such as API keys and passwords before sending the diagnostic bundle to Datadog Support.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "When generating a flare, the Datadog Agent scrubs sensitive values including API keys, app keys, passwords, and other secrets from configuration files and logs before packaging the archive. This protects credentials.",
+    "topics": ["agent-troubleshooting"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Flare Security" }],
+    "version": 1
+  },
+  {
+    "id": "agt-024",
+    "type": "single_choice",
+    "prompt": "What Autodiscovery template mechanism is used when you want to store check configurations in a key-value store like Consul or etcd?",
+    "choices": [
+      { "id": "a", "text": "Container labels" },
+      { "id": "b", "text": "Kubernetes ConfigMaps" },
+      { "id": "c", "text": "Key-value store configuration provider" },
+      { "id": "d", "text": "Environment variable templates" }
+    ],
+    "correct": "c",
+    "explanation": "The Datadog Agent's Autodiscovery supports a key-value store configuration provider. Check templates stored in Consul, etcd, or ZooKeeper are read by the Agent at runtime and applied to matching containers.",
+    "topics": ["autodiscovery"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Autodiscovery KV Store" }],
+    "version": 1
+  },
+  {
+    "id": "agt-025",
+    "type": "single_choice",
+    "prompt": "Which configuration directory structure is correct for an nginx integration check on the Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "/etc/datadog-agent/checks.d/nginx.yaml" },
+      { "id": "b", "text": "/etc/datadog-agent/conf.d/nginx.d/conf.yaml" },
+      { "id": "c", "text": "/etc/datadog-agent/integrations/nginx/config.yaml" },
+      { "id": "d", "text": "/etc/datadog-agent/nginx.conf" }
+    ],
+    "correct": "b",
+    "explanation": "Integration check configurations are placed in subdirectories within conf.d/. For nginx, the configuration file is at /etc/datadog-agent/conf.d/nginx.d/conf.yaml. The checks.d/ directory is for custom Python check scripts.",
+    "topics": ["agent-configuration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Integration Configuration Files" }],
+    "version": 1
+  },
+  {
+    "id": "agt-026",
+    "type": "multi_choice",
+    "prompt": "Which of the following statements about API-based (crawler) integrations are true? (Select two)",
+    "choices": [
+      { "id": "a", "text": "They do not require the Datadog Agent to be installed" },
+      { "id": "b", "text": "They poll external cloud provider APIs from Datadog's servers" },
+      { "id": "c", "text": "They run inside the Datadog Agent process" },
+      { "id": "d", "text": "They require an API key to be stored in datadog.yaml" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "API-based (crawler) integrations run on Datadog's backend servers and poll external service APIs directly. They do not require an Agent. Examples include AWS, Azure, and GCP integrations that use cloud provider APIs.",
+    "topics": ["integration-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "API-based Integrations" }],
+    "version": 1
+  },
+  {
+    "id": "agt-027",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the `min_collection_interval` parameter in an Agent check configuration?",
+    "choices": [
+      { "id": "a", "text": "It sets the minimum time the Agent waits before sending data to Datadog" },
+      { "id": "b", "text": "It overrides the default check collection frequency for a specific check" },
+      { "id": "c", "text": "It defines the minimum number of data points required before metrics are reported" },
+      { "id": "d", "text": "It sets a floor on metric values before they are reported" }
+    ],
+    "correct": "b",
+    "explanation": "The `min_collection_interval` setting in an integration's conf.yaml overrides the default 15-second check interval. Setting it to 60, for example, means the check runs at most once per minute.",
+    "topics": ["agent-configuration", "agent-check-development"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Check Collection Interval" }],
+    "version": 1
+  },
+  {
+    "id": "agt-028",
+    "type": "true_false",
+    "prompt": "The Datadog Agent for Kubernetes can automatically discover and monitor pods across all namespaces without any additional namespace-specific configuration.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "By default, the Datadog Agent's Autodiscovery in Kubernetes watches pods across all namespaces. The Agent uses its RBAC permissions to discover pod annotations and apply integration configurations cluster-wide.",
+    "topics": ["autodiscovery", "agent-installation"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Kubernetes Autodiscovery" }],
+    "version": 1
+  },
+  {
+    "id": "agt-029",
+    "type": "single_choice",
+    "prompt": "When using the Ansible role for Datadog Agent installation, what variable is used to set the API key?",
+    "choices": [
+      { "id": "a", "text": "datadog_api_key" },
+      { "id": "b", "text": "dd_api_key" },
+      { "id": "c", "text": "datadog.api_key" },
+      { "id": "d", "text": "DD_API_KEY" }
+    ],
+    "correct": "a",
+    "explanation": "In the official Datadog Ansible role (datadog.datadog), the variable `datadog_api_key` is used to configure the Agent's API key. This variable is set in the playbook or inventory vars and written to datadog.yaml.",
+    "topics": ["agent-installation"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Ansible Role Variables" }],
+    "version": 1
+  },
+  {
+    "id": "agt-030",
+    "type": "single_choice",
+    "prompt": "What command runs a specific Datadog Agent check manually and outputs the collected metrics for debugging?",
+    "choices": [
+      { "id": "a", "text": "datadog-agent test <check_name>" },
+      { "id": "b", "text": "datadog-agent check <check_name>" },
+      { "id": "c", "text": "datadog-agent run --check <check_name>" },
+      { "id": "d", "text": "datadog-agent debug <check_name>" }
+    ],
+    "correct": "b",
+    "explanation": "The `datadog-agent check <check_name>` command runs the specified check once and outputs all collected metrics, service checks, and events to stdout. This is the primary tool for debugging integration configurations.",
+    "topics": ["agent-troubleshooting"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Check Command" }],
+    "version": 1
+  },
+  {
+    "id": "agt-031",
+    "type": "multi_choice",
+    "prompt": "Which of the following components are part of the Datadog Agent? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Collector" },
+      { "id": "b", "text": "Forwarder" },
+      { "id": "c", "text": "DogStatsD server" },
+      { "id": "d", "text": "Trace Agent" },
+      { "id": "e", "text": "Log router" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "The Datadog Agent consists of the Collector (runs checks), Forwarder (sends data to Datadog), DogStatsD server (receives custom StatsD metrics), and Trace Agent (receives APM traces). 'Log router' is not a named Agent component.",
+    "topics": ["agent-architecture"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Components" }],
+    "version": 1
+  },
+  {
+    "id": "agt-032",
+    "type": "single_choice",
+    "prompt": "How does the Datadog Agent transmit data to Datadog's backend by default?",
+    "choices": [
+      { "id": "a", "text": "Via unencrypted HTTP on port 80" },
+      { "id": "b", "text": "Via HTTPS on port 443" },
+      { "id": "c", "text": "Via a persistent TCP socket on port 10516" },
+      { "id": "d", "text": "Via UDP datagrams on port 8125" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Agent uses HTTPS on port 443 to transmit metrics, events, and service checks to Datadog's intake endpoints. This encrypted channel is the default and does not require opening inbound firewall rules.",
+    "topics": ["agent-architecture"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Network Requirements" }],
+    "version": 1
+  },
+  {
+    "id": "agt-033",
+    "type": "single_choice",
+    "prompt": "What is the recommended upgrade path to update the Datadog Agent to a newer version on a Linux host?",
+    "choices": [
+      { "id": "a", "text": "Uninstall and reinstall the Agent" },
+      { "id": "b", "text": "Update through the OS package manager (e.g., apt upgrade datadog-agent or yum update datadog-agent)" },
+      { "id": "c", "text": "Download and extract a new binary tarball to replace the existing one" },
+      { "id": "d", "text": "Run the in-place upgrade command: datadog-agent upgrade" }
+    ],
+    "correct": "b",
+    "explanation": "On Linux, the recommended upgrade path is through the native package manager. Since Datadog provides package repositories (APT/YUM/DNF), you can use standard package manager commands to upgrade the Agent while preserving configuration.",
+    "topics": ["agent-version-management"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Upgrade" }],
+    "version": 1
+  },
+  {
+    "id": "agt-034",
+    "type": "true_false",
+    "prompt": "Log collection in the Datadog Agent requires a separate log collector process outside of the main Agent binary.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Log collection in Datadog Agent v6 and later is built into the main Agent binary. There is no separate log collector process, it is a native capability of the Agent enabled by setting logs_enabled: true in datadog.yaml.",
+    "topics": ["log-collection", "agent-architecture"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Log Collection Architecture" }],
+    "version": 1
+  },
+  {
+    "id": "agt-035",
+    "type": "single_choice",
+    "prompt": "In an Autodiscovery container label, what is the correct label key format for providing an integration's check instances configuration?",
+    "choices": [
+      { "id": "a", "text": "com.datadoghq.ad.instances" },
+      { "id": "b", "text": "datadog.check.instances" },
+      { "id": "c", "text": "dd.autodiscovery.instances" },
+      { "id": "d", "text": "com.datadog.integration.instances" }
+    ],
+    "correct": "a",
+    "explanation": "The correct Autodiscovery Docker label key for instances is `com.datadoghq.ad.instances`. The full set is com.datadoghq.ad.check_names (list of check names), com.datadoghq.ad.init_configs, and com.datadoghq.ad.instances.",
+    "topics": ["autodiscovery"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Autodiscovery Label Keys" }],
+    "version": 1
+  },
+  {
+    "id": "agt-036",
+    "type": "single_choice",
+    "prompt": "When collecting logs from a file in the Datadog Agent, which configuration key specifies the path to the log file?",
+    "choices": [
+      { "id": "a", "text": "log_file" },
+      { "id": "b", "text": "path" },
+      { "id": "c", "text": "source_path" },
+      { "id": "d", "text": "file_path" }
+    ],
+    "correct": "b",
+    "explanation": "In a log collection configuration block within a conf.d/ file, the `path` key specifies the file path(s) to tail. It accepts wildcards (e.g., /var/log/nginx/*.log) for collecting from multiple rotating log files.",
+    "topics": ["log-collection", "agent-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Log Collection File Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "agt-037",
+    "type": "multi_choice",
+    "prompt": "Which log collection configuration keys are required in a Datadog Agent log configuration block? (Select two)",
+    "choices": [
+      { "id": "a", "text": "type" },
+      { "id": "b", "text": "path" },
+      { "id": "c", "text": "service" },
+      { "id": "d", "text": "source" },
+      { "id": "e", "text": "tags" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "The `type` key (e.g., file, journald, tcp) and `path` (for file type) are the essential fields in a log configuration block. `service` and `source` are strongly recommended for log enrichment but are not strictly required to collect logs.",
+    "topics": ["log-collection"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Log Configuration Reference" }],
+    "version": 1
+  },
+  {
+    "id": "agt-038",
+    "type": "single_choice",
+    "prompt": "Which Datadog Agent version introduced the unified single binary that includes log collection and APM tracing natively?",
+    "choices": [
+      { "id": "a", "text": "Agent v4" },
+      { "id": "b", "text": "Agent v5" },
+      { "id": "c", "text": "Agent v6" },
+      { "id": "d", "text": "Agent v7" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog Agent v6 (released in 2018) introduced a unified single-binary approach, rewritten in Go, which included native log collection and APM trace collection without requiring separate helper processes.",
+    "topics": ["agent-version-management", "agent-architecture"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent v6 Release Notes" }],
+    "version": 1
+  },
+  {
+    "id": "agt-039",
+    "type": "true_false",
+    "prompt": "A custom Agent check can submit service checks (OK/WARNING/CRITICAL) in addition to metrics.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Custom Agent checks can use self.service_check() to submit service checks (with status OK, WARNING, CRITICAL, or UNKNOWN). Service checks appear in the host map and can trigger monitors.",
+    "topics": ["agent-check-development"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Custom Check Service Checks" }],
+    "version": 1
+  },
+  {
+    "id": "agt-040",
+    "type": "single_choice",
+    "prompt": "What environment variable is used to set the Datadog Agent's API key when running the Agent as a Docker container?",
+    "choices": [
+      { "id": "a", "text": "DATADOG_API_KEY" },
+      { "id": "b", "text": "DD_API_KEY" },
+      { "id": "c", "text": "DD_KEY" },
+      { "id": "d", "text": "AGENT_API_KEY" }
+    ],
+    "correct": "b",
+    "explanation": "When running the Datadog Agent in a Docker container, the API key is provided via the DD_API_KEY environment variable. This is the standard convention for all containerized and Kubernetes deployments.",
+    "topics": ["agent-installation", "agent-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Docker Agent Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "agt-041",
+    "type": "single_choice",
+    "prompt": "What is the role of the Cluster Agent in a Kubernetes Datadog deployment?",
+    "choices": [
+      { "id": "a", "text": "It replaces the DaemonSet Agent on every node" },
+      { "id": "b", "text": "It centralizes cluster-level Kubernetes state queries and reduces load on the API server" },
+      { "id": "c", "text": "It processes APM traces for the entire cluster" },
+      { "id": "d", "text": "It manages Autodiscovery templates stored in etcd" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Cluster Agent acts as a proxy between the node Agents and the Kubernetes API server. It caches cluster-level metadata and event data centrally, dramatically reducing the number of API server requests.",
+    "topics": ["agent-installation", "agent-architecture"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Cluster Agent" }],
+    "version": 1
+  },
+  {
+    "id": "agt-042",
+    "type": "single_choice",
+    "prompt": "Which configuration setting in datadog.yaml specifies which Datadog site (e.g., EU, US) the Agent sends data to?",
+    "choices": [
+      { "id": "a", "text": "dd_url" },
+      { "id": "b", "text": "region" },
+      { "id": "c", "text": "site" },
+      { "id": "d", "text": "endpoint" }
+    ],
+    "correct": "c",
+    "explanation": "The `site` parameter in datadog.yaml (or the DD_SITE environment variable) specifies the Datadog intake site. For example, `site: datadoghq.eu` routes data to Datadog's EU infrastructure instead of the default US site.",
+    "topics": ["agent-configuration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Site Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "agt-043",
+    "type": "true_false",
+    "prompt": "Custom Agent checks written in Python must inherit from the AgentCheck base class.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "All custom Agent checks must define a class that inherits from `AgentCheck` (from datadog_checks.base). This base class provides methods like self.gauge(), self.count(), self.service_check(), and manages the check lifecycle.",
+    "topics": ["agent-check-development"],
+    "difficulty": "easy",
+    "refs": [{ "label": "AgentCheck Base Class" }],
+    "version": 1
+  },
+  {
+    "id": "agt-044",
+    "type": "single_choice",
+    "prompt": "What does the `source` tag in a Datadog log collection configuration represent?",
+    "choices": [
+      { "id": "a", "text": "The IP address of the host sending the logs" },
+      { "id": "b", "text": "The technology or integration generating the logs (e.g., nginx, postgresql)" },
+      { "id": "c", "text": "The S3 bucket path for log archival" },
+      { "id": "d", "text": "The Datadog API endpoint receiving the logs" }
+    ],
+    "correct": "b",
+    "explanation": "The `source` attribute in log configuration identifies the technology generating the logs. Datadog uses this to automatically apply the correct log processing pipeline, enabling parsing and facet extraction for known sources.",
+    "topics": ["log-collection"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Log Source Attribute" }],
+    "version": 1
+  },
+  {
+    "id": "agt-045",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid Autodiscovery configuration providers for the Datadog Agent? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Docker labels" },
+      { "id": "b", "text": "Kubernetes pod annotations" },
+      { "id": "c", "text": "Files in conf.d/" },
+      { "id": "d", "text": "Consul key-value store" },
+      { "id": "e", "text": "AWS Parameter Store" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Datadog Autodiscovery supports Docker labels, Kubernetes pod annotations, static files in conf.d/, and key-value stores like Consul and etcd. AWS Parameter Store is not a natively supported Autodiscovery configuration provider.",
+    "topics": ["autodiscovery"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Autodiscovery Providers" }],
+    "version": 1
+  },
+  {
+    "id": "agt-046",
+    "type": "single_choice",
+    "prompt": "When the Datadog Agent cannot connect to the Datadog backend, what does it do with collected metrics?",
+    "choices": [
+      { "id": "a", "text": "Discards all collected data immediately" },
+      { "id": "b", "text": "Buffers data in memory and retries transmission when connectivity is restored" },
+      { "id": "c", "text": "Writes data to a local SQLite database for later retrieval" },
+      { "id": "d", "text": "Sends data to a secondary backup endpoint automatically" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Agent's Forwarder component buffers data in memory when it cannot reach the Datadog backend. It retries with exponential backoff once connectivity is restored, preventing data loss during brief network outages.",
+    "topics": ["agent-architecture", "agent-troubleshooting"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Data Buffering" }],
+    "version": 1
+  },
+  {
+    "id": "agt-047",
+    "type": "single_choice",
+    "prompt": "What is the correct Kubernetes pod annotation to exclude a specific pod from Datadog Autodiscovery?",
+    "choices": [
+      { "id": "a", "text": "ad.datadoghq.com/exclude: \"true\"" },
+      { "id": "b", "text": "ad.datadoghq.com/skip: \"true\"" },
+      { "id": "c", "text": "ad.datadoghq.com/disable: \"true\"" },
+      { "id": "d", "text": "datadog/ignore: \"true\"" }
+    ],
+    "correct": "a",
+    "explanation": "Adding the annotation `ad.datadoghq.com/exclude: \"true\"` to a pod tells the Datadog Agent's Autodiscovery to skip that pod entirely. This is useful for excluding system pods or pods you don't want to monitor.",
+    "topics": ["autodiscovery"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Autodiscovery Exclusion" }],
+    "version": 1
+  },
+  {
+    "id": "agt-048",
+    "type": "single_choice",
+    "prompt": "What log configuration value for `type` is used to collect logs from Docker container stdout and stderr?",
+    "choices": [
+      { "id": "a", "text": "docker" },
+      { "id": "b", "text": "container" },
+      { "id": "c", "text": "stdout" },
+      { "id": "d", "text": "file" }
+    ],
+    "correct": "a",
+    "explanation": "Setting `type: docker` in a log collection configuration instructs the Agent to collect logs from a container's stdout/stderr streams via the Docker socket. Alternatively, with Docker socket access, the Agent can auto-discover container logs.",
+    "topics": ["log-collection"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Docker Log Collection" }],
+    "version": 1
+  },
+  {
+    "id": "agt-049",
+    "type": "true_false",
+    "prompt": "The Datadog Agent version 7 dropped support for Python 2 and only runs checks written for Python 3.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog Agent v7 removed the embedded Python 2 interpreter and requires all Agent checks to be Python 3 compatible. Agent v6 supported both Python 2 and Python 3, but v7 exclusively uses Python 3.",
+    "topics": ["agent-version-management", "agent-check-development"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent v7 Python 3" }],
+    "version": 1
+  },
+  {
+    "id": "agt-050",
+    "type": "single_choice",
+    "prompt": "Which Datadog Agent configuration setting enables the collection of Docker container labels as tags on associated metrics and logs?",
+    "choices": [
+      { "id": "a", "text": "collect_container_labels: true" },
+      { "id": "b", "text": "docker_labels_as_tags" },
+      { "id": "c", "text": "container_tag_collection: true" },
+      { "id": "d", "text": "label_to_tag_prefix: docker" }
+    ],
+    "correct": "b",
+    "explanation": "The `docker_labels_as_tags` setting in datadog.yaml (or the DD_DOCKER_LABELS_AS_TAGS environment variable) maps specific Docker container labels to Datadog tags. You specify a mapping of label names to tag names.",
+    "topics": ["agent-configuration", "autodiscovery"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Docker Labels as Tags" }],
+    "version": 1
+  },
+  {
+    "id": "agt-051",
+    "type": "single_choice",
+    "prompt": "Infrastructure metrics from a host are visible in Datadog, but no application logs ever arrive. In a fundamentals exam scenario, which setting is the best first thing to verify?",
+    "choices": [
+      { "id": "a", "text": "logs_enabled: true in datadog.yaml" },
+      { "id": "b", "text": "apm_config.enabled: true in datadog.yaml" },
+      { "id": "c", "text": "process_config.process_collection.enabled: true in datadog.yaml" },
+      { "id": "d", "text": "runtime_security_config.enabled: true in datadog.yaml" }
+    ],
+    "correct": "a",
+    "explanation": "Host metrics can be present even when log collection is still disabled. The Datadog Agent requires `logs_enabled: true` before it will collect and forward logs, so that is the first configuration check for this common fundamentals scenario.",
+    "topics": ["agents"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Log Collection with the Agent", "url": "https://docs.datadoghq.com/agent/logs/" },
+      { "label": "Agent Configuration", "url": "https://docs.datadoghq.com/agent/configuration/agent-configuration-files/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "agt-052",
+    "type": "single_choice",
+    "prompt": "A developer wants to send custom application metrics from code to the local Datadog Agent without writing a custom Agent check. Which built-in Agent component handles this fundamentals scenario?",
+    "choices": [
+      { "id": "a", "text": "DogStatsD" },
+      { "id": "b", "text": "Security Agent" },
+      { "id": "c", "text": "Cluster Agent" },
+      { "id": "d", "text": "Live Processes" }
+    ],
+    "correct": "a",
+    "explanation": "DogStatsD is the Agent component that receives custom application metrics, typically on UDP port 8125, and forwards them to Datadog. This is the expected answer for fundamentals questions about sending app metrics without building your own check.",
+    "topics": ["agents"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "DogStatsD", "url": "https://docs.datadoghq.com/developers/dogstatsd/" },
+      { "label": "Agent Architecture", "url": "https://docs.datadoghq.com/agent/guide/agent-commands/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "agt-053",
+    "type": "single_choice",
+    "prompt": "A Kubernetes team wants the Agent to discover a check configuration directly from pod metadata instead of placing static files on each node. Which Datadog mechanism best matches this fundamentals scenario?",
+    "choices": [
+      { "id": "a", "text": "Host tags in the Infrastructure List" },
+      { "id": "b", "text": "Autodiscovery annotations on the pod" },
+      { "id": "c", "text": "A log exclusion filter" },
+      { "id": "d", "text": "A notebook template" }
+    ],
+    "correct": "b",
+    "explanation": "In Kubernetes, Autodiscovery commonly uses pod annotations with the `ad.datadoghq.com/` prefix so the Agent can discover and apply integration configurations dynamically. That is the core concept tested by this kind of fundamentals question.",
+    "topics": ["agents"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Autodiscovery in Kubernetes", "url": "https://docs.datadoghq.com/containers/kubernetes/integrations/" },
+      { "label": "Autodiscovery", "url": "https://docs.datadoghq.com/getting_started/containers/autodiscovery/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "agt-054",
+    "type": "single_choice",
+    "prompt": "A containerized service already carries useful Docker labels, and the team wants those values to appear as Datadog tags on telemetry. Which Agent feature best answers this fundamentals scenario?",
+    "choices": [
+      { "id": "a", "text": "docker_labels_as_tags" },
+      { "id": "b", "text": "logs_enabled" },
+      { "id": "c", "text": "flare" },
+      { "id": "d", "text": "trace_sample_rate" }
+    ],
+    "correct": "a",
+    "explanation": "The `docker_labels_as_tags` setting maps selected Docker labels to Datadog tags. This is the right answer when the question is about reusing existing container metadata for tagging rather than enabling unrelated Agent subsystems.",
+    "topics": ["agents"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Docker Labels as Tags", "url": "https://docs.datadoghq.com/agent/docker/tag/" },
+      { "label": "Tag Extraction", "url": "https://docs.datadoghq.com/getting_started/tagging/assigning_tags/" }
+    ],
+    "version": 1
+  }
+]

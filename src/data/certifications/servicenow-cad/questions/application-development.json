@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-cad-appdev-001",
+    "type": "single_choice",
+    "prompt": "What is the primary tool for developing scoped applications in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Studio IDE"
+      },
+      {
+        "id": "b",
+        "text": "Application Manager"
+      },
+      {
+        "id": "c",
+        "text": "ServiceNow Designer"
+      },
+      {
+        "id": "d",
+        "text": "Eclipse Plugin"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Studio IDE is ServiceNow's integrated development environment for building scoped applications. It provides a file tree view of all application artifacts, allows creating and editing scripts, forms, tables, and other components within the application scope, and integrates with source control. Studio is accessed via System Applications > Studio.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-002",
+    "type": "single_choice",
+    "prompt": "What naming convention is required for a scoped application's scope identifier?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It must start with 'app_' followed by the application name"
+      },
+      {
+        "id": "b",
+        "text": "It must follow the format x_{company_code}_{app_name} for custom scopes"
+      },
+      {
+        "id": "c",
+        "text": "It must be all lowercase with no special characters"
+      },
+      {
+        "id": "d",
+        "text": "It must match the application's sys_id"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Custom scoped application scope identifiers must follow the format x_{company_code}_{app_name}. The 'x_' prefix indicates a custom (non-ServiceNow) application. The company code is typically a short abbreviation of the company name and is registered with ServiceNow to ensure global uniqueness. ServiceNow's own applications use scopes starting with 'sn_'.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-003",
+    "type": "single_choice",
+    "prompt": "What is the difference between a scoped application and a global application in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Scoped applications can only read data; global applications have full read/write access"
+      },
+      {
+        "id": "b",
+        "text": "Scoped applications require a separate license; global applications are included in all licenses"
+      },
+      {
+        "id": "c",
+        "text": "Scoped applications run in an isolated namespace with restricted cross-scope access; global applications have unrestricted access to all platform resources"
+      },
+      {
+        "id": "d",
+        "text": "Global applications can be distributed via the ServiceNow Store; scoped applications cannot"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Scoped applications run in an isolated namespace (scope) that restricts access to platform resources and other scopes without explicit cross-scope access grants. This isolation prevents unintended interactions between applications and enables safer multi-application deployments. Global scope has unrestricted access to all platform resources and is the traditional development context, but scoped applications are the modern best practice.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-004",
+    "type": "single_choice",
+    "prompt": "When creating a custom table in a scoped application, what is automatically prepended to the table name?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The text 'custom_'"
+      },
+      {
+        "id": "b",
+        "text": "Nothing is prepended; the name is used as-is"
+      },
+      {
+        "id": "c",
+        "text": "The application sys_id"
+      },
+      {
+        "id": "d",
+        "text": "The application scope prefix (e.g., x_acme_)"
+      }
+    ],
+    "correct": "d",
+    "explanation": "When a table is created in a scoped application, the application's scope prefix is automatically prepended to the table name. For example, if the scope is x_acme_helpdesk, a table named 'request' would be created as x_acme_helpdesk_request. This prevents naming collisions between tables from different applications and makes table ownership clear.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-005",
+    "type": "single_choice",
+    "prompt": "What does 'extending a base table' mean when creating a custom table?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The custom table inherits all fields, business rules, and other artifacts from the parent table through inheritance"
+      },
+      {
+        "id": "b",
+        "text": "The custom table copies all fields from the base table into a new independent table"
+      },
+      {
+        "id": "c",
+        "text": "The custom table links to the base table via a reference field"
+      },
+      {
+        "id": "d",
+        "text": "The custom table adds columns to the base table using database views"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Extending a base table uses ServiceNow's table inheritance model where the child table inherits all columns, business rules, client scripts, UI policies, and other table-level artifacts from the parent table. Records from both the parent and child tables share the same underlying database row (via sys_id). For example, extending the Task table makes a custom table automatically task-based with all task functionality.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-006",
+    "type": "single_choice",
+    "prompt": "What is a Dictionary Entry in the context of ServiceNow table development?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A glossary entry that defines business terminology for the platform"
+      },
+      {
+        "id": "b",
+        "text": "A record in the sys_dictionary table that defines the metadata for a field on a table"
+      },
+      {
+        "id": "c",
+        "text": "An XML configuration file that maps field names to database column names"
+      },
+      {
+        "id": "d",
+        "text": "A documentation record automatically created for every table and field"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A Dictionary Entry is a record in the sys_dictionary table that defines the metadata for a specific field on a table, including the field's data type, length, default value, mandatory constraint, read-only setting, and choice list source. All table field definitions are stored as dictionary entries, and developers can customize field behavior by modifying these records.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-007",
+    "type": "single_choice",
+    "prompt": "What is a Choice List in ServiceNow and how is it defined?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A dynamic list populated by a GlideRecord query at runtime"
+      },
+      {
+        "id": "b",
+        "text": "A reference field that points to another table to provide dropdown options"
+      },
+      {
+        "id": "c",
+        "text": "A predefined set of options for a field, stored in the sys_choice table"
+      },
+      {
+        "id": "d",
+        "text": "A UI component that renders a multi-select checkbox group"
+      }
+    ],
+    "correct": "c",
+    "explanation": "A Choice List is a predefined set of allowed values for a field, stored as records in the sys_choice table. Each choice has a value (the stored value), a label (the displayed text), a sequence (sort order), and a language. Choice lists are defined per field on a specific table. Fields using choice lists have the 'Choice' attribute set in their dictionary entry.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-008",
+    "type": "single_choice",
+    "prompt": "What is an Access Control Rule (ACL) in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A firewall rule that controls network access to the ServiceNow instance"
+      },
+      {
+        "id": "b",
+        "text": "An application property that enables or disables features for specific user roles"
+      },
+      {
+        "id": "c",
+        "text": "A business rule that runs before every database operation to check permissions"
+      },
+      {
+        "id": "d",
+        "text": "A platform rule that controls which users can read, write, create, or delete records on tables or fields"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Access Control Rules (ACLs) are records in the sys_security_acl table that define who can perform specific operations (read, write, create, delete) on tables and fields. ACLs can require specific roles, evaluate conditions, and run scripts to determine access. When a user or API attempts to access a record, the platform evaluates all applicable ACLs to determine if the operation is permitted.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-009",
+    "type": "single_choice",
+    "prompt": "What is the purpose of an Application Menu in ServiceNow navigation?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A grouping that organizes related Modules under a named heading in the navigation sidebar"
+      },
+      {
+        "id": "b",
+        "text": "A menu that appears at the top of the browser with application actions"
+      },
+      {
+        "id": "c",
+        "text": "A context menu that appears when right-clicking on a record"
+      },
+      {
+        "id": "d",
+        "text": "A configuration panel for customizing the application's appearance"
+      }
+    ],
+    "correct": "a",
+    "explanation": "An Application Menu groups related Modules under a named heading in the ServiceNow navigation sidebar. Each scoped application typically has one Application Menu that contains all the Modules (navigation links) for that application. Application Menus are controlled by roles, and users only see menus for applications they have permission to access.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-010",
+    "type": "single_choice",
+    "prompt": "What is a UI Action in ServiceNow and where does it appear?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A client-side animation that triggers when a user interacts with the UI"
+      },
+      {
+        "id": "b",
+        "text": "A server-side script that runs when a user clicks a custom button or link on a form or list"
+      },
+      {
+        "id": "c",
+        "text": "An action that automatically fires when the user opens a form"
+      },
+      {
+        "id": "d",
+        "text": "A scheduled task that updates the UI at regular intervals"
+      }
+    ],
+    "correct": "b",
+    "explanation": "UI Actions are server-side scripts attached to buttons, links, or context menu items on forms and lists. When a user clicks the associated button or link, the UI Action's script runs on the server. UI Actions can use both client-side script (for confirmation dialogs or navigation) and server-side script (for record manipulation). Common examples include 'Resolve', 'Assign to Me', and 'Close' buttons.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-011",
+    "type": "single_choice",
+    "prompt": "What is an Application Property (sys_properties) in a scoped application?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A property file that defines the application's database connection settings"
+      },
+      {
+        "id": "b",
+        "text": "A CSS property that defines the application's visual theme"
+      },
+      {
+        "id": "c",
+        "text": "A configurable key-value setting that controls application behavior, readable via gs.getProperty()"
+      },
+      {
+        "id": "d",
+        "text": "A metadata property that stores the application version number"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Application Properties are key-value configuration settings stored in the sys_properties table. They provide configurable settings that control application behavior without requiring code changes. Scoped applications define their own properties, and scripts read them using gs.getProperty('property.name'). Properties allow administrators to customize application behavior per instance without modifying scripts.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-012",
+    "type": "single_choice",
+    "prompt": "What is an Update Set in ServiceNow and what is its primary purpose?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A database backup mechanism that captures table data snapshots"
+      },
+      {
+        "id": "b",
+        "text": "A version control system that stores the history of every record change"
+      },
+      {
+        "id": "c",
+        "text": "A batch update script that modifies multiple records simultaneously"
+      },
+      {
+        "id": "d",
+        "text": "A container that captures customizations and configuration changes for migration between instances"
+      }
+    ],
+    "correct": "d",
+    "explanation": "An Update Set captures all configuration changes (metadata, not data) made while it is active, creating a portable container that can be moved between instances (e.g., from development to test to production). Update Sets enable a deployment pipeline for ServiceNow customizations. Scoped application artifacts are typically managed through application packages rather than manual Update Sets.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-013",
+    "type": "single_choice",
+    "prompt": "What does the 'Delegated Development' feature in ServiceNow allow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It allows non-admin users to be granted development rights on specific applications"
+      },
+      {
+        "id": "b",
+        "text": "It allows code from one scope to be executed in another scope"
+      },
+      {
+        "id": "c",
+        "text": "It allows deployment approvals to be delegated to team leads"
+      },
+      {
+        "id": "d",
+        "text": "It allows junior developers to submit changes to a senior developer queue"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Delegated Development allows administrators to grant specific non-admin users the ability to create and modify artifacts within a designated scoped application. This enables development teams where individual developers do not have full admin access but can work on assigned applications. Delegated developers can create tables, scripts, and other artifacts within their granted scope.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-014",
+    "type": "single_choice",
+    "prompt": "Which field type should be used for a field that stores a reference to a record in another table?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "String"
+      },
+      {
+        "id": "b",
+        "text": "Reference"
+      },
+      {
+        "id": "c",
+        "text": "Related"
+      },
+      {
+        "id": "d",
+        "text": "Foreign Key"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Reference field type creates a relationship between tables by storing the sys_id of a record in another table. Reference fields automatically provide autocomplete lookup functionality in forms, display the reference record's display value to users, and maintain referential integrity. The reference table is configured in the Dictionary Entry for the field.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-015",
+    "type": "single_choice",
+    "prompt": "What does 'cross-scope access' allow in a ServiceNow scoped application?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Access to records across multiple customer instances"
+      },
+      {
+        "id": "b",
+        "text": "Global scope scripts to be executed from a scoped application"
+      },
+      {
+        "id": "c",
+        "text": "A scoped application to access tables, Script Includes, or other artifacts in a different application scope"
+      },
+      {
+        "id": "d",
+        "text": "Multiple developers to work on the same application simultaneously"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Cross-scope access allows a scoped application to access specific artifacts (tables, Script Includes, UI Pages, etc.) owned by another application scope. By default, scopes are isolated from each other. Cross-scope access must be explicitly granted by the target application, either by marking artifacts as accessible from other scopes or creating Cross-Scope Access records. This is the controlled mechanism for inter-application communication.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-016",
+    "type": "single_choice",
+    "prompt": "What is the ServiceNow Application Repository and what is it used for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A Git repository for storing ServiceNow source code on GitHub"
+      },
+      {
+        "id": "b",
+        "text": "A database table that stores all application artifacts in XML format"
+      },
+      {
+        "id": "c",
+        "text": "A catalog of available applications that can be installed on a ServiceNow instance"
+      },
+      {
+        "id": "d",
+        "text": "A ServiceNow-hosted source control system for managing application versions"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The ServiceNow Application Repository is a hosted source control system provided by ServiceNow for storing application versions. Developers can publish application versions to the repository and install them on other instances. It serves as the distribution mechanism for applications developed on the ServiceNow platform, enabling version management and controlled deployment across instance pipelines.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-017",
+    "type": "single_choice",
+    "prompt": "How do you configure the form layout for a custom table in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Use the Form Layout (or Form Designer) to add, remove, and arrange fields on the form"
+      },
+      {
+        "id": "b",
+        "text": "Edit the table's HTML template in the Studio IDE"
+      },
+      {
+        "id": "c",
+        "text": "Modify the sys_ui_form table directly via GlideRecord"
+      },
+      {
+        "id": "d",
+        "text": "Configure the form layout in the application's properties file"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Form layout is configured using the Form Layout tool (right-click the form header > Configure > Form Layout) or the Form Designer. These tools allow developers to add fields, remove fields, arrange sections, and control which fields appear on the form for each view. Form layout configurations are stored in sys_ui_form records and are part of the application's customizable artifacts.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-018",
+    "type": "single_choice",
+    "prompt": "What is an Application Role and why is it important in scoped application development?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A role that grants access to the entire ServiceNow instance for application development"
+      },
+      {
+        "id": "b",
+        "text": "A user role specific to the application used to control access to tables, fields, and UI elements via ACLs"
+      },
+      {
+        "id": "c",
+        "text": "A system role automatically assigned to all users when they open the application"
+      },
+      {
+        "id": "d",
+        "text": "A developer role required to create records in a scoped application's tables"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Application Roles are roles defined within a scoped application that are used to control access to the application's tables, fields, and UI elements via ACLs. Defining dedicated roles (e.g., x_acme_app.user, x_acme_app.admin) allows fine-grained access control. ACLs on the application's tables reference these roles, ensuring only users with the appropriate role can interact with the application's data.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-019",
+    "type": "single_choice",
+    "prompt": "What does application versioning in ServiceNow allow a developer to do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Track individual script changes using line-by-line version control"
+      },
+      {
+        "id": "b",
+        "text": "Automatically rollback a failed deployment to the previous version"
+      },
+      {
+        "id": "c",
+        "text": "Publish numbered releases of an application to the application repository for controlled deployment"
+      },
+      {
+        "id": "d",
+        "text": "Lock the application from further edits until a review is completed"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Application versioning allows developers to publish numbered releases (e.g., 1.0.0, 1.1.0) of a scoped application to the ServiceNow Application Repository. These versions can then be installed on other instances in a controlled manner. Version numbers follow semantic versioning conventions and allow administrators to understand the scope of changes between releases and roll back to a previous version if needed.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-020",
+    "type": "single_choice",
+    "prompt": "What is a List Layout and how does it differ from a Form Layout?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A List Layout controls which records appear in a list; a Form Layout controls the table's field structure"
+      },
+      {
+        "id": "b",
+        "text": "There is no difference; both configure the same underlying view record"
+      },
+      {
+        "id": "c",
+        "text": "List Layouts are global; Form Layouts are per-view"
+      },
+      {
+        "id": "d",
+        "text": "A List Layout configures which columns appear in the list view; a Form Layout configures which fields appear on the record form"
+      }
+    ],
+    "correct": "d",
+    "explanation": "A List Layout configures which columns (fields) are visible in the list view when browsing records in a table, along with their order and sort settings. A Form Layout configures which fields appear on the record detail form and how they are arranged in sections and rows. Both are view-specific and can be customized per user role or globally.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-021",
+    "type": "single_choice",
+    "prompt": "What is the difference between a 'field-level ACL' and a 'table-level ACL'?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Field-level ACLs apply to specific fields on a record; table-level ACLs control access to the entire table"
+      },
+      {
+        "id": "b",
+        "text": "Field-level ACLs are evaluated before table-level ACLs in the access check"
+      },
+      {
+        "id": "c",
+        "text": "Table-level ACLs use roles; field-level ACLs use scripts only"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference; all ACLs operate at the record level"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Table-level ACLs control whether a user can perform operations (read, write, create, delete) on an entire table \u2014 if a user fails a table-level read ACL, they cannot see any records in the table. Field-level ACLs restrict access to specific fields on records \u2014 a user may be able to read a record but not see or modify specific sensitive fields. Both levels can use role requirements, conditions, and scripts.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-022",
+    "type": "single_choice",
+    "prompt": "When publishing an application to the ServiceNow Store, what must the application use?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Global scope with no cross-scope restrictions"
+      },
+      {
+        "id": "b",
+        "text": "A registered scoped namespace (x_{registered_prefix}_{app_name})"
+      },
+      {
+        "id": "c",
+        "text": "An enterprise license for the Store publishing feature"
+      },
+      {
+        "id": "d",
+        "text": "A special Store Development environment provided by ServiceNow"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Applications published to the ServiceNow Store must use a registered scoped namespace with a registered company prefix to ensure global uniqueness. The scope prefix must be registered with ServiceNow through the developer program to prevent naming conflicts across all customer instances worldwide. This is a prerequisite for Store submission.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-023",
+    "type": "single_choice",
+    "prompt": "How do you roll back an application that has been installed on a ServiceNow instance?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Delete the application from Studio and run a database restore"
+      },
+      {
+        "id": "b",
+        "text": "Restore the instance from a backup taken before installation"
+      },
+      {
+        "id": "c",
+        "text": "Use the 'Uninstall' option on the application to remove it, or install a previous version from the repository"
+      },
+      {
+        "id": "d",
+        "text": "Revert individual update set records in reverse order"
+      }
+    ],
+    "correct": "c",
+    "explanation": "To roll back an installed application, you can uninstall it from the Application Manager, which removes all application artifacts from the instance. Alternatively, if a previous version exists in the Application Repository, you can install that older version to effectively downgrade. Update set-based applications can be backed out by reverting update set records.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-024",
+    "type": "single_choice",
+    "prompt": "What is a Record Producer in the Service Catalog and how does it relate to application development?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A tool that automatically generates record templates from existing data"
+      },
+      {
+        "id": "b",
+        "text": "A script that produces sample records for testing during development"
+      },
+      {
+        "id": "c",
+        "text": "A background process that creates records based on scheduled triggers"
+      },
+      {
+        "id": "d",
+        "text": "A Service Catalog item that creates records in a specified table when submitted"
+      }
+    ],
+    "correct": "d",
+    "explanation": "A Record Producer is a type of Service Catalog item that, when submitted by a user, creates a record in a specified table. Developers use Record Producers to provide user-friendly catalog interfaces for creating records in custom tables without exposing the native form. Variables on the Record Producer capture user input, and the mapping script populates the target record's fields.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-025",
+    "type": "single_choice",
+    "prompt": "In the ServiceNow data model, what does the 'sys_class_name' field on a record represent?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The name of the table where the record is stored (used for table inheritance)"
+      },
+      {
+        "id": "b",
+        "text": "The CSS class applied to the record's form view"
+      },
+      {
+        "id": "c",
+        "text": "The application scope the record belongs to"
+      },
+      {
+        "id": "d",
+        "text": "The permission class that controls access to the record"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The sys_class_name field stores the name of the specific table that owns the record in an inheritance hierarchy. For example, an Incident record stored in the task table hierarchy has sys_class_name = 'incident'. This field is essential for polymorphism in ServiceNow \u2014 when querying the Task table, sys_class_name distinguishes whether each record is an Incident, Change, Problem, or other task subtype.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-026",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Dependency' field when publishing an application version?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It specifies which plugins must be active before the application can run"
+      },
+      {
+        "id": "b",
+        "text": "It specifies other ServiceNow applications or versions that must be installed for this application to function"
+      },
+      {
+        "id": "c",
+        "text": "It lists JavaScript library dependencies used by the application"
+      },
+      {
+        "id": "d",
+        "text": "It defines the minimum ServiceNow version required to install the application"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Application Dependencies specify other ServiceNow applications (by scope and version) that must be installed for the current application to function correctly. When an application is installed, the platform checks and can automatically install required dependencies if they are available. Declaring dependencies ensures the application ecosystem is coherent and prevents missing-dependency errors in production.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-027",
+    "type": "single_choice",
+    "prompt": "What is the Guided App Creator in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A wizard that automatically generates applications from a description using AI"
+      },
+      {
+        "id": "b",
+        "text": "A tool that creates applications by importing existing database schemas"
+      },
+      {
+        "id": "c",
+        "text": "A step-by-step interface for creating new scoped applications with a basic table and form structure"
+      },
+      {
+        "id": "d",
+        "text": "A training module that teaches new developers how to build applications"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Guided App Creator is a step-by-step wizard that simplifies the creation of new scoped applications by walking developers through defining the application name, scope, tables, and basic form structure. It reduces the initial setup effort and ensures best practices are followed from the start. After the guided creation, developers use Studio for more advanced customization.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-028",
+    "type": "single_choice",
+    "prompt": "What is the 'Application Artifacts Checklist' used for in ServiceNow application development?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A list of all files required to deploy the application to a customer"
+      },
+      {
+        "id": "b",
+        "text": "A manifest file used by the update set migration process"
+      },
+      {
+        "id": "c",
+        "text": "An automatically generated inventory of all artifacts created in the application"
+      },
+      {
+        "id": "d",
+        "text": "A review checklist covering security, performance, and quality standards before publishing an application"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Application Artifacts Checklist is a quality and governance checklist that developers and reviewers use before publishing an application to the ServiceNow Store or promoting to production. It covers security requirements (ACLs defined, no hardcoded credentials), performance considerations (indexed fields, async operations), and functional completeness (test coverage, documentation). Passing the checklist is required for Store certification.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-029",
+    "type": "single_choice",
+    "prompt": "When a developer wants to add a custom field to an out-of-box ServiceNow table like Incident, what is the recommended approach?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Add the field to the incident table within a scoped application context using Studio"
+      },
+      {
+        "id": "b",
+        "text": "Create a new table that extends Incident to add custom fields"
+      },
+      {
+        "id": "c",
+        "text": "Directly modify the incident table's dictionary to add the field"
+      },
+      {
+        "id": "d",
+        "text": "Use a database view to add virtual fields without touching the base table"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The recommended approach is to add custom fields to the out-of-box table from within a scoped application context using Studio. This captures the field addition in the application's scope and update set, making it manageable and portable. Adding fields directly to global scope without an application context makes changes harder to track and deploy. Extending the table is also an option but adds complexity when the base table functionality is needed.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-030",
+    "type": "single_choice",
+    "prompt": "What does the 'Accessible from' field on a Script Include in a scoped application control?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Which user roles can execute the Script Include"
+      },
+      {
+        "id": "b",
+        "text": "Whether the Script Include can be called by scripts in other application scopes"
+      },
+      {
+        "id": "c",
+        "text": "Which instances can use the Script Include"
+      },
+      {
+        "id": "d",
+        "text": "Whether the Script Include is accessible from client-side scripts"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The 'Accessible from' field on a Script Include determines cross-scope access policy: 'This application scope only' restricts it to scripts in the same scope, while 'All application scopes' makes it callable from any scope. This is the artifact-level configuration that complements the cross-scope access records, providing the target application's permission for other scopes to use the Script Include.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-031",
+    "type": "single_choice",
+    "prompt": "What is a Module in the context of ServiceNow application navigation?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A server-side JavaScript module imported using require() syntax"
+      },
+      {
+        "id": "b",
+        "text": "A packaged set of application artifacts that can be deployed independently"
+      },
+      {
+        "id": "c",
+        "text": "A navigation link within an Application Menu that directs users to a specific view, list, or page"
+      },
+      {
+        "id": "d",
+        "text": "A plugin that extends ServiceNow functionality"
+      }
+    ],
+    "correct": "c",
+    "explanation": "A Module is a navigation link entry within an Application Menu in the ServiceNow left navigation sidebar. Modules can link to list views of tables, specific forms, homepages, URL content, or report views. Each Module has a link type, role requirements, and ordering. Applications define Modules to provide users with easy access to the application's key functionality.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-032",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Caller Access' field on a scripted table operation (ACL)?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It specifies the user who is calling the ACL evaluation script"
+      },
+      {
+        "id": "b",
+        "text": "It controls whether callers need to be logged in to trigger the ACL"
+      },
+      {
+        "id": "c",
+        "text": "It specifies the API caller authentication method"
+      },
+      {
+        "id": "d",
+        "text": "It controls whether callers from other application scopes can access the table via the ACL"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The 'Caller Access' field on a table or field ACL controls whether scripts from other application scopes can access the protected resource. This is an additional layer of cross-scope access control that works alongside the Cross-Scope Access records. It ensures that even if an ACL grants a role, scripts from foreign scopes still cannot access the resource unless caller access is permitted.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-033",
+    "type": "single_choice",
+    "prompt": "Why should reference fields be used instead of storing sys_ids in string fields?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Reference fields provide referential integrity, UI lookup autocomplete, and proper display value resolution"
+      },
+      {
+        "id": "b",
+        "text": "Reference fields are indexed automatically; string fields storing sys_ids are not"
+      },
+      {
+        "id": "c",
+        "text": "String fields cannot store sys_ids because sys_ids are 32 characters long"
+      },
+      {
+        "id": "d",
+        "text": "Reference fields use less database storage than string fields"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Reference fields store the sys_id of a related record but the platform treats the field as a relationship, providing: automatic display value resolution for the UI, autocomplete lookup in forms, dot-walking (referenced_field.child_field), and proper behavior in conditions and reports. Storing sys_ids in string fields loses all these platform benefits and creates an opaque field that the UI cannot interpret as a relationship.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-034",
+    "type": "single_choice",
+    "prompt": "What is source control integration in ServiceNow application development used for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Syncing ServiceNow instance data with a backup database"
+      },
+      {
+        "id": "b",
+        "text": "Connecting ServiceNow to a Git repository for code versioning and branch-based development"
+      },
+      {
+        "id": "c",
+        "text": "Controlling which users have write access to the application's source code"
+      },
+      {
+        "id": "d",
+        "text": "Tracking the source of all changes made to the instance"
+      }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow's source control integration connects a scoped application to a Git repository (such as GitHub, GitLab, or Bitbucket). Developers can branch, commit, and merge application artifacts using Git workflows. This enables collaborative development, code review through pull requests, and the ability to maintain multiple development branches \u2014 bringing standard software development practices to ServiceNow application development.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-035",
+    "type": "single_choice",
+    "prompt": "Which table stores all the field definitions (metadata) for tables in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "sys_table"
+      },
+      {
+        "id": "b",
+        "text": "sys_db_object"
+      },
+      {
+        "id": "c",
+        "text": "sys_dictionary"
+      },
+      {
+        "id": "d",
+        "text": "sys_schema"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The sys_dictionary table stores all field definitions (dictionary entries) for every field on every table in ServiceNow. Each record in sys_dictionary represents one field on one table, containing metadata like data type, maximum length, default value, mandatory setting, and choice list reference. Developers and the platform itself use sys_dictionary to understand table structure.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-036",
+    "type": "single_choice",
+    "prompt": "When creating an ACL rule for a table, which of the following operations is NOT one of the standard ACL operations?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "read"
+      },
+      {
+        "id": "b",
+        "text": "write"
+      },
+      {
+        "id": "c",
+        "text": "execute"
+      },
+      {
+        "id": "d",
+        "text": "import"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The standard ACL operations in ServiceNow are: read, write, create, delete, and execute (for table operations). 'Import' is not a standard ACL operation type. Read controls viewing records, write controls modifying records, create controls inserting new records, delete controls deleting records, and execute is used for script-type ACLs and certain specialized operations.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-037",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'sys_scope' field on ServiceNow artifacts?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It identifies which application scope owns the artifact"
+      },
+      {
+        "id": "b",
+        "text": "It tracks which user last modified the artifact"
+      },
+      {
+        "id": "c",
+        "text": "It controls whether the artifact is active or inactive"
+      },
+      {
+        "id": "d",
+        "text": "It stores the version number of the artifact"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The sys_scope field on every ServiceNow artifact record (business rules, Script Includes, tables, etc.) identifies which application scope owns that artifact. This is fundamental to the scoped application model \u2014 it determines which scope's isolation rules apply, how cross-scope access is evaluated, and which application an artifact belongs to. When a developer works in a scope, all artifacts they create have that scope's sys_id stored in sys_scope.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-038",
+    "type": "single_choice",
+    "prompt": "How does 'dot-walking' work in ServiceNow GlideRecord queries?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It traverses directory structures to find related configuration files"
+      },
+      {
+        "id": "b",
+        "text": "It navigates from a record through its reference fields to access fields on related records"
+      },
+      {
+        "id": "c",
+        "text": "It animates form elements with a dot transition effect"
+      },
+      {
+        "id": "d",
+        "text": "It creates a chain of method calls using the builder pattern"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Dot-walking allows you to navigate from a record through its reference fields to access fields on related records, using dot notation. For example, current.caller_id.department accesses the department field on the caller's user record. Dot-walking works in GlideRecord queries (addQuery), display values, scripts, and list/form conditions. It can traverse multiple hops: current.caller_id.department.cost_center.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-039",
+    "type": "single_choice",
+    "prompt": "What is the recommended way to store credentials (passwords, API keys) used by a ServiceNow application?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Store them as Application Properties in sys_properties"
+      },
+      {
+        "id": "b",
+        "text": "Hardcode them in Script Include constants for easy access"
+      },
+      {
+        "id": "c",
+        "text": "Use the Credential Store (Connection & Credential Alias) or Basic Auth Credentials records"
+      },
+      {
+        "id": "d",
+        "text": "Store them in a custom encrypted table within the application"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Credentials should be stored using ServiceNow's built-in Credential Store, accessed via Connection & Credential Alias records or dedicated Basic Auth / API Key Credentials records. The platform encrypts stored credentials and provides controlled access to them. This prevents credentials from appearing in code, update sets, or logs. Application Properties and custom tables are not appropriate for sensitive credential storage.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-appdev-040",
+    "type": "single_choice",
+    "prompt": "What is a 'Data Model Design Pattern' consideration when creating custom tables that represent hierarchical concepts?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Always use a single flat table with a self-referential parent field"
+      },
+      {
+        "id": "b",
+        "text": "Use JSON fields to store nested hierarchical data in a single column"
+      },
+      {
+        "id": "c",
+        "text": "Create separate databases for each hierarchy level"
+      },
+      {
+        "id": "d",
+        "text": "Use table inheritance to model is-a relationships; use reference fields for has-a relationships"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The key ServiceNow data model design principle is to use table inheritance (extending tables) for is-a relationships (an Incident IS a Task) and reference fields for has-a relationships (an Incident HAS a caller). Table inheritance shares sys_id, inherits all parent table functionality, and participates in the parent's list views. Reference fields create explicit foreign-key-style relationships without inheritance. Confusing these two patterns leads to poor data models.",
+    "topics": [
+      "application-development"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  }
+]

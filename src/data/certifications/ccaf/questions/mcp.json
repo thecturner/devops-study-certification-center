@@ -1,0 +1,757 @@
+[
+  {
+    "id": "ccaf-mcp-001",
+    "type": "single_choice",
+    "prompt": "What does the acronym MCP stand for?",
+    "choices": [
+      { "id": "a", "text": "Multi-Channel Protocol" },
+      { "id": "b", "text": "Model Context Protocol" },
+      { "id": "c", "text": "Managed Compute Platform" },
+      { "id": "d", "text": "Message Control Plane" }
+    ],
+    "correct": "b",
+    "explanation": "MCP stands for Model Context Protocol. It is an open protocol that standardizes how AI models connect to external tools, data sources, and services, providing a consistent integration layer across different clients and servers.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — Introduction" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-002",
+    "type": "single_choice",
+    "prompt": "Which MCP primitive is controlled by the model and used to perform actions or execute functions?",
+    "choices": [
+      { "id": "a", "text": "Resources" },
+      { "id": "b", "text": "Prompts" },
+      { "id": "c", "text": "Tools" },
+      { "id": "d", "text": "Actions" }
+    ],
+    "correct": "c",
+    "explanation": "In MCP, tools are the model-controlled primitive. Claude decides autonomously when to invoke an MCP tool based on the conversation context. Tools are appropriate for actions — querying APIs, running computations, or modifying state — where the model drives the invocation decision.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — Three Primitives" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-003",
+    "type": "single_choice",
+    "prompt": "Which MCP primitive is controlled by the host application and surfaces contextual data to the model?",
+    "choices": [
+      { "id": "a", "text": "Tools" },
+      { "id": "b", "text": "Prompts" },
+      { "id": "c", "text": "Resources" },
+      { "id": "d", "text": "Contexts" }
+    ],
+    "correct": "c",
+    "explanation": "Resources are the application-controlled MCP primitive. The host application determines which resources to expose and when, providing structured data (files, database records, API responses) that Claude can read. The application — not the model — decides what data is surfaced.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — Resources Primitive" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-004",
+    "type": "single_choice",
+    "prompt": "In the Python MCP SDK, which decorator registers a Python function as an MCP tool callable by a connected client?",
+    "choices": [
+      { "id": "a", "text": "@mcp.resource()" },
+      { "id": "b", "text": "@mcp.tool()" },
+      { "id": "c", "text": "@mcp.expose()" },
+      { "id": "d", "text": "@tool.register()" }
+    ],
+    "correct": "b",
+    "explanation": "The `@mcp.tool()` decorator from the Python MCP SDK marks a function as an MCP tool. The SDK automatically generates the tool's JSON schema from the function signature and docstring, making the tool discoverable and callable by any MCP client connected to the server.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP Python SDK — @mcp.tool()" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-005",
+    "type": "single_choice",
+    "prompt": "What transport mechanism does MCP use when the server runs as a local subprocess of the host application?",
+    "choices": [
+      { "id": "a", "text": "HTTP/2" },
+      { "id": "b", "text": "WebSocket" },
+      { "id": "c", "text": "Unix domain sockets" },
+      { "id": "d", "text": "stdio" }
+    ],
+    "correct": "d",
+    "explanation": "When an MCP server runs as a local subprocess, it communicates with the host application via stdio — standard input and output. The host writes JSON-RPC messages to the server's stdin and reads responses from its stdout. This lightweight transport requires no network configuration.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — stdio Transport" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-006",
+    "type": "single_choice",
+    "prompt": "A developer wants to expose a read-only PDF file to an MCP client with its MIME type declared. Which MCP primitive is the correct choice?",
+    "choices": [
+      { "id": "a", "text": "Tool, with the file path as an argument" },
+      { "id": "b", "text": "Prompt, with the file content embedded in the template" },
+      { "id": "c", "text": "Resource, with the URI and MIME type set appropriately" },
+      { "id": "d", "text": "Context, with the binary content encoded in base64" }
+    ],
+    "correct": "c",
+    "explanation": "Resources are the correct primitive for exposing static or read-only data with associated metadata like MIME types. A resource URI identifies the file, and the MIME type (e.g., `application/pdf`) tells the client how to interpret the content. The application controls when and which resources are surfaced to Claude.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Resources with MIME Types" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-007",
+    "type": "single_choice",
+    "prompt": "What tool does Anthropic provide to interactively inspect and debug an MCP server during development?",
+    "choices": [
+      { "id": "a", "text": "MCP Debugger CLI" },
+      { "id": "b", "text": "Claude Dev Console" },
+      { "id": "c", "text": "MCP Server Inspector" },
+      { "id": "d", "text": "Anthropic Studio" }
+    ],
+    "correct": "c",
+    "explanation": "The MCP Server Inspector is a browser-based debugging tool provided by Anthropic. Developers connect it to a running MCP server to browse available tools, resources, and prompts, send test requests, and inspect responses — without needing a full Claude integration to verify server behavior.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Server Inspector" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-008",
+    "type": "true_false",
+    "prompt": "In MCP, the `prompts` primitive is controlled by the user and surfaces pre-configured, reusable prompt templates.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "MCP prompts are the user-controlled primitive. They surface pre-written prompt templates that users can select and invoke, optionally passing arguments to fill in template placeholders. This allows teams to standardize common AI workflows and expose them as first-class, discoverable options in the client UI.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — Prompts Primitive" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-009",
+    "type": "multi_choice",
+    "prompt": "Which statements correctly describe the MCP client-server request-response flow? Select two.",
+    "choices": [
+      { "id": "a", "text": "The client sends a JSON-RPC request to the server over the configured transport" },
+      { "id": "b", "text": "The server pushes tool results to the client without waiting for a request" },
+      { "id": "c", "text": "The server responds with a JSON-RPC result or error object" },
+      { "id": "d", "text": "Claude connects directly to the MCP server without an intermediary client layer" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "MCP uses a request-response pattern built on JSON-RPC. The client (the host application or Claude Code) sends a structured JSON-RPC request to the server and waits for a corresponding JSON-RPC result or error. The server does not push unsolicited data — all interactions are client-initiated.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Client-Server Flow" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-010",
+    "type": "single_choice",
+    "prompt": "An MCP resource URI is defined as `file:///{filename}` where `{filename}` is a variable placeholder. What is this pattern called in MCP?",
+    "choices": [
+      { "id": "a", "text": "A dynamic resource" },
+      { "id": "b", "text": "A parameterized endpoint" },
+      { "id": "c", "text": "A templated resource" },
+      { "id": "d", "text": "A wildcard URI" }
+    ],
+    "correct": "c",
+    "explanation": "MCP supports templated resources, where URI templates contain placeholder variables (e.g., `{filename}`) following the RFC 6570 URI Template specification. Clients discover these templates and supply concrete values when requesting the resource, enabling a single resource definition to serve many concrete instances.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Templated Resources" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-011",
+    "type": "single_choice",
+    "prompt": "Which MCP primitive is most appropriate for surfacing the result of a read-only database query as structured data for Claude to reason about?",
+    "choices": [
+      { "id": "a", "text": "Tool, because the query must be executed on demand" },
+      { "id": "b", "text": "Prompt, because the result needs to be formatted first" },
+      { "id": "c", "text": "Resource, because it is application-controlled read-only data" },
+      { "id": "d", "text": "Action, because it represents a change to database state" }
+    ],
+    "correct": "c",
+    "explanation": "A read-only database query result is best exposed as a resource: the application runs the query and surfaces the result as structured data under a URI. Resources are application-controlled, fitting scenarios where the application determines what data to expose rather than letting Claude decide when to fetch it.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Primitive Selection" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-012",
+    "type": "multi_choice",
+    "prompt": "A developer is building an MCP server that will let Claude send emails, read calendar events, and offer a pre-filled meeting invite template. Which primitive assignments are correct? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "Send email → tool (model-controlled action)" },
+      { "id": "b", "text": "Read calendar events → resource (application-controlled data)" },
+      { "id": "c", "text": "Meeting invite template → prompt (user-controlled reusable template)" },
+      { "id": "d", "text": "Read calendar events → tool (because it requires a query parameter)" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "The three MCP primitives map naturally here: tools for model-initiated actions like sending email, resources for application-controlled data surfacing like calendar reads, and prompts for user-selectable reusable templates like a meeting invite. Using resources for calendar data keeps Claude from independently deciding to fetch it outside the application's control.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Choosing Primitives" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-013",
+    "type": "single_choice",
+    "prompt": "In the TypeScript MCP SDK, how is a function registered as an MCP tool?",
+    "choices": [
+      { "id": "a", "text": "By calling `server.registerTool(name, schema, handler)`" },
+      { "id": "b", "text": "By using the `@Tool()` decorator from the TypeScript SDK" },
+      { "id": "c", "text": "By calling `server.tool(name, schema, handler)` with a name, input schema, and handler function" },
+      { "id": "d", "text": "By exporting a function named `tool_<name>` from the server module" }
+    ],
+    "correct": "c",
+    "explanation": "In the TypeScript MCP SDK, tools are registered by calling `server.tool(name, inputSchema, handler)`. The name identifies the tool to clients, the input schema (JSON Schema object) defines the expected parameters, and the handler is the function Claude Code invokes when calling the tool.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP TypeScript SDK — Registering Tools" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-014",
+    "type": "single_choice",
+    "prompt": "Which MCP transport is designed for remote, network-based server communication beyond a local subprocess?",
+    "choices": [
+      { "id": "a", "text": "stdio" },
+      { "id": "b", "text": "HTTP with SSE (Server-Sent Events)" },
+      { "id": "c", "text": "Unix domain sockets" },
+      { "id": "d", "text": "gRPC" }
+    ],
+    "correct": "b",
+    "explanation": "For remote MCP servers, the HTTP with SSE (Server-Sent Events) transport is used. The client makes HTTP requests to the server, and the server uses SSE to push responses back. This transport works across a network, enabling shared MCP servers that multiple users or applications can connect to simultaneously.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — HTTP + SSE Transport" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-015",
+    "type": "single_choice",
+    "prompt": "An MCP tool returns a JSON payload that is too large for a single response. What is the recommended approach for handling large tool outputs?",
+    "choices": [
+      { "id": "a", "text": "Truncate the JSON to fit within a 4KB limit before returning it" },
+      { "id": "b", "text": "Return a resource URI pointing to the full data, which the client can fetch via a separate resources/read request" },
+      { "id": "c", "text": "Split the JSON across multiple sequential tool calls using a continuation token" },
+      { "id": "d", "text": "Return the data as a binary attachment encoded in the tool result content" }
+    ],
+    "correct": "b",
+    "explanation": "When a tool produces large output, the idiomatic MCP pattern is to store the data as a resource and return a resource URI in the tool result. The client can then fetch the full data via `resources/read` when needed. This avoids bloating the JSON-RPC response and allows lazy loading of large payloads.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Handling Large Tool Outputs" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-016",
+    "type": "single_choice",
+    "prompt": "What does the `notifications/tools/list_changed` notification allow an MCP server to tell the client?",
+    "choices": [
+      { "id": "a", "text": "That a tool invocation failed and the client should retry" },
+      { "id": "b", "text": "That the set of available tools has changed and the client should re-fetch the tool list" },
+      { "id": "c", "text": "That a tool's rate limit has been reached and calls should be paused" },
+      { "id": "d", "text": "That the server is about to shut down and tools will become unavailable" }
+    ],
+    "correct": "b",
+    "explanation": "The `notifications/tools/list_changed` notification is a server-initiated message that tells the client the available tool list has changed — for example, because the server dynamically added or removed tools. The client should call `tools/list` again to get the updated set. This supports dynamic tool registration at runtime.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Dynamic Tool Discovery" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-017",
+    "type": "true_false",
+    "prompt": "A single MCP server can simultaneously expose tools, resources, and prompts.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "MCP servers can expose any combination of the three primitives. A real-world MCP server for a code repository might expose a `run_tests` tool, a `current_branch` resource, and a `code_review` prompt template — all in the same server. The primitives are complementary, not mutually exclusive.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — Server Primitives" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-018",
+    "type": "single_choice",
+    "prompt": "A developer registers an MCP tool that takes no parameters. What should the tool's `inputSchema` specify?",
+    "choices": [
+      { "id": "a", "text": "The inputSchema field should be omitted entirely for parameter-free tools" },
+      { "id": "b", "text": "{ \"type\": \"object\", \"properties\": {}, \"required\": [] } — an empty object schema" },
+      { "id": "c", "text": "{ \"type\": \"null\" } — to explicitly signal no input is accepted" },
+      { "id": "d", "text": "{ \"type\": \"void\" } — the JSON Schema type for parameter-free functions" }
+    ],
+    "correct": "b",
+    "explanation": "Even parameter-free tools must declare a valid JSON Schema for their `inputSchema`. The correct schema for a tool with no parameters is an empty object: `{ \"type\": \"object\", \"properties\": {}, \"required\": [] }`. This conforms to the JSON Schema spec and signals to clients that no arguments are expected.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Tool Schema for No-Parameter Tools" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-019",
+    "type": "single_choice",
+    "prompt": "Which MCP feature can surface data that changes frequently — such as a live log tail — without requiring Claude to call a tool each time?",
+    "choices": [
+      { "id": "a", "text": "Resource subscriptions, which push update notifications to the client when a resource changes" },
+      { "id": "b", "text": "Tool streaming, which sends incremental tool results as data arrives" },
+      { "id": "c", "text": "Prompt templates with refresh parameters that re-invoke themselves automatically" },
+      { "id": "d", "text": "Server-side caching configured with a zero TTL to force fresh reads" }
+    ],
+    "correct": "a",
+    "explanation": "MCP supports resource subscriptions: the client subscribes to a resource URI and the server sends `notifications/resources/updated` events whenever the resource changes. This push-based model is appropriate for live data like log tails, system metrics, or real-time status feeds, avoiding expensive polling.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Resource Subscriptions" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-020",
+    "type": "multi_choice",
+    "prompt": "For a code repository MCP server: (a) execute a git commit, (b) read the current file content, (c) a pre-configured code review prompt template. Which two primitive assignments are correct?",
+    "choices": [
+      { "id": "a", "text": "Execute git commit → tool (model-controlled action with side effects)" },
+      { "id": "b", "text": "Read current file content → resource (application-controlled, read-only data)" },
+      { "id": "c", "text": "Code review prompt template → tool (because it must be invoked on demand)" },
+      { "id": "d", "text": "Execute git commit → resource (because it involves the file system)" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "Executing a git commit is an action with side effects — it mutates repository state. This makes it a tool (model-controlled). Reading file content is application-controlled read-only data, making it a resource. The code review template is a user-controlled prompt primitive, not a tool — it is selected and invoked by the user, not autonomously by the model.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Primitive Selection for Code Operations" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-021",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of the MCP `initialize` handshake message sent from the client to the server?",
+    "choices": [
+      { "id": "a", "text": "It authenticates the client with a credential token" },
+      { "id": "b", "text": "It negotiates protocol version and capability sets between client and server" },
+      { "id": "c", "text": "It requests the initial list of available tools from the server" },
+      { "id": "d", "text": "It configures the server's logging verbosity for the session" }
+    ],
+    "correct": "b",
+    "explanation": "The `initialize` message is the first message in an MCP session. It carries the client's protocol version and supported capabilities, and the server responds with its own version and capabilities. This handshake ensures both sides agree on which protocol features they can use, enabling backwards-compatible communication.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Initialize Handshake" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-022",
+    "type": "single_choice",
+    "prompt": "What JSON-RPC method does an MCP client call to list all tools available on a connected server?",
+    "choices": [
+      { "id": "a", "text": "tools/discover" },
+      { "id": "b", "text": "mcp/list_tools" },
+      { "id": "c", "text": "tools/list" },
+      { "id": "d", "text": "server/capabilities" }
+    ],
+    "correct": "c",
+    "explanation": "`tools/list` is the standard JSON-RPC method clients call to discover all tools exposed by an MCP server. The server responds with an array of tool definitions, each including the tool name, description, and input schema. Clients use this to build their tool inventory and pass tool definitions to Claude.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — tools/list Method" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-023",
+    "type": "single_choice",
+    "prompt": "An MCP server needs clients to provide authentication credentials before accessing tools. What is the recommended approach?",
+    "choices": [
+      { "id": "a", "text": "Include credentials in the server's tool names so the client knows what to pass" },
+      { "id": "b", "text": "Implement authentication at the transport layer — for example, HTTP Bearer tokens for SSE transport — before the MCP handshake is accepted" },
+      { "id": "c", "text": "Define a special authenticate tool that must be called first before any other tools work" },
+      { "id": "d", "text": "Store credentials in the MCP resource URI as query parameters" }
+    ],
+    "correct": "b",
+    "explanation": "Authentication in MCP is handled at the transport layer, not within the MCP protocol itself. For HTTP+SSE transport, this typically means validating an Authorization header (e.g., Bearer token) before establishing the MCP connection. The MCP handshake proceeds only after the transport-level auth check passes.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Authentication Patterns" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-024",
+    "type": "true_false",
+    "prompt": "MCP resources must be static and immutable; they cannot represent data that changes over time.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "MCP resources can represent dynamic, time-varying data. A resource representing a live database query result, a real-time metric, or a current configuration file changes over time. The server can notify clients of changes via `notifications/resources/updated`, and clients can subscribe to receive these updates.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Dynamic Resources" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-025",
+    "type": "single_choice",
+    "prompt": "A developer wants to deploy a single MCP server that multiple Claude Code users connect to simultaneously over the network. Which transport should they use?",
+    "choices": [
+      { "id": "a", "text": "stdio — it can be shared across processes by piping to a named pipe" },
+      { "id": "b", "text": "HTTP with SSE — designed for network-accessible multi-client scenarios" },
+      { "id": "c", "text": "Unix domain sockets — accessible to all users on the same machine" },
+      { "id": "d", "text": "WebSocket — the standard for MCP multi-client deployments" }
+    ],
+    "correct": "b",
+    "explanation": "HTTP with SSE is the correct transport for network-deployed, multi-client MCP servers. It is stateless (standard HTTP) for client requests and uses SSE for server push, making it scalable and compatible with standard web infrastructure like load balancers and proxies.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — HTTP+SSE for Multi-Client Deployment" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-026",
+    "type": "single_choice",
+    "prompt": "What is the significance of the `name` field in an MCP server's initialization response?",
+    "choices": [
+      { "id": "a", "text": "It determines the URL path the server listens on" },
+      { "id": "b", "text": "It is a human-readable identifier that appears in client UIs and logs to identify which server provided a capability" },
+      { "id": "c", "text": "It sets the prefix used for all tool names exposed by the server" },
+      { "id": "d", "text": "It controls which Claude model versions are allowed to connect to the server" }
+    ],
+    "correct": "b",
+    "explanation": "The server `name` in the `initialize` response is a human-readable label that MCP clients display in their UIs and logs to identify the server. When multiple MCP servers are connected, names help users and operators distinguish which server is providing which tools, resources, or prompts.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Server Identification" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-027",
+    "type": "single_choice",
+    "prompt": "What happens when an MCP tool handler raises an unhandled exception?",
+    "choices": [
+      { "id": "a", "text": "The exception is silently ignored and the tool returns an empty result" },
+      { "id": "b", "text": "The MCP server crashes and the client must reconnect" },
+      { "id": "c", "text": "The SDK catches the exception and returns a JSON-RPC error response to the client" },
+      { "id": "d", "text": "Claude automatically retries the tool call up to three times before giving up" }
+    ],
+    "correct": "c",
+    "explanation": "MCP SDKs are designed to handle exceptions gracefully. When a tool handler throws an unhandled exception, the SDK catches it and converts it into a JSON-RPC error response, which the client receives instead of a result. This prevents server crashes from propagating and allows the client to handle the error condition.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — Error Handling" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-028",
+    "type": "multi_choice",
+    "prompt": "Which two best practices improve the reliability of an MCP tool implementation?",
+    "choices": [
+      { "id": "a", "text": "Validate all input parameters against expected types and ranges before executing the tool's core logic" },
+      { "id": "b", "text": "Return all errors as successful results with error details embedded in the content to avoid JSON-RPC error responses" },
+      { "id": "c", "text": "Make tool operations idempotent where possible so that retries do not cause duplicate side effects" },
+      { "id": "d", "text": "Log every tool invocation to an external analytics service before returning the result" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Input validation catches bad arguments early and returns clear errors before executing potentially destructive logic. Idempotency ensures that if Claude retries a tool call (due to a network blip or error recovery), the operation does not cause unintended duplicate side effects. Embedding errors in successful results hides failures; mandatory external logging adds latency and creates a hard dependency.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Tool Reliability Best Practices" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-029",
+    "type": "single_choice",
+    "prompt": "How does an MCP prompt differ from a resource containing the same text?",
+    "choices": [
+      { "id": "a", "text": "A prompt is user-selectable and can accept arguments that fill template placeholders; a resource is application-controlled and surfaced as static or dynamic data" },
+      { "id": "b", "text": "Prompts are stored on Anthropic's servers; resources are stored locally" },
+      { "id": "c", "text": "Prompts are model-controlled and invoked autonomously; resources require user action to surface" },
+      { "id": "d", "text": "Prompts are limited to 512 tokens; resources have no size limit" }
+    ],
+    "correct": "a",
+    "explanation": "The key distinction is control and parameterization. A prompt is a user-controlled, parameterized template that users select and invoke with arguments to produce a tailored message. A resource is application-controlled data that Claude reads — it may be text, but it is surfaced by the application, not selected by the user as a reusable workflow.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Prompts vs Resources" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-030",
+    "type": "single_choice",
+    "prompt": "An MCP search tool is called with an empty string query. The underlying API returns a 400 error. How should the tool handle this?",
+    "choices": [
+      { "id": "a", "text": "Return a successful result with an empty array so Claude can continue reasoning" },
+      { "id": "b", "text": "Validate the input before calling the API; return a structured error with `isError: true` if the query is empty" },
+      { "id": "c", "text": "Retry the API call with a default search term to avoid returning an error" },
+      { "id": "d", "text": "Let the 400 response propagate as an unhandled exception to trigger the SDK's error mechanism" }
+    ],
+    "correct": "b",
+    "explanation": "The correct pattern is input validation before the API call. If the query is empty or invalid, the tool should return a tool result with `isError: true` and a descriptive message — this is a first-class error response that Claude can reason about and relay to the user. Returning a fake success, silently retrying, or propagating an unhandled exception are all anti-patterns.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Tool Error Handling Patterns" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-031",
+    "type": "true_false",
+    "prompt": "MCP is an Anthropic-proprietary protocol that can only be used with Claude models.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "MCP is an open protocol published by Anthropic. Any AI client or model provider can implement the MCP specification. The goal is an open standard that enables tool and data integrations to be built once and work across multiple AI platforms, reducing fragmentation in the ecosystem.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — Open Protocol" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-032",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the `cursor` parameter in MCP list operations like `tools/list` and `resources/list`?",
+    "choices": [
+      { "id": "a", "text": "It filters results to only items matching the cursor string as a prefix" },
+      { "id": "b", "text": "It enables pagination — providing the cursor from a previous response fetches the next page of results" },
+      { "id": "c", "text": "It sets the mouse cursor position in the client UI for accessibility" },
+      { "id": "d", "text": "It specifies the maximum number of items to return in a single response" }
+    ],
+    "correct": "b",
+    "explanation": "MCP list operations support cursor-based pagination for large result sets. When a response includes a `nextCursor` field, the client includes it as the `cursor` parameter in the next request to retrieve the following page. This enables efficient traversal of servers with many tools or resources without fetching everything at once.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Pagination with Cursors" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-033",
+    "type": "single_choice",
+    "prompt": "A client calls `tools/list` and receives an empty array. What are the two most likely causes?",
+    "choices": [
+      { "id": "a", "text": "The server intentionally exposes no tools, or the client connected before the server finished registering tools" },
+      { "id": "b", "text": "The server requires authentication and returned an empty list as the unauthenticated default" },
+      { "id": "c", "text": "The client used the wrong transport type and is receiving a cached empty response" },
+      { "id": "d", "text": "The tools were registered as resources by mistake and appear in resources/list instead" }
+    ],
+    "correct": "a",
+    "explanation": "An empty tools list typically means either: (1) the server genuinely has no tools registered (e.g., it only exposes resources or prompts), or (2) the client connected during server startup before tool registration completed. The MCP Server Inspector is useful for diagnosing which case applies.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Debugging Empty Tool Lists" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-034",
+    "type": "single_choice",
+    "prompt": "In an MCP tool result, what does setting `isError: true` communicate to the MCP client?",
+    "choices": [
+      { "id": "a", "text": "The tool's server process has crashed and the client should reconnect" },
+      { "id": "b", "text": "The tool executed but encountered a logical error; the content field contains the error details for Claude to reason about" },
+      { "id": "c", "text": "The tool's input schema validation failed before execution began" },
+      { "id": "d", "text": "The tool result should be hidden from the user and only used internally by Claude" }
+    ],
+    "correct": "b",
+    "explanation": "`isError: true` in an MCP tool result is a first-class error signal. It means the tool ran but produced an error outcome — the content field contains a human-readable description. Claude can reason about this error and decide how to proceed (retry, ask the user, fall back to an alternative). It is distinct from a JSON-RPC error, which signals a transport or protocol failure.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Tool Result isError Flag" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-035",
+    "type": "single_choice",
+    "prompt": "Which MCP transport is most appropriate for a cloud-deployed server that must be accessible to multiple client sessions simultaneously?",
+    "choices": [
+      { "id": "a", "text": "stdio — because it is the most widely supported transport" },
+      { "id": "b", "text": "HTTP with SSE — because it is stateless and scales across multiple concurrent clients over a network" },
+      { "id": "c", "text": "Unix domain sockets — because they avoid network latency" },
+      { "id": "d", "text": "WebRTC — because it provides peer-to-peer encryption for sensitive data" }
+    ],
+    "correct": "b",
+    "explanation": "HTTP with SSE is the transport designed for cloud-deployed, multi-client MCP servers. HTTP is stateless and horizontally scalable; SSE handles server push within individual requests. stdio is for local subprocesses and does not support multi-client access. Unix sockets are machine-local. MCP does not define a WebRTC transport.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — Transport Selection Guide" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-036",
+    "type": "multi_choice",
+    "prompt": "An organization is building an internal MCP server for sensitive data access. Which two design choices correctly apply least-privilege principles?",
+    "choices": [
+      { "id": "a", "text": "Expose only the specific data fields each tool needs, rather than returning entire database records" },
+      { "id": "b", "text": "Grant the MCP server's database user the broadest possible permissions to avoid future access issues" },
+      { "id": "c", "text": "Require each tool invocation to be authorized against the requesting user's permissions, not just the server's credentials" },
+      { "id": "d", "text": "Log all tool calls to a readable public endpoint so any team member can audit them" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Least privilege for an MCP server: return only the data a tool genuinely needs (not entire records), and enforce per-invocation authorization based on the user making the request (not just the server's blanket credentials). Broad database permissions violate least privilege; a public audit log leaks sensitive access patterns.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Least Privilege for Data Access Servers" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-037",
+    "type": "single_choice",
+    "prompt": "When should an MCP developer use `resources/subscribe` instead of repeatedly calling `resources/read`?",
+    "choices": [
+      { "id": "a", "text": "When the resource content never changes and caching is sufficient" },
+      { "id": "b", "text": "When the resource changes frequently and the client needs to react promptly to each change without polling overhead" },
+      { "id": "c", "text": "When the client wants to lock the resource to prevent other clients from reading it" },
+      { "id": "d", "text": "When the resource is too large to fit in a single read response" }
+    ],
+    "correct": "b",
+    "explanation": "`resources/subscribe` is appropriate for frequently-changing resources where the client needs near-real-time updates without the overhead and delay of polling. The server pushes `notifications/resources/updated` events when the resource changes, enabling event-driven updates. Polling is simpler for infrequently-changing resources.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Resource Subscriptions vs Polling" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-038",
+    "type": "single_choice",
+    "prompt": "A developer exposes a `file_read` tool that accepts any file path. A Claude model reads `/etc/passwd`. What security principle was violated?",
+    "choices": [
+      { "id": "a", "text": "Defense in depth — the server should have used both a whitelist and a blacklist" },
+      { "id": "b", "text": "Least privilege — the tool should restrict accessible paths to a defined, safe scope rather than allowing arbitrary paths" },
+      { "id": "c", "text": "Non-repudiation — the access was not logged so the read cannot be traced" },
+      { "id": "d", "text": "Availability — reading system files risks crashing the server process" }
+    ],
+    "correct": "b",
+    "explanation": "Accepting arbitrary file paths violates least privilege and enables path traversal attacks. A `file_read` tool should restrict the accessible path scope — for example, by validating that the path falls within a specific safe directory (e.g., the project workspace) and rejecting any path outside that scope, including system paths like `/etc/`.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Path Traversal Prevention" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-039",
+    "type": "true_false",
+    "prompt": "MCP servers written in different programming languages (Python, TypeScript, Rust) can all be connected to the same MCP client because MCP is a language-agnostic protocol.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "MCP is a protocol specification, not a language-specific framework. Any language can implement it as long as it produces valid JSON-RPC over the supported transports. A Claude Code client can connect simultaneously to a Python MCP server, a TypeScript MCP server, and a Rust MCP server, treating them all as first-class tool providers.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "MCP — Language Agnosticism" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-040",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the `_meta` field that can accompany MCP requests and responses?",
+    "choices": [
+      { "id": "a", "text": "It carries authentication tokens for the current request" },
+      { "id": "b", "text": "It provides optional, non-functional metadata — such as correlation IDs or trace context — that passes through the protocol without affecting behavior" },
+      { "id": "c", "text": "It controls the server's timeout duration for the current request" },
+      { "id": "d", "text": "It specifies which Claude model version should process the associated tool call" }
+    ],
+    "correct": "b",
+    "explanation": "The `_meta` field is an extensibility mechanism in MCP for carrying out-of-band metadata alongside requests and responses. Common uses include passing distributed tracing context (e.g., a trace ID for correlating logs), request correlation IDs for debugging, or annotations that downstream systems can use — without affecting MCP protocol behavior.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — _meta Field" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-041",
+    "type": "single_choice",
+    "prompt": "An agent consistently calls the wrong tool when two tools have similar purposes. A developer proposes three fixes: (A) add few-shot examples showing correct tool selection, (B) add a routing layer that pre-classifies requests, (C) rewrite the tool descriptions to more precisely differentiate the tools' purposes and applicability. Which fix should be applied first?",
+    "choices": [
+      { "id": "a", "text": "Fix (A) — few-shot examples are the most direct signal for tool selection and should always come first" },
+      { "id": "b", "text": "Fix (B) — a routing layer is deterministic and eliminates model uncertainty about tool selection" },
+      { "id": "c", "text": "Fix (C) — tool descriptions are the primary mechanism Claude uses for tool selection; rewriting them to precisely differentiate tools is the canonical first step before adding infrastructure" },
+      { "id": "d", "text": "Apply all three simultaneously to maximize the improvement signal from the start" }
+    ],
+    "correct": "c",
+    "explanation": "Claude selects tools primarily based on their descriptions. When two tools are confused, the root cause is almost always ambiguous or overlapping descriptions — not a lack of examples or routing infrastructure. Rewriting the descriptions to clearly differentiate each tool's purpose, applicability, and when to prefer one over the other is the first and most proportionate fix. Few-shot examples and routing layers add complexity and should only follow if improved descriptions are insufficient.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "MCP — Tool Description Best Practices" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-042",
+    "type": "single_choice",
+    "prompt": "An agent for customer billing operations has access to 18 tools including tools for inventory management, HR records, and marketing automation. The agent occasionally calls irrelevant tools. What is the correct architectural fix?",
+    "choices": [
+      { "id": "a", "text": "Add system prompt instructions explicitly prohibiting the agent from calling each of the irrelevant tools by name" },
+      { "id": "b", "text": "Increase the description detail for all 18 tools to reduce selection ambiguity" },
+      { "id": "c", "text": "Reduce the agent's tool set to 4-5 tools scoped to its actual domain. Fewer, well-scoped tools reduce unintended calls and follow the principle of least privilege." },
+      { "id": "d", "text": "Use `tool_choice: \"any\"` to constrain the model to always select a tool, which forces more deliberate selection" }
+    ],
+    "correct": "c",
+    "explanation": "The root cause of the unintended tool calls is that the agent has access to tools it should never need. The correct fix is least-privilege scoping: reduce the tool set to only those tools required for the agent's designated role (billing operations). With 4-5 well-scoped tools instead of 18, the agent has far fewer opportunities for misdirection, and the remaining tools are all relevant to the task at hand. Prompt instructions and description improvements are secondary mitigations; they do not address the structural over-provisioning.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Tool Count and Least Privilege" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-043",
+    "type": "single_choice",
+    "prompt": "An MCP server exposes a large knowledge base of product documentation. A developer is deciding whether to expose this as MCP `resources` or MCP `tools`. Which is more appropriate and why?",
+    "choices": [
+      { "id": "a", "text": "Tools, because MCP tools support richer input schemas and allow more precise filtering of documentation content" },
+      { "id": "b", "text": "Resources — MCP resources are content catalogs designed to reduce exploratory tool calls. A knowledge base that the agent browses is a resource; actions like submitting orders are tools." },
+      { "id": "c", "text": "Either is acceptable; the choice between resources and tools is purely stylistic and has no operational impact" },
+      { "id": "d", "text": "Tools, because MCP resources only support plain text content and cannot represent structured documentation" }
+    ],
+    "correct": "b",
+    "explanation": "MCP resources are designed for content that clients read — static or dynamic data catalogs, documents, knowledge bases. They reduce the number of tool calls an agent must make to explore available content. MCP tools are designed for actions with side effects or complex parameters, like submitting a form or querying a database with filtering logic. A product documentation knowledge base is read-only browsable content, making resources the appropriate primitive. Choosing tools for content that has no action semantics adds unnecessary complexity.",
+    "topics": ["mcp"],
+    "difficulty": "medium",
+    "refs": [{ "label": "MCP — Resources vs Tools Primitive Selection" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-044",
+    "type": "single_choice",
+    "prompt": "A developer writes a skill that uses the Edit tool to replace a function body. The Edit tool call fails. The skill shows that the `old_string` parameter matches three different locations in the file. What is the correct fallback pattern?",
+    "choices": [
+      { "id": "a", "text": "Use Grep to find the correct line number first, then retry the Edit call with the line number as context" },
+      { "id": "b", "text": "Edit requires a unique anchor — if `old_string` matches multiple locations, it fails. The fallback is to use Read to load the full file, make the change in the skill logic, and write the updated content with Write." },
+      { "id": "c", "text": "Use Bash with sed to perform a targeted line-number-based replacement instead of the Edit tool" },
+      { "id": "d", "text": "Add `replace_all: true` to the Edit call to change all three matching locations simultaneously" }
+    ],
+    "correct": "b",
+    "explanation": "The Edit tool requires the `old_string` to be unique within the file so it can unambiguously identify the location to replace. When `old_string` matches multiple locations, the call fails by design to prevent unintended edits. The correct fallback is to use Read to load the full file content, apply the desired change programmatically or with explicit surrounding context to build a unique anchor, then issue a Write call with the complete updated content. Using `replace_all: true` would change all three locations, which is likely not the intended behavior.",
+    "topics": ["mcp"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Edit Tool Anchor Requirements" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-mcp-045",
+    "type": "single_choice",
+    "prompt": "A skill needs to find all files matching the pattern `src/components/**/*.tsx` in a project. Which Claude Code built-in tool is designed for this path-pattern matching?",
+    "choices": [
+      { "id": "a", "text": "Grep — Grep searches for patterns across file contents and paths" },
+      { "id": "b", "text": "Glob — Glob matches file paths using glob patterns and is the correct tool for path-pattern discovery. Grep searches file content; Glob discovers file paths." },
+      { "id": "c", "text": "Find — the built-in Find tool accepts glob syntax and returns matching file paths" },
+      { "id": "d", "text": "Bash with the `find` command is the only way to match glob patterns across a directory tree" }
+    ],
+    "correct": "b",
+    "explanation": "Glob is the Claude Code built-in tool for file path discovery using glob patterns. It returns a list of paths matching the provided pattern, making it the right tool for questions like \"find all .tsx files in this subtree.\" Grep is complementary but distinct: it searches file content for text or regex patterns, not file paths. There is no built-in Find tool in Claude Code; Bash with shell `find` is available but Glob is the idiomatic built-in for this use case.",
+    "topics": ["mcp"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — Glob Tool Reference" }],
+    "version": 1
+  }
+]

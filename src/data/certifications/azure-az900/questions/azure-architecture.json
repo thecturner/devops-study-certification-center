@@ -1,0 +1,287 @@
+[
+  {
+    "id": "azure-az900-aa-001",
+    "type": "single_choice",
+    "prompt": "What is an Azure region?",
+    "choices": [
+      { "id": "a", "text": "A single physical datacenter building" },
+      { "id": "b", "text": "A set of datacenters deployed within a latency-defined perimeter and connected through a dedicated low-latency network" },
+      { "id": "c", "text": "A logical grouping of Azure subscriptions" },
+      { "id": "d", "text": "A globally distributed content delivery network node" }
+    ],
+    "correct": "b",
+    "explanation": "An Azure region is a set of datacenters deployed within a latency-defined perimeter and connected through a dedicated regional low-latency network. A single datacenter building would be a datacenter, not a region. Subscription groupings are management groups. CDN nodes are Azure Front Door or Azure CDN edge nodes.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure regions", "url": "https://learn.microsoft.com/en-us/azure/reliability/regions-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-002",
+    "type": "single_choice",
+    "prompt": "What is the purpose of Azure region pairs?",
+    "choices": [
+      { "id": "a", "text": "To reduce latency for end users by placing regions close together" },
+      { "id": "b", "text": "To provide disaster recovery by replicating data to a second region at least 300 miles away" },
+      { "id": "c", "text": "To allow two subscriptions to share the same resources" },
+      { "id": "d", "text": "To provide a test environment that mirrors the production region" }
+    ],
+    "correct": "b",
+    "explanation": "Azure region pairs are two regions within the same geography that are at least 300 miles apart and are used for business continuity and disaster recovery. If one region experiences an outage, services can fail over to the paired region. They are not primarily for latency reduction, subscription sharing, or test environments.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure cross-region replication", "url": "https://learn.microsoft.com/en-us/azure/reliability/cross-region-replication-azure" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-003",
+    "type": "single_choice",
+    "prompt": "What are Azure Availability Zones?",
+    "choices": [
+      { "id": "a", "text": "Separate Azure regions used for disaster recovery" },
+      { "id": "b", "text": "Physically separate datacenters within an Azure region, each with independent power, cooling, and networking" },
+      { "id": "c", "text": "Logical groupings of virtual machines within a single datacenter" },
+      { "id": "d", "text": "Geographic areas that contain multiple Azure regions" }
+    ],
+    "correct": "b",
+    "explanation": "Availability Zones are physically separate facilities (datacenters) within a single Azure region, each with independent power, cooling, and networking. Deploying across zones protects from datacenter-level failures. They are not separate regions, not just VM groupings, and not geographic containers of regions (that is an Azure geography/geopolitical boundary).",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure Availability Zones", "url": "https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-004",
+    "type": "single_choice",
+    "prompt": "Which Azure service is a serverless compute offering that runs code in response to events without requiring you to manage infrastructure?",
+    "choices": [
+      { "id": "a", "text": "Azure Virtual Machines" },
+      { "id": "b", "text": "Azure Kubernetes Service" },
+      { "id": "c", "text": "Azure Functions" },
+      { "id": "d", "text": "Azure App Service" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Functions is a serverless compute service that executes code triggered by events (HTTP requests, timers, messages, etc.) without requiring server management. Azure VMs are IaaS requiring full OS management. AKS is a managed Kubernetes service for containerized workloads. Azure App Service is a PaaS for hosting web apps and APIs.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure Functions overview", "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-005",
+    "type": "single_choice",
+    "prompt": "Which Azure storage service is best suited for storing large amounts of unstructured data such as images, videos, and log files?",
+    "choices": [
+      { "id": "a", "text": "Azure SQL Database" },
+      { "id": "b", "text": "Azure Cosmos DB" },
+      { "id": "c", "text": "Azure Blob Storage" },
+      { "id": "d", "text": "Azure Table Storage" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Blob Storage is designed for storing massive amounts of unstructured data such as text or binary data, including images, videos, documents, and log files. Azure SQL Database is a relational database. Azure Cosmos DB is a globally distributed NoSQL database for structured/semi-structured data. Azure Table Storage is a NoSQL key-value store for structured data.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Introduction to Azure Blob Storage", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-006",
+    "type": "single_choice",
+    "prompt": "What is an Azure Resource Group?",
+    "choices": [
+      { "id": "a", "text": "A billing boundary that groups Azure subscriptions" },
+      { "id": "b", "text": "A container that holds related Azure resources for a solution" },
+      { "id": "c", "text": "A physical datacenter location where resources are deployed" },
+      { "id": "d", "text": "A replication mechanism for distributing resources across regions" }
+    ],
+    "correct": "b",
+    "explanation": "A resource group is a logical container that holds related Azure resources (VMs, storage accounts, databases, etc.) for a solution. It enables lifecycle management — you can deploy, update, and delete resources as a group. Billing boundaries at higher levels are subscriptions and management groups. Datacenter locations are regions. Replication is handled by services like geo-redundant storage.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Manage Azure Resource Groups", "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-007",
+    "type": "single_choice",
+    "prompt": "Which Azure service provides a dedicated private connection from an on-premises network to Azure, bypassing the public internet?",
+    "choices": [
+      { "id": "a", "text": "Azure VPN Gateway" },
+      { "id": "b", "text": "Azure ExpressRoute" },
+      { "id": "c", "text": "Azure Virtual WAN" },
+      { "id": "d", "text": "Azure DNS" }
+    ],
+    "correct": "b",
+    "explanation": "Azure ExpressRoute provides a private, dedicated connection from on-premises networks to Azure through a connectivity provider, bypassing the public internet entirely. Azure VPN Gateway creates encrypted tunnels over the public internet. Azure Virtual WAN is a networking hub for connecting branches and spokes. Azure DNS is a domain name resolution service.",
+    "topics": ["azure-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Azure ExpressRoute overview", "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-008",
+    "type": "single_choice",
+    "prompt": "What is Azure Active Directory (Azure AD / Microsoft Entra ID) primarily used for?",
+    "choices": [
+      { "id": "a", "text": "Managing virtual machine configurations" },
+      { "id": "b", "text": "Identity and access management for Azure and Microsoft services" },
+      { "id": "c", "text": "Storing relational database records" },
+      { "id": "d", "text": "Monitoring network traffic for security threats" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Active Directory (now called Microsoft Entra ID) is a cloud-based identity and access management service. It provides authentication (sign-in) and authorization (access control) for Azure resources, Microsoft 365, and third-party applications. It is not for VM configuration, database storage, or network traffic monitoring.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: What is Microsoft Entra ID?", "url": "https://learn.microsoft.com/en-us/entra/fundamentals/whatis" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-009",
+    "type": "single_choice",
+    "prompt": "Which Azure service is a fully managed relational database that supports multiple engines including SQL Server, MySQL, and PostgreSQL?",
+    "choices": [
+      { "id": "a", "text": "Azure Cosmos DB" },
+      { "id": "b", "text": "Azure SQL Managed Instance" },
+      { "id": "c", "text": "Azure Database for PostgreSQL" },
+      { "id": "d", "text": "Azure SQL Database" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Database for PostgreSQL is a fully managed relational database service for the PostgreSQL engine. Azure SQL Database is a managed service specifically for SQL Server-compatible databases. Azure SQL Managed Instance provides SQL Server compatibility with additional features. Azure Cosmos DB is a NoSQL globally distributed database — it is not relational.",
+    "topics": ["azure-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Azure Database for PostgreSQL", "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-010",
+    "type": "single_choice",
+    "prompt": "What is the correct hierarchy of Azure management scopes from broadest to narrowest?",
+    "choices": [
+      { "id": "a", "text": "Subscription > Management Group > Resource Group > Resource" },
+      { "id": "b", "text": "Management Group > Subscription > Resource Group > Resource" },
+      { "id": "c", "text": "Resource Group > Subscription > Management Group > Resource" },
+      { "id": "d", "text": "Management Group > Resource Group > Subscription > Resource" }
+    ],
+    "correct": "b",
+    "explanation": "The correct Azure hierarchy from broadest to narrowest is: Management Groups (organize subscriptions) > Subscriptions (billing and access boundary) > Resource Groups (logical containers) > Resources (individual services like VMs and storage). Policies and RBAC applied at higher levels inherit down to lower levels.",
+    "topics": ["azure-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Azure management scopes", "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-setup-guide/organize-resources" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-011",
+    "type": "single_choice",
+    "prompt": "Which Azure service helps distribute web traffic globally and accelerates delivery of static and dynamic content to end users?",
+    "choices": [
+      { "id": "a", "text": "Azure VPN Gateway" },
+      { "id": "b", "text": "Azure ExpressRoute" },
+      { "id": "c", "text": "Azure Content Delivery Network (CDN)" },
+      { "id": "d", "text": "Azure Firewall" }
+    ],
+    "correct": "c",
+    "explanation": "Azure CDN caches static content at edge nodes distributed globally, reducing latency for end users by serving content from a location close to them. Azure VPN Gateway creates encrypted connections over the internet. ExpressRoute provides private connectivity. Azure Firewall is a managed network security service, not a content delivery service.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: What is a content delivery network?", "url": "https://learn.microsoft.com/en-us/azure/cdn/cdn-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-012",
+    "type": "single_choice",
+    "prompt": "What is an Azure Virtual Network (VNet)?",
+    "choices": [
+      { "id": "a", "text": "A managed Kubernetes cluster for running container workloads" },
+      { "id": "b", "text": "An isolated, private network in Azure that enables Azure resources to communicate securely with each other" },
+      { "id": "c", "text": "A connection between two on-premises datacenters over the internet" },
+      { "id": "d", "text": "A globally replicated DNS service for Azure" }
+    ],
+    "correct": "b",
+    "explanation": "An Azure Virtual Network (VNet) provides an isolated, private network in Azure within which resources like VMs can communicate securely with each other, the internet, and on-premises networks. AKS is the managed Kubernetes service. Site-to-site VPN connects on-premises datacenters. Azure DNS is for domain name resolution.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure Virtual Network overview", "url": "https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-013",
+    "type": "single_choice",
+    "prompt": "Which Azure service provides managed Kubernetes orchestration for deploying and managing containerized applications?",
+    "choices": [
+      { "id": "a", "text": "Azure Container Instances (ACI)" },
+      { "id": "b", "text": "Azure Kubernetes Service (AKS)" },
+      { "id": "c", "text": "Azure App Service" },
+      { "id": "d", "text": "Azure Functions" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Kubernetes Service (AKS) is a managed Kubernetes service that simplifies deploying and managing containerized applications at scale. Azure Container Instances is a simpler option for running individual containers without orchestration. Azure App Service hosts web applications and APIs. Azure Functions is a serverless compute service.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure Kubernetes Service overview", "url": "https://learn.microsoft.com/en-us/azure/aks/intro-kubernetes" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-014",
+    "type": "single_choice",
+    "prompt": "What is Azure Resource Manager (ARM)?",
+    "choices": [
+      { "id": "a", "text": "A virtual machine management service for deploying VMs" },
+      { "id": "b", "text": "The deployment and management service for Azure that provides a consistent management layer" },
+      { "id": "c", "text": "A monitoring service that tracks resource performance and costs" },
+      { "id": "d", "text": "A backup service for storing copies of Azure resources" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Resource Manager (ARM) is the deployment and management service for Azure. All requests to create, update, or delete Azure resources go through the ARM API, which provides a consistent management layer regardless of whether you use the Azure portal, CLI, PowerShell, or SDKs. It is not specific to VMs, monitoring, or backup.",
+    "topics": ["azure-architecture"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Azure Resource Manager overview", "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-aa-015",
+    "type": "single_choice",
+    "prompt": "Which Azure service is a globally distributed, multi-model NoSQL database designed for low latency and high availability?",
+    "choices": [
+      { "id": "a", "text": "Azure SQL Database" },
+      { "id": "b", "text": "Azure Table Storage" },
+      { "id": "c", "text": "Azure Cosmos DB" },
+      { "id": "d", "text": "Azure Database for MySQL" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Cosmos DB is a globally distributed, multi-model NoSQL database service that offers single-digit millisecond latency and supports multiple APIs (SQL, MongoDB, Cassandra, Gremlin, Table). Azure SQL Database is a relational database. Azure Table Storage is a basic key-value NoSQL store. Azure Database for MySQL is a managed relational MySQL service.",
+    "topics": ["azure-architecture"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Welcome to Azure Cosmos DB", "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/introduction" }
+    ],
+    "version": 1
+  }
+]

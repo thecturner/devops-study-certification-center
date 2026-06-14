@@ -1,0 +1,189 @@
+{
+  "topics": [
+    {
+      "id": "metrics",
+      "label": "Metrics",
+      "description": "Time-series metrics collection, aggregation, DogStatsD, custom metrics, metric types, and tagging.",
+      "studyPointers": [
+        { "label": "Introduction to Metrics", "url": "https://docs.datadoghq.com/metrics/" },
+        { "label": "Metric Types (gauge, count, rate, histogram, distribution)", "url": "https://docs.datadoghq.com/metrics/types/" },
+        { "label": "DogStatsD", "url": "https://docs.datadoghq.com/developers/dogstatsd/" },
+        { "label": "Custom Metrics Billing", "url": "https://docs.datadoghq.com/account_management/billing/custom_metrics/" }
+      ],
+      "subtopics": ["metric-types", "dogstatsd", "custom-metrics", "aggregation"]
+    },
+    {
+      "id": "logs",
+      "label": "Log Management",
+      "description": "Log collection, pipelines, processors, indexes, archives, and live tail.",
+      "studyPointers": [
+        { "label": "Log Management Overview", "url": "https://docs.datadoghq.com/logs/" },
+        { "label": "Log Pipelines and Processors", "url": "https://docs.datadoghq.com/logs/log_configuration/pipelines/" },
+        { "label": "Log Indexes", "url": "https://docs.datadoghq.com/logs/log_configuration/indexes/" },
+        { "label": "Log Archives", "url": "https://docs.datadoghq.com/logs/log_configuration/archives/" },
+        { "label": "Log-based Metrics", "url": "https://docs.datadoghq.com/logs/log_configuration/logs_to_metrics/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "HTTP 500s appear in raw app logs",
+          "prompt": "A training app starts returning intermittent 500 responses. The team can see the messages in raw logs, but wants to search by status code and service name during the exam scenario.",
+          "focus": "Recognize that parsing and remapping structured attributes during ingestion makes logs searchable and groupable."
+        }
+      ],
+      "subtopics": ["log-collection", "pipelines", "processors", "indexes", "archives"]
+    },
+    {
+      "id": "apm",
+      "label": "APM & Tracing",
+      "description": "Application Performance Monitoring, distributed tracing, spans, service maps, and profiling.",
+      "studyPointers": [
+        { "label": "APM Overview", "url": "https://docs.datadoghq.com/tracing/" },
+        { "label": "Distributed Tracing", "url": "https://docs.datadoghq.com/tracing/guide/distributed_tracing/" },
+        { "label": "Service Map", "url": "https://docs.datadoghq.com/tracing/services/services_map/" },
+        { "label": "Trace Search and Analytics", "url": "https://docs.datadoghq.com/tracing/trace_explorer/" },
+        { "label": "Continuous Profiler", "url": "https://docs.datadoghq.com/profiler/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Frontend request triggers a slow backend endpoint",
+          "prompt": "Users report that clicking a button feels slow. You need to identify the end-to-end request path across the web tier and backend service in an exam-style troubleshooting prompt.",
+          "focus": "Identify traces as the full request path and spans as the individual operations that explain where latency was spent."
+        }
+      ],
+      "subtopics": ["traces", "spans", "service-map", "profiling", "error-tracking"]
+    },
+    {
+      "id": "dashboards",
+      "label": "Dashboards & Notebooks",
+      "description": "Dashboard creation, widget types, template variables, timeboards, screenboards, and notebooks.",
+      "studyPointers": [
+        { "label": "Dashboards", "url": "https://docs.datadoghq.com/dashboards/" },
+        { "label": "Widget Types", "url": "https://docs.datadoghq.com/dashboards/widgets/" },
+        { "label": "Template Variables", "url": "https://docs.datadoghq.com/dashboards/template_variables/" },
+        { "label": "Notebooks", "url": "https://docs.datadoghq.com/notebooks/" }
+      ],
+      "subtopics": ["widgets", "template-variables", "timeboards", "screenboards", "notebooks"]
+    },
+    {
+      "id": "monitors",
+      "label": "Monitors & Alerting",
+      "description": "Monitor types, alert conditions, notifications, downtimes, SLOs, and composite monitors.",
+      "studyPointers": [
+        { "label": "Monitor Types", "url": "https://docs.datadoghq.com/monitors/types/" },
+        { "label": "Create Monitors", "url": "https://docs.datadoghq.com/monitors/configuration/" },
+        { "label": "Notifications", "url": "https://docs.datadoghq.com/monitors/notify/" },
+        { "label": "Downtimes", "url": "https://docs.datadoghq.com/monitors/guide/suppress-alert-with-downtimes/" },
+        { "label": "SLOs", "url": "https://docs.datadoghq.com/monitors/service_level_objectives/" }
+      ],
+      "subtopics": ["monitor-types", "alert-conditions", "notifications", "downtimes", "slos"]
+    },
+    {
+      "id": "agents",
+      "label": "Agent & Integrations",
+      "description": "Datadog Agent installation, configuration, checks, integrations, and autodiscovery.",
+      "studyPointers": [
+        { "label": "Agent Overview", "url": "https://docs.datadoghq.com/agent/" },
+        { "label": "Agent Configuration", "url": "https://docs.datadoghq.com/agent/configuration/" },
+        { "label": "Integrations", "url": "https://docs.datadoghq.com/integrations/" },
+        { "label": "Autodiscovery", "url": "https://docs.datadoghq.com/agent/guide/autodiscovery-with-jmx/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Logs never arrive from a host",
+          "prompt": "An Agent is installed and infrastructure metrics appear, but application logs never show up. The exam asks what configuration setting should be checked first.",
+          "focus": "Remember which Agent features are enabled separately and which files control host-wide versus integration-specific behavior."
+        }
+      ],
+      "subtopics": ["agent-config", "checks", "integrations", "autodiscovery"]
+    },
+    {
+      "id": "rum",
+      "label": "Real User Monitoring (RUM)",
+      "description": "Browser and mobile RUM, session replay, Core Web Vitals, error tracking, and user actions.",
+      "studyPointers": [
+        { "label": "RUM Overview", "url": "https://docs.datadoghq.com/real_user_monitoring/" },
+        { "label": "Browser RUM Setup", "url": "https://docs.datadoghq.com/real_user_monitoring/browser/" },
+        { "label": "Session Replay", "url": "https://docs.datadoghq.com/real_user_monitoring/session_replay/" },
+        { "label": "Core Web Vitals", "url": "https://docs.datadoghq.com/real_user_monitoring/browser/monitoring_page_performance/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Button click fails in the browser",
+          "prompt": "A user clicks a button in a single-page app and sees an error. The exam prompt asks which product would capture the user action, the browser error, and the affected view.",
+          "focus": "Map browser-side actions, errors, resources, and views to RUM rather than to traces or infrastructure metrics."
+        }
+      ],
+      "subtopics": ["browser-rum", "mobile-rum", "session-replay", "core-web-vitals", "user-actions"]
+    },
+    {
+      "id": "synthetics",
+      "label": "Synthetic Monitoring",
+      "description": "Browser tests, API tests, multistep API tests, test coverage, and private locations.",
+      "studyPointers": [
+        { "label": "Synthetic Monitoring", "url": "https://docs.datadoghq.com/synthetics/" },
+        { "label": "API Tests", "url": "https://docs.datadoghq.com/synthetics/api_tests/" },
+        { "label": "Browser Tests", "url": "https://docs.datadoghq.com/synthetics/browser_tests/" },
+        { "label": "Private Locations", "url": "https://docs.datadoghq.com/synthetics/private_locations/" }
+      ],
+      "subtopics": ["api-tests", "browser-tests", "private-locations", "ci-visibility"]
+    },
+    {
+      "id": "tagging",
+      "label": "Tagging",
+      "description": "Unified service tagging, tag best practices, reserved tags, and tag-based filtering.",
+      "studyPointers": [
+        { "label": "Tagging Best Practices", "url": "https://docs.datadoghq.com/getting_started/tagging/" },
+        { "label": "Unified Service Tagging", "url": "https://docs.datadoghq.com/getting_started/tagging/unified_service_tagging/" },
+        { "label": "Assigning Tags", "url": "https://docs.datadoghq.com/getting_started/tagging/assigning_tags/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Metrics and traces disagree on the environment name",
+          "prompt": "A service shows `env:prod` in one place and `env:production` in another. The exam asks why correlation breaks between telemetry types.",
+          "focus": "Know that Unified Service Tagging depends on consistent `env`, `service`, and `version` values across telemetry."
+        }
+      ],
+      "subtopics": ["unified-service-tagging", "tag-best-practices", "reserved-tags"]
+    },
+    {
+      "id": "infrastructure",
+      "label": "Infrastructure Monitoring",
+      "description": "Host maps, container monitoring, process monitoring, network performance monitoring.",
+      "studyPointers": [
+        { "label": "Infrastructure List", "url": "https://docs.datadoghq.com/infrastructure/" },
+        { "label": "Container Monitoring", "url": "https://docs.datadoghq.com/containers/" },
+        { "label": "Process Monitoring", "url": "https://docs.datadoghq.com/infrastructure/process/" },
+        { "label": "Network Performance Monitoring", "url": "https://docs.datadoghq.com/network_monitoring/performance/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "A host is healthy but one process is saturating CPU",
+          "prompt": "A host tile looks busy and the exam asks which Datadog infrastructure view helps you move from host health to the exact process consuming resources.",
+          "focus": "Differentiate between Host Map or Infrastructure List for broad visibility and Live Processes for process-level troubleshooting."
+        }
+      ],
+      "subtopics": ["host-map", "containers", "processes", "npm"]
+    },
+    {
+      "id": "service-catalog",
+      "label": "Service Catalog",
+      "description": "Service definitions, ownership, metadata, and service-level insights.",
+      "studyPointers": [
+        { "label": "Service Catalog", "url": "https://docs.datadoghq.com/tracing/service_catalog/" },
+        { "label": "Service Definition Schema", "url": "https://docs.datadoghq.com/tracing/service_catalog/service_definition_api/" }
+      ],
+      "subtopics": ["service-definition", "ownership", "scorecards"]
+    },
+    {
+      "id": "security",
+      "label": "Security Monitoring",
+      "description": "Cloud Security Management, CSPM, SIEM, detection rules, and signals.",
+      "studyPointers": [
+        { "label": "Cloud Security Management", "url": "https://docs.datadoghq.com/security/cloud_security_management/" },
+        { "label": "Detection Rules", "url": "https://docs.datadoghq.com/security/detection_rules/" },
+        { "label": "Security Signals", "url": "https://docs.datadoghq.com/security/explorer/" }
+      ],
+      "subtopics": ["cspm", "csm-threats", "siem", "detection-rules"]
+    }
+  ]
+}

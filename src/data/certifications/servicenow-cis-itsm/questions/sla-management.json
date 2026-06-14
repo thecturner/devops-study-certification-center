@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-itsm-sla-001",
+    "type": "single_choice",
+    "prompt": "What is the difference between an SLA Definition and an SLA Instance in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "An SLA Definition is the template that describes the SLA rules; an SLA Instance (task_sla record) is created when the SLA applies to a specific task"
+      },
+      {
+        "id": "b",
+        "text": "An SLA Definition is the same as an SLA Instance; the terms are interchangeable"
+      },
+      {
+        "id": "c",
+        "text": "An SLA Definition is created per ticket; an SLA Instance is a reporting aggregate"
+      },
+      {
+        "id": "d",
+        "text": "An SLA Definition is managed by the customer; an SLA Instance is managed by the service provider"
+      }
+    ],
+    "correct": "a",
+    "explanation": "An SLA Definition (stored in the contract_sla table) is the master template that contains rules for when the SLA starts, pauses, and stops, along with the target duration. When those start conditions are met on a task record such as an incident, ServiceNow creates an SLA Instance record in the task_sla table that tracks the actual elapsed time for that specific ticket.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-002",
+    "type": "single_choice",
+    "prompt": "Which SLA stage indicates that the SLA timer is running and the target has not yet been reached?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Paused"
+      },
+      {
+        "id": "b",
+        "text": "Breached"
+      },
+      {
+        "id": "c",
+        "text": "In Progress"
+      },
+      {
+        "id": "d",
+        "text": "Completed"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The 'In Progress' SLA stage means the SLA timer is actively counting down and the target time has not yet been exceeded. 'Paused' means the timer is temporarily halted. 'Breached' means the target was not met and the SLA has been violated. 'Completed' means the stop condition was met before the target time, indicating successful completion.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-003",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a 'Pause' condition on an SLA Definition in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To temporarily halt the SLA timer when specific conditions are met, such as the incident being placed on hold"
+      },
+      {
+        "id": "b",
+        "text": "To permanently stop the SLA timer when a task is resolved"
+      },
+      {
+        "id": "c",
+        "text": "To reset the SLA timer to zero"
+      },
+      {
+        "id": "d",
+        "text": "To delay the SLA start until business hours begin"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Pause condition on an SLA Definition defines when the SLA timer should be temporarily suspended. A common use case is pausing the SLA when an incident is placed On Hold with reason 'Awaiting Caller' or 'Awaiting Vendor', since time spent waiting for third parties should not count against the service provider's SLA commitment. The timer resumes when the pause condition is no longer met.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-004",
+    "type": "single_choice",
+    "prompt": "What is the difference between a Response SLA and a Resolution SLA in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A Response SLA measures the time to acknowledge or first respond to a ticket; a Resolution SLA measures the time to fully resolve it"
+      },
+      {
+        "id": "b",
+        "text": "A Response SLA applies to incidents; a Resolution SLA applies to problems"
+      },
+      {
+        "id": "c",
+        "text": "A Response SLA is measured in hours; a Resolution SLA is measured in days"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference; both measure the same time period"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Response SLA (also called First Response SLA) measures the time from when a ticket is created to when it is first acknowledged or responded to by a support agent. A Resolution SLA measures the total time from ticket creation to full resolution. Organizations commonly track both to ensure timely initial contact as well as timely closure.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-005",
+    "type": "single_choice",
+    "prompt": "What does the SLA 'Breached' stage indicate in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The incident has been resolved within the target time"
+      },
+      {
+        "id": "b",
+        "text": "The SLA timer has been paused due to an on-hold condition"
+      },
+      {
+        "id": "c",
+        "text": "The target time has been exceeded without the stop condition being met"
+      },
+      {
+        "id": "d",
+        "text": "The SLA definition has been deleted from the system"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Breached stage means the SLA's allocated time has been exceeded without the stop condition (typically resolution) having been met. Once breached, the SLA percentage exceeds 100% and the configured breach notification workflows fire. The SLA remains in Breached state and the timer continues to count past 100% until the stop condition is eventually met.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-006",
+    "type": "single_choice",
+    "prompt": "What is the difference between an SLA, an OLA, and an Underpinning Contract (UC) in ITSM?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "SLA is between the IT service provider and the customer; OLA is between internal teams; UC is with external vendors"
+      },
+      {
+        "id": "b",
+        "text": "SLA is internal, OLA is with customers, UC is with vendors"
+      },
+      {
+        "id": "c",
+        "text": "SLA and OLA are identical; UC is a legal contract with the customer"
+      },
+      {
+        "id": "d",
+        "text": "SLA applies to incidents, OLA applies to changes, UC applies to problems"
+      }
+    ],
+    "correct": "a",
+    "explanation": "An SLA (Service Level Agreement) is the commitment between the IT service provider and the customer or business. An OLA (Operational Level Agreement) is an internal agreement between different IT teams within the same organization to support the SLA. An Underpinning Contract (UC) is a formal contract with an external vendor or supplier whose services underpin delivery of the SLA.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-007",
+    "type": "single_choice",
+    "prompt": "What is the 'Retroactive Start' feature on an SLA Definition in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It allows the SLA to start from a date in the past, before the record was created"
+      },
+      {
+        "id": "b",
+        "text": "It resets an SLA that has already breached"
+      },
+      {
+        "id": "c",
+        "text": "It allows the SLA to apply to records that were created before the SLA definition was activated"
+      },
+      {
+        "id": "d",
+        "text": "It pauses the SLA retroactively when an on-hold reason is applied"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Retroactive Start option on an SLA Definition in ServiceNow, when enabled, allows the SLA to be applied retroactively to task records that were created before the SLA definition was published. Without this option, SLAs only apply to records created after the definition becomes active. This is useful when deploying new SLA definitions mid-operation and wanting them to apply to existing open tickets.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-008",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow table stores SLA Definition records (the templates)?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "task_sla"
+      },
+      {
+        "id": "b",
+        "text": "sla_definition"
+      },
+      {
+        "id": "c",
+        "text": "contract_sla"
+      },
+      {
+        "id": "d",
+        "text": "sla_template"
+      }
+    ],
+    "correct": "c",
+    "explanation": "SLA Definition records in ServiceNow are stored in the contract_sla table. These are the master templates that define the target duration, start/stop/pause conditions, schedule, and escalation settings. The task_sla table stores the running SLA instances (one per ticket per applicable SLA). Knowing these table names is important for reporting, scripting, and ACL configuration.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-009",
+    "type": "single_choice",
+    "prompt": "An SLA is configured with a 'Start Condition' of 'When Priority changes to 1-Critical' and a 'Stop Condition' of 'When State changes to Resolved'. When does the SLA timer begin?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "When the Priority field is set to 1-Critical"
+      },
+      {
+        "id": "b",
+        "text": "When the incident is created"
+      },
+      {
+        "id": "c",
+        "text": "When the incident is first assigned to a group"
+      },
+      {
+        "id": "d",
+        "text": "When the incident is acknowledged by an agent"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The SLA timer starts when the Start Condition evaluates to true. In this case, the condition is triggered when the Priority field changes to 1-Critical, regardless of whether that happens at creation or through a later update. The timer then runs until the Stop Condition (State = Resolved) is met, or breaches if resolution does not occur within the target duration.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-010",
+    "type": "single_choice",
+    "prompt": "What is the purpose of configuring a 'Business Hours Schedule' on an SLA Definition in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To ensure the SLA countdown only includes working hours, excluding nights, weekends, and holidays"
+      },
+      {
+        "id": "b",
+        "text": "To prevent incidents from being created outside business hours"
+      },
+      {
+        "id": "c",
+        "text": "To schedule automatic escalations at specific times of day"
+      },
+      {
+        "id": "d",
+        "text": "To define when CAB meetings can be held for change approvals"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Configuring a Business Hours Schedule on an SLA Definition ensures that only working hours count toward the SLA duration. For example, a '4 business hour' resolution SLA with a schedule of 9am-5pm Mon-Fri will not count overnight time, weekends, or public holidays against the target. This aligns the SLA with the realistic support availability of the service desk.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-011",
+    "type": "single_choice",
+    "prompt": "Which SLA percentage indicates that an incident has consumed 75% of its allowed resolution time?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "75%"
+      },
+      {
+        "id": "b",
+        "text": "25%"
+      },
+      {
+        "id": "c",
+        "text": "125%"
+      },
+      {
+        "id": "d",
+        "text": "The SLA percentage is not calculated until the SLA breaches"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The SLA percentage in ServiceNow represents the proportion of the allotted SLA time that has been consumed. A value of 75% means three-quarters of the target time has elapsed. When the percentage reaches 100%, the SLA breaches. Escalation notifications are typically configured at percentage thresholds such as 50%, 75%, and 100% to provide advance warning.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-012",
+    "type": "single_choice",
+    "prompt": "What triggers an SLA breach notification in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "When the SLA percentage reaches 100% or a configured warning threshold"
+      },
+      {
+        "id": "b",
+        "text": "When the incident state changes to On Hold"
+      },
+      {
+        "id": "c",
+        "text": "When the incident is reassigned to a different group"
+      },
+      {
+        "id": "d",
+        "text": "When the incident's priority is manually overridden"
+      }
+    ],
+    "correct": "a",
+    "explanation": "SLA breach notifications in ServiceNow are triggered by the SLA workflow engine when the SLA percentage reaches configured warning thresholds (such as 50%, 75%) and at 100% when the SLA breaches. These notification workflows send alerts to the assigned group, managers, or other stakeholders, providing advance warning to prevent breaches and escalating appropriately when they occur.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-013",
+    "type": "single_choice",
+    "prompt": "How does timezone handling work for SLA calculations in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "All SLAs use UTC regardless of the user's or CI's timezone"
+      },
+      {
+        "id": "b",
+        "text": "SLAs use the system administrator's configured timezone"
+      },
+      {
+        "id": "c",
+        "text": "SLAs use the timezone configured on the associated schedule, which can be set to the customer's or location's timezone"
+      },
+      {
+        "id": "d",
+        "text": "ServiceNow does not support timezone-specific SLA calculations"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow SLA calculations use the timezone defined in the associated business hours schedule. This allows SLAs to be accurately calculated relative to the customer's or support team's operating timezone. For global organizations with multiple locations, different SLA definitions with different schedules can be applied based on the caller's location or CI's geography.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-014",
+    "type": "single_choice",
+    "prompt": "What is the 'SLA Ordering' or 'Priority' field used for when multiple SLA Definitions match the same incident?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It determines which SLA definition is applied when multiple definitions are eligible for the same record"
+      },
+      {
+        "id": "b",
+        "text": "It sets the incident priority based on the SLA"
+      },
+      {
+        "id": "c",
+        "text": "It determines the order in which breach notifications are sent"
+      },
+      {
+        "id": "d",
+        "text": "It ranks SLA definitions in the reporting dashboard"
+      }
+    ],
+    "correct": "a",
+    "explanation": "When multiple SLA Definitions match the conditions of the same incident, the SLA Priority (ordering) field determines which definition takes precedence. ServiceNow evaluates SLA definitions in priority order and applies the highest-priority matching definition. This ensures the most specific or most appropriate SLA is used when there could be ambiguity in which definition applies.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-015",
+    "type": "single_choice",
+    "prompt": "What happens when an SLA's Stop Condition is met in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The SLA is deleted from the task_sla table"
+      },
+      {
+        "id": "b",
+        "text": "The SLA timer resets to zero for the next SLA cycle"
+      },
+      {
+        "id": "c",
+        "text": "The SLA stage changes to 'Completed' and the timer stops"
+      },
+      {
+        "id": "d",
+        "text": "The SLA moves to 'Paused' state"
+      }
+    ],
+    "correct": "c",
+    "explanation": "When an SLA's Stop Condition is met (for example, the incident state changes to Resolved), the SLA stage changes to 'Completed' and the timer stops counting. The final percentage and completion time are captured in the task_sla record for reporting. If the SLA was completed before reaching 100%, it represents a successful fulfillment of the service level commitment.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-016",
+    "type": "single_choice",
+    "prompt": "A company wants to pause the SLA timer only when an incident is placed On Hold with reason 'Awaiting Vendor'. How should this be configured in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Set the Pause Condition on the SLA Definition to 'State = On Hold AND On Hold Reason = Awaiting Vendor'"
+      },
+      {
+        "id": "b",
+        "text": "Create a separate SLA Definition for vendor-related incidents"
+      },
+      {
+        "id": "c",
+        "text": "Set the SLA schedule to exclude vendor response time"
+      },
+      {
+        "id": "d",
+        "text": "Use an escalation rule to stop the SLA when assigned to the vendor group"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Pause Condition on an SLA Definition in ServiceNow is a condition that must evaluate to true to pause the SLA timer. Configuring the condition as 'State = On Hold AND On Hold Reason = Awaiting Vendor' ensures the SLA pauses only for that specific combination, not for all on-hold reasons. This precision prevents the SLA from being paused inappropriately for other on-hold scenarios.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-017",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature allows SLA definitions to be applied differently based on the customer's company or department?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Business Rules on the task_sla table"
+      },
+      {
+        "id": "b",
+        "text": "SLA Domain Separation"
+      },
+      {
+        "id": "c",
+        "text": "SLA conditions using Company or Department fields"
+      },
+      {
+        "id": "d",
+        "text": "Multiple SLA schedules mapped to different locations"
+      }
+    ],
+    "correct": "c",
+    "explanation": "SLA Definitions in ServiceNow can include conditions that reference any field on the task record, including Company or Department. By adding a company condition to an SLA Definition (e.g., 'Company = Acme Corp'), that SLA only applies to incidents from that company. This allows different SLAs to be applied to different customers or business units using a single SLA engine.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-018",
+    "type": "single_choice",
+    "prompt": "What is the effect of resetting an SLA on an incident in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The SLA is deleted and a new one starts from the current time"
+      },
+      {
+        "id": "b",
+        "text": "The SLA percentage is set back to 0% but the original start time is preserved"
+      },
+      {
+        "id": "c",
+        "text": "The existing SLA instance is cancelled and a new SLA instance starts from scratch"
+      },
+      {
+        "id": "d",
+        "text": "The SLA stage moves back from Breached to In Progress"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Resetting an SLA in ServiceNow cancels the existing task_sla record and creates a new SLA instance that starts from the current point in time. This is typically used when an incident is reopened after being resolved, or when a VIP caller escalation requires the SLA clock to restart. The original SLA history is preserved in the cancelled record for audit purposes.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-019",
+    "type": "single_choice",
+    "prompt": "Can SLA Definitions be applied to records other than incidents in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "No, SLAs are exclusive to the incident table"
+      },
+      {
+        "id": "b",
+        "text": "Yes, but only to changes and service requests, not problems"
+      },
+      {
+        "id": "c",
+        "text": "Yes, SLAs can be applied to any table that extends the task table, including problems, changes, and service requests"
+      },
+      {
+        "id": "d",
+        "text": "Yes, but a separate SLA engine plugin must be installed for each table"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow's SLA engine is table-agnostic and can apply SLA Definitions to any table that extends the task table, including incidents (incident), problems (problem), change requests (chg_request), service catalog tasks (sc_task), and more. The target table is configured on the SLA Definition, allowing organizations to track service levels across all ITSM processes.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-020",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of SLA escalation workflows in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To automatically close incidents that are approaching their SLA target"
+      },
+      {
+        "id": "b",
+        "text": "To transfer ownership of the incident to the SLA manager when a breach occurs"
+      },
+      {
+        "id": "c",
+        "text": "To automatically increase the incident priority when the SLA is at risk"
+      },
+      {
+        "id": "d",
+        "text": "To notify stakeholders and managers as an SLA approaches or exceeds its target, enabling proactive intervention"
+      }
+    ],
+    "correct": "d",
+    "explanation": "SLA escalation workflows in ServiceNow are triggered at configured percentage thresholds (such as 50%, 75%, and 100%) to alert assigned teams, supervisors, and managers that an incident is at risk of breaching or has breached its SLA. The goal is to provide advance warning so that action can be taken before a breach occurs, and to ensure management visibility when breaches happen.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-021",
+    "type": "single_choice",
+    "prompt": "What is the SLA 'Completed' stage in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The SLA has breached and the incident is still open"
+      },
+      {
+        "id": "b",
+        "text": "The SLA has been manually cancelled by an administrator"
+      },
+      {
+        "id": "c",
+        "text": "The incident was closed without a resolution"
+      },
+      {
+        "id": "d",
+        "text": "The SLA Stop Condition was met before the target time elapsed"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The SLA 'Completed' stage in ServiceNow indicates that the Stop Condition (typically incident resolution or closure) was met before the SLA target time was exhausted. A Completed SLA with a final percentage below 100% represents successful compliance with the service level commitment. This is distinct from Breached, where the target time elapsed before resolution.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-022",
+    "type": "single_choice",
+    "prompt": "An organization has a P1 incident SLA with a 1-hour resolution target and a P2 incident SLA with a 4-hour target. Both SLA Definitions have matching conditions for their respective priority levels. What happens if an incident is created as P2 and then escalated to P1?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The P2 SLA continues unchanged; no new SLA is triggered"
+      },
+      {
+        "id": "b",
+        "text": "The P2 SLA is paused and the P1 SLA starts from the current time"
+      },
+      {
+        "id": "c",
+        "text": "The P2 SLA is cancelled and a new P1 SLA instance starts, depending on how start/stop conditions are configured"
+      },
+      {
+        "id": "d",
+        "text": "The P2 SLA is automatically reset to reflect the P1 target duration"
+      }
+    ],
+    "correct": "c",
+    "explanation": "When an incident's priority changes, ServiceNow re-evaluates all SLA Definitions against the current field values. The P2 SLA may be cancelled (if its conditions no longer match) and a new P1 SLA instance is created. The exact behavior depends on the start condition configuration, but in typical configurations a priority change causes the old SLA to stop and the new, more urgent SLA to begin. This ensures the correct target governs the incident.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-023",
+    "type": "single_choice",
+    "prompt": "Which field on the task_sla record shows the percentage of SLA time that has been consumed?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "sla_percentage"
+      },
+      {
+        "id": "b",
+        "text": "elapsed_percentage"
+      },
+      {
+        "id": "c",
+        "text": "time_consumed"
+      },
+      {
+        "id": "d",
+        "text": "percentage"
+      }
+    ],
+    "correct": "d",
+    "explanation": "On the task_sla table in ServiceNow, the 'percentage' field stores the current percentage of SLA time consumed. This field drives the SLA progress indicators shown on incident forms and is used by escalation conditions to trigger notifications at threshold percentages such as 50%, 75%, and 100% (breach).",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-024",
+    "type": "single_choice",
+    "prompt": "What is 'SLA Domain Separation' used for in multi-tenant ServiceNow implementations?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To define different business hour schedules for different geographies"
+      },
+      {
+        "id": "b",
+        "text": "To separate SLA reporting by department"
+      },
+      {
+        "id": "c",
+        "text": "To restrict which agents can view SLA records"
+      },
+      {
+        "id": "d",
+        "text": "To allow different SLA definitions to apply to different domain-separated tenants or companies without cross-contamination"
+      }
+    ],
+    "correct": "d",
+    "explanation": "SLA Domain Separation in ServiceNow allows organizations running multiple tenants or companies within a single instance (using the Domain Separation feature) to maintain completely separate SLA definitions per domain. This prevents one tenant's SLA rules from inadvertently applying to another's records, ensuring contractual obligations between the service provider and each customer are met independently.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-025",
+    "type": "single_choice",
+    "prompt": "Where are SLA breach notification workflows configured in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "On the Incident form via notification rules"
+      },
+      {
+        "id": "b",
+        "text": "In the Assignment Rules configuration"
+      },
+      {
+        "id": "c",
+        "text": "In the CMDB scheduling module"
+      },
+      {
+        "id": "d",
+        "text": "On the SLA Definition record in the workflow or notification fields"
+      }
+    ],
+    "correct": "d",
+    "explanation": "SLA breach and escalation notifications are configured on the SLA Definition record itself. The definition includes workflow references or notification configurations that fire at specific percentage thresholds. Administrators can specify which notification to send, to whom, and at what SLA percentage threshold, directly within the SLA Definition configuration.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-026",
+    "type": "single_choice",
+    "prompt": "What does a final SLA percentage of 85% on a Completed SLA instance indicate?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The SLA was breached at 85% and then resolved"
+      },
+      {
+        "id": "b",
+        "text": "The SLA was paused for 15% of the target duration"
+      },
+      {
+        "id": "c",
+        "text": "The SLA definition had a compliance rate of 85% across all incidents"
+      },
+      {
+        "id": "d",
+        "text": "The incident consumed 85% of the allotted SLA time before being resolved successfully within the target"
+      }
+    ],
+    "correct": "d",
+    "explanation": "A Completed SLA with a final percentage of 85% means the incident was resolved after consuming 85% of the allotted time, which is still within the SLA target (below 100%). The SLA was met. A percentage below 100% on a Completed SLA always indicates successful compliance, while any percentage on a Breached SLA indicates non-compliance.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-027",
+    "type": "single_choice",
+    "prompt": "An SLA Definition has a 'Stop Condition' of 'State = Resolved OR State = Closed'. What does this mean for the SLA timer?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The SLA timer will only stop when both conditions are true simultaneously"
+      },
+      {
+        "id": "b",
+        "text": "The SLA timer will pause when Resolved and stop when Closed"
+      },
+      {
+        "id": "c",
+        "text": "The SLA timer ignores the condition and stops only when breached"
+      },
+      {
+        "id": "d",
+        "text": "The SLA timer will stop when either the incident reaches Resolved or Closed state, whichever comes first"
+      }
+    ],
+    "correct": "d",
+    "explanation": "A Stop Condition using OR logic means the SLA timer stops when any of the specified conditions becomes true. In this case, the SLA will stop as soon as the incident enters either the Resolved or Closed state, whichever occurs first. This is a common configuration that ensures the SLA timer stops upon initial resolution rather than requiring the additional auto-close step.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-028",
+    "type": "single_choice",
+    "prompt": "What is the purpose of SLA reporting in ServiceNow ITSM?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To automatically adjust SLA targets based on historical performance"
+      },
+      {
+        "id": "b",
+        "text": "To create new SLA Definitions from historical incident data"
+      },
+      {
+        "id": "c",
+        "text": "To configure automated responses to SLA breaches"
+      },
+      {
+        "id": "d",
+        "text": "To provide visibility into SLA compliance rates, breach trends, and performance against contractual commitments"
+      }
+    ],
+    "correct": "d",
+    "explanation": "SLA reporting in ServiceNow provides managers and service owners with visibility into how well the organization is meeting its service level commitments. Reports and dashboards show SLA compliance rates by priority, team, and time period, identify breach trends, and support continuous improvement by highlighting areas where targets are consistently being missed.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-029",
+    "type": "single_choice",
+    "prompt": "When multiple SLA Definitions are eligible to apply to an incident, ServiceNow applies them based on which criteria?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Alphabetically by SLA Definition name"
+      },
+      {
+        "id": "b",
+        "text": "By the creation date of the SLA Definition (oldest first)"
+      },
+      {
+        "id": "c",
+        "text": "All eligible SLAs are applied simultaneously without prioritization"
+      },
+      {
+        "id": "d",
+        "text": "By the order number (priority) configured on each SLA Definition"
+      }
+    ],
+    "correct": "d",
+    "explanation": "When multiple SLA Definitions match an incident's conditions, ServiceNow uses the Order number (priority) field on each definition to determine which takes precedence. Lower order numbers have higher priority. In configurations where only one SLA should apply, the order field ensures the correct definition wins. In configurations where multiple SLAs are intentional (e.g., both response and resolution), all matching definitions create separate task_sla records.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-030",
+    "type": "single_choice",
+    "prompt": "What is the 'Duration' field on an SLA Definition used for?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It records how long the last SLA instance ran"
+      },
+      {
+        "id": "b",
+        "text": "It defines the target time within which the Stop Condition must be met"
+      },
+      {
+        "id": "c",
+        "text": "It sets the auto-pause interval for the SLA timer"
+      },
+      {
+        "id": "d",
+        "text": "It determines how frequently the SLA percentage is recalculated"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Duration field on an SLA Definition specifies the target time allowed for the Stop Condition to be met. For example, a duration of '4 hours' on a P2 resolution SLA means the incident must be resolved within 4 hours (adjusted for any business hours schedule or pause conditions). The SLA breaches if the Stop Condition is not met within this duration.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-031",
+    "type": "single_choice",
+    "prompt": "Which type of SLA is typically used to govern the internal service delivery between a first-line support team and a second-line team?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "SLA (Service Level Agreement)"
+      },
+      {
+        "id": "b",
+        "text": "OLA (Operational Level Agreement)"
+      },
+      {
+        "id": "c",
+        "text": "UC (Underpinning Contract)"
+      },
+      {
+        "id": "d",
+        "text": "KPI (Key Performance Indicator)"
+      }
+    ],
+    "correct": "b",
+    "explanation": "An Operational Level Agreement (OLA) governs internal commitments between IT teams within the same organization. For example, an OLA between the first-line service desk and the second-line application support team would define the target response time for escalated incidents. OLAs support the customer-facing SLA by ensuring internal handoffs occur in a timely manner.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-032",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what action should an administrator take to apply an updated SLA Definition to incidents that are already open?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Nothing; SLA changes apply automatically to all existing records"
+      },
+      {
+        "id": "b",
+        "text": "Use the 'Recalculate SLA' option or run the SLA repair script to update existing task_sla records"
+      },
+      {
+        "id": "c",
+        "text": "Manually update each incident's SLA field"
+      },
+      {
+        "id": "d",
+        "text": "Delete existing task_sla records so they regenerate automatically"
+      }
+    ],
+    "correct": "b",
+    "explanation": "When an SLA Definition is modified, existing task_sla instances based on the old definition are not automatically updated. To apply the updated SLA to open incidents, an administrator can use the 'Recalculate SLA' option on the SLA Definition or run the SLA repair script (available in ServiceNow's SLA management module). This regenerates task_sla records for affected open tickets.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-033",
+    "type": "single_choice",
+    "prompt": "How does ServiceNow handle SLA calculations when a business hours schedule is set and an incident is created outside of business hours?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The SLA timer starts immediately regardless of the schedule"
+      },
+      {
+        "id": "b",
+        "text": "The SLA timer starts at the beginning of the next business hours period"
+      },
+      {
+        "id": "c",
+        "text": "The incident cannot be created outside business hours"
+      },
+      {
+        "id": "d",
+        "text": "The SLA duration is doubled for after-hours incidents"
+      }
+    ],
+    "correct": "b",
+    "explanation": "When an SLA Definition references a business hours schedule and an incident is created outside of those hours, the SLA timer starts at the beginning of the next business hours window. For example, if the schedule is 9am-5pm and an incident is created at 11pm on Friday, the SLA timer starts at 9am on the next business day (typically Monday if there is no weekend coverage). This ensures SLA targets are based on available support hours.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-034",
+    "type": "single_choice",
+    "prompt": "What is an 'SLA Diagram' in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A flowchart showing the escalation path for SLA breaches"
+      },
+      {
+        "id": "b",
+        "text": "A visual representation of the SLA lifecycle stages (In Progress, Paused, Breached, Completed) for a specific task record"
+      },
+      {
+        "id": "c",
+        "text": "A report showing SLA compliance over a 12-month period"
+      },
+      {
+        "id": "d",
+        "text": "A CI dependency map for SLA-affected services"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The SLA Diagram in ServiceNow is a visual widget that appears on task records (such as incidents) showing the current status of all attached SLA instances. It displays the SLA stages, percentage consumed, and time remaining in an easy-to-read visual format. This gives agents and managers an at-a-glance view of SLA health directly on the record form.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-035",
+    "type": "single_choice",
+    "prompt": "Which of the following best describes the SLA 'Paused' stage in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The SLA has been permanently suspended by an administrator"
+      },
+      {
+        "id": "b",
+        "text": "The SLA timer is temporarily halted because the Pause Condition is currently true"
+      },
+      {
+        "id": "c",
+        "text": "The SLA has been breached and is waiting for a resolution"
+      },
+      {
+        "id": "d",
+        "text": "The SLA is not yet active because the Start Condition has not been met"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Paused stage means the SLA timer is temporarily halted because the Pause Condition defined on the SLA Definition is currently true (for example, the incident is On Hold with reason 'Awaiting Caller'). Time in the Paused state does not count toward the SLA duration. The timer automatically resumes when the Pause Condition becomes false.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-036",
+    "type": "single_choice",
+    "prompt": "What is the main benefit of configuring SLA notifications at 50% and 75% thresholds in addition to the 100% breach threshold?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It increases the number of notifications agents receive, keeping them engaged"
+      },
+      {
+        "id": "b",
+        "text": "It provides advance warning so that corrective action can be taken before the SLA breaches"
+      },
+      {
+        "id": "c",
+        "text": "It automatically increases the incident priority at each threshold"
+      },
+      {
+        "id": "d",
+        "text": "It reduces the SLA target time for the second half of the SLA period"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Configuring SLA notifications at 50% and 75% thresholds provides early warning to agents and managers that a ticket is consuming a significant portion of its allowed time. This advance notice enables proactive intervention, such as escalating to a more experienced engineer or expediting a vendor response, before the SLA actually breaches at 100%. Prevention is more effective than reactive breach management.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-037",
+    "type": "single_choice",
+    "prompt": "An SLA Definition is configured with 'Type = SLA' versus 'Type = OLA'. What is the practical difference in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "SLA type uses calendar time; OLA type uses business hours"
+      },
+      {
+        "id": "b",
+        "text": "Both types function identically in the SLA engine; the Type field is primarily informational and used for reporting categorization"
+      },
+      {
+        "id": "c",
+        "text": "OLA type cannot be applied to incidents; only to change requests"
+      },
+      {
+        "id": "d",
+        "text": "SLA type triggers customer notifications; OLA type triggers only internal notifications"
+      }
+    ],
+    "correct": "b",
+    "explanation": "In ServiceNow, the Type field on an SLA Definition (SLA, OLA, or Underpinning Contract) is primarily informational. The SLA engine processes all types using the same start, stop, pause, and notification logic. The Type field is used for reporting categorization and visibility but does not change the technical behavior of the SLA calculation or notification mechanism.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-038",
+    "type": "single_choice",
+    "prompt": "What is the purpose of configuring a 'Start Condition' on an SLA Definition in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To define when an SLA breach notification should be sent"
+      },
+      {
+        "id": "b",
+        "text": "To specify the field conditions that must be true for the SLA timer to begin counting"
+      },
+      {
+        "id": "c",
+        "text": "To set the initial state of a new SLA instance record"
+      },
+      {
+        "id": "d",
+        "text": "To determine which assignment group receives the SLA escalation"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Start Condition on an SLA Definition specifies the field values that must be present on the task record for the SLA timer to begin. For example, 'State = New AND Priority = 1 - Critical' means the SLA only starts for critical, newly-created incidents. Without a start condition, the SLA would apply to all records matching the table, which is typically not the desired behavior.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-039",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature enables organizations to track whether internal support team response commitments are being met, separate from the customer-facing SLA?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Escalation rules"
+      },
+      {
+        "id": "b",
+        "text": "OLA (Operational Level Agreement) definitions on the task table"
+      },
+      {
+        "id": "c",
+        "text": "Assignment group response time fields"
+      },
+      {
+        "id": "d",
+        "text": "Service catalog SLAs"
+      }
+    ],
+    "correct": "b",
+    "explanation": "OLA (Operational Level Agreement) definitions in ServiceNow use the same SLA engine as customer-facing SLAs but are categorized as OLAs. They are configured with Type = OLA on the SLA Definition and can use different conditions, durations, and schedules to track internal team commitments. This provides separate visibility into internal delivery performance distinct from the customer-facing SLA compliance.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-sla-040",
+    "type": "single_choice",
+    "prompt": "An organization wants to ensure that a Priority 1 incident receives a first response within 15 minutes of being created. Which SLA configuration achieves this?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "SLA Definition with Start Condition: Priority = 1-Critical, Stop Condition: First Response time field is populated, Duration: 15 minutes"
+      },
+      {
+        "id": "b",
+        "text": "An escalation rule that fires 15 minutes after incident creation"
+      },
+      {
+        "id": "c",
+        "text": "A business rule that enforces first response within 15 minutes"
+      },
+      {
+        "id": "d",
+        "text": "An SLA Definition with Stop Condition: State = In Progress, Duration: 15 minutes, Start Condition: Priority = 1-Critical"
+      }
+    ],
+    "correct": "d",
+    "explanation": "A First Response SLA for P1 incidents would typically use Start Condition: Priority = 1-Critical (or State = New with Priority = 1), Stop Condition: State = In Progress (which indicates an agent has picked up and started working the ticket), and Duration: 15 minutes. When the agent changes the state to In Progress, the response SLA timer stops. A dedicated first response time field stop condition is also valid if that field is used.",
+    "topics": [
+      "sla-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  }
+]

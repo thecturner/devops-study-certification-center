@@ -1,0 +1,206 @@
+[
+  {
+    "id": "ccaf-cc101-001",
+    "type": "single_choice",
+    "prompt": "Which of the following best describes what an AI coding agent can do that a standard chat-based AI tool cannot?",
+    "choices": [
+      { "id": "a", "text": "Generate more verbose explanations of code concepts" },
+      { "id": "b", "text": "Use tools to autonomously read files, run commands, and write code across a project" },
+      { "id": "c", "text": "Access the internet for real-time documentation lookups" },
+      { "id": "d", "text": "Remember previous chat sessions without any configuration" }
+    ],
+    "correct": "b",
+    "explanation": "An AI coding agent like Claude Code is distinguished from chat-based tools by its tool system. Rather than just generating text responses, it can autonomously invoke tools — reading source files, writing code, running shell commands, and searching codebases — to take meaningful action inside a real project. Chat tools respond with text; agentic tools act.",
+    "topics": ["claude-code-101"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — Agentic Overview" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-002",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of the /compact command in Claude Code?",
+    "choices": [
+      { "id": "a", "text": "Compresses all source files in the project to reduce disk usage" },
+      { "id": "b", "text": "Summarizes the current conversation history to free up space in the context window" },
+      { "id": "c", "text": "Removes duplicate lines from the currently open file" },
+      { "id": "d", "text": "Minifies JavaScript output for a production build" }
+    ],
+    "correct": "b",
+    "explanation": "/compact instructs Claude Code to condense the conversation history into a shorter summary, reclaiming context window space so the session can continue. Unlike /clear, which discards history entirely, /compact preserves key decisions and state in compressed form, allowing long agentic sessions to keep going without losing important context.",
+    "topics": ["claude-code-101"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — /compact Command" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-003",
+    "type": "single_choice",
+    "prompt": "Where should a CLAUDE.md file be placed to give Claude Code persistent instructions that apply project-wide?",
+    "choices": [
+      { "id": "a", "text": "In ~/.claude/ to make it apply globally to all projects" },
+      { "id": "b", "text": "In the project's root directory" },
+      { "id": "c", "text": "In each source subdirectory alongside the code it describes" },
+      { "id": "d", "text": "In the .git/ directory so it is tracked with the repository" }
+    ],
+    "correct": "b",
+    "explanation": "Placing CLAUDE.md in the project's root directory makes its instructions available to every Claude Code session started within that project. Claude reads it automatically at session startup. A CLAUDE.md in ~/.claude/ provides global instructions across all projects, while subdirectory CLAUDE.md files scope instructions to that subtree.",
+    "topics": ["claude-code-101"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — CLAUDE.md Scoping" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-004",
+    "type": "single_choice",
+    "prompt": "In the Explore-Plan-Code-Commit workflow, what is the primary purpose of the Explore phase?",
+    "choices": [
+      { "id": "a", "text": "Running the test suite to establish a passing baseline before any changes" },
+      { "id": "b", "text": "Reading and understanding the relevant parts of the codebase before proposing a solution" },
+      { "id": "c", "text": "Asking the user clarifying questions about requirements" },
+      { "id": "d", "text": "Checking GitHub Issues for existing reports related to the task" }
+    ],
+    "correct": "b",
+    "explanation": "The Explore phase is about building situational awareness. Claude Code reads relevant files, traces dependencies, and understands existing patterns before deciding how to proceed. Skipping exploration leads to solutions that ignore how the codebase actually works. The subsequent Plan phase then uses that understanding to propose an approach.",
+    "topics": ["claude-code-101"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Explore-Plan-Code-Commit Workflow" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-005",
+    "type": "single_choice",
+    "prompt": "How do tools and permissions work together in Claude Code's agentic loop?",
+    "choices": [
+      { "id": "a", "text": "Tools run unrestricted; permissions only apply to file uploads outside the project" },
+      { "id": "b", "text": "Each tool invocation is checked against the configured permission policy before Claude is allowed to proceed" },
+      { "id": "c", "text": "Permissions apply only to bash commands; file read and write tools bypass permission checks" },
+      { "id": "d", "text": "Claude requests all permissions at startup and caches them for the entire session" }
+    ],
+    "correct": "b",
+    "explanation": "In Claude Code's agentic loop, every tool call is gated by a permission policy. Depending on the configured mode — such as approval mode or auto-accept — Claude either prompts the user before each call or proceeds automatically. This design gives operators fine-grained control over what actions Claude can take without interruption.",
+    "topics": ["claude-code-101"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Permissions and Tool Use" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-006",
+    "type": "single_choice",
+    "prompt": "A developer's Claude Code session has been running for several hours and the context window is nearly full, but they need to keep the current session going. What is the best action?",
+    "choices": [
+      { "id": "a", "text": "Run /clear to reset the conversation and start a new session from scratch" },
+      { "id": "b", "text": "Run /compact to summarize prior history and continue the session with more room" },
+      { "id": "c", "text": "Restart Claude Code and reload CLAUDE.md manually" },
+      { "id": "d", "text": "Open a second terminal window and copy the most recent messages into a new session" }
+    ],
+    "correct": "b",
+    "explanation": "/compact preserves continuity by replacing the conversation history with a summary, freeing up context without discarding the session's decisions and state. /clear is appropriate when you want a clean break, not when you need to keep working. Using /compact is the idiomatic way to extend long agentic sessions.",
+    "topics": ["claude-code-101"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Context Management" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-007",
+    "type": "single_choice",
+    "prompt": "How does a developer make an MCP server's tools available to Claude Code during a session?",
+    "choices": [
+      { "id": "a", "text": "By importing the server module directly inside CLAUDE.md" },
+      { "id": "b", "text": "By adding the server configuration under mcpServers in the Claude Code settings file" },
+      { "id": "c", "text": "By running the MCP server in the same terminal process as Claude Code" },
+      { "id": "d", "text": "By declaring the server's tools in the project's package.json under a claude key" }
+    ],
+    "correct": "b",
+    "explanation": "MCP servers are registered by adding an entry under mcpServers in the Claude Code settings (typically ~/.claude/settings.json or .claude/settings.json for project-level config). Each entry specifies the server name, the command to launch it, and any arguments. Claude Code reads this configuration at startup and connects to the server, making its tools available immediately.",
+    "topics": ["claude-code-101"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — MCP Integration" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-008",
+    "type": "single_choice",
+    "prompt": "Which statement correctly describes the difference between approval mode and auto-accept mode in Claude Code?",
+    "choices": [
+      { "id": "a", "text": "Approval mode lets Claude run any tool without pausing; auto-accept requires manual confirmation for every tool call" },
+      { "id": "b", "text": "Approval mode prompts the user before each tool call; auto-accept allows Claude to run approved tools without interruption" },
+      { "id": "c", "text": "There is no meaningful behavioral difference between the two modes" },
+      { "id": "d", "text": "Approval mode is available only in enterprise deployments" }
+    ],
+    "correct": "b",
+    "explanation": "In approval mode, Claude Code pauses before each tool invocation and waits for the user to allow or deny it. This gives maximum human oversight at the cost of interruptions. Auto-accept mode allows Claude to proceed without stopping, enabling faster autonomous work. Teams typically use approval mode when exploring unfamiliar codebases and auto-accept when running well-understood, repetitive tasks.",
+    "topics": ["claude-code-101"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Permission Modes" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-009",
+    "type": "single_choice",
+    "prompt": "A developer wants Claude Code to automatically run a formatter every time it writes or edits a file. Which feature is the correct tool for this?",
+    "choices": [
+      { "id": "a", "text": "A CLAUDE.md instruction asking Claude to run the formatter after every edit" },
+      { "id": "b", "text": "A PostToolUse hook configured to execute the formatter when the Write or Edit tool is used" },
+      { "id": "c", "text": "A pre-commit git hook that runs the formatter before each commit" },
+      { "id": "d", "text": "An MCP server that intercepts Write calls and reformats the content before saving" }
+    ],
+    "correct": "b",
+    "explanation": "Hooks are the correct mechanism for automating reactions to Claude Code's tool calls. A PostToolUse hook fires after a matched tool completes; by matching the Write and Edit tools, the formatter runs automatically every time Claude modifies a file. CLAUDE.md can ask Claude to run the formatter, but that relies on Claude's compliance rather than a guaranteed trigger.",
+    "topics": ["claude-code-101"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Hooks" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-010",
+    "type": "single_choice",
+    "prompt": "A team enables auto-accept mode for file operations but wants Claude Code to stop and ask a human before running any shell command. What is the most reliable way to enforce this?",
+    "choices": [
+      { "id": "a", "text": "Disable auto-accept entirely so all tool calls require approval" },
+      { "id": "b", "text": "Add a PreToolUse hook that matches the Bash tool and exits with a non-zero code, blocking execution and prompting the user" },
+      { "id": "c", "text": "Set Plan Mode permanently on so Claude never runs any tools at all" },
+      { "id": "d", "text": "Add a CLAUDE.md instruction telling Claude never to use bash commands" }
+    ],
+    "correct": "b",
+    "explanation": "Combining auto-accept with a targeted PreToolUse hook gives precise control: file operations flow uninterrupted, but bash execution is blocked at the hook level before Claude can proceed. A hook that exits non-zero halts the tool call and can display a message prompting the user. Relying on CLAUDE.md instructions for safety is fragile because instructions are advisory, not enforced at the execution layer.",
+    "topics": ["claude-code-101"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — PreToolUse Hooks" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-011",
+    "type": "single_choice",
+    "prompt": "After running /compact mid-session, which of the following most accurately describes the state of Claude Code's conversation history?",
+    "choices": [
+      { "id": "a", "text": "The conversation ends and a completely new session begins with no memory of prior work" },
+      { "id": "b", "text": "The full history is replaced by a condensed summary that retains key decisions and state, and the session continues" },
+      { "id": "c", "text": "Only code changes are retained; all chat messages are permanently deleted" },
+      { "id": "d", "text": "The context is serialized to disk and reloaded automatically at the next session start" }
+    ],
+    "correct": "b",
+    "explanation": "/compact replaces the verbose back-and-forth with a compact representation that captures important decisions, file paths, and work completed so far. The session does not end — Claude continues with more available context. The key trade-off is that granular earlier messages are no longer retrievable, but the summary preserves enough state to keep working effectively.",
+    "topics": ["claude-code-101"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — /compact Command" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc101-012",
+    "type": "single_choice",
+    "prompt": "A team wants to delegate documentation generation to a custom subagent that can read source files but must never be able to write or execute anything. Which approach correctly enforces this constraint?",
+    "choices": [
+      { "id": "a", "text": "Rely on a CLAUDE.md instruction telling Claude not to write files during documentation tasks" },
+      { "id": "b", "text": "Define the subagent in .claude/agents/ with allowed-tools restricted to read-only tools such as Read, Glob, and Grep, excluding Write, Edit, and Bash" },
+      { "id": "c", "text": "Enable Plan Mode for the subagent so it plans before acting and cannot act without approval" },
+      { "id": "d", "text": "Run the subagent in a separate terminal with a read-only filesystem mount" }
+    ],
+    "correct": "b",
+    "explanation": "The allowed-tools field in a subagent definition is an enforced list, not an advisory one. By including only read-oriented tools and omitting Write, Edit, and Bash, the subagent is structurally incapable of modifying files or running commands regardless of what the prompt asks. This is the principle of least privilege applied at the agent configuration layer.",
+    "topics": ["claude-code-101"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Subagent Tool Restrictions" }],
+    "version": 1
+  }
+]

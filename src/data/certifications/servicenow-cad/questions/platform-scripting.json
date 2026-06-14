@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-cad-ps-001",
+    "type": "single_choice",
+    "prompt": "Which type of script runs on the ServiceNow server and has access to the full GlideRecord API?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Business rules"
+      },
+      {
+        "id": "b",
+        "text": "UI policies"
+      },
+      {
+        "id": "c",
+        "text": "Client scripts"
+      },
+      {
+        "id": "d",
+        "text": "Catalog client scripts"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Business rules are server-side scripts that run on the ServiceNow server and have full access to the GlideRecord API and other server-side APIs. Client scripts, UI policies, and catalog client scripts all run in the user's browser and do not have direct server-side API access.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-002",
+    "type": "single_choice",
+    "prompt": "A Script Include is marked 'Client callable'. What must also be true for a client script to call it via GlideAjax?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The Script Include must be in the global scope"
+      },
+      {
+        "id": "b",
+        "text": "The Script Include must extend AbstractAjaxProcessor"
+      },
+      {
+        "id": "c",
+        "text": "The Script Include must have its Protection Policy set to None"
+      },
+      {
+        "id": "d",
+        "text": "The Script Include must be marked active and have no conditions"
+      }
+    ],
+    "correct": "b",
+    "explanation": "For a Script Include to be callable from a client script via GlideAjax, it must extend AbstractAjaxProcessor. This base class provides the framework for handling AJAX requests from the client, including input parameter access via getParameter() and XML response construction via newItem().",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-003",
+    "type": "single_choice",
+    "prompt": "What is the correct GlideRecord pattern to execute a query and iterate through results?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.execute() then gr.iterate()"
+      },
+      {
+        "id": "b",
+        "text": "gr.select() then gr.fetch()"
+      },
+      {
+        "id": "c",
+        "text": "gr.query() then while(gr.next())"
+      },
+      {
+        "id": "d",
+        "text": "gr.find() then gr.loop()"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The correct pattern is to call gr.query() to execute the database query, then use while(gr.next()) to iterate through each resulting record. The gr.next() method advances the cursor to the next record and returns true if a record exists, false when all records have been processed.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-004",
+    "type": "single_choice",
+    "prompt": "Which GlideRecord method retrieves a single record by its sys_id without requiring a separate query() call?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.find(sys_id)"
+      },
+      {
+        "id": "b",
+        "text": "gr.fetch(sys_id)"
+      },
+      {
+        "id": "c",
+        "text": "gr.select(sys_id)"
+      },
+      {
+        "id": "d",
+        "text": "gr.get(sys_id)"
+      }
+    ],
+    "correct": "d",
+    "explanation": "gr.get(sys_id) retrieves a single record by its sys_id and returns true if the record is found. Unlike addQuery() followed by query(), gr.get() is a convenience method that executes immediately and positions the cursor on the matching record without requiring a separate query() call.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-005",
+    "type": "single_choice",
+    "prompt": "What is the difference between gr.getValue('field') and gr.getDisplayValue('field') for a reference field?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "getValue returns the sys_id of the referenced record; getDisplayValue returns the human-readable display value"
+      },
+      {
+        "id": "b",
+        "text": "getValue returns the display label; getDisplayValue returns the sys_id"
+      },
+      {
+        "id": "c",
+        "text": "getValue returns a GlideElement object; getDisplayValue returns a JavaScript string"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference \u2014 both return the same value for reference fields"
+      }
+    ],
+    "correct": "a",
+    "explanation": "For reference fields, gr.getValue('field') returns the sys_id of the referenced record as a string, while gr.getDisplayValue('field') returns the display value (typically the name or number field) of the referenced record. This distinction is critical when you need to display readable values to users versus when you need the sys_id for further processing.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-006",
+    "type": "single_choice",
+    "prompt": "Which GlideSystem method checks whether the current user has a specific role in server-side scripts?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gs.getUser().hasRole('itil')"
+      },
+      {
+        "id": "b",
+        "text": "gs.hasRole('itil')"
+      },
+      {
+        "id": "c",
+        "text": "gs.currentUser().isInRole('itil')"
+      },
+      {
+        "id": "d",
+        "text": "gs.checkRole('itil')"
+      }
+    ],
+    "correct": "b",
+    "explanation": "gs.hasRole('role_name') is the correct GlideSystem method to check whether the currently logged-in user has a specific role. It returns true if the user has the role (including roles inherited through role hierarchy) and false otherwise. This is commonly used in business rules and Script Includes to gate functionality.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-007",
+    "type": "single_choice",
+    "prompt": "In a scoped application, a Script Include needs to call a method in a Script Include from global scope. What must be configured?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The global Script Include must be marked as client callable"
+      },
+      {
+        "id": "b",
+        "text": "The scoped application must be elevated to global scope first"
+      },
+      {
+        "id": "c",
+        "text": "Cross-scope access must be granted via the Application Cross-Scope Access module"
+      },
+      {
+        "id": "d",
+        "text": "Scoped applications can never access global Script Includes"
+      }
+    ],
+    "correct": "c",
+    "explanation": "When a scoped application needs to call code in global scope or another scope, cross-scope access must be explicitly granted. This is configured in the Application Cross-Scope Access module, where the calling scope requests access to specific artifacts in the target scope. This enforces security boundaries between applications on the platform.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-008",
+    "type": "single_choice",
+    "prompt": "Which type of client script fires when a specific field value changes on a form?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "onLoad"
+      },
+      {
+        "id": "b",
+        "text": "onSubmit"
+      },
+      {
+        "id": "c",
+        "text": "onCellEdit"
+      },
+      {
+        "id": "d",
+        "text": "onChange"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The onChange client script type fires when the value of a specific field changes on a form. It receives the control object, old value, new value, and whether the change occurred in a read-only state. The onLoad type fires when the form loads, onSubmit fires before form submission, and onCellEdit fires when a cell in a list view is edited.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-009",
+    "type": "single_choice",
+    "prompt": "A developer wants to run a GlideRecord query from the Background Scripts module. What is a key consideration?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Background scripts run in the admin's session context with full permissions, bypassing ACLs"
+      },
+      {
+        "id": "b",
+        "text": "Background scripts can only read data, not write it"
+      },
+      {
+        "id": "c",
+        "text": "Background scripts are limited to 100 records per query"
+      },
+      {
+        "id": "d",
+        "text": "Background scripts require a special plugin to be activated"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Background scripts run in the context of the currently logged-in admin user's session with full permissions. This means they bypass ACLs and run with elevated access, making them powerful but potentially dangerous. They are typically used for one-time data fixes or testing and should not replace proper fix scripts for deployment.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-010",
+    "type": "single_choice",
+    "prompt": "What is the purpose of addEncodedQuery() on a GlideRecord?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It encrypts the query string before sending it to the database"
+      },
+      {
+        "id": "b",
+        "text": "It adds a filter condition using ServiceNow's encoded query syntax string"
+      },
+      {
+        "id": "c",
+        "text": "It compresses the query to improve performance on large tables"
+      },
+      {
+        "id": "d",
+        "text": "It adds a condition that checks a Base64-encoded field value"
+      }
+    ],
+    "correct": "b",
+    "explanation": "addEncodedQuery() accepts a ServiceNow encoded query string (the format used in URLs and list filters, such as 'active=true^priority=1') and applies it as filter conditions on the GlideRecord. This is useful when you have a query string from a URL or list filter and want to apply it programmatically without constructing individual addQuery() calls.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-011",
+    "type": "single_choice",
+    "prompt": "Which GlideAjax method is called on the client side to initiate the server-side script execution asynchronously?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "ga.send()"
+      },
+      {
+        "id": "b",
+        "text": "ga.execute()"
+      },
+      {
+        "id": "c",
+        "text": "ga.getXML(callbackFunction)"
+      },
+      {
+        "id": "d",
+        "text": "ga.query(callbackFunction)"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ga.getXML(callbackFunction) initiates the asynchronous server-side call. The callback function receives the XML response when the server-side method completes. Before calling getXML(), you must configure the object with new GlideAjax('ScriptIncludeName') and add parameters with ga.addParam('sysparm_name', 'methodName').",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-012",
+    "type": "single_choice",
+    "prompt": "A Fix Script differs from a Background Script in which important way?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Fix Scripts can only run once; Background Scripts can run multiple times"
+      },
+      {
+        "id": "b",
+        "text": "Fix Scripts require the admin role; Background Scripts can run with the itil role"
+      },
+      {
+        "id": "c",
+        "text": "Fix Scripts run asynchronously; Background Scripts run synchronously"
+      },
+      {
+        "id": "d",
+        "text": "Fix Scripts are version-controlled artifacts stored in update sets; Background Scripts are not"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Fix Scripts are platform artifacts tracked in update sets and can be migrated between instances as part of a deployment pipeline. Background Scripts are run ad hoc in the current session and are not captured in update sets. Fix Scripts are the appropriate mechanism for executing one-time scripts during a structured deployment.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-013",
+    "type": "single_choice",
+    "prompt": "What does the GlideSystem method gs.now() return?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The current date and time as a UTC-formatted string"
+      },
+      {
+        "id": "b",
+        "text": "The current date only, in the user's time zone"
+      },
+      {
+        "id": "c",
+        "text": "A GlideDateTime object representing the current moment"
+      },
+      {
+        "id": "d",
+        "text": "The Unix epoch timestamp as a number"
+      }
+    ],
+    "correct": "a",
+    "explanation": "gs.now() returns the current date and time as a string in UTC format (yyyy-MM-dd HH:mm:ss). This is a GlideSystem method used in server-side scripts. To get a GlideDateTime object, you would use new GlideDateTime(), which initializes to the current UTC time as an object with additional manipulation methods.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-014",
+    "type": "single_choice",
+    "prompt": "Which client script type is specifically designed to fire when a user edits a cell directly in a list view?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "onChange"
+      },
+      {
+        "id": "b",
+        "text": "onCellEdit"
+      },
+      {
+        "id": "c",
+        "text": "onLoad"
+      },
+      {
+        "id": "d",
+        "text": "onSubmit"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The onCellEdit client script type is specifically designed to run when a cell is edited inline in a list view. Its function signature is different from other client script types, receiving the cell's DOM element, the table name, the row's sys_id, and the new value. The onChange type fires on forms, not inline list edits.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-015",
+    "type": "single_choice",
+    "prompt": "What is the primary performance advantage of GlideAggregate over a standard GlideRecord query when counting records?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "GlideAggregate can count records in multiple tables simultaneously"
+      },
+      {
+        "id": "b",
+        "text": "GlideAggregate bypasses ACLs, providing faster access"
+      },
+      {
+        "id": "c",
+        "text": "GlideAggregate performs the aggregation on the database server, reducing data transfer to the application layer"
+      },
+      {
+        "id": "d",
+        "text": "GlideAggregate supports asynchronous execution automatically"
+      }
+    ],
+    "correct": "c",
+    "explanation": "GlideAggregate pushes aggregate operations (COUNT, SUM, AVG, MIN, MAX) to the database server, which is far more efficient than loading records into memory and counting them in application code. This avoids transferring large result sets over the network and leverages database-level optimization, making it the correct approach for summary and reporting queries.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-016",
+    "type": "single_choice",
+    "prompt": "A developer writes a UI Script in a scoped application. Where does this script execute?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "On the server during page rendering"
+      },
+      {
+        "id": "b",
+        "text": "Only within Jelly templates on the server side"
+      },
+      {
+        "id": "c",
+        "text": "In a sandboxed worker thread on the server"
+      },
+      {
+        "id": "d",
+        "text": "In the user's browser as a globally available JavaScript library"
+      }
+    ],
+    "correct": "d",
+    "explanation": "UI Scripts execute in the user's browser as globally available JavaScript. They are loaded as script files referenced by the platform and make functions and objects available in the browser's global scope. UI Scripts are used to share common client-side utility functions across multiple client scripts without duplicating code.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-017",
+    "type": "single_choice",
+    "prompt": "Which GlideRecord method inserts a new record into the database and returns the sys_id of the created record?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.insert()"
+      },
+      {
+        "id": "b",
+        "text": "gr.create()"
+      },
+      {
+        "id": "c",
+        "text": "gr.save()"
+      },
+      {
+        "id": "d",
+        "text": "gr.commit()"
+      }
+    ],
+    "correct": "a",
+    "explanation": "gr.insert() inserts a new record into the database table and returns the sys_id of the newly created record as a string. Before calling insert(), you set field values using gr.setValue() or direct property assignment. gr.initialize() can be called first to reset all field values to their defaults before setting new values.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-018",
+    "type": "single_choice",
+    "prompt": "When you call gr.deleteRecord() on a GlideRecord, what exactly is deleted?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It marks the record as inactive but does not remove it from the database"
+      },
+      {
+        "id": "b",
+        "text": "It deletes the single record that the cursor is currently positioned on"
+      },
+      {
+        "id": "c",
+        "text": "It deletes all records that match the current query conditions"
+      },
+      {
+        "id": "d",
+        "text": "It moves the record to an archive table before deletion"
+      }
+    ],
+    "correct": "b",
+    "explanation": "gr.deleteRecord() deletes the single record that the GlideRecord cursor is currently positioned on. You must first position the cursor on a specific record using gr.get() or by iterating with gr.next() before calling deleteRecord(). To delete multiple matching records, you iterate and call deleteRecord() on each record individually.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-019",
+    "type": "single_choice",
+    "prompt": "To step through a business rule using the Script Debugger, what must the developer do first?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Activate the Script Debugger plugin from the plugin manager"
+      },
+      {
+        "id": "b",
+        "text": "Enable the business rule's Debug mode checkbox"
+      },
+      {
+        "id": "c",
+        "text": "Open the debugger, set a breakpoint, then trigger the business rule in the same browser session"
+      },
+      {
+        "id": "d",
+        "text": "Switch to the global application scope before using the debugger"
+      }
+    ],
+    "correct": "c",
+    "explanation": "To use the ServiceNow Script Debugger, a developer must open the debugger tool (accessible via System Diagnostics), set a breakpoint in their script, and then trigger the script to execute in the same browser session. The debugger intercepts the script execution, allowing step-through debugging, variable inspection, and call stack review.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-020",
+    "type": "single_choice",
+    "prompt": "What does script isolation in a scoped application's Script Include enforce?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It prevents the Script Include from being called asynchronously"
+      },
+      {
+        "id": "b",
+        "text": "It limits the Script Include to run only in sandbox instances"
+      },
+      {
+        "id": "c",
+        "text": "It encrypts the Script Include source code so other developers cannot view it"
+      },
+      {
+        "id": "d",
+        "text": "It restricts the Script Include from accessing tables outside its scope without explicit cross-scope access grants"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Script isolation in scoped applications means that a Script Include can only access tables and artifacts within its own application scope unless cross-scope access has been explicitly granted. This security boundary prevents scoped applications from unintentionally or maliciously reading or modifying data in other scopes, following the principle of least privilege.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-021",
+    "type": "single_choice",
+    "prompt": "A scheduled job script must process 50,000 records. What is the best practice to avoid transaction timeout issues?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Process records in batches using setLimit() and ordered pagination logic"
+      },
+      {
+        "id": "b",
+        "text": "Increase the glide.script.max.timeout system property"
+      },
+      {
+        "id": "c",
+        "text": "Use GlideAggregate to handle all 50,000 records in a single operation"
+      },
+      {
+        "id": "d",
+        "text": "Run the script in a background thread using gs.executeInBackground()"
+      }
+    ],
+    "correct": "a",
+    "explanation": "For large-scale record processing, batching is the recommended approach. Use GlideRecord's setLimit() combined with orderBy() and addQuery() conditions that paginate through records in manageable chunks. This prevents transaction timeouts and avoids excessive memory usage, with each batch completing its transaction independently.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-022",
+    "type": "single_choice",
+    "prompt": "Which server-side GlideSystem method writes an informational message to the system log?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gs.print('message')"
+      },
+      {
+        "id": "b",
+        "text": "gs.info('message')"
+      },
+      {
+        "id": "c",
+        "text": "gs.log('message', 'source')"
+      },
+      {
+        "id": "d",
+        "text": "gs.write('message')"
+      }
+    ],
+    "correct": "b",
+    "explanation": "gs.info('message') writes an informational message to the system log at the INFO level. ServiceNow provides gs.info(), gs.warn(), and gs.error() for different log severity levels. These write to the syslog table and are viewable in the System Log module. The older gs.log() method also exists but is less preferred in modern scoped development.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-023",
+    "type": "single_choice",
+    "prompt": "What is a UI Policy, and how does it differ from a client script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A UI Policy is a server-side rule; a client script runs in the browser"
+      },
+      {
+        "id": "b",
+        "text": "A UI Policy can only be used on catalog forms; a client script works on all forms"
+      },
+      {
+        "id": "c",
+        "text": "A UI Policy is a declarative rule for field visibility, mandatory, and read-only states; a client script is imperative JavaScript"
+      },
+      {
+        "id": "d",
+        "text": "A UI Policy requires the admin role; a client script can be created by any developer"
+      }
+    ],
+    "correct": "c",
+    "explanation": "A UI Policy is a declarative, no-code mechanism for controlling field visibility, mandatory status, and read-only state based on conditions. Client scripts are imperative JavaScript code with full programmatic control. UI Policies are simpler to configure and maintain, preferred when the logic can be expressed declaratively. Client scripts are used when complex logic, GlideAjax calls, or DOM manipulation is required.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-024",
+    "type": "single_choice",
+    "prompt": "In a transform map script, which object represents the staging table record being imported?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "current"
+      },
+      {
+        "id": "b",
+        "text": "import_record"
+      },
+      {
+        "id": "c",
+        "text": "target"
+      },
+      {
+        "id": "d",
+        "text": "source"
+      }
+    ],
+    "correct": "d",
+    "explanation": "In transform map scripts (onBefore, onAfter, and field-level scripts), the 'source' object represents the staging table record being imported. The 'target' object represents the destination table record. Scripts use source.field_name to read imported data and target.field_name to set destination values.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-025",
+    "type": "single_choice",
+    "prompt": "What is the correct way to add OR conditions across multiple values for the same field in a GlideRecord query?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.addQuery('priority', 'IN', '1,2')"
+      },
+      {
+        "id": "b",
+        "text": "gr.addQuery('priority', 1).or('priority', 2)"
+      },
+      {
+        "id": "c",
+        "text": "gr.addOrQuery('priority', [1, 2])"
+      },
+      {
+        "id": "d",
+        "text": "gr.orQuery('priority', 1, 'priority', 2)"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Using addQuery() with the 'IN' operator and a comma-separated list of values is the standard way to check whether a field matches any value in a set. Alternatively, addOrCondition() is used on a GlideQueryCondition object returned by addQuery() to create OR conditions in a condition group. The 'IN' operator approach is cleaner for multiple values on the same field.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-026",
+    "type": "single_choice",
+    "prompt": "A GlideRecord query is running very slowly. A developer suspects a missing index. Which tool is most appropriate for investigating?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The Script Debugger with breakpoints on the gr.query() call"
+      },
+      {
+        "id": "b",
+        "text": "The Stats.do page or the Table and Column Analyzer"
+      },
+      {
+        "id": "c",
+        "text": "The SQL Query Analyzer in System Diagnostics"
+      },
+      {
+        "id": "d",
+        "text": "The Application Repository performance tab"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Stats.do page and the Table and Column Analyzer provide query execution statistics, index usage information, and performance data for database queries. Stats.do shows real-time database statistics, while the Table and Column Analyzer identifies fields that are frequently queried but lack indexes, helping diagnose slow query performance.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-027",
+    "type": "single_choice",
+    "prompt": "When a client script calls g_form.getValue('reference_field'), what does it return?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The display value (e.g., the name) of the referenced record"
+      },
+      {
+        "id": "b",
+        "text": "A JSON object with both sys_id and display value"
+      },
+      {
+        "id": "c",
+        "text": "The sys_id of the referenced record"
+      },
+      {
+        "id": "d",
+        "text": "The internal database ID (not sys_id) of the referenced record"
+      }
+    ],
+    "correct": "c",
+    "explanation": "In client scripts, g_form.getValue('reference_field') returns the sys_id of the referenced record, mirroring the server-side behavior of GlideRecord's getValue(). To get the display value, use g_form.getDisplayValue('reference_field') or g_form.getReference() with a callback to retrieve additional data from the referenced record.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-028",
+    "type": "single_choice",
+    "prompt": "Which GlideRecord method should be called before setting field values on a new record to ensure default values are properly initialized?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.reset()"
+      },
+      {
+        "id": "b",
+        "text": "gr.clear()"
+      },
+      {
+        "id": "c",
+        "text": "gr.newRecord()"
+      },
+      {
+        "id": "d",
+        "text": "gr.initialize()"
+      }
+    ],
+    "correct": "d",
+    "explanation": "gr.initialize() should be called before setting field values for a new record to ensure the GlideRecord object is in a clean state with default values populated from dictionary definitions. While not always required, it is best practice to call initialize() before building a new record, especially in Script Includes that may reuse GlideRecord objects.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-029",
+    "type": "single_choice",
+    "prompt": "What is the key difference between a Scheduled Job and a Fix Script in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Scheduled jobs run on a defined time interval; fix scripts are designed to run once during a deployment"
+      },
+      {
+        "id": "b",
+        "text": "Scheduled jobs can only call Script Includes; fix scripts can run any JavaScript"
+      },
+      {
+        "id": "c",
+        "text": "Fix scripts run in real-time; scheduled jobs run asynchronously"
+      },
+      {
+        "id": "d",
+        "text": "Scheduled jobs are deprecated; fix scripts are the modern replacement"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Scheduled Jobs (Scheduled Script Executions) run on a recurring schedule defined by time intervals or cron expressions and are intended for ongoing automated tasks. Fix Scripts are one-time scripts designed to be executed as part of a deployment or upgrade process. Both are version-controlled artifacts in update sets, but their intended use patterns are fundamentally different.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-030",
+    "type": "single_choice",
+    "prompt": "A Script Include has the API Name 'MyUtils'. How does a server-side script correctly instantiate and use it?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "var utils = ScriptInclude.get('MyUtils'); utils.myMethod();"
+      },
+      {
+        "id": "b",
+        "text": "var utils = new MyUtils(); utils.myMethod();"
+      },
+      {
+        "id": "c",
+        "text": "MyUtils.myMethod();"
+      },
+      {
+        "id": "d",
+        "text": "var utils = gs.include('MyUtils'); utils.myMethod();"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Script Includes are instantiated using the standard JavaScript 'new' keyword followed by the Script Include's API Name: var utils = new MyUtils(). This creates an instance of the class defined in the Script Include. Methods are then called on that instance. The Script Include must follow the Class.create() prototype pattern for this to work correctly.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-031",
+    "type": "single_choice",
+    "prompt": "What does GlideDateTime.addDays(n) do to the GlideDateTime object?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It returns a new GlideDateTime n days in the future without modifying the original"
+      },
+      {
+        "id": "b",
+        "text": "It returns a string representing the date n days from now in the user's locale"
+      },
+      {
+        "id": "c",
+        "text": "It modifies the GlideDateTime object in place by adding n days to the current value"
+      },
+      {
+        "id": "d",
+        "text": "It schedules a background script to run in n days"
+      }
+    ],
+    "correct": "c",
+    "explanation": "GlideDateTime.addDays(n) modifies the GlideDateTime object in place, adding the specified number of days to the current date and time value. This is a mutating operation. To calculate a future date non-destructively, create a copy first using new GlideDateTime(existingGdt) and then call addDays() on the copy.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-032",
+    "type": "single_choice",
+    "prompt": "Which business rule type is the only one with access to g_scratchpad for passing data to client scripts?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "After business rules"
+      },
+      {
+        "id": "b",
+        "text": "Async business rules"
+      },
+      {
+        "id": "c",
+        "text": "Before business rules"
+      },
+      {
+        "id": "d",
+        "text": "Display business rules"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Display business rules run before a form is displayed to the user and have access to g_scratchpad, a shared object that passes data from the server to client scripts. Values set on g_scratchpad in a display business rule are available to client scripts via the g_scratchpad object in the browser. No other business rule type supports this communication pattern.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-033",
+    "type": "single_choice",
+    "prompt": "What is the correct approach to filter GlideRecord results where a field is NULL (empty)?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "gr.addNullQuery('assigned_to')"
+      },
+      {
+        "id": "b",
+        "text": "gr.addQuery('assigned_to', 'ISEMPTY', '')"
+      },
+      {
+        "id": "c",
+        "text": "gr.addQuery('assigned_to', null)"
+      },
+      {
+        "id": "d",
+        "text": "gr.addQuery('assigned_to', '=', '')"
+      }
+    ],
+    "correct": "a",
+    "explanation": "gr.addNullQuery('field_name') is the correct method to filter for records where the specified field is empty or NULL. The corresponding method addNotNullQuery('field_name') filters for records where the field is not empty. Using addQuery() with null or an empty string does not reliably perform NULL checks in ServiceNow's GlideRecord API.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-034",
+    "type": "single_choice",
+    "prompt": "What is the recommended class definition pattern for a Script Include in a ServiceNow scoped application?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Write a plain JavaScript constructor function with prototype methods only"
+      },
+      {
+        "id": "b",
+        "text": "Use Class.create() from the Prototype.js library included in the ServiceNow platform"
+      },
+      {
+        "id": "c",
+        "text": "Extend the built-in ScriptInclude base class using GlideScriptInclude"
+      },
+      {
+        "id": "d",
+        "text": "Use the ES6 class syntax with the extends keyword"
+      }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow Script Includes conventionally use Class.create() from the Prototype.js library, which is bundled with the ServiceNow platform. The pattern uses type: 'ClassName' as a property and initialize() as the constructor. For client-callable Script Includes, the pattern is Class.create(AbstractAjaxProcessor, {...}). Class.create() is the ServiceNow-standard approach.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-035",
+    "type": "single_choice",
+    "prompt": "A developer needs the count of records matching a query without iterating through them. Which approach is most efficient?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Execute gr.query() then call gr.getRowCount()"
+      },
+      {
+        "id": "b",
+        "text": "Iterate through all records with gr.next() in a counter loop"
+      },
+      {
+        "id": "c",
+        "text": "Use GlideAggregate with COUNT aggregation"
+      },
+      {
+        "id": "d",
+        "text": "Call gr.query().length after executing the query"
+      }
+    ],
+    "correct": "c",
+    "explanation": "GlideAggregate with COUNT aggregation is the most efficient approach because it executes a SQL COUNT at the database level and returns only the count value without loading any record data. While gr.getRowCount() is available, it still loads all matching records into memory and is less efficient than a database-level aggregate for large result sets.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-036",
+    "type": "single_choice",
+    "prompt": "What does the 'Protection Policy' field on a Script Include control?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Whether the script can access protected API methods"
+      },
+      {
+        "id": "b",
+        "text": "Whether the script is protected from being included in update sets"
+      },
+      {
+        "id": "c",
+        "text": "Whether the script requires an elevated role to execute"
+      },
+      {
+        "id": "d",
+        "text": "Whether the script source code is protected from viewing or editing in subscriber instances"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Protection Policy controls source code visibility and editability when the Script Include is distributed to other instances via the ServiceNow Store or update sets. 'Protected' means the code cannot be viewed or modified in the subscriber instance. 'Read' allows viewing but not modification. This is used by ISVs and app publishers to protect intellectual property.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-037",
+    "type": "single_choice",
+    "prompt": "In an onSubmit client script, what should the function return to prevent the form from being submitted?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "return false;"
+      },
+      {
+        "id": "b",
+        "text": "return null;"
+      },
+      {
+        "id": "c",
+        "text": "g_form.cancelSubmit();"
+      },
+      {
+        "id": "d",
+        "text": "event.preventDefault();"
+      }
+    ],
+    "correct": "a",
+    "explanation": "An onSubmit client script should return false to cancel the form submission. When the function returns false, the form is not submitted and the user remains on the current form. Best practice is to display an error message using g_form.addErrorMessage() before returning false to inform the user why the submission was blocked.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-038",
+    "type": "single_choice",
+    "prompt": "What is the effect of calling gr.setLimit(10) on a GlideRecord before executing a query?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It limits the GlideRecord to process only the first 10 fields of each record"
+      },
+      {
+        "id": "b",
+        "text": "It limits the query to return at most 10 records"
+      },
+      {
+        "id": "c",
+        "text": "It sets the maximum number of GlideRecord instances allowed in memory"
+      },
+      {
+        "id": "d",
+        "text": "It limits the transaction to 10 seconds before timing out"
+      }
+    ],
+    "correct": "b",
+    "explanation": "gr.setLimit(n) adds a LIMIT clause to the underlying SQL query, restricting the result set to at most n records. This is essential for performance when you only need a subset of matching records and prevents loading unnecessarily large result sets into memory. It is the GlideRecord equivalent of 'SELECT ... LIMIT n' in SQL.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-039",
+    "type": "single_choice",
+    "prompt": "When does a transform map's 'onBefore' script execute relative to field mappings?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Before each field mapping transformation is applied, once per field"
+      },
+      {
+        "id": "b",
+        "text": "Before the entire import set run begins, once per import job"
+      },
+      {
+        "id": "c",
+        "text": "Before any field mappings run for each source row, giving access to the raw source record"
+      },
+      {
+        "id": "d",
+        "text": "After the target record is created but before it is saved"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The onBefore transform map script fires before any field mappings are applied to a source row. At this point you have access to the source object (the staging record) and can perform pre-processing, data cleansing, or conditional logic that may affect how the row is processed. The onAfter script runs after all field mappings have been applied.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-ps-040",
+    "type": "single_choice",
+    "prompt": "In a client-callable Script Include extending AbstractAjaxProcessor, which pattern correctly adds a return value to the XML response?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "this.setAnswer(value);"
+      },
+      {
+        "id": "b",
+        "text": "this.setReturnValue(value);"
+      },
+      {
+        "id": "c",
+        "text": "this.returnValue(value);"
+      },
+      {
+        "id": "d",
+        "text": "this.newItem('answer').setAttribute('value', value);"
+      }
+    ],
+    "correct": "d",
+    "explanation": "In a client-callable Script Include extending AbstractAjaxProcessor, this.newItem('answer').setAttribute('value', value) is the standard pattern to add a named element to the XML response. On the client side, the GlideAjax callback accesses this value via response.responseXML.documentElement.getElementsByTagName('answer')[0].getAttribute('value'). The newItem() method creates a child element in the XML document.",
+    "topics": [
+      "platform-scripting"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  }
+]

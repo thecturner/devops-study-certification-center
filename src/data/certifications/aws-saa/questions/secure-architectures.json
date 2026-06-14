@@ -1,0 +1,287 @@
+[
+  {
+    "id": "aws-saa-sa-001",
+    "type": "single_choice",
+    "prompt": "A company needs to ensure that only EC2 instances within a specific VPC can access an S3 bucket. Which solution achieves this without routing traffic over the public internet?",
+    "choices": [
+      { "id": "a", "text": "Create a bucket policy that restricts access by IP address range" },
+      { "id": "b", "text": "Use a VPC endpoint for S3 with a VPC endpoint policy" },
+      { "id": "c", "text": "Enable S3 Block Public Access on the bucket" },
+      { "id": "d", "text": "Attach an IAM role to all EC2 instances in the VPC" }
+    ],
+    "correct": "b",
+    "explanation": "A Gateway VPC endpoint for S3 allows EC2 instances in the VPC to access S3 privately without traversing the public internet. A VPC endpoint policy can further restrict which S3 buckets are accessible. IP-based bucket policies alone cannot enforce private routing. Block Public Access prevents public access but doesn't control the network path. IAM roles grant permissions but don't control whether traffic goes over the internet.",
+    "topics": ["secure-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "VPC Endpoints for Amazon S3", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/privatelink-interface-endpoints.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-002",
+    "type": "single_choice",
+    "prompt": "A security team requires that all data stored in RDS must be encrypted at rest and that the encryption keys must be rotated annually. Which combination of services satisfies both requirements?",
+    "choices": [
+      { "id": "a", "text": "Enable RDS encryption using AWS managed keys (aws/rds) and configure S3 bucket policies" },
+      { "id": "b", "text": "Enable RDS encryption using a customer managed KMS key and enable annual automatic key rotation" },
+      { "id": "c", "text": "Use SSL/TLS for all database connections and store the certificate in Secrets Manager" },
+      { "id": "d", "text": "Enable RDS encryption and configure AWS Config rules to audit key rotation compliance" }
+    ],
+    "correct": "b",
+    "explanation": "Customer managed KMS keys (CMKs) support automatic annual key rotation, which AWS managed keys also support but with less control. For RDS encryption, enabling it with a CMK satisfies both requirements: encryption at rest and key rotation. SSL/TLS encrypts data in transit, not at rest. AWS Config rules audit compliance but don't enforce rotation. The aws/rds managed key does rotate automatically, but using a CMK gives the team full control over the rotation policy.",
+    "topics": ["secure-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Encrypting Amazon RDS Resources", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html" },
+      { "label": "AWS KMS Key Rotation", "url": "https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-003",
+    "type": "single_choice",
+    "prompt": "An application running on EC2 needs to call the DynamoDB API. The company's security policy prohibits storing long-term credentials on EC2 instances. What is the recommended solution?",
+    "choices": [
+      { "id": "a", "text": "Store the AWS access key and secret key in environment variables on the EC2 instance" },
+      { "id": "b", "text": "Attach an IAM role to the EC2 instance with a policy granting DynamoDB access" },
+      { "id": "c", "text": "Store credentials in AWS Systems Manager Parameter Store and retrieve them at startup" },
+      { "id": "d", "text": "Create an IAM user for the application and rotate the access keys every 90 days" }
+    ],
+    "correct": "b",
+    "explanation": "IAM roles for EC2 provide temporary, automatically rotating credentials via the Instance Metadata Service (IMDS). The application uses the AWS SDK, which automatically retrieves temporary credentials from IMDS without any long-term credential storage. Environment variables require long-term key storage, which violates the policy. Parameter Store is suitable for application secrets but not for AWS API credentials. IAM users with access keys are long-term credentials that violate the policy.",
+    "topics": ["secure-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "IAM Roles for Amazon EC2", "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-004",
+    "type": "single_choice",
+    "prompt": "A company has multiple AWS accounts managed under AWS Organizations. The security team wants to prevent any account from disabling AWS CloudTrail, regardless of IAM permissions in those accounts. Which mechanism enforces this control?",
+    "choices": [
+      { "id": "a", "text": "Create an IAM permission boundary on all IAM users and roles in each account" },
+      { "id": "b", "text": "Attach a Service Control Policy (SCP) to the organizational units that denies cloudtrail:StopLogging" },
+      { "id": "c", "text": "Enable AWS Config in each account with a rule that remediates CloudTrail disablement" },
+      { "id": "d", "text": "Use AWS Security Hub to detect and alert on CloudTrail configuration changes" }
+    ],
+    "correct": "b",
+    "explanation": "Service Control Policies (SCPs) are applied at the AWS Organizations level and act as guardrails that override IAM permissions within member accounts. An SCP denying cloudtrail:StopLogging prevents even account administrators from disabling CloudTrail. Permission boundaries limit the maximum permissions a principal can have but apply per-role and can be removed by account admins. AWS Config provides detective controls but doesn't prevent the action. Security Hub alerts on findings but doesn't block actions.",
+    "topics": ["secure-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Service Control Policies (SCPs)", "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-005",
+    "type": "single_choice",
+    "prompt": "A web application sits behind an Application Load Balancer. The security team wants to block requests that contain known SQL injection patterns and limit each IP address to 2,000 requests per 5 minutes. Which AWS service provides both capabilities?",
+    "choices": [
+      { "id": "a", "text": "AWS Shield Advanced" },
+      { "id": "b", "text": "Amazon GuardDuty" },
+      { "id": "c", "text": "AWS WAF" },
+      { "id": "d", "text": "VPC Network ACLs" }
+    ],
+    "correct": "c",
+    "explanation": "AWS WAF integrates directly with Application Load Balancers and provides managed rule groups (including AWSManagedRulesSQLiRuleSet for SQL injection) and rate-based rules to throttle requests per IP. Shield Advanced provides DDoS protection but doesn't do layer-7 inspection or rate limiting by IP. GuardDuty analyzes CloudTrail, VPC Flow Logs, and DNS logs for threat detection but doesn't inspect HTTP payloads. NACLs operate at the subnet level and support only CIDR-based allow/deny rules without rate limiting or pattern matching.",
+    "topics": ["secure-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS WAF Developer Guide", "url": "https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-006",
+    "type": "single_choice",
+    "prompt": "A company stores database passwords and API keys in plaintext in application configuration files on EC2 instances. The security team requires centralized secret management with automatic rotation and audit logging. Which service best addresses these requirements?",
+    "choices": [
+      { "id": "a", "text": "AWS Systems Manager Parameter Store (Standard tier)" },
+      { "id": "b", "text": "AWS Secrets Manager" },
+      { "id": "c", "text": "Amazon S3 with server-side encryption" },
+      { "id": "d", "text": "AWS Certificate Manager" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Secrets Manager is purpose-built for storing, rotating, and auditing access to secrets such as database credentials and API keys. It natively supports automatic rotation for RDS, Redshift, and DocumentDB, and integrates with CloudTrail for audit logging. Parameter Store supports secret storage but automatic rotation requires custom Lambda functions and doesn't have native database rotation support in the Standard tier. S3 with encryption stores objects but has no secret rotation or audit-per-access logging. ACM manages TLS certificates, not application secrets.",
+    "topics": ["secure-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS Secrets Manager User Guide", "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-007",
+    "type": "single_choice",
+    "prompt": "A company's security team has detected unusual API calls in an AWS account, including attempts to exfiltrate data from S3 and calls from a Tor exit node. They want an AWS service that continuously analyzes CloudTrail, VPC Flow Logs, and DNS logs to detect and prioritize such threats. Which service should they enable?",
+    "choices": [
+      { "id": "a", "text": "AWS Config" },
+      { "id": "b", "text": "Amazon Inspector" },
+      { "id": "c", "text": "Amazon GuardDuty" },
+      { "id": "d", "text": "AWS Security Hub" }
+    ],
+    "correct": "c",
+    "explanation": "Amazon GuardDuty is a threat detection service that continuously analyzes CloudTrail event logs, VPC Flow Logs, and DNS query logs using ML and threat intelligence (including known malicious IPs and Tor exit nodes) to identify suspicious activity. AWS Config tracks resource configuration changes but doesn't detect behavioral threats. Amazon Inspector scans EC2 instances and container images for software vulnerabilities. Security Hub aggregates findings from multiple services including GuardDuty but doesn't perform its own behavioral analysis.",
+    "topics": ["secure-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon GuardDuty User Guide", "url": "https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-008",
+    "type": "single_choice",
+    "prompt": "A company has an IAM policy that grants s3:PutObject on a specific bucket. They also have an S3 bucket policy that explicitly denies s3:PutObject for all principals. An IAM user attempts to upload a file to the bucket. What is the outcome?",
+    "choices": [
+      { "id": "a", "text": "The upload succeeds because the IAM policy grants the permission" },
+      { "id": "b", "text": "The upload is denied because an explicit deny in any policy overrides any allow" },
+      { "id": "c", "text": "The upload succeeds because the resource policy takes precedence over identity policies" },
+      { "id": "d", "text": "The outcome depends on whether the IAM user is the bucket owner" }
+    ],
+    "correct": "b",
+    "explanation": "AWS policy evaluation logic dictates that an explicit Deny in any applicable policy (identity policy, resource policy, SCP, etc.) always overrides any Allow. The bucket policy's explicit deny takes precedence over the IAM identity policy's allow, so the upload is denied. This is a foundational rule: deny overrides allow regardless of policy type or specificity.",
+    "topics": ["secure-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "IAM Policy Evaluation Logic", "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-009",
+    "type": "multi_choice",
+    "prompt": "A company wants to enforce network-level controls on traffic between subnets in a VPC. Which TWO statements correctly distinguish Security Groups from Network ACLs? (Select two.)",
+    "choices": [
+      { "id": "a", "text": "Security Groups are stateful; return traffic is automatically allowed" },
+      { "id": "b", "text": "Network ACLs are stateful; return traffic is automatically allowed" },
+      { "id": "c", "text": "Network ACLs are stateless; both inbound and outbound rules must explicitly allow return traffic" },
+      { "id": "d", "text": "Security Groups support explicit deny rules" },
+      { "id": "e", "text": "Security Groups operate at the instance level; NACLs operate at the subnet level" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Security Groups are stateful, meaning if you allow inbound traffic, the corresponding outbound return traffic is automatically permitted regardless of outbound rules. Network ACLs are stateless, so you must create explicit inbound and outbound rules for both the request and the return traffic. Security Groups do not support explicit deny rules (only allow rules), while NACLs support both allow and deny. Security Groups operate at the ENI/instance level, and NACLs operate at the subnet level, but those facts map to options C and E which are partially incorrect as written. The two fully correct statements are A and C.",
+    "topics": ["secure-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Security Groups and NACLs Comparison", "url": "https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-010",
+    "type": "single_choice",
+    "prompt": "A company needs to provide a third-party auditor with read-only access to their AWS account for a 30-day engagement. The auditor uses their own AWS account. Which approach follows IAM best practices?",
+    "choices": [
+      { "id": "a", "text": "Create an IAM user in the company's account and share the access keys with the auditor" },
+      { "id": "b", "text": "Create a cross-account IAM role in the company's account that the auditor can assume from their account" },
+      { "id": "c", "text": "Share the company's root account credentials with the auditor for the duration of the engagement" },
+      { "id": "d", "text": "Add the auditor's IAM users as federated identities using SAML 2.0" }
+    ],
+    "correct": "b",
+    "explanation": "Cross-account IAM roles allow the auditor to assume a role in your account using their existing AWS identity, with no long-term credentials shared. You can scope the role policy to read-only permissions and set a maximum session duration. Sharing access keys for an IAM user creates long-term credentials that must be managed and revoked after the engagement. Sharing root credentials is a severe security violation. SAML federation is appropriate for enterprise SSO scenarios, not for a temporary third-party engagement.",
+    "topics": ["secure-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cross-Account Access with IAM Roles", "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-011",
+    "type": "single_choice",
+    "prompt": "A company is architecting a multi-tier application. The web tier in a public subnet must communicate with the application tier in a private subnet. The application tier must initiate outbound internet connections to download software patches but must not be reachable from the internet. Which component provides outbound internet access for the private subnet?",
+    "choices": [
+      { "id": "a", "text": "Internet Gateway attached to the private subnet's route table" },
+      { "id": "b", "text": "NAT Gateway deployed in a public subnet, with a route from the private subnet's route table to the NAT Gateway" },
+      { "id": "c", "text": "A VPC endpoint for the software patch repository" },
+      { "id": "d", "text": "An Egress-Only Internet Gateway for IPv4 traffic" }
+    ],
+    "correct": "b",
+    "explanation": "A NAT Gateway deployed in a public subnet allows instances in private subnets to initiate outbound connections to the internet while preventing inbound connections from the internet. The private subnet's route table points 0.0.0.0/0 to the NAT Gateway. An Internet Gateway would make the instances directly reachable from the internet if they had public IPs. VPC endpoints provide private connectivity to AWS services, not arbitrary internet endpoints. Egress-Only Internet Gateways are for IPv6 traffic, not IPv4.",
+    "topics": ["secure-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "NAT Gateways", "url": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-012",
+    "type": "single_choice",
+    "prompt": "A company processes sensitive financial records uploaded to S3. Compliance requires that all objects be encrypted using keys that the company controls and that all key usage be logged. Which encryption option satisfies these requirements?",
+    "choices": [
+      { "id": "a", "text": "SSE-S3 (server-side encryption with Amazon S3 managed keys)" },
+      { "id": "b", "text": "SSE-KMS with a customer managed KMS key" },
+      { "id": "c", "text": "Client-side encryption before uploading to S3" },
+      { "id": "d", "text": "SSE-KMS with the aws/s3 AWS managed key" }
+    ],
+    "correct": "b",
+    "explanation": "SSE-KMS with a customer managed key (CMK) satisfies both requirements: the company controls the key (including access policy and deletion) and every use of the key generates an entry in AWS CloudTrail, providing a full audit log of key usage. SSE-S3 uses keys managed entirely by AWS, so the company doesn't control them. Client-side encryption gives the company full control but CloudTrail won't log S3-level key usage in the same integrated way. The aws/s3 managed key logs usage in CloudTrail but the company doesn't control the key policy.",
+    "topics": ["secure-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Protecting Data with Server-Side Encryption", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/serv-side-encryption.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-013",
+    "type": "single_choice",
+    "prompt": "An application uses an ALB to distribute traffic to EC2 instances. The security team requires end-to-end encryption, meaning traffic must be encrypted from the client to the ALB and from the ALB to the EC2 instances. Which configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Configure an HTTPS listener on the ALB with an ACM certificate, and configure the ALB target group to use HTTPS with a certificate on each EC2 instance" },
+      { "id": "b", "text": "Configure an HTTPS listener on the ALB and use HTTP for the target group connections" },
+      { "id": "c", "text": "Use a Network Load Balancer with TCP listeners to pass through TLS without terminating it at the load balancer" },
+      { "id": "d", "text": "Install an ACM certificate on each EC2 instance and configure the ALB to pass all traffic directly" }
+    ],
+    "correct": "a",
+    "explanation": "For end-to-end encryption with an ALB, configure an HTTPS listener (terminating TLS at the ALB using an ACM certificate) and configure the target group protocol as HTTPS, which re-encrypts traffic from the ALB to the backend instances. Each instance needs a certificate installed. Option B only encrypts client-to-ALB traffic, leaving the ALB-to-instance leg unencrypted. Option C (NLB with TCP passthrough) achieves end-to-end encryption but sacrifices ALB's layer-7 features. ACM certificates cannot be installed directly on EC2 instances for use by the ALB.",
+    "topics": ["secure-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "HTTPS Listeners for Your ALB", "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-014",
+    "type": "true_false",
+    "prompt": "A Security Group inbound rule that allows traffic from another Security Group ID grants access to all resources in the AWS account that are associated with that Security Group, even if they are in a different VPC.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Security Group references in rules only work within the same VPC (or peered VPCs when configured with VPC peering). A Security Group ID reference grants access to instances associated with that Security Group within the same VPC, not across all VPCs in the account. Instances in a different VPC using the same Security Group ID are not included in the rule.",
+    "topics": ["secure-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Security Group Rules", "url": "https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-sa-015",
+    "type": "single_choice",
+    "prompt": "A company's application uses an RDS MySQL database. The team wants to enforce that all connections to the database use SSL/TLS and that unencrypted connections are rejected at the database level. Which approach enforces this requirement?",
+    "choices": [
+      { "id": "a", "text": "Configure a Security Group rule to block port 3306 traffic that does not have TLS enabled" },
+      { "id": "b", "text": "Set the require_secure_transport parameter to ON in the RDS parameter group" },
+      { "id": "c", "text": "Create an IAM policy that denies rds:Connect unless the connection uses SSL" },
+      { "id": "d", "text": "Enable encryption at rest on the RDS instance to automatically encrypt all connections" }
+    ],
+    "correct": "b",
+    "explanation": "For RDS MySQL, setting the require_secure_transport parameter to ON in a custom RDS parameter group forces the MySQL engine to reject all non-SSL connections at the database level. Security Groups operate at the network layer and cannot inspect whether a TCP connection uses TLS or not. IAM policies with rds:Connect control who can generate auth tokens for IAM database authentication but don't enforce transport encryption. Encryption at rest protects data on disk and is unrelated to connection encryption.",
+    "topics": ["secure-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Using SSL/TLS to Encrypt a Connection to a DB Instance", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html" }
+    ],
+    "version": 1
+  }
+]

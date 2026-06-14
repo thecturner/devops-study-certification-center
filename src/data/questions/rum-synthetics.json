@@ -1,0 +1,1077 @@
+[
+  {
+    "id": "rum-001",
+    "type": "single_choice",
+    "prompt": "Which HTML snippet correctly initializes the Datadog Browser RUM SDK using the CDN synchronous method?",
+    "choices": [
+      { "id": "a", "text": "DD_RUM.init({ applicationId: '<APP_ID>', clientToken: '<CLIENT_TOKEN>', site: 'datadoghq.com', sessionSampleRate: 100 })" },
+      { "id": "b", "text": "datadogRum.start({ appId: '<APP_ID>', token: '<CLIENT_TOKEN>' })" },
+      { "id": "c", "text": "window.DD_LOGS.init({ applicationId: '<APP_ID>', clientToken: '<CLIENT_TOKEN>' })" },
+      { "id": "d", "text": "Datadog.RUM.initialize('<APP_ID>', '<CLIENT_TOKEN>')" }
+    ],
+    "correct": "a",
+    "explanation": "The Datadog Browser RUM SDK is initialized by calling DD_RUM.init() with at minimum applicationId, clientToken, site, and sessionSampleRate. The other options use incorrect method names or object shapes.",
+    "topics": ["RUM", "Browser SDK initialization"],
+    "difficulty": "easy",
+    "refs": [{ "label": "RUM Browser SDK Setup" }],
+    "version": 1
+  },
+  {
+    "id": "rum-002",
+    "type": "single_choice",
+    "prompt": "When installing the Datadog Browser RUM SDK via npm, which import and initialization call is correct?",
+    "choices": [
+      { "id": "a", "text": "import { datadogRum } from '@datadog/browser-rum'; datadogRum.init({...})" },
+      { "id": "b", "text": "import { DD_RUM } from 'datadog-rum'; DD_RUM.init({...})" },
+      { "id": "c", "text": "const rum = require('datadog/browser-rum'); rum.start({...})" },
+      { "id": "d", "text": "import RUM from '@datadog/rum-browser'; RUM.setup({...})" }
+    ],
+    "correct": "a",
+    "explanation": "The correct npm package is @datadog/browser-rum and the exported object is datadogRum, initialized with datadogRum.init().",
+    "topics": ["RUM", "Browser SDK initialization"],
+    "difficulty": "easy",
+    "refs": [{ "label": "RUM Browser SDK NPM Setup" }],
+    "version": 1
+  },
+  {
+    "id": "rum-003",
+    "type": "true_false",
+    "prompt": "The Datadog RUM Browser SDK requires a server-side component to collect and forward event data to Datadog.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "The RUM Browser SDK sends data directly from the browser to Datadog's intake endpoints. No server-side proxy or component is required by default.",
+    "topics": ["RUM", "Browser SDK initialization"],
+    "difficulty": "easy",
+    "refs": [{ "label": "RUM Architecture Overview" }],
+    "version": 1
+  },
+  {
+    "id": "rum-004",
+    "type": "single_choice",
+    "prompt": "Which RUM SDK configuration parameter controls what percentage of user sessions are actually collected and sent to Datadog?",
+    "choices": [
+      { "id": "a", "text": "replaySampleRate" },
+      { "id": "b", "text": "sessionSampleRate" },
+      { "id": "c", "text": "tracingSampleRate" },
+      { "id": "d", "text": "eventSampleRate" }
+    ],
+    "correct": "b",
+    "explanation": "sessionSampleRate (0–100) determines what percentage of user sessions are instrumented and sent to Datadog. replaySampleRate controls Session Replay recording separately.",
+    "topics": ["RUM", "Browser SDK initialization"],
+    "difficulty": "easy",
+    "refs": [{ "label": "RUM Configuration Reference" }],
+    "version": 1
+  },
+  {
+    "id": "rum-005",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid RUM event types collected by the Datadog Browser SDK? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "View" },
+      { "id": "b", "text": "Resource" },
+      { "id": "c", "text": "Action" },
+      { "id": "d", "text": "Span" },
+      { "id": "e", "text": "Error" }
+    ],
+    "correct": ["a", "b", "c", "e"],
+    "explanation": "RUM collects View, Resource, Long Task, Action, Error, and Vital events. Spans are an APM/tracing concept; while RUM can connect to APM traces, spans themselves are not a RUM event type.",
+    "topics": ["RUM", "RUM event types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "RUM Data Collected" }],
+    "version": 1
+  },
+  {
+    "id": "rum-006",
+    "type": "single_choice",
+    "prompt": "A RUM 'View' event is created each time:",
+    "choices": [
+      { "id": "a", "text": "A user clicks a button on the page" },
+      { "id": "b", "text": "A new page or screen is visited (route change or full page load)" },
+      { "id": "c", "text": "A network request is made" },
+      { "id": "d", "text": "A JavaScript error is thrown" }
+    ],
+    "correct": "b",
+    "explanation": "A View event corresponds to visiting a page or screen. For SPAs this occurs on route changes; for traditional apps it occurs on full page loads. Clicks generate Action events, network calls generate Resource events, and thrown exceptions generate Error events.",
+    "topics": ["RUM", "RUM event types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "RUM Views" }],
+    "version": 1
+  },
+  {
+    "id": "rum-007",
+    "type": "single_choice",
+    "prompt": "Which RUM event type captures network requests such as XHR and Fetch calls made by the browser?",
+    "choices": [
+      { "id": "a", "text": "Action" },
+      { "id": "b", "text": "Long Task" },
+      { "id": "c", "text": "Resource" },
+      { "id": "d", "text": "Vital" }
+    ],
+    "correct": "c",
+    "explanation": "Resource events capture information about network requests including XHR, Fetch, images, scripts, and stylesheets loaded by the browser.",
+    "topics": ["RUM", "RUM event types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "RUM Resources" }],
+    "version": 1
+  },
+  {
+    "id": "rum-008",
+    "type": "true_false",
+    "prompt": "A RUM 'Long Task' event is triggered when a browser main thread task blocks for more than 50 milliseconds.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Long Task events are generated when any single task on the browser's main thread takes longer than 50 ms, as defined by the Long Tasks API specification.",
+    "topics": ["RUM", "RUM event types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "RUM Long Tasks" }],
+    "version": 1
+  },
+  {
+    "id": "rum-009",
+    "type": "single_choice",
+    "prompt": "Largest Contentful Paint (LCP) measures:",
+    "choices": [
+      { "id": "a", "text": "The total layout shift score accumulated during page load" },
+      { "id": "b", "text": "The time from first user input to when the browser responds" },
+      { "id": "c", "text": "The render time of the largest image or text block visible in the viewport" },
+      { "id": "d", "text": "The time until the page is fully interactive" }
+    ],
+    "correct": "c",
+    "explanation": "LCP measures the render time of the largest image or text block that is visible within the viewport. A good LCP score is 2.5 seconds or less.",
+    "topics": ["RUM", "Core Web Vitals"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Core Web Vitals" }],
+    "version": 1
+  },
+  {
+    "id": "rum-010",
+    "type": "single_choice",
+    "prompt": "What does Cumulative Layout Shift (CLS) measure?",
+    "choices": [
+      { "id": "a", "text": "The time until the largest element is painted" },
+      { "id": "b", "text": "Visual instability of a page caused by unexpected layout shifts" },
+      { "id": "c", "text": "The delay between a user's first input and the browser's response" },
+      { "id": "d", "text": "The number of repaints triggered during scroll" }
+    ],
+    "correct": "b",
+    "explanation": "CLS quantifies visual instability by summing the impact fraction times the distance fraction for every unexpected layout shift that occurs during the page's lifetime. A good CLS score is less than 0.1.",
+    "topics": ["RUM", "Core Web Vitals"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Core Web Vitals" }],
+    "version": 1
+  },
+  {
+    "id": "rum-011",
+    "type": "single_choice",
+    "prompt": "Interaction to Next Paint (INP) replaced which older Core Web Vital metric in March 2024?",
+    "choices": [
+      { "id": "a", "text": "Largest Contentful Paint (LCP)" },
+      { "id": "b", "text": "First Contentful Paint (FCP)" },
+      { "id": "c", "text": "First Input Delay (FID)" },
+      { "id": "d", "text": "Cumulative Layout Shift (CLS)" }
+    ],
+    "correct": "c",
+    "explanation": "INP replaced First Input Delay (FID) as an official Core Web Vital in March 2024. INP measures responsiveness more comprehensively by considering all interactions during a page visit, not just the first.",
+    "topics": ["RUM", "Core Web Vitals"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Core Web Vitals INP" }],
+    "version": 1
+  },
+  {
+    "id": "rum-012",
+    "type": "single_choice",
+    "prompt": "What is the 'good' threshold for Largest Contentful Paint (LCP) according to Google's Core Web Vitals?",
+    "choices": [
+      { "id": "a", "text": "1.0 second or less" },
+      { "id": "b", "text": "2.5 seconds or less" },
+      { "id": "c", "text": "4.0 seconds or less" },
+      { "id": "d", "text": "100 milliseconds or less" }
+    ],
+    "correct": "b",
+    "explanation": "An LCP of 2.5 seconds or less is considered 'good'. Between 2.5 and 4.0 seconds needs improvement, and above 4.0 seconds is considered poor.",
+    "topics": ["RUM", "Core Web Vitals"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Core Web Vitals Thresholds" }],
+    "version": 1
+  },
+  {
+    "id": "rum-013",
+    "type": "true_false",
+    "prompt": "Datadog Session Replay records an exact video of the user's screen.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Session Replay reconstructs the DOM and CSS of the page rather than recording a pixel-by-pixel video. It replays user interactions by capturing mutations to the DOM, which is more efficient and privacy-friendly.",
+    "topics": ["RUM", "Session Replay"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Session Replay Overview" }],
+    "version": 1
+  },
+  {
+    "id": "rum-014",
+    "type": "single_choice",
+    "prompt": "Which Session Replay privacy masking level masks all text and user input but leaves structural elements (inputs, checkboxes) visible?",
+    "choices": [
+      { "id": "a", "text": "mask" },
+      { "id": "b", "text": "mask-user-input" },
+      { "id": "c", "text": "allow" },
+      { "id": "d", "text": "hidden" }
+    ],
+    "correct": "b",
+    "explanation": "The mask-user-input privacy level masks text entered into form fields and other user inputs, while leaving static text and structural elements visible. 'mask' masks all text content site-wide, and 'allow' records everything.",
+    "topics": ["RUM", "Session Replay", "Privacy masking"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Session Replay Privacy Options" }],
+    "version": 1
+  },
+  {
+    "id": "rum-015",
+    "type": "single_choice",
+    "prompt": "To enable Session Replay recording, which additional SDK call must be made after DD_RUM.init()?",
+    "choices": [
+      { "id": "a", "text": "DD_RUM.enableReplay()" },
+      { "id": "b", "text": "DD_RUM.startSessionReplayRecording()" },
+      { "id": "c", "text": "DD_RUM.record()" },
+      { "id": "d", "text": "DD_RUM.attachReplay()" }
+    ],
+    "correct": "b",
+    "explanation": "After calling DD_RUM.init(), you must also call DD_RUM.startSessionReplayRecording() to begin capturing replay data. Session Replay does not start automatically.",
+    "topics": ["RUM", "Session Replay"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Session Replay Setup" }],
+    "version": 1
+  },
+  {
+    "id": "rum-016",
+    "type": "multi_choice",
+    "prompt": "Which of the following HTML attributes can be added to elements to control Session Replay privacy masking? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "data-dd-privacy=\"mask\"" },
+      { "id": "b", "text": "data-dd-privacy=\"allow\"" },
+      { "id": "c", "text": "data-dd-privacy=\"hidden\"" },
+      { "id": "d", "text": "data-dd-redact=\"true\"" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Datadog Session Replay supports data-dd-privacy with values 'mask', 'mask-user-input', 'allow', and 'hidden'. The 'hidden' value replaces an element with an empty block of the same size. data-dd-redact is not a valid Datadog attribute.",
+    "topics": ["RUM", "Session Replay", "Privacy masking"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Session Replay Privacy Attributes" }],
+    "version": 1
+  },
+  {
+    "id": "rum-017",
+    "type": "single_choice",
+    "prompt": "Which RUM SDK method is used to set the identity of an authenticated user for user-level analytics?",
+    "choices": [
+      { "id": "a", "text": "DD_RUM.setUser({ id: '123', name: 'Alice', email: 'alice@example.com' })" },
+      { "id": "b", "text": "DD_RUM.identifyUser('alice@example.com')" },
+      { "id": "c", "text": "DD_RUM.addUserContext({ userId: '123' })" },
+      { "id": "d", "text": "DD_RUM.login({ id: '123' })" }
+    ],
+    "correct": "a",
+    "explanation": "DD_RUM.setUser() accepts a user object with optional id, name, and email fields, plus any custom attributes. This associates all subsequent RUM events with that user.",
+    "topics": ["RUM", "User identification"],
+    "difficulty": "easy",
+    "refs": [{ "label": "RUM User Identification" }],
+    "version": 1
+  },
+  {
+    "id": "rum-018",
+    "type": "true_false",
+    "prompt": "Custom attributes added to RUM events using DD_RUM.setGlobalContextProperty() are automatically applied to all future RUM events in the session.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "setGlobalContextProperty() enriches all subsequently collected RUM events with the specified key-value pair for the duration of the session.",
+    "topics": ["RUM", "User identification", "Custom attributes"],
+    "difficulty": "medium",
+    "refs": [{ "label": "RUM Global Context" }],
+    "version": 1
+  },
+  {
+    "id": "rum-019",
+    "type": "single_choice",
+    "prompt": "How do you manually track a custom user action (e.g., a button click not automatically captured) with the RUM SDK?",
+    "choices": [
+      { "id": "a", "text": "DD_RUM.trackEvent('click', { name: 'checkout_button' })" },
+      { "id": "b", "text": "DD_RUM.addAction('checkout_button', { cart_size: 3 })" },
+      { "id": "c", "text": "DD_RUM.logAction({ name: 'checkout_button' })" },
+      { "id": "d", "text": "DD_RUM.sendCustomAction('checkout_button')" }
+    ],
+    "correct": "b",
+    "explanation": "DD_RUM.addAction(name, context) is the correct method for manually tracking a custom user action. The name becomes the action name and the context object provides additional attributes.",
+    "topics": ["RUM", "RUM event types", "Actions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "RUM Custom Actions" }],
+    "version": 1
+  },
+  {
+    "id": "rum-020",
+    "type": "single_choice",
+    "prompt": "Which RUM SDK method is used to manually send a custom error to Datadog?",
+    "choices": [
+      { "id": "a", "text": "DD_RUM.sendError(new Error('message'))" },
+      { "id": "b", "text": "DD_RUM.addError(new Error('message'), { source: 'custom' })" },
+      { "id": "c", "text": "DD_RUM.trackError('message')" },
+      { "id": "d", "text": "DD_RUM.logError(new Error('message'))" }
+    ],
+    "correct": "b",
+    "explanation": "DD_RUM.addError() is the correct method. It accepts an Error object or string plus an optional context object. The RUM SDK also automatically captures unhandled exceptions and promise rejections.",
+    "topics": ["RUM", "Error tracking"],
+    "difficulty": "medium",
+    "refs": [{ "label": "RUM Error Tracking" }],
+    "version": 1
+  },
+  {
+    "id": "rum-021",
+    "type": "single_choice",
+    "prompt": "What does RUM Error Tracking use to group similar errors together into a single issue?",
+    "choices": [
+      { "id": "a", "text": "The full error stack trace including line numbers" },
+      { "id": "b", "text": "A fingerprint based on the error type, message, and code location" },
+      { "id": "c", "text": "The browser type and version where the error occurred" },
+      { "id": "d", "text": "The user session ID" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog Error Tracking groups errors into issues using a fingerprinting algorithm that considers the error type, message pattern, and normalized code location (stripping dynamic values from stack frames).",
+    "topics": ["RUM", "Error tracking"],
+    "difficulty": "medium",
+    "refs": [{ "label": "RUM Error Tracking Issues" }],
+    "version": 1
+  },
+  {
+    "id": "rum-022",
+    "type": "true_false",
+    "prompt": "Datadog RUM can automatically connect frontend browser errors to backend APM traces using distributed tracing.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "When both RUM and APM tracing are configured, Datadog automatically injects trace context into XHR/Fetch requests, linking frontend RUM events to backend APM spans for end-to-end visibility.",
+    "topics": ["RUM", "Error tracking", "APM integration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "RUM and APM Integration" }],
+    "version": 1
+  },
+  {
+    "id": "rum-023",
+    "type": "single_choice",
+    "prompt": "In the RUM Explorer, which query would you use to find all views with a load time greater than 3 seconds?",
+    "choices": [
+      { "id": "a", "text": "@view.loading_time:>3s" },
+      { "id": "b", "text": "@view.load_time:[3000 TO *]" },
+      { "id": "c", "text": "view.duration > 3000" },
+      { "id": "d", "text": "loading_time:>3000ms" }
+    ],
+    "correct": "b",
+    "explanation": "In the RUM Explorer, numeric range queries use the [MIN TO MAX] syntax with values in their native unit (milliseconds for durations). @view.load_time:[3000 TO *] finds all views where load time is 3000 ms or more.",
+    "topics": ["RUM", "RUM Explorer"],
+    "difficulty": "hard",
+    "refs": [{ "label": "RUM Explorer Search Syntax" }],
+    "version": 1
+  },
+  {
+    "id": "rum-024",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature allows you to watch a reconstructed playback of what a specific user experienced during a session, including clicks and page navigations?",
+    "choices": [
+      { "id": "a", "text": "User Journey Maps" },
+      { "id": "b", "text": "Session Replay" },
+      { "id": "c", "text": "Continuous Profiler" },
+      { "id": "d", "text": "Synthetic Browser Tests" }
+    ],
+    "correct": "b",
+    "explanation": "Session Replay provides a DVR-like playback of user sessions by reconstructing the DOM, allowing you to watch exactly what a user saw and did, including mouse movements, clicks, scrolls, and navigation.",
+    "topics": ["RUM", "Session Replay", "RUM dashboards"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Session Replay" }],
+    "version": 1
+  },
+  {
+    "id": "rum-025",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the RUM 'funnel' analytics view?",
+    "choices": [
+      { "id": "a", "text": "To visualize network waterfall timings for a single page load" },
+      { "id": "b", "text": "To analyze user conversion through a defined series of sequential steps" },
+      { "id": "c", "text": "To group errors by type and frequency" },
+      { "id": "d", "text": "To compare Core Web Vitals across different browser types" }
+    ],
+    "correct": "b",
+    "explanation": "The RUM funnel view lets you define a sequence of user actions or views and measure the conversion rate at each step, helping identify where users drop off in key flows like checkout or sign-up.",
+    "topics": ["RUM", "RUM dashboards", "RUM Explorer"],
+    "difficulty": "medium",
+    "refs": [{ "label": "RUM Funnel Analysis" }],
+    "version": 1
+  },
+  {
+    "id": "rum-026",
+    "type": "true_false",
+    "prompt": "Datadog Mobile RUM for iOS and Android uses the same Browser SDK package as the browser RUM implementation.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Mobile RUM uses separate, platform-specific SDKs: the Datadog iOS SDK (dd-sdk-ios) and Datadog Android SDK (dd-sdk-android). These are distinct from the browser SDK.",
+    "topics": ["RUM", "Mobile RUM"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Mobile RUM Setup" }],
+    "version": 1
+  },
+  {
+    "id": "rum-027",
+    "type": "single_choice",
+    "prompt": "Which package manager command installs the Datadog Android RUM SDK?",
+    "choices": [
+      { "id": "a", "text": "npm install @datadog/mobile-rum-android" },
+      { "id": "b", "text": "implementation 'com.datadoghq:dd-sdk-android-rum:<VERSION>' in build.gradle" },
+      { "id": "c", "text": "pod 'DatadogSDK' in Podfile" },
+      { "id": "d", "text": "pip install datadog-android-rum" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Android RUM SDK is added as a Gradle dependency: implementation 'com.datadoghq:dd-sdk-android-rum:<VERSION>' in the app's build.gradle file.",
+    "topics": ["RUM", "Mobile RUM"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Android RUM Setup" }],
+    "version": 1
+  },
+  {
+    "id": "rum-028",
+    "type": "single_choice",
+    "prompt": "In Mobile RUM, what concept is equivalent to a 'View' in browser RUM?",
+    "choices": [
+      { "id": "a", "text": "Fragment" },
+      { "id": "b", "text": "Screen" },
+      { "id": "c", "text": "Activity" },
+      { "id": "d", "text": "Page" }
+    ],
+    "correct": "b",
+    "explanation": "In Mobile RUM, a 'View' event corresponds to a Screen, a visible Activity or Fragment in Android, or a UIViewController in iOS. The terminology in Datadog's mobile SDK maps mobile concepts to the same RUM View event type.",
+    "topics": ["RUM", "Mobile RUM", "RUM event types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Mobile RUM Views" }],
+    "version": 1
+  },
+  {
+    "id": "rum-029",
+    "type": "multi_choice",
+    "prompt": "Which of the following are tracked automatically by the Datadog iOS RUM SDK without additional configuration? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "UIViewController load times" },
+      { "id": "b", "text": "Network requests via URLSession" },
+      { "id": "c", "text": "Unhandled Swift exceptions and NSExceptions" },
+      { "id": "d", "text": "Custom business events" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "The iOS RUM SDK automatically tracks UIViewController lifetimes (views), URLSession network requests (resources), and unhandled exceptions (errors). Custom business events require explicit calls to the SDK.",
+    "topics": ["RUM", "Mobile RUM"],
+    "difficulty": "hard",
+    "refs": [{ "label": "iOS RUM Auto-Instrumentation" }],
+    "version": 1
+  },
+  {
+    "id": "rum-030",
+    "type": "single_choice",
+    "prompt": "Which RUM SDK feature lets you replay a mobile user session visually, similar to browser Session Replay?",
+    "choices": [
+      { "id": "a", "text": "Mobile Session Replay" },
+      { "id": "b", "text": "Mobile View Capture" },
+      { "id": "c", "text": "Screen Recording API" },
+      { "id": "d", "text": "Mobile does not support any form of session replay" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog offers Mobile Session Replay for iOS and Android, which captures wireframe-style reconstructions of screens (not pixel videos) so you can replay what a user experienced in the app.",
+    "topics": ["RUM", "Mobile RUM", "Session Replay"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Mobile Session Replay" }],
+    "version": 1
+  },
+  {
+    "id": "rum-031",
+    "type": "single_choice",
+    "prompt": "Which Datadog Synthetics test type sends a single HTTP request to an endpoint and validates the response status code, headers, or body?",
+    "choices": [
+      { "id": "a", "text": "Browser test" },
+      { "id": "b", "text": "API HTTP test" },
+      { "id": "c", "text": "Multistep API test" },
+      { "id": "d", "text": "TCP test" }
+    ],
+    "correct": "b",
+    "explanation": "An API HTTP test sends a single HTTP/HTTPS request to an endpoint. It validates assertions such as response status code, headers, body content, and response time.",
+    "topics": ["Synthetics", "API tests"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics API Tests" }],
+    "version": 1
+  },
+  {
+    "id": "rum-032",
+    "type": "single_choice",
+    "prompt": "A Synthetics SSL test monitors:",
+    "choices": [
+      { "id": "a", "text": "Whether a web application loads correctly in a browser" },
+      { "id": "b", "text": "The validity and expiration date of an SSL/TLS certificate" },
+      { "id": "c", "text": "The latency of a TCP connection to a host" },
+      { "id": "d", "text": "DNS resolution times for a domain" }
+    ],
+    "correct": "b",
+    "explanation": "Synthetics SSL tests verify the SSL/TLS certificate of a host, checking whether it is valid, trusted, and not expiring soon. You can assert on expiration days remaining and protocol versions.",
+    "topics": ["Synthetics", "API tests", "SSL"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics SSL Tests" }],
+    "version": 1
+  },
+  {
+    "id": "rum-033",
+    "type": "true_false",
+    "prompt": "Datadog Synthetics supports gRPC health check tests natively as an API test subtype.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog Synthetics includes a gRPC test type that supports both health checks and unary call validation, enabling monitoring of gRPC-based services.",
+    "topics": ["Synthetics", "API tests", "gRPC"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Synthetics gRPC Tests" }],
+    "version": 1
+  },
+  {
+    "id": "rum-034",
+    "type": "single_choice",
+    "prompt": "Which Synthetics test type checks that a domain name resolves to the expected IP address or record type?",
+    "choices": [
+      { "id": "a", "text": "UDP test" },
+      { "id": "b", "text": "WebSocket test" },
+      { "id": "c", "text": "DNS test" },
+      { "id": "d", "text": "ICMP test" }
+    ],
+    "correct": "c",
+    "explanation": "A Synthetics DNS test verifies DNS resolution for a domain, checking that A, AAAA, CNAME, TXT, or MX records resolve correctly and within expected latency.",
+    "topics": ["Synthetics", "API tests", "DNS"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics DNS Tests" }],
+    "version": 1
+  },
+  {
+    "id": "rum-035",
+    "type": "single_choice",
+    "prompt": "A Synthetics Browser test differs from an API test primarily because it:",
+    "choices": [
+      { "id": "a", "text": "Runs from private locations only" },
+      { "id": "b", "text": "Simulates real user interactions in a headless browser using a recorded script" },
+      { "id": "c", "text": "Only validates HTTP status codes" },
+      { "id": "d", "text": "Cannot include assertions" }
+    ],
+    "correct": "b",
+    "explanation": "Browser tests use a headless Chrome browser to simulate real user journeys, executing a sequence of recorded or scripted steps (clicks, typing, navigation) and running assertions on UI state.",
+    "topics": ["Synthetics", "Browser tests"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics Browser Tests" }],
+    "version": 1
+  },
+  {
+    "id": "rum-036",
+    "type": "single_choice",
+    "prompt": "Which tool is used to record steps for a Datadog Synthetics Browser test?",
+    "choices": [
+      { "id": "a", "text": "A Chrome DevTools extension provided by Datadog" },
+      { "id": "b", "text": "Selenium IDE" },
+      { "id": "c", "text": "Puppeteer CLI" },
+      { "id": "d", "text": "The Datadog Agent on the test machine" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog provides a Chrome browser extension (the Datadog Test Recorder) that records user interactions and generates the step sequence for a Synthetics Browser test.",
+    "topics": ["Synthetics", "Browser tests", "Recording"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Browser Test Recorder" }],
+    "version": 1
+  },
+  {
+    "id": "rum-037",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid assertion types in a Datadog Synthetics Browser test? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Test that an element is present" },
+      { "id": "b", "text": "Test that page text contains a string" },
+      { "id": "c", "text": "Test that the active URL matches a pattern" },
+      { "id": "d", "text": "Test database query result equals a value" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Synthetics Browser test assertions include element presence, text content, active URL, element attribute values, and JavaScript evaluation. Database assertions are not a supported step type.",
+    "topics": ["Synthetics", "Browser tests", "Assertions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Browser Test Steps" }],
+    "version": 1
+  },
+  {
+    "id": "rum-038",
+    "type": "single_choice",
+    "prompt": "What is the key advantage of Multistep API tests over single API tests?",
+    "choices": [
+      { "id": "a", "text": "They can run in a real browser environment" },
+      { "id": "b", "text": "They chain multiple HTTP requests, passing data extracted from one response to the next" },
+      { "id": "c", "text": "They support private locations only" },
+      { "id": "d", "text": "They automatically retry failed steps indefinitely" }
+    ],
+    "correct": "b",
+    "explanation": "Multistep API tests execute a sequence of HTTP requests in order. You can extract values (e.g., auth tokens, IDs) from responses using variable extraction and inject them into subsequent requests.",
+    "topics": ["Synthetics", "Multistep API tests"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Multistep API Tests" }],
+    "version": 1
+  },
+  {
+    "id": "rum-039",
+    "type": "true_false",
+    "prompt": "Multistep API tests in Datadog Synthetics support extracting a value from one step's response and using it as a variable in a subsequent step.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Variable extraction is a core feature of Multistep API tests. You can extract values using regex, JSONPath, XPath, or response headers and reuse them in later steps.",
+    "topics": ["Synthetics", "Multistep API tests"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Multistep API Variable Extraction" }],
+    "version": 1
+  },
+  {
+    "id": "rum-040",
+    "type": "single_choice",
+    "prompt": "What is a Synthetics Private Location?",
+    "choices": [
+      { "id": "a", "text": "A Datadog managed location in a private AWS region" },
+      { "id": "b", "text": "A self-hosted agent you deploy in your own network to run Synthetic tests against internal endpoints" },
+      { "id": "c", "text": "A VPN tunnel that connects Datadog's managed locations to your infrastructure" },
+      { "id": "d", "text": "A feature that restricts who can view test results" }
+    ],
+    "correct": "b",
+    "explanation": "Private Locations are Docker containers or Kubernetes pods that you deploy in your own infrastructure. They pull test configurations from Datadog and execute tests against internal or otherwise unreachable endpoints.",
+    "topics": ["Synthetics", "Private locations"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics Private Locations" }],
+    "version": 1
+  },
+  {
+    "id": "rum-041",
+    "type": "single_choice",
+    "prompt": "When should you use a Synthetics Private Location instead of a managed location?",
+    "choices": [
+      { "id": "a", "text": "When you want faster test execution" },
+      { "id": "b", "text": "When testing internal services not reachable from the public internet" },
+      { "id": "c", "text": "When you need Session Replay recordings" },
+      { "id": "d", "text": "When you need to test from more than 5 geographic locations" }
+    ],
+    "correct": "b",
+    "explanation": "Private Locations are specifically designed for testing endpoints that are only accessible within a private network (e.g., internal APIs, staging environments behind a firewall).",
+    "topics": ["Synthetics", "Private locations"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Private Locations Use Cases" }],
+    "version": 1
+  },
+  {
+    "id": "rum-042",
+    "type": "true_false",
+    "prompt": "A Datadog Synthetics Private Location worker requires inbound firewall ports to be opened so Datadog can push test jobs to it.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Private Location workers use outbound-only HTTPS connections to poll Datadog for test configurations. No inbound firewall rules are needed, which simplifies deployment in secure environments.",
+    "topics": ["Synthetics", "Private locations"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Private Location Network Requirements" }],
+    "version": 1
+  },
+  {
+    "id": "rum-043",
+    "type": "single_choice",
+    "prompt": "Which command is used to deploy a Datadog Synthetics Private Location worker using Docker?",
+    "choices": [
+      { "id": "a", "text": "docker run datadog/agent:latest -e DD_PRIVATE_LOCATION=true" },
+      { "id": "b", "text": "docker run -e DATADOG_ACCESS_KEY=<KEY> gcr.io/datadoghq/synthetics-private-location-worker" },
+      { "id": "c", "text": "docker run datadog/synthetics-runner:latest" },
+      { "id": "d", "text": "docker run -v /etc/datadog:/config datadog/private-location" }
+    ],
+    "correct": "b",
+    "explanation": "The private location worker image is gcr.io/datadoghq/synthetics-private-location-worker. You pass the private location's access key via the DATADOG_ACCESS_KEY environment variable.",
+    "topics": ["Synthetics", "Private locations"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Private Location Docker Setup" }],
+    "version": 1
+  },
+  {
+    "id": "rum-044",
+    "type": "single_choice",
+    "prompt": "Which Datadog CLI package enables running Synthetic tests as part of a CI/CD pipeline?",
+    "choices": [
+      { "id": "a", "text": "@datadog/synthetics-ci-action" },
+      { "id": "b", "text": "@datadog/datadog-ci" },
+      { "id": "c", "text": "datadog-synthetics-runner" },
+      { "id": "d", "text": "dd-test-runner" }
+    ],
+    "correct": "b",
+    "explanation": "@datadog/datadog-ci is the official Datadog CLI that includes the 'synthetics run-tests' command for triggering and waiting on Synthetic tests in CI/CD pipelines.",
+    "topics": ["Synthetics", "CI/CD integration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Synthetics CI/CD" }],
+    "version": 1
+  },
+  {
+    "id": "rum-045",
+    "type": "single_choice",
+    "prompt": "In the datadog-ci synthetics configuration, which file format specifies which tests to run and overrides their settings for a CI run?",
+    "choices": [
+      { "id": "a", "text": "A YAML file using the .synthetics.yml schema" },
+      { "id": "b", "text": "A JSON file using the datadog-ci.json schema with a 'tests' array" },
+      { "id": "c", "text": "A Dockerfile specifying test images" },
+      { "id": "d", "text": "A Jenkinsfile with Synthetics plugin directives" }
+    ],
+    "correct": "b",
+    "explanation": "datadog-ci uses a JSON configuration file (typically datadog-ci.json) with a 'tests' array. Each entry specifies a test public ID and optional overrides like startUrl, deviceIds, or locations.",
+    "topics": ["Synthetics", "CI/CD integration"],
+    "difficulty": "hard",
+    "refs": [{ "label": "datadog-ci Synthetics Config" }],
+    "version": 1
+  },
+  {
+    "id": "rum-046",
+    "type": "true_false",
+    "prompt": "When Synthetic tests are triggered via CI/CD, a failed test can be configured to block (fail) the pipeline.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The datadog-ci synthetics run-tests command exits with a non-zero code when tests fail, which causes the CI pipeline step to fail and block deployment by default. This behavior can be controlled with the --failOnCriticalErrors flag.",
+    "topics": ["Synthetics", "CI/CD integration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics CI/CD Exit Codes" }],
+    "version": 1
+  },
+  {
+    "id": "rum-047",
+    "type": "single_choice",
+    "prompt": "What is the minimum scheduling interval for a Datadog Synthetics API test?",
+    "choices": [
+      { "id": "a", "text": "30 seconds" },
+      { "id": "b", "text": "1 minute" },
+      { "id": "c", "text": "5 minutes" },
+      { "id": "d", "text": "15 minutes" }
+    ],
+    "correct": "b",
+    "explanation": "The minimum scheduling interval for Datadog Synthetics API tests is 1 minute. Browser tests have a minimum interval of 5 minutes.",
+    "topics": ["Synthetics", "Test scheduling"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Synthetics Scheduling" }],
+    "version": 1
+  },
+  {
+    "id": "rum-048",
+    "type": "single_choice",
+    "prompt": "What does the 'fast retry' feature do in Datadog Synthetics?",
+    "choices": [
+      { "id": "a", "text": "Retries a test immediately at a faster cadence to confirm a failure before alerting" },
+      { "id": "b", "text": "Speeds up the test execution time by caching DNS responses" },
+      { "id": "c", "text": "Retries the test from a different geographic location automatically" },
+      { "id": "d", "text": "Skips slow assertions to reduce test duration" }
+    ],
+    "correct": "a",
+    "explanation": "Fast retry causes Synthetics to re-run a failed test up to a configured number of times immediately after a failure before marking the test as failed and triggering an alert, reducing false positives from transient issues.",
+    "topics": ["Synthetics", "Retry logic"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Synthetics Retry Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "rum-049",
+    "type": "true_false",
+    "prompt": "Datadog Synthetics tests can be paused and will not generate alerts while paused.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Synthetics tests can be paused from the UI or API. While paused, they do not execute and therefore do not generate results or trigger alerts.",
+    "topics": ["Synthetics", "Test scheduling"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics Test Management" }],
+    "version": 1
+  },
+  {
+    "id": "rum-050",
+    "type": "single_choice",
+    "prompt": "What are Synthetic Global Variables used for?",
+    "choices": [
+      { "id": "a", "text": "Storing Datadog API keys for authentication within the test runner" },
+      { "id": "b", "text": "Defining reusable values (e.g., credentials, URLs) that can be referenced across multiple Synthetic tests" },
+      { "id": "c", "text": "Setting environment variables on Private Location workers" },
+      { "id": "d", "text": "Controlling the geographic locations where tests run" }
+    ],
+    "correct": "b",
+    "explanation": "Global Variables in Synthetics are reusable variables defined once and referenced in multiple tests using the {{VARIABLE_NAME}} syntax. They support plain text values, patterns for generating data, and secure (encrypted) secrets.",
+    "topics": ["Synthetics", "Global variables"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics Global Variables" }],
+    "version": 1
+  },
+  {
+    "id": "rum-051",
+    "type": "single_choice",
+    "prompt": "How do you reference a Synthetic Global Variable named LOGIN_PASSWORD inside a test's HTTP request body?",
+    "choices": [
+      { "id": "a", "text": "$LOGIN_PASSWORD" },
+      { "id": "b", "text": "#{LOGIN_PASSWORD}" },
+      { "id": "c", "text": "{{LOGIN_PASSWORD}}" },
+      { "id": "d", "text": "${LOGIN_PASSWORD}" }
+    ],
+    "correct": "c",
+    "explanation": "Synthetic Global Variables and locally extracted variables are referenced using the double curly brace syntax: {{VARIABLE_NAME}}. This works in URLs, headers, request bodies, and assertion values.",
+    "topics": ["Synthetics", "Global variables"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics Variables Syntax" }],
+    "version": 1
+  },
+  {
+    "id": "rum-052",
+    "type": "true_false",
+    "prompt": "Synthetics Global Variables of type 'Secure' have their values encrypted at rest and are never exposed in test results or logs.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Secure Global Variables are encrypted at rest and their values are obfuscated in test results, logs, and the Datadog UI, making them safe for storing passwords and API keys.",
+    "topics": ["Synthetics", "Global variables"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Synthetics Secure Variables" }],
+    "version": 1
+  },
+  {
+    "id": "rum-053",
+    "type": "single_choice",
+    "prompt": "A Datadog Synthetic monitor alert is triggered when a test fails from how many consecutive locations?",
+    "choices": [
+      { "id": "a", "text": "It triggers after the first failure from any single location" },
+      { "id": "b", "text": "It is configurable, you set the minimum number of failing locations required to alert" },
+      { "id": "c", "text": "It only alerts after all configured locations fail simultaneously" },
+      { "id": "d", "text": "It always requires at least 3 locations to fail" }
+    ],
+    "correct": "b",
+    "explanation": "Synthetic test alerting conditions are fully configurable. You can set the test to alert when X out of N locations fail within Y consecutive time periods, avoiding alerts for isolated regional issues.",
+    "topics": ["Synthetics", "Alerting"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Synthetics Alert Conditions" }],
+    "version": 1
+  },
+  {
+    "id": "rum-054",
+    "type": "multi_choice",
+    "prompt": "Which notification channels can be configured for Datadog Synthetics test alerts? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Email" },
+      { "id": "b", "text": "Slack" },
+      { "id": "c", "text": "PagerDuty" },
+      { "id": "d", "text": "SMS via Datadog's built-in gateway" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Synthetics test alerts use the same notification system as Datadog monitors. Email, Slack, PagerDuty, and many other integrations are supported via @mention syntax. SMS is not a built-in native notification channel.",
+    "topics": ["Synthetics", "Alerting"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Synthetics Notifications" }],
+    "version": 1
+  },
+  {
+    "id": "rum-055",
+    "type": "single_choice",
+    "prompt": "What does a Synthetics test 'uptime' metric represent?",
+    "choices": [
+      { "id": "a", "text": "The percentage of time a test ran without being paused" },
+      { "id": "b", "text": "The percentage of test runs that passed over a given time window" },
+      { "id": "c", "text": "The average response time of the monitored endpoint" },
+      { "id": "d", "text": "The number of locations reporting healthy status" }
+    ],
+    "correct": "b",
+    "explanation": "Synthetics uptime is calculated as the percentage of test executions (runs) that passed over a selected time window. A 99% uptime means 1% of test runs returned failures.",
+    "topics": ["Synthetics", "Alerting"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics Uptime Metrics" }],
+    "version": 1
+  },
+  {
+    "id": "rum-056",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'allowlist' configuration in a Synthetics Browser test?",
+    "choices": [
+      { "id": "a", "text": "It specifies which IP addresses can access the test results" },
+      { "id": "b", "text": "It lists domains whose cookies and storage the test is allowed to access" },
+      { "id": "c", "text": "It defines which third-party resources should not be blocked during test execution" },
+      { "id": "d", "text": "It restricts which Datadog users can modify the test" }
+    ],
+    "correct": "c",
+    "explanation": "Browser tests can block third-party resources by default to reduce noise. The allowlist lets you specify domains whose resources (ads, analytics, etc.) should not be blocked during the test.",
+    "topics": ["Synthetics", "Browser tests"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Browser Test Options" }],
+    "version": 1
+  },
+  {
+    "id": "rum-057",
+    "type": "true_false",
+    "prompt": "Datadog Synthetics Browser tests can import and reuse steps from other browser tests as 'subtests'.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Synthetics Browser tests support subtests, allowing you to embed one browser test inside another. This is useful for reusing common flows like login across multiple tests.",
+    "topics": ["Synthetics", "Browser tests"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Browser Test Subtests" }],
+    "version": 1
+  },
+  {
+    "id": "rum-058",
+    "type": "single_choice",
+    "prompt": "A UDP Synthetics test is most appropriate for monitoring:",
+    "choices": [
+      { "id": "a", "text": "RESTful API availability" },
+      { "id": "b", "text": "DNS server response correctness" },
+      { "id": "c", "text": "Connectivity to services using UDP-based protocols such as streaming or gaming servers" },
+      { "id": "d", "text": "WebSocket handshake success" }
+    ],
+    "correct": "c",
+    "explanation": "UDP tests send a datagram to the specified host and port and validate connectivity or response data. They are used for UDP-based services like VoIP, video streaming, gaming servers, or custom UDP protocols.",
+    "topics": ["Synthetics", "API tests", "UDP"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Synthetics UDP Tests" }],
+    "version": 1
+  },
+  {
+    "id": "rum-059",
+    "type": "single_choice",
+    "prompt": "Which Synthetics test type verifies that a WebSocket connection can be established and that messages can be sent and received?",
+    "choices": [
+      { "id": "a", "text": "HTTP test" },
+      { "id": "b", "text": "TCP test" },
+      { "id": "c", "text": "WebSocket test" },
+      { "id": "d", "text": "gRPC test" }
+    ],
+    "correct": "c",
+    "explanation": "The WebSocket test type performs the WebSocket upgrade handshake and validates that messages can be sent to and received from a WebSocket endpoint, including assertions on message content.",
+    "topics": ["Synthetics", "API tests", "WebSocket"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Synthetics WebSocket Tests" }],
+    "version": 1
+  },
+  {
+    "id": "rum-060",
+    "type": "multi_choice",
+    "prompt": "Which of the following are benefits of integrating Datadog Synthetics with your CI/CD pipeline? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Automatically block deployments when critical user journeys break" },
+      { "id": "b", "text": "Run tests against a branch-specific URL before merging" },
+      { "id": "c", "text": "Correlate deployment events with synthetic test results in dashboards" },
+      { "id": "d", "text": "Replace unit tests entirely with synthetic monitoring" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "CI/CD integration lets you gate deployments on synthetic test success, run tests against ephemeral preview environments, and correlate deployment markers with test result trends. Synthetics complements but does not replace unit or integration tests.",
+    "topics": ["Synthetics", "CI/CD integration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Synthetics CI/CD Integration Benefits" }],
+    "version": 1
+  },
+  {
+    "id": "rum-061",
+    "type": "single_choice",
+    "prompt": "A user clicks a button in a single-page app and immediately sees a browser error. Which Datadog product is designed to capture the user action, browser error, and affected page view in one place?",
+    "choices": [
+      { "id": "a", "text": "RUM" },
+      { "id": "b", "text": "Infrastructure Monitoring" },
+      { "id": "c", "text": "DogStatsD" },
+      { "id": "d", "text": "Process Monitoring" }
+    ],
+    "correct": "a",
+    "explanation": "Real User Monitoring is built for browser-side visibility. It records views, user actions, resource requests, and browser errors, which makes it the correct answer for exam questions centered on what an end user experienced in the browser.",
+    "topics": ["rum"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Browser RUM Overview", "url": "https://docs.datadoghq.com/real_user_monitoring/browser/" },
+      { "label": "RUM Data Collected", "url": "https://docs.datadoghq.com/real_user_monitoring/browser/data_collected/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "rum-062",
+    "type": "single_choice",
+    "prompt": "A single-page app changes routes without a full browser refresh, and the exam asks what RUM event represents the new screen the user visited. Which answer is correct?",
+    "choices": [
+      { "id": "a", "text": "View event" },
+      { "id": "b", "text": "Resource event" },
+      { "id": "c", "text": "Long Task event" },
+      { "id": "d", "text": "Trace span" }
+    ],
+    "correct": "a",
+    "explanation": "RUM View events represent pages or screens the user visits, including route changes in single-page apps. This is a common fundamentals distinction from Resource events, which represent network requests and loaded assets.",
+    "topics": ["rum"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "RUM Views", "url": "https://docs.datadoghq.com/real_user_monitoring/browser/monitoring_page_performance/" },
+      { "label": "RUM Data Collected", "url": "https://docs.datadoghq.com/real_user_monitoring/browser/data_collected/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "rum-063",
+    "type": "single_choice",
+    "prompt": "A security-conscious team wants Session Replay to hide what users type into forms while still preserving page structure for troubleshooting. Which configuration best fits this fundamentals scenario?",
+    "choices": [
+      { "id": "a", "text": "defaultPrivacyLevel: 'mask-user-input'" },
+      { "id": "b", "text": "defaultPrivacyLevel: 'allow'" },
+      { "id": "c", "text": "trackUserInteractions: false" },
+      { "id": "d", "text": "sessionSampleRate: 0" }
+    ],
+    "correct": "a",
+    "explanation": "The `mask-user-input` privacy level is intended for exactly this use case: preserve enough structure for debugging while masking user-entered data. It is the most direct answer for privacy-focused RUM and Session Replay fundamentals questions.",
+    "topics": ["rum"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Session Replay Privacy", "url": "https://docs.datadoghq.com/real_user_monitoring/session_replay/browser/privacy_options/" },
+      { "label": "Browser RUM Configuration", "url": "https://docs.datadoghq.com/real_user_monitoring/browser/setup/client/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "rum-064",
+    "type": "single_choice",
+    "prompt": "Users say a page looks blank for too long after navigation, and the exam asks which Core Web Vital focuses on when the main visible content finishes rendering. Which metric is correct?",
+    "choices": [
+      { "id": "a", "text": "CLS" },
+      { "id": "b", "text": "LCP" },
+      { "id": "c", "text": "INP" },
+      { "id": "d", "text": "APDEX" }
+    ],
+    "correct": "b",
+    "explanation": "Largest Contentful Paint measures when the largest visible content element is rendered. That makes it the right answer when the scenario is about the page appearing visually complete, rather than layout instability or interaction latency.",
+    "topics": ["rum"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Core Web Vitals", "url": "https://docs.datadoghq.com/real_user_monitoring/browser/monitoring_page_performance/" },
+      { "label": "LCP", "url": "https://web.dev/articles/lcp" }
+    ],
+    "version": 1
+  }
+]

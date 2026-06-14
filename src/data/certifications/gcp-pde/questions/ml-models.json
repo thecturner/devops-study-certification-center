@@ -1,0 +1,291 @@
+[
+  {
+    "id": "gcp-pde-ml-001",
+    "type": "single_choice",
+    "prompt": "A data scientist wants to train a tabular classification model on a 50 GB structured dataset in BigQuery without writing model training code. The team values minimal infrastructure management. Which GCP option best fits?",
+    "choices": [
+      { "id": "a", "text": "BigQuery ML with CREATE MODEL using LOGISTIC_REG" },
+      { "id": "b", "text": "Vertex AI custom training with a TensorFlow container" },
+      { "id": "c", "text": "Vertex AI AutoML Tables" },
+      { "id": "d", "text": "Dataproc with a Spark MLlib pipeline" }
+    ],
+    "correct": "c",
+    "explanation": "Vertex AI AutoML Tables trains high-quality tabular models (classification, regression) with no ML code required. It handles feature engineering, model selection, hyperparameter tuning, and deployment automatically. BigQuery ML allows SQL-based model training but requires the data scientist to choose a model type and tune it; it is not as automated. Vertex AI custom training gives full control but requires writing training code and managing containers. Dataproc with Spark MLlib is a code-first approach requiring Spark expertise.",
+    "topics": ["ml-models"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Vertex AI AutoML Tables", "url": "https://cloud.google.com/vertex-ai/docs/tabular-data/tabular-workflows/automl" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-002",
+    "type": "single_choice",
+    "prompt": "A team trains a custom TensorFlow model for image classification on Vertex AI. After deploying the model to a Vertex AI Endpoint, they want to detect when the model's prediction distribution shifts significantly compared to the training baseline. Which Vertex AI feature addresses this?",
+    "choices": [
+      { "id": "a", "text": "Vertex AI Pipelines with a custom evaluation component" },
+      { "id": "b", "text": "Vertex AI Model Monitoring with prediction drift detection" },
+      { "id": "c", "text": "Cloud Monitoring custom metrics written by the serving container" },
+      { "id": "d", "text": "Vertex AI Feature Store with online serving statistics" }
+    ],
+    "correct": "b",
+    "explanation": "Vertex AI Model Monitoring continuously samples prediction requests and responses from a deployed endpoint, compares the distribution of input features and predictions against a training baseline, and alerts when statistical drift exceeds configured thresholds. It is the purpose-built GCP feature for post-deployment model health monitoring. Vertex AI Pipelines can run batch evaluation jobs but are not designed for continuous online monitoring. Cloud Monitoring custom metrics require manual instrumentation and drift calculation. Vertex AI Feature Store provides online feature serving and statistics, but it is for feature retrieval, not model prediction monitoring.",
+    "topics": ["ml-models"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Vertex AI Model Monitoring", "url": "https://cloud.google.com/vertex-ai/docs/model-monitoring/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-003",
+    "type": "single_choice",
+    "prompt": "A data engineer needs to run batch predictions on 100 million customer records using a trained Vertex AI model and store the results in BigQuery. The prediction job should complete within 4 hours. Which Vertex AI feature is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Vertex AI Online Prediction with a high-concurrency endpoint" },
+      { "id": "b", "text": "Vertex AI Batch Prediction job pointing at a BigQuery source and destination" },
+      { "id": "c", "text": "Vertex AI Pipelines with a PredictOperator component" },
+      { "id": "d", "text": "BigQuery ML PREDICT on the model imported from Vertex AI" }
+    ],
+    "correct": "b",
+    "explanation": "Vertex AI Batch Prediction is designed for large-scale offline scoring. It accepts a BigQuery table or Cloud Storage file as input, runs predictions in parallel across managed infrastructure, and writes results directly to BigQuery or Cloud Storage. It is cost-efficient (charged per prediction, no idle endpoint cost) and can process hundreds of millions of records within hours. Online Prediction is for real-time serving with low latency but is not efficient for batch scoring 100 million records. Vertex AI Pipelines can orchestrate batch predictions but the underlying execution still uses the batch prediction service. BigQuery ML PREDICT can score data within BigQuery using exported models but requires the model to be available in BigQuery ML format.",
+    "topics": ["ml-models"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Vertex AI Batch Prediction", "url": "https://cloud.google.com/vertex-ai/docs/predictions/batch-predictions" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-004",
+    "type": "single_choice",
+    "prompt": "A data scientist writes the following BigQuery ML SQL: `CREATE MODEL dataset.my_model OPTIONS(model_type='ARIMA_PLUS', time_series_timestamp_col='ds', time_series_data_col='y') AS SELECT ds, y FROM dataset.sales`. What does this model do?",
+    "choices": [
+      { "id": "a", "text": "Classifies sales into categories using a time-series feature" },
+      { "id": "b", "text": "Forecasts future values of the y column based on historical time-series patterns in ds" },
+      { "id": "c", "text": "Detects anomalies in the y column using ARIMA residuals" },
+      { "id": "d", "text": "Creates a regression model using ds as the independent variable" }
+    ],
+    "correct": "b",
+    "explanation": "ARIMA_PLUS in BigQuery ML is a time-series forecasting model. It decomposes the series into trend, seasonality, and residuals, then forecasts future values of the time_series_data_col using the timestamps in time_series_timestamp_col. It does not perform classification. While ARIMA residuals can indicate anomalies, the ARIMA_PLUS model type is specifically a forecasting model, not an anomaly detection model (BigQuery ML has a separate ARIMA_PLUS_XREG for external regressors). It is not a simple linear regression with ds as an independent variable.",
+    "topics": ["ml-models"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "BigQuery ML ARIMA_PLUS", "url": "https://cloud.google.com/bigquery/docs/arima-single-time-series-forecasting-tutorial" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-005",
+    "type": "single_choice",
+    "prompt": "A feature engineering pipeline computes user-level features (30-day purchase count, average order value, recency score) that are used by multiple ML models. The team wants features to be computed once, stored centrally, and served with low latency for online inference. Which GCP service is designed for this?",
+    "choices": [
+      { "id": "a", "text": "BigQuery with a materialized view for each feature set" },
+      { "id": "b", "text": "Vertex AI Feature Store" },
+      { "id": "c", "text": "Cloud Bigtable with a feature key schema" },
+      { "id": "d", "text": "Memorystore (Redis) caching feature values" }
+    ],
+    "correct": "b",
+    "explanation": "Vertex AI Feature Store is purpose-built for ML feature management. It stores, versions, and serves features with online (low-latency) and batch (high-throughput) serving APIs, supports point-in-time correct feature retrieval to prevent training/serving skew, and allows features computed once to be reused across multiple models. BigQuery materialized views can store computed features but do not provide online serving at inference latency. Cloud Bigtable could serve features at low latency but requires custom schema design and provides no feature versioning or ML-specific semantics. Memorystore/Redis is a general-purpose cache without feature versioning, lineage, or batch serving.",
+    "topics": ["ml-models"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Vertex AI Feature Store overview", "url": "https://cloud.google.com/vertex-ai/docs/featurestore/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-006",
+    "type": "single_choice",
+    "prompt": "A Vertex AI custom training job must preprocess training data using a TRANSFORM clause before training a BigQuery ML DNN classifier. What is the primary benefit of using TRANSFORM in the CREATE MODEL statement?",
+    "choices": [
+      { "id": "a", "text": "It compresses the training data to reduce BigQuery storage costs" },
+      { "id": "b", "text": "It ensures the same preprocessing transformations are automatically applied during PREDICT, preventing training/serving skew" },
+      { "id": "c", "text": "It parallelizes data loading across multiple BigQuery slots" },
+      { "id": "d", "text": "It allows the model to be exported to TensorFlow SavedModel format" }
+    ],
+    "correct": "b",
+    "explanation": "The TRANSFORM clause in BigQuery ML encapsulates preprocessing logic (normalization, encoding, bucketing) within the model definition. When PREDICT is called, BigQuery ML automatically applies the same transformations to input data before scoring, guaranteeing consistency between training preprocessing and serving preprocessing. This directly prevents training/serving skew. TRANSFORM does not compress data or affect slot parallelism. Model export to TensorFlow is a separate capability (ML.EXPORT_MODEL), not related to TRANSFORM.",
+    "topics": ["ml-models"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "BigQuery ML TRANSFORM clause", "url": "https://cloud.google.com/bigquery/docs/reference/standard-sql/bigqueryml-syntax-create-transform" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-007",
+    "type": "single_choice",
+    "prompt": "A machine learning team wants to orchestrate a multi-step ML workflow: data validation, feature engineering, model training, evaluation, and conditional deployment only if accuracy exceeds 90%. Which GCP service is designed to orchestrate this as a reusable, versioned pipeline?",
+    "choices": [
+      { "id": "a", "text": "Cloud Composer (Airflow) with custom PythonOperator tasks" },
+      { "id": "b", "text": "Vertex AI Pipelines using the Kubeflow Pipelines SDK" },
+      { "id": "c", "text": "Cloud Build with a multi-step build configuration" },
+      { "id": "d", "text": "Dataflow with a linear pipeline of transforms" }
+    ],
+    "correct": "b",
+    "explanation": "Vertex AI Pipelines is the managed ML pipeline orchestration service on GCP, built on Kubeflow Pipelines. It supports ML-specific components (data validation, training, evaluation), artifact lineage tracking, conditional execution (e.g., deploy only if accuracy > threshold), pipeline versioning, and integration with other Vertex AI services. Cloud Composer is a general-purpose workflow orchestrator that can run ML tasks but lacks native ML metadata tracking and Vertex AI integration. Cloud Build is a CI/CD service for building and deploying software artifacts, not ML pipeline orchestration. Dataflow is a data processing service, not an ML workflow orchestrator.",
+    "topics": ["ml-models"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Vertex AI Pipelines overview", "url": "https://cloud.google.com/vertex-ai/docs/pipelines/introduction" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-008",
+    "type": "single_choice",
+    "prompt": "A team deploys a Vertex AI endpoint that serves a model for real-time inference. After several months, they want to test a new model version against 10% of live traffic before full rollout. Which Vertex AI feature supports this?",
+    "choices": [
+      { "id": "a", "text": "A/B testing with two separate Vertex AI Endpoints behind a Cloud Load Balancer" },
+      { "id": "b", "text": "Vertex AI Endpoint traffic splitting by assigning traffic percentages to multiple deployed model versions" },
+      { "id": "c", "text": "Vertex AI Model Monitoring with a canary evaluation job" },
+      { "id": "d", "text": "Vertex AI Pipeline with a conditional deploy component" }
+    ],
+    "correct": "b",
+    "explanation": "Vertex AI Endpoints support deploying multiple model versions simultaneously and assigning a traffic percentage to each deployed model. For example, 90% of requests go to the stable model and 10% go to the new candidate model. This is a built-in traffic splitting feature that requires no external load balancer or additional infrastructure. Using two separate endpoints behind a load balancer could work but requires custom routing logic and is operationally more complex. Model Monitoring checks for drift but does not route traffic. Vertex AI Pipelines can trigger deployment but not manage live traffic splitting.",
+    "topics": ["ml-models"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Vertex AI Endpoint traffic splitting", "url": "https://cloud.google.com/vertex-ai/docs/predictions/get-online-predictions#deploy-model-endpoint" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-009",
+    "type": "single_choice",
+    "prompt": "A credit scoring model trained on historical loan data consistently predicts lower scores for certain demographic groups. Which Vertex AI tool helps the team analyze and understand the sources of this bias before the model is deployed?",
+    "choices": [
+      { "id": "a", "text": "Vertex AI Model Monitoring for prediction drift" },
+      { "id": "b", "text": "Vertex AI Explainability (feature attributions) combined with Vertex AI Model Evaluation fairness metrics" },
+      { "id": "c", "text": "BigQuery ML ML.FEATURE_INFO to inspect feature correlations" },
+      { "id": "d", "text": "Cloud Data Loss Prevention to detect sensitive attributes in training data" }
+    ],
+    "correct": "b",
+    "explanation": "Vertex AI Explainability provides feature attribution scores (using SHAP or Integrated Gradients) that show which input features most influenced each prediction, enabling the team to identify whether demographic proxies are driving biased outcomes. Vertex AI Model Evaluation includes fairness metrics that can slice performance statistics across demographic slices to quantify disparate impact. These two capabilities together allow pre-deployment bias analysis. Model Monitoring operates post-deployment and detects distribution shifts, not pre-deployment fairness. ML.FEATURE_INFO is a BigQuery ML function that describes feature statistics, not fairness. Cloud DLP identifies sensitive data in datasets but does not analyze model fairness.",
+    "topics": ["ml-models"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Vertex AI Explainability", "url": "https://cloud.google.com/vertex-ai/docs/explainable-ai/overview" },
+      { "label": "Vertex AI responsible AI", "url": "https://cloud.google.com/vertex-ai/docs/responsible-ai" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-010",
+    "type": "single_choice",
+    "prompt": "A BigQuery ML model was trained using `CREATE MODEL dataset.churn_model OPTIONS(model_type='BOOSTED_TREE_CLASSIFIER') AS SELECT * FROM dataset.training_data`. How can a data analyst score the production customer table and retrieve predicted probabilities?",
+    "choices": [
+      { "id": "a", "text": "SELECT * FROM ML.PREDICT(MODEL dataset.churn_model, (SELECT * FROM dataset.customers))" },
+      { "id": "b", "text": "CALL ML.RUN_PREDICTION('dataset.churn_model', 'dataset.customers')" },
+      { "id": "c", "text": "SELECT * FROM ML.EVALUATE(MODEL dataset.churn_model, TABLE dataset.customers)" },
+      { "id": "d", "text": "SELECT ML.SCORE(dataset.churn_model, * FROM dataset.customers)" }
+    ],
+    "correct": "a",
+    "explanation": "ML.PREDICT is the BigQuery ML function for generating predictions from a trained model. It accepts the model reference and an input query (or table) and returns a table with predicted labels and probabilities. For BOOSTED_TREE_CLASSIFIER it includes predicted_label and predicted_probabilities columns. ML.RUN_PREDICTION and ML.SCORE are not valid BigQuery ML functions. ML.EVALUATE computes model evaluation metrics (accuracy, AUC, etc.) against a labeled dataset; it does not return per-row predictions.",
+    "topics": ["ml-models"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "BigQuery ML ML.PREDICT", "url": "https://cloud.google.com/bigquery/docs/reference/standard-sql/bigqueryml-syntax-predict" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-011",
+    "type": "single_choice",
+    "prompt": "A team uses TFX (TensorFlow Extended) to build an ML pipeline and wants to run it on GCP in a fully managed way without managing Kubernetes clusters. Which GCP service is the recommended runtime?",
+    "choices": [
+      { "id": "a", "text": "Google Kubernetes Engine (GKE) with Kubeflow Pipelines" },
+      { "id": "b", "text": "Vertex AI Pipelines, which supports TFX pipelines natively" },
+      { "id": "c", "text": "Cloud Composer with TFX operators" },
+      { "id": "d", "text": "Dataproc with a Spark-TFX integration layer" }
+    ],
+    "correct": "b",
+    "explanation": "Vertex AI Pipelines supports TFX pipelines natively via the TFX CLI and Vertex AI runner. TFX components (ExampleGen, StatisticsGen, Trainer, Pusher, etc.) run as managed pipeline steps on Vertex AI without requiring the team to provision or manage GKE clusters. GKE with Kubeflow Pipelines provides the same TFX runtime but requires cluster provisioning and maintenance. Cloud Composer can trigger pipeline steps but is not designed to orchestrate TFX component graphs. Dataproc with Spark does not have a TFX integration layer.",
+    "topics": ["ml-models"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "TFX on Vertex AI Pipelines", "url": "https://cloud.google.com/vertex-ai/docs/pipelines/tfx-pipelines" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-012",
+    "type": "single_choice",
+    "prompt": "A Vertex AI online prediction endpoint is serving a model with a median latency of 120 ms. The SLA requires p99 latency under 200 ms. After a new model version is deployed, p99 rises to 450 ms. What is the first diagnostic step?",
+    "choices": [
+      { "id": "a", "text": "Increase the number of compute nodes allocated to the endpoint" },
+      { "id": "b", "text": "Review the Vertex AI endpoint latency metrics in Cloud Monitoring to identify whether the latency increase is in network, preprocessing, or model inference" },
+      { "id": "c", "text": "Roll back to the previous model version immediately without further investigation" },
+      { "id": "d", "text": "Enable Vertex AI Model Monitoring to check for data drift in requests" }
+    ],
+    "correct": "b",
+    "explanation": "The correct first step in any latency regression is to identify where the latency increase is occurring. Cloud Monitoring provides Vertex AI endpoint metrics including request latency broken down by stage. This allows the team to determine whether the latency increase is due to a more compute-intensive model (inference time), a larger model artifact (load time), or a regression in preprocessing logic. Only after identifying the root cause can the team take a targeted corrective action. Scaling up compute may help if the model is more expensive, but without diagnosis it is guesswork. Immediately rolling back is an option if the SLA is being breached and no fix is available, but not before diagnosis. Model Monitoring detects data drift but does not explain latency regressions.",
+    "topics": ["ml-models"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Vertex AI Prediction monitoring", "url": "https://cloud.google.com/vertex-ai/docs/predictions/monitoring" },
+      { "label": "Cloud Monitoring for Vertex AI", "url": "https://cloud.google.com/vertex-ai/docs/general/monitoring" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-013",
+    "type": "single_choice",
+    "prompt": "A data scientist wants to interactively explore a large dataset in BigQuery and build a TensorFlow model using the same environment, with seamless access to GCP services and preinstalled ML libraries. Which GCP environment is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Cloud Shell with the BigQuery CLI" },
+      { "id": "b", "text": "Vertex AI Workbench (managed notebooks)" },
+      { "id": "c", "text": "App Engine with a Jupyter notebook server" },
+      { "id": "d", "text": "Dataproc with a Jupyter Hub component" }
+    ],
+    "correct": "b",
+    "explanation": "Vertex AI Workbench provides managed JupyterLab notebook instances with pre-installed ML frameworks (TensorFlow, PyTorch, scikit-learn), native BigQuery integration via the BigQuery integration extension, and direct access to all GCP APIs via the instance's service account. It is specifically designed for the data scientist workflow of exploration to training to deployment. Cloud Shell has the BigQuery CLI but is not a full notebook environment and resets after inactivity. App Engine hosting Jupyter requires significant custom configuration and maintenance. Dataproc JupyterHub requires a running cluster and is more suited for distributed Spark-based ML workloads.",
+    "topics": ["ml-models"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Vertex AI Workbench overview", "url": "https://cloud.google.com/vertex-ai/docs/workbench/introduction" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-014",
+    "type": "single_choice",
+    "prompt": "A Vertex AI custom training job for a large language model fine-tune requires 8 A100 GPUs across 2 machines. Training takes 20 hours. Which training configuration minimizes idle resource cost and maximizes GPU utilization?",
+    "choices": [
+      { "id": "a", "text": "Vertex AI Training with a custom container, machine_type=a2-highgpu-4g, replica_count=2, and GPU accelerator config" },
+      { "id": "b", "text": "Vertex AI Training with a pre-built TensorFlow container and TPU v4 accelerators" },
+      { "id": "c", "text": "GKE with a GPU node pool and a Kubernetes Job" },
+      { "id": "d", "text": "Dataproc with NVIDIA GPU workers and a Spark ML job" }
+    ],
+    "correct": "a",
+    "explanation": "Vertex AI Custom Training supports distributed training across multiple machines with GPU accelerators. Specifying machine_type=a2-highgpu-4g (which has 4 A100 GPUs per machine) with replica_count=2 gives 8 A100 GPUs total. Resources are provisioned when the job starts and released when it finishes, eliminating idle costs. A custom container can package the fine-tuning script with full dependency control. TPU v4 is a different accelerator type suited for TensorFlow-heavy workloads; not all LLM fine-tuning frameworks support TPUs. GKE requires cluster management and persistent node pools that may incur idle cost. Dataproc with Spark is not designed for GPU-accelerated deep learning fine-tuning.",
+    "topics": ["ml-models"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Vertex AI custom training with GPUs", "url": "https://cloud.google.com/vertex-ai/docs/training/using-gpus" },
+      { "label": "Vertex AI distributed training", "url": "https://cloud.google.com/vertex-ai/docs/training/distributed-training" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ml-015",
+    "type": "single_choice",
+    "prompt": "A team discovers that their BigQuery ML linear regression model has an R² of 0.35 on the test set after running ML.EVALUATE. What does this indicate, and what is the recommended next step?",
+    "choices": [
+      { "id": "a", "text": "The model explains 35% of variance in the target; try feature engineering or a more complex model type such as BOOSTED_TREE_REGRESSOR" },
+      { "id": "b", "text": "The model is overfitting; reduce the training dataset size" },
+      { "id": "c", "text": "The model accuracy is 35%; add more training examples to reach 80%" },
+      { "id": "d", "text": "R² of 0.35 indicates the model is performing well for a regression problem" }
+    ],
+    "correct": "a",
+    "explanation": "R² (coefficient of determination) measures the proportion of variance in the target variable explained by the model. An R² of 0.35 means the model explains only 35% of the variance, indicating poor predictive power for most regression use cases. The appropriate next steps are feature engineering (adding more predictive features, transformations) and trying a more powerful model type such as BOOSTED_TREE_REGRESSOR or DNN_REGRESSOR. Low R² is not a sign of overfitting — overfitting manifests as high training R² with low test R². R² is not an accuracy metric in the classification sense. An R² of 0.35 is generally considered weak and warrants model improvement.",
+    "topics": ["ml-models"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "BigQuery ML ML.EVALUATE", "url": "https://cloud.google.com/bigquery/docs/reference/standard-sql/bigqueryml-syntax-evaluate" },
+      { "label": "BigQuery ML model selection guide", "url": "https://cloud.google.com/bigquery/docs/bqml-introduction#model-selection-guidance" }
+    ],
+    "version": 1
+  }
+]

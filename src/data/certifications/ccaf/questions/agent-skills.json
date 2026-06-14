@@ -1,0 +1,721 @@
+[
+  {
+    "id": "ccaf-as-001",
+    "type": "single_choice",
+    "prompt": "What file serves as the entry point for a Claude Code skill?",
+    "choices": [
+      { "id": "a", "text": "SKILL.yaml" },
+      { "id": "b", "text": "SKILL.md" },
+      { "id": "c", "text": "skill-config.json" },
+      { "id": "d", "text": "CLAUDE_SKILL.md" }
+    ],
+    "correct": "b",
+    "explanation": "Claude Code skills use a SKILL.md file as their entry point. The frontmatter section defines metadata such as the skill name, description, and allowed-tools, while the body contains the instructions Claude follows when the skill is invoked.",
+    "topics": ["agent-skills"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Skills — SKILL.md" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-002",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of the `description` field in a SKILL.md frontmatter?",
+    "choices": [
+      { "id": "a", "text": "It documents the skill for human readers only and has no effect on activation" },
+      { "id": "b", "text": "It acts as a semantic trigger that Claude uses to match user intent to the skill" },
+      { "id": "c", "text": "It sets the skill's display name shown in the Claude Code UI" },
+      { "id": "d", "text": "It restricts which file types the skill is permitted to read" }
+    ],
+    "correct": "b",
+    "explanation": "The `description` field in SKILL.md frontmatter is the semantic trigger Claude uses to decide whether to activate the skill. When a user's prompt semantically matches the description, Claude routes the request to that skill. It is not merely documentation — it drives activation logic.",
+    "topics": ["agent-skills"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Skills — Semantic Triggers" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-003",
+    "type": "single_choice",
+    "prompt": "Which SKILL.md frontmatter field restricts the set of tools a skill is permitted to invoke?",
+    "choices": [
+      { "id": "a", "text": "tools" },
+      { "id": "b", "text": "restricted-tools" },
+      { "id": "c", "text": "allowed-tools" },
+      { "id": "d", "text": "permissions" }
+    ],
+    "correct": "c",
+    "explanation": "The `allowed-tools` field in SKILL.md frontmatter limits which tools the skill may call. This supports the principle of least privilege: a skill that only needs to read files should not be permitted to run bash commands or write to disk.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — allowed-tools" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-004",
+    "type": "single_choice",
+    "prompt": "How do agent skills differ from hooks in Claude Code?",
+    "choices": [
+      { "id": "a", "text": "Skills activate on user intent; hooks activate in response to tool events" },
+      { "id": "b", "text": "Skills run bash commands; hooks run Claude prompts" },
+      { "id": "c", "text": "Skills require a network connection; hooks are offline-only" },
+      { "id": "d", "text": "Skills replace CLAUDE.md; hooks extend it" }
+    ],
+    "correct": "a",
+    "explanation": "Skills are invoked by semantic user intent (a prompt matches the description, or the user types /skill-name), while hooks respond to tool events such as PreToolUse or PostToolUse. They serve complementary roles: skills extend what Claude can do, and hooks automate reactions to what Claude does.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills vs Hooks" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-005",
+    "type": "single_choice",
+    "prompt": "A developer registers a skill with a SKILL.md, but Claude never activates it when the user types the expected trigger. What is the most likely root cause?",
+    "choices": [
+      { "id": "a", "text": "The SKILL.md is missing a `version` field" },
+      { "id": "b", "text": "The description field is too long for Claude to parse" },
+      { "id": "c", "text": "The skill directory is not on a path Claude Code scans at startup" },
+      { "id": "d", "text": "The `allowed-tools` list includes too many tools" }
+    ],
+    "correct": "c",
+    "explanation": "If Claude Code cannot discover the skill at startup, it will never be available for activation. Skill directories must be placed in a location Claude Code scans — typically the project's `.claude/skills/` directory or a path configured in settings. A missing or misconfigured path is the most common activation failure.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Troubleshooting Activation" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-006",
+    "type": "true_false",
+    "prompt": "CLAUDE.md instructions are always active in every Claude Code session, whereas a skill only becomes active when it is explicitly invoked.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "CLAUDE.md provides persistent, always-on instructions that Claude reads at the start of every session. Skills, by contrast, are invoked on demand — either by a user command or by a semantic match — and their instructions apply only during that invocation.",
+    "topics": ["agent-skills"],
+    "difficulty": "easy",
+    "refs": [{ "label": "CLAUDE.md vs Skills" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-007",
+    "type": "single_choice",
+    "prompt": "Which distribution mechanism makes a Claude Code skill available to all users across an entire enterprise organization?",
+    "choices": [
+      { "id": "a", "text": "Committing the skill to the project's main branch" },
+      { "id": "b", "text": "Uploading the skill to the Anthropic Marketplace" },
+      { "id": "c", "text": "Configuring the skill through enterprise-managed settings" },
+      { "id": "d", "text": "Placing the SKILL.md in each user's home directory manually" }
+    ],
+    "correct": "c",
+    "explanation": "Enterprise-managed settings allow administrators to deploy skills organization-wide through centralized configuration. This ensures that vetted skills are consistently available to all users without requiring each individual to install them manually.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Distribution" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-008",
+    "type": "multi_choice",
+    "prompt": "Which SKILL.md frontmatter fields directly influence whether and how a skill is triggered? Select two.",
+    "choices": [
+      { "id": "a", "text": "name" },
+      { "id": "b", "text": "description" },
+      { "id": "c", "text": "version" },
+      { "id": "d", "text": "refs" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "The `name` field determines the `/name` slash command that explicitly invokes the skill, while the `description` field acts as the semantic trigger for implicit activation. Both directly affect when the skill fires. `version` and `refs` are metadata fields that do not influence triggering.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "SKILL.md Frontmatter Reference" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-009",
+    "type": "single_choice",
+    "prompt": "Two installed skills have overlapping descriptions and both semantically match a user's prompt. What typically governs which skill is selected?",
+    "choices": [
+      { "id": "a", "text": "Alphabetical order of skill file names" },
+      { "id": "b", "text": "The skill with the longer description wins" },
+      { "id": "c", "text": "Priority order defined in settings or the first match in scan order" },
+      { "id": "d", "text": "Claude randomly selects one of the matching skills" }
+    ],
+    "correct": "c",
+    "explanation": "When multiple skills are candidates for a given user prompt, resolution depends on priority configuration in settings or the order in which skill directories are scanned. Developers should ensure skill descriptions are distinct enough to avoid ambiguity, and use settings-level priority to resolve remaining conflicts.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Priority Conflicts" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-010",
+    "type": "single_choice",
+    "prompt": "What distinguishes a subagent from a regular Claude Code skill invocation?",
+    "choices": [
+      { "id": "a", "text": "Subagents run with an isolated context window and can be restricted to a specific set of tools" },
+      { "id": "b", "text": "Subagents can only be used for read-only tasks" },
+      { "id": "c", "text": "Subagents do not have access to any CLAUDE.md instructions" },
+      { "id": "d", "text": "Subagents always run in Plan Mode and require user approval before every step" }
+    ],
+    "correct": "a",
+    "explanation": "Subagents in Claude Code operate with an isolated context window and can be granted a restricted set of tools appropriate for their task. This isolation prevents a subagent from accidentally affecting state outside its scope, enabling safer parallel or delegated work.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Subagents in Claude Code" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-011",
+    "type": "multi_choice",
+    "prompt": "Which practices exemplify progressive disclosure in a skill directory? Select two.",
+    "choices": [
+      { "id": "a", "text": "Placing detailed reference documentation in a subdirectory that SKILL.md links to when needed" },
+      { "id": "b", "text": "Embedding all instructions and examples in a single flat SKILL.md with no sub-files" },
+      { "id": "c", "text": "Splitting complex instructions across multiple linked files and loading detail only when relevant" },
+      { "id": "d", "text": "Requiring the user to read all documentation before invoking the skill" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Progressive disclosure in skill directories means presenting concise top-level instructions in SKILL.md and deferring detailed content to linked subdirectories or supplementary files. This keeps the main skill prompt tight and avoids overwhelming Claude's context window with information not needed for a given invocation.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Progressive Disclosure" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-012",
+    "type": "single_choice",
+    "prompt": "In a SKILL.md file, where is the `allowed-tools` configuration defined?",
+    "choices": [
+      { "id": "a", "text": "In the Markdown body, as a fenced code block" },
+      { "id": "b", "text": "In a separate tools.json file in the skill directory" },
+      { "id": "c", "text": "In the YAML frontmatter section at the top of SKILL.md, between the triple-dash delimiters" },
+      { "id": "d", "text": "In the project's CLAUDE.md, under a `[skills]` heading" }
+    ],
+    "correct": "c",
+    "explanation": "The `allowed-tools` field is part of the YAML frontmatter block at the top of a SKILL.md file, delimited by triple dashes (---). The frontmatter is where all skill metadata is declared, keeping configuration separate from the instructional body of the file.",
+    "topics": ["agent-skills"],
+    "difficulty": "easy",
+    "refs": [{ "label": "SKILL.md Frontmatter" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-013",
+    "type": "true_false",
+    "prompt": "When `allowed-tools` is omitted from a SKILL.md, the skill inherits the full set of tools available in the current Claude Code session.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "Omitting `allowed-tools` means no restriction is applied — Claude can use any tool that is active in the current session. This is the permissive default. Explicitly listing tools in `allowed-tools` is required whenever you want to enforce least-privilege access for a skill.",
+    "topics": ["agent-skills"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Skills — allowed-tools Default Behavior" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-014",
+    "type": "single_choice",
+    "prompt": "A developer wants a skill to accept a file path as input when invoked via `/review-file src/main.ts`. How does the skill body receive that argument?",
+    "choices": [
+      { "id": "a", "text": "As an environment variable named SKILL_ARG_1 automatically set by Claude Code" },
+      { "id": "b", "text": "As the remainder of the user's message after the slash command, available in the skill's instructions via $ARGUMENTS" },
+      { "id": "c", "text": "Via a tool_call payload delivered to the skill's allowed-tools list" },
+      { "id": "d", "text": "Skills cannot accept arguments; the user must re-state the path in a follow-up message" }
+    ],
+    "correct": "b",
+    "explanation": "When a user invokes a skill with `/skill-name <arg>`, the text after the command is passed to the skill as `$ARGUMENTS` and is available for the skill body's instructions to reference. This enables parameterized skill invocations without requiring a separate follow-up message.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Passing Arguments" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-015",
+    "type": "single_choice",
+    "prompt": "The same skill name `security-review` is defined at both the user level (~/.claude/skills/) and the project level (.claude/skills/). Which definition takes precedence?",
+    "choices": [
+      { "id": "a", "text": "User-level always wins; project-level skills are ignored if a same-name user skill exists" },
+      { "id": "b", "text": "Project-level takes precedence because it is more specific to the current working context" },
+      { "id": "c", "text": "Claude Code merges the two SKILL.md files and uses a combined instruction set" },
+      { "id": "d", "text": "Claude Code aborts with a conflict error and both skills become unavailable" }
+    ],
+    "correct": "b",
+    "explanation": "Project-level skills take precedence over user-level skills when names conflict. This allows teams to customize or override shared user skills with project-specific versions without modifying the user's global skill library.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Scope and Precedence" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-016",
+    "type": "single_choice",
+    "prompt": "A security audit skill must invoke a read-only linter and then write a report file. The operator wants to ensure the linter step never writes. What is the correct architecture?",
+    "choices": [
+      { "id": "a", "text": "Use a single skill with allowed-tools listing both Read and Write, and instruct Claude in the body not to write during the lint phase" },
+      { "id": "b", "text": "Decompose the task: spawn a read-only subagent for linting with only Read allowed, then have the parent skill perform the write with Write allowed" },
+      { "id": "c", "text": "Wrap the linter call in a try-catch block within the SKILL.md body to intercept any accidental writes" },
+      { "id": "d", "text": "Run the linter in a separate terminal process outside Claude Code to guarantee no writes occur" }
+    ],
+    "correct": "b",
+    "explanation": "Decomposing into subagents allows each phase to carry its own minimal tool set. The linter subagent can be restricted to Read-only tools, enforcing the no-write constraint mechanically rather than relying on instructed behavior. The parent skill, with write access, then handles the report output.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Subagent Tool Isolation" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-017",
+    "type": "multi_choice",
+    "prompt": "Which two statements accurately describe the relationship between a SKILL.md `name` field and skill invocation?",
+    "choices": [
+      { "id": "a", "text": "The `name` field defines the slash command the user types to invoke the skill explicitly (e.g., `name: commit` → `/commit`)" },
+      { "id": "b", "text": "The `name` field has no effect on invocation; only the `description` field matters" },
+      { "id": "c", "text": "If the `name` field is set, typing `/name` in the Claude Code prompt will always invoke that skill regardless of context" },
+      { "id": "d", "text": "The `name` field is optional; a skill without a name can only be activated by semantic description matching" }
+    ],
+    "correct": ["a", "d"],
+    "explanation": "The `name` field creates the explicit `/name` slash command. When a name is present, users can invoke the skill directly by typing `/name`. When `name` is absent, the skill can only be activated via semantic matching against the `description` field. Both invocation paths are valid.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "SKILL.md — name Field" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-018",
+    "type": "true_false",
+    "prompt": "A SKILL.md file can only contain plain text instructions in its body and cannot link to or reference supplementary markdown files in the same directory.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "SKILL.md bodies can reference supplementary files in the skill directory. This is the basis of the progressive disclosure pattern — a concise top-level SKILL.md links to detailed reference documents (playbooks, examples, schemas) that are loaded only when needed, keeping the main context lean.",
+    "topics": ["agent-skills"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Skills — Progressive Disclosure" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-019",
+    "type": "single_choice",
+    "prompt": "What is the primary risk of writing an excessively long SKILL.md body?",
+    "choices": [
+      { "id": "a", "text": "The YAML frontmatter parser rejects files over 500 lines" },
+      { "id": "b", "text": "It consumes a large portion of the context window on every invocation, even when most content is not relevant to the current task" },
+      { "id": "c", "text": "Claude Code stops reading SKILL.md after 256 tokens" },
+      { "id": "d", "text": "Longer files cause the skill to activate more often due to increased semantic weight" }
+    ],
+    "correct": "b",
+    "explanation": "A bloated SKILL.md consumes context window tokens on every invocation regardless of whether the content is relevant. This reduces the space available for conversation, tool results, and actual task context. The solution is progressive disclosure: keep the body concise and link to supplementary files when depth is needed.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Body Length Best Practices" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-020",
+    "type": "single_choice",
+    "prompt": "An enterprise wants to prevent engineers from overriding organization-approved skills with local project-level SKILL.md files. What is the correct approach?",
+    "choices": [
+      { "id": "a", "text": "Set a skill priority of 0 in each SKILL.md to lock it at highest precedence" },
+      { "id": "b", "text": "Use enterprise-managed settings to lock organization skills and disable project-level skill override policies" },
+      { "id": "c", "text": "Distribute SKILL.md files via a read-only Git submodule that engineers cannot modify" },
+      { "id": "d", "text": "This is not configurable; project-level skills always override enterprise skills" }
+    ],
+    "correct": "b",
+    "explanation": "Enterprise-managed settings in Claude Code allow administrators to control skill policies organization-wide, including preventing project-level overrides of approved skills. This ensures compliance and consistency without relying on read-only file system tricks that could be circumvented.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Enterprise Policy Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-021",
+    "type": "single_choice",
+    "prompt": "When a skill spawns a subagent, which context does the subagent automatically receive without explicit configuration?",
+    "choices": [
+      { "id": "a", "text": "The full parent session conversation history" },
+      { "id": "b", "text": "The project's CLAUDE.md instructions" },
+      { "id": "c", "text": "Only the task prompt passed to it at spawn time; no parent session history" },
+      { "id": "d", "text": "The parent skill's allowed-tools list automatically inherited" }
+    ],
+    "correct": "c",
+    "explanation": "Subagents start with an isolated context window containing only the task prompt provided at spawn time. They do not inherit the parent session's conversation history. CLAUDE.md may be reloaded if the subagent runs in the same project, but the parent's in-session messages are not automatically visible to the subagent.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Subagents — Context Isolation" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-022",
+    "type": "multi_choice",
+    "prompt": "Which two characteristics make a SKILL.md `description` field most effective as a semantic trigger?",
+    "choices": [
+      { "id": "a", "text": "It is specific enough to distinguish the skill from other installed skills" },
+      { "id": "b", "text": "It is as long as possible to maximize vocabulary coverage" },
+      { "id": "c", "text": "It uses the same language and phrasing a user would naturally use when asking for that task" },
+      { "id": "d", "text": "It includes technical implementation details about how the skill works internally" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "An effective semantic trigger is both specific (preventing accidental matches from overlapping skills) and phrased in natural user language (so it matches typical user queries). Long descriptions risk absorbing too much context; internal implementation details are irrelevant to matching.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Writing Effective Descriptions" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-023",
+    "type": "single_choice",
+    "prompt": "What file extension must the skill entry point file use?",
+    "choices": [
+      { "id": "a", "text": ".yaml" },
+      { "id": "b", "text": ".md" },
+      { "id": "c", "text": ".skill" },
+      { "id": "d", "text": ".txt" }
+    ],
+    "correct": "b",
+    "explanation": "The skill entry point must be named exactly `SKILL.md` — using the `.md` Markdown extension. This naming convention is required for Claude Code to recognize and load the file as a skill definition during its discovery scan.",
+    "topics": ["agent-skills"],
+    "difficulty": "easy",
+    "refs": [{ "label": "SKILL.md — File Naming Convention" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-024",
+    "type": "single_choice",
+    "prompt": "How does a Claude Code skill fundamentally differ from a system prompt configured inside CLAUDE.md?",
+    "choices": [
+      { "id": "a", "text": "CLAUDE.md instructions are permanent and cannot be disabled; skills can be toggled per session" },
+      { "id": "b", "text": "A skill activates only when invoked and applies focused instructions for a specific task, whereas CLAUDE.md instructions apply continuously throughout every session" },
+      { "id": "c", "text": "Skills run in a separate process from Claude Code; CLAUDE.md instructions run inside the main session process" },
+      { "id": "d", "text": "CLAUDE.md supports only plain text; skills support rich structured data formats" }
+    ],
+    "correct": "b",
+    "explanation": "CLAUDE.md provides always-on session-wide instructions that Claude reads at startup and applies to every response. A skill is on-demand — its instructions activate only when the skill is invoked and apply only for the duration of that invocation. This makes skills suitable for focused, discrete tasks.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Skills vs CLAUDE.md — Key Differences" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-025",
+    "type": "single_choice",
+    "prompt": "A skill's subagent is tasked with generating test cases but is also inadvertently making commits to the Git repository. What is the targeted fix?",
+    "choices": [
+      { "id": "a", "text": "Rewrite the subagent's task prompt to explicitly say 'do not commit'" },
+      { "id": "b", "text": "Restrict the subagent's allowed-tools to exclude Bash or Git tools so it has no mechanism to commit" },
+      { "id": "c", "text": "Run the subagent in a Docker container to prevent file system access" },
+      { "id": "d", "text": "Set the subagent's temperature to 0 to prevent creative deviations from the task" }
+    ],
+    "correct": "b",
+    "explanation": "Instructional constraints ('do not commit') are soft and can be ignored. The correct fix is a mechanical constraint: restrict the subagent's tool set so it physically lacks access to Bash or Git tools. Without those tools, committing is impossible regardless of what instructions the model interprets.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Subagents — Enforcing Tool Restrictions" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-026",
+    "type": "true_false",
+    "prompt": "Multiple skills can be simultaneously active in a single Claude Code session if the user invokes more than one skill in sequence.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Skills are invoked for a specific task and their instructions apply for that invocation. A second skill invocation replaces the active skill context; they do not stack or run concurrently in the same session turn. If you need parallel execution, use subagents.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Invocation Lifecycle" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-027",
+    "type": "single_choice",
+    "prompt": "Skill A has description 'Generate a code review for a pull request.' Skill B has description 'Review code changes in a PR.' A user types 'can you review my pull request changes?' Which skill is selected?",
+    "choices": [
+      { "id": "a", "text": "Skill A always wins because it was installed first" },
+      { "id": "b", "text": "Skill B always wins because its description is shorter" },
+      { "id": "c", "text": "The result is non-deterministic; Claude may select either skill or prompt the user to clarify" },
+      { "id": "d", "text": "Neither skill activates because the descriptions are too ambiguous" }
+    ],
+    "correct": "c",
+    "explanation": "Overlapping descriptions create ambiguity that Claude cannot resolve deterministically. Depending on the model's semantic matching at inference time, either skill could be selected, or Claude may ask the user to clarify. The preventive measure is to ensure descriptions are meaningfully distinct.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Ambiguous Description Conflicts" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-028",
+    "type": "single_choice",
+    "prompt": "In a skill that calls multiple tools in sequence, which mechanism ensures Claude stops executing when an early tool returns an error?",
+    "choices": [
+      { "id": "a", "text": "SKILL.md automatically injects an error-stop sentinel after every tool call" },
+      { "id": "b", "text": "Claude's instruction following: the skill body should explicitly instruct Claude to check tool results and halt on error" },
+      { "id": "c", "text": "The allowed-tools list intercepts error codes and cancels subsequent calls" },
+      { "id": "d", "text": "Errors automatically raise a SKILL_ERROR exception that terminates the session" }
+    ],
+    "correct": "b",
+    "explanation": "There is no automatic error-stop mechanism built into the skill runtime. Error handling must be explicitly encoded in the skill body instructions — for example, 'after each tool call, check the result; if it indicates failure, stop and report the error to the user.' Clear error-handling instructions are a skill design responsibility.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Error Handling in Skill Bodies" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-029",
+    "type": "single_choice",
+    "prompt": "Which section of a SKILL.md file contains the structured metadata such as name, description, and allowed-tools?",
+    "choices": [
+      { "id": "a", "text": "The Markdown body after the first heading" },
+      { "id": "b", "text": "The YAML frontmatter block at the top of the file, between triple-dash delimiters" },
+      { "id": "c", "text": "A JSON config block fenced with ```json inside the body" },
+      { "id": "d", "text": "A separate metadata.yaml file in the same skill directory" }
+    ],
+    "correct": "b",
+    "explanation": "Skill metadata is always declared in the YAML frontmatter block at the very top of SKILL.md, delimited by `---` on both ends. The Markdown body that follows contains the natural-language instructions Claude executes when the skill is invoked.",
+    "topics": ["agent-skills"],
+    "difficulty": "easy",
+    "refs": [{ "label": "SKILL.md — Structure" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-030",
+    "type": "multi_choice",
+    "prompt": "Which two characteristics make a SKILL.md body most effective for instructing Claude?",
+    "choices": [
+      { "id": "a", "text": "Step-by-step instructions written in clear imperative prose" },
+      { "id": "b", "text": "Exhaustive documentation of every possible edge case to eliminate ambiguity" },
+      { "id": "c", "text": "Explicit stop conditions and success criteria so Claude knows when the task is complete" },
+      { "id": "d", "text": "A list of all tools Claude is not allowed to use, even if already restricted in frontmatter" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Effective skill bodies combine clear imperative steps (telling Claude exactly what actions to take in what order) with explicit success and stop conditions (telling Claude when the task is done). Exhaustive edge-case documentation bloats the context; tool restrictions belong in frontmatter, not the body.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Writing Effective Skill Bodies" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-031",
+    "type": "single_choice",
+    "prompt": "A team deploys a productivity skill via enterprise-managed settings. Individual engineers report the skill works fine locally but fails in the managed context. What is the most likely cause?",
+    "choices": [
+      { "id": "a", "text": "Enterprise-managed settings enforce a different tool permission set that conflicts with the skill's allowed-tools" },
+      { "id": "b", "text": "The SKILL.md file is encoded in UTF-16 which enterprise settings cannot parse" },
+      { "id": "c", "text": "Enterprise settings only support skills with a version field greater than 5" },
+      { "id": "d", "text": "The skill was built for macOS and cannot run on enterprise Linux endpoints" }
+    ],
+    "correct": "a",
+    "explanation": "Enterprise-managed settings can restrict the global tool set available to Claude Code. If the enterprise policy denies tools that the skill's `allowed-tools` requests — or if the enterprise policy blocks certain tool calls — the skill will fail in the managed context even if it works fine with the individual engineer's unrestricted local settings.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Enterprise Policy Conflicts" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-032",
+    "type": "single_choice",
+    "prompt": "What is the intended use of the `refs` field in SKILL.md frontmatter?",
+    "choices": [
+      { "id": "a", "text": "It defines external URLs that Claude fetches automatically when the skill starts" },
+      { "id": "b", "text": "It provides human-readable pointers to reference documentation for skill maintainers and reviewers" },
+      { "id": "c", "text": "It restricts which files within the project the skill is allowed to reference" },
+      { "id": "d", "text": "It configures the skill's retry behavior when a tool call fails" }
+    ],
+    "correct": "b",
+    "explanation": "The `refs` field is metadata for human readers — maintainers, reviewers, or learners — pointing to documentation, design documents, or source material related to the skill's domain. Claude does not fetch these automatically. They serve as an audit trail and onboarding resource for whoever maintains the skill.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "SKILL.md — refs Field" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-033",
+    "type": "multi_choice",
+    "prompt": "A skill is invoked successfully but Claude ignores the `allowed-tools` restriction and uses a forbidden tool. Which two root causes are most likely?",
+    "choices": [
+      { "id": "a", "text": "The `allowed-tools` list was specified in the body rather than in the YAML frontmatter, so it was treated as plain text" },
+      { "id": "b", "text": "The tool name in `allowed-tools` had a typo or casing mismatch that prevented correct matching" },
+      { "id": "c", "text": "The skill's `version` field was set to 0 instead of a positive integer, disabling restrictions" },
+      { "id": "d", "text": "The `refs` field was left empty, which causes all frontmatter restrictions to be ignored" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "Two common configuration errors that silently break `allowed-tools`: placing it in the Markdown body (where it has no enforcement effect) instead of the YAML frontmatter, and specifying tool names with typos or incorrect casing that prevent matching. Both cause the restriction to be silently ignored while the skill still activates.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — allowed-tools Troubleshooting" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-034",
+    "type": "true_false",
+    "prompt": "Claude Code skills can only be invoked by a human typing a prompt; they cannot be activated programmatically by another skill or automated process.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "While the primary invocation paths are user slash commands and semantic description matching, skills can also be invoked programmatically — for example, a parent skill or orchestrator can trigger a sub-skill as part of a multi-step automated workflow.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Invocation Paths" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-035",
+    "type": "single_choice",
+    "prompt": "A skill requires an extensive reference document (over 800 lines) that is only consulted occasionally. What is the recommended practice?",
+    "choices": [
+      { "id": "a", "text": "Embed the entire document in the SKILL.md body so Claude always has it in context" },
+      { "id": "b", "text": "Place the document in a supplementary file within the skill directory and instruct Claude to read it only when needed" },
+      { "id": "c", "text": "Store the document in a separate repository and have Claude fetch it via the Bash tool on every invocation" },
+      { "id": "d", "text": "Summarize the document to under 100 lines and discard the rest" }
+    ],
+    "correct": "b",
+    "explanation": "Progressive disclosure keeps the SKILL.md body concise. Large reference documents go into supplementary files within the skill directory, and the SKILL.md body instructs Claude to read them only when the specific task requires that depth. This avoids loading rarely-needed content into every invocation's context window.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Progressive Disclosure Pattern" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-036",
+    "type": "single_choice",
+    "prompt": "A security audit skill is discovered to have write access to production configuration files. Which security principle was most clearly violated in its design?",
+    "choices": [
+      { "id": "a", "text": "Defense in depth" },
+      { "id": "b", "text": "Principle of least privilege" },
+      { "id": "c", "text": "Separation of duties" },
+      { "id": "d", "text": "Zero trust networking" }
+    ],
+    "correct": "b",
+    "explanation": "The principle of least privilege requires that a skill be granted only the minimum permissions necessary to perform its function. A read-only audit skill has no legitimate need for write access. Granting write permissions violates this principle and creates unnecessary risk of accidental or malicious modification.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Least Privilege Design" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-037",
+    "type": "single_choice",
+    "prompt": "A developer wants a Claude Code skill to run automatically after every file edit without requiring a user to type a command. What is the correct mechanism?",
+    "choices": [
+      { "id": "a", "text": "Set a `trigger: PostEdit` field in the SKILL.md frontmatter" },
+      { "id": "b", "text": "Configure a PostToolUse hook that matches the Write or Edit tool and invokes the skill logic as a shell command" },
+      { "id": "c", "text": "Place the skill in the special auto/ subdirectory within .claude/skills/" },
+      { "id": "d", "text": "Enable continuous mode in Claude Code settings, which reruns all skills after each tool call" }
+    ],
+    "correct": "b",
+    "explanation": "Skills are demand-driven; they cannot self-trigger. Automation on tool events is the domain of hooks. A PostToolUse hook configured to match Write or Edit tool calls can execute shell commands (or invoke skill-like logic) automatically after every file edit, achieving the desired automation without requiring user invocation.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code Hooks — PostToolUse" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-038",
+    "type": "multi_choice",
+    "prompt": "A developer is building a documentation generator skill. Which two design decisions follow best practices?",
+    "choices": [
+      { "id": "a", "text": "Restricting allowed-tools to Read and Write only, since documentation generation does not require executing code" },
+      { "id": "b", "text": "Embedding the full documentation output template (500+ lines) directly in the SKILL.md body" },
+      { "id": "c", "text": "Storing the output template in a separate file within the skill directory and referencing it from the body" },
+      { "id": "d", "text": "Setting allowed-tools to include all available tools to prevent any permission errors" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Best practices: restrict tools to only what the skill actually needs (Read and Write for doc generation — no Bash required), and use progressive disclosure by storing large templates in supplementary files rather than bloating the SKILL.md body. Granting all tools violates least privilege; embedding large templates wastes context window on every invocation.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Design Best Practices" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-039",
+    "type": "true_false",
+    "prompt": "The `version` field in SKILL.md frontmatter is optional and has no effect on skill loading or execution.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "The `version` field is metadata for skill maintainers — it enables version tracking, changelog management, and enterprise audit trails, but Claude Code does not use it to gate skill loading or alter execution behavior. Its value is operational and organizational, not functional.",
+    "topics": ["agent-skills"],
+    "difficulty": "easy",
+    "refs": [{ "label": "SKILL.md — version Field" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-040",
+    "type": "single_choice",
+    "prompt": "A skill must orchestrate three independent analyses — security, performance, and style — that can run in parallel. What is the correct pattern for a Claude Code skill?",
+    "choices": [
+      { "id": "a", "text": "Invoke all three analyses sequentially using the Bash tool with separate commands" },
+      { "id": "b", "text": "Spawn three subagents concurrently, each handling one analysis, then aggregate their outputs in the parent skill" },
+      { "id": "c", "text": "Write the analyses to a shared temp file and use file-locking to coordinate results" },
+      { "id": "d", "text": "Use a single subagent with all three analyses in its task prompt to leverage its internal parallelism" }
+    ],
+    "correct": "b",
+    "explanation": "Spawning three independent subagents is the idiomatic pattern for parallel work in Claude Code. Each subagent operates in its own context with its own tool access, runs concurrently, and returns results to the parent skill. The parent skill aggregates the three outputs into a unified report. This provides both parallelism and context isolation.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Parallel Subagent Orchestration" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-041",
+    "type": "single_choice",
+    "prompt": "When Claude Code's Bash tool executes a script inside a skill, what determines whether the script's output enters the context window?",
+    "choices": [
+      { "id": "a", "text": "The script's file size on disk determines context consumption" },
+      { "id": "b", "text": "All stdout and stderr captured by the Bash tool call is returned to Claude and included in the context" },
+      { "id": "c", "text": "Output is only loaded into context if the script runs longer than 30 seconds" },
+      { "id": "d", "text": "Claude Code strips script output from context automatically after analysis to reclaim tokens" }
+    ],
+    "correct": "b",
+    "explanation": "The Bash tool returns everything written to stdout and stderr as the tool result, and that result is appended to the conversation context just like any other tool output. File size and execution time are irrelevant — the deciding factor is what the script writes to standard output. Scripts that emit verbose output will consume a proportional number of context tokens.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Bash Tool Output and Context" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-042",
+    "type": "single_choice",
+    "prompt": "A skill needs to run a build script that generates thousands of lines of compiler output. The developer only needs to know whether the build succeeded. Which bash invocation pattern avoids flooding the context window?",
+    "choices": [
+      { "id": "a", "text": "Run the script normally and invoke a second Bash call to filter the output afterward" },
+      { "id": "b", "text": "Redirect stdout and stderr to a log file and echo only the exit code: `build.sh > build.log 2>&1; echo \"Exit: $?\"`" },
+      { "id": "c", "text": "Run the script in the background with `&` to prevent Claude Code from capturing its output" },
+      { "id": "d", "text": "Split the script into smaller scripts, each producing fewer lines, so no single call overloads the context" }
+    ],
+    "correct": "b",
+    "explanation": "Redirecting both stdout and stderr to a log file and then echoing only the exit code is the standard pattern for minimizing context consumption from verbose scripts. The Bash tool only captures what the command writes to its own stdout, so routing the script's output to a file and printing a one-line summary keeps the tool result small while preserving the full log for later inspection if needed.",
+    "topics": ["agent-skills"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Agent Skills — Script Output Redirection" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-as-043",
+    "type": "single_choice",
+    "prompt": "A skill body says 'Run the database migration script and report the results.' Claude executes it, and the migration writes 50,000 tokens of SQL transaction logs to stdout, consuming most of the context window. What design flaw caused this?",
+    "choices": [
+      { "id": "a", "text": "The skill's allowed-tools list incorrectly included the Bash tool" },
+      { "id": "b", "text": "The skill body did not specify output handling — it did not instruct Claude to redirect verbose output or report only a summary, so the full script output was consumed verbatim" },
+      { "id": "c", "text": "The migration script violated Claude Code's 1,000-line output limit for Bash tool calls" },
+      { "id": "d", "text": "The SKILL.md version field was unset, triggering verbose output mode by default" }
+    ],
+    "correct": "b",
+    "explanation": "The skill body is responsible for specifying how tool output should be handled. Without an explicit instruction such as 'redirect script output to a file and report only the exit code and a one-line summary,' Claude will return the full stdout of the script as the tool result, consuming the context proportionally. Good skill design includes explicit output-management instructions for any command that may produce verbose results.",
+    "topics": ["agent-skills"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Skills — Verbose Script Output Management" }],
+    "version": 1
+  }
+]

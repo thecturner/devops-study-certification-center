@@ -1,0 +1,119 @@
+{
+  "topics": [
+    {
+      "id": "data-processing-systems",
+      "label": "Designing Data Processing Systems",
+      "description": "Covers selecting and configuring GCP storage and processing services to meet specific data requirements including latency, throughput, schema flexibility, and consistency guarantees. Includes Pub/Sub, Dataflow, Dataproc, Bigtable, BigQuery, Cloud Spanner, and Firestore, as well as architectural choices between streaming and batch processing.",
+      "studyPointers": [
+        { "label": "Choosing a storage option", "url": "https://cloud.google.com/storage-options" },
+        { "label": "Dataflow programming model", "url": "https://cloud.google.com/dataflow/docs/concepts/beam-programming-model" },
+        { "label": "Cloud Bigtable schema design", "url": "https://cloud.google.com/bigtable/docs/schema-design" },
+        { "label": "Pub/Sub overview", "url": "https://cloud.google.com/pubsub/docs/overview" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Storage service selection",
+          "prompt": "A scenario describes data volume, access patterns (point reads vs. analytical scans), latency requirements, and schema rigidity. You must identify which GCP storage service (Bigtable, Spanner, Firestore, Cloud SQL, BigQuery) is the best fit and explain why alternatives fall short.",
+          "focus": "Matching workload characteristics to storage engine capabilities and trade-offs"
+        },
+        {
+          "title": "Streaming pipeline design",
+          "prompt": "A scenario requires processing Pub/Sub events with windowing, late data handling, or exactly-once semantics. You must select the correct Dataflow/Beam primitives (windowing strategy, triggers, allowed lateness, side inputs) and justify the design.",
+          "focus": "Apache Beam concepts applied to real-time GCP data engineering scenarios"
+        }
+      ]
+    },
+    {
+      "id": "building-operationalizing",
+      "label": "Building and Operationalizing Data Pipelines",
+      "description": "Focuses on deploying, optimizing, monitoring, and maintaining production data pipelines on GCP. Covers BigQuery performance tuning (partitioning, clustering, slots, materialized views), Dataflow deployment and debugging, Cloud Composer DAG authoring and error handling, and CDC replication using Datastream.",
+      "studyPointers": [
+        { "label": "BigQuery best practices: performance", "url": "https://cloud.google.com/bigquery/docs/best-practices-performance-overview" },
+        { "label": "Dataflow monitoring and alerting", "url": "https://cloud.google.com/dataflow/docs/guides/using-cloud-monitoring" },
+        { "label": "Cloud Composer writing DAGs", "url": "https://cloud.google.com/composer/docs/how-to/using/writing-dags" },
+        { "label": "Datastream overview", "url": "https://cloud.google.com/datastream/docs/overview" }
+      ],
+      "examScenarios": [
+        {
+          "title": "BigQuery query cost and performance optimization",
+          "prompt": "A query on a large table is slow or expensive. You are given details about the table schema, query predicates, and existing partitioning/clustering. You must identify the correct optimization (add partition pruning, cluster, use a materialized view, adjust slot reservations) and explain the trade-offs.",
+          "focus": "BigQuery internals: how partitioning, clustering, and slot reservations affect query cost and speed"
+        },
+        {
+          "title": "Pipeline failure and dead-letter handling",
+          "prompt": "A streaming pipeline is experiencing repeated message failures or backlog growth. You must identify the root cause (hot key, quota exceeded, missing dead-letter config) and prescribe the correct remediation using Pub/Sub, Dataflow, or Cloud Monitoring features.",
+          "focus": "Operationalizing streaming pipelines: failure modes, dead-letter queues, and backpressure management"
+        }
+      ]
+    },
+    {
+      "id": "ml-models",
+      "label": "Operationalizing Machine Learning Models",
+      "description": "Covers the ML lifecycle on GCP including training with Vertex AI (AutoML, custom training, Vertex AI Pipelines), in-database ML with BigQuery ML, feature management with Vertex AI Feature Store, model deployment options (online vs. batch prediction), model monitoring for drift, and responsible AI practices.",
+      "studyPointers": [
+        { "label": "Vertex AI overview", "url": "https://cloud.google.com/vertex-ai/docs/start/introduction-unified-platform" },
+        { "label": "BigQuery ML model types", "url": "https://cloud.google.com/bigquery/docs/bqml-introduction#model-types" },
+        { "label": "Vertex AI Feature Store overview", "url": "https://cloud.google.com/vertex-ai/docs/featurestore/overview" },
+        { "label": "Vertex AI Model Monitoring", "url": "https://cloud.google.com/vertex-ai/docs/model-monitoring/overview" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Choosing an ML training approach",
+          "prompt": "A scenario describes a business problem (classification, regression, forecasting), the team's ML expertise, and data location (BigQuery, Cloud Storage). You must choose the appropriate GCP ML approach (BigQuery ML, AutoML, custom training) and justify the selection based on effort, control, and scale.",
+          "focus": "Trade-offs between no-code AutoML, SQL-based BigQuery ML, and custom training containers"
+        },
+        {
+          "title": "Post-deployment model health",
+          "prompt": "A deployed model's performance has degraded. You must identify whether the issue is prediction drift, data quality regression, or a serving infrastructure problem, and prescribe the correct Vertex AI monitoring or pipeline remediation.",
+          "focus": "Model monitoring, drift detection, and the feature store's role in preventing training/serving skew"
+        }
+      ]
+    },
+    {
+      "id": "solution-quality",
+      "label": "Ensuring Solution Quality",
+      "description": "Addresses data governance, security, compliance, and quality assurance for data engineering solutions on GCP. Includes BigQuery access controls (column-level, row-level, authorized views), CMEK encryption, Cloud DLP for PII detection, Data Catalog and Dataplex for metadata management, data lineage, data quality validation, and cost optimization strategies.",
+      "studyPointers": [
+        { "label": "BigQuery data security overview", "url": "https://cloud.google.com/bigquery/docs/data-security" },
+        { "label": "Cloud DLP overview", "url": "https://cloud.google.com/dlp/docs/dlp-overview" },
+        { "label": "Dataplex Data Quality", "url": "https://cloud.google.com/dataplex/docs/data-quality-overview" },
+        { "label": "BigQuery controlling costs", "url": "https://cloud.google.com/bigquery/docs/controlling-costs" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Column and row-level access control",
+          "prompt": "A scenario requires restricting access to specific columns (e.g., PII fields) or rows (e.g., date range, department) in a BigQuery table for different user groups, without duplicating data. You must identify the correct BigQuery security feature and configuration.",
+          "focus": "BigQuery column-level security with policy tags vs. row-level security vs. authorized views"
+        },
+        {
+          "title": "PII detection and governance pipeline",
+          "prompt": "Raw data lands in Cloud Storage before being loaded into BigQuery. The compliance team requires automated PII scanning, tagging in the data catalog, and enforcement of encryption requirements. You must design the governance pipeline using Cloud DLP, Data Catalog, and Organization Policies.",
+          "focus": "Integrating Cloud DLP, Data Catalog tagging, and CMEK enforcement in a data governance workflow"
+        }
+      ]
+    },
+    {
+      "id": "infrastructure-automation",
+      "label": "Infrastructure and Pipeline Automation",
+      "description": "Covers automating GCP data infrastructure provisioning and pipeline deployment using Terraform, Cloud Build, Cloud Composer, Cloud Workflows, and GKE. Topics include Terraform state management and drift detection, CI/CD for Dataflow Flex Templates and DAGs, event-driven orchestration patterns, and containerizing data pipelines.",
+      "studyPointers": [
+        { "label": "Terraform Google provider documentation", "url": "https://registry.terraform.io/providers/hashicorp/google/latest/docs" },
+        { "label": "Cloud Build overview", "url": "https://cloud.google.com/build/docs/overview" },
+        { "label": "Dataflow Flex Templates", "url": "https://cloud.google.com/dataflow/docs/guides/templates/using-flex-templates" },
+        { "label": "Cloud Workflows overview", "url": "https://cloud.google.com/workflows/docs/overview" }
+      ],
+      "examScenarios": [
+        {
+          "title": "CI/CD for data pipelines",
+          "prompt": "A team needs to promote a Dataflow pipeline or Cloud Composer DAG from development to production with automated testing and no manual steps. You must design the CI/CD workflow using Cloud Build, Artifact Registry, and appropriate promotion strategies.",
+          "focus": "Cloud Build trigger configuration, Dataflow Flex Template build and push, and DAG versioning"
+        },
+        {
+          "title": "Infrastructure as code for data workloads",
+          "prompt": "A scenario describes a Terraform configuration for Dataproc, BigQuery, or Pub/Sub resources that produces unexpected plan output (drift, forced recreation, permission failure). You must identify the root cause and prescribe the correct Terraform fix.",
+          "focus": "Terraform state, immutable fields, service account permissions, and resource dependency management on GCP"
+        }
+      ]
+    }
+  ]
+}

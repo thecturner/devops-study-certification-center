@@ -1,0 +1,303 @@
+[
+  {
+    "id": "gcp-pca-sc-001",
+    "type": "single_choice",
+    "prompt": "A financial services company stores sensitive customer PII in BigQuery and Cloud Storage. They require that no data can leave their GCP organisation's security perimeter, even if an internal user has sufficient IAM permissions. External access to their data must be blocked at the platform level, not just through IAM policy. Which GCP feature enforces this boundary?",
+    "choices": [
+      { "id": "a", "text": "VPC firewall rules that block all egress traffic from the projects containing sensitive data" },
+      { "id": "b", "text": "VPC Service Controls with a service perimeter around the projects, restricting API access to BigQuery and Cloud Storage to only perimeter-trusted identities and networks" },
+      { "id": "c", "text": "Organisation-level IAM deny policies that block all external identities from accessing BigQuery and Cloud Storage APIs" },
+      { "id": "d", "text": "Cloud Armor security policies that block requests originating from IP addresses outside the organisation's IP ranges" }
+    ],
+    "correct": "b",
+    "explanation": "VPC Service Controls creates a logical perimeter around GCP resources that restricts access to managed services (BigQuery, Cloud Storage, etc.) even when the caller has valid IAM permissions. Requests from outside the perimeter (untrusted networks or identities) are denied at the API level. VPC firewall rules control network traffic between VMs but do not restrict access to managed APIs like BigQuery. IAM deny policies restrict which actions identities can perform but do not enforce network-level or context-based access boundaries. Cloud Armor protects HTTP(S) load balancers and does not apply to storage API calls.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "VPC Service Controls Overview", "url": "https://cloud.google.com/vpc-service-controls/docs/overview" },
+      { "label": "VPC Service Controls: Service Perimeters", "url": "https://cloud.google.com/vpc-service-controls/docs/service-perimeters" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-002",
+    "type": "single_choice",
+    "prompt": "An enterprise wants to enforce that all new GCP projects created within their organisation must have external IP addresses disabled on all Compute Engine VMs. This policy must apply retroactively to existing projects and cannot be overridden by project owners. Which mechanism implements this correctly?",
+    "choices": [
+      { "id": "a", "text": "Create an IAM custom role that excludes the `compute.instances.create` permission and assign it to all project owners" },
+      { "id": "b", "text": "Apply the `constraints/compute.vmExternalIpAccess` Organisation Policy constraint to the organisation node, set to `DENY_ALL`" },
+      { "id": "c", "text": "Configure a Cloud Monitoring alert to detect external IP assignments and trigger a Cloud Function to remove them automatically" },
+      { "id": "d", "text": "Deploy a VPC firewall rule in each project blocking all ingress from 0.0.0.0/0 to make external IPs ineffective" }
+    ],
+    "correct": "b",
+    "explanation": "The `constraints/compute.vmExternalIpAccess` Organisation Policy constraint, when set to `DENY_ALL` at the organisation node, prevents any Compute Engine VM from being assigned an external IP address across all current and future projects. Organisation policies applied at the org node propagate to all child folders and projects and cannot be overridden by project owners. Restricting IAM permissions prevents creating VMs but does not specifically prevent external IP assignment and still allows existing VMs. Monitoring with auto-remediation is a detective control with a remediation gap. VPC firewall rules block traffic but do not prevent external IPs from being assigned.",
+    "topics": ["security-compliance"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Organisation Policy: Compute Constraints", "url": "https://cloud.google.com/resource-manager/docs/organisation-policy/org-policy-constraints#compute-constraints" },
+      { "label": "Restricting External IPs with Org Policy", "url": "https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address#disableexternalip" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-003",
+    "type": "single_choice",
+    "prompt": "A company is deploying a Kubernetes application on GKE that handles credit card data subject to PCI DSS requirements. They need to ensure only container images that have passed a security scan and been cryptographically signed by their internal build pipeline can run in the production cluster. Which GCP feature enforces this at deploy time?",
+    "choices": [
+      { "id": "a", "text": "Enable Container Analysis to scan images in Artifact Registry and configure Cloud Monitoring alerts when vulnerabilities are found" },
+      { "id": "b", "text": "Configure Binary Authorization with an attestation-based policy requiring a signed attestation from the build pipeline before GKE allows pod admission" },
+      { "id": "c", "text": "Use GKE image streaming to verify image signatures at pull time and block unsigned images from starting" },
+      { "id": "d", "text": "Deploy OPA Gatekeeper in the cluster with a constraint template that validates image registry paths to an internal Artifact Registry" }
+    ],
+    "correct": "b",
+    "explanation": "Binary Authorization is a deploy-time security control for GKE that enforces attestations on container images. When the build pipeline completes a security scan, it creates a signed attestation. The Binary Authorization policy requires this attestation before the GKE admission webhook allows the pod to be created. Images without a valid signature are blocked at the API server level. Container Analysis scans images and generates vulnerability reports but does not block deployments. Image streaming is a performance feature for faster pod startup, not an admission control mechanism. OPA Gatekeeper can enforce registry path policies but cannot validate cryptographic signatures from external build pipelines.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Binary Authorization Overview", "url": "https://cloud.google.com/binary-authorization/docs/overview" },
+      { "label": "Binary Authorization: Signing Container Images", "url": "https://cloud.google.com/binary-authorization/docs/making-attestations" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-004",
+    "type": "single_choice",
+    "prompt": "A healthcare company encrypts all Cloud Storage buckets with customer-managed encryption keys (CMEK) using Cloud KMS. A compliance requirement states that encryption key access must be revoked within 1 hour of an employee departure. After revoking the IAM binding on the KMS key, how long will it take before the former employee's access to encrypted data is fully blocked?",
+    "choices": [
+      { "id": "a", "text": "Immediately — KMS checks IAM permissions on every encryption/decryption request synchronously" },
+      { "id": "b", "text": "Up to 5 minutes for IAM policy propagation, but cached credentials in Cloud Storage may extend access by up to 1 hour" },
+      { "id": "c", "text": "Up to 6 hours due to Cloud KMS key version caching across Google's infrastructure" },
+      { "id": "d", "text": "Access is blocked within seconds of IAM propagation (~60-90 seconds), as CMEK decryption calls KMS on every data access with no caching of key material" }
+    ],
+    "correct": "d",
+    "explanation": "CMEK with Cloud KMS does not cache the encryption key material in Cloud Storage. Every data access that requires decryption calls Cloud KMS to unwrap the data encryption key. IAM policy changes propagate within approximately 60-90 seconds. Therefore, once the IAM binding is revoked and propagated, all subsequent KMS calls fail and encrypted data becomes inaccessible. This is fundamentally different from, say, revoking OAuth tokens where refresh token caches can extend access. The 5-minute propagation plus 1-hour cache claim is inaccurate for CMEK, which does not cache keys. The 6-hour claim overstates any caching behaviour.",
+    "topics": ["security-compliance"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud KMS: CMEK Overview", "url": "https://cloud.google.com/kms/docs/cmek" },
+      { "label": "Cloud Storage: CMEK", "url": "https://cloud.google.com/storage/docs/encryption/customer-managed-keys" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-005",
+    "type": "single_choice",
+    "prompt": "A company runs internal web applications on GCP and wants to enforce that only employees authenticating with their corporate Google Workspace identity can access these apps, without a traditional VPN. The apps run on Compute Engine and Cloud Run. Employees may access apps from both corporate-managed and personal devices. Which GCP service enables this access model?",
+    "choices": [
+      { "id": "a", "text": "Cloud VPN with certificate-based authentication using Google-managed certificates for corporate identities" },
+      { "id": "b", "text": "Identity-Aware Proxy (IAP) with Google Workspace identity as the IdP, enforcing per-application access policies based on user identity and optionally device trust" },
+      { "id": "c", "text": "Firebase Authentication integrated with the internal apps to validate Google Workspace JWT tokens" },
+      { "id": "d", "text": "Cloud Endpoints with API keys distributed to employees and rotated quarterly for access control" }
+    ],
+    "correct": "b",
+    "explanation": "Identity-Aware Proxy (IAP) is GCP's BeyondCorp-aligned access proxy that sits in front of internal applications and enforces authentication with Google Workspace identities. IAP replaces VPN by evaluating user identity and optionally device posture on every request. It works transparently with Compute Engine and Cloud Run backends. Cloud VPN creates network-level tunnels and requires device configuration; it does not enforce per-application identity policies. Firebase Authentication is an app-level SDK, not a transparent proxy, and would require modifying application code. API keys are secrets distributed to users, not identity-based controls, and are not suitable for employee access management.",
+    "topics": ["security-compliance"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Identity-Aware Proxy Overview", "url": "https://cloud.google.com/iap/docs/concepts-overview" },
+      { "label": "BeyondCorp Enterprise with IAP", "url": "https://cloud.google.com/beyondcorp-enterprise/docs/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-006",
+    "type": "single_choice",
+    "prompt": "A company processes large volumes of user-submitted documents that may contain PII (names, SSNs, credit card numbers). They need to automatically identify and redact sensitive data before storing documents in Cloud Storage for downstream analytics. The solution must handle both structured and unstructured text and must not require custom ML model training. Which GCP service fulfils this requirement?",
+    "choices": [
+      { "id": "a", "text": "Cloud Natural Language API with entity analysis to identify named entities and a custom post-processing step to redact findings" },
+      { "id": "b", "text": "Cloud Data Loss Prevention (DLP) API with de-identification transformations applied to detect and redact built-in infotypes like PERSON_NAME, US_SSN, and CREDIT_CARD_NUMBER" },
+      { "id": "c", "text": "BigQuery ML trained on labelled PII samples to classify text segments, with a Cloud Run service applying redactions" },
+      { "id": "d", "text": "Sensitive Data Protection scanning Cloud Storage buckets and generating findings reports that are manually reviewed and redacted" }
+    ],
+    "correct": "b",
+    "explanation": "The Cloud DLP API (now Sensitive Data Protection) provides built-in infotype detectors for PII including SSNs, credit card numbers, names, and hundreds of other types. It supports de-identification transformations (masking, tokenisation, redaction) that can be applied inline to documents before storage, with no custom model training required. Cloud Natural Language detects named entities but lacks the specialised infotype library and redaction transformations needed for compliance use cases. BigQuery ML requires labelled training data and significant ML engineering effort. Sensitive Data Protection can scan existing buckets and create findings reports, but that is a discovery workflow, not an inline redaction pipeline for newly submitted documents.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Sensitive Data Protection (DLP): Overview", "url": "https://cloud.google.com/sensitive-data-protection/docs/overview" },
+      { "label": "DLP: De-identification Techniques", "url": "https://cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-007",
+    "type": "single_choice",
+    "prompt": "An organisation must meet FedRAMP High compliance requirements for a government workload running on GCP. The workload processes data classified as Controlled Unclassified Information (CUI). Data must remain in the continental US, and support personnel accessing the underlying infrastructure must be US persons. Which GCP product provides the appropriate compliance assurance?",
+    "choices": [
+      { "id": "a", "text": "GCP regions us-central1 and us-east1 with VPC Service Controls and organisation-level data residency constraints" },
+      { "id": "b", "text": "Assured Workloads with the FedRAMP High compliance framework, which enforces data residency, personnel controls, and access transparency logs" },
+      { "id": "c", "text": "Google Cloud for Government (a separate cloud instance) with dedicated infrastructure isolated from commercial GCP" },
+      { "id": "d", "text": "Cloud Interconnect Dedicated to a US government-owned data centre with Google managing the physical layer" }
+    ],
+    "correct": "b",
+    "explanation": "Assured Workloads allows organisations to create compliant environments within commercial GCP by enforcing specific compliance regimes including FedRAMP High. It restricts data residency to US regions, enforces personnel access controls (US persons only for support), enables Access Transparency for visibility into Google admin actions, and provides required compliance documentation. Standard GCP regions with VPC Service Controls provide data residency but do not enforce personnel controls required by FedRAMP High. Google Cloud for Government (Google Public Sector) uses the same underlying infrastructure as commercial GCP with Assured Workloads-equivalent controls; it is not a physically separate cloud. Cloud Interconnect manages network connectivity, not compliance controls.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Assured Workloads Overview", "url": "https://cloud.google.com/assured-workloads/docs/overview" },
+      { "label": "Assured Workloads: FedRAMP", "url": "https://cloud.google.com/assured-workloads/docs/fedramp" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-008",
+    "type": "single_choice",
+    "prompt": "A security team discovered that a developer's compromised service account key was used to exfiltrate data from Cloud Storage over the past week. The team has rotated the key, but wants to implement controls to prevent key-based exfiltration in the future. Which combination of controls best addresses this for all GCP projects in the organisation?",
+    "choices": [
+      { "id": "a", "text": "Require MFA for all service account key creation and rotate keys every 30 days using a Cloud Scheduler job" },
+      { "id": "b", "text": "Apply the `constraints/iam.disableServiceAccountKeyCreation` Organisation Policy constraint to block creation of downloadable keys; use Workload Identity Federation or attached service accounts instead" },
+      { "id": "c", "text": "Enable Security Command Center Standard to detect anomalous service account key usage and alert the security team" },
+      { "id": "d", "text": "Encrypt all service account keys with CMEK using Cloud KMS and rotate the KMS key weekly" }
+    ],
+    "correct": "b",
+    "explanation": "The `constraints/iam.disableServiceAccountKeyCreation` Organisation Policy constraint prevents the creation of user-managed service account keys across the entire organisation. Applications instead use Workload Identity Federation (for workloads outside GCP) or VM-attached service accounts (for GCP workloads), which use short-lived credentials that cannot be exfiltrated as static files. MFA for key creation adds friction but does not prevent a developer from creating keys that could be stolen. SCC detection is reactive, not preventive. Encrypting keys with CMEK does not prevent a stolen key from being used while it is still valid and the KMS key is accessible.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Best Practices: Service Account Keys", "url": "https://cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys" },
+      { "label": "Workload Identity Federation", "url": "https://cloud.google.com/iam/docs/workload-identity-federation" },
+      { "label": "Org Policy: Disable SA Key Creation", "url": "https://cloud.google.com/resource-manager/docs/organisation-policy/org-policy-constraints#iam-constraints" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-009",
+    "type": "single_choice",
+    "prompt": "A company has a VPC Service Controls perimeter protecting their BigQuery and Cloud Storage projects. A data science team in a separate project needs to access BigQuery data within the perimeter using notebooks running on Vertex AI Workbench. The notebooks project is outside the perimeter. How should access be configured without removing the perimeter or adding the notebooks project into it?",
+    "choices": [
+      { "id": "a", "text": "Grant the Vertex AI Workbench service account `roles/bigquery.dataViewer` on the BigQuery dataset inside the perimeter" },
+      { "id": "b", "text": "Create a VPC Service Controls access level based on the Vertex AI Workbench service account identity, then add it to the perimeter's ingress policy allowing access to BigQuery from that service account" },
+      { "id": "c", "text": "Use VPC peering between the notebooks VPC and the perimeter VPC to allow direct data plane connectivity to BigQuery" },
+      { "id": "d", "text": "Export the BigQuery data to Cloud Storage outside the perimeter nightly and allow Vertex AI to read from the external bucket" }
+    ],
+    "correct": "b",
+    "explanation": "VPC Service Controls supports ingress and egress rules that allow specific identities (service accounts) or access levels to cross perimeter boundaries without adding their entire project to the perimeter. By creating an ingress rule that permits the Vertex AI Workbench service account to call BigQuery APIs inside the perimeter, the notebooks can access data while the perimeter protection remains intact. IAM permissions (option A) are necessary but insufficient; VPC Service Controls blocks requests regardless of IAM bindings when the caller is outside the perimeter. VPC peering provides network connectivity between VPCs but does not override VPC Service Controls API-level restrictions. Exporting data outside the perimeter defeats the purpose of the perimeter and creates an unprotected copy of sensitive data.",
+    "topics": ["security-compliance"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "VPC Service Controls: Ingress and Egress Rules", "url": "https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules" },
+      { "label": "VPC Service Controls: Access Levels", "url": "https://cloud.google.com/access-context-manager/docs/overview#access-levels" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-010",
+    "type": "single_choice",
+    "prompt": "A company uses a Cloud KMS key to encrypt application secrets stored in Secret Manager. A regulatory audit requires that the company demonstrate they can prove which Google employees accessed the KMS key for any reason, including operational support activities. Which GCP feature provides this audit capability?",
+    "choices": [
+      { "id": "a", "text": "Cloud Audit Logs (Data Access audit logs) configured to log all KMS API calls, including those made by Google personnel" },
+      { "id": "b", "text": "Access Transparency logs, which record accesses to customer content by Google support personnel with justification codes" },
+      { "id": "c", "text": "Security Command Center findings, which detect and log unusual KMS key access patterns" },
+      { "id": "d", "text": "Cloud KMS key version rotation history, which records every time a key version was used for encryption or decryption" }
+    ],
+    "correct": "b",
+    "explanation": "Access Transparency provides near-real-time logs of actions taken by Google employees on customer content during support or operational activities. Each log entry includes the action taken, the resource accessed, the Google employee's role, and a justification code explaining why the access occurred. This directly satisfies the audit requirement for demonstrating Google personnel access to KMS-protected data. Cloud Audit Logs capture customer-initiated API calls but do not capture internal Google operational access. SCC detects anomalies but does not provide individual employee access records. KMS key version history shows which key versions exist and their states, not who accessed them or when.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Access Transparency Overview", "url": "https://cloud.google.com/logging/docs/audit/access-transparency-overview" },
+      { "label": "Access Transparency Log Format", "url": "https://cloud.google.com/logging/docs/audit/reading-access-transparency-logs" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-011",
+    "type": "single_choice",
+    "prompt": "A company wants to enable their development team to use the Cloud Storage API from within their VPC without traffic traversing the public internet, and without granting the VMs external IP addresses. Which GCP feature enables private access to Google APIs from VMs with only internal IPs?",
+    "choices": [
+      { "id": "a", "text": "Cloud NAT configured to translate private VM IPs to a reserved external IP for outbound API calls" },
+      { "id": "b", "text": "Private Google Access enabled on the subnet, allowing VMs with only internal IPs to reach Google APIs via Google's private network" },
+      { "id": "c", "text": "Cloud Interconnect with a private BGP session advertising Google API IP ranges" },
+      { "id": "d", "text": "VPC peering between the workload VPC and a dedicated Google services VPC for API access" }
+    ],
+    "correct": "b",
+    "explanation": "Private Google Access, when enabled on a subnet, allows VM instances on that subnet with only internal (no external) IP addresses to reach Google APIs and services using internal IP addresses. Traffic routes through Google's internal network without traversing the public internet. Cloud NAT provides outbound internet connectivity via translated external IPs, which means traffic does traverse the public internet path. Cloud Interconnect is for connecting on-premises networks to GCP, not for enabling API access from internal VMs. Google does not offer VPC peering from customer VPCs directly to a Google services VPC.",
+    "topics": ["security-compliance"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Private Google Access", "url": "https://cloud.google.com/vpc/docs/private-google-access" },
+      { "label": "Configuring Private Google Access", "url": "https://cloud.google.com/vpc/docs/configure-private-google-access" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-012",
+    "type": "single_choice",
+    "prompt": "An enterprise security team needs centralised visibility into security findings across 50 GCP projects, including vulnerability scanning results, IAM misconfigurations, and anomalous network traffic. They need a single pane of glass without deploying a third-party SIEM immediately. Which GCP service provides this out of the box?",
+    "choices": [
+      { "id": "a", "text": "Cloud Logging with a log sink aggregating all projects into a central BigQuery dataset for security analysis" },
+      { "id": "b", "text": "Security Command Center (SCC) Premium with findings aggregated at the organisation level, covering vulnerabilities, misconfigurations, and threats across all projects" },
+      { "id": "c", "text": "Cloud Monitoring with custom dashboards pulling security metrics from all 50 projects via metric descriptors" },
+      { "id": "d", "text": "Policy Controller (OPA Gatekeeper) in GKE clusters exporting constraint violations to a central Pub/Sub topic" }
+    ],
+    "correct": "b",
+    "explanation": "Security Command Center Premium provides a centralised security operations view across the entire GCP organisation. It aggregates findings from built-in detectors (Web Security Scanner, Container Threat Detection, Event Threat Detection, Security Health Analytics) that cover the required categories: vulnerabilities, IAM misconfigurations, and anomalous network traffic. Findings are accessible via the SCC console, API, and can be exported to Chronicle or third-party SIEMs. Cloud Logging aggregates log data but does not provide structured security findings or threat detection. Cloud Monitoring tracks metrics and does not detect security misconfigurations. Policy Controller only covers Kubernetes policy violations in GKE, not the broader GCP surface.",
+    "topics": ["security-compliance"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Security Command Center Overview", "url": "https://cloud.google.com/security-command-center/docs/concepts-security-command-center-overview" },
+      { "label": "SCC Premium Features", "url": "https://cloud.google.com/security-command-center/docs/concepts-security-command-center-overview#scc-tiers" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-013",
+    "type": "single_choice",
+    "prompt": "A company stores encryption keys for a regulated workload in Cloud KMS. They have been asked by their auditors to demonstrate that the cryptographic key material never existed in plaintext outside of an HSM (Hardware Security Module). Which Cloud KMS key protection level satisfies this requirement?",
+    "choices": [
+      { "id": "a", "text": "Software-protected keys (SOFTWARE level) in Cloud KMS, which are stored in Google's secure key management infrastructure" },
+      { "id": "b", "text": "HSM-protected keys (HSM level) in Cloud KMS, where key material is generated and stored inside FIPS 140-2 Level 3 certified hardware" },
+      { "id": "c", "text": "External keys (EXTERNAL level) managed by the customer in their own on-premises KMS, imported into Cloud KMS for use with GCP services" },
+      { "id": "d", "text": "Cloud KMS key rings with automatic rotation every 90 days to ensure key material is periodically replaced" }
+    ],
+    "correct": "b",
+    "explanation": "HSM-protected keys in Cloud KMS use Google Cloud HSM, where key material is generated within FIPS 140-2 Level 3 certified hardware security modules and never exported in plaintext. The HSM attestation statement provides cryptographic proof that the key was created and lives inside the HSM. Software-protected keys are stored in Google's secure software infrastructure but not within an HSM, so plaintext key material exists in software at some layer. External keys managed by the customer live outside GCP HSMs and are managed by the customer's own KMS. Key rotation replaces key versions but does not change the protection level.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud KMS: Key Protection Levels", "url": "https://cloud.google.com/kms/docs/key-protection-levels" },
+      { "label": "Cloud HSM Overview", "url": "https://cloud.google.com/kms/docs/hsm" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-014",
+    "type": "single_choice",
+    "prompt": "A VPC Service Controls perimeter is protecting a BigQuery project. A Cloud Run service in an adjacent project needs to read BigQuery tables inside the perimeter and write results back to Cloud Storage also inside the perimeter. The Cloud Run service's service account is trusted. Traffic must remain private (no public internet). Which configuration enables this flow?",
+    "choices": [
+      { "id": "a", "text": "Add the Cloud Run project to the VPC Service Controls perimeter so it shares the same security boundary" },
+      { "id": "b", "text": "Configure VPC Service Controls ingress rules to allow the Cloud Run service account to call BigQuery and Cloud Storage APIs from outside the perimeter, and egress rules to allow the results to flow to Cloud Storage inside the perimeter" },
+      { "id": "c", "text": "Use Private Service Connect to create a private endpoint for BigQuery and Cloud Storage accessible from the Cloud Run project VPC" },
+      { "id": "d", "text": "Export BigQuery query results to a Cloud Storage bucket outside the perimeter and allow the Cloud Run service to read from there" }
+    ],
+    "correct": "b",
+    "explanation": "VPC Service Controls ingress and egress rules are designed exactly for this scenario: allowing specific trusted service accounts from outside the perimeter to access APIs inside the perimeter without adding their project to the perimeter. An ingress rule allows the Cloud Run service account to call BigQuery and Cloud Storage APIs. An egress rule (if needed for write-back) allows the perimeter to accept writes from that trusted identity. Adding the Cloud Run project to the perimeter would expose Cloud Run to all perimeter constraints, which may not be appropriate and increases perimeter scope. Private Service Connect provides private network endpoints but does not override VPC Service Controls API-level policy. Exporting data outside the perimeter creates unprotected data copies.",
+    "topics": ["security-compliance"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "VPC Service Controls: Ingress and Egress Rules", "url": "https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules" },
+      { "label": "VPC Service Controls: Bridging Perimeters", "url": "https://cloud.google.com/vpc-service-controls/docs/bridge-mode" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sc-015",
+    "type": "single_choice",
+    "prompt": "A company recently migrated to GCP and needs to enforce that no GCP resource in any project can be deleted without going through a change management approval process. Which GCP feature, applied at the organisation level, creates a deletion protection mechanism for critical resources?",
+    "choices": [
+      { "id": "a", "text": "IAM conditional bindings that require a time-based condition to allow delete operations only during approved maintenance windows" },
+      { "id": "b", "text": "Apply resource-level `liens` to critical resources, which block deletion at the Resource Manager API level until the lien is explicitly removed" },
+      { "id": "c", "text": "Enable Cloud Asset Inventory with asset change monitoring and a Pub/Sub trigger to notify the change management team when any resource deletion is detected" },
+      { "id": "d", "text": "Configure organisation-level IAM deny policies that deny `resourcemanager.projects.delete` to all principals except a designated change management service account" }
+    ],
+    "correct": "b",
+    "explanation": "Resource Manager liens are annotations placed on projects (or other resources) that prevent deletion until the lien is removed. A lien placed by an authorised change management process must be explicitly removed before a deletion can proceed, providing a hard enforcement gate. IAM conditional bindings restrict when delete actions can be performed but are complex to maintain for all resource types and do not apply uniformly to all resources. Cloud Asset Inventory change monitoring is a detective control: it notifies after a deletion has occurred, not before. IAM deny policies on project deletion protect projects themselves but do not protect individual resources like VMs, Cloud SQL instances, or Cloud Storage buckets within projects.",
+    "topics": ["security-compliance"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Resource Manager: Liens", "url": "https://cloud.google.com/resource-manager/docs/project-liens" },
+      { "label": "Resource Manager: Best Practices", "url": "https://cloud.google.com/resource-manager/docs/best-practices" }
+    ],
+    "version": 1
+  }
+]

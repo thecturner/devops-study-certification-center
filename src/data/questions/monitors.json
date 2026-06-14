@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "mon-001",
+    "type": "single_choice",
+    "prompt": "Which monitor type should you use to alert when a metric value crosses a static threshold?",
+    "choices": [
+      { "id": "a", "text": "Anomaly monitor" },
+      { "id": "b", "text": "Metric monitor (threshold alert)" },
+      { "id": "c", "text": "Forecast monitor" },
+      { "id": "d", "text": "Outlier monitor" }
+    ],
+    "correct": "b",
+    "explanation": "A metric monitor with a threshold alert triggers when a metric value goes above or below a static value you define. Anomaly, forecast, and outlier monitors use statistical methods rather than a fixed threshold.",
+    "topics": ["monitor-types", "alert-conditions"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Metric Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-002",
+    "type": "true_false",
+    "prompt": "A Datadog composite monitor can combine conditions from monitors that watch different metrics using logical AND/OR operators.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Composite monitors let you combine the results of two or more individual monitors using boolean logic (AND, OR, NOT), allowing complex multi-condition alerting scenarios.",
+    "topics": ["composite-monitors"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Composite Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-003",
+    "type": "single_choice",
+    "prompt": "What monitor status indicates that data has stopped being reported and no evaluation can be performed?",
+    "choices": [
+      { "id": "a", "text": "Alert" },
+      { "id": "b", "text": "Warn" },
+      { "id": "c", "text": "No Data" },
+      { "id": "d", "text": "Unknown" }
+    ],
+    "correct": "c",
+    "explanation": "The 'No Data' status means the monitor has not received any data within the expected timeframe and cannot evaluate its condition. This is distinct from Alert or Warn, which require data to be present.",
+    "topics": ["monitor-status"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Status" }],
+    "version": 1
+  },
+  {
+    "id": "mon-004",
+    "type": "single_choice",
+    "prompt": "Which template variable in a monitor notification message outputs the current metric value that triggered the alert?",
+    "choices": [
+      { "id": "a", "text": "{{threshold}}" },
+      { "id": "b", "text": "{{value}}" },
+      { "id": "c", "text": "{{metric}}" },
+      { "id": "d", "text": "{{alert_value}}" }
+    ],
+    "correct": "b",
+    "explanation": "{{value}} inserts the current value of the metric at the time the monitor transitioned to the alert state. {{threshold}} inserts the configured alert threshold value.",
+    "topics": ["monitor-variables", "notification-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Notification Variables" }],
+    "version": 1
+  },
+  {
+    "id": "mon-005",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of a Downtime in Datadog?",
+    "choices": [
+      { "id": "a", "text": "To delete monitors temporarily" },
+      { "id": "b", "text": "To mute monitor notifications during planned maintenance or deployments" },
+      { "id": "c", "text": "To pause metric collection on an agent" },
+      { "id": "d", "text": "To freeze dashboard widgets" }
+    ],
+    "correct": "b",
+    "explanation": "Downtimes allow you to schedule periods during which monitor notifications are silenced. This is useful for planned maintenance windows, deployments, or other expected periods of disruption.",
+    "topics": ["downtimes"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Downtimes" }],
+    "version": 1
+  },
+  {
+    "id": "mon-006",
+    "type": "single_choice",
+    "prompt": "In a multi-alert monitor grouped by `host`, what happens when one host crosses the alert threshold?",
+    "choices": [
+      { "id": "a", "text": "All hosts in the group are alerted simultaneously" },
+      { "id": "b", "text": "The monitor triggers an alert only for that specific host" },
+      { "id": "c", "text": "The monitor enters a Warn state for all hosts" },
+      { "id": "d", "text": "The monitor requires all hosts to breach the threshold before alerting" }
+    ],
+    "correct": "b",
+    "explanation": "Multi-alert monitors evaluate each group (e.g., each host) independently. When one host's metric crosses the threshold, only that host triggers an alert, while others remain in their respective states.",
+    "topics": ["multi-alert"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Multi Alert" }],
+    "version": 1
+  },
+  {
+    "id": "mon-007",
+    "type": "true_false",
+    "prompt": "An anomaly monitor uses historical data and seasonality patterns to determine whether current metric behavior is abnormal.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Anomaly monitors use algorithms (basic, agile, robust, adaptive) that consider historical behavior, including seasonality and trends, to establish a predicted range and alert when current values fall outside it.",
+    "topics": ["alert-conditions", "monitor-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Anomaly Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-008",
+    "type": "single_choice",
+    "prompt": "Which SLO type calculates compliance based on the ratio of good events to total events?",
+    "choices": [
+      { "id": "a", "text": "Monitor-based SLO" },
+      { "id": "b", "text": "Time-based SLO" },
+      { "id": "c", "text": "Metric-based SLO" },
+      { "id": "d", "text": "Composite SLO" }
+    ],
+    "correct": "c",
+    "explanation": "Metric-based SLOs define the SLI as a ratio of good events (numerator) to total events (denominator) using Datadog metrics. Monitor-based SLOs calculate compliance from the uptime of one or more monitors.",
+    "topics": ["slos"],
+    "difficulty": "easy",
+    "refs": [{ "label": "SLO Types" }],
+    "version": 1
+  },
+  {
+    "id": "mon-009",
+    "type": "single_choice",
+    "prompt": "What does the 'OK' monitor status indicate?",
+    "choices": [
+      { "id": "a", "text": "No data is being received" },
+      { "id": "b", "text": "The metric is within the acceptable threshold range" },
+      { "id": "c", "text": "The monitor has been manually resolved" },
+      { "id": "d", "text": "The monitor is paused" }
+    ],
+    "correct": "b",
+    "explanation": "The OK status means the monitor's metric is within all defined threshold ranges (both alert and warning, if configured). The monitor is functioning normally and no notifications are triggered.",
+    "topics": ["monitor-status"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Status" }],
+    "version": 1
+  },
+  {
+    "id": "mon-010",
+    "type": "single_choice",
+    "prompt": "Which notification channel integration allows you to send monitor alerts directly to an on-call schedule with escalation policies?",
+    "choices": [
+      { "id": "a", "text": "Slack" },
+      { "id": "b", "text": "Webhooks" },
+      { "id": "c", "text": "PagerDuty" },
+      { "id": "d", "text": "Email" }
+    ],
+    "correct": "c",
+    "explanation": "PagerDuty integrates with Datadog monitors to route alerts to on-call schedules with escalation policies and acknowledgment workflows. Slack and email are notification channels without native on-call scheduling.",
+    "topics": ["notification-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "PagerDuty Integration" }],
+    "version": 1
+  },
+  {
+    "id": "mon-011",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a recovery threshold in a Datadog monitor?",
+    "choices": [
+      { "id": "a", "text": "It sets the value at which a monitor first fires an alert" },
+      { "id": "b", "text": "It defines a separate, more conservative value the metric must cross before the monitor returns to OK" },
+      { "id": "c", "text": "It determines how long a monitor must stay in alert before sending a notification" },
+      { "id": "d", "text": "It specifies the number of retries before the monitor changes state" }
+    ],
+    "correct": "b",
+    "explanation": "A recovery threshold defines a separate value that the metric must move past before the monitor can transition back to OK. This prevents flapping when a metric hovers right at the alert threshold.",
+    "topics": ["alert-conditions", "recovery-thresholds"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Recovery Thresholds" }],
+    "version": 1
+  },
+  {
+    "id": "mon-012",
+    "type": "single_choice",
+    "prompt": "A forecast monitor is most useful for which scenario?",
+    "choices": [
+      { "id": "a", "text": "Detecting a sudden spike in error rate" },
+      { "id": "b", "text": "Alerting when a disk will likely reach capacity in the next 48 hours" },
+      { "id": "c", "text": "Identifying hosts behaving differently from their peers" },
+      { "id": "d", "text": "Alerting when a metric value changes by more than 20% over a rolling window" }
+    ],
+    "correct": "b",
+    "explanation": "Forecast monitors use predictive algorithms to project future metric values. They are ideal for capacity planning scenarios like disk space, where you want to alert before a limit is actually reached.",
+    "topics": ["alert-conditions", "monitor-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Forecast Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-013",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid Datadog monitor status states? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "OK" },
+      { "id": "b", "text": "Alert" },
+      { "id": "c", "text": "Warn" },
+      { "id": "d", "text": "No Data" },
+      { "id": "e", "text": "Critical" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Datadog monitors have four status states: OK, Alert, Warn, and No Data. 'Critical' is not a native monitor state; the alert threshold is labeled 'Alert', not 'Critical'.",
+    "topics": ["monitor-status"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Monitor Status States" }],
+    "version": 1
+  },
+  {
+    "id": "mon-014",
+    "type": "single_choice",
+    "prompt": "Which monitor type continuously evaluates whether a group of hosts is behaving consistently with its peers using statistical deviation?",
+    "choices": [
+      { "id": "a", "text": "Anomaly monitor" },
+      { "id": "b", "text": "Forecast monitor" },
+      { "id": "c", "text": "Outlier monitor" },
+      { "id": "d", "text": "Change monitor" }
+    ],
+    "correct": "c",
+    "explanation": "Outlier monitors use algorithms (DBSCAN or MAD) to detect hosts or groups that are behaving significantly differently from their peers, rather than comparing against a fixed threshold or historical baseline.",
+    "topics": ["alert-conditions", "monitor-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Outlier Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-015",
+    "type": "single_choice",
+    "prompt": "In an SLO, what does the 'error budget' represent?",
+    "choices": [
+      { "id": "a", "text": "The total number of errors allowed before an alert fires" },
+      { "id": "b", "text": "The maximum permissible downtime or bad events allowed while still meeting the SLO target" },
+      { "id": "c", "text": "The number of monitors that can be in alert state simultaneously" },
+      { "id": "d", "text": "A monetary budget allocated for error correction" }
+    ],
+    "correct": "b",
+    "explanation": "The error budget is the acceptable amount of unreliability (downtime, bad requests, etc.) derived from the SLO target. For example, a 99.9% SLO over 30 days allows approximately 43.2 minutes of downtime as the error budget.",
+    "topics": ["slos"],
+    "difficulty": "easy",
+    "refs": [{ "label": "SLO Error Budgets" }],
+    "version": 1
+  },
+  {
+    "id": "mon-016",
+    "type": "true_false",
+    "prompt": "You can schedule a recurring Datadog Downtime to automatically mute monitors every weekend.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog Downtimes support recurrence scheduling (daily, weekly, monthly). You can configure a downtime to repeat every Saturday and Sunday, for example, to suppress weekend alerts.",
+    "topics": ["downtimes"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Scheduled Downtimes" }],
+    "version": 1
+  },
+  {
+    "id": "mon-017",
+    "type": "single_choice",
+    "prompt": "What does the {{threshold}} template variable represent in a monitor notification message?",
+    "choices": [
+      { "id": "a", "text": "The current metric value" },
+      { "id": "b", "text": "The configured alert threshold value" },
+      { "id": "c", "text": "The number of minutes before re-notification" },
+      { "id": "d", "text": "The host count in the monitor group" }
+    ],
+    "correct": "b",
+    "explanation": "{{threshold}} inserts the alert threshold value as configured in the monitor. Use {{warn_threshold}} for the warning threshold and {{value}} for the actual triggering metric value.",
+    "topics": ["monitor-variables"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Notification Variables" }],
+    "version": 1
+  },
+  {
+    "id": "mon-018",
+    "type": "single_choice",
+    "prompt": "Which alert condition type is best suited to detect when a metric's value jumps or drops significantly compared to its value N minutes ago?",
+    "choices": [
+      { "id": "a", "text": "Threshold alert" },
+      { "id": "b", "text": "Anomaly alert" },
+      { "id": "c", "text": "Change alert" },
+      { "id": "d", "text": "Outlier alert" }
+    ],
+    "correct": "c",
+    "explanation": "A change alert triggers when the difference (absolute or percentage change) between the current value and the value N minutes/hours/days ago exceeds a defined threshold. This is ideal for detecting sudden shifts.",
+    "topics": ["alert-conditions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Change Alerts" }],
+    "version": 1
+  },
+  {
+    "id": "mon-019",
+    "type": "multi_choice",
+    "prompt": "Which of the following channels can be used to send Datadog monitor notifications? (Select two)",
+    "choices": [
+      { "id": "a", "text": "Slack" },
+      { "id": "b", "text": "Webhooks" },
+      { "id": "c", "text": "FTP servers" },
+      { "id": "d", "text": "PagerDuty" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "Datadog supports sending monitor notifications to Slack (via @slack-channel), Webhooks (custom HTTP endpoints), and PagerDuty, among many other integrations. FTP is not a supported notification channel.",
+    "topics": ["notification-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Notifications" }],
+    "version": 1
+  },
+  {
+    "id": "mon-020",
+    "type": "single_choice",
+    "prompt": "What configuration controls how many times a monitor re-sends notifications while it remains in an alert state?",
+    "choices": [
+      { "id": "a", "text": "Re-notification interval" },
+      { "id": "b", "text": "Evaluation window" },
+      { "id": "c", "text": "Recovery threshold" },
+      { "id": "d", "text": "Alert rollup" }
+    ],
+    "correct": "a",
+    "explanation": "The re-notification (or escalation) interval specifies how often Datadog will re-send the alert notification while the monitor stays in an alert state. Setting it to 60 minutes means you receive a reminder every hour until recovery.",
+    "topics": ["notification-configuration", "recovery-thresholds"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Re-notification" }],
+    "version": 1
+  },
+  {
+    "id": "mon-021",
+    "type": "single_choice",
+    "prompt": "In a composite monitor with the formula `A && B`, when does the composite monitor trigger an alert?",
+    "choices": [
+      { "id": "a", "text": "When either monitor A or monitor B is in alert state" },
+      { "id": "b", "text": "When both monitor A and monitor B are simultaneously in alert state" },
+      { "id": "c", "text": "When monitor A is in alert and monitor B is in OK state" },
+      { "id": "d", "text": "When monitor A transitions from OK to alert" }
+    ],
+    "correct": "b",
+    "explanation": "The AND (&&) operator in a composite monitor requires all referenced monitors to be in an alert (or warn) state simultaneously before the composite monitor itself triggers an alert.",
+    "topics": ["composite-monitors"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Composite Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-022",
+    "type": "true_false",
+    "prompt": "A monitor-based SLO calculates its compliance percentage from the fraction of time the constituent monitors spent in non-alert states.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Monitor-based SLOs track uptime (time the monitor is in OK or non-alert state) versus total time. Compliance = (total time - alert time) / total time. This is different from metric-based SLOs which use event ratios.",
+    "topics": ["slos"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Monitor-based SLOs" }],
+    "version": 1
+  },
+  {
+    "id": "mon-023",
+    "type": "single_choice",
+    "prompt": "Which monitor type would you use to alert when an APM service's p99 latency exceeds 500ms?",
+    "choices": [
+      { "id": "a", "text": "Log monitor" },
+      { "id": "b", "text": "APM monitor" },
+      { "id": "c", "text": "Process monitor" },
+      { "id": "d", "text": "Network monitor" }
+    ],
+    "correct": "b",
+    "explanation": "APM monitors can alert on trace metrics such as latency percentiles (p50, p75, p90, p95, p99), error rates, and hit rates directly from APM trace data for specific services or resources.",
+    "topics": ["monitor-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "APM Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-024",
+    "type": "single_choice",
+    "prompt": "When configuring a log monitor, which component defines which logs are evaluated for the alert condition?",
+    "choices": [
+      { "id": "a", "text": "Alert threshold" },
+      { "id": "b", "text": "Log query (search filter)" },
+      { "id": "c", "text": "Evaluation window" },
+      { "id": "d", "text": "Notification channel" }
+    ],
+    "correct": "b",
+    "explanation": "In a log monitor, the log query (using the same syntax as Log Explorer) defines which logs are scoped for evaluation. The alert threshold then determines how many matching logs trigger the alert.",
+    "topics": ["monitor-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Log Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-025",
+    "type": "multi_choice",
+    "prompt": "Which of the following are supported monitor types in Datadog? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Metric monitor" },
+      { "id": "b", "text": "Log monitor" },
+      { "id": "c", "text": "Process monitor" },
+      { "id": "d", "text": "Network monitor" },
+      { "id": "e", "text": "Database query monitor" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Datadog supports metric, log, process, and network monitors among others. 'Database query monitor' is not a distinct native monitor type; database metrics are typically monitored via metric monitors with integration data.",
+    "topics": ["monitor-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Monitor Types" }],
+    "version": 1
+  },
+  {
+    "id": "mon-026",
+    "type": "single_choice",
+    "prompt": "What is an SLO burn rate alert used for?",
+    "choices": [
+      { "id": "a", "text": "Alerting when CPU usage exceeds a sustained high value" },
+      { "id": "b", "text": "Detecting when error budget is being consumed faster than expected, indicating SLO may not be met" },
+      { "id": "c", "text": "Sending re-notifications at an increasing frequency" },
+      { "id": "d", "text": "Calculating how long a monitor has been in alert state" }
+    ],
+    "correct": "b",
+    "explanation": "SLO burn rate alerts fire when the error budget is being consumed at a rate that would exhaust it before the end of the SLO window. For example, a burn rate of 2 means you're spending error budget twice as fast as sustainable.",
+    "topics": ["slos"],
+    "difficulty": "hard",
+    "refs": [{ "label": "SLO Burn Rate Alerts" }],
+    "version": 1
+  },
+  {
+    "id": "mon-027",
+    "type": "true_false",
+    "prompt": "A process monitor can alert when a specific process stops running on a host.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Process monitors check whether specified processes are running on hosts using the Datadog Agent's process check. You can alert when a process count drops to zero (process has stopped) or goes above an expected count.",
+    "topics": ["monitor-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Process Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-028",
+    "type": "single_choice",
+    "prompt": "Which template variable in a monitor message is used to reference the name of the tag that the multi-alert is grouped by?",
+    "choices": [
+      { "id": "a", "text": "{{tag_name}}" },
+      { "id": "b", "text": "{{group_by}}" },
+      { "id": "c", "text": "{{[scope_tag_name]}}" },
+      { "id": "d", "text": "{{host}}" }
+    ],
+    "correct": "c",
+    "explanation": "In multi-alert monitors, you can reference the value of the grouping tag using the syntax {{[tag_name]}}. For example, if grouped by `env`, use {{[env]}} to include the specific environment name in the notification.",
+    "topics": ["monitor-variables", "multi-alert"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Multi Alert Template Variables" }],
+    "version": 1
+  },
+  {
+    "id": "mon-029",
+    "type": "single_choice",
+    "prompt": "Which downtime feature allows a Datadog downtime to automatically end after a deployment pipeline completes, regardless of the scheduled end time?",
+    "choices": [
+      { "id": "a", "text": "Auto-resolve" },
+      { "id": "b", "text": "Cancel downtime via API" },
+      { "id": "c", "text": "Downtime recovery threshold" },
+      { "id": "d", "text": "Conditional downtime" }
+    ],
+    "correct": "b",
+    "explanation": "You can cancel an active downtime programmatically using the Datadog API (DELETE /api/v2/downtime/{downtime_id}). This is commonly used in CI/CD pipelines to end a downtime as soon as the deployment completes rather than waiting for the scheduled end.",
+    "topics": ["downtimes"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Downtime API" }],
+    "version": 1
+  },
+  {
+    "id": "mon-030",
+    "type": "single_choice",
+    "prompt": "In a metric monitor, what does the 'evaluation window' control?",
+    "choices": [
+      { "id": "a", "text": "The time zone used for scheduled downtimes" },
+      { "id": "b", "text": "The time period over which metric data points are aggregated for comparison against the threshold" },
+      { "id": "c", "text": "The number of notification recipients" },
+      { "id": "d", "text": "How frequently the monitor checks for new data" }
+    ],
+    "correct": "b",
+    "explanation": "The evaluation window (e.g., last 5 minutes, last 1 hour) defines the time range of data that is aggregated (using avg, max, min, sum, etc.) and then compared against the configured threshold.",
+    "topics": ["alert-conditions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Metric Monitor Evaluation Window" }],
+    "version": 1
+  },
+  {
+    "id": "mon-031",
+    "type": "true_false",
+    "prompt": "A composite monitor can only combine two individual monitors.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Composite monitors can combine more than two monitors using boolean logic. You can reference multiple monitor IDs in the formula (e.g., A && B && C or A || B || C) to create complex conditions.",
+    "topics": ["composite-monitors"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Composite Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-032",
+    "type": "single_choice",
+    "prompt": "What is the key difference between a metric-based SLO and a monitor-based SLO?",
+    "choices": [
+      { "id": "a", "text": "Metric-based SLOs only support 30-day windows; monitor-based SLOs support 7-day windows" },
+      { "id": "b", "text": "Metric-based SLOs measure good/total event ratios; monitor-based SLOs measure monitor uptime" },
+      { "id": "c", "text": "Monitor-based SLOs provide a finer granularity of measurement" },
+      { "id": "d", "text": "Metric-based SLOs require APM to be enabled" }
+    ],
+    "correct": "b",
+    "explanation": "Metric-based SLOs define the SLI using a ratio of good metric events to total metric events. Monitor-based SLOs calculate compliance from the percentage of time monitors spend in an OK state versus an alert state.",
+    "topics": ["slos"],
+    "difficulty": "medium",
+    "refs": [{ "label": "SLO Types Comparison" }],
+    "version": 1
+  },
+  {
+    "id": "mon-033",
+    "type": "single_choice",
+    "prompt": "Which syntax is used in a monitor notification body to send the alert only to a Slack channel named ops-alerts?",
+    "choices": [
+      { "id": "a", "text": "#ops-alerts" },
+      { "id": "b", "text": "@slack-ops-alerts" },
+      { "id": "c", "text": "slack://ops-alerts" },
+      { "id": "d", "text": "@ops-alerts@slack" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog uses the @slack-<channel-name> syntax in monitor notification messages and the 'notify' field to route alerts to a specific Slack channel. The Slack integration must be configured first.",
+    "topics": ["notification-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Slack Notifications" }],
+    "version": 1
+  },
+  {
+    "id": "mon-034",
+    "type": "multi_choice",
+    "prompt": "Which features help prevent alert flapping in Datadog monitors? (Select two)",
+    "choices": [
+      { "id": "a", "text": "Recovery threshold" },
+      { "id": "b", "text": "Evaluation delay" },
+      { "id": "c", "text": "Multi-alert grouping" },
+      { "id": "d", "text": "Require N out of M data points to be above threshold" }
+    ],
+    "correct": ["a", "d"],
+    "explanation": "Recovery thresholds require the metric to reach a separate, more conservative value before recovery, preventing immediate re-triggering. Requiring N of M consecutive data points reduces sensitivity to brief spikes. Both reduce flapping.",
+    "topics": ["alert-conditions", "recovery-thresholds"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Reducing Monitor Flapping" }],
+    "version": 1
+  },
+  {
+    "id": "mon-035",
+    "type": "single_choice",
+    "prompt": "What is the correct way to notify a specific user in a Datadog monitor notification message?",
+    "choices": [
+      { "id": "a", "text": "#username" },
+      { "id": "b", "text": "@username" },
+      { "id": "c", "text": "user:username" },
+      { "id": "d", "text": "{{username}}" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog uses the @handle syntax to mention specific users or integrations in monitor notifications. When you add @username, Datadog sends a notification to that user via their configured notification preferences.",
+    "topics": ["notification-configuration"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Notifications" }],
+    "version": 1
+  },
+  {
+    "id": "mon-036",
+    "type": "single_choice",
+    "prompt": "A cloud cost monitor in Datadog is specifically designed to alert on which of the following?",
+    "choices": [
+      { "id": "a", "text": "CPU costs across cloud instances" },
+      { "id": "b", "text": "Unexpected increases or anomalies in cloud spend" },
+      { "id": "c", "text": "Cost of Datadog license fees" },
+      { "id": "d", "text": "Network egress charges between availability zones" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud cost monitors in Datadog use Cloud Cost Management data to alert when cloud spending increases beyond expected levels or exhibits anomalous patterns, helping teams stay within budget.",
+    "topics": ["monitor-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Cloud Cost Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-037",
+    "type": "true_false",
+    "prompt": "Downtimes in Datadog can be scoped to specific monitors or specific monitor tags, rather than muting all monitors globally.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Downtimes can be scoped by monitor tags, specific monitor IDs, or groups within multi-alert monitors. This allows granular silencing, for example, muting only monitors tagged with 'service:payment-service' during a deployment.",
+    "topics": ["downtimes"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Downtime Scope" }],
+    "version": 1
+  },
+  {
+    "id": "mon-038",
+    "type": "single_choice",
+    "prompt": "Which monitor variable outputs the name of the monitor that triggered the alert?",
+    "choices": [
+      { "id": "a", "text": "{{monitor_id}}" },
+      { "id": "b", "text": "{{monitor_name}}" },
+      { "id": "c", "text": "{{alert_name}}" },
+      { "id": "d", "text": "{{check_name}}" }
+    ],
+    "correct": "b",
+    "explanation": "{{monitor_name}} inserts the name of the monitor as configured in Datadog into the notification message. This is useful in templated notifications shared across multiple monitors.",
+    "topics": ["monitor-variables"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Notification Variables" }],
+    "version": 1
+  },
+  {
+    "id": "mon-039",
+    "type": "single_choice",
+    "prompt": "In a multi-alert monitor, what does the 'group by' tag field determine?",
+    "choices": [
+      { "id": "a", "text": "How notification recipients are divided" },
+      { "id": "b", "text": "The dimension by which the monitor independently evaluates and alerts" },
+      { "id": "c", "text": "The tag used to filter which hosts are excluded from monitoring" },
+      { "id": "d", "text": "The aggregation function applied to the metric" }
+    ],
+    "correct": "b",
+    "explanation": "In a multi-alert monitor, the 'group by' tag (e.g., host, service, env) causes the monitor to evaluate the metric independently for each unique value of that tag and trigger individual alerts per group.",
+    "topics": ["multi-alert"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Multi Alert Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "mon-040",
+    "type": "true_false",
+    "prompt": "A Datadog event monitor can trigger alerts based on events in the Datadog Events stream, such as deployments or configuration changes.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Event monitors query the Datadog Events stream (which includes events from integrations, Agent, API, and deployments) and alert when a certain number of matching events occur within a time window.",
+    "topics": ["monitor-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Event Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-041",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'evaluation delay' setting in a metric monitor?",
+    "choices": [
+      { "id": "a", "text": "It delays the sending of notifications after an alert fires" },
+      { "id": "b", "text": "It delays the evaluation window to wait for late-arriving metrics before evaluating" },
+      { "id": "c", "text": "It slows down the monitor's evaluation frequency to reduce API calls" },
+      { "id": "d", "text": "It pauses the monitor for a defined period after recovery" }
+    ],
+    "correct": "b",
+    "explanation": "Evaluation delay (new data delay) accounts for metrics that may arrive late to Datadog. Setting a delay ensures the evaluation window contains complete data before the threshold comparison is performed, reducing false positives.",
+    "topics": ["alert-conditions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Evaluation Delay" }],
+    "version": 1
+  },
+  {
+    "id": "mon-042",
+    "type": "single_choice",
+    "prompt": "When using the anomaly detection algorithm 'agile', what advantage does it offer over 'basic'?",
+    "choices": [
+      { "id": "a", "text": "It is faster to compute and uses less memory" },
+      { "id": "b", "text": "It adapts more quickly to recent metric shifts and changes in level" },
+      { "id": "c", "text": "It accounts for weekly seasonality patterns only" },
+      { "id": "d", "text": "It uses machine learning to classify anomalies by root cause" }
+    ],
+    "correct": "b",
+    "explanation": "The 'agile' anomaly algorithm is more responsive to recent changes in metric level, making it suitable for metrics that undergo legitimate shifts in baseline. 'Basic' uses simple rolling statistics and is best for metrics without trends.",
+    "topics": ["alert-conditions"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Anomaly Detection Algorithms" }],
+    "version": 1
+  },
+  {
+    "id": "mon-043",
+    "type": "multi_choice",
+    "prompt": "Which of the following template variables are valid in Datadog monitor notifications? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "{{value}}" },
+      { "id": "b", "text": "{{threshold}}" },
+      { "id": "c", "text": "{{monitor_name}}" },
+      { "id": "d", "text": "{{alert_duration}}" },
+      { "id": "e", "text": "{{hostname}}" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "{{value}}, {{threshold}}, and {{monitor_name}} are standard Datadog monitor notification variables. {{alert_duration}} and {{hostname}} are not native monitor notification variables (though {{host.name}} may be available in some contexts).",
+    "topics": ["monitor-variables"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Monitor Notification Variables" }],
+    "version": 1
+  },
+  {
+    "id": "mon-044",
+    "type": "single_choice",
+    "prompt": "What is the minimum SLO target percentage Datadog allows when creating an SLO?",
+    "choices": [
+      { "id": "a", "text": "90%" },
+      { "id": "b", "text": "95%" },
+      { "id": "c", "text": "99%" },
+      { "id": "d", "text": "There is no enforced minimum; any value between 0 and 100 is configurable" }
+    ],
+    "correct": "d",
+    "explanation": "Datadog does not enforce a minimum SLO target percentage. You can configure any target value that makes sense for your service, though typical SLOs range from 99% to 99.999%.",
+    "topics": ["slos"],
+    "difficulty": "medium",
+    "refs": [{ "label": "SLO Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "mon-045",
+    "type": "true_false",
+    "prompt": "Network performance monitors in Datadog require the Network Performance Monitoring (NPM) feature to be enabled on the Agent.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Network performance monitors rely on the Network Performance Monitoring (NPM) product, which requires the NPM feature to be enabled in the Agent configuration and a compatible OS (Linux kernel with eBPF support).",
+    "topics": ["monitor-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Network Performance Monitoring" }],
+    "version": 1
+  },
+  {
+    "id": "mon-046",
+    "type": "single_choice",
+    "prompt": "Which option in a Datadog monitor controls whether a new group must report data for a full evaluation window before it can trigger an alert?",
+    "choices": [
+      { "id": "a", "text": "Evaluation delay" },
+      { "id": "b", "text": "New host delay" },
+      { "id": "c", "text": "Recovery threshold" },
+      { "id": "d", "text": "Group retention time" }
+    ],
+    "correct": "b",
+    "explanation": "The 'new host delay' (or new group delay) prevents a monitor from triggering during the initial data reporting period after a new host or group is added. This avoids spurious alerts when a host first starts reporting metrics.",
+    "topics": ["alert-conditions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "New Host Delay" }],
+    "version": 1
+  },
+  {
+    "id": "mon-047",
+    "type": "single_choice",
+    "prompt": "In Datadog, what does 'resolved' mean in the context of monitor state notifications?",
+    "choices": [
+      { "id": "a", "text": "The monitor was manually deleted" },
+      { "id": "b", "text": "The monitored metric returned to within acceptable thresholds and the alert condition is no longer met" },
+      { "id": "c", "text": "The monitor is waiting for the next evaluation cycle" },
+      { "id": "d", "text": "The monitor was muted via a downtime" }
+    ],
+    "correct": "b",
+    "explanation": "A monitor is 'resolved' when it transitions back to the OK state because the metric returned within the acceptable range. Datadog sends a recovery notification at this point if notifications are configured.",
+    "topics": ["monitor-status"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Recovery" }],
+    "version": 1
+  },
+  {
+    "id": "mon-048",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid SLO time windows supported by Datadog? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "7 days" },
+      { "id": "b", "text": "30 days" },
+      { "id": "c", "text": "90 days" },
+      { "id": "d", "text": "365 days" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Datadog SLOs support rolling time windows of 7, 30, and 90 days. A 365-day window is not a natively supported standard SLO window in Datadog.",
+    "topics": ["slos"],
+    "difficulty": "medium",
+    "refs": [{ "label": "SLO Time Windows" }],
+    "version": 1
+  },
+  {
+    "id": "mon-049",
+    "type": "single_choice",
+    "prompt": "What is the Real-Time Enhanced Infrastructure Monitor designed to do compared to a standard metric monitor?",
+    "choices": [
+      { "id": "a", "text": "It monitors real-time user experience via Synthetic tests" },
+      { "id": "b", "text": "It provides sub-minute evaluation on Live Process and infrastructure metrics with lower latency alerting" },
+      { "id": "c", "text": "It directly monitors cloud provider APIs without an Agent" },
+      { "id": "d", "text": "It replaces APM monitors for service-level metrics" }
+    ],
+    "correct": "b",
+    "explanation": "Real-Time Enhanced Infrastructure Monitors offer faster evaluation cadences (as low as 10-second intervals) compared to standard metric monitors. They are designed for infrastructure metrics requiring near real-time alerting.",
+    "topics": ["monitor-types"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Real-Time Enhanced Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "mon-050",
+    "type": "true_false",
+    "prompt": "When a Datadog Downtime ends, monitors that are still in an alert state will immediately re-notify if the alert condition persists.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "When a downtime expires, any monitors that are still in an alert state will resume sending notifications. If the alert condition is still met after the downtime ends, notifications will fire as configured.",
+    "topics": ["downtimes"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Downtime Expiration" }],
+    "version": 1
+  },
+  {
+    "id": "mon-051",
+    "type": "single_choice",
+    "prompt": "Which feature allows you to use conditional logic in monitor notification messages to include different text depending on the monitor state?",
+    "choices": [
+      { "id": "a", "text": "Monitor variables" },
+      { "id": "b", "text": "Conditional blocks using {{#is_alert}} ... {{/is_alert}}" },
+      { "id": "c", "text": "Jinja2 templating" },
+      { "id": "d", "text": "JavaScript expressions in notification body" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog monitor notifications support Mustache-style conditional blocks such as {{#is_alert}}, {{#is_warning}}, {{#is_recovery}}, and {{#is_no_data}} to include state-specific content in the notification body.",
+    "topics": ["monitor-variables", "notification-configuration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Conditional Notification Content" }],
+    "version": 1
+  },
+  {
+    "id": "mon-052",
+    "type": "single_choice",
+    "prompt": "What happens to a monitor group that stops reporting data when 'Do not notify on missing data' is configured?",
+    "choices": [
+      { "id": "a", "text": "The group immediately triggers a No Data alert" },
+      { "id": "b", "text": "The group is silently removed from evaluation without sending a No Data notification" },
+      { "id": "c", "text": "The monitor transitions to a Warn state" },
+      { "id": "d", "text": "The monitor is automatically paused" }
+    ],
+    "correct": "b",
+    "explanation": "When 'Do not notify on missing data' is selected, groups that stop reporting are quietly dropped from the evaluation without triggering a No Data alert notification. This is useful for autoscaling environments where hosts come and go.",
+    "topics": ["monitor-status"],
+    "difficulty": "medium",
+    "refs": [{ "label": "No Data Handling" }],
+    "version": 1
+  },
+  {
+    "id": "mon-053",
+    "type": "multi_choice",
+    "prompt": "Which of the following elements can be included in a composite monitor formula? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Metric monitor references" },
+      { "id": "b", "text": "Log monitor references" },
+      { "id": "c", "text": "Boolean operators (&&, ||, !)" },
+      { "id": "d", "text": "Arithmetic expressions (+, -, *)" },
+      { "id": "e", "text": "Service check monitor references" }
+    ],
+    "correct": ["a", "b", "c", "e"],
+    "explanation": "Composite monitors can reference any type of monitor (metric, log, service check, APM, etc.) using their IDs combined with boolean operators (&&, ||, !). Arithmetic expressions are not supported; only boolean logic is allowed.",
+    "topics": ["composite-monitors"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Composite Monitor Formula" }],
+    "version": 1
+  },
+  {
+    "id": "mon-054",
+    "type": "single_choice",
+    "prompt": "What is the primary advantage of using a webhook integration in a Datadog monitor notification?",
+    "choices": [
+      { "id": "a", "text": "Webhooks provide a built-in on-call schedule" },
+      { "id": "b", "text": "Webhooks allow sending structured alert data to any custom HTTP endpoint, enabling integration with any system" },
+      { "id": "c", "text": "Webhooks are the only way to send multi-line notification messages" },
+      { "id": "d", "text": "Webhooks bypass the monitor evaluation cycle for immediate notification" }
+    ],
+    "correct": "b",
+    "explanation": "Webhooks send a JSON payload to a custom URL when a monitor triggers. This enables teams to integrate Datadog alerts with any system that accepts HTTP requests, custom ticketing systems, chat tools, or automation workflows.",
+    "topics": ["notification-configuration"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Webhook Notifications" }],
+    "version": 1
+  },
+  {
+    "id": "mon-055",
+    "type": "true_false",
+    "prompt": "In Datadog, a monitor can only have one alert threshold and cannot have a separate warning threshold.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog monitors support both an alert threshold and an optional warning threshold. The warning threshold triggers a Warn state notification before the more critical Alert threshold is crossed, giving teams early notice.",
+    "topics": ["alert-conditions"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Thresholds" }],
+    "version": 1
+  },
+  {
+    "id": "mon-056",
+    "type": "single_choice",
+    "prompt": "In the context of SLO burn rate alerts, what does a burn rate of 1x represent?",
+    "choices": [
+      { "id": "a", "text": "The error budget is being consumed 1% per hour" },
+      { "id": "b", "text": "The error budget is being consumed exactly at the rate that would exhaust it precisely at the end of the SLO window" },
+      { "id": "c", "text": "One incident per day is being recorded" },
+      { "id": "d", "text": "The SLO target will be missed by a factor of 1" }
+    ],
+    "correct": "b",
+    "explanation": "A burn rate of 1x means the error budget is being consumed at exactly the sustainable rate, if maintained throughout the window, it would be exhausted exactly at the window's end. A burn rate of 2x would exhaust it halfway through.",
+    "topics": ["slos"],
+    "difficulty": "hard",
+    "refs": [{ "label": "SLO Burn Rate" }],
+    "version": 1
+  },
+  {
+    "id": "mon-057",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature allows you to create an SLO based on the ratio of successful APM traces to total traces?",
+    "choices": [
+      { "id": "a", "text": "Monitor-based SLO using an APM monitor" },
+      { "id": "b", "text": "Metric-based SLO using APM trace metrics" },
+      { "id": "c", "text": "Synthetic-based SLO" },
+      { "id": "d", "text": "Error tracking SLO" }
+    ],
+    "correct": "b",
+    "explanation": "APM automatically generates trace metrics (e.g., trace.web.request.hits by service and status). A metric-based SLO can use these as the good/total event numerator and denominator to measure the success ratio of APM traces.",
+    "topics": ["slos", "monitor-types"],
+    "difficulty": "hard",
+    "refs": [{ "label": "APM Metric SLOs" }],
+    "version": 1
+  },
+  {
+    "id": "mon-058",
+    "type": "true_false",
+    "prompt": "When creating a multi-alert monitor grouped by `service` and `env`, each unique combination of service and env values is evaluated independently.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Multi-alert monitors with multiple group-by tags evaluate the Cartesian product of all tag values. Each unique (service, env) pair is a separate group with its own alert state, threshold evaluation, and notification.",
+    "topics": ["multi-alert"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Multi Alert Grouping" }],
+    "version": 1
+  },
+  {
+    "id": "mon-059",
+    "type": "single_choice",
+    "prompt": "What is the maximum number of monitors that can be referenced in a single composite monitor formula in Datadog?",
+    "choices": [
+      { "id": "a", "text": "2" },
+      { "id": "b", "text": "5" },
+      { "id": "c", "text": "10" },
+      { "id": "d", "text": "25" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog composite monitors support referencing up to 10 individual monitors within a single formula. This allows combining multiple conditions while keeping formulas manageable.",
+    "topics": ["composite-monitors"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Composite Monitor Limits" }],
+    "version": 1
+  },
+  {
+    "id": "mon-060",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid reasons to use a monitor-based SLO instead of a metric-based SLO? (Select two)",
+    "choices": [
+      { "id": "a", "text": "You want to track the uptime of a synthetic test" },
+      { "id": "b", "text": "You already have monitors representing your service availability and want to reuse them for SLO tracking" },
+      { "id": "c", "text": "You need sub-second granularity for your SLI calculations" },
+      { "id": "d", "text": "You prefer to define SLIs as event ratios from raw metric data" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "Monitor-based SLOs are a good fit when you already have monitors (including synthetic test monitors) whose uptime represents your service reliability. Metric-based SLOs are preferred when you need event-ratio SLIs from raw metric data.",
+    "topics": ["slos"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Choosing SLO Type" }],
+    "version": 1
+  }
+]

@@ -1,0 +1,305 @@
+[
+  {
+    "id": "gcp-pca-sd-001",
+    "type": "single_choice",
+    "prompt": "A financial services company runs a transactional core banking system on-premises and wants to extend it with a cloud-native analytics layer on GCP. They require sub-10ms read latency for account balance lookups, strong consistency across regions, and the ability to run complex SQL joins against the same data. Which GCP storage service best satisfies all three constraints?",
+    "choices": [
+      { "id": "a", "text": "Cloud Bigtable with a row-key schema optimised for account ID lookups" },
+      { "id": "b", "text": "Cloud Spanner with multi-region configuration and standard SQL support" },
+      { "id": "c", "text": "BigQuery with BI Engine for in-memory acceleration" },
+      { "id": "d", "text": "Firestore in Datastore mode with composite indexes on account fields" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Spanner provides external strong consistency via TrueTime, global distribution across regions, and full ANSI SQL support including complex joins, making it uniquely suited to this scenario. Bigtable offers low latency but is eventually consistent and does not support SQL joins. BigQuery is an analytical warehouse with high query latency for transactional lookups. Firestore offers strong consistency within a single region but lacks rich SQL and does not scale to the throughput of a core banking system.",
+    "topics": ["solution-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud Spanner: Strong Consistency", "url": "https://cloud.google.com/spanner/docs/true-time-external-consistency" },
+      { "label": "Cloud Spanner: Multi-region Configurations", "url": "https://cloud.google.com/spanner/docs/instance-configurations" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-002",
+    "type": "single_choice",
+    "prompt": "A retail company needs to migrate 800 TB of historical sales data from an on-premises data warehouse to GCP in under two weeks. The on-premises environment has a 1 Gbps internet uplink that is shared with production traffic. After migration, the data must be immediately queryable in BigQuery. Which migration approach minimises transfer time while keeping production traffic unaffected?",
+    "choices": [
+      { "id": "a", "text": "Use gsutil -m cp with bandwidth throttling to copy data over the internet uplink during off-peak hours" },
+      { "id": "b", "text": "Request a Transfer Appliance, ship the physical device to Google, and load directly into Cloud Storage, then use BigQuery Data Transfer Service" },
+      { "id": "c", "text": "Set up Cloud Interconnect Dedicated and stream data via Storage Transfer Service" },
+      { "id": "d", "text": "Export to Avro files and upload to GCS using parallel composite uploads over the existing internet connection" }
+    ],
+    "correct": "b",
+    "explanation": "800 TB over a shared 1 Gbps link would take weeks and disrupt production; Transfer Appliance eliminates the network bottleneck by physically shipping data to Google. Once ingested into Cloud Storage it can be directly loaded or referenced as an external table in BigQuery. Cloud Interconnect Dedicated has a lead time of weeks and does not solve the bandwidth constraint within the two-week window. gsutil and parallel composite uploads both consume the shared internet link and cannot move 800 TB in two weeks at 1 Gbps.",
+    "topics": ["solution-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Transfer Appliance Overview", "url": "https://cloud.google.com/transfer-appliance/docs/4.0/overview" },
+      { "label": "BigQuery Data Transfer Service", "url": "https://cloud.google.com/bigquery/docs/transfer-service-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-003",
+    "type": "single_choice",
+    "prompt": "An e-commerce platform processes orders through a synchronous REST chain: frontend calls order-service, which calls inventory-service, which calls payment-service. During Black Friday, payment-service latency spikes to 30 seconds, causing cascading timeouts across the chain and a site-wide outage. The architects want to redesign the order pipeline to isolate failures and handle up to 100,000 orders per minute. Which architecture pattern best addresses these requirements?",
+    "choices": [
+      { "id": "a", "text": "Replace the REST calls with gRPC streaming between all three services to reduce per-request overhead" },
+      { "id": "b", "text": "Add Cloud Memorystore as a caching layer in front of payment-service to reduce downstream pressure" },
+      { "id": "c", "text": "Adopt event-driven architecture: frontend publishes order events to Pub/Sub; downstream services consume and produce events asynchronously; Cloud Tasks handles payment retries" },
+      { "id": "d", "text": "Deploy all three services as a monolith on Compute Engine to eliminate network latency between components" }
+    ],
+    "correct": "c",
+    "explanation": "An event-driven model with Pub/Sub decouples services: the frontend responds immediately after publishing, so payment-service slowness no longer causes user-facing timeouts. Cloud Tasks provides durable, retryable delivery for payment processing. gRPC streaming still creates a synchronous dependency chain and does not resolve cascading failures. Caching reduces read pressure but does not help with payment processing latency under high write load. A monolith removes service isolation and introduces a single point of failure.",
+    "topics": ["solution-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud Pub/Sub: Asynchronous Messaging", "url": "https://cloud.google.com/pubsub/docs/overview" },
+      { "label": "Cloud Tasks: Asynchronous Task Execution", "url": "https://cloud.google.com/tasks/docs/overview" },
+      { "label": "Eventarc Overview", "url": "https://cloud.google.com/eventarc/docs/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-004",
+    "type": "single_choice",
+    "prompt": "A healthcare company must keep patient data in a specific country but needs sub-50ms query latency for their web application serving users globally. Compliance requires that all data at rest and in transit stay within the approved country's Google data centre. Which combination of GCP services satisfies both the data residency and latency requirements?",
+    "choices": [
+      { "id": "a", "text": "Global Cloud Spanner multi-region instance with VPC Service Controls locking access to a single region" },
+      { "id": "b", "text": "Single-region Cloud Spanner with Cloud CDN caching non-sensitive, anonymised response content at edge, backed by Assured Workloads for the approved country" },
+      { "id": "c", "text": "Multi-region BigQuery with column-level security to restrict sensitive columns to the approved country" },
+      { "id": "d", "text": "Cloud Firestore in Native mode deployed in the approved region with global HTTP(S) Load Balancing directing all traffic to that region" }
+    ],
+    "correct": "b",
+    "explanation": "A single-region Cloud Spanner instance with Assured Workloads ensures data never leaves the approved country. Cloud CDN can cache non-PII content globally to serve the sub-50ms latency requirement for static or anonymised responses without exposing residency-restricted data. Global Spanner multi-region replicates data across countries, violating residency. BigQuery column-level security controls query access but does not prevent data replication outside the approved region. Firestore in a single region satisfies residency but Global Load Balancing still routes requests internationally without CDN caching to reduce latency.",
+    "topics": ["solution-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Assured Workloads Overview", "url": "https://cloud.google.com/assured-workloads/docs/overview" },
+      { "label": "Cloud CDN Overview", "url": "https://cloud.google.com/cdn/docs/overview" },
+      { "label": "Cloud Spanner Regional Configurations", "url": "https://cloud.google.com/spanner/docs/instance-configurations#regional-configurations" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-005",
+    "type": "single_choice",
+    "prompt": "A manufacturer operates 500 factories worldwide, each with local SCADA systems that cannot tolerate more than 5ms of control-plane latency to their data acquisition layer. They need to aggregate telemetry centrally in GCP for ML-based anomaly detection without modifying factory firmware. Which connectivity architecture is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Site-to-site Cloud VPN from each factory to GCP with a central Pub/Sub topic for telemetry ingestion" },
+      { "id": "b", "text": "Deploy Anthos clusters on-premises at each factory; the local cluster handles SCADA integration and syncs telemetry to GCP via Config Sync" },
+      { "id": "c", "text": "Install a Cloud IoT Core gateway at each factory forwarding MQTT messages directly to BigQuery" },
+      { "id": "d", "text": "Migrate SCADA software to Cloud Run containers and use Cloud Interconnect for sub-5ms connectivity" }
+    ],
+    "correct": "b",
+    "explanation": "Anthos (GKE on-premises) runs Kubernetes locally, meaning the data acquisition workload operates within the factory network and satisfies the 5ms latency requirement. Config Sync and Connect Gateway allow GCP to receive telemetry for central ML processing without requiring any firmware changes. Cloud VPN does not satisfy 5ms control-plane latency for SCADA given internet path variance. Cloud IoT Core was deprecated and BigQuery is not suitable for real-time control-plane operations. Running SCADA on Cloud Run would require migrating proprietary firmware, which the scenario disallows.",
+    "topics": ["solution-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Anthos: Hybrid and Multi-cloud", "url": "https://cloud.google.com/anthos/docs/concepts/overview" },
+      { "label": "GKE On-premises with Anthos", "url": "https://cloud.google.com/anthos/clusters/docs/bare-metal/latest/concepts/about-bare-metal" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-006",
+    "type": "single_choice",
+    "prompt": "A startup is building a real-time ride-matching platform. Their system must match riders to drivers in under 200ms, handle 50,000 concurrent geospatial queries per second, and scale to zero during the 3 AM–5 AM quiet window to control costs. Which backend architecture best meets these constraints?",
+    "choices": [
+      { "id": "a", "text": "GKE Autopilot with Horizontal Pod Autoscaler and a Cloud Spanner backend for location storage" },
+      { "id": "b", "text": "Cloud Run services backed by Cloud Memorystore for Redis with Geo commands for real-time spatial indexing" },
+      { "id": "c", "text": "App Engine Standard with Datastore for location storage and Memcache for caching" },
+      { "id": "d", "text": "Compute Engine managed instance groups with Cloud SQL for location data and connection pooling via PgBouncer" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Run scales to zero during quiet periods, eliminating idle costs, and scales rapidly to handle spikes. Cloud Memorystore for Redis supports native Geo commands (GEORADIUS, GEOSEARCH) which provide sub-millisecond geospatial lookups at 50,000 QPS within the 200ms budget. GKE Autopilot does not scale to zero (minimum one node). App Engine Standard can scale to zero but Datastore has high latency for geospatial queries and Memcache is not suitable for persistent location state. Managed instance groups have a minimum instance count and Cloud SQL lacks native geospatial indexing performance at this QPS.",
+    "topics": ["solution-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Run: Scale to Zero", "url": "https://cloud.google.com/run/docs/about-instance-autoscaling" },
+      { "label": "Cloud Memorystore for Redis", "url": "https://cloud.google.com/memorystore/docs/redis/redis-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-007",
+    "type": "single_choice",
+    "prompt": "An enterprise has 200 Mbps of consistent private network bandwidth available between their on-premises data centre and a GCP region. They need deterministic, low-jitter connectivity for a latency-sensitive trading application. Corporate policy prohibits traffic traversing the public internet. Which connectivity option is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "HA VPN over two internet connections with 99.99% availability SLA" },
+      { "id": "b", "text": "Cloud Interconnect Dedicated at 200 Mbps through a colocation provider" },
+      { "id": "c", "text": "Partner Interconnect at 200 Mbps through a supported service provider" },
+      { "id": "d", "text": "Cloud VPN with BGP routing and ECMP across four tunnels for 200 Mbps aggregate" }
+    ],
+    "correct": "c",
+    "explanation": "Partner Interconnect provides private connectivity (no public internet) through a supported provider at 50 Mbps to 10 Gbps increments, satisfying the bandwidth, determinism, and policy requirements. Dedicated Interconnect requires a minimum 10 Gbps port, which exceeds the 200 Mbps requirement and incurs unnecessary cost. HA VPN and Cloud VPN traverse the public internet, violating corporate policy regardless of the SLA offered. Partner Interconnect at 200 Mbps through a service provider is the cost-appropriate private option.",
+    "topics": ["solution-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Interconnect Overview", "url": "https://cloud.google.com/network-connectivity/docs/interconnect/concepts/overview" },
+      { "label": "Partner Interconnect", "url": "https://cloud.google.com/network-connectivity/docs/interconnect/concepts/partner-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-008",
+    "type": "single_choice",
+    "prompt": "A media company streams live video to 10 million concurrent users globally. They need to minimise origin server load, reduce playback start latency to under 2 seconds for all users, and ensure a cache hit ratio above 95% for HLS segment files. Which GCP architecture achieves these goals?",
+    "choices": [
+      { "id": "a", "text": "Cloud Storage buckets in each region serving segments directly, with DNS-based geolocation routing" },
+      { "id": "b", "text": "Global HTTP(S) Load Balancer in front of Cloud CDN with long cache TTLs for HLS segments and short TTLs for playlists" },
+      { "id": "c", "text": "Cloud Run serving HLS segments with minimum instances set to 1000 to absorb global concurrent load" },
+      { "id": "d", "text": "Anycast IP with regional Managed Instance Groups running nginx as a caching proxy for segment files" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud CDN integrates natively with the Global HTTP(S) Load Balancer and caches content at Google's 200+ edge PoPs. HLS segments are large, static files ideal for long-TTL caching, driving high cache hit ratios. Short playlist TTLs ensure live stream currency. Cloud Storage multi-region buckets are origin storage, not edge caches, so all 10 million users would still hit origin on cache misses. Cloud Run is a compute service not designed for this caching pattern and would be prohibitively expensive at 1000 minimum instances. Nginx proxy MIGs lack the global edge footprint of Cloud CDN.",
+    "topics": ["solution-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud CDN Overview", "url": "https://cloud.google.com/cdn/docs/overview" },
+      { "label": "HTTP(S) Load Balancing with Cloud CDN", "url": "https://cloud.google.com/cdn/docs/setting-up-cdn-with-backend-bucket" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-009",
+    "type": "single_choice",
+    "prompt": "A logistics company needs a database to store sensor readings from 2 million GPS trackers, each writing location updates every 10 seconds. The primary query pattern is: retrieve all updates for a specific tracker in the past 24 hours, ordered by timestamp. Analytics are performed separately in BigQuery. Which storage choice and row-key schema best handles this workload?",
+    "choices": [
+      { "id": "a", "text": "Cloud Spanner with a table partitioned by tracker_id and timestamp as the primary key" },
+      { "id": "b", "text": "Cloud Bigtable with a composite row key of tracker_id#reverse_timestamp to avoid hotspotting while supporting range scans" },
+      { "id": "c", "text": "Firestore in Native mode with a collection per tracker and documents ordered by server timestamp" },
+      { "id": "d", "text": "Cloud SQL for PostgreSQL with a BRIN index on the timestamp column and table partitioning by tracker_id" }
+    ],
+    "correct": "b",
+    "explanation": "Bigtable is designed for high-throughput time-series writes (20 million ops/sec per cluster) and its row-key model supports efficient range scans. Prepending tracker_id distributes writes across tablets; using reverse_timestamp (Long.MAX_VALUE minus timestamp) places the most recent rows first, enabling efficient 24-hour range reads. Cloud Spanner can handle this but at higher cost and without the time-series write throughput advantage. Firestore lacks the write throughput needed for 200,000 writes/second and range-scan performance for time-series data. Cloud SQL cannot sustain 200,000 concurrent inserts at this scale without severe performance degradation.",
+    "topics": ["solution-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud Bigtable: Schema Design Best Practices", "url": "https://cloud.google.com/bigtable/docs/schema-design" },
+      { "label": "Cloud Bigtable: Row Key Design", "url": "https://cloud.google.com/bigtable/docs/schema-design-time-series" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-010",
+    "type": "single_choice",
+    "prompt": "A company runs microservices on GKE. They want to adopt a service mesh to enforce mTLS between all services, implement traffic splitting for canary deployments at 5%/95%, and collect per-service latency percentiles without instrumenting application code. Which GCP-native approach meets all three requirements with the least operational overhead?",
+    "choices": [
+      { "id": "a", "text": "Deploy Istio OSS on GKE and configure Prometheus for metrics collection and Envoy for traffic management" },
+      { "id": "b", "text": "Enable Cloud Service Mesh (managed Istio) on the GKE cluster; use VirtualService for traffic splitting and Cloud Monitoring for telemetry" },
+      { "id": "c", "text": "Use GKE Gateway API with HTTPRoute for traffic splitting and configure mTLS via Kubernetes NetworkPolicy" },
+      { "id": "d", "text": "Deploy Linkerd as the service mesh, use its built-in traffic splitting CRDs, and export metrics to Cloud Monitoring via a Prometheus exporter" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Service Mesh is a managed Istio offering that handles control-plane upgrades, certificates, and mTLS enforcement automatically. VirtualService resources enable percentage-based traffic splitting. Telemetry is exported natively to Cloud Monitoring and Cloud Trace without code changes. OSS Istio requires self-managing the control plane, certificate rotation, and Prometheus, adding operational burden. GKE Gateway API handles L7 traffic splitting but does not provide mTLS enforcement or sidecar-based telemetry out of the box. Linkerd is not a GCP-native solution and requires a custom Prometheus-to-Cloud Monitoring pipeline.",
+    "topics": ["solution-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Service Mesh Overview", "url": "https://cloud.google.com/service-mesh/docs/overview" },
+      { "label": "Managed Anthos Service Mesh", "url": "https://cloud.google.com/service-mesh/docs/managed/auto-control-plane-with-fleet" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-011",
+    "type": "single_choice",
+    "prompt": "An enterprise wants to run a new SaaS product on GCP while keeping their existing ERP system on-premises. The ERP must call GCP microservices APIs, and GCP services must query ERP data. They require private connectivity in both directions, no exposure to the public internet, and the ability to independently scale each GCP service. Which architecture achieves bidirectional private connectivity with independent scalability?",
+    "choices": [
+      { "id": "a", "text": "Cloud VPN between on-premises and GCP; expose all GCP microservices on internal load balancers within the shared VPC" },
+      { "id": "b", "text": "Cloud Interconnect with Private Service Connect to expose each GCP service via a distinct private endpoint accessible from on-premises" },
+      { "id": "c", "text": "Direct Peering between on-premises routers and Google's edge network with Cloud Endpoints managing API routing" },
+      { "id": "d", "text": "Cloud VPN with Cloud NAT to allow on-premises to reach GCP services via translated private IPs" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Interconnect provides private, non-internet connectivity. Private Service Connect allows each GCP microservice to be published as an independent internal endpoint, consumed from on-premises via the Interconnect without exposing a shared VPC to the ERP network. This enables independent scaling per service and keeps all traffic private. Cloud VPN traverses the internet and does not meet the no-public-internet requirement. Direct Peering is for public GCP services (not private VPC workloads) and is typically used by ISPs. Cloud NAT provides outbound internet connectivity for private VMs, not bidirectional private service access.",
+    "topics": ["solution-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Private Service Connect Overview", "url": "https://cloud.google.com/vpc/docs/private-service-connect" },
+      { "label": "Cloud Interconnect with Private Service Connect", "url": "https://cloud.google.com/network-connectivity/docs/interconnect/how-to/psc-interfaces" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-012",
+    "type": "single_choice",
+    "prompt": "A data analytics company ingests 5 TB of new event data daily from 50 regional sources. They run ad hoc SQL queries against the full historical dataset (200 TB) and need results in under 30 seconds. Monthly storage and compute budgets are tightly constrained. Long-term data that is rarely queried (older than 2 years) should cost as little as possible. Which BigQuery configuration minimises cost while meeting query performance requirements?",
+    "choices": [
+      { "id": "a", "text": "A single BigQuery dataset with all data in active storage and flat-rate pricing for predictable compute costs" },
+      { "id": "b", "text": "Partitioned and clustered BigQuery tables with partition expiry moving data older than 2 years to long-term storage pricing, using on-demand compute" },
+      { "id": "c", "text": "BigQuery with table sharding by date prefix (events_YYYYMMDD) and cross-table UNION queries for historical access" },
+      { "id": "d", "text": "Export data older than 2 years to Cloud Storage Nearline and query it with BigQuery external tables using federated queries" }
+    ],
+    "correct": "b",
+    "explanation": "Partitioned tables enable BigQuery to prune scanned partitions, reducing bytes billed on ad hoc queries against 200 TB. Clustering further reduces scan cost by co-locating related rows. BigQuery automatically transitions partitions untouched for 90 days to long-term storage at ~50% cheaper storage rates. On-demand pricing ensures you only pay for bytes scanned. Flat-rate pricing requires a reservation commitment and is cost-efficient only at consistently high query volumes. Table sharding requires UNION queries that scan all shards, negating partition pruning benefits. Nearline external tables add query latency and lose native optimization features.",
+    "topics": ["solution-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "BigQuery: Partitioned Tables", "url": "https://cloud.google.com/bigquery/docs/partitioned-tables" },
+      { "label": "BigQuery: Clustered Tables", "url": "https://cloud.google.com/bigquery/docs/clustered-tables" },
+      { "label": "BigQuery: Long-term Storage Pricing", "url": "https://cloud.google.com/bigquery/pricing#long-term-storage" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-013",
+    "type": "single_choice",
+    "prompt": "A government agency is modernising a legacy batch processing system that currently runs nightly on-premises ETL jobs reading from Oracle DB and writing Parquet files to NFS shares. They must migrate to GCP without re-writing the ETL logic, maintain Oracle as the source of record, and process data within a 4-hour batch window. Which migration approach best preserves the existing ETL logic with minimal re-engineering?",
+    "choices": [
+      { "id": "a", "text": "Lift-and-shift the ETL servers to Compute Engine VMs, mount Cloud Filestore as the NFS target, and use Database Migration Service to replicate Oracle data" },
+      { "id": "b", "text": "Rewrite ETL jobs as Cloud Dataflow Apache Beam pipelines reading from Oracle via JDBC and writing to Cloud Storage" },
+      { "id": "c", "text": "Containerise the existing ETL jobs with Docker, deploy on GKE as CronJobs using the existing Oracle JDBC connection, and write output to Cloud Storage via a FUSE mount" },
+      { "id": "d", "text": "Use Cloud Composer (Airflow) DAGs to orchestrate the existing ETL scripts running on Dataproc clusters, reading Oracle via a Spark JDBC connector, and writing to GCS" }
+    ],
+    "correct": "a",
+    "explanation": "Lift-and-shift to Compute Engine VMs preserves the existing ETL binary without any re-writing. Cloud Filestore provides NFS-compatible storage as a drop-in replacement for on-premises NFS shares. Database Migration Service supports Oracle as a source and can replicate data continuously to Cloud SQL or AlloyDB, keeping Oracle as the source of record. Rewriting to Dataflow requires significant engineering effort. Containerising with GKE is closer to lift-and-shift but FUSE mounts have performance and reliability limitations for batch I/O. Cloud Composer orchestrating Dataproc requires rewriting jobs as Spark, which contradicts the no-rewrite requirement.",
+    "topics": ["solution-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Database Migration Service Overview", "url": "https://cloud.google.com/database-migration/docs/overview" },
+      { "label": "Cloud Filestore: NFS File Storage", "url": "https://cloud.google.com/filestore/docs/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-014",
+    "type": "single_choice",
+    "prompt": "A SaaS company plans to deploy their multi-tenant application on GCP. Each tenant generates variable workloads: some are large enterprises with sustained high traffic, while others are small businesses with sporadic usage. The company needs tenant-level cost attribution, resource isolation to prevent noisy-neighbour problems, and the ability to apply per-tenant security policies. Which GCP organisational structure best addresses these requirements?",
+    "choices": [
+      { "id": "a", "text": "Single GCP project with Kubernetes namespaces per tenant, resource quotas for isolation, and label-based cost attribution" },
+      { "id": "b", "text": "Separate GCP projects per tenant within a shared organisation, using a shared VPC host project, Project-level IAM for security policies, and billing export to BigQuery for attribution" },
+      { "id": "c", "text": "A single shared VPC with one subnet per tenant and firewall rules for isolation, with billing labels applied at the resource level" },
+      { "id": "d", "text": "Separate billing accounts per tenant with projects inside each, using organisation-level policies applied via the Resource Manager API" }
+    ],
+    "correct": "b",
+    "explanation": "Separate projects provide the strongest resource isolation boundary in GCP, preventing noisy-neighbour effects through project-level quotas. Billing export to BigQuery enables per-project (per-tenant) cost attribution with fine granularity. Project-level IAM allows distinct security policies per tenant. A shared VPC host project provides centralised network management while tenant projects retain isolation. Single-project Kubernetes namespaces share node pools and do not provide strong enough resource isolation for enterprise SLAs. VPC subnets with firewall rules are network-level isolation only and do not prevent CPU or memory contention. Separate billing accounts per tenant complicate central governance and policy enforcement.",
+    "topics": ["solution-design"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "GCP Resource Hierarchy", "url": "https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy" },
+      { "label": "Shared VPC Overview", "url": "https://cloud.google.com/vpc/docs/shared-vpc" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-sd-015",
+    "type": "single_choice",
+    "prompt": "An online gaming company needs to replicate player state data from their US-based primary Cloud Spanner instance to an EU region for low-latency reads by European players. All writes must still go through the US instance to maintain a single source of truth. EU players experience up to 120ms read latency from the US, but a 50ms target is required. What is the most appropriate Cloud Spanner configuration?",
+    "choices": [
+      { "id": "a", "text": "Create a Cloud Spanner multi-region configuration spanning US and EU; all writes are synchronously replicated to both regions" },
+      { "id": "b", "text": "Use Spanner Change Watcher to stream changes to Pub/Sub, then have a Cloud Run consumer write to a separate Spanner instance in the EU region" },
+      { "id": "c", "text": "Configure Spanner stale reads (bounded staleness) from the EU region against the multi-region Spanner instance to serve reads from the nearest replica" },
+      { "id": "d", "text": "Enable Spanner Data Boost in the EU region to offload read-only queries without impacting the US write throughput" }
+    ],
+    "correct": "c",
+    "explanation": "Spanner multi-region configurations replicate data synchronously across all read-write regions. Configuring bounded staleness reads allows Cloud Spanner to serve reads from the nearest regional replica (EU), achieving sub-50ms read latency without routing to the US. Writes still commit through the leader region (US), maintaining the single source of truth. Option A alone does not satisfy the read latency goal without also using stale reads from the nearest replica. The Change Watcher approach creates an eventually-consistent secondary instance, not a true single source of truth. Data Boost provides compute isolation for analytical queries, not geo-local replication for low-latency transactional reads.",
+    "topics": ["solution-design"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud Spanner: Multi-region Replication", "url": "https://cloud.google.com/spanner/docs/replication" },
+      { "label": "Cloud Spanner: Read Staleness", "url": "https://cloud.google.com/spanner/docs/timestamp-bounds" }
+    ],
+    "version": 1
+  }
+]

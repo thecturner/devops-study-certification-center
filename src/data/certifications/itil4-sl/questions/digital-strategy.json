@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-sl-ds-001",
+    "type": "single_choice",
+    "prompt": "A traditional financial services firm is losing market share to fintech startups offering app-based banking. The board asks the CIO to recommend a strategic response posture. Which ITIL 4 Digital and IT Strategy positioning best describes an organization that redesigns its entire business model around digital capabilities to compete head-on with disruptors?",
+    "choices": [
+      { "id": "a", "text": "Survive: reduce costs and maintain existing operations until the market stabilizes" },
+      { "id": "b", "text": "Grow: expand the existing product portfolio with digital enhancements while defending market share" },
+      { "id": "c", "text": "Thrive: fundamentally reimagine the organization as a digital business, creating new value streams and markets" },
+      { "id": "d", "text": "Pivot: exit current markets and acquire fintech firms rather than transforming internally" }
+    ],
+    "correct": "c",
+    "explanation": "ITIL 4 DITS defines 'Thrive' as the highest ambition level, where an organization fully embraces digital transformation and creates new markets or business models rather than merely defending existing ones. 'Survive' is about maintaining stability, and 'Grow' is about incremental expansion. 'Pivot' is not an ITIL DITS strategic posture.",
+    "topics": ["digital-strategy"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-002",
+    "type": "single_choice",
+    "prompt": "During a PESTLE analysis for a global retailer's digital strategy, the CIO identifies that a new data sovereignty regulation will require customer data to remain within national borders. Which PESTLE dimension does this factor belong to, and what strategic response is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Economic dimension; negotiate with regulators to delay enforcement" },
+      { "id": "b", "text": "Legal dimension; redesign data architecture to support regional data residency as a strategic constraint" },
+      { "id": "c", "text": "Technological dimension; invest in encryption to mask data location" },
+      { "id": "d", "text": "Social dimension; conduct customer surveys to determine whether compliance affects satisfaction" }
+    ],
+    "correct": "b",
+    "explanation": "Data sovereignty regulations fall under the Legal dimension of PESTLE analysis. The strategically sound response is to treat compliance as a design constraint and build regional data residency into the architecture, which also creates a competitive differentiator in privacy-sensitive markets. Encryption does not address sovereignty requirements, and delaying or surveying customers does not resolve the legal obligation.",
+    "topics": ["digital-strategy"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-003",
+    "type": "single_choice",
+    "prompt": "A manufacturing company's CIO is building the business case for a major digital platform investment. The CFO asks how IT will demonstrate value beyond cost reduction. Which approach most effectively frames digital IT investment in strategic terms for a board audience?",
+    "choices": [
+      { "id": "a", "text": "Present a total cost of ownership comparison between the current and future state" },
+      { "id": "b", "text": "Commission an independent audit of the existing IT infrastructure to quantify technical debt" },
+      { "id": "c", "text": "Link the investment to specific revenue-generating capabilities, customer outcomes, and competitive positioning over a defined time horizon" },
+      { "id": "d", "text": "Benchmark IT spend against industry peers to demonstrate the current level is below average" }
+    ],
+    "correct": "c",
+    "explanation": "Board-level business cases for digital investment must connect IT capability to business outcomes, including revenue, customer experience, and competitive differentiation. Cost comparisons and benchmarks are supporting evidence, but they do not make the strategic case. Linking investment to time-bound business outcomes speaks the board's language and enables meaningful ROI evaluation.",
+    "topics": ["digital-strategy"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-004",
+    "type": "single_choice",
+    "prompt": "An organization is evaluating whether to build a proprietary digital marketplace or join an existing industry platform as a participant. A Porter's Five Forces analysis is conducted. Which force most directly influences this make-vs-join decision?",
+    "choices": [
+      { "id": "a", "text": "Threat of new entrants, because building a marketplace creates barriers for competitors" },
+      { "id": "b", "text": "Bargaining power of suppliers, because platform operators control API pricing" },
+      { "id": "c", "text": "Threat of substitute products, because the existing platform could be replaced by another" },
+      { "id": "d", "text": "Bargaining power of buyers, because customers will demand access through whichever platform they already use" }
+    ],
+    "correct": "d",
+    "explanation": "In digital ecosystems, buyer bargaining power is the critical force: if customers are already concentrated on an established platform, the cost of building a proprietary alternative to attract them away is often prohibitive. The organization must weigh whether owning the platform creates sufficient strategic control or whether joining where buyers already exist is more pragmatic. The other forces are relevant but do not dominate the make-vs-join calculation as directly.",
+    "topics": ["digital-strategy"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-005",
+    "type": "single_choice",
+    "prompt": "A retail CIO wants to align IT strategy with the enterprise strategy of becoming 'the most customer-centric brand in the category.' Which approach best operationalizes this alignment at the IT strategy level?",
+    "choices": [
+      { "id": "a", "text": "Adopt Agile delivery across all IT projects to increase velocity of feature releases" },
+      { "id": "b", "text": "Define digital capabilities that directly enable mapped customer journeys, then prioritize technology investment by journey impact" },
+      { "id": "c", "text": "Implement a customer satisfaction survey tool and connect its output to IT performance metrics" },
+      { "id": "d", "text": "Standardize the technology stack to reduce complexity and redirect savings toward the customer experience budget" }
+    ],
+    "correct": "b",
+    "explanation": "True alignment of IT strategy with a customer-centricity enterprise goal requires mapping the technology capability portfolio to the specific digital journeys customers undertake, then making investment decisions based on which capabilities most improve those journeys. Agile adoption and stack standardization are execution-level decisions that don't inherently align to this strategic goal. A survey tool provides data but is not a strategic alignment mechanism.",
+    "topics": ["digital-strategy"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-006",
+    "type": "single_choice",
+    "prompt": "A CDO argues that the company's proprietary customer transaction dataset is a strategic asset that should be monetized. The CIO is concerned about operational risk and customer trust. What strategic framework best helps the executive team evaluate this opportunity?",
+    "choices": [
+      { "id": "a", "text": "SWOT analysis focused on the internal strengths and weaknesses of the data engineering team" },
+      { "id": "b", "text": "A data strategy assessment that maps the dataset's uniqueness, legal permissibility, customer consent posture, and potential revenue model against the organization's risk appetite" },
+      { "id": "c", "text": "A cost-benefit analysis comparing data engineering investment against projected licensing revenue over 12 months" },
+      { "id": "d", "text": "A security audit of the data warehouse to quantify breach risk before any monetization is approved" }
+    ],
+    "correct": "b",
+    "explanation": "Monetizing a proprietary dataset requires a multi-dimensional data strategy assessment: the data must be unique enough to have commercial value, legally and ethically permissible to share, covered by customer consent mechanisms, and the revenue model must be structurally viable. A short-term cost-benefit analysis and security audit are narrow perspectives that miss strategic dimensions like brand trust and regulatory exposure. SWOT of the team does not address the strategic question.",
+    "topics": ["digital-strategy"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-007",
+    "type": "single_choice",
+    "prompt": "An organization is evaluating a subscription-based digital business model to replace its one-time product licensing model. Which strategic consideration is MOST critical when making this business model transition?",
+    "choices": [
+      { "id": "a", "text": "Identifying whether the existing ERP system can support recurring billing workflows" },
+      { "id": "b", "text": "Accepting that near-term revenue will likely decline as up-front license fees are replaced by recurring revenue, and ensuring board alignment on this transition economics" },
+      { "id": "c", "text": "Surveying existing customers to determine whether they prefer subscriptions over licenses" },
+      { "id": "d", "text": "Benchmarking subscription pricing against competitors to ensure market-rate positioning at launch" }
+    ],
+    "correct": "b",
+    "explanation": "The most critical strategic consideration in a license-to-subscription transition is managing the financial discontinuity: revenue initially drops because large up-front payments are replaced by smaller recurring ones, and the board must understand and commit to this before the transition begins. Failure to align on this revenue dip is the most common reason such transformations stall or get reversed. ERP readiness, pricing, and customer preferences are important but secondary to executive financial alignment.",
+    "topics": ["digital-strategy"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-008",
+    "type": "single_choice",
+    "prompt": "A CIO is designing an ecosystem strategy that involves opening the company's core platform via APIs to third-party developers. Which governance concern must be addressed FIRST before the API marketplace launches?",
+    "choices": [
+      { "id": "a", "text": "Establishing an internal API style guide and naming convention for consistency" },
+      { "id": "b", "text": "Defining policies for API versioning, deprecation, rate limiting, and data usage rights that protect the company while enabling partner innovation" },
+      { "id": "c", "text": "Recruiting a developer relations team to manage partner onboarding and support" },
+      { "id": "d", "text": "Conducting a competitive analysis of which APIs rival platforms are exposing" }
+    ],
+    "correct": "b",
+    "explanation": "Before opening APIs to external parties, the organization must establish governance policies that define the rules of engagement: version lifecycle, deprecation timelines, usage limits, and crucially, data usage rights that protect the company and its customers. Without these, the organization exposes itself to legal, reputational, and operational risk. Style guides, developer relations, and competitive analysis are important but follow from having sound governance in place.",
+    "topics": ["digital-strategy"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-009",
+    "type": "single_choice",
+    "prompt": "The board is pressuring the CIO to accelerate digital transformation delivery while simultaneously maintaining the reliability of existing production systems. How should the CIO frame this tension in strategic terms?",
+    "choices": [
+      { "id": "a", "text": "Request additional headcount so that separate teams can handle transformation and operations without competing for resources" },
+      { "id": "b", "text": "Prioritize transformation because existing systems will be replaced within the transformation timeline" },
+      { "id": "c", "text": "Frame it as a bimodal investment decision: explicitly allocate portfolio budget and organizational capacity across run-the-business and change-the-business imperatives, with board-visible trade-off transparency" },
+      { "id": "d", "text": "Implement DevOps practices so that the same teams can deliver new features and maintain stability simultaneously" }
+    ],
+    "correct": "c",
+    "explanation": "The tension between innovation and operational stability is a permanent strategic condition, not a resource problem to solve. The CIO must make the trade-off visible to the board as an explicit portfolio allocation decision, because every organization has a finite capacity for change. Framing it as bimodal budget allocation gives the board agency in setting the balance. DevOps helps at the execution level but does not resolve the strategic prioritization question, and headcount does not eliminate the trade-off.",
+    "topics": ["digital-strategy"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-010",
+    "type": "single_choice",
+    "prompt": "A company applying the jobs-to-be-done (JTBD) framework to its digital strategy discovers that customers 'hire' its logistics app primarily to reduce anxiety about delivery uncertainty, not to track packages. What is the most strategically significant implication of this finding?",
+    "choices": [
+      { "id": "a", "text": "Invest in real-time GPS tracking to provide more accurate location data throughout the delivery journey" },
+      { "id": "b", "text": "Reorient the digital product roadmap around features that proactively communicate and resolve uncertainty, such as predictive delay alerts and instant re-routing options" },
+      { "id": "c", "text": "Conduct a market segmentation study to identify which customer segments care most about tracking accuracy" },
+      { "id": "d", "text": "Benchmark the tracking interface against competitors to identify UX improvements" }
+    ],
+    "correct": "b",
+    "explanation": "JTBD analysis reveals the underlying outcome customers are seeking, which in this case is anxiety reduction, not package location. The strategic implication is that the product roadmap should shift from tracking accuracy features to anxiety-resolution capabilities: proactive notifications, delivery confidence scoring, and frictionless exception handling. GPS investment and UX benchmarking address the surface-level assumption that tracking is the job, not the revealed outcome.",
+    "topics": ["digital-strategy"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-011",
+    "type": "single_choice",
+    "prompt": "A large enterprise has a CIO and a newly appointed CDO. The CEO asks both to collaborate on a unified digital strategy. What is the most important structural principle to establish to prevent role confusion and strategy fragmentation?",
+    "choices": [
+      { "id": "a", "text": "Define the CDO as responsible for digital revenue streams and the CIO as responsible for infrastructure and security" },
+      { "id": "b", "text": "Establish a shared digital strategy council with joint accountability for strategy, while assigning execution ownership by domain based on capability alignment" },
+      { "id": "c", "text": "Appoint the CIO as the senior leader and have the CDO report to the CIO to ensure a single point of accountability" },
+      { "id": "d", "text": "Separate digital and IT strategies into parallel tracks that are aligned annually during the planning cycle" }
+    ],
+    "correct": "b",
+    "explanation": "When CIO and CDO roles coexist, the greatest risk is fragmented strategy and resource conflict. A shared governance council with joint accountability at the strategy level, but clear execution ownership by domain, creates coherence without subordinating one role to the other. Separating strategies into parallel tracks creates misalignment, and making the CDO report to the CIO often limits the CDO's business-facing mandate.",
+    "topics": ["digital-strategy"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-012",
+    "type": "single_choice",
+    "prompt": "An incumbent telecom operator uses a SWOT analysis to evaluate its digital strategy. It identifies a large proprietary network infrastructure as a strength and the emergence of 5G as an opportunity. Which strategic move best leverages this combination?",
+    "choices": [
+      { "id": "a", "text": "License the network infrastructure to new market entrants to generate passive revenue without investment" },
+      { "id": "b", "text": "Partner with cloud hyperscalers to offer network-as-a-service leveraging the physical infrastructure advantage while co-developing 5G edge computing capabilities" },
+      { "id": "c", "text": "Divest the physical network and focus entirely on software-defined services to reduce capital expenditure" },
+      { "id": "d", "text": "Delay 5G investment until the technology matures and the return on investment becomes more predictable" }
+    ],
+    "correct": "b",
+    "explanation": "The classic SO (Strength-Opportunity) move in SWOT is to use existing strengths to capture emerging opportunities. Partnering with hyperscalers to offer network-as-a-service uses the proprietary infrastructure advantage while the 5G edge computing opportunity creates a new value layer that pure software players cannot replicate. Divestiture eliminates the strength, licensing is passive and low-margin, and delaying 5G surrenders first-mover advantage.",
+    "topics": ["digital-strategy"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-013",
+    "type": "single_choice",
+    "prompt": "A platform-based digital business model creates value by facilitating interactions between two or more user groups. Which strategic dynamic is most distinctive about platform models compared to traditional pipeline business models?",
+    "choices": [
+      { "id": "a", "text": "Platforms have lower marginal costs because they do not manufacture physical goods" },
+      { "id": "b", "text": "Platform value grows non-linearly through network effects, where each additional participant increases value for all existing participants" },
+      { "id": "c", "text": "Platforms rely on advertising revenue rather than service fees, creating a simpler monetization model" },
+      { "id": "d", "text": "Platforms require less regulatory oversight because they do not own the assets on their marketplace" }
+    ],
+    "correct": "b",
+    "explanation": "The defining strategic characteristic of platform business models is network effects: the value of the platform increases for all participants as more participants join. This creates winner-take-most dynamics and is the primary source of competitive moat. Lower marginal costs and advertising revenue are features of some platforms but are not the distinguishing strategic dynamic. Regulatory treatment of platforms is in fact a growing area of scrutiny, not a source of advantage.",
+    "topics": ["digital-strategy"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-014",
+    "type": "single_choice",
+    "prompt": "A CIO presents the board with three digital investment options: (A) expand core e-commerce capability, (B) pilot an AI-based personalization engine, and (C) invest in a new IoT-enabled service line. Resources allow funding of only two. Which portfolio management principle should guide the selection?",
+    "choices": [
+      { "id": "a", "text": "Select the two options with the highest projected NPV over a five-year horizon" },
+      { "id": "b", "text": "Select the options the technology team has the highest confidence in delivering, prioritizing execution certainty over strategic ambition" },
+      { "id": "c", "text": "Balance the portfolio across risk horizons: at least one investment in the proven core and at least one in an emerging opportunity, with explicit board acknowledgment of the uncertainty profile of each" },
+      { "id": "d", "text": "Defer the decision until a full external benchmarking study confirms which investments peers are prioritizing" }
+    ],
+    "correct": "c",
+    "explanation": "Strategic portfolio management requires balancing across risk horizons rather than optimizing on a single dimension. Selecting purely by NPV ignores the option value of emerging bets; selecting by delivery confidence systematically excludes transformational investments. A balanced portfolio with transparent risk profiles for each bet gives the board the information needed to make an informed strategic commitment. Deferring to benchmarking surrenders strategic leadership to imitation.",
+    "topics": ["digital-strategy"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-ds-015",
+    "type": "single_choice",
+    "prompt": "During a digital strategy review, an executive team debates whether to prioritize digital channel expansion (reaching more customers) or digital channel deepening (increasing value per existing customer). What strategic framework question best informs this decision?",
+    "choices": [
+      { "id": "a", "text": "What is the current customer acquisition cost compared to the customer lifetime value?" },
+      { "id": "b", "text": "How does the organization's existing digital capability compare to best-in-class competitors?" },
+      { "id": "c", "text": "What growth constraint is more binding: market penetration rate or monetization of the existing base?" },
+      { "id": "d", "text": "Which option has the shorter payback period given current operating margins?" }
+    ],
+    "correct": "c",
+    "explanation": "The correct strategic question is which constraint is binding: if the addressable market is large and penetration is low, expansion is the priority; if the market is mature or penetration is high, deepening monetization creates more value. Customer acquisition cost versus LTV and payback period are financial metrics that inform execution but do not answer the strategic directional question. Competitive benchmarking is diagnostic, not directional.",
+    "topics": ["digital-strategy"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  }
+]

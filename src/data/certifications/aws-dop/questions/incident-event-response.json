@@ -1,0 +1,331 @@
+[
+  {
+    "id": "aws-dop-ie-001",
+    "type": "single_choice",
+    "prompt": "A company's operations team wants to automatically restart EC2 instances when a StatusCheckFailed_Instance alarm fires. The restart must be logged as an OpsItem in Systems Manager OpsCenter for tracking. Which architecture implements both requirements with minimal custom code?",
+    "choices": [
+      { "id": "a", "text": "Configure the CloudWatch alarm to trigger an SNS notification; a Lambda function consumes the SNS message, calls ec2:RebootInstances, and calls ssm:CreateOpsItem" },
+      { "id": "b", "text": "Configure the CloudWatch alarm action to use the EC2 recovery action and separately configure an EventBridge rule to create an OpsItem when the alarm fires" },
+      { "id": "c", "text": "Enable EC2 Auto Recovery on the instance (alarm action: recover) and configure an EventBridge rule matching the StatusCheckFailed alarm state change to invoke a Systems Manager Automation that creates an OpsItem" },
+      { "id": "d", "text": "Use Systems Manager OpsCenter with built-in CloudWatch integration; OpsCenter automatically creates OpsItems and restarts instances for all StatusCheckFailed alarms" }
+    ],
+    "correct": "c",
+    "explanation": "EC2 Auto Recovery (alarm action: recover) automatically recovers the instance when StatusCheckFailed_System fires and reboots for StatusCheckFailed_Instance, with no Lambda needed. A separate EventBridge rule matching the alarm state change (OK to ALARM) can trigger a Systems Manager Automation document that creates an OpsItem in OpsCenter. This separates concerns cleanly: EC2 handles the restart, SSM handles the OpsItem. Option A requires a Lambda for both actions. Option B uses EC2 recovery which handles system checks, not instance status checks. Option D overstates OpsCenter's auto-recovery capabilities.",
+    "topics": ["incident-event-response"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Recover Your Instance",
+        "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-002",
+    "type": "single_choice",
+    "prompt": "A company uses Systems Manager Incident Manager to manage production incidents. They want incidents to be automatically created when a CloudWatch composite alarm fires, with the incident automatically linked to the affected EC2 instance in the OpsCenter OpsItem. How is this configured?",
+    "choices": [
+      { "id": "a", "text": "Create a response plan in Incident Manager and configure the CloudWatch alarm to use the Incident Manager response plan ARN as an alarm action" },
+      { "id": "b", "text": "Configure an EventBridge rule that invokes a Lambda to call ssm-incidents:StartIncident when the composite alarm fires" },
+      { "id": "c", "text": "Enable Incident Manager integration in the CloudWatch console and select the response plan from the alarm settings" },
+      { "id": "d", "text": "Create an SNS topic subscribed to the alarm; configure Incident Manager as an SNS subscription endpoint" }
+    ],
+    "correct": "a",
+    "explanation": "Incident Manager integrates directly with CloudWatch alarms. A response plan defines the escalation, runbook, and notification channels for an incident. You configure the CloudWatch alarm action with the Incident Manager response plan ARN (using the arn:aws:ssm-incidents::account:response-plan/plan-name format). When the alarm fires, Incident Manager automatically creates an incident, executes the runbook, and notifies contacts. No Lambda or SNS intermediary is required. This is a first-class CloudWatch alarm action type.",
+    "topics": ["incident-event-response"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Incident Manager Integration with CloudWatch",
+        "url": "https://docs.aws.amazon.com/incident-manager/latest/userguide/what-is-incident-manager.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-003",
+    "type": "single_choice",
+    "prompt": "An EventBridge rule must match all S3 PutObject events where the object key ends with .pem (certificate files uploaded accidentally). The event pattern should match objects across all buckets. Which event pattern correctly implements this filter?",
+    "choices": [
+      { "id": "a", "text": "{ \"source\": [\"aws.s3\"], \"detail-type\": [\"Object Created\"], \"detail\": { \"object\": { \"key\": [{ \"suffix\": \".pem\" }] } } }" },
+      { "id": "b", "text": "{ \"source\": [\"aws.s3\"], \"detail-type\": [\"AWS API Call via CloudTrail\"], \"detail\": { \"eventName\": [\"PutObject\"], \"requestParameters\": { \"key\": [{ \"suffix\": \".pem\" }] } } }" },
+      { "id": "c", "text": "{ \"source\": [\"aws.s3\"], \"detail\": { \"object.key\": [{ \"wildcard\": \"*.pem\" }] } }" },
+      { "id": "d", "text": "{ \"source\": [\"aws.s3\"], \"detail-type\": [\"Object Created\"], \"detail\": { \"object\": { \"key\": [{ \"wildcard\": \"*.pem\" }] } } }" }
+    ],
+    "correct": "a",
+    "explanation": "EventBridge supports content-based filtering operators including prefix, suffix, and anything-but. For S3 EventBridge notifications (enabled via S3 Event Notifications to EventBridge), the detail-type is Object Created and the key is in detail.object.key. The suffix operator matches strings ending with the specified value. Option D uses wildcard (not a valid EventBridge operator for string matching; prefix and suffix are the correct operators). Option B matches CloudTrail API events, which have a different schema and introduce latency. Option C uses incorrect JSON structure (object.key is not a valid nested path syntax).",
+    "topics": ["incident-event-response"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Amazon EventBridge Event Patterns",
+        "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-004",
+    "type": "single_choice",
+    "prompt": "A company wants to automatically remediate publicly accessible S3 buckets. When any bucket's ACL is set to public-read, a Lambda function should immediately set the bucket's Block Public Access settings. Which trigger mechanism provides the fastest detection and response?",
+    "choices": [
+      { "id": "a", "text": "AWS Config rule (s3-bucket-public-read-prohibited) with Lambda-based auto-remediation triggered on configuration change" },
+      { "id": "b", "text": "EventBridge rule matching CloudTrail PutBucketAcl API events, triggering a Lambda that applies Block Public Access" },
+      { "id": "c", "text": "A CloudWatch Events scheduled rule that runs every 5 minutes, invoking a Lambda to scan all bucket ACLs" },
+      { "id": "d", "text": "Amazon GuardDuty S3 threat detection with automatic remediation via Security Hub" }
+    ],
+    "correct": "b",
+    "explanation": "EventBridge rules matching CloudTrail management events (PutBucketAcl) fire within seconds of the API call, providing near-real-time response. AWS Config rules evaluating on configuration changes typically have a delay of 1-3 minutes for the configuration snapshot to be captured and evaluated. Scheduled scans have up to 5-minute latency. GuardDuty detects threats based on data access patterns, not ACL configuration changes, and Security Hub does not auto-remediate. For fastest response to a specific API action, EventBridge on CloudTrail is the correct pattern.",
+    "topics": ["incident-event-response"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Using EventBridge to Respond to Operational Changes",
+        "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-005",
+    "type": "true_false",
+    "prompt": "AWS Health events for planned maintenance affecting your EC2 instances can be accessed through the EventBridge event bus using the source aws.health, and these events are available in all regions where the affected resources reside.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Health events are published to EventBridge, but Health events are only available in the us-east-1 region's event bus, regardless of where the affected resources reside. Organizations with multi-region architectures must create an EventBridge rule in us-east-1 to capture Health events and optionally forward them to event buses in other regions or use cross-region routing. This is a common architectural pitfall when building automated Health event responses.",
+    "topics": ["incident-event-response"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Monitoring AWS Health Events with EventBridge",
+        "url": "https://docs.aws.amazon.com/health/latest/ug/cloudwatch-events-health.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-006",
+    "type": "single_choice",
+    "prompt": "A runbook automation using Systems Manager Automation must be triggered when a DynamoDB table's ConsumedWriteCapacityUnits metric exceeds 80% of provisioned capacity. The automation should scale up the table's write capacity by 20%. Which trigger chain is correct?",
+    "choices": [
+      { "id": "a", "text": "CloudWatch alarm on ConsumedWriteCapacityUnits alarm action triggers SNS, which invokes Lambda to start the SSM Automation" },
+      { "id": "b", "text": "CloudWatch alarm → EventBridge rule matching alarm state change → SSM Automation execution via EventBridge target" },
+      { "id": "c", "text": "AWS Config rule on DynamoDB table configuration change → SSM Automation remediation action" },
+      { "id": "d", "text": "CloudWatch alarm action directly targeting the SSM Automation document ARN" }
+    ],
+    "correct": "b",
+    "explanation": "The recommended pattern is: CloudWatch alarm fires → EventBridge rule matches the CloudWatch alarm state change event → EventBridge invokes Systems Manager Automation as a target. EventBridge can directly invoke SSM Automation as a target without a Lambda intermediary. CloudWatch alarm actions support SNS, EC2 actions, and Auto Scaling, but not direct SSM Automation invocation. AWS Config tracks resource configuration changes, not metric thresholds. SSM Automation cannot be directly targeted as a CloudWatch alarm action.",
+    "topics": ["incident-event-response"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "EventBridge Targets: AWS Systems Manager Run Command",
+        "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-007",
+    "type": "single_choice",
+    "prompt": "A team uses Incident Manager for on-call escalations. During an incident, the team needs an automated runbook that: (1) captures diagnostic information via a Lambda function, (2) waits for human approval before proceeding with a potentially disruptive remediation step, and (3) executes the remediation if approved. Which Incident Manager feature supports this workflow?",
+    "choices": [
+      { "id": "a", "text": "Associate an SSM Automation document with aws:approve step type in the response plan's runbook; the Automation pauses at the approval step until an operator responds via the console or API" },
+      { "id": "b", "text": "Use Incident Manager engagement plans to page the on-call engineer; they manually execute the remediation step from the incident detail page" },
+      { "id": "c", "text": "Configure a Lambda function as a runbook step; Lambda polls an SQS queue for approval messages before executing remediation" },
+      { "id": "d", "text": "Use Step Functions with a .waitForTaskToken integration to pause the remediation workflow pending human input" }
+    ],
+    "correct": "a",
+    "explanation": "Systems Manager Automation supports the aws:approve action type, which pauses automation execution and sends approval requests to specified IAM principals or SNS topics. Approvers respond via the SSM console, CLI, or API. This is natively integrated with Incident Manager runbooks. The Automation document can chain diagnostic Lambda steps before the approval gate and remediation steps after. Option B is manual, not automated. Option C requires custom polling logic. Option D (Step Functions) works but is not Incident Manager-native; it requires separate orchestration.",
+    "topics": ["incident-event-response"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Systems Manager Automation aws:approve Action",
+        "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-action-approve.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-008",
+    "type": "multi_choice",
+    "prompt": "An operations team wants to use EventBridge to route events from multiple AWS accounts in an Organization to a central event bus in the security account. Which two statements describe required configuration steps? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "The central event bus in the security account must have a resource-based policy granting events:PutEvents permission to the source accounts or the Organization" },
+      { "id": "b", "text": "Each source account must create an EventBridge rule with the central event bus as the target" },
+      { "id": "c", "text": "Enable AWS Organizations trusted access for EventBridge in the management account console" },
+      { "id": "d", "text": "Create a VPC peering connection between source account VPCs and the security account VPC for event routing" },
+      { "id": "e", "text": "Configure EventBridge global endpoints to automatically route events to the central bus" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "Cross-account EventBridge event routing requires two configurations: (1) the destination event bus in the security account must have a resource-based policy granting events:PutEvents to the source accounts (by account ID or Organization principal); and (2) each source account creates EventBridge rules targeting the cross-account event bus ARN. AWS Organizations trusted access for EventBridge is used for organizational event buses managed from the management account, but direct cross-account routing via rules does not require it. VPC peering is irrelevant; EventBridge is a managed service with no VPC dependency. Global endpoints are for high availability, not multi-account routing.",
+    "topics": ["incident-event-response"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Sending and Receiving EventBridge Events Between AWS Accounts",
+        "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cross-account.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-009",
+    "type": "single_choice",
+    "prompt": "A Lambda function is timing out intermittently in production. The team needs to automatically capture a memory dump and CPU profile of the function execution environment when a timeout error is detected in CloudWatch Logs, without modifying the Lambda code. Which approach is most operationally sound?",
+    "choices": [
+      { "id": "a", "text": "Create a CloudWatch Logs metric filter matching 'Task timed out' errors, trigger an alarm, and use an EventBridge rule to invoke a diagnostic Lambda that uses Lambda's GetFunctionConcurrency API to identify the bottleneck" },
+      { "id": "b", "text": "Enable Lambda Insights (a CloudWatch Lambda extension) to capture memory and CPU data, then use Logs Insights to query the enhanced metrics when timeouts are detected" },
+      { "id": "c", "text": "Configure a CloudWatch Logs subscription filter to stream the function's log group to a Kinesis stream and analyze with Kinesis Data Analytics" },
+      { "id": "d", "text": "Use X-Ray with the XRAY_DAEMON_ADDRESS extension to trace all Lambda invocations and automatically capture timeout traces" }
+    ],
+    "correct": "b",
+    "explanation": "Lambda Insights is a monitoring solution implemented as a Lambda layer (extension) that collects enhanced system-level metrics including CPU total time, memory usage, disk and network I/O for each invocation without requiring code changes. When a timeout occurs, the Lambda Insights data in the /aws/lambda-insights log group provides detailed resource utilization context. Querying this with Logs Insights correlates the timeout event with the performance data. GetFunctionConcurrency reports overall concurrency, not per-invocation diagnostics. Kinesis streaming adds latency and cost. X-Ray traces request flow but not CPU/memory profiling.",
+    "topics": ["incident-event-response"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Using Lambda Insights in Amazon CloudWatch",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-010",
+    "type": "single_choice",
+    "prompt": "A company's incident response process requires that all incidents be post-mortemed within 48 hours, with action items stored in an internal Jira-like ticketing system. Incident Manager does not have native Jira integration. How should the team automate ticket creation in their system when an incident is resolved in Incident Manager?",
+    "choices": [
+      { "id": "a", "text": "Configure an EventBridge rule matching Incident Manager incident state change events to RESOLVED, trigger a Lambda function that calls the ticketing system's API to create a post-mortem ticket" },
+      { "id": "b", "text": "Use Incident Manager's built-in webhook to POST incident resolution events to the ticketing system's REST endpoint" },
+      { "id": "c", "text": "Configure an SNS topic as a Incident Manager notification channel; subscribe the ticketing system's email-to-ticket endpoint to the topic" },
+      { "id": "d", "text": "Schedule a daily Lambda function that queries Incident Manager for resolved incidents and creates tickets in batch" }
+    ],
+    "correct": "a",
+    "explanation": "Incident Manager publishes state change events (OPEN, RESOLVED) to EventBridge. An EventBridge rule filtering on the RESOLVED state and the Incident Manager source can invoke a Lambda function with the incident details. The Lambda calls the ticketing API to create a post-mortem ticket with incident metadata (title, start/end time, timeline). Option B is incorrect; Incident Manager does not have a native webhook feature. SNS email subscriptions are unstructured and unreliable for API-based ticket creation. Batch Lambda is delayed and misses the immediate post-resolution window.",
+    "topics": ["incident-event-response"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "EventBridge Events for Incident Manager",
+        "url": "https://docs.aws.amazon.com/incident-manager/latest/userguide/what-is-incident-manager.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-011",
+    "type": "single_choice",
+    "prompt": "An SQS queue is used to buffer messages for a Lambda consumer. A Lambda bug causes all messages to fail processing and move to the dead-letter queue. The team wants to be alerted when the DLQ depth exceeds 10 messages, and automatically retry processing after the bug is fixed with a new Lambda deployment. Which mechanism reprocesses DLQ messages after the fix?",
+    "choices": [
+      { "id": "a", "text": "Manually move messages from the DLQ back to the source queue using the SQS console redrive feature" },
+      { "id": "b", "text": "Enable SQS DLQ redrive policy with a maximum receive count of 1; messages automatically retry after 5 minutes" },
+      { "id": "c", "text": "Use the SQS Start Message Move Task API (DLQ redrive) to asynchronously move messages from the DLQ back to the source queue after deploying the fixed Lambda" },
+      { "id": "d", "text": "Configure an EventBridge rule on SQS ApproximateNumberOfMessagesVisible > 10 to trigger a Lambda that reads from the DLQ and puts messages back to the source queue" }
+    ],
+    "correct": "c",
+    "explanation": "SQS supports DLQ redrive via the StartMessageMoveTask API, which asynchronously moves messages from a DLQ back to a specified source queue at a controlled rate. This is the native SQS mechanism for reprocessing DLQ messages without custom Lambda code to read and re-enqueue messages. The maximum receive count in the redrive policy determines when messages first go to the DLQ, not when they retry. Manual console redrive works but is not automated. A custom Lambda reader is more complex and error-prone than the native move task API.",
+    "topics": ["incident-event-response"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Amazon SQS Dead-Letter Queues",
+        "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-012",
+    "type": "single_choice",
+    "prompt": "A company runs containerized workloads on ECS. When an ECS task fails and exits with a non-zero code, the team wants an automated process to: collect the container's final logs, save them to S3 for post-mortem analysis, and create an OpsCenter OpsItem. Which event source triggers this workflow?",
+    "choices": [
+      { "id": "a", "text": "EventBridge rule matching ECS Task State Change events where lastStatus is STOPPED and stopCode is TaskFailedToStart or EssentialContainerExited" },
+      { "id": "b", "text": "CloudWatch Logs metric filter on ECS container logs matching 'exit code' followed by a non-zero number" },
+      { "id": "c", "text": "Systems Manager OpsCenter built-in ECS integration that automatically detects task failures" },
+      { "id": "d", "text": "ECS Service EventBridge rule on SERVICE_DEPLOYMENT_FAILED events" }
+    ],
+    "correct": "a",
+    "explanation": "ECS publishes Task State Change events to EventBridge when task status changes. A rule matching lastStatus STOPPED with stopCode values indicating failures (TaskFailedToStart, EssentialContainerExited) captures failed tasks. A Lambda invoked by this rule can retrieve the container's CloudWatch Logs log stream (using the task's taskArn to find the log stream name), save them to S3, and call ssm:CreateOpsItem. Log-based metric filters react to log content but add latency and only work if the container managed to log before failing. OpsCenter has no built-in ECS task failure detection. SERVICE_DEPLOYMENT_FAILED is about deployment rollbacks, not individual task exits.",
+    "topics": ["incident-event-response"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Amazon ECS Events and EventBridge",
+        "url": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_cwe_events.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-013",
+    "type": "single_choice",
+    "prompt": "Systems Manager OpsCenter OpsItems are being created for every minor infrastructure event, causing alert fatigue. The team wants to automatically close OpsItems that have been in the Open state for more than 7 days without operator action, and notify the team lead. Which approach implements this with minimal operational overhead?",
+    "choices": [
+      { "id": "a", "text": "Create a daily EventBridge scheduled rule that invokes a Lambda function to query OpsCenter for open OpsItems older than 7 days, update their status to Resolved, and send an SNS notification" },
+      { "id": "b", "text": "Configure OpsCenter auto-resolution rules in the Systems Manager console to close items after 7 days" },
+      { "id": "c", "text": "Create a CloudWatch alarm on the OpsCenter OpenOpsItemsCount metric; when the count exceeds a threshold, trigger a Lambda to clean up old items" },
+      { "id": "d", "text": "Use a Step Functions state machine with a Wait state of 7 days triggered on OpsItem creation" }
+    ],
+    "correct": "a",
+    "explanation": "OpsCenter does not have a native auto-close or aging policy feature. The standard automation pattern is a scheduled EventBridge rule (daily) triggering a Lambda that calls ssm:DescribeOpsItems with filters for status=Open and createdTime older than 7 days, then calls ssm:UpdateOpsItem to set status to Resolved and publishes an SNS notification. Option B is incorrect; OpsCenter does not have built-in auto-resolution rules based on age. A CloudWatch alarm on item count does not provide the age filter. A Step Functions state machine triggered per-OpsItem would create thousands of running executions and incur significant cost.",
+    "topics": ["incident-event-response"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "AWS Systems Manager OpsCenter",
+        "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-014",
+    "type": "single_choice",
+    "prompt": "A company wants to implement a circuit breaker pattern for a Lambda function that calls a downstream HTTP API. When the downstream API's error rate exceeds 50% over a 1-minute window, new invocations should immediately return an error without calling the API, reducing pressure on the struggling service. Which implementation is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Use Lambda Destinations with an On Failure destination to an SQS queue; when queue depth grows, stop invoking the Lambda" },
+      { "id": "b", "text": "Implement the circuit breaker state in a DynamoDB item or SSM Parameter; Lambda reads and updates state on each invocation, short-circuiting when the circuit is open" },
+      { "id": "c", "text": "Configure a Lambda concurrency limit of 0 when the error rate alarm fires, then reset it after 60 seconds via a scheduled EventBridge rule" },
+      { "id": "d", "text": "Use API Gateway throttling settings on the Lambda integration to limit requests when errors occur" }
+    ],
+    "correct": "b",
+    "explanation": "A classic circuit breaker stores state (closed/open/half-open) in a shared, low-latency store like DynamoDB or SSM Parameter Store. Each Lambda invocation reads the circuit state; if open, it immediately returns an error. A background process (Lambda or CloudWatch alarm action) monitors the error rate and updates the circuit state. Setting Lambda concurrency to 0 stops all invocations (including healthy traffic) and requires an automated mechanism to restore. Lambda Destinations handle post-invocation routing, not pre-invocation short-circuiting. API Gateway throttling controls request rate, not circuit state based on downstream health.",
+    "topics": ["incident-event-response"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Resilience Patterns on AWS",
+        "url": "https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/aws-fault-isolation-boundaries.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ie-015",
+    "type": "single_choice",
+    "prompt": "A DevOps engineer needs to implement automated runbook execution in response to a GuardDuty finding that indicates an EC2 instance may be compromised (finding type: UnauthorizedAccess:EC2/SSHBruteForce). The runbook should isolate the instance by removing it from all security groups and taking a forensic snapshot, then notify the security team. Which event chain implements this?",
+    "choices": [
+      { "id": "a", "text": "GuardDuty finding → Security Hub → EventBridge rule matching the finding type → SSM Automation document that isolates the instance and creates a snapshot → SNS notification" },
+      { "id": "b", "text": "GuardDuty finding → SNS topic → Lambda function that isolates the instance and creates a snapshot → email notification" },
+      { "id": "c", "text": "GuardDuty finding → CloudTrail event → EventBridge rule → Lambda isolation function → SNS" },
+      { "id": "d", "text": "GuardDuty finding → EventBridge rule matching source aws.guardduty and detail.type for the specific finding → SSM Automation document that isolates the instance and creates a snapshot → SNS notification" }
+    ],
+    "correct": "d",
+    "explanation": "GuardDuty publishes findings directly to EventBridge with source aws.guardduty. An EventBridge rule filtering on detail.type (e.g., 'UnauthorizedAccess:EC2/SSHBruteForce') can invoke a Systems Manager Automation document as a target. The Automation modifies security groups (aws:executeAwsApi calling ec2:ModifyNetworkInterfaceAttribute or ec2:RevokeSecurityGroupIngress) and creates a snapshot, then notifies via SNS. Security Hub aggregates findings but is an optional intermediary that adds latency. GuardDuty does not generate CloudTrail events directly. Lambda works but SSM Automation provides better auditability via OpsCenter integration.",
+    "topics": ["incident-event-response"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Creating Custom Responses to GuardDuty Findings with EventBridge",
+        "url": "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings_cloudwatch.html"
+      }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-cks-sc-001",
+    "type": "single_choice",
+    "prompt": "Which Dockerfile instruction is preferred for installing a minimal set of packages and cleaning up in the same layer?",
+    "choices": [
+      { "id": "a", "text": "Multiple RUN instructions, one per package" },
+      { "id": "b", "text": "A single RUN instruction chaining install and cleanup with && and rm -rf /var/lib/apt/lists/*" },
+      { "id": "c", "text": "COPY --from=base /usr/bin/package /usr/bin/package" },
+      { "id": "d", "text": "ENV PACKAGES='curl wget' and RUN apt-get install $PACKAGES" }
+    ],
+    "correct": "b",
+    "explanation": "Each Dockerfile instruction creates a new layer. If you install packages in one RUN and clean up in another, the cache files exist in the intermediate layer even after deletion. Chaining the install and cleanup in a single RUN instruction (e.g., apt-get install -y curl && rm -rf /var/lib/apt/lists/*) ensures the cleanup happens before the layer is committed, keeping the image minimal. This is a core image minimization best practice.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Dockerfile Best Practices", "url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-002",
+    "type": "single_choice",
+    "prompt": "What is a multi-stage Docker build and why is it important for supply chain security?",
+    "choices": [
+      { "id": "a", "text": "A build that uses multiple FROM instructions to create separate images that must all be deployed together" },
+      { "id": "b", "text": "A build that uses multiple FROM instructions where only artifacts from the final stage are included in the image, excluding build tools and source code" },
+      { "id": "c", "text": "A build pipeline that runs in multiple CI stages for testing and security scanning" },
+      { "id": "d", "text": "A technique for building multiple OS variants of the same image simultaneously" }
+    ],
+    "correct": "b",
+    "explanation": "Multi-stage builds use multiple FROM instructions in a single Dockerfile. Each stage can install tools and build artifacts, but only files explicitly copied from earlier stages are included in the final image using COPY --from=<stage>. This means compilers, build dependencies, test frameworks, and source code don't end up in the production image, dramatically reducing the attack surface and CVE exposure.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Dockerfile Best Practices", "url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-003",
+    "type": "single_choice",
+    "prompt": "You scan an image with Trivy and find a CRITICAL CVE in a base image library. What is the most appropriate remediation?",
+    "choices": [
+      { "id": "a", "text": "Add the CVE ID to Trivy's ignore list (.trivyignore) so it doesn't appear in reports" },
+      { "id": "b", "text": "Rebuild the image using an updated base image version that has the CVE patched, or switch to a minimal alternative base image" },
+      { "id": "c", "text": "Change the image's tag to 'secure' to indicate it has been reviewed" },
+      { "id": "d", "text": "Apply a seccomp profile to block the syscalls that the CVE exploits" }
+    ],
+    "correct": "b",
+    "explanation": "The correct remediation for a CVE in a base image is to update to a patched version of the base image and rebuild your application image. Switching to a minimal base (like distroless, Alpine, or scratch) often eliminates many CVEs by simply not including the vulnerable packages. Trivy ignore lists should only be used for accepted/false-positive risks, not as a way to avoid fixing real vulnerabilities.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Trivy Image Scanner", "url": "https://aquasecurity.github.io/trivy/latest/docs/target/container_image/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-004",
+    "type": "single_choice",
+    "prompt": "How do you scan a container image for vulnerabilities with Trivy, filtering only HIGH and CRITICAL severity?",
+    "choices": [
+      { "id": "a", "text": "trivy image --filter HIGH,CRITICAL nginx:1.21" },
+      { "id": "b", "text": "trivy image --severity HIGH,CRITICAL nginx:1.21" },
+      { "id": "c", "text": "trivy scan --level HIGH,CRITICAL image nginx:1.21" },
+      { "id": "d", "text": "trivy image -s HIGH,CRITICAL nginx:1.21" }
+    ],
+    "correct": "b",
+    "explanation": "The correct Trivy syntax for severity filtering is '--severity' with a comma-separated list of severity levels. For example: 'trivy image --severity HIGH,CRITICAL nginx:1.21'. Valid severity values are UNKNOWN, LOW, MEDIUM, HIGH, and CRITICAL. The short form '-s' is also accepted. The '--filter' flag does not exist in Trivy.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Trivy CLI Reference", "url": "https://aquasecurity.github.io/trivy/latest/docs/target/container_image/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-005",
+    "type": "single_choice",
+    "prompt": "The ImagePolicyWebhook admission controller is enabled on the API server. What does it do?",
+    "choices": [
+      { "id": "a", "text": "It scans images for CVEs before allowing them to run" },
+      { "id": "b", "text": "It calls an external webhook backend to approve or reject image pull requests based on custom policy" },
+      { "id": "c", "text": "It enforces image digest pinning and rejects images referenced by tag" },
+      { "id": "d", "text": "It pulls images from a private registry and caches them locally" }
+    ],
+    "correct": "b",
+    "explanation": "ImagePolicyWebhook is a Kubernetes admission controller that delegates image admission decisions to an external HTTP backend. When a Pod is created, the API server sends an ImageReview request to the configured webhook URL. The backend evaluates the image reference against custom policy (e.g., only allow images from a specific registry, require digest pinning, check image signatures) and returns allow or deny. The backend is responsible for any scanning or signature verification logic.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ImagePolicyWebhook", "url": "https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#imagepolicywebhook" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-006",
+    "type": "single_choice",
+    "prompt": "What is the advantage of referencing a container image by digest (e.g., nginx@sha256:abc123...) instead of by tag (e.g., nginx:1.21)?",
+    "choices": [
+      { "id": "a", "text": "Digests allow images to be pulled faster" },
+      { "id": "b", "text": "Digests are immutable identifiers; the image content cannot change without changing the digest, preventing tag mutation attacks" },
+      { "id": "c", "text": "Digests enable multi-arch image selection" },
+      { "id": "d", "text": "Digests allow the image to be pulled from any registry without authentication" }
+    ],
+    "correct": "b",
+    "explanation": "A container image tag (like nginx:latest or nginx:1.21) is mutable — the registry can update it to point to a different image at any time. A digest (sha256:...) is a cryptographic hash of the image content; it is immutable. Referencing images by digest guarantees you always get exactly the same image content, protecting against supply chain attacks where an attacker overwrites a trusted tag with malicious content.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Kubernetes Security Checklist", "url": "https://kubernetes.io/docs/concepts/security/security-checklist/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-007",
+    "type": "single_choice",
+    "prompt": "What is Cosign and how does it relate to Kubernetes supply chain security?",
+    "choices": [
+      { "id": "a", "text": "Cosign is a Kubernetes admission controller that validates RBAC bindings" },
+      { "id": "b", "text": "Cosign is a tool for signing and verifying container images, ensuring images in the cluster were built by trusted CI pipelines" },
+      { "id": "c", "text": "Cosign is a certificate authority used to sign kubeconfig files" },
+      { "id": "d", "text": "Cosign is the etcd encryption provider used with KMS" }
+    ],
+    "correct": "b",
+    "explanation": "Cosign (from the Sigstore project) is an open-source tool for signing, verifying, and storing container image signatures in an OCI registry. By signing images in CI and verifying signatures at admission (e.g., via policy engines like Kyverno or Connaisseur), you ensure that only images built by trusted pipelines run in the cluster. This closes the gap between a scanned image and what actually gets deployed.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cosign", "url": "https://docs.sigstore.dev/cosign/overview/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-008",
+    "type": "multi_choice",
+    "prompt": "Which of the following Dockerfile practices reduce the image attack surface? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "Use a distroless or scratch base image" },
+      { "id": "b", "text": "Pin the base image to a specific digest" },
+      { "id": "c", "text": "Run the process as root to avoid permission issues" },
+      { "id": "d", "text": "Remove package manager caches and unnecessary binaries in the same layer they are created" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "Using minimal base images (distroless, scratch, Alpine) reduces the number of packages and binaries available for an attacker to exploit. Pinning to a digest prevents supply chain attacks via tag mutation. Cleaning up caches and temporary files in the same RUN layer keeps the image small and removes unnecessary tooling. Running as root (option C) increases the risk of privilege escalation and is a bad practice.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Dockerfile Best Practices", "url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-009",
+    "type": "single_choice",
+    "prompt": "The ImagePolicyWebhook configuration references a kubeconfig file. What does this kubeconfig specify?",
+    "choices": [
+      { "id": "a", "text": "The kubeconfig for kubelet to authenticate to the API server" },
+      { "id": "b", "text": "The URL and credentials the API server uses to call the image review webhook backend" },
+      { "id": "c", "text": "The image registry credentials for pulling private images" },
+      { "id": "d", "text": "The RBAC configuration for the ImagePolicyWebhook service account" }
+    ],
+    "correct": "b",
+    "explanation": "The ImagePolicyWebhook admission controller's AdmissionConfiguration references a kubeconfig file that specifies the webhook backend's URL (under clusters[].cluster.server) and TLS credentials for the API server to authenticate to the webhook service. This is analogous to how kubeconfig normally works but is used by the API server as a client to call the webhook, not for user cluster access.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ImagePolicyWebhook", "url": "https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#imagepolicywebhook" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-010",
+    "type": "single_choice",
+    "prompt": "What does 'distroless' mean in the context of container base images?",
+    "choices": [
+      { "id": "a", "text": "An image with no operating system files at all (scratch)" },
+      { "id": "b", "text": "An image that contains only the application and its runtime dependencies, without package managers, shells, or other OS utilities" },
+      { "id": "c", "text": "An image that uses a minimal Alpine Linux distribution" },
+      { "id": "d", "text": "An image that has been stripped of all debugging symbols" }
+    ],
+    "correct": "b",
+    "explanation": "Distroless images (popularized by Google) contain only the application runtime and its direct dependencies — no shell (bash/sh), no package manager (apt/yum), no debugging utilities. This dramatically reduces the attack surface because an attacker who compromises the container has far fewer tools available to escalate, pivot, or exfiltrate data. They are distinct from scratch (completely empty) and Alpine (minimal but still includes a shell and package manager).",
+    "topics": ["supply-chain-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Kubernetes Security Checklist", "url": "https://kubernetes.io/docs/concepts/security/security-checklist/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-011",
+    "type": "single_choice",
+    "prompt": "A ValidatingAdmissionWebhook is configured with failurePolicy: Fail. The webhook backend becomes unavailable. What happens to new Pod creation requests?",
+    "choices": [
+      { "id": "a", "text": "Pods are created without validation — the webhook failure is ignored" },
+      { "id": "b", "text": "Pod creation is blocked until the webhook backend becomes available again" },
+      { "id": "c", "text": "Pods are created and queued for validation once the backend recovers" },
+      { "id": "d", "text": "The API server automatically falls back to the default built-in admission rules" }
+    ],
+    "correct": "b",
+    "explanation": "When failurePolicy: Fail is set on a ValidatingAdmissionWebhook (or MutatingAdmissionWebhook), any error communicating with the webhook backend — including timeouts and connection failures — causes the admission request to fail. This ensures that no admission decisions are made without the policy being evaluated, providing a strong security guarantee. The alternative failurePolicy: Ignore allows the request through when the webhook is unavailable.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Admission Controllers", "url": "https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-012",
+    "type": "true_false",
+    "prompt": "The USER instruction in a Dockerfile is enforced by the container runtime and cannot be overridden when running the container.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "False. The USER instruction sets the default user for the container, but it can be overridden at runtime using 'docker run --user <uid>' or in Kubernetes via securityContext.runAsUser. This is why defense in depth is important: a good Dockerfile sets a non-root USER, and a Kubernetes securityContext with runAsNonRoot: true enforces it at the cluster level, even if someone tries to override the Dockerfile USER.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dockerfile Best Practices", "url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-013",
+    "type": "single_choice",
+    "prompt": "A CKS candidate needs to verify that an image's filesystem does not contain a package manager binary that could be used for post-compromise tooling. Which approach is most effective?",
+    "choices": [
+      { "id": "a", "text": "Inspect the Dockerfile and check that no package manager is installed in a RUN instruction" },
+      { "id": "b", "text": "Run 'trivy image --list-all-pkgs <image>' to enumerate all installed packages and check for package managers" },
+      { "id": "c", "text": "Use 'docker run <image> which apt' to check if apt is in the container" },
+      { "id": "d", "text": "Check the image's tag for a 'secure' or 'hardened' label" }
+    ],
+    "correct": "b",
+    "explanation": "Trivy's '--list-all-pkgs' flag enumerates every installed package in the image from the package database, which is more reliable than checking the Dockerfile (which may use multi-stage builds or COPY commands that bring in files not tracked as packages). Running 'which apt' inside a container tests only the PATH, not whether binaries exist elsewhere in the filesystem. Trivy provides a comprehensive, automated inventory.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Trivy Image Scanner", "url": "https://aquasecurity.github.io/trivy/latest/docs/target/container_image/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-014",
+    "type": "single_choice",
+    "prompt": "Which Kubernetes admission controller type can mutate incoming API objects (e.g., inject a sidecar container)?",
+    "choices": [
+      { "id": "a", "text": "ValidatingAdmissionWebhook" },
+      { "id": "b", "text": "MutatingAdmissionWebhook" },
+      { "id": "c", "text": "ResourceQuota" },
+      { "id": "d", "text": "LimitRanger" }
+    ],
+    "correct": "b",
+    "explanation": "MutatingAdmissionWebhook can modify (mutate) the API objects it receives before they are stored. This is used for injecting sidecar containers (like Istio's envoy proxy), adding default labels or resource limits, or transforming image references. ValidatingAdmissionWebhook can only approve or reject — it cannot change the object. Mutating webhooks run before validating webhooks in the admission chain.",
+    "topics": ["supply-chain-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Admission Controllers", "url": "https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-sc-015",
+    "type": "single_choice",
+    "prompt": "A Dockerfile contains 'FROM ubuntu:latest'. Why is using 'latest' a supply chain security risk?",
+    "choices": [
+      { "id": "a", "text": "The 'latest' tag may not be available in private registries" },
+      { "id": "b", "text": "The 'latest' tag is mutable; the content it points to can change between builds, making builds non-reproducible and potentially introducing vulnerabilities or malicious changes" },
+      { "id": "c", "text": "Using 'latest' disables Docker layer caching" },
+      { "id": "d", "text": "The 'latest' tag always points to an unstable pre-release version" }
+    ],
+    "correct": "b",
+    "explanation": "The 'latest' tag is a conventional mutable pointer — it can be reassigned to any image at any time by the registry or image publisher. This creates two risks: (1) non-reproducible builds where the same Dockerfile produces different images at different times, and (2) supply chain attacks where a compromised 'latest' tag delivers malicious content. Best practice is to pin to a specific version tag (ubuntu:22.04) or better yet, a specific digest (ubuntu@sha256:...).",
+    "topics": ["supply-chain-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Dockerfile Best Practices", "url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" }
+    ],
+    "version": 1
+  }
+]

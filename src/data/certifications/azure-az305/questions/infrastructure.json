@@ -1,0 +1,302 @@
+[
+  {
+    "id": "azure-az305-in-001",
+    "type": "single_choice",
+    "prompt": "A startup needs to run a containerized API that handles bursty traffic — scaling from zero to hundreds of instances in seconds during peak hours and scaling back to zero during off hours. The team does not want to manage Kubernetes clusters, and the workload has no persistent state. Total monthly execution time is estimated at 50 million requests averaging 200ms each. Which compute option minimizes cost and operational overhead?",
+    "choices": [
+      { "id": "a", "text": "Azure Kubernetes Service with KEDA-based event-driven autoscaling and spot node pools" },
+      { "id": "b", "text": "Azure Container Apps with serverless consumption plan" },
+      { "id": "c", "text": "Azure App Service (P1v3) with autoscaling rules triggered by HTTP queue depth" },
+      { "id": "d", "text": "Azure Functions Premium plan with containerized functions and zone redundancy" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Container Apps on the consumption plan is the optimal fit: it runs containerized workloads, scales to zero, scales out rapidly based on HTTP traffic, and charges only for actual vCPU seconds and memory consumed — no idle cost. It abstracts away all cluster management. AKS with KEDA (option A) can achieve similar scaling but requires cluster management (control plane costs, node pool management, upgrades) — contradicting the no-Kubernetes-management requirement. App Service P1v3 (option C) has a minimum of 1 instance and charges for idle capacity — cannot scale to zero. Functions Premium (option D) also cannot scale to zero from the Premium plan and is designed for event-driven functions rather than containerized APIs with complex routing.",
+    "topics": ["infrastructure"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Container Apps overview", "url": "https://learn.microsoft.com/en-us/azure/container-apps/overview" },
+      { "label": "Scale in Azure Container Apps", "url": "https://learn.microsoft.com/en-us/azure/container-apps/scale-app" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-002",
+    "type": "single_choice",
+    "prompt": "A large enterprise has 20 Azure subscriptions across three departments. Each department has its own hub VNet with centralized firewall and shared services. Departments must not communicate directly with each other, but all spokes must route internet-bound traffic through their department's hub firewall. Inter-hub connectivity is not required. New subscriptions in each department must automatically inherit these routing rules. Which network topology minimizes management overhead?",
+    "choices": [
+      { "id": "a", "text": "Azure Virtual WAN (vWAN) with a single hub connecting all spokes across all departments" },
+      { "id": "b", "text": "Hub-and-spoke topology with Azure Firewall in each department hub and user-defined routes (UDRs) manually applied to each spoke VNet" },
+      { "id": "c", "text": "Hub-and-spoke topology with Azure Firewall in each department hub, Azure Policy to automatically apply UDRs to new spoke VNets, and route table propagation disabled on spoke VNet gateways" },
+      { "id": "d", "text": "Peered mesh network where all VNets are peered to each other with NSGs to block inter-department traffic" }
+    ],
+    "correct": "c",
+    "explanation": "Hub-and-spoke with Azure Firewall in each department hub enforces centralized inspection of internet-bound traffic via UDRs (0.0.0.0/0 pointing to the hub firewall). Azure Policy with a DeployIfNotExists effect can automatically apply the correct UDR route table to new spoke VNets when they are created, ensuring new subscriptions inherit routing rules without manual intervention. Disabling gateway route propagation on spokes prevents BGP routes from the hub gateway from overriding the UDRs. Virtual WAN (option A) would connect all departments through a single hub, enabling inter-department connectivity that is prohibited. Manual UDRs (option B) work but do not satisfy 'automatically inherit' for new subscriptions. Mesh peering (option D) creates direct spoke-to-spoke connectivity bypassing the firewall, and NSGs cannot replace stateful firewall inspection.",
+    "topics": ["infrastructure"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Hub-spoke network topology in Azure", "url": "https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke" },
+      { "label": "Azure Firewall forced tunneling", "url": "https://learn.microsoft.com/en-us/azure/firewall/forced-tunneling" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-003",
+    "type": "single_choice",
+    "prompt": "A company has an existing 10 Gbps ExpressRoute circuit connecting their on-premises datacenter to Azure. They now need to connect three additional branch offices to Azure without provisioning new ExpressRoute circuits. Branch offices need to communicate with Azure resources and also with each other through Azure. Which Azure networking service addresses this with the least new circuit provisioning?",
+    "choices": [
+      { "id": "a", "text": "Deploy additional VPN Gateways in each Azure region and connect each branch via site-to-site VPN, then use VNet peering for inter-branch routing" },
+      { "id": "b", "text": "Upgrade the existing ExpressRoute circuit to Global Reach and connect all branches to the same circuit" },
+      { "id": "c", "text": "Deploy Azure Virtual WAN with a hub containing an ExpressRoute gateway and a VPN gateway; connect the main office via ExpressRoute and branches via site-to-site VPN; enable branch-to-branch routing in vWAN" },
+      { "id": "d", "text": "Add three new ExpressRoute circuits for the branch offices and configure ExpressRoute Global Reach between all four circuits" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Virtual WAN supports a single hub that can terminate both ExpressRoute connections and site-to-site VPN connections, with built-in any-to-any routing between all connections (branches to Azure, branch to branch). The main office uses the existing ExpressRoute circuit via the vWAN hub's ExpressRoute gateway, while the three branches connect via VPN — no new expensive ExpressRoute circuits needed. Branch-to-branch routing (enabled per hub policy) allows the branch offices to communicate with each other through the hub. ExpressRoute Global Reach (option B) connects on-premises networks to each other through ExpressRoute but does not connect VPN-based branches. Option A requires complex UDR configuration for inter-branch routing via Azure. Option D requires purchasing three new ExpressRoute circuits, contradicting the least-provisioning requirement.",
+    "topics": ["infrastructure"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure Virtual WAN overview", "url": "https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about" },
+      { "label": "ExpressRoute and VPN coexistence", "url": "https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-coexist-er-public" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-004",
+    "type": "single_choice",
+    "prompt": "A company publishes an API to external partners. The API must enforce rate limiting per partner (subscription-based), transform XML requests to JSON before forwarding to the backend, cache responses for 60 seconds to reduce backend load, and support versioning so partners can pin to a specific API version. The backend API is hosted in Azure App Service. Which Azure service provides all these capabilities natively?",
+    "choices": [
+      { "id": "a", "text": "Azure Application Gateway v2 with custom routing rules and Azure Cache for Redis for response caching" },
+      { "id": "b", "text": "Azure API Management (APIM) with subscription keys, inbound/outbound policies, and API versions/revisions" },
+      { "id": "c", "text": "Azure Front Door with custom rules, response caching, and origin groups per API version" },
+      { "id": "d", "text": "Azure Functions acting as a proxy with custom rate limiting middleware and response transformation code" }
+    ],
+    "correct": "b",
+    "explanation": "Azure API Management is purpose-built for API gateway scenarios. It supports subscription-based rate limiting via the rate-limit-by-key policy, request/response transformation (XML to JSON) via built-in policies, response caching with configurable TTL, and first-class API versioning with path or header-based version routing. All four requirements are addressed natively in the APIM policy engine without custom code. Application Gateway (option A) is an L7 load balancer with WAF — it does not support API subscriptions, message transformation, or API versioning. Azure Front Door (option C) provides CDN-level caching and routing but lacks API subscription management and message transformation. Azure Functions proxy (option D) requires writing and maintaining custom code for every capability listed.",
+    "topics": ["infrastructure"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure API Management overview", "url": "https://learn.microsoft.com/en-us/azure/api-management/api-management-key-concepts" },
+      { "label": "APIM policies reference", "url": "https://learn.microsoft.com/en-us/azure/api-management/api-management-policies" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-005",
+    "type": "single_choice",
+    "prompt": "A company is designing an Azure landing zone for 50 teams. Each team must be able to create resources in their own subscription but cannot create virtual network peerings to the hub VNet without central networking team approval. All subscriptions must have diagnostic logs sent to a central Log Analytics workspace automatically. Which Azure governance mechanism enforces both constraints without per-subscription manual configuration?",
+    "choices": [
+      { "id": "a", "text": "Azure Blueprints with locked artifacts for diagnostic settings and a custom role that denies VNet peering" },
+      { "id": "b", "text": "Azure Policy with a Deny effect for unauthorized VNet peering and a DeployIfNotExists effect for diagnostic settings, assigned at the management group" },
+      { "id": "c", "text": "Azure Resource Manager templates deployed to each subscription at onboarding time to configure diagnostic settings and RBAC" },
+      { "id": "d", "text": "Azure Defender for Cloud regulatory compliance policies with remediation tasks for diagnostic settings" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Policy assigned at the management group automatically inherits to all child subscriptions, including new ones, without manual per-subscription action. A Deny effect policy can block VNet peering creation unless specific conditions are met (e.g., only the networking team's service principal can create peerings). A DeployIfNotExists (DINE) effect policy can deploy diagnostic setting resources to new subscriptions automatically via remediation tasks. Together, these cover both requirements continuously. Azure Blueprints (option A) apply artifacts at assignment time but do not automatically apply to new subscriptions — manual blueprint assignment is required per subscription. ARM templates (option C) require manual deployment per subscription and do not enforce Deny at the API level. Defender for Cloud (option D) provides compliance assessment but its remediation tasks are for specific resource types, not a general deny for VNet peering.",
+    "topics": ["infrastructure"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure landing zone policies", "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/governance" },
+      { "label": "Azure Policy effects", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-006",
+    "type": "single_choice",
+    "prompt": "A company's Azure API Management instance is in the Standard tier and sits in front of a backend API hosted in an Azure App Service on a private VNet. The backend App Service is configured with VNet Integration and is not accessible from the internet. APIM cannot reach the backend. What is the minimum change required to allow APIM to reach the privately hosted backend?",
+    "choices": [
+      { "id": "a", "text": "Upgrade APIM to the Premium tier and deploy it into the same VNet as the App Service" },
+      { "id": "b", "text": "Move APIM to internal mode in the Standard tier to enable VNet connectivity" },
+      { "id": "c", "text": "Create a self-hosted APIM gateway deployed in an Azure VM in the App Service's VNet" },
+      { "id": "d", "text": "Upgrade APIM to the Developer tier, which includes VNet integration for accessing private backends" }
+    ],
+    "correct": "a",
+    "explanation": "Azure API Management VNet integration (both external and internal mode) is only available in the Premium and Developer tiers — not Standard. To place APIM in the same VNet or a peered VNet so it can reach the private App Service backend, the tier must be upgraded to Premium. The Developer tier supports VNet integration but is not suitable for production (no SLA, single unit). Standard tier APIM cannot be placed in a VNet regardless of 'internal mode' — there is no internal mode for Standard. Option C (self-hosted gateway) allows the gateway component to run anywhere including a private VNet, but the self-hosted gateway is primarily for on-premises or edge scenarios and still requires the parent APIM instance to manage it; it adds significant complexity. Option D is incorrect — Developer tier does support VNet integration but is not a production option.",
+    "topics": ["infrastructure"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure API Management tiers comparison", "url": "https://learn.microsoft.com/en-us/azure/api-management/api-management-features" },
+      { "label": "Connect APIM to a virtual network", "url": "https://learn.microsoft.com/en-us/azure/api-management/api-management-using-with-vnet" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-007",
+    "type": "single_choice",
+    "prompt": "A company builds a microservices architecture where services need to communicate via events. Service A publishes an event when an order is placed. Services B (inventory), C (billing), and D (notifications) each need to independently receive and process every order event. Services may be temporarily unavailable. Which Azure messaging service fits this fan-out pattern with guaranteed delivery to each subscriber?",
+    "choices": [
+      { "id": "a", "text": "Azure Service Bus queue — multiple consumers compete for messages from the same queue" },
+      { "id": "b", "text": "Azure Event Grid with a topic and three subscribers, each with dead-letter queues for retry" },
+      { "id": "c", "text": "Azure Service Bus topic with three subscriptions (one per service) and session-enabled messaging" },
+      { "id": "d", "text": "Azure Event Hubs with three consumer groups (one per service)" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Service Bus topics with subscriptions are the correct choice for fan-out messaging with guaranteed delivery to each subscriber. Each subscription (B, C, D) receives an independent copy of every message — messages in one subscription are not affected by consumption in another. Service Bus provides at-least-once delivery guarantees, dead-lettering for failed messages, and message lock timeouts for consumers that are temporarily unavailable. Service Bus queue (option A) uses competing consumers — only one consumer receives each message, not all three. Event Grid (option B) provides push-based delivery suitable for reactive events but is not designed for reliable durable messaging with retries for temporarily unavailable consumers — it is best for events where loss is acceptable or handled via dead-letter storage accounts. Event Hubs (option D) is a partitioned streaming log designed for high-throughput telemetry, not guaranteed transactional fan-out messaging.",
+    "topics": ["infrastructure"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Service Bus topics and subscriptions", "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-topics-subscriptions" },
+      { "label": "Choose between Azure messaging services", "url": "https://learn.microsoft.com/en-us/azure/event-grid/compare-messaging-services" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-008",
+    "type": "single_choice",
+    "prompt": "A company ingests 1 million IoT telemetry events per second from factory floor sensors. Events must be retained for 7 days for replay, and multiple downstream analytics applications (real-time dashboards, ML training pipelines, anomaly detection) must each independently process the full event stream at their own pace. Which Azure service is designed for this scenario?",
+    "choices": [
+      { "id": "a", "text": "Azure Service Bus Premium tier with 100 topic subscriptions" },
+      { "id": "b", "text": "Azure Event Grid with 1 million events per second throughput" },
+      { "id": "c", "text": "Azure Event Hubs with multiple consumer groups per analytics application" },
+      { "id": "d", "text": "Azure Queue Storage with multiple queues per downstream application" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Event Hubs is a partitioned streaming log purpose-built for high-throughput telemetry ingestion at millions of events per second. The 7-day retention window allows replay. Consumer groups provide independent read offsets for each downstream application — each application reads the full stream at its own pace without affecting others. This is the canonical Event Hubs use case. Azure Service Bus (option A) is a message broker designed for reliable transactional messaging, not streaming at 1 million events/second — it does not support replay or independent consumer offsets. Event Grid (option B) is a reactive event routing service with per-event delivery; it does not provide a durable ordered log with replay capability. Azure Queue Storage (option C/D) is a simple FIFO queue — messages are consumed destructively (one consumer gets each message) and it cannot fan out to multiple independent consumers.",
+    "topics": ["infrastructure"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Event Hubs overview", "url": "https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about" },
+      { "label": "Event Hubs consumer groups", "url": "https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-features#consumer-groups" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-009",
+    "type": "single_choice",
+    "prompt": "A company wants to deploy infrastructure using code and needs to enforce that all deployments go through a Git-based pipeline, with infrastructure state tracked centrally. The solution must be natively supported by Azure without requiring third-party tooling. Multiple teams will deploy independently to their own resource groups. Which Azure-native IaC approach best fits this at scale?",
+    "choices": [
+      { "id": "a", "text": "Azure Blueprints with blueprint assignments triggered from Azure DevOps pipelines" },
+      { "id": "b", "text": "Azure Bicep templates deployed via Azure DevOps or GitHub Actions pipelines, using deployment stacks for state tracking" },
+      { "id": "c", "text": "ARM JSON templates deployed via the Azure CLI in shell scripts stored in Git" },
+      { "id": "d", "text": "Azure Automation State Configuration (DSC) for declarative infrastructure management" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Bicep is Microsoft's first-class IaC language for Azure, compiling to ARM JSON with improved readability and authoring experience. Azure Deployment Stacks (GA) track which resources were deployed as part of a stack, enabling centralized state management and clean deletion of stale resources — features comparable to Terraform state. Bicep integrates natively with Azure DevOps and GitHub Actions. Multiple teams can deploy independently to their own resource groups using separate pipelines and deployment stacks. Azure Blueprints (option A) are being deprecated in favor of Azure Policy and Bicep/ARM for IaC. ARM JSON templates (option C) work but Bicep is the preferred modern approach and more maintainable. Azure Automation DSC (option D) manages configuration of VMs, not infrastructure provisioning.",
+    "topics": ["infrastructure"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "What is Bicep?", "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview" },
+      { "label": "Azure Deployment Stacks overview", "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deployment-stacks" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-010",
+    "type": "single_choice",
+    "prompt": "A company runs an on-premises application that connects to an Oracle database over a private network link. They are migrating the application to Azure VMs but the Oracle database stays on-premises. The connection must traverse a private, dedicated link with guaranteed bandwidth of 5 Gbps and must not go over the public internet. Which connectivity solution meets the bandwidth and privacy requirements?",
+    "choices": [
+      { "id": "a", "text": "Site-to-site VPN over Azure VPN Gateway with BGP routing" },
+      { "id": "b", "text": "Azure ExpressRoute with Private Peering at a 10 Gbps circuit (using 5 Gbps of capacity)" },
+      { "id": "c", "text": "Azure Virtual WAN with a site-to-site VPN connection using IKEv2" },
+      { "id": "d", "text": "Azure Private Link connecting the Azure VMs to the on-premises Oracle database" }
+    ],
+    "correct": "b",
+    "explanation": "Azure ExpressRoute provides a dedicated private connectivity layer between on-premises and Azure through a connectivity provider — traffic never traverses the public internet. ExpressRoute Private Peering connects on-premises networks to Azure VNets. A 10 Gbps circuit provides the required 5 Gbps guaranteed bandwidth; ExpressRoute offers bandwidth guarantees that VPN cannot match. Site-to-site VPN (options A and C) traverses the internet (IPSec encrypted but still over public internet) and is bandwidth-limited (max ~10 Gbps aggregate for VPN Gateway, but with higher jitter and no dedicated bandwidth guarantee). Azure Private Link (option D) exposes Azure PaaS services to private endpoints within Azure VNets; it is not designed to connect on-premises databases to Azure compute.",
+    "topics": ["infrastructure"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure ExpressRoute overview", "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction" },
+      { "label": "ExpressRoute Private Peering", "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-circuit-peerings" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-011",
+    "type": "single_choice",
+    "prompt": "A company wants all outbound internet traffic from Azure VMs across 5 spoke VNets to be inspected by Azure Firewall in a central hub VNet. New spoke VNets should automatically have this enforcement applied. An architect identifies that VNet peering does not propagate UDRs automatically. What is the most scalable solution to enforce centralized internet egress inspection for current and future spokes?",
+    "choices": [
+      { "id": "a", "text": "Manually apply a UDR with a 0.0.0.0/0 route to the Azure Firewall IP to every subnet in every spoke VNet" },
+      { "id": "b", "text": "Configure Azure Firewall in the hub and use Azure Policy with DeployIfNotExists to automatically apply the UDR route table to subnets in spoke VNets" },
+      { "id": "c", "text": "Enable BGP route propagation on the hub VNet gateway to push the default route to spoke VNets" },
+      { "id": "d", "text": "Use Azure Virtual WAN Secured Hub with Azure Firewall and enable internet traffic routing intent, which automatically programs routes in all connected spokes" }
+    ],
+    "correct": "d",
+    "explanation": "Azure Virtual WAN Secured Hub (a hub with Azure Firewall deployed) with routing intent enabled automatically configures the routing for all connected spoke VNets to send internet traffic through the hub firewall — no manual UDR management required. New spokes connected to the hub automatically inherit this routing. This is the most scalable solution because routing intent manages the route propagation centrally. Azure Policy with DINE (option B) is a valid approach for traditional hub-and-spoke but requires maintaining policy definitions and remediation tasks for each new subnet, and there can be timing delays. Manual UDRs (option A) do not scale and do not apply to future spokes automatically. BGP route propagation from a gateway (option C) propagates gateway-learned routes, not a static default route to a firewall — and is not applicable in standard VNet peering without ExpressRoute/VPN gateways.",
+    "topics": ["infrastructure"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure Virtual WAN routing intent", "url": "https://learn.microsoft.com/en-us/azure/virtual-wan/how-to-routing-policies" },
+      { "label": "Secured virtual hub overview", "url": "https://learn.microsoft.com/en-us/azure/firewall-manager/secured-virtual-hub" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-012",
+    "type": "single_choice",
+    "prompt": "A company uses Azure Functions to process payment events. Each function execution must complete within 5 minutes. During peak hours, the backlog grows to 500,000 events. The functions are on a Consumption plan and the team observes cold start latencies of 3-5 seconds causing SLA breaches. They cannot tolerate cold starts but do not want to manage infrastructure. Which change resolves cold starts while keeping minimal management overhead?",
+    "choices": [
+      { "id": "a", "text": "Migrate to Azure Functions Premium plan with pre-warmed instances configured" },
+      { "id": "b", "text": "Migrate to Azure App Service Plan (Dedicated) with always-on enabled" },
+      { "id": "c", "text": "Add a timer-triggered function that pings the payment function every 4 minutes to keep it warm" },
+      { "id": "d", "text": "Migrate to Azure Container Apps with autoscaling but no minimum replicas" }
+    ],
+    "correct": "a",
+    "explanation": "Azure Functions Premium plan supports pre-warmed instances — a configurable number of instances are always warm and ready to execute, eliminating cold starts. Premium plan retains the event-driven scaling of Consumption plan (scales out on demand to handle 500,000 events) while adding pre-warming, VNet integration, and longer execution timeouts — all without managing servers. App Service Plan (option B) can use always-on but is a dedicated infrastructure model with fixed capacity and higher management overhead — the team must size the plan correctly for peak load. The timer ping workaround (option C) is an unreliable hack that keeps one instance warm but cannot prevent cold starts for scale-out instances. Azure Container Apps (option D) with zero minimum replicas still cold-starts new container instances.",
+    "topics": ["infrastructure"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Functions Premium plan", "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-premium-plan" },
+      { "label": "Azure Functions scale and hosting", "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-013",
+    "type": "single_choice",
+    "prompt": "An architect must design a network architecture where Azure PaaS services (Azure SQL Database, Azure Storage, Azure Key Vault) are accessible only from within an Azure VNet, with no exposure to the public internet. Applications running in VMs on the VNet must access these services over the Microsoft backbone network. Service endpoints are already enabled. The security team now requires that the services have private IP addresses within the VNet. Which feature provides private IPs for PaaS services?",
+    "choices": [
+      { "id": "a", "text": "VNet Service Endpoints with firewall rules on each PaaS service restricting access to the VNet subnet" },
+      { "id": "b", "text": "Azure Private Endpoints creating a private NIC within the VNet for each PaaS service" },
+      { "id": "c", "text": "Azure Firewall Premium with IDPS rules blocking all public access to PaaS service endpoints" },
+      { "id": "d", "text": "Network Security Groups with outbound deny rules for public IP ranges of PaaS services" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Private Endpoints create a private network interface within the VNet with a private IP address from the VNet's address space. Traffic to the PaaS service traverses the private endpoint over the Microsoft backbone — the service's public endpoint can be disabled entirely. This provides the private IP requirement. Service Endpoints (option A) route traffic over the Microsoft backbone but the PaaS service still uses its public IP — there is no private IP assignment to the VNet. The scenario states service endpoints are already in use and the security team requires private IPs, confirming the need to move to Private Endpoints. Azure Firewall (option C) can block traffic but does not provide private IPs for PaaS services. NSGs with deny rules (option D) block traffic by IP range but are fragile, do not provide private IPs, and cannot account for all PaaS service IP ranges.",
+    "topics": ["infrastructure"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Private Endpoint overview", "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview" },
+      { "label": "Compare service endpoints and private endpoints", "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview#private-link-and-dns-integration-at-scale" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-014",
+    "type": "single_choice",
+    "prompt": "A retail company runs a stateless web frontend on 50 Azure VMs behind an Azure Application Gateway. During a flash sale, traffic spikes 10x within 60 seconds. The VMs cannot provision fast enough to keep up. The company wants the solution to handle these spikes automatically without pre-provisioning excess capacity. Which change best addresses the provisioning speed problem?",
+    "choices": [
+      { "id": "a", "text": "Increase the Azure VMSS maximum instance count to 500 and reduce the scale-out cooldown period to 30 seconds" },
+      { "id": "b", "text": "Migrate the frontend to Azure App Service Premium v3 with autoscaling rules based on CPU and request count" },
+      { "id": "c", "text": "Use Azure Front Door with static website hosting in Azure Storage as the frontend, eliminating compute provisioning latency entirely" },
+      { "id": "d", "text": "Pre-warm a VMSS with scheduled scaling rules that add instances 1 hour before expected flash sale start" }
+    ],
+    "correct": "c",
+    "explanation": "If the frontend is truly stateless and serves primarily static or cacheable content (typical for retail web frontends), migrating to Azure Storage static website hosting behind Azure Front Door eliminates compute provisioning latency entirely — Front Door CDN caches content at edge PoPs globally and scales infinitely. No VM provisioning occurs during traffic spikes. Option A reduces cooldown but VM provisioning still takes 3-5 minutes regardless of cooldown, which is too slow for a 60-second spike. App Service (option B) scales faster than VMs but still requires instance provisioning time. Scheduled pre-warming (option D) requires predicting spike timing, which may not be possible for organic flash sales, and wastes capacity before and after the event.",
+    "topics": ["infrastructure"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Static website hosting in Azure Storage", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website" },
+      { "label": "Azure Front Door caching", "url": "https://learn.microsoft.com/en-us/azure/frontdoor/front-door-caching" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-in-015",
+    "type": "single_choice",
+    "prompt": "A company has a hybrid architecture with on-premises applications and Azure workloads. They want to build a new microservices platform on Azure that supports fine-grained network segmentation between services, automatic sidecar injection for mTLS, distributed tracing, and traffic management without modifying application code. The platform team has Kubernetes expertise. Which Azure service supports this service mesh pattern?",
+    "choices": [
+      { "id": "a", "text": "Azure API Management with mTLS policies between services" },
+      { "id": "b", "text": "Azure Kubernetes Service with the Open Service Mesh (OSM) or Istio service mesh add-on" },
+      { "id": "c", "text": "Azure Container Apps with Dapr sidecars for service-to-service communication" },
+      { "id": "d", "text": "Azure Service Fabric with its built-in service discovery and communication framework" }
+    ],
+    "correct": "b",
+    "explanation": "AKS supports service mesh add-ons including Istio (GA add-on) and previously Open Service Mesh. Istio provides automatic sidecar injection (Envoy proxies), mTLS between services, distributed tracing via its telemetry integration, and traffic management (canary releases, circuit breaking, retry policies) — all without modifying application code. The team's Kubernetes expertise transfers directly. Azure API Management (option A) provides API gateway capabilities but does not provide automatic sidecar injection, mTLS between internal microservices, or distributed tracing natively. Azure Container Apps with Dapr (option C) provides some service mesh-like capabilities but Dapr is a development framework that requires application SDK integration — not true zero-code-change sidecar injection. Azure Service Fabric (option D) has its own programming model and service mesh capabilities, but the team has Kubernetes expertise, not Service Fabric expertise.",
+    "topics": ["infrastructure"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Istio service mesh add-on for AKS", "url": "https://learn.microsoft.com/en-us/azure/aks/istio-about" },
+      { "label": "AKS service mesh options", "url": "https://learn.microsoft.com/en-us/azure/aks/servicemesh-about" }
+    ],
+    "version": 1
+  }
+]

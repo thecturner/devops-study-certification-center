@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-f-sv-001",
+    "type": "single_choice",
+    "prompt": "What are the inputs to the ITIL 4 Service Value System (SVS)?",
+    "choices": [
+      { "id": "a", "text": "Strategy, design, transition, and operation" },
+      { "id": "b", "text": "Opportunity and demand" },
+      { "id": "c", "text": "People, processes, products, and partners" },
+      { "id": "d", "text": "Incidents, requests, changes, and problems" }
+    ],
+    "correct": "b",
+    "explanation": "The ITIL 4 SVS has two types of input: opportunity (options or possibilities to add value or improve) and demand (the need or desire for products and services from internal and external consumers). These inputs trigger activities within the SVS, which then produces value as its output. The other options describe ITIL v3 lifecycle phases (A), the four Ps of service design (C), or types of service interactions (D).",
+    "topics": ["service-value-system"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-002",
+    "type": "single_choice",
+    "prompt": "Which component of the SVS provides the direction and control of the organization at the highest level?",
+    "choices": [
+      { "id": "a", "text": "Continual improvement" },
+      { "id": "b", "text": "Service value chain" },
+      { "id": "c", "text": "Governance" },
+      { "id": "d", "text": "Guiding principles" }
+    ],
+    "correct": "c",
+    "explanation": "Governance is the component of the SVS responsible for directing and controlling the organization. It evaluates, directs, and monitors the organization's activities — ensuring that organizational objectives are achieved and that the SVS operates as intended. Continual improvement applies to all aspects of the SVS iteratively. The service value chain describes how activities are coordinated to create value. Guiding principles are recommendations that guide decisions and actions.",
+    "topics": ["service-value-system"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-003",
+    "type": "single_choice",
+    "prompt": "How many activities make up the ITIL 4 Service Value Chain?",
+    "choices": [
+      { "id": "a", "text": "Four" },
+      { "id": "b", "text": "Five" },
+      { "id": "c", "text": "Six" },
+      { "id": "d", "text": "Seven" }
+    ],
+    "correct": "c",
+    "explanation": "The ITIL 4 Service Value Chain consists of six activities: Plan, Improve, Engage, Design and Transition, Obtain/Build, and Deliver and Support. Each activity contributes to the creation and maintenance of products and services, and they interact with each other and with practices to form value streams. The number six is an exam-level fact that is important to know.",
+    "topics": ["service-value-system"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-004",
+    "type": "single_choice",
+    "prompt": "Which service value chain activity is responsible for ensuring a shared understanding of the vision, current status, and improvement direction for all four dimensions and all products and services?",
+    "choices": [
+      { "id": "a", "text": "Improve" },
+      { "id": "b", "text": "Engage" },
+      { "id": "c", "text": "Plan" },
+      { "id": "d", "text": "Deliver and Support" }
+    ],
+    "correct": "c",
+    "explanation": "The Plan activity is responsible for ensuring a shared understanding of the vision, current status, and improvement direction for all four dimensions and all products and services across the organization. It sets direction and alignment so that other activities are coordinated toward organizational objectives. Improve focuses on enhancing services and practices. Engage involves interactions with stakeholders. Deliver and Support focuses on operational service delivery.",
+    "topics": ["service-value-system"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-005",
+    "type": "single_choice",
+    "prompt": "Which service value chain activity ensures that stakeholder needs are understood, services are delivered, and relationships with customers and users are managed?",
+    "choices": [
+      { "id": "a", "text": "Plan" },
+      { "id": "b", "text": "Obtain/Build" },
+      { "id": "c", "text": "Engage" },
+      { "id": "d", "text": "Deliver and Support" }
+    ],
+    "correct": "c",
+    "explanation": "The Engage activity provides a good understanding of stakeholder needs, transparency, and continual engagement and good relationships with all stakeholders — including customers, users, suppliers, and regulators. It covers capturing demand, handling complaints, managing relationships, and ensuring ongoing communication. This distinguishes it from Deliver and Support, which focuses on ensuring services are delivered and supported according to agreed specifications.",
+    "topics": ["service-value-system"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-006",
+    "type": "single_choice",
+    "prompt": "Which service value chain activity covers the procurement of new service components and the development of new capabilities?",
+    "choices": [
+      { "id": "a", "text": "Design and Transition" },
+      { "id": "b", "text": "Obtain/Build" },
+      { "id": "c", "text": "Plan" },
+      { "id": "d", "text": "Improve" }
+    ],
+    "correct": "b",
+    "explanation": "Obtain/Build is the service value chain activity that ensures service components are available when and where they are needed, and meet agreed specifications. This includes procuring components from suppliers and building components internally. Design and Transition handles the design of new services and their transition into operation. Plan sets direction. Improve focuses on enhancing existing services, practices, and processes.",
+    "topics": ["service-value-system"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-007",
+    "type": "single_choice",
+    "prompt": "Which of the following is the correct output of the ITIL 4 Service Value System?",
+    "choices": [
+      { "id": "a", "text": "Improved service level targets" },
+      { "id": "b", "text": "Value for the organization, its customers, and other stakeholders" },
+      { "id": "c", "text": "A portfolio of approved change requests" },
+      { "id": "d", "text": "A documented service catalog" }
+    ],
+    "correct": "b",
+    "explanation": "The SVS takes opportunity and demand as inputs and produces value for the organization, its customers, and other stakeholders as its output. The SVS is designed to enable the creation of value, not to produce specific documents, catalogs, or change approvals — those are artifacts produced by specific practices within the SVS, not the SVS output itself.",
+    "topics": ["service-value-system"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-008",
+    "type": "single_choice",
+    "prompt": "Why is the ITIL 4 SVS described as flexible and not prescriptive?",
+    "choices": [
+      { "id": "a", "text": "Because organizations can choose to ignore any component of the SVS they find inconvenient" },
+      { "id": "b", "text": "Because the SVS can be combined with other frameworks and can support multiple value streams, allowing organizations to adapt it to their context" },
+      { "id": "c", "text": "Because the SVS does not include any mandatory processes or activities" },
+      { "id": "d", "text": "Because each organization must redesign the SVS from scratch based on its own requirements" }
+    ],
+    "correct": "b",
+    "explanation": "The SVS is designed to be flexible and not prescriptive — it can be used alongside other frameworks (Agile, DevOps, Lean, COBIT) and can support multiple value streams simultaneously. This flexibility lets organizations adapt the SVS to their own context, complexity, and operating model rather than following a single fixed process path. However, the SVS is not optional (A) or infinitely customizable from scratch (D) — it provides a coherent structure within which flexibility is applied.",
+    "topics": ["service-value-system"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-009",
+    "type": "single_choice",
+    "prompt": "Which component of the SVS encompasses the 34 ITIL management practices?",
+    "choices": [
+      { "id": "a", "text": "Governance" },
+      { "id": "b", "text": "Service value chain" },
+      { "id": "c", "text": "Practices" },
+      { "id": "d", "text": "Guiding principles" }
+    ],
+    "correct": "c",
+    "explanation": "Practices is the SVS component that contains the 34 ITIL 4 management practices — sets of organizational resources designed for performing work or accomplishing an objective. The practices are grouped into general management practices, service management practices, and technical management practices. The service value chain defines how activities create value. Governance provides direction and control. Guiding principles are universal recommendations.",
+    "topics": ["service-value-system"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-010",
+    "type": "single_choice",
+    "prompt": "At which levels does continual improvement apply within the ITIL 4 SVS?",
+    "choices": [
+      { "id": "a", "text": "Only at the operational level, where services are delivered to users" },
+      { "id": "b", "text": "Only at the strategic level, as part of annual planning cycles" },
+      { "id": "c", "text": "At all levels of the organization, including the SVS itself, services, and practices" },
+      { "id": "d", "text": "Only within the Improve activity of the service value chain" }
+    ],
+    "correct": "c",
+    "explanation": "Continual improvement in ITIL 4 applies at all levels — it is embedded as a component of the SVS itself and should be practiced across all services, practices, and organizational activities. The Improve SVC activity and the Continual Improvement practice support this, but improvement is not limited to a single activity or level. ITIL 4 explicitly states that everyone in the organization is responsible for contributing to continual improvement.",
+    "topics": ["service-value-system"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-011",
+    "type": "single_choice",
+    "prompt": "Which service value chain activity is primarily responsible for ensuring that services meet defined quality and user expectations during ongoing delivery?",
+    "choices": [
+      { "id": "a", "text": "Engage" },
+      { "id": "b", "text": "Design and Transition" },
+      { "id": "c", "text": "Obtain/Build" },
+      { "id": "d", "text": "Deliver and Support" }
+    ],
+    "correct": "d",
+    "explanation": "Deliver and Support is the SVC activity that ensures services are delivered and supported according to agreed specifications and stakeholder expectations. It encompasses day-to-day service delivery, user support, and operational assurance. Design and Transition is responsible for designing new or changed services and transitioning them into operation. Engage manages stakeholder relationships. Obtain/Build focuses on procuring and building components.",
+    "topics": ["service-value-system"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-012",
+    "type": "single_choice",
+    "prompt": "What is a 'value stream' in the context of the ITIL 4 SVS?",
+    "choices": [
+      { "id": "a", "text": "A financial reporting mechanism that tracks revenue generated by IT services" },
+      { "id": "b", "text": "A series of steps an organization undertakes to create and deliver products and services to a service consumer" },
+      { "id": "c", "text": "A software pipeline that automates code deployment from development to production" },
+      { "id": "d", "text": "A subscription model through which services are priced and sold" }
+    ],
+    "correct": "b",
+    "explanation": "A value stream is a series of steps that an organization undertakes to create and deliver products or services to a consumer. Value streams combine activities from the service value chain with practices, and are designed to optimize the flow of value through an organization by reducing waste and delays. They are not financial models (A), CI/CD pipelines (C), or pricing structures (D).",
+    "topics": ["service-value-system"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-013",
+    "type": "single_choice",
+    "prompt": "The Design and Transition activity of the service value chain primarily contributes to which outcome?",
+    "choices": [
+      { "id": "a", "text": "Ensuring new or changed services meet stakeholder expectations and can be transitioned into live operation" },
+      { "id": "b", "text": "Restoring normal service after major incidents" },
+      { "id": "c", "text": "Managing supplier contracts and procurement" },
+      { "id": "d", "text": "Monitoring service performance against SLAs" }
+    ],
+    "correct": "a",
+    "explanation": "Design and Transition ensures that products and services continually meet stakeholder expectations for quality, costs, and time-to-market and can be transitioned successfully into live operation. It covers the design of new or changed services, ensuring they are fit for purpose and warranty before go-live. Restoring services is handled by Deliver and Support (with Incident Management practice). Supplier management and SLA monitoring are covered by other practices.",
+    "topics": ["service-value-system"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-014",
+    "type": "single_choice",
+    "prompt": "Which statement accurately describes the relationship between the service value chain and value streams?",
+    "choices": [
+      { "id": "a", "text": "The service value chain replaces value streams; only one can apply at a time" },
+      { "id": "b", "text": "A value stream is a specific combination of service value chain activities and practices designed to respond to a particular type of demand" },
+      { "id": "c", "text": "Value streams are used only in Agile organizations while the service value chain applies only to waterfall organizations" },
+      { "id": "d", "text": "The service value chain is a subset of a value stream" }
+    ],
+    "correct": "b",
+    "explanation": "A value stream is a specific sequence of activities drawn from the service value chain combined with relevant practices to address a particular scenario — for example, a value stream for fulfilling a service request differs from a value stream for resolving a major incident. The service value chain provides the building blocks (the six activities), and value streams are concrete instantiations of those blocks for specific purposes. They are complementary, not competing concepts.",
+    "topics": ["service-value-system"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-sv-015",
+    "type": "single_choice",
+    "prompt": "Which SVS component contains universal recommendations that guide an organization's decision-making and actions at all levels?",
+    "choices": [
+      { "id": "a", "text": "Governance" },
+      { "id": "b", "text": "Practices" },
+      { "id": "c", "text": "Service value chain" },
+      { "id": "d", "text": "Guiding principles" }
+    ],
+    "correct": "d",
+    "explanation": "Guiding principles are universal recommendations that can guide an organization in all circumstances, regardless of changes in its goals, strategies, type of work, or management structure. They are durable, context-independent, and apply at all levels of decision-making within the SVS. Governance provides formal direction and control. Practices are organized sets of resources for performing work. The service value chain defines value-creation activities.",
+    "topics": ["service-value-system"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Service Value System", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  }
+]

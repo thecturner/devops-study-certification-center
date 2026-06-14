@@ -1,0 +1,291 @@
+[
+  {
+    "id": "itil4-sl-gr-001",
+    "type": "single_choice",
+    "prompt": "A newly appointed board member challenges the CIO, saying 'IT governance is just management with more paperwork.' How should the CIO most accurately correct this mischaracterization using ITIL 4 principles?",
+    "choices": [
+      { "id": "a", "text": "Governance and management are identical in practice; the distinction is academic" },
+      { "id": "b", "text": "Governance is the activity of evaluating, directing, and monitoring the organization's performance and compliance, while management executes the day-to-day direction set by governance" },
+      { "id": "c", "text": "Governance is a subset of management that specifically oversees IT security and compliance functions" },
+      { "id": "d", "text": "Governance is performed by external auditors, while management is the internal leadership team's responsibility" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 draws a clear distinction: governance is the system by which the board evaluates organizational performance, provides strategic direction, and monitors execution against that direction. Management is the operational activity that executes within the direction set by governance. The two are distinct in accountability, cadence, and scope. Governance is not a subset of management, and it is not performed solely by external parties.",
+    "topics": ["governance-risk"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" },
+      { "label": "COBIT 2019 Framework", "url": "https://www.isaca.org/resources/cobit" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-002",
+    "type": "single_choice",
+    "prompt": "An organization's risk committee asks the CIO to distinguish between its risk appetite and risk tolerance for digital initiatives. A major cloud migration project carries a 15% probability of a significant data exposure event. The board has stated it is 'willing to accept measured risk for strategic gain but cannot withstand a data breach that triggers regulatory sanction.' How should the CIO interpret these terms?",
+    "choices": [
+      { "id": "a", "text": "Risk appetite is the specific 15% threshold; risk tolerance is the board's qualitative statement about regulatory exposure" },
+      { "id": "b", "text": "Risk appetite is the board's broad strategic statement of willingness to accept risk; risk tolerance is the quantified acceptable variance around that position, such as the probability threshold that triggers escalation" },
+      { "id": "c", "text": "Risk appetite and risk tolerance are interchangeable terms; the distinction is a matter of organizational preference" },
+      { "id": "d", "text": "Risk tolerance is the maximum loss the organization can survive financially; risk appetite is the maximum loss it is willing to incur voluntarily" }
+    ],
+    "correct": "b",
+    "explanation": "Risk appetite is the broad, qualitative organizational statement of willingness to accept risk in pursuit of objectives. Risk tolerance is the quantified, operationalized boundary: how much deviation from appetite is acceptable before action is required. In this scenario, the board's statement about strategic risk-taking is the appetite, and defining the probability threshold that triggers review or escalation is the tolerance. Conflating the two leads to governance gaps.",
+    "topics": ["governance-risk"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-003",
+    "type": "single_choice",
+    "prompt": "An organization's internal audit team discovers that multiple business units are independently procuring SaaS applications without IT involvement, creating unvetted data integrations and unknown compliance exposures. This is a classic shadow IT scenario. Which governance response best addresses this at a strategic level?",
+    "choices": [
+      { "id": "a", "text": "Block all unauthorized cloud purchases through procurement controls and require IT approval for every software acquisition" },
+      { "id": "b", "text": "Issue a policy memo reminding employees that unapproved software violates IT security policy" },
+      { "id": "c", "text": "Implement a federated governance model that gives business units structured autonomy to adopt approved platform tiers, backed by discovery tooling to surface unapproved usage and a fast-track approval process for low-risk SaaS" },
+      { "id": "d", "text": "Assign shadow IT remediation to the CISO as a security project and task them with producing a full asset inventory" }
+    ],
+    "correct": "c",
+    "explanation": "Shadow IT emerges when IT governance is too rigid or slow to meet business needs. Simply blocking purchases or issuing memos does not address the underlying demand and drives shadow IT underground. A federated governance model that creates structured autonomy acknowledges the business's legitimate need for agility while maintaining risk oversight. Discovery tooling and a fast-track approval process reduce friction, which is what drove shadow IT in the first place.",
+    "topics": ["governance-risk"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-004",
+    "type": "single_choice",
+    "prompt": "A financial services firm is preparing its annual board report on digital risk. The CISO wants to present a comprehensive technical vulnerability assessment. The CIO argues for a different approach. What format best serves board-level digital risk reporting?",
+    "choices": [
+      { "id": "a", "text": "A full CVSS-scored vulnerability register showing all open issues prioritized by severity" },
+      { "id": "b", "text": "A heat map of risk categories mapped against likelihood and business impact, with trend direction, key risk indicators, and a clear statement of residual risk posture relative to board-approved appetite" },
+      { "id": "c", "text": "A comparison of the organization's security posture against the CIS Top 18 controls benchmark" },
+      { "id": "d", "text": "A list of the top 10 open remediation items with responsible owners and target dates" }
+    ],
+    "correct": "b",
+    "explanation": "Board-level reporting must translate technical risk into business terms the board can act on. A heat map with trend data and residual risk posture compared to stated appetite gives directors the strategic view they need for governance decisions. Technical vulnerability registers, CIS benchmarks, and remediation lists are operational tools appropriate for management-level reporting, not board-level governance review.",
+    "topics": ["governance-risk"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-005",
+    "type": "single_choice",
+    "prompt": "An organization operating in the EU processes personal data for marketing analytics. The legal team alerts the CIO that a new profiling use case may conflict with GDPR Article 22 automated decision-making provisions. Which governance action is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Pause the use case and commission a Data Protection Impact Assessment before proceeding, involving the Data Protection Officer and legal counsel in the decision" },
+      { "id": "b", "text": "Proceed with the use case while documenting a legitimate interest assessment to demonstrate compliance intent" },
+      { "id": "c", "text": "Classify the use case as a low-risk internal analytics activity and proceed under the existing privacy framework" },
+      { "id": "d", "text": "Consult the marketing team to confirm that customers have provided general consent for analytics and proceed on that basis" }
+    ],
+    "correct": "a",
+    "explanation": "GDPR Article 22 rights around automated decision-making carry significant legal exposure. A Data Protection Impact Assessment is the mandated governance mechanism when processing is likely to result in high risk to individuals, and automated profiling for marketing decisions typically meets this threshold. Proceeding on a legitimate interest assessment without a DPIA, or relying on general consent, risks regulatory sanction. The DPO must be involved in this determination.",
+    "topics": ["governance-risk"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" },
+      { "label": "GDPR Article 22 Guidance", "url": "https://gdpr-info.eu/art-22-gdpr/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-006",
+    "type": "single_choice",
+    "prompt": "An organization is heavily reliant on a single cloud provider for its core digital platform. During a strategic risk review, the board asks the CIO to assess vendor lock-in risk and recommend a mitigation approach. What is the most strategically sound recommendation?",
+    "choices": [
+      { "id": "a", "text": "Immediately replatform to a multi-cloud architecture to eliminate dependency on any single provider" },
+      { "id": "b", "text": "Negotiate a long-term contract with penalty clauses to deter the vendor from changing pricing or terms" },
+      { "id": "c", "text": "Assess which workloads have viable alternatives, adopt abstraction layers and open standards for high-dependency components, and build a documented portability playbook without necessarily duplicating all infrastructure today" },
+      { "id": "d", "text": "Accept lock-in as an acceptable cost of the productivity gains the provider delivers and focus risk mitigation efforts elsewhere" }
+    ],
+    "correct": "c",
+    "explanation": "Vendor lock-in risk mitigation is not binary: an immediate replatform is expensive and disruptive, and full acceptance ignores a real strategic vulnerability. The pragmatic approach is a targeted portability strategy: use open standards and abstraction layers where lock-in is highest, document egress playbooks, and concentrate multi-cloud investment on the highest-risk components. Contractual penalties do not give the organization technical exit options.",
+    "topics": ["governance-risk"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-007",
+    "type": "single_choice",
+    "prompt": "A major supplier in an organization's digital supply chain suffers a ransomware attack that disrupts a critical SaaS platform. The organization's own operations are impacted even though its own systems were not compromised. Which risk category does this event represent, and what strategic control was absent?",
+    "choices": [
+      { "id": "a", "text": "Operational risk; the organization lacked a disaster recovery plan for its own systems" },
+      { "id": "b", "text": "Third-party and supply chain risk; the organization lacked a supplier risk management program that included business continuity requirements and regular assurance reviews for critical vendors" },
+      { "id": "c", "text": "Cybersecurity risk; the organization should have deployed endpoint protection on all supplier networks" },
+      { "id": "d", "text": "Reputational risk; the organization should have disclosed the supplier dependency to customers earlier" }
+    ],
+    "correct": "b",
+    "explanation": "When a third-party outage disrupts the organization's operations, this is a supply chain risk event. The absent control is a mature supplier risk management program: critical vendors should be assessed for their own resilience posture, required to maintain BCP/DR plans, and subject to regular assurance reviews or audit rights. The organization cannot deploy security controls in a supplier's environment, making supplier governance the operative control.",
+    "topics": ["governance-risk"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-008",
+    "type": "single_choice",
+    "prompt": "An organization's risk committee distinguishes between 'operational resilience' and 'business continuity planning.' The CIO is asked to explain the strategic difference. Which statement correctly articulates this distinction?",
+    "choices": [
+      { "id": "a", "text": "Business continuity planning is a subset of operational resilience focused on IT disaster recovery procedures" },
+      { "id": "b", "text": "Operational resilience is the ongoing ability to prevent, adapt to, and recover from disruptions while continuing critical operations; BCP is the documented plan for restoring operations after a defined incident scenario" },
+      { "id": "c", "text": "Operational resilience applies to technology systems; business continuity planning covers facilities and personnel" },
+      { "id": "d", "text": "Both terms describe the same capability; the distinction is purely definitional preference within the industry" }
+    ],
+    "correct": "b",
+    "explanation": "Operational resilience is a strategic, continuous capability: the organization's capacity to anticipate, withstand, adapt to, and recover from any disruption across all its dimensions including technology, people, and processes. BCP is a specific planning artifact that documents the response to predefined scenarios. Operational resilience subsumes BCP but is broader, dynamic, and outcome-focused rather than scenario-specific.",
+    "topics": ["governance-risk"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-009",
+    "type": "single_choice",
+    "prompt": "An organization is deploying AI-driven credit scoring that will make lending decisions affecting consumers. The board asks for a responsible AI governance framework to be put in place before deployment. Which governance element is MOST critical for this use case?",
+    "choices": [
+      { "id": "a", "text": "An AI model accuracy benchmark exceeding 95% before production deployment" },
+      { "id": "b", "text": "Explainability requirements so that affected individuals can understand and challenge decisions, combined with bias testing across protected demographic groups and a human review escalation path" },
+      { "id": "c", "text": "A vendor contract clause requiring the AI provider to indemnify the organization against discriminatory outcomes" },
+      { "id": "d", "text": "A security penetration test of the model API endpoint before go-live" }
+    ],
+    "correct": "b",
+    "explanation": "AI governance for consequential automated decisions affecting consumers requires three elements above all: explainability (so individuals understand why decisions were made), fairness testing across demographic groups (to detect discriminatory bias), and a human escalation path (to ensure humans remain in the loop for challenged decisions). Accuracy benchmarks, vendor indemnification, and security testing are important but do not satisfy the ethical and regulatory obligations inherent in this use case.",
+    "topics": ["governance-risk"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-010",
+    "type": "single_choice",
+    "prompt": "A financial institution's board is evaluating the alignment between its IT governance framework and ISO 20000. Which aspect of ISO 20000 is most directly relevant to strategic IT governance rather than operational service management?",
+    "choices": [
+      { "id": "a", "text": "Incident classification and priority matrix definitions for the service desk" },
+      { "id": "b", "text": "Change advisory board membership requirements for production deployments" },
+      { "id": "c", "text": "Top management commitment, scope definition, and integration of the service management system with the organization's strategic objectives" },
+      { "id": "d", "text": "Measurement of mean time to restore for Tier 1 services" }
+    ],
+    "correct": "c",
+    "explanation": "ISO 20000's strategic relevance lies in its Clause 5 requirements: top management must demonstrate leadership and commitment, define the scope of the SMS, and integrate service management with organizational strategy and planning. These are governance-level obligations. Incident priority matrices, CAB membership, and MTTR measurement are operational service management concerns, important but not the strategic governance interface with ISO 20000.",
+    "topics": ["governance-risk"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ISO/IEC 20000-1:2018 Overview", "url": "https://www.iso.org/standard/70636.html" },
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-011",
+    "type": "single_choice",
+    "prompt": "The COBIT framework distinguishes between governance and management objectives. A CIO is asked to map the COBIT EDM (Evaluate, Direct, Monitor) domain to the ITIL 4 Service Value System. Which component of the SVS best represents the governance layer that EDM maps to?",
+    "choices": [
+      { "id": "a", "text": "The service value chain activities (plan, engage, design, transition, deliver, improve)" },
+      { "id": "b", "text": "The guiding principles, because they direct all activity across the organization" },
+      { "id": "c", "text": "The governance component of the SVS, which enables the organization to evaluate, direct, and monitor the service management system" },
+      { "id": "d", "text": "The continual improvement component, because monitoring and feedback are its primary activities" }
+    ],
+    "correct": "c",
+    "explanation": "ITIL 4's Service Value System explicitly includes a governance component that encompasses the activities of evaluating, directing, and monitoring, precisely mirroring COBIT's EDM domain. The service value chain is an operational model, the guiding principles are cultural and decision-making guides, and continual improvement is a practice. The governance component is the ITIL 4 structural element that maps to COBIT EDM.",
+    "topics": ["governance-risk"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" },
+      { "label": "COBIT 2019 Framework", "url": "https://www.isaca.org/resources/cobit" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-012",
+    "type": "single_choice",
+    "prompt": "A publicly listed company's CFO asks the CIO to explain what Sarbanes-Oxley (SOX) compliance means for IT governance. Which IT governance obligation does SOX most directly impose?",
+    "choices": [
+      { "id": "a", "text": "SOX requires organizations to encrypt all financial data at rest and in transit" },
+      { "id": "b", "text": "SOX requires that IT controls over financial reporting systems are documented, tested, and certified by management as effective, with external auditor attestation" },
+      { "id": "c", "text": "SOX applies only to financial accounting practices and has no direct IT governance implications" },
+      { "id": "d", "text": "SOX requires annual board approval of the IT budget and a separate IT audit committee" }
+    ],
+    "correct": "b",
+    "explanation": "SOX Section 302 and 404 impose direct IT governance obligations: management must evaluate and certify the effectiveness of internal controls over financial reporting, which necessarily includes IT general controls (access management, change management, data integrity) for all systems that process or report financial data. External auditors must attest to this evaluation. Encryption is a security control, not a SOX mandate, and SOX does not require a separate IT audit committee.",
+    "topics": ["governance-risk"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-013",
+    "type": "single_choice",
+    "prompt": "An organization categorizes its digital risks into four types: cyber risk, data risk, operational technology risk, and reputational risk. A ransomware attack encrypts production databases and the incident is reported in the media before it is disclosed by the company. Which risk categories are activated, and in what sequence?",
+    "choices": [
+      { "id": "a", "text": "Only cyber risk is activated; the media report is a consequence, not a separate risk category" },
+      { "id": "b", "text": "Cyber risk triggers first (the encryption event), followed immediately by data risk (potential exfiltration), and subsequently reputational risk (media exposure before disclosure), demonstrating how digital risks cascade" },
+      { "id": "c", "text": "Reputational risk is the primary risk; the technical events are secondary to the brand impact" },
+      { "id": "d", "text": "Operational technology risk is the primary risk because production operations are disrupted" }
+    ],
+    "correct": "b",
+    "explanation": "This scenario illustrates the cascading nature of digital risk: a ransomware event is an instance of cyber risk, it simultaneously activates data risk if exfiltration occurred, and the disclosure gap creates reputational risk. The strategic lesson is that digital risk categories are interdependent and must be managed as a system, not in siloed programs. Treating reputational risk as primary ignores the technical chain that caused it.",
+    "topics": ["governance-risk"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-014",
+    "type": "single_choice",
+    "prompt": "An organization's internal audit function is asked to provide assurance over a newly deployed cloud-native digital platform. Which assurance approach is most appropriate for a continuously deployed cloud environment?",
+    "choices": [
+      { "id": "a", "text": "Annual point-in-time audit based on a sample of change records from the prior year" },
+      { "id": "b", "text": "Continuous control monitoring using automated evidence collection from the CI/CD pipeline, cloud configuration management tools, and SIEM, supplemented by periodic targeted deep-dive audits" },
+      { "id": "c", "text": "Quarterly penetration tests to verify the security of each new deployment cycle" },
+      { "id": "d", "text": "Require the development team to self-certify compliance with each release and escalate exceptions to management" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud-native environments with continuous deployment invalidate annual point-in-time audit methods because the environment changes continuously. Continuous control monitoring using automated evidence collection aligns the assurance cadence with the change cadence. Periodic deep-dive audits address areas where automated monitoring has coverage gaps. Penetration testing is a security verification activity, not a compliance assurance mechanism, and self-certification is not independent assurance.",
+    "topics": ["governance-risk"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-sl-gr-015",
+    "type": "single_choice",
+    "prompt": "A CIO is briefing the board on the organization's overall risk posture. The board asks what 'risk posture' means and how it differs from the risk register. Which is the most accurate and strategically useful explanation?",
+    "choices": [
+      { "id": "a", "text": "Risk posture is a summary version of the risk register designed for non-technical board members" },
+      { "id": "b", "text": "Risk posture is the overall profile of how well the organization's controls and residual risk align with its stated risk appetite, providing a strategic view of whether the organization is over-exposed, under-exposed, or appropriately positioned" },
+      { "id": "c", "text": "Risk posture is determined by the number of open high-severity items in the risk register" },
+      { "id": "d", "text": "Risk posture and the risk register are the same artifact presented at different levels of detail" }
+    ],
+    "correct": "b",
+    "explanation": "Risk posture is a strategic assessment of the organization's overall risk exposure relative to its appetite, incorporating control effectiveness, residual risk levels, and trend direction. It answers the governance question: 'Are we taking the right amount of risk in the right places?' The risk register is an operational catalog of individual risks. Posture is the board's strategic lens; the register is management's operational tool. Reducing posture to a count of high-severity items loses the strategic context.",
+    "topics": ["governance-risk"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Digital and IT Strategy", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-strategic-leader" }
+    ],
+    "version": 1
+  }
+]

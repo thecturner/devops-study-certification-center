@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-mp-cd-001",
+    "type": "single_choice",
+    "prompt": "An IT service provider is designing its incident management value stream. The team currently routes all incidents through a Tier 1 helpdesk before escalating to Tier 2 and Tier 3. Analysts report that 60% of incidents are resolved at Tier 1 within two hours, but the remaining 40% spend an average of four hours waiting for escalation handoffs. Which approach would most directly reduce the total elapsed time for that 40%?",
+    "choices": [
+      { "id": "a", "text": "Increase the headcount at Tier 1 to resolve a higher percentage of tickets before escalation." },
+      { "id": "b", "text": "Implement a swarming model where multi-skilled engineers collaborate on complex incidents immediately rather than waiting for sequential escalation handoffs." },
+      { "id": "c", "text": "Introduce an automated triage tool to classify incidents and assign them to the correct tier at first contact." },
+      { "id": "d", "text": "Define tighter SLA windows for Tier 2 and Tier 3 teams to create accountability for escalated tickets." }
+    ],
+    "correct": "b",
+    "explanation": "Swarming eliminates the queue-wait waste inherent in sequential tiered escalation by bringing the right people together at the point of need. The 60% that Tier 1 already resolves are unaffected; the 40% experiencing handoff delays would benefit directly from removing those escalation wait steps. Adding Tier 1 headcount only affects tickets resolvable at that level. Automated triage reduces misrouting but does not eliminate handoff waits. Tighter SLAs create pressure but do not remove structural delay.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-002",
+    "type": "single_choice",
+    "prompt": "A service provider is performing a value stream mapping exercise on its software release process. The team identifies that code sits in a 'ready to test' queue for an average of three days before a tester picks it up, even though actual testing takes only four hours. According to Lean principles, what category of waste does this queue represent?",
+    "choices": [
+      { "id": "a", "text": "Overproduction" },
+      { "id": "b", "text": "Defects" },
+      { "id": "c", "text": "Waiting" },
+      { "id": "d", "text": "Motion" }
+    ],
+    "correct": "c",
+    "explanation": "In Lean's seven wastes (sometimes extended to eight), 'waiting' describes time when work items are idle between process steps, adding elapsed time without adding value. A three-day queue before a four-hour task is a textbook waiting waste. Overproduction means creating more than is immediately needed. Defects require rework. Motion refers to unnecessary movement of people or information between systems.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-003",
+    "type": "single_choice",
+    "prompt": "A financial services firm is deciding whether to build a new ITSM platform in-house, purchase a commercial off-the-shelf (COTS) product, or outsource platform operations to a managed service provider. The firm's differentiating capability is its risk analytics engine, not its IT tooling. Which sourcing principle should most heavily influence this decision?",
+    "choices": [
+      { "id": "a", "text": "Always prefer in-house build to maintain full control of intellectual property." },
+      { "id": "b", "text": "Source commodity capabilities externally to focus internal investment on differentiating value." },
+      { "id": "c", "text": "Outsource only when internal skills are insufficient to build the capability at all." },
+      { "id": "d", "text": "Purchase COTS products only when total cost of ownership is lower than building in-house over five years." }
+    ],
+    "correct": "b",
+    "explanation": "The principle of focusing internal investment on what differentiates the organisation and sourcing commodity capabilities externally is a core CDS sourcing decision driver. ITSM tooling is a commodity for a financial analytics firm; the risk engine is not. Building a COTS-replaceable platform in-house would divert scarce investment from the differentiating capability. Insufficient skills and TCO are valid but secondary considerations once strategic differentiation is established.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-004",
+    "type": "single_choice",
+    "prompt": "A service desk manager notices that 35% of contacts are repeat calls from users who were told their incident was resolved but whose underlying issue persists. The manager wants to distinguish between fixing a symptom and preventing recurrence. Which practice combination most directly addresses this gap?",
+    "choices": [
+      { "id": "a", "text": "Service Desk and Service Request Management" },
+      { "id": "b", "text": "Incident Management and Problem Management" },
+      { "id": "c", "text": "Monitoring and Event Management and Change Enablement" },
+      { "id": "d", "text": "Service Level Management and Continual Improvement" }
+    ],
+    "correct": "b",
+    "explanation": "Incident Management aims to restore normal service operation as quickly as possible (fixing the symptom), while Problem Management identifies root causes and implements permanent fixes to prevent recurrence (known error database, error control). The 35% repeat-call rate signals that incidents are being closed without Problem Management investigation. Service Request Management handles pre-approved requests, not unplanned interruptions. Monitoring and Change Enablement are inputs to both practices but do not themselves own the symptom-vs-root-cause distinction.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-005",
+    "type": "single_choice",
+    "prompt": "During a major incident, the incident manager realises that no one has yet been assigned to communicate status updates to business stakeholders. Thirty minutes have passed since the incident was declared. Which role is primarily accountable for ensuring stakeholder communication happens during a major incident?",
+    "choices": [
+      { "id": "a", "text": "The Problem Manager, who coordinates root-cause analysis communications." },
+      { "id": "b", "text": "The Major Incident Manager (or equivalent coordinator role), who owns the major incident process end-to-end." },
+      { "id": "c", "text": "The Service Desk Supervisor, who owns the communication channel to end users." },
+      { "id": "d", "text": "The Change Manager, who must authorise any emergency changes before communication can occur." }
+    ],
+    "correct": "b",
+    "explanation": "The Major Incident Manager (sometimes called the incident coordinator or bridge lead) is accountable for the end-to-end major incident process, including organising resources, driving resolution, and ensuring stakeholder communications are issued at the defined cadence. The Problem Manager is engaged post-incident for root-cause analysis. The Service Desk handles front-line user contact but is not accountable for executive-level stakeholder messaging. The Change Manager governs emergency changes but does not own incident communications.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-006",
+    "type": "single_choice",
+    "prompt": "A service provider supporting multiple customers from a shared platform wants to implement Service Integration and Management (SIAM). Which description best captures what SIAM is designed to achieve?",
+    "choices": [
+      { "id": "a", "text": "A framework for consolidating all suppliers into a single outsourced contract to reduce vendor management overhead." },
+      { "id": "b", "text": "A model that coordinates multiple service providers to deliver integrated services to the customer, ensuring end-to-end accountability." },
+      { "id": "c", "text": "A methodology for building internal service teams to replace external suppliers with in-house capability over time." },
+      { "id": "d", "text": "A governance structure that assigns each supplier a separate SLA so performance can be tracked independently." }
+    ],
+    "correct": "b",
+    "explanation": "SIAM (Service Integration and Management) addresses the challenge of managing an ecosystem of multiple service providers to deliver cohesive, end-to-end services. The service integrator role ensures coordination, integration, and single-point accountability even when multiple suppliers are involved. Consolidating into a single contract is a sourcing decision, not SIAM. Replacing suppliers with in-house teams is insourcing. Separate per-supplier SLAs can be part of SIAM governance but do not define what SIAM is.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-007",
+    "type": "single_choice",
+    "prompt": "An organisation wants to implement a shift-left support strategy. Which combination of capabilities is most essential to enable effective shift-left?",
+    "choices": [
+      { "id": "a", "text": "A dedicated escalation team and a well-defined priority matrix." },
+      { "id": "b", "text": "Comprehensive knowledge articles and self-service tools accessible to users before they contact the service desk." },
+      { "id": "c", "text": "An AI-powered chatbot that automatically escalates unresolved queries to Tier 2." },
+      { "id": "d", "text": "A formal problem management process that eliminates recurring incidents before they reach the service desk." }
+    ],
+    "correct": "b",
+    "explanation": "Shift-left means moving resolution capability closer to the user and earlier in the support chain, reducing reliance on specialist support tiers. This requires high-quality, accessible knowledge articles and self-service tooling so users can resolve issues themselves or with minimal Tier 1 involvement. A chatbot that escalates to Tier 2 is moving in the wrong direction. Problem Management reduces incidents but is not the mechanism of shift-left. A priority matrix governs escalation, not the shift-left strategy itself.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-008",
+    "type": "single_choice",
+    "prompt": "A service desk team is evaluating its channel strategy. Currently, 70% of contacts arrive by phone, 20% by email, and 10% via a self-service portal. Analysis shows portal contacts cost one-fifth of phone contacts to resolve. What is the most strategically sound next step?",
+    "choices": [
+      { "id": "a", "text": "Shut down the phone channel to force users to the lower-cost portal." },
+      { "id": "b", "text": "Invest in improving the portal experience and knowledge base to shift demand from phone to self-service, while retaining phone for complex or urgent contacts." },
+      { "id": "c", "text": "Add a chat channel to reduce phone volume by giving users another human-assisted option." },
+      { "id": "d", "text": "Outsource phone handling to a lower-cost provider to reduce the cost of the dominant channel." }
+    ],
+    "correct": "b",
+    "explanation": "The strategic goal is to shift demand to lower-cost channels while preserving high-touch channels for users who genuinely need them. Improving the portal and knowledge base makes self-service more effective, pulling volume away from phone organically. Shutting down the phone channel ignores legitimate high-complexity or urgent needs and risks poor user experience. Adding a chat channel adds cost and may not shift users away from phone. Outsourcing reduces unit cost but does not change the overall channel mix or volume.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-009",
+    "type": "single_choice",
+    "prompt": "The Problem Management team has identified the root cause of a recurring database timeout that causes service degradation. A permanent fix requires a three-month development effort. In the meantime, a database restart restores service in under ten minutes. How should this situation be documented in the knowledge management system?",
+    "choices": [
+      { "id": "a", "text": "As a closed problem record, because the root cause has been identified." },
+      { "id": "b", "text": "As a known error with a documented workaround in the known error database, kept open until the permanent fix is implemented." },
+      { "id": "c", "text": "As an open incident, because the service degradation has not been permanently resolved." },
+      { "id": "d", "text": "As a change request only, because the next action is a development task." }
+    ],
+    "correct": "b",
+    "explanation": "Once a problem's root cause is known and a workaround exists but a permanent fix has not yet been applied, the problem transitions to 'known error' status. The known error database (KEDB) captures the workaround so the service desk can apply it rapidly on recurrence, reducing mean time to restore. The problem record remains open until the permanent fix is deployed. Closing the problem would lose tracking of the ongoing error. An open incident is inappropriate because incidents track individual occurrences. A change request documents the planned fix but does not replace the known error record.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-010",
+    "type": "single_choice",
+    "prompt": "An organisation is implementing AIOps to improve its monitoring and event management capability. Which outcome best illustrates the value AIOps adds over traditional threshold-based alerting?",
+    "choices": [
+      { "id": "a", "text": "AIOps sends alerts faster than traditional monitoring tools by checking metrics more frequently." },
+      { "id": "b", "text": "AIOps correlates signals across multiple monitoring sources to surface actionable events and suppress noise, reducing alert fatigue." },
+      { "id": "c", "text": "AIOps eliminates the need for human operators by automatically resolving all infrastructure incidents." },
+      { "id": "d", "text": "AIOps replaces service-level objectives by providing real-time dynamic thresholds that self-adjust without human input." }
+    ],
+    "correct": "b",
+    "explanation": "The primary value of AIOps in event management is its ability to correlate signals from disparate sources, identify patterns, suppress duplicate or low-value alerts, and surface the events that actually require human attention. This directly addresses alert fatigue caused by high-volume threshold-based alerting. AIOps does not primarily operate by increasing polling frequency. It does not autonomously resolve all incidents; humans remain essential for complex problems. AIOps can inform dynamic thresholds but does not replace SLOs as the service agreement mechanism.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-011",
+    "type": "single_choice",
+    "prompt": "A service provider distinguishes between Release Management and Deployment Management. A new application version has completed testing and been approved for production. Which statement correctly describes the respective responsibilities of these two practices?",
+    "choices": [
+      { "id": "a", "text": "Release Management moves the software into production environments; Deployment Management decides when and to which users the new version is made available." },
+      { "id": "b", "text": "Deployment Management moves new or changed services into live environments; Release Management makes those new or changed services available for use." },
+      { "id": "c", "text": "Both practices are interchangeable and refer to the same set of activities in modern DevOps pipelines." },
+      { "id": "d", "text": "Release Management owns the technical pipeline from build to production; Deployment Management owns stakeholder approval and communication." }
+    ],
+    "correct": "b",
+    "explanation": "In ITIL 4, Deployment Management is responsible for moving new or changed hardware, software, documentation, or any other component into live environments. Release Management is responsible for making new and changed services and features available for use, which includes planning, scheduling, and communication around what is being released to users. The two are distinct: Deployment is the technical act of moving components; Release governs the user-facing availability and coordination. They are not interchangeable, and the technical/approval division in option D reverses the actual responsibilities.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-012",
+    "type": "single_choice",
+    "prompt": "A workforce planning exercise reveals that the service operations team has deep expertise in legacy COBOL systems but lacks skills in cloud-native observability tools required for a platform migration. The migration starts in six months. Which approach best addresses this skills gap within the available timeframe?",
+    "choices": [
+      { "id": "a", "text": "Hire experienced cloud-native engineers from the market to replace the current team." },
+      { "id": "b", "text": "Delay the migration until the current team has completed a full certification programme." },
+      { "id": "c", "text": "Blend targeted upskilling of existing staff with interim specialist contractor support to cover the transition period, transferring knowledge during the engagement." },
+      { "id": "d", "text": "Outsource cloud-native operations entirely so that skills planning is no longer an internal concern." }
+    ],
+    "correct": "c",
+    "explanation": "A blended approach — targeted training for existing staff combined with interim contractor expertise — addresses the immediate skill gap without disrupting institutional COBOL knowledge while building internal cloud capability over time. Replacing the team sacrifices valuable legacy knowledge and is rarely cost-effective. Delaying a strategic migration for training alone may not be commercially viable. Fully outsourcing cloud operations creates long-term dependency and eliminates internal competency development, which is inconsistent with sound workforce planning practice.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-013",
+    "type": "single_choice",
+    "prompt": "A service request management team wants to automate fulfillment for password resets, which account for 22% of all service desk contacts. The password reset process requires identity verification before the reset is performed. Which consideration is most critical when designing the automation?",
+    "choices": [
+      { "id": "a", "text": "Ensuring the automated system generates a ticket in the ITSM tool for audit purposes." },
+      { "id": "b", "text": "Designing identity verification into the automated flow so that security controls are preserved, not bypassed." },
+      { "id": "c", "text": "Setting a target of zero human involvement to maximise cost savings from automation." },
+      { "id": "d", "text": "Piloting the automation with a small group of VIP users before rolling out to general staff." }
+    ],
+    "correct": "b",
+    "explanation": "When automating service request fulfillment, the automation must replicate — not eliminate — the security controls that exist in the manual process. Identity verification before a password reset prevents account takeover; omitting it from the automated flow would create a significant security vulnerability at scale. Ticket creation is a good audit practice but is secondary to preserving the security control. Zero human involvement is a goal but must not come at the expense of required controls. Piloting with VIPs is a reasonable rollout strategy but does not address the most critical design consideration.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-014",
+    "type": "single_choice",
+    "prompt": "A team performing value stream mapping finds that a validation step in the change approval process takes an average of eight days, but the actual review work takes only two hours. The remaining time is queue wait. Which Lean concept should guide the team's improvement approach?",
+    "choices": [
+      { "id": "a", "text": "Increase batch sizes so that reviews happen less frequently but cover more changes at once." },
+      { "id": "b", "text": "Reduce batch sizes and approval queue depths to enable faster flow through the value stream." },
+      { "id": "c", "text": "Automate the two-hour review to eliminate human involvement and reduce cycle time." },
+      { "id": "d", "text": "Add more reviewers to the approval board so that reviews can be completed in parallel." }
+    ],
+    "correct": "b",
+    "explanation": "When value-adding work time (two hours) is dwarfed by queue wait time (almost eight days), the Lean response is to reduce batch sizes and queue depths so work flows more continuously. Large batches accumulate in queues; smaller batches with shorter queues reduce wait-to-work ratios dramatically. Increasing batch size would worsen the queue problem. Automating the review removes human judgment that may be legitimately required. Adding more reviewers addresses throughput but not the underlying queue-depth issue, which is the root cause of the wait.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-cd-015",
+    "type": "single_choice",
+    "prompt": "A service provider is designing its incident priority matrix. The matrix uses 'impact' and 'urgency' as inputs. A trading platform goes down during market hours, affecting all 500 traders. A senior executive's laptop has a hardware fault preventing them from working. According to standard priority matrix logic, which situation should receive higher priority?",
+    "choices": [
+      { "id": "a", "text": "The executive's laptop, because executive incidents are always treated as highest priority." },
+      { "id": "b", "text": "Both should receive the same priority because both users are fully unable to work." },
+      { "id": "c", "text": "The trading platform outage, because the impact (500 affected users, revenue-critical service) is significantly higher even if both are equally urgent." },
+      { "id": "d", "text": "The trading platform outage only if the service desk manager personally escalates it." }
+    ],
+    "correct": "c",
+    "explanation": "Priority is determined by the combination of impact and urgency. Both incidents may have equal urgency (users cannot work now), but the trading platform outage has vastly higher impact: 500 users and a revenue-generating service are affected versus one user. A priority matrix would assign a higher priority to the higher-impact, equally-urgent incident. The matrix should be applied objectively; executive seniority is not a legitimate input to impact assessment in standard practice, and manual escalation should not be required for an objectively high-impact incident.",
+    "topics": ["create-deliver-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Create, Deliver and Support", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  }
+]

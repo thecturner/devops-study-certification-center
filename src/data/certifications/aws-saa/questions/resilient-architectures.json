@@ -1,0 +1,288 @@
+[
+  {
+    "id": "aws-saa-ra-001",
+    "type": "single_choice",
+    "prompt": "A company runs a web application on EC2 instances behind an Application Load Balancer. The operations team notices that when one Availability Zone becomes unavailable, users in that AZ experience errors. What change ensures the application survives an AZ failure?",
+    "choices": [
+      { "id": "a", "text": "Deploy the application to EC2 instances in multiple Regions and use Route 53 latency-based routing" },
+      { "id": "b", "text": "Configure an Auto Scaling group that spans multiple AZs with a minimum of two instances per AZ" },
+      { "id": "c", "text": "Enable cross-zone load balancing on the ALB and configure an Auto Scaling group that spans at least two AZs" },
+      { "id": "d", "text": "Create a second ALB in a different Region and use Route 53 failover routing" }
+    ],
+    "correct": "c",
+    "explanation": "To survive an AZ failure, the Auto Scaling group must span at least two AZs so instances are present in both, and the ALB routes traffic across all healthy instances. Cross-zone load balancing ensures the ALB distributes requests evenly across all registered instances regardless of AZ, preventing traffic imbalance when one AZ has fewer instances. Multi-Region deployment is a higher level of resilience not required here. Two instances per AZ (option B) is redundant within an AZ but still fails if the AZ itself goes down.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cross-Zone Load Balancing", "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#cross-zone-load-balancing" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-002",
+    "type": "single_choice",
+    "prompt": "A company uses RDS MySQL for its production database. The database must remain available if the primary instance fails, and the failover must complete in under 2 minutes with no manual intervention. Which RDS configuration meets these requirements?",
+    "choices": [
+      { "id": "a", "text": "Enable RDS automated backups with a 1-day retention period" },
+      { "id": "b", "text": "Create an RDS Read Replica and promote it manually if the primary fails" },
+      { "id": "c", "text": "Configure RDS Multi-AZ deployment with a synchronous standby replica" },
+      { "id": "d", "text": "Take daily RDS snapshots and restore them in case of failure" }
+    ],
+    "correct": "c",
+    "explanation": "RDS Multi-AZ maintains a synchronous standby replica in a different AZ. If the primary fails, RDS automatically fails over to the standby, typically completing in 60-120 seconds with no manual intervention. Automated backups allow point-in-time restore but involve downtime. Read Replicas use asynchronous replication and require manual promotion, which takes longer. Restoring from snapshots takes minutes to hours.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon RDS Multi-AZ Deployments", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-003",
+    "type": "single_choice",
+    "prompt": "An e-commerce company experiences large traffic spikes during flash sales. During peak periods, the checkout service frequently times out because the payment processing backend cannot keep up. Orders are sometimes lost. Which architecture change best decouples the checkout service from the payment backend?",
+    "choices": [
+      { "id": "a", "text": "Increase the EC2 instance size of the payment backend during flash sales" },
+      { "id": "b", "text": "Place an Amazon SQS queue between the checkout service and the payment backend, with the backend polling the queue" },
+      { "id": "c", "text": "Use Amazon SNS to broadcast order events to multiple subscribers" },
+      { "id": "d", "text": "Enable caching on the checkout service to reduce calls to the payment backend" }
+    ],
+    "correct": "b",
+    "explanation": "An SQS queue decouples the checkout service (producer) from the payment backend (consumer). The checkout service writes orders to the queue and immediately returns a confirmation to the user. The payment backend processes orders at its own pace. Messages are retained in the queue (up to 14 days) so no orders are lost during traffic spikes. Manual scaling is reactive and prone to human error. SNS is a pub/sub system for fan-out, not for buffering. Caching doesn't help if the backend is the bottleneck.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon SQS: Decoupling Microservices", "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-lifecycle.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-004",
+    "type": "single_choice",
+    "prompt": "A company stores customer documents in S3. A junior developer accidentally deleted an important file. The company needs a solution that allows recovery of accidentally deleted or overwritten objects without maintaining a separate backup bucket. Which S3 feature should be enabled?",
+    "choices": [
+      { "id": "a", "text": "S3 Cross-Region Replication" },
+      { "id": "b", "text": "S3 Versioning" },
+      { "id": "c", "text": "S3 Lifecycle policies" },
+      { "id": "d", "text": "S3 Replication Time Control" }
+    ],
+    "correct": "b",
+    "explanation": "S3 Versioning retains previous versions of every object in the same bucket. When an object is deleted, S3 places a delete marker instead of permanently removing it; restoring the previous version removes the marker. When overwritten, the old version is retained. Cross-Region Replication replicates objects to another bucket but still replicates deletes unless delete replication is disabled. Lifecycle policies manage transitions and expirations but don't protect against accidental deletion. RTC guarantees replication SLA but doesn't help with recovery.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Using Versioning in S3 Buckets", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-005",
+    "type": "single_choice",
+    "prompt": "A company has a global customer base and needs a DynamoDB table that accepts writes from multiple AWS Regions simultaneously. Users must be served from the nearest Region with low latency. Which DynamoDB feature satisfies these requirements?",
+    "choices": [
+      { "id": "a", "text": "DynamoDB Streams with a custom Lambda replication function" },
+      { "id": "b", "text": "DynamoDB Global Tables" },
+      { "id": "c", "text": "DynamoDB Accelerator (DAX)" },
+      { "id": "d", "text": "DynamoDB Cross-Region Replication using AWS DataSync" }
+    ],
+    "correct": "b",
+    "explanation": "DynamoDB Global Tables provides fully managed multi-active replication across multiple AWS Regions. All replicas accept reads and writes, and DynamoDB handles conflict resolution automatically. This enables low-latency access for global users while maintaining data consistency. A custom Lambda replication solution using Streams is complex, error-prone, and doesn't provide true multi-active writes. DAX is an in-memory cache for DynamoDB, not a replication feature. DataSync is a data transfer service, not a DynamoDB replication mechanism.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "DynamoDB Global Tables", "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-006",
+    "type": "single_choice",
+    "prompt": "A company uses an Application Load Balancer to route traffic to EC2 instances. The instances run a stateful application that stores session data in local memory. During a scale-in event, users are losing their sessions. Which solution resolves this without changing the application architecture significantly?",
+    "choices": [
+      { "id": "a", "text": "Enable ALB sticky sessions (session affinity) to pin users to the same instance" },
+      { "id": "b", "text": "Store session data in a shared Amazon ElastiCache cluster and update the application to use it" },
+      { "id": "c", "text": "Increase the Auto Scaling scale-in cooldown period to prevent instance termination" },
+      { "id": "d", "text": "Use a Network Load Balancer instead of an ALB to preserve client IP addresses" }
+    ],
+    "correct": "a",
+    "explanation": "ALB sticky sessions use a cookie to route a user's requests to the same backend instance for the duration of the session. This is the simplest fix without changing the application. However, it creates imbalanced load distribution and still loses sessions if the instance is terminated. The more resilient long-term solution is option B (ElastiCache for shared session state), but option A requires the least change and the question asks for minimal architectural change. Increasing cooldown delays scale-in but doesn't prevent session loss. NLB's IP preservation doesn't relate to session affinity.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Sticky Sessions for ALB Target Groups", "url": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/sticky-sessions.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-007",
+    "type": "single_choice",
+    "prompt": "A company needs a managed relational database that automatically grows storage, replicates across multiple AZs, and can scale read capacity by adding up to 15 read replicas with minimal lag. Which AWS service best meets these requirements?",
+    "choices": [
+      { "id": "a", "text": "Amazon RDS MySQL with Multi-AZ and manually managed read replicas" },
+      { "id": "b", "text": "Amazon Aurora with a Multi-AZ Aurora cluster" },
+      { "id": "c", "text": "Amazon DynamoDB with on-demand capacity" },
+      { "id": "d", "text": "Amazon Redshift with RA3 nodes" }
+    ],
+    "correct": "b",
+    "explanation": "Amazon Aurora replicates 6 copies of data across 3 AZs automatically, supports up to 15 Aurora Replicas with typically less than 10ms replica lag, and auto-scales storage in 10GB increments up to 128TB. Standard RDS MySQL Multi-AZ only provides one standby and supports up to 5 read replicas with higher lag. DynamoDB is a NoSQL service, not suitable as a relational database replacement. Redshift is an analytical data warehouse, not an OLTP database.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "What is Amazon Aurora?", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-008",
+    "type": "single_choice",
+    "prompt": "A company's critical application in us-east-1 must failover to us-west-2 if a regional outage occurs. DNS-based failover must be automatic, and the secondary Region must be kept warm with a scaled-down but running stack. Which Route 53 routing policy and associated configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Weighted routing with 100% weight to us-east-1 and 0% to us-west-2" },
+      { "id": "b", "text": "Latency-based routing with health checks on both Regions" },
+      { "id": "c", "text": "Failover routing with a primary record in us-east-1 and a secondary record in us-west-2, both with health checks" },
+      { "id": "d", "text": "Geolocation routing with us-east-1 serving North American traffic" }
+    ],
+    "correct": "c",
+    "explanation": "Route 53 Failover routing designates one record as PRIMARY and another as SECONDARY. Route 53 monitors the health check for the primary. When the primary health check fails, Route 53 automatically routes all traffic to the secondary record. This is the purpose-built mechanism for active-passive failover. Weighted routing with 0% to the secondary never sends traffic there. Latency-based routing sends traffic to the lowest-latency Region, not necessarily for failover. Geolocation routing routes based on user location, not infrastructure health.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Route 53 Failover Routing", "url": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-failover.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-009",
+    "type": "single_choice",
+    "prompt": "A company's SQS queue receives order messages that are processed by an EC2-based consumer application. Some messages are malformed and cause the consumer to crash repeatedly, blocking other messages. What is the recommended approach to handle these poison-pill messages without manual intervention?",
+    "choices": [
+      { "id": "a", "text": "Increase the SQS visibility timeout to prevent other consumers from processing the message" },
+      { "id": "b", "text": "Configure a Dead-Letter Queue (DLQ) on the source queue with a maxReceiveCount of 3" },
+      { "id": "c", "text": "Enable SQS FIFO ordering to process messages in sequence and skip failed messages" },
+      { "id": "d", "text": "Set a long message retention period so failed messages expire without blocking the queue" }
+    ],
+    "correct": "b",
+    "explanation": "A Dead-Letter Queue (DLQ) automatically receives messages that have been received and failed more than maxReceiveCount times. Failed messages are moved to the DLQ for inspection and reprocessing without blocking the main queue. Increasing the visibility timeout just delays reprocessing; the message returns to the queue. FIFO ordering doesn't skip or isolate failed messages. Relying on message expiration causes data loss and still blocks the queue while the message is alive.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Amazon SQS Dead-Letter Queues", "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-010",
+    "type": "multi_choice",
+    "prompt": "A company wants to ensure that S3 objects are replicated to a backup bucket in a different AWS Region for disaster recovery. Which TWO prerequisites must be met before configuring S3 Cross-Region Replication? (Select two.)",
+    "choices": [
+      { "id": "a", "text": "Versioning must be enabled on both the source and destination buckets" },
+      { "id": "b", "text": "The source and destination buckets must be in the same AWS account" },
+      { "id": "c", "text": "The IAM role used for replication must have permissions to read from the source and write to the destination" },
+      { "id": "d", "text": "The destination bucket must have S3 Transfer Acceleration enabled" },
+      { "id": "e", "text": "The source bucket must use SSE-S3 encryption" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "S3 Cross-Region Replication requires: (1) Versioning enabled on both the source and destination buckets, because replication works at the version level. (2) An IAM role with s3:GetObject and s3:ReplicateObject permissions on the appropriate buckets. The buckets can be in different accounts (cross-account replication is supported). Transfer Acceleration is not required for CRR. There is no requirement that the source bucket use SSE-S3; SSE-KMS and SSE-S3 are both supported.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Setting Up Cross-Region Replication", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-011",
+    "type": "single_choice",
+    "prompt": "A company wants to send notifications to multiple downstream systems (email, SMS, a Lambda function, and an SQS queue) whenever an inventory update event occurs. Which AWS service and pattern should be used?",
+    "choices": [
+      { "id": "a", "text": "Amazon SQS with four separate queues, each receiving a copy of every message" },
+      { "id": "b", "text": "Amazon SNS with subscriptions for SES (email), SMS, Lambda, and SQS" },
+      { "id": "c", "text": "Amazon EventBridge with four separate rules, each targeting one downstream system" },
+      { "id": "d", "text": "Amazon Kinesis Data Streams with four consumers" }
+    ],
+    "correct": "b",
+    "explanation": "Amazon SNS is the purpose-built fan-out service. A single SNS topic can have multiple subscriptions of different types (SES, SMS, Lambda, SQS, HTTPS). Publishing one message to the topic delivers it to all subscribers simultaneously. SQS doesn't natively fan out to multiple consumers. EventBridge is more appropriate for event-driven routing based on rules, not simple fan-out to multiple protocol types. Kinesis is for high-throughput streaming data, not simple notification fan-out.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon SNS: Fan-Out Pattern", "url": "https://docs.aws.amazon.com/sns/latest/dg/sns-common-scenarios.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-012",
+    "type": "single_choice",
+    "prompt": "A company runs a batch processing workload on EC2 that takes 4-6 hours per job. Jobs can be restarted from a checkpoint if interrupted. The workload must complete within 8 hours and cost must be minimized. Which EC2 purchasing option is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "On-Demand Instances" },
+      { "id": "b", "text": "Reserved Instances with a 1-year term" },
+      { "id": "c", "text": "Spot Instances" },
+      { "id": "d", "text": "Dedicated Hosts" }
+    ],
+    "correct": "c",
+    "explanation": "Spot Instances offer up to 90% discount versus On-Demand pricing. Since jobs can be restarted from a checkpoint if interrupted, a Spot interruption is recoverable. The 8-hour window provides enough time to restart and complete. Reserved Instances are best for steady-state workloads, not batch jobs. On-Demand is the most expensive option for batch processing. Dedicated Hosts are for licensing or compliance requirements, not cost optimization.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon EC2 Spot Instances", "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-013",
+    "type": "single_choice",
+    "prompt": "A company wants Route 53 to route traffic to the AWS Region with the lowest network latency for each user, regardless of geographic location. Which routing policy should they configure?",
+    "choices": [
+      { "id": "a", "text": "Geolocation routing" },
+      { "id": "b", "text": "Geoproximity routing" },
+      { "id": "c", "text": "Latency-based routing" },
+      { "id": "d", "text": "Weighted routing" }
+    ],
+    "correct": "c",
+    "explanation": "Latency-based routing directs users to the AWS Region that provides the lowest network latency, based on actual latency measurements. Geolocation routing routes based on the user's geographic location (country or continent), not latency. Geoproximity routing is based on geographic distance with optional bias adjustments, not measured latency. Weighted routing distributes traffic according to configured weights, not network performance.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Latency-Based Routing", "url": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-latency.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-014",
+    "type": "single_choice",
+    "prompt": "An application tier processes messages from an SQS queue. Processing each message takes approximately 45 seconds. The Solutions Architect notices that messages are being processed more than once. What is the most likely cause and solution?",
+    "choices": [
+      { "id": "a", "text": "The queue has duplicate messages; enable SQS FIFO to prevent duplicates" },
+      { "id": "b", "text": "The visibility timeout is shorter than the processing time; increase it to at least 60 seconds" },
+      { "id": "c", "text": "The consumer is not using long polling; enable ReceiveMessage with WaitTimeSeconds=20" },
+      { "id": "d", "text": "The dead-letter queue is returning failed messages to the main queue" }
+    ],
+    "correct": "b",
+    "explanation": "When the visibility timeout expires before a message is fully processed and deleted, SQS makes the message visible again to other consumers, causing duplicate processing. If processing takes 45 seconds and the visibility timeout is the default 30 seconds, the message reappears before deletion. Increasing the visibility timeout beyond the processing duration (at least 60 seconds here) resolves this. FIFO queues prevent duplicate delivery from producers but don't address consumer processing duration. Long polling reduces empty receives but doesn't address duplicates. DLQs don't return messages to the source queue.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "SQS Visibility Timeout", "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-ra-015",
+    "type": "single_choice",
+    "prompt": "A company runs an Aurora MySQL database cluster with one writer and two reader instances. A new analytics team needs to run long-running reports that are causing high CPU on the writer instance and affecting production application latency. What is the most appropriate solution?",
+    "choices": [
+      { "id": "a", "text": "Upgrade the writer instance to a larger instance type" },
+      { "id": "b", "text": "Point the analytics team's queries to the Aurora Reader endpoint" },
+      { "id": "c", "text": "Create a separate Aurora cluster specifically for analytics" },
+      { "id": "d", "text": "Enable Aurora Serverless v2 to automatically scale the writer instance" }
+    ],
+    "correct": "b",
+    "explanation": "Aurora provides a Reader Endpoint that load-balances read connections across all available reader instances. Directing the analytics queries to the reader endpoint offloads the CPU-intensive work to the readers and leaves the writer free for production writes. Upgrading the writer helps but doesn't isolate the analytics workload. A separate cluster duplicates costs and requires data synchronization. Aurora Serverless v2 scales the writer instance but still mixes analytics and production workloads on the same instance.",
+    "topics": ["resilient-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Aurora Endpoints", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.Endpoints.html" }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,119 @@
+{
+  "topics": [
+    {
+      "id": "storage",
+      "label": "Storage",
+      "description": "Persistent storage in Kubernetes: PersistentVolumes, PersistentVolumeClaims, StorageClasses, dynamic provisioning, volume access modes, and volume types including emptyDir, hostPath, and CSI drivers.",
+      "studyPointers": [
+        { "label": "Persistent Volumes", "url": "https://kubernetes.io/docs/concepts/storage/persistent-volumes/" },
+        { "label": "Storage Classes", "url": "https://kubernetes.io/docs/concepts/storage/storage-classes/" },
+        { "label": "Volume Types", "url": "https://kubernetes.io/docs/concepts/storage/volumes/" },
+        { "label": "Dynamic Volume Provisioning", "url": "https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Provision persistent storage for a stateful application",
+          "prompt": "Create a PersistentVolume of 1Gi with ReadWriteOnce access mode backed by a hostPath, then create a PVC that binds to it, and mount it into a pod at /data.",
+          "focus": "PV/PVC lifecycle, binding rules, and pod volume mounts"
+        },
+        {
+          "title": "Configure a StorageClass for dynamic provisioning",
+          "prompt": "Create a StorageClass using the standard provisioner with a Retain reclaim policy, then create a PVC that uses it to dynamically provision a 500Mi volume.",
+          "focus": "StorageClass parameters, reclaimPolicy, and PVC annotation"
+        }
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "label": "Troubleshooting",
+      "description": "Diagnosing and resolving failures across nodes, pods, deployments, networking, and cluster components. Covers log access, event inspection, resource constraint debugging, and cluster component health checks.",
+      "studyPointers": [
+        { "label": "Troubleshooting Applications", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/" },
+        { "label": "Troubleshooting Clusters", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/" },
+        { "label": "Debugging Pods", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/" },
+        { "label": "Monitoring, Logging, and Debugging", "url": "https://kubernetes.io/docs/tasks/debug/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Diagnose a pod stuck in CrashLoopBackOff",
+          "prompt": "A pod in the 'prod' namespace keeps crashing. Use kubectl to inspect its logs, events, and describe output to determine the root cause and resolve it.",
+          "focus": "kubectl logs, kubectl describe, exit codes, OOMKilled vs. config errors"
+        },
+        {
+          "title": "Investigate a NotReady node",
+          "prompt": "One node in the cluster shows NotReady status. Identify the failing component using kubectl and node-level systemd logs.",
+          "focus": "kubelet status, journalctl, node conditions, cordoning"
+        }
+      ]
+    },
+    {
+      "id": "workloads-scheduling",
+      "label": "Workloads & Scheduling",
+      "description": "Deploying and managing workloads using Deployments, ReplicaSets, StatefulSets, DaemonSets, Jobs, and CronJobs. Controlling pod placement through node selectors, affinity rules, taints, tolerations, and resource requests/limits.",
+      "studyPointers": [
+        { "label": "Workloads", "url": "https://kubernetes.io/docs/concepts/workloads/" },
+        { "label": "Assigning Pods to Nodes", "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/" },
+        { "label": "Taints and Tolerations", "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/" },
+        { "label": "Resource Management for Pods and Containers", "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Roll out a deployment with a canary strategy",
+          "prompt": "Create a Deployment with 3 replicas, then perform a rolling update to a new image version using kubectl set image. Monitor rollout status and roll back if the new version fails.",
+          "focus": "kubectl rollout, maxSurge/maxUnavailable, rollback"
+        },
+        {
+          "title": "Schedule a pod on a specific node using affinity",
+          "prompt": "Label a node with 'disktype=ssd', then create a pod that uses node affinity to require scheduling only on nodes with that label.",
+          "focus": "nodeAffinity, requiredDuringSchedulingIgnoredDuringExecution"
+        }
+      ]
+    },
+    {
+      "id": "cluster-architecture",
+      "label": "Cluster Architecture, Installation & Configuration",
+      "description": "Understanding Kubernetes control plane components, bootstrapping clusters with kubeadm, performing etcd backup and restore, configuring RBAC, managing kubeconfig, and working with CRDs and Helm.",
+      "studyPointers": [
+        { "label": "Cluster Architecture", "url": "https://kubernetes.io/docs/concepts/architecture/" },
+        { "label": "Bootstrapping clusters with kubeadm", "url": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/" },
+        { "label": "Using RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" },
+        { "label": "Operating etcd clusters for Kubernetes", "url": "https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Back up and restore etcd",
+          "prompt": "Using etcdctl, create a snapshot of the etcd datastore, then restore from that snapshot to a new data directory and update the etcd static pod manifest to use it.",
+          "focus": "etcdctl snapshot save/restore, ETCDCTL_API=3, static pod manifests"
+        },
+        {
+          "title": "Create RBAC for a service account",
+          "prompt": "Create a ServiceAccount 'app-reader' in the 'dev' namespace, a Role that allows get/list/watch on pods, and a RoleBinding that grants the role to the service account.",
+          "focus": "kubectl create serviceaccount, role, rolebinding"
+        }
+      ]
+    },
+    {
+      "id": "services-networking",
+      "label": "Services & Networking",
+      "description": "Exposing applications through Services (ClusterIP, NodePort, LoadBalancer), configuring Ingress resources, writing NetworkPolicies to control traffic, and understanding DNS resolution and CNI plugins.",
+      "studyPointers": [
+        { "label": "Service", "url": "https://kubernetes.io/docs/concepts/services-networking/service/" },
+        { "label": "Ingress", "url": "https://kubernetes.io/docs/concepts/services-networking/ingress/" },
+        { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" },
+        { "label": "DNS for Services and Pods", "url": "https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Expose a deployment and restrict ingress traffic",
+          "prompt": "Create a ClusterIP Service for a deployment, then write a NetworkPolicy that only allows pods with label 'role=frontend' to reach it on port 8080.",
+          "focus": "Service selectors, NetworkPolicy podSelector and ports"
+        },
+        {
+          "title": "Configure an Ingress resource",
+          "prompt": "Create an Ingress that routes traffic for 'app.example.com/api' to a backend Service on port 80 using the nginx ingress class.",
+          "focus": "Ingress rules, pathType, ingressClassName"
+        }
+      ]
+    }
+  ]
+}

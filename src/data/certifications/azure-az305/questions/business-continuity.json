@@ -1,0 +1,302 @@
+[
+  {
+    "id": "azure-az305-bc-001",
+    "type": "single_choice",
+    "prompt": "A company runs a three-tier web application on Azure VMs. The SLA requirement is 99.99% availability. The application tier has 4 VMs and the database tier uses Azure SQL Database. The current deployment places all 4 app-tier VMs in a single Availability Set. Which change achieves the highest possible VM availability SLA?",
+    "choices": [
+      { "id": "a", "text": "Move all 4 VMs into a single Availability Zone" },
+      { "id": "b", "text": "Distribute the 4 VMs across 3 Availability Zones with at least 1 VM per zone" },
+      { "id": "c", "text": "Keep the Availability Set but increase the fault domain count to 3" },
+      { "id": "d", "text": "Deploy a Virtual Machine Scale Set with automatic scaling but no zone configuration" }
+    ],
+    "correct": "b",
+    "explanation": "Azure VMs deployed across Availability Zones receive a 99.99% SLA — the highest available for VM compute. Each AZ is an independent physical location with separate power, cooling, and networking. Distributing across 3 AZs with at least 1 VM per zone means no single zone failure can take down the entire application tier. Availability Sets (options A and C) protect against rack-level failures within a datacenter and provide 99.95% SLA — below the 99.99% requirement. Placing all VMs in a single AZ (option A describes this) still provides only 99.9% SLA at best for zone-pinned deployments without zone redundancy. VMSS without zone configuration (option D) provides Availability Set-level protection only.",
+    "topics": ["business-continuity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Availability options for Azure VMs", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/availability" },
+      { "label": "SLA for Virtual Machines", "url": "https://www.microsoft.com/licensing/docs/view/Service-Level-Agreements-SLA-for-Online-Services" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-002",
+    "type": "single_choice",
+    "prompt": "A company uses Azure SQL Database for its order management system. The RTO is 30 seconds and the RPO is 5 seconds. The database must automatically fail over without manual intervention when the primary is unavailable, and the application connection string must not change after failover. Which configuration meets all three constraints?",
+    "choices": [
+      { "id": "a", "text": "Active geo-replication with a secondary in a paired region and automatic failover scripts triggered by Azure Monitor alerts" },
+      { "id": "b", "text": "Auto-failover groups with automatic failover policy enabled, connecting via the failover group listener endpoint" },
+      { "id": "c", "text": "Azure SQL Database zone-redundant HA with automated backups at 5-second intervals" },
+      { "id": "d", "text": "Active geo-replication with a read-only secondary and manual failover executed by the on-call DBA" }
+    ],
+    "correct": "b",
+    "explanation": "Auto-failover groups provide a single read-write listener DNS endpoint that automatically redirects to whichever replica is primary after failover. The application connection string does not change. With automatic failover policy, failover is triggered without human intervention. Replication is continuous and asynchronous, typically with RPO of seconds depending on write rate. Azure SQL Database's built-in failover SLA is sub-30 seconds for automatic failover group policies. Active geo-replication (options A and D) supports automatic failover only through custom scripting or manual action — the listener endpoint (failover group) is the key differentiator. Zone-redundant HA (option C) protects against AZ failure but backups are not taken at 5-second intervals and HA failover typically exceeds 30 seconds during a zone failure.",
+    "topics": ["business-continuity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Auto-failover groups overview", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/auto-failover-group-overview" },
+      { "label": "Active geo-replication overview", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/active-geo-replication-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-003",
+    "type": "single_choice",
+    "prompt": "A company has a Cosmos DB account with data distributed across West Europe (primary write region) and North Europe (read region). A regional outage occurs in West Europe. The company's SLA requires RTO of under 15 minutes with no data loss (RPO = 0). Which Cosmos DB configuration achieves RPO = 0 with automatic failover?",
+    "choices": [
+      { "id": "a", "text": "Single write region with automatic failover enabled — Cosmos DB automatically promotes North Europe as the new write region" },
+      { "id": "b", "text": "Multi-region writes (multi-master) enabled on the account with automatic failover" },
+      { "id": "c", "text": "Single write region with manual failover — an operator initiates failover within 15 minutes of the outage" },
+      { "id": "d", "text": "Continuous backup mode with a 15-minute restore point objective" }
+    ],
+    "correct": "b",
+    "explanation": "Multi-region writes (also called multi-master) means both West Europe and North Europe are simultaneously write-enabled. Every write is synchronously accepted by all write regions before the client receives acknowledgment, guaranteeing RPO = 0 — no data is lost if any write region fails. Automatic failover is implicit since all remaining write regions continue serving writes immediately. Single write region with automatic failover (option A) has a potential RPO > 0 because asynchronous replication may not have replicated the very latest writes before the outage is detected. Manual failover (option C) cannot guarantee RTO under 15 minutes in practice. Continuous backup (option D) reduces RPO but still results in data loss equal to the time since last replication.",
+    "topics": ["business-continuity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Multi-region writes in Azure Cosmos DB", "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/high-availability#multi-region-writes" },
+      { "label": "Configure automatic failover for Azure Cosmos DB", "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-manage-database-account#configure-automatic-failover" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-004",
+    "type": "single_choice",
+    "prompt": "An architect must calculate the composite SLA for an application with these tiers: Azure App Service (SLA 99.95%), Azure SQL Database (SLA 99.99%), and Azure Service Bus (SLA 99.9%). All three tiers must be available for the application to function. What is the composite SLA, and which tier most needs HA improvement?",
+    "choices": [
+      { "id": "a", "text": "Composite SLA ≈ 99.84%; Azure Service Bus most needs improvement" },
+      { "id": "b", "text": "Composite SLA ≈ 99.9%; Azure App Service most needs improvement" },
+      { "id": "c", "text": "Composite SLA = 99.95% (the minimum of the individual SLAs)" },
+      { "id": "d", "text": "Composite SLA ≈ 99.84%; Azure App Service most needs improvement" }
+    ],
+    "correct": "a",
+    "explanation": "For services in series (all required), the composite SLA is the product of individual SLAs: 0.9995 × 0.9999 × 0.999 = 0.9983 ≈ 99.83%, which rounds to approximately 99.84% (some variance depending on exact calculation). The lowest individual SLA is Azure Service Bus at 99.9%, and since composite SLA is multiplicative, the component with the lowest SLA has the greatest drag on the composite. Replacing Service Bus with a zone-redundant or Premium-tier configuration (which carries a higher SLA) would improve the composite most. Taking the minimum of individual SLAs (option C) is incorrect — composite SLA for serial dependencies is multiplicative. Option D assigns improvement priority to App Service instead of Service Bus, which is incorrect.",
+    "topics": ["business-continuity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Composite SLA calculation", "url": "https://learn.microsoft.com/en-us/azure/architecture/framework/resiliency/business-metrics#composite-slas" },
+      { "label": "SLA for Azure Service Bus", "url": "https://www.microsoft.com/licensing/docs/view/Service-Level-Agreements-SLA-for-Online-Services" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-005",
+    "type": "single_choice",
+    "prompt": "A company needs to protect 200 Azure VMs running its ERP system with a disaster recovery solution. If the primary Azure region becomes unavailable, the recovery environment must be ready within 4 hours (RTO), and data loss must not exceed 1 hour (RPO). The solution must not require manual reconfiguration of the VMs after failover. Which Azure service implements this with the least custom scripting?",
+    "choices": [
+      { "id": "a", "text": "Azure Backup with cross-region restore to the secondary region" },
+      { "id": "b", "text": "Azure Site Recovery (ASR) with a replication policy configured for 1-hour RPO and a recovery plan with automated failover" },
+      { "id": "c", "text": "VM snapshot replication via Azure Storage geo-replication with manual VM recreation in the secondary region" },
+      { "id": "d", "text": "Deploy identical VMs in a secondary region and use Azure Load Balancer health probes to redirect traffic automatically" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Site Recovery is purpose-built for VM disaster recovery. It continuously replicates VM disks to the secondary region with configurable RPO (minimum 5 minutes for Azure-to-Azure). A 1-hour RPO is easily achievable. Recovery plans allow orchestrated failover with automated steps including network mapping and post-failover script execution — VMs retain their configuration because ASR replicates the entire VM state. Failover can be initiated with a single click or automated, achieving RTO well under 4 hours for 200 VMs. Azure Backup with cross-region restore (option A) restores from the latest backup but takes hours per VM and cannot meet a 4-hour RTO for 200 VMs. VM snapshots with geo-replication (option C) requires manual recreation and reconfiguration of each VM. Option D is active-active, not DR, and does not address data-level consistency.",
+    "topics": ["business-continuity"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Site Recovery overview", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-overview" },
+      { "label": "Azure to Azure disaster recovery architecture", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/azure-to-azure-architecture" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-006",
+    "type": "single_choice",
+    "prompt": "A company uses Azure Kubernetes Service (AKS) for a critical application. The cluster must continue serving traffic if a single Azure Availability Zone fails. The node pool uses Standard_D4s_v5 VMs. Which AKS configuration provides zone resilience?",
+    "choices": [
+      { "id": "a", "text": "Deploy an AKS cluster with a single node pool of 6 nodes in a single availability zone and use Pod Disruption Budgets" },
+      { "id": "b", "text": "Deploy a zone-redundant AKS node pool spanning 3 availability zones with at least 3 nodes (1 per zone), using topology spread constraints in pod specs" },
+      { "id": "c", "text": "Deploy two separate AKS clusters in different regions and use Azure Traffic Manager for DNS-based failover" },
+      { "id": "d", "text": "Enable the AKS Uptime SLA add-on and set minCount to 6 in the cluster autoscaler" }
+    ],
+    "correct": "b",
+    "explanation": "AKS supports zone-redundant node pools where nodes are spread across multiple Availability Zones. With at least 1 node per zone, a zone failure only removes a fraction of capacity, and remaining zones continue serving traffic. Kubernetes topology spread constraints with topologyKey: topology.kubernetes.io/zone ensure pods are distributed across zones, so a zone failure doesn't take all pods offline. A single zone node pool (option A) provides no AZ-level resilience — Pod Disruption Budgets protect against voluntary disruptions like rolling updates, not zone failures. Option C is a multi-region approach which is valid for higher resilience requirements but adds significant complexity and cost beyond the stated requirement. The AKS Uptime SLA (option D) improves the control plane SLA but does not change node zone distribution.",
+    "topics": ["business-continuity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AKS Availability Zones", "url": "https://learn.microsoft.com/en-us/azure/aks/availability-zones" },
+      { "label": "Pod topology spread constraints", "url": "https://learn.microsoft.com/en-us/azure/aks/operator-best-practices-advanced-scheduler" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-007",
+    "type": "single_choice",
+    "prompt": "A company's application requires active-active multi-region deployment with intelligent routing that sends users to the lowest-latency region, performs health checks at the application layer (HTTP/HTTPS), and can instantly shift traffic away from a degraded region at the HTTP layer. Which Azure load balancing service fits this requirement?",
+    "choices": [
+      { "id": "a", "text": "Azure Traffic Manager with the Performance routing method" },
+      { "id": "b", "text": "Azure Front Door with origin groups and health probes" },
+      { "id": "c", "text": "Azure Load Balancer (Standard) with cross-region load balancing" },
+      { "id": "d", "text": "Azure Application Gateway v2 deployed in two regions with Traffic Manager for DNS failover" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Front Door operates at Layer 7 (HTTP/HTTPS), uses Anycast to route users to the nearest PoP, performs HTTP health probes to origins, and can instantly shift traffic within seconds when an origin group's health drops below threshold — all without DNS TTL delays. Front Door is the correct choice for active-active multi-region HTTP workloads with intelligent, near-instant failover. Azure Traffic Manager (option A) is DNS-based (Layer 4/DNS), which means failover speed is limited by DNS TTL (minimum 0 but typically 60+ seconds in client caches) and it cannot perform HTTP-layer health checks at the application path level. Standard Load Balancer with cross-region (option C) operates at Layer 4 (TCP/UDP), not HTTP layer. Application Gateway + Traffic Manager (option D) adds complexity and still has DNS-based failover latency from Traffic Manager.",
+    "topics": ["business-continuity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure Front Door overview", "url": "https://learn.microsoft.com/en-us/azure/frontdoor/front-door-overview" },
+      { "label": "Load-balancing options in Azure", "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/load-balancing-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-008",
+    "type": "single_choice",
+    "prompt": "A company configures Azure Backup for 50 Azure VMs with a Recovery Services vault. The backup policy retains daily backups for 30 days, weekly for 12 weeks, and monthly for 12 months. A ransomware attack encrypts all VMs and deletes all recent backups. The attacker has Owner access to the vault. Which vault configuration would have prevented the backup deletion?",
+    "choices": [
+      { "id": "a", "text": "Enable geo-redundant storage (GRS) for the Recovery Services vault" },
+      { "id": "b", "text": "Enable soft delete on the Recovery Services vault with a 14-day retention period" },
+      { "id": "c", "text": "Enable multi-user authorization (MUA) on the Recovery Services vault requiring approval from a Resource Guard in a separate subscription" },
+      { "id": "d", "text": "Configure Azure Backup with zone-redundant storage (ZRS) for the vault" }
+    ],
+    "correct": "c",
+    "explanation": "Multi-user authorization (MUA) for Azure Backup requires that critical operations (delete backup data, disable soft delete, modify backup policy) be authorized by an approver with access to a Resource Guard resource in a different subscription or tenant. Even if an attacker has Owner access to the vault subscription, they cannot approve their own destructive operations because the Resource Guard is in a separate subscription they do not control. Soft delete (option B) retains deleted backup data for 14 days but an attacker with Owner access can disable soft delete and then delete backups — both operations are unprotected without MUA. GRS and ZRS (options A and D) replicate backup data for redundancy against regional/zone failures but do not prevent a privileged attacker from deleting the backed-up data.",
+    "topics": ["business-continuity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Multi-user authorization for Azure Backup", "url": "https://learn.microsoft.com/en-us/azure/backup/multi-user-authorization-concept" },
+      { "label": "Soft delete for Azure Backup", "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-security-feature-cloud" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-009",
+    "type": "single_choice",
+    "prompt": "A company uses Azure Site Recovery to replicate Azure VMs from East US to West US. During a DR test, the failover completes in 45 minutes for 80 VMs, which exceeds their 30-minute RTO target. The network mapping is already configured. Which change is most likely to reduce failover time?",
+    "choices": [
+      { "id": "a", "text": "Increase the replication frequency from 5 minutes to 30 seconds in the replication policy" },
+      { "id": "b", "text": "Use recovery plans with parallel failover groups instead of failing over all VMs sequentially" },
+      { "id": "c", "text": "Switch from managed disk replication to unmanaged disk replication for faster provisioning" },
+      { "id": "d", "text": "Enable cross-region restore in the Recovery Services vault" }
+    ],
+    "correct": "b",
+    "explanation": "By default, ASR failover recovery plans execute VM failovers sequentially or in groups. Organizing VMs into parallel failover groups within a recovery plan allows multiple VMs to be provisioned simultaneously in the target region, dramatically reducing total failover time. With 80 VMs, parallelizing across groups can cut a 45-minute sequential failover to well under 30 minutes. Replication frequency (option A) affects RPO (how much data could be lost), not how fast the failover operation itself completes — ASR already replicates managed disks continuously. Unmanaged disks (option C) are legacy and slower for most operations. Cross-region restore (option D) is an Azure Backup feature, not ASR, and does not affect ASR failover performance.",
+    "topics": ["business-continuity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Create and customize recovery plans in Azure Site Recovery", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-create-recovery-plans" },
+      { "label": "Run failover in Azure Site Recovery", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-failover" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-010",
+    "type": "single_choice",
+    "prompt": "A company wants to protect against accidental deletion of Azure SQL Database tables or rows with an RPO of under 1 hour without deploying additional infrastructure. The database is on the Business Critical tier in a single region. Which built-in Azure SQL feature achieves this?",
+    "choices": [
+      { "id": "a", "text": "Enable automated backups and use point-in-time restore (PITR) to recover deleted data" },
+      { "id": "b", "text": "Configure active geo-replication to a secondary database and use the secondary for recovery" },
+      { "id": "c", "text": "Enable Azure Backup for Azure SQL Database with a 15-minute backup interval" },
+      { "id": "d", "text": "Use Temporal Tables in Azure SQL Database to query historical row data at any point in time" }
+    ],
+    "correct": "a",
+    "explanation": "Azure SQL Database automated backups include full backups (weekly), differential backups (12-24 hours), and transaction log backups every 5-12 minutes. Point-in-time restore (PITR) allows restoring the database to any point within the retention window (7-35 days) — well within a 1-hour RPO. PITR creates a new database from the backup, enabling recovery of accidentally deleted rows by restoring to a time before deletion and extracting the data. No additional infrastructure is needed. Active geo-replication (option B) provides a real-time readable secondary but mirrors deletions immediately — it does not protect against logical/accidental deletions. Azure Backup for SQL (option C) adds a layer on top of the built-in automated backups and has a higher cost without improving on PITR for this use case. Temporal Tables (option D) preserve row history and support time-travel queries — a strong candidate but requires the tables to be defined as temporal before the accidental deletion occurs, which may not have been done.",
+    "topics": ["business-continuity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Automated backups in Azure SQL Database", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/automated-backups-overview" },
+      { "label": "Point-in-time restore for Azure SQL Database", "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/recovery-using-backups" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-011",
+    "type": "single_choice",
+    "prompt": "An organization operates a business-critical application with an SLA of 99.99%. The application uses a two-region active-passive DR architecture with Azure Front Door routing traffic to the primary region. The secondary region has VMs deployed but in a stopped (deallocated) state. An architect calculates that the current architecture cannot meet the 99.99% SLA. What is the most accurate reason?",
+    "choices": [
+      { "id": "a", "text": "Azure Front Door does not support active-passive routing and must be replaced with Traffic Manager" },
+      { "id": "b", "text": "Stopped (deallocated) VMs in the secondary region take 5-15 minutes to start, making the effective RTO incompatible with 99.99% SLA which allows only ~52 minutes of downtime per year" },
+      { "id": "c", "text": "Azure Front Door's health probes take 30 minutes to detect origin failure and redirect traffic" },
+      { "id": "d", "text": "Active-passive architecture can never achieve 99.99% SLA because the failover gap always exceeds the annual downtime budget" }
+    ],
+    "correct": "b",
+    "explanation": "99.99% availability allows approximately 52.6 minutes of downtime per year. With stopped (deallocated) VMs, the startup time (5-15 minutes) plus application initialization plus Front Door health probe detection and traffic redirection time could easily exceed this budget for even a handful of incidents. An active-warm standby (VMs running but idle) or active-active architecture would be needed. Front Door (option A) does support active-passive via priority-based origin groups. Front Door health probes (option C) detect failure within 30-90 seconds, not 30 minutes. Active-passive architectures (option D) can theoretically achieve 99.99% SLA if the standby is warm (running) and failover is fast enough, but not with cold (deallocated) instances.",
+    "topics": ["business-continuity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Availability targets and SLAs", "url": "https://learn.microsoft.com/en-us/azure/architecture/framework/resiliency/business-metrics" },
+      { "label": "Active-passive vs active-active HA patterns", "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/design-principles/redundancy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-012",
+    "type": "single_choice",
+    "prompt": "A company's application uses Azure Service Bus Premium tier for asynchronous messaging between microservices. They require that messages are not lost if the primary Service Bus namespace becomes unavailable, with an RTO of under 10 minutes. Which Service Bus feature addresses this requirement?",
+    "choices": [
+      { "id": "a", "text": "Enable geo-redundant replication (Geo-DR) with a paired secondary namespace in a different region and configure automatic failover" },
+      { "id": "b", "text": "Enable Geo-Disaster Recovery (Geo-DR) pairing with manual failover initiation in the event of an outage" },
+      { "id": "c", "text": "Enable the Service Bus built-in zone-redundant replication within a single region" },
+      { "id": "d", "text": "Create a second Service Bus namespace and duplicate all messages to both namespaces from producers" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Service Bus Geo-Disaster Recovery (Geo-DR) creates an alias endpoint that initially points to the primary namespace. Entity metadata (queues, topics, subscriptions) is replicated to the secondary. In an outage, an operator initiates manual failover, which redirects the alias to the secondary within minutes — the same connection string (alias) continues to work. The 10-minute RTO is achievable with manual failover. Important caveat: Geo-DR does not replicate in-flight messages — only metadata. Option A describes 'automatic failover' for Geo-DR, but Geo-DR requires manual failover initiation (there is no automatic failover mode for Geo-DR; automatic was added only for Availability Zone redundancy). Zone redundancy (option C) protects against AZ failure within a region but not full regional outage. Option D duplicates messages but has no failover for the consumers' connection strings.",
+    "topics": ["business-continuity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure Service Bus Geo-disaster recovery", "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-geo-dr" },
+      { "label": "Service Bus Premium tier overview", "url": "https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-premium-messaging" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-013",
+    "type": "single_choice",
+    "prompt": "A company's DR strategy specifies a 4-hour RTO and 1-hour RPO for a complex multi-VM application. During a DR drill, the team discovers that manually reconfiguring networking, DNS, and application settings in the secondary region after failover takes over 3 hours alone, leaving almost no buffer. Which Azure capability directly reduces this manual configuration time?",
+    "choices": [
+      { "id": "a", "text": "Use Azure Site Recovery network mapping to pre-configure the mapping between primary and secondary virtual networks, and use recovery plan scripts for automated post-failover configuration" },
+      { "id": "b", "text": "Reduce the number of VMs in the application to reduce reconfiguration time" },
+      { "id": "c", "text": "Switch to Azure Kubernetes Service where networking is auto-configured during failover" },
+      { "id": "d", "text": "Increase the replication frequency in the ASR replication policy to reduce data loss and compensate for slow RTO" }
+    ],
+    "correct": "a",
+    "explanation": "ASR network mapping pre-defines the relationship between primary and secondary virtual networks, including subnet mappings. When failover runs, ASR automatically connects recovered VMs to the correct secondary subnets. Recovery plans support automation scripts (Azure Automation runbooks or Azure Functions) at defined steps to execute post-failover configuration tasks like DNS updates, key vault reference updates, and application configuration changes. This directly reduces the 3+ hours of manual configuration. Reducing VM count (option B) may not be feasible for a complex application and doesn't address automation. Switching to AKS (option C) is a major architectural change that doesn't automatically solve DR networking. Increasing replication frequency (option D) improves RPO, not RTO.",
+    "topics": ["business-continuity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Set up network mapping for ASR", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/azure-to-azure-network-mapping" },
+      { "label": "Add Azure Automation runbooks to recovery plans", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-runbook-automation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-014",
+    "type": "single_choice",
+    "prompt": "A financial services company performs regular DR drills that impact production because the DR failover environment is not isolated from the current production workload during testing. They need to validate that DR failover works without disrupting production. Which ASR capability addresses this?",
+    "choices": [
+      { "id": "a", "text": "Run a planned failover (failover) to the secondary region and then fail back immediately after the test" },
+      { "id": "b", "text": "Use ASR's Test Failover feature, which creates an isolated clone of the replicated VMs in a separate virtual network without impacting replication or production" },
+      { "id": "c", "text": "Pause replication during the DR drill to take consistent snapshots, then resume after the drill" },
+      { "id": "d", "text": "Deploy a separate ASR vault for DR testing that replicates from the DR environment back to a test vault" }
+    ],
+    "correct": "b",
+    "explanation": "ASR's Test Failover spins up the replicated VMs in an isolated test virtual network (separate from both production and the DR network) using the latest replication point. The test environment does not affect ongoing replication or production workloads. After the test, the test VMs are simply cleaned up. This is the exact design purpose of Test Failover. A planned failover (option A) actually cuts over production traffic to the secondary region — this is not a test, it is the actual DR event. Pausing replication (option C) stops protection during the test period and creates an RPO gap. A separate ASR vault (option D) is unnecessary complexity when Test Failover is built into the existing vault.",
+    "topics": ["business-continuity"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Run a disaster recovery drill to Azure with ASR", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-test-failover-to-azure" },
+      { "label": "Failover and failback for Azure VMs in ASR", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/azure-to-azure-tutorial-failover-failback" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-bc-015",
+    "type": "single_choice",
+    "prompt": "An architect is designing a multi-region active-active web application that serves users globally. The primary requirement is that users from each continent are served by the nearest Azure region, with instant (sub-second) traffic redistribution if any region's HTTP health check fails. Secondary requirement: DDoS protection and WAF at the edge. Which service combination achieves all requirements?",
+    "choices": [
+      { "id": "a", "text": "Azure Traffic Manager (Performance routing) with WAF deployed on each regional Application Gateway" },
+      { "id": "b", "text": "Azure Front Door Premium with WAF policy attached to the Front Door profile" },
+      { "id": "c", "text": "Azure CDN from Akamai with custom origin failover rules and an Application Gateway WAF per region" },
+      { "id": "d", "text": "Azure Load Balancer (cross-region) with DDoS Protection Standard on each regional VNet" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Front Door Premium provides global HTTP routing via Anycast (users connect to the nearest Front Door PoP for minimal latency), HTTP health probes with sub-second detection, and built-in WAF policy support for DDoS protection and rule sets. Traffic redistribution from a failing origin occurs within seconds at the HTTP layer, not limited by DNS TTL. Front Door Premium also includes managed rule sets for OWASP Top 10 and bot protection. Traffic Manager (option A) is DNS-based — failover speed is constrained by DNS TTL and caching, making sub-second redistribution impossible. Azure CDN from Akamai (option C) is a content delivery service, not a first-class load balancer with health-probe-driven failover. Cross-region Load Balancer (option D) operates at Layer 4 (TCP), not HTTP, so HTTP health checks and WAF capabilities are not native.",
+    "topics": ["business-continuity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Front Door WAF overview", "url": "https://learn.microsoft.com/en-us/azure/frontdoor/web-application-firewall" },
+      { "label": "Compare load balancing options", "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/load-balancing-overview" }
+    ],
+    "version": 1
+  }
+]

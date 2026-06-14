@@ -1,0 +1,31 @@
+{
+  "topics": [
+    {
+      "id": "metrics",
+      "label": "Metrics",
+      "description": "Metrics domain",
+      "studyPointers": [{ "label": "Metrics docs" }],
+      "examScenarios": [
+        {
+          "title": "Metric mismatch",
+          "prompt": "A host reports a value but the team cannot explain what it means.",
+          "focus": "Choose the right metric type and aggregation."
+        }
+      ]
+    },
+    {
+      "id": "logs",
+      "label": "Log Management",
+      "description": "Logs domain",
+      "studyPointers": [],
+      "examScenarios": []
+    },
+    {
+      "id": "apm",
+      "label": "APM & Tracing",
+      "description": "APM domain",
+      "studyPointers": [],
+      "examScenarios": []
+    }
+  ]
+}

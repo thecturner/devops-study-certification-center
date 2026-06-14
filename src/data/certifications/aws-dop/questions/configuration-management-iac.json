@@ -1,0 +1,331 @@
+[
+  {
+    "id": "aws-dop-cm-001",
+    "type": "single_choice",
+    "prompt": "A CloudFormation stack update is rejected with the error: 'Stack cannot be updated because it is in ROLLBACK_COMPLETE state.' What must be done before the stack can be updated?",
+    "choices": [
+      { "id": "a", "text": "Run aws cloudformation continue-rollback-operation to complete the rollback" },
+      { "id": "b", "text": "Delete the stack and recreate it; ROLLBACK_COMPLETE stacks cannot be updated" },
+      { "id": "c", "text": "Use aws cloudformation signal-resource to manually complete the failed resource" },
+      { "id": "d", "text": "Run aws cloudformation detect-stack-drift to identify and fix the drifted resource, then retry the update" }
+    ],
+    "correct": "b",
+    "explanation": "A stack in ROLLBACK_COMPLETE state has failed initial creation and rolled back. CloudFormation does not allow updates to stacks in this terminal state. The only operations permitted are DescribeStacks and DeleteStack. You must delete the stack and recreate it. continue-rollback-operation is for UPDATE_ROLLBACK_FAILED states. Drift detection and resource signaling are not relevant to this terminal state.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "CloudFormation Stack Status Codes",
+        "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-002",
+    "type": "single_choice",
+    "prompt": "An organization needs to deploy a standard Security Hub baseline CloudFormation stack to all 200 accounts across 8 regions in an AWS Organization. New accounts joining the organization should receive the stack automatically. Which StackSets permission model and feature satisfies all requirements?",
+    "choices": [
+      { "id": "a", "text": "Self-managed permissions with deployment targets listing all account IDs and an automated Lambda to handle new accounts" },
+      { "id": "b", "text": "Service-managed permissions with organizational units as deployment targets and automatic deployment enabled" },
+      { "id": "c", "text": "Self-managed permissions with an SCP that deploys the stack on account creation" },
+      { "id": "d", "text": "Service-managed permissions deployed to the management account root, with manual account additions" }
+    ],
+    "correct": "b",
+    "explanation": "Service-managed StackSets use AWS Organizations integration, requiring only an OU or root as the target. The 'automatic deployment' option automatically deploys stack instances to new accounts when they join the OU and removes them when accounts leave. Self-managed permissions require explicit account IDs and a Lambda workaround for new accounts. SCPs cannot deploy CloudFormation stacks. Service-managed permissions with manual additions defeats the automation requirement.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "CloudFormation StackSets with AWS Organizations",
+        "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-003",
+    "type": "single_choice",
+    "prompt": "A CloudFormation template creates an RDS instance with a master password. The operations team needs to rotate this password via Secrets Manager after stack creation without triggering a stack update. How should the template be designed?",
+    "choices": [
+      { "id": "a", "text": "Use AWS::SecretsManager::Secret with GenerateSecretString and AWS::SecretsManager::SecretTargetAttachment, then reference the secret ARN in the RDS resource's MasterUserSecret property" },
+      { "id": "b", "text": "Store the password as a CloudFormation NoEcho parameter and rotate it by updating the stack with a new parameter value" },
+      { "id": "c", "text": "Use a CloudFormation custom resource to call Secrets Manager CreateSecret during stack creation and pass the secret value to the RDS instance" },
+      { "id": "d", "text": "Define the password in AWS Systems Manager Parameter Store as a SecureString and reference it with the ssm-secure dynamic reference" }
+    ],
+    "correct": "a",
+    "explanation": "AWS::SecretsManager::Secret with GenerateSecretString creates and stores a random password. AWS::SecretsManager::SecretTargetAttachment links the secret to the RDS instance, enabling Secrets Manager rotation. After stack creation, rotation is managed entirely by Secrets Manager without CloudFormation involvement. Updating the stack with a new parameter value causes unnecessary stack drift and downtime risk. Custom resources work but are complex compared to the native integration. SSM SecureString references resolve at deploy time and cannot be rotated post-deploy via Secrets Manager.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Rotating Secrets for RDS with CloudFormation",
+        "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/integrating_cloudformation.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-004",
+    "type": "single_choice",
+    "prompt": "A CloudFormation stack drift detection report shows that a Security Group has been modified outside of CloudFormation. The team wants to remediate the drift automatically whenever it is detected. Which solution requires the least custom code?",
+    "choices": [
+      { "id": "a", "text": "Schedule a Lambda function that runs drift detection and calls CloudFormation UpdateStack with the original template if drift is found" },
+      { "id": "b", "text": "Use an AWS Config rule with the cloudformation-stack-drift-detection-check managed rule, combined with Systems Manager Automation for auto-remediation that runs CloudFormation stack update" },
+      { "id": "c", "text": "Enable CloudWatch Events on the CloudFormation stack to trigger an SNS notification, then manually review and correct drift" },
+      { "id": "d", "text": "Use AWS Config conformance pack to automatically revert resources to their CloudFormation-defined state" }
+    ],
+    "correct": "b",
+    "explanation": "The cloudformation-stack-drift-detection-check managed Config rule evaluates stacks for drift. AWS Config supports automatic remediation actions via Systems Manager Automation documents, which can invoke a stack update to restore the desired state. This requires minimal custom code: the Config rule is managed, and a pre-built or simple Automation document handles the remediation. A scheduled Lambda is custom code. Manual SNS review is not automated. Conformance packs aggregate Config rules but do not auto-remediate on their own.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Remediating Noncompliant AWS Resources with AWS Config",
+        "url": "https://docs.aws.amazon.com/config/latest/developerguide/remediation.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-005",
+    "type": "true_false",
+    "prompt": "A CloudFormation custom resource backed by a Lambda function must always respond to CloudFormation by making an HTTP PUT request to the pre-signed S3 URL provided in the event's ResponseURL field; failing to respond within the timeout period causes the stack operation to fail.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "CloudFormation custom resources require a response via HTTP PUT to the ResponseURL (a pre-signed S3 URL) with a JSON payload indicating SUCCESS or FAILED and the Physical Resource ID. If the Lambda function does not send this response before the timeout (configurable, up to 3600 seconds), CloudFormation marks the resource as failed and initiates rollback. The cfnresponse module simplifies this for Python and Node.js runtimes. This is a common cause of stack hangs when Lambda exceptions are not caught.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Custom Resource Response Objects",
+        "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/crpg-ref-responses.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-006",
+    "type": "single_choice",
+    "prompt": "A large CloudFormation template (4,800 lines) manages 50 related resources. The team wants to split it into smaller, maintainable templates while keeping them deployed as a single logical stack. Which approach best achieves this?",
+    "choices": [
+      { "id": "a", "text": "Use nested stacks with AWS::CloudFormation::Stack resources in a parent template, each child template managing a subset of resources" },
+      { "id": "b", "text": "Create separate independent stacks for each group and use cross-stack references with Export/ImportValue" },
+      { "id": "c", "text": "Use CloudFormation modules to split resources into reusable module types registered in the CloudFormation registry" },
+      { "id": "d", "text": "Convert the template to AWS CDK and use CDK stacks with dependencies" }
+    ],
+    "correct": "a",
+    "explanation": "Nested stacks allow a root parent template to reference child templates stored in S3. All nested stacks are created, updated, and deleted as a unit through the parent stack, maintaining a single logical deployment boundary. Cross-stack references with Export/ImportValue create independent stacks with loose coupling but separate lifecycles, which does not meet the 'single logical stack' requirement. CloudFormation modules are for reusable resource types, not stack decomposition. CDK changes the tooling entirely and generates CloudFormation but adds complexity.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Working with Nested Stacks",
+        "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-007",
+    "type": "single_choice",
+    "prompt": "A Systems Manager Patch Manager patching operation must patch all EC2 instances tagged with 'Environment: Production' every Sunday at 2 AM UTC, automatically reboot instances if required, and send a patching compliance report to an S3 bucket. Which combination of SSM features implements this?",
+    "choices": [
+      { "id": "a", "text": "Create a Patch Baseline, a Maintenance Window with a tag-based target and Run Command task using AWS-RunPatchBaseline, with S3 output logging enabled" },
+      { "id": "b", "text": "Create a Patch Group using the tag, configure a State Manager association with the AWS-RunPatchBaseline document on a cron schedule" },
+      { "id": "c", "text": "Schedule a Lambda function that runs SSM Run Command with AWS-InstallWindowsUpdates on all tagged instances every Sunday" },
+      { "id": "d", "text": "Use AWS Config managed rule ec2-managedinstance-patch-compliance-status-check to trigger patching automatically" }
+    ],
+    "correct": "a",
+    "explanation": "The canonical Patch Manager workflow uses: (1) a Patch Baseline defining which patches to install, (2) a Maintenance Window scheduling the operation at the required time, (3) a Maintenance Window target using tag-based instance selection, and (4) a Run Command task using the AWS-RunPatchBaseline document with RebootOption and S3 output configured. State Manager associations also work but are better for continuous drift prevention than scheduled maintenance windows. Lambda/CLI and Config checks are not native Patch Manager patterns.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "AWS Systems Manager Patch Manager",
+        "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-patch.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-008",
+    "type": "single_choice",
+    "prompt": "A team uses AWS CDK to define infrastructure. After deploying a CDK app, a CloudFormation stack shows DRIFT_DETECTED. The team wants to understand why CDK does not prevent drift and how to detect it. Which statement correctly describes the relationship?",
+    "choices": [
+      { "id": "a", "text": "CDK synthesizes CloudFormation templates at deploy time; after deployment, resources can be modified outside CloudFormation independently of CDK, causing drift that CDK cannot detect without a redeploy" },
+      { "id": "b", "text": "CDK continuously monitors deployed resources and rolls back any changes made outside CDK automatically" },
+      { "id": "c", "text": "Drift only occurs when CDK stacks use escape hatches (addOverride); native CDK constructs are drift-proof" },
+      { "id": "d", "text": "CDK deploy includes built-in drift detection and will fail if the existing stack has drifted since the last deployment" }
+    ],
+    "correct": "a",
+    "explanation": "AWS CDK is a synthesis tool: it generates CloudFormation templates and deploys them. Once deployed, the infrastructure is managed by CloudFormation, not CDK. Manual changes to AWS resources bypass both CDK and CloudFormation, creating drift. CDK does not monitor live resources. Drift detection must be explicitly triggered via CloudFormation or AWS Config. Escape hatches can cause CDK-side drift (CDK template vs deployed state) but are not the sole cause. CDK deploy does not check for drift.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "AWS CDK Concepts: Synthesizing",
+        "url": "https://docs.aws.amazon.com/cdk/v2/guide/apps.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-009",
+    "type": "multi_choice",
+    "prompt": "An operations team uses Systems Manager Automation to remediate non-compliant EC2 instances. They need to create an Automation runbook that stops an instance, creates an AMI snapshot, and then restarts the instance. Which two statements are true about Systems Manager Automation documents? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "Automation documents can chain AWS API actions using aws:executeAwsApi action type without requiring Lambda" },
+      { "id": "b", "text": "Automation documents can only be triggered manually; scheduling requires external tools like CloudWatch Events" },
+      { "id": "c", "text": "Automation documents support branching logic using aws:branch with conditions based on step outputs" },
+      { "id": "d", "text": "Automation documents require an IAM role with PassRole permission to execute API calls on behalf of the user" },
+      { "id": "e", "text": "Automation documents cannot create AMIs; only Run Command can invoke EC2 image creation" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Systems Manager Automation supports aws:executeAwsApi, which calls AWS service APIs directly without Lambda, making it suitable for stopping instances, creating AMIs, and starting instances natively. Automation also supports aws:branch for conditional logic based on previous step outputs, enabling complex remediation workflows. Automation CAN be triggered by EventBridge schedules, Config remediation, and maintenance windows (option B is false). The service role is assumed by Systems Manager, not the user via PassRole (option D is incorrect). AMI creation via aws:executeAwsApi calling EC2 CreateImage is fully supported (option E is false).",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Systems Manager Automation Actions Reference",
+        "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-actions.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-010",
+    "type": "single_choice",
+    "prompt": "A CloudFormation stack update fails because a resource update requires replacement (e.g., changing an RDS DB Instance class that requires replacement). The previous version of the resource has already been deleted. How should the team prevent this class of failure in future updates?",
+    "choices": [
+      { "id": "a", "text": "Add a DeletionPolicy: Retain attribute to critical resources and use UpdateReplacePolicy: Retain to preserve the old resource during replacement" },
+      { "id": "b", "text": "Always use change sets and review them before executing to identify replacement-required changes" },
+      { "id": "c", "text": "Enable stack termination protection to prevent resource deletion during updates" },
+      { "id": "d", "text": "Use CloudFormation Guard to write rules that block updates to critical resource properties" }
+    ],
+    "correct": "b",
+    "explanation": "CloudFormation change sets show the replacement action for each resource before execution. Reviewing change sets lets the team identify REPLACEMENT actions and assess risk before committing. DeletionPolicy and UpdateReplacePolicy control what happens to replaced resources (Retain keeps the old one) but do not prevent the replacement itself. Termination protection prevents stack deletion, not resource replacement during updates. CloudFormation Guard validates templates but does not analyze the delta between current and new states at runtime.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Updating Stacks Using Change Sets",
+        "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-011",
+    "type": "single_choice",
+    "prompt": "A team stores database connection strings in Systems Manager Parameter Store as SecureString parameters. Multiple Lambda functions in different accounts need read access to these parameters. Encryption uses the default AWS-managed key (aws/ssm). What change must be made to support cross-account access?",
+    "choices": [
+      { "id": "a", "text": "Share the parameters using AWS RAM and grant cross-account read permissions via resource-based policy on each parameter" },
+      { "id": "b", "text": "Switch the encryption key to a customer-managed KMS key, add a key policy allowing the cross-account roles, and use resource-based policies or IAM policies allowing ssm:GetParameter across accounts" },
+      { "id": "c", "text": "Replicate the parameters to a shared services account using a Lambda sync function" },
+      { "id": "d", "text": "Convert parameters to standard String type; SecureString does not support cross-account access at all" }
+    ],
+    "correct": "b",
+    "explanation": "AWS-managed KMS keys (aws/ssm) cannot be shared across accounts; their key policies are controlled by AWS. Cross-account SSM SecureString access requires a customer-managed KMS key whose key policy grants the cross-account role kms:Decrypt permission. Additionally, the cross-account roles need IAM policies allowing ssm:GetParameter. SSM Parameter Store does not support AWS RAM sharing. Replication via Lambda is a workaround but adds operational overhead. SecureString parameters can be accessed cross-account with the right key and IAM setup.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "AWS Systems Manager Parameter Store with Cross-Account Access",
+        "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-access.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-012",
+    "type": "single_choice",
+    "prompt": "An Elastic Beanstalk application needs to run a database migration script once after each deployment, before the application starts accepting traffic. The script must fail the deployment if it exits with a non-zero code. Where should this script be configured?",
+    "choices": [
+      { "id": "a", "text": "In a .ebextensions configuration file with a container_commands key, using the leader_only option to run on one instance" },
+      { "id": "b", "text": "In the Procfile as a separate process entry that runs before the web process" },
+      { "id": "c", "text": "As a UserData script in the EC2 launch configuration attached to the Beanstalk environment" },
+      { "id": "d", "text": "In the buildspec.yml post_build phase of a CodeBuild project preceding the Beanstalk deployment" }
+    ],
+    "correct": "a",
+    "explanation": "Elastic Beanstalk .ebextensions container_commands run after application files are extracted but before the application server starts, which is exactly the right point for database migrations. The leader_only: true option ensures the migration runs on only one instance (avoiding concurrent migrations in multi-instance environments). A non-zero exit code fails the deployment and triggers a rollback. The Procfile manages application processes, not deployment hooks. UserData runs at instance launch, not every deployment. Running migrations in CodeBuild pre-deployment is fragile and not Beanstalk-native.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Customizing Elastic Beanstalk with .ebextensions",
+        "url": "https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/ebextensions.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-013",
+    "type": "single_choice",
+    "prompt": "A team has a complex AWS CDK application with multiple constructs. They want to enforce that every S3 bucket created by any construct in any CDK app in their organization has versioning enabled and a retention policy. Which CDK feature enables this organization-wide enforcement with the least overhead per app?",
+    "choices": [
+      { "id": "a", "text": "Create a custom CDK Aspect that visits all S3 Bucket nodes and sets versioning and removal policies, then apply it to the CDK App object in a shared library" },
+      { "id": "b", "text": "Create a CDK Construct wrapper around aws_s3.Bucket that enforces the settings and mandate its use via code review" },
+      { "id": "c", "text": "Use CloudFormation Guard rules in the CI pipeline to reject any CloudFormation template where an S3 bucket lacks versioning" },
+      { "id": "d", "text": "Write a CDK unit test that asserts all S3 buckets have versioning enabled and include it in the test suite" }
+    ],
+    "correct": "a",
+    "explanation": "CDK Aspects implement the visitor pattern, traversing the entire construct tree and applying logic to every node matching a condition. An Aspect enforcing S3 versioning and retention, published as a shared npm library and applied at the App level, ensures enforcement regardless of which construct created the bucket. Wrapper constructs require buy-in and can be bypassed. CloudFormation Guard catches violations but does not fix them. Unit tests verify but do not enforce at the CDK synthesis level.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "AWS CDK Aspects",
+        "url": "https://docs.aws.amazon.com/cdk/v2/guide/aspects.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-014",
+    "type": "single_choice",
+    "prompt": "A Systems Manager State Manager association runs an Automation document to enforce a desired configuration on EC2 instances. The association is set to run every 30 minutes. After a manual change is detected, the association must report the instance as non-compliant in the Systems Manager compliance console. Which association attribute enables compliance reporting?",
+    "choices": [
+      { "id": "a", "text": "Set ComplianceSeverity to the desired severity level (CRITICAL, HIGH, MEDIUM, LOW, or UNSPECIFIED) in the association" },
+      { "id": "b", "text": "Enable CloudWatch detailed monitoring on the managed instances" },
+      { "id": "c", "text": "Configure a CloudWatch alarm on the SSM:AssociationSuccessCount metric" },
+      { "id": "d", "text": "Enable AWS Config integration in the Systems Manager console to publish association results" }
+    ],
+    "correct": "a",
+    "explanation": "State Manager associations support a ComplianceSeverity attribute. When set, a failed or non-compliant association execution is reported in the Systems Manager Compliance console with the specified severity. This enables dashboards and EventBridge rules based on compliance status changes. CloudWatch monitoring tracks instance metrics, not State Manager compliance. CloudWatch alarm on success count is an indirect metric. AWS Config has its own managed instance compliance check but is separate from State Manager's compliance reporting attribute.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "About State Manager Associations and Compliance",
+        "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-compliance-about.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-cm-015",
+    "type": "single_choice",
+    "prompt": "A CloudFormation template uses a Fn::Transform macro to process the template before deployment. The macro is implemented as a Lambda function. During a stack update, the macro Lambda throws an unhandled exception. What is the result?",
+    "choices": [
+      { "id": "a", "text": "CloudFormation marks the macro invocation as failed and rolls back the update, leaving the stack in UPDATE_ROLLBACK_COMPLETE state" },
+      { "id": "b", "text": "CloudFormation skips the macro and deploys the unprocessed template sections" },
+      { "id": "c", "text": "CloudFormation retries the macro Lambda up to three times before failing the update" },
+      { "id": "d", "text": "CloudFormation marks the stack as TRANSFORM_FAILED and requires manual resolution" }
+    ],
+    "correct": "a",
+    "explanation": "CloudFormation macros transform templates before resource provisioning begins. If the macro Lambda returns an error or throws an exception, the transform fails and CloudFormation aborts the operation, initiating rollback for an update (resulting in UPDATE_ROLLBACK_COMPLETE) or marking a create as failed. CloudFormation does not skip macros or deploy partial results. There is no built-in retry for macro invocations. TRANSFORM_FAILED is not a valid CloudFormation stack status.",
+    "topics": ["configuration-management-iac"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Using AWS CloudFormation Macros to Perform Custom Processing on Templates",
+        "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html"
+      }
+    ],
+    "version": 1
+  }
+]

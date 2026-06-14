@@ -1,0 +1,234 @@
+{
+  "topics": [
+    {
+      "id": "agent-skills",
+      "label": "Agent Skills",
+      "description": "Creating, distributing, and troubleshooting Claude Code skills: SKILL.md frontmatter, semantic triggers, allowed-tools, progressive disclosure, subagents, and hooks.",
+      "studyPointers": [
+        { "label": "Introduction to Agent Skills" },
+        { "label": "SKILL.md Reference" },
+        { "label": "Skills vs CLAUDE.md vs Hooks" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Skill Activation Failure",
+          "prompt": "A skill never activates when the user types /my-skill. Walk through the diagnostic steps.",
+          "focus": "Skill directory path configuration and frontmatter validation"
+        },
+        {
+          "title": "Enterprise Skill Rollout",
+          "prompt": "Your organization wants all engineers to have access to a code-review skill without manual installation. How do you distribute it?",
+          "focus": "Enterprise-managed settings and skill distribution mechanisms"
+        }
+      ]
+    },
+    {
+      "id": "claude-api",
+      "label": "Claude API",
+      "description": "Building with the Anthropic messages API: endpoints, streaming via SSE, tool use blocks, few-shot prompting, prompt caching, extended thinking, RAG, batch API, and agentic parallelization.",
+      "studyPointers": [
+        { "label": "Claude API Reference — Messages" },
+        { "label": "Tool Use Guide" },
+        { "label": "Prompt Caching" },
+        { "label": "Extended Thinking" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Cost Optimization for Batch Workload",
+          "prompt": "You need to classify 50,000 support tickets overnight. Which API feature reduces cost, and how do you structure the requests?",
+          "focus": "Batch API usage and cost trade-offs vs streaming"
+        },
+        {
+          "title": "Multi-Turn Tool Use",
+          "prompt": "Claude returns a tool_use block. Describe the exact follow-up request structure required to continue the conversation.",
+          "focus": "tool_use and tool_result block flow"
+        }
+      ]
+    },
+    {
+      "id": "mcp",
+      "label": "Model Context Protocol",
+      "description": "MCP fundamentals: the three primitives (tools, resources, prompts), Python SDK decorators, stdio transport, templated resources, the MCP Server Inspector, and client-server request-response flow.",
+      "studyPointers": [
+        { "label": "MCP Introduction" },
+        { "label": "MCP Python SDK" },
+        { "label": "MCP Server Inspector" },
+        { "label": "MCP Specification — Primitives" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Primitive Selection",
+          "prompt": "You are building an MCP server that exposes a company wiki search, a Slack message sender, and a pre-configured incident report template. Map each to the correct primitive and justify your choices.",
+          "focus": "Correct assignment of tools, resources, and prompts"
+        },
+        {
+          "title": "Debugging a New MCP Server",
+          "prompt": "Your MCP server starts without errors but the tool is not visible to the client. How do you diagnose the issue?",
+          "focus": "MCP Server Inspector usage and JSON-RPC troubleshooting"
+        }
+      ]
+    },
+    {
+      "id": "claude-code",
+      "label": "Claude Code",
+      "description": "Using Claude Code as an agentic CLI: CLAUDE.md scoping, Plan Mode, custom /commands, the Bash tool, subagents with tool restrictions, MCP integration, GitHub PR automation, /compact for context management, and extended thinking.",
+      "studyPointers": [
+        { "label": "Claude Code Documentation" },
+        { "label": "Claude Code — CLAUDE.md" },
+        { "label": "Claude Code — Subagents" },
+        { "label": "Claude Code — GitHub Actions Integration" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Context Window Management",
+          "prompt": "Midway through a long refactoring session, Claude Code warns that the context window is nearly full. What command do you run and what does it do?",
+          "focus": "/compact command and context management strategy"
+        },
+        {
+          "title": "Safe Delegation with Subagents",
+          "prompt": "You want Claude to write documentation for a library without any risk of it modifying source files. How do you configure this safely?",
+          "focus": "Subagent tool restrictions and allowed-tools configuration"
+        }
+      ]
+    },
+    {
+      "id": "cowork",
+      "label": "Claude Cowork",
+      "description": "Using Claude Cowork for autonomous background tasks: task loop mechanics, isolated VM execution, scheduled task cadences and sleep/wake behavior, plugins, skills and connectors, web fetch limitations, local file permission modes, research workflows, sub-agents for parallel workstreams, memory scope, and interactive steering.",
+      "studyPointers": [
+        { "label": "Claude Cowork — Overview" },
+        { "label": "Claude Cowork — Scheduled Tasks" },
+        { "label": "Claude Cowork — Plugins" },
+        { "label": "Claude Cowork — Skills and Connectors" },
+        { "label": "Claude Cowork — Memory and Steering" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Missed Scheduled Run",
+          "prompt": "A daily Cowork task was scheduled for 9 AM but the desktop app was closed. The user opens the app at 2 PM. What happens?",
+          "focus": "Scheduled task sleep/wake behavior and skipped run history"
+        },
+        {
+          "title": "Enterprise Plugin Distribution",
+          "prompt": "Your team needs all engineers to have a shared Cowork connector to the internal ticketing system. How do you distribute it?",
+          "focus": "Plugin bundling and company-level customization"
+        }
+      ]
+    },
+    {
+      "id": "claude-code-101",
+      "label": "Claude Code 101",
+      "description": "Foundational Claude Code concepts: agentic tools vs chat, the agentic loop, Explore-Plan-Code-Commit workflow, context commands (/compact, /clear), CLAUDE.md for persistent memory, permission modes, MCP server integration, hooks, and custom subagents.",
+      "studyPointers": [
+        { "label": "Claude Code — Getting Started" },
+        { "label": "Claude Code — Agentic Loop" },
+        { "label": "Claude Code — Permission Modes" },
+        { "label": "Claude Code — Hooks" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Selective Tool Blocking",
+          "prompt": "A team wants auto-accept for file operations but full human review for every shell command. How do they implement this without disabling auto-accept globally?",
+          "focus": "Combining auto-accept mode with PreToolUse hooks to block specific tools"
+        },
+        {
+          "title": "Session Continuity vs Clean Slate",
+          "prompt": "A developer is deep into a refactoring session. The context is nearly full but switching topics entirely would be wasteful. What is the right command and why?",
+          "focus": "/compact vs /clear trade-offs and context management strategy"
+        }
+      ]
+    },
+    {
+      "id": "mcp-advanced",
+      "label": "MCP Advanced",
+      "description": "Advanced MCP concepts: sampling (server-initiated LLM calls), progress and logging notifications via context objects, roots-based security boundaries, JSON-RPC request vs notification architecture, stdio initialization handshake, Streamable HTTP with SSE, transport selection, and production scaling patterns.",
+      "studyPointers": [
+        { "label": "MCP Specification — Sampling" },
+        { "label": "MCP Specification — Roots" },
+        { "label": "MCP — Streamable HTTP Transport" },
+        { "label": "MCP — Production Deployment" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Transport Selection for Deployment",
+          "prompt": "You have three deployment scenarios: (1) a subprocess on the same machine with no network access, (2) a cloud service behind a load balancer, (3) a legacy client that only supports persistent SSE connections. Which transport fits each case?",
+          "focus": "stdio vs Streamable HTTP vs HTTP+SSE trade-offs"
+        },
+        {
+          "title": "Roots Boundary Enforcement",
+          "prompt": "A client declares roots: [file:///project/src]. Your server tool receives a path traversal attempt targeting /project/.env. What is the correct response and why?",
+          "focus": "Roots security boundary enforcement and path validation"
+        }
+      ]
+    },
+    {
+      "id": "subagents",
+      "label": "Subagents",
+      "description": "Claude Code subagent patterns: isolated context windows, input and summary-return mechanics, defining agents in .claude/agents/, structured output requirements, tool access restrictions, delegation value vs anti-patterns, parallel orchestration trade-offs, and building task-specific assistants.",
+      "studyPointers": [
+        { "label": "Claude Code — Subagents Overview" },
+        { "label": "Claude Code — .claude/agents/ Directory" },
+        { "label": "Claude Code — Parallel Subagent Orchestration" },
+        { "label": "Claude Code — Subagent Tool Restrictions" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Read-Only Code Reviewer",
+          "prompt": "Build a reusable code-reviewer subagent that reads any given file, applies a checklist, and returns a Markdown report. Specify the definition location, tool set, and output format.",
+          "focus": ".claude/agents/ definition, allowed-tools whitelist, structured output design"
+        },
+        {
+          "title": "Parallel Module Analysis",
+          "prompt": "You want to analyze five independent modules simultaneously. How do you orchestrate this with subagents, and what coordination challenges must you plan for?",
+          "focus": "Parallel delegation, result aggregation, and write-conflict prevention"
+        }
+      ]
+    },
+    {
+      "id": "agentic-orchestration",
+      "label": "Agentic Orchestration",
+      "description": "Building and controlling agentic loops on the Claude API: stop_reason-based loop control, the Task tool for subagent spawning, parallel delegation patterns, session management with --resume and fork_session, and deterministic enforcement with PreToolUse hooks.",
+      "studyPointers": [
+        { "label": "Claude API — Agentic Loop and stop_reason" },
+        { "label": "Claude Code — Task Tool and Subagent Orchestration" },
+        { "label": "Claude Code — Session Management and --resume" },
+        { "label": "Claude Code — Hooks and Deterministic Enforcement" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Loop Termination Bug",
+          "prompt": "An agentic loop never stops even after Claude finishes its work. Diagnose the most likely cause and describe the correct fix.",
+          "focus": "stop_reason-based termination vs text parsing anti-pattern"
+        },
+        {
+          "title": "Financial Threshold Enforcement",
+          "prompt": "A system prompt rule fails to prevent Claude from approving expenses above a threshold. What is the root cause and how do you enforce the threshold reliably?",
+          "focus": "Probabilistic prompts vs deterministic PreToolUse hooks"
+        }
+      ]
+    },
+    {
+      "id": "context-reliability",
+      "label": "Context Reliability",
+      "description": "Patterns for reliable multi-turn and multi-agent pipelines: persistent case facts across compaction, lost-in-the-middle mitigation, escalation triggers, structured error propagation, conflicting source handling, aggregate vs stratified evaluation, coordinator decomposition debugging, and the batch API vs sync API trade-off.",
+      "studyPointers": [
+        { "label": "Claude Code — Context Compaction and Persistent State" },
+        { "label": "Claude API — Context Ordering and Lost-in-the-Middle" },
+        { "label": "Claude API — Multi-Agent Error Propagation" },
+        { "label": "Claude API — Evaluation Strategy and Stratified Sampling" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Context Compaction Data Loss",
+          "prompt": "A support agent loses claim numbers after compaction. Describe the architectural pattern that prevents transactional data loss across context windows.",
+          "focus": "Persistent case facts block injected outside summarized history"
+        },
+        {
+          "title": "Aggregate Accuracy Trap",
+          "prompt": "A team reduces human review after reaching 94% accuracy but later discovers a critical document type has 61% accuracy. What evaluation practice would have caught this before the reduction?",
+          "focus": "Stratified sampling and per-segment analysis"
+        }
+      ]
+    }
+  ]
+}

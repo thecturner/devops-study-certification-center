@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-ckad-sn-001",
+    "type": "single_choice",
+    "prompt": "Which Service type exposes an application only within the cluster, with no external access?",
+    "choices": [
+      { "id": "a", "text": "NodePort" },
+      { "id": "b", "text": "LoadBalancer" },
+      { "id": "c", "text": "ClusterIP" },
+      { "id": "d", "text": "ExternalName" }
+    ],
+    "correct": "c",
+    "explanation": "ClusterIP is the default Service type. It assigns a virtual IP address accessible only within the cluster. Other pods can reach the service at <service-name>.<namespace>.svc.cluster.local or its ClusterIP. NodePort exposes on each node's IP at a static port. LoadBalancer provisions an external cloud load balancer. ExternalName maps a Service to an external DNS name.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Service", "url": "https://kubernetes.io/docs/concepts/services-networking/service/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-002",
+    "type": "single_choice",
+    "prompt": "What is the valid port range for NodePort Services in Kubernetes by default?",
+    "choices": [
+      { "id": "a", "text": "1024 – 49151" },
+      { "id": "b", "text": "30000 – 32767" },
+      { "id": "c", "text": "8000 – 9999" },
+      { "id": "d", "text": "1 – 65535" }
+    ],
+    "correct": "b",
+    "explanation": "The default NodePort range in Kubernetes is 30000–32767. This is configurable via the --service-node-port-range flag on the API server. If you do not specify a nodePort in the Service spec, Kubernetes assigns one randomly from this range. Ports below 30000 require additional privileges and are outside the default range.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "NodePort", "url": "https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-003",
+    "type": "single_choice",
+    "prompt": "A pod in namespace 'frontend' wants to connect to a Service named 'payment-svc' in namespace 'backend'. What is the correct DNS name to use?",
+    "choices": [
+      { "id": "a", "text": "payment-svc" },
+      { "id": "b", "text": "payment-svc.backend" },
+      { "id": "c", "text": "payment-svc.backend.svc.cluster.local" },
+      { "id": "d", "text": "backend/payment-svc" }
+    ],
+    "correct": "c",
+    "explanation": "Within a Kubernetes cluster, Services are reachable via fully qualified DNS names in the form <service>.<namespace>.svc.cluster.local. Within the same namespace, the short name <service> works. Across namespaces, you need at least <service>.<namespace> (which resolves via the search domain) or the full FQDN. The format 'backend/payment-svc' is not valid DNS.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "DNS for Services and Pods", "url": "https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-004",
+    "type": "single_choice",
+    "prompt": "Which field in a Service spec determines which pods receive traffic from that Service?",
+    "choices": [
+      { "id": "a", "text": "spec.podSelector" },
+      { "id": "b", "text": "spec.selector" },
+      { "id": "c", "text": "spec.targetPods" },
+      { "id": "d", "text": "spec.endpoints" }
+    ],
+    "correct": "b",
+    "explanation": "spec.selector is a label selector that the Service uses to find pods. Any pod with matching labels in the same namespace becomes an endpoint of the Service. The endpoint controller continuously watches pods and keeps the Endpoints object in sync. A Service without a selector (headless or external name) does not automatically populate endpoints.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Service: defining a Service", "url": "https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-005",
+    "type": "single_choice",
+    "prompt": "What does a NetworkPolicy with an empty podSelector (podSelector: {}) in the spec match?",
+    "choices": [
+      { "id": "a", "text": "No pods — an empty selector matches nothing" },
+      { "id": "b", "text": "Only pods with no labels" },
+      { "id": "c", "text": "All pods in the namespace" },
+      { "id": "d", "text": "All pods in all namespaces" }
+    ],
+    "correct": "c",
+    "explanation": "In a NetworkPolicy, an empty podSelector ({}) is a wildcard that selects all pods in the namespace where the NetworkPolicy is defined. This is commonly used to create a default-deny policy: a NetworkPolicy with empty podSelector and no ingress or egress rules will deny all traffic to/from every pod in the namespace.",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-006",
+    "type": "single_choice",
+    "prompt": "An Ingress resource routes traffic for host 'app.example.com'. Which component in the cluster actually processes this Ingress and forwards requests?",
+    "choices": [
+      { "id": "a", "text": "kube-proxy" },
+      { "id": "b", "text": "The Kubernetes API server" },
+      { "id": "c", "text": "An Ingress controller (e.g., nginx, Traefik)" },
+      { "id": "d", "text": "CoreDNS" }
+    ],
+    "correct": "c",
+    "explanation": "An Ingress resource is just a configuration object. It is meaningless without an Ingress controller running in the cluster. The controller watches Ingress resources and programs itself (e.g., an nginx process) to route HTTP/HTTPS traffic according to the rules. Common controllers include ingress-nginx, Traefik, HAProxy Ingress, and cloud-native ones like AWS ALB Ingress Controller. kube-proxy handles Service traffic at the IP layer, not HTTP routing.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Ingress Controllers", "url": "https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-007",
+    "type": "single_choice",
+    "prompt": "By default, what happens to pod-to-pod traffic within a Kubernetes cluster in the absence of any NetworkPolicies?",
+    "choices": [
+      { "id": "a", "text": "All traffic is blocked between namespaces" },
+      { "id": "b", "text": "All traffic is blocked unless a Service is used" },
+      { "id": "c", "text": "All traffic between pods is allowed" },
+      { "id": "d", "text": "Traffic is allowed within a namespace but blocked between namespaces" }
+    ],
+    "correct": "c",
+    "explanation": "Kubernetes has an open-by-default network model. Without any NetworkPolicies, all pods can communicate with all other pods, regardless of namespace. NetworkPolicies are additive: once any NetworkPolicy selects a pod, only traffic explicitly allowed by matching policies is permitted. The first NetworkPolicy effectively creates a default-deny for selected pods.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-008",
+    "type": "single_choice",
+    "prompt": "Which Ingress pathType value requires the request path to exactly match the rule path with no suffix matching?",
+    "choices": [
+      { "id": "a", "text": "Prefix" },
+      { "id": "b", "text": "Exact" },
+      { "id": "c", "text": "ImplementationSpecific" },
+      { "id": "d", "text": "Strict" }
+    ],
+    "correct": "b",
+    "explanation": "Exact pathType means the URL path must match precisely. A rule for '/foo' will match only '/foo', not '/foo/' or '/foobar'. Prefix pathType matches the path and any suffix following it (e.g., '/foo' matches '/foo', '/foo/', '/foo/bar'). ImplementationSpecific delegates matching semantics to the Ingress controller. There is no 'Strict' pathType.",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Ingress: path types", "url": "https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-009",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid NetworkPolicy policy types? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "Ingress" },
+      { "id": "b", "text": "Egress" },
+      { "id": "c", "text": "Allow" },
+      { "id": "d", "text": "Deny" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "NetworkPolicy spec.policyTypes accepts 'Ingress' and 'Egress'. If policyTypes includes Ingress, the ingress rules control incoming traffic to selected pods. If it includes Egress, the egress rules control outgoing traffic. Kubernetes does not have 'Allow' or 'Deny' as policy types — all NetworkPolicy rules are allow rules, and anything not explicitly allowed by a matching policy is denied.",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-010",
+    "type": "single_choice",
+    "prompt": "What is the purpose of setting spec.clusterIP: None when creating a Service?",
+    "choices": [
+      { "id": "a", "text": "It disables the Service and stops routing traffic" },
+      { "id": "b", "text": "It creates a headless Service where DNS returns the pod IPs directly instead of a virtual IP" },
+      { "id": "c", "text": "It creates an external IP alias for the Service" },
+      { "id": "d", "text": "It prevents the Service from being accessible outside the cluster" }
+    ],
+    "correct": "b",
+    "explanation": "A headless Service (clusterIP: None) has no virtual IP. Instead, DNS returns the individual IP addresses of matching pods. This allows clients to discover and connect directly to pod IPs, bypassing kube-proxy load balancing. Headless Services are commonly used with StatefulSets so that each pod gets a stable DNS hostname (e.g., pod-0.my-svc.namespace.svc.cluster.local).",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Headless Services", "url": "https://kubernetes.io/docs/concepts/services-networking/service/#headless-services" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-011",
+    "type": "true_false",
+    "prompt": "True or False: A NetworkPolicy that specifies only ingress rules (and lists Ingress in policyTypes) will also restrict egress traffic from the selected pods.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "A NetworkPolicy only restricts the traffic types listed in policyTypes. If only 'Ingress' is listed, the policy controls incoming traffic to the selected pods. Egress traffic from those pods is unaffected unless a separate NetworkPolicy with 'Egress' in policyTypes also selects those pods. If policyTypes is omitted, Kubernetes infers types from which rules are present.",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Network Policies: policyTypes", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/#the-networkpolicy-resource" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-012",
+    "type": "single_choice",
+    "prompt": "A Service's targetPort is set to 8080 but its port is set to 80. What does this mean?",
+    "choices": [
+      { "id": "a", "text": "Clients connect to the Service on port 8080, and the Service forwards to pods on port 80" },
+      { "id": "b", "text": "Clients connect to the Service on port 80, and the Service forwards to containers on port 8080" },
+      { "id": "c", "text": "The Service listens on both port 80 and 8080 simultaneously" },
+      { "id": "d", "text": "The Service uses port 80 for HTTP and 8080 for HTTPS" }
+    ],
+    "correct": "b",
+    "explanation": "The 'port' field is what clients use to reach the Service. The 'targetPort' is the port on the pod that receives the traffic. In this case, clients send requests to the Service on port 80, and the Service forwards them to the container's port 8080. This decoupling lets you change the container's port without updating clients.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Service: defining a Service", "url": "https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-013",
+    "type": "single_choice",
+    "prompt": "You want to write a NetworkPolicy that allows all pods in the 'monitoring' namespace to reach pods labeled 'app=api' on port 9090. Which element of the NetworkPolicy spec restricts access to pods FROM a specific namespace?",
+    "choices": [
+      { "id": "a", "text": "spec.ingress[].from[].podSelector with a namespace annotation" },
+      { "id": "b", "text": "spec.ingress[].from[].namespaceSelector" },
+      { "id": "c", "text": "spec.ingress[].namespace" },
+      { "id": "d", "text": "spec.ingress[].from[].cidr" }
+    ],
+    "correct": "b",
+    "explanation": "namespaceSelector in an ingress 'from' rule selects all pods in namespaces matching the label selector. To allow traffic from the 'monitoring' namespace, the namespace must be labeled (e.g., kubernetes.io/metadata.name: monitoring) and you reference it with namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: monitoring}}. You can combine namespaceSelector and podSelector in the same entry to require both conditions.",
+    "topics": ["services-networking"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Network Policies: namespace selector", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/#behavior-of-to-and-from-selectors" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-014",
+    "type": "single_choice",
+    "prompt": "Which command creates a ClusterIP Service exposing a Deployment named 'webapp' on port 80, targeting container port 8080?",
+    "choices": [
+      { "id": "a", "text": "kubectl expose deployment webapp --port=80 --target-port=8080" },
+      { "id": "b", "text": "kubectl create service webapp --port=80 --container-port=8080" },
+      { "id": "c", "text": "kubectl expose deployment webapp --nodeport=80 --target=8080" },
+      { "id": "d", "text": "kubectl service create webapp --port=80 --backend-port=8080" }
+    ],
+    "correct": "a",
+    "explanation": "kubectl expose deployment <name> --port=<service-port> --target-port=<container-port> is the imperative command for creating a Service. By default it creates a ClusterIP Service. You can add --type=NodePort or --type=LoadBalancer to change the type. kubectl create service is a valid alternative command but uses different flags (--tcp=<port>:<targetPort>).",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "kubectl expose", "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_expose/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-sn-015",
+    "type": "single_choice",
+    "prompt": "A NetworkPolicy selects pods with label 'role=db'. It has an ingress rule that lists an empty 'from' array (from: []). What is the effect?",
+    "choices": [
+      { "id": "a", "text": "All ingress traffic to the selected pods is allowed" },
+      { "id": "b", "text": "No ingress traffic to the selected pods is allowed" },
+      { "id": "c", "text": "Ingress traffic from within the same namespace is allowed; cross-namespace is denied" },
+      { "id": "d", "text": "The NetworkPolicy is invalid and will be rejected by the API server" }
+    ],
+    "correct": "b",
+    "explanation": "When policyTypes includes Ingress (or is inferred because ingress rules exist) and the ingress rule has an empty 'from' array, no source is allowed. An empty 'from' list in an ingress rule means 'match no source', effectively denying all ingress to the selected pods from that rule. This is different from omitting the ingress rule entirely with no ingress policyType, which would mean 'allow all'. An ingress rule with no 'from' key at all (not an empty array) allows all sources.",
+    "topics": ["services-networking"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Network Policies: behavior of to and from selectors", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/#behavior-of-to-and-from-selectors" }
+    ],
+    "version": 1
+  }
+]

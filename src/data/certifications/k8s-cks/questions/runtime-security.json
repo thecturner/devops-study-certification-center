@@ -1,0 +1,286 @@
+[
+  {
+    "id": "k8s-cks-rs-001",
+    "type": "single_choice",
+    "prompt": "A Falco rule needs to detect when a shell is spawned inside any container. Which Falco condition expression correctly identifies a shell being executed?",
+    "choices": [
+      { "id": "a", "text": "spawned_process and container and proc.name in (shell_binaries)" },
+      { "id": "b", "text": "evt.type = execve and container and proc.name in (shell_binaries)" },
+      { "id": "c", "text": "syscall.execve and proc.shell = true" },
+      { "id": "d", "text": "container.shell.spawned = true" }
+    ],
+    "correct": "b",
+    "explanation": "A correct Falco condition for detecting shell spawning in a container uses 'evt.type = execve' (the execve syscall fires when a new process is executed), the 'container' macro (which checks that the process is inside a container), and 'proc.name in (shell_binaries)' where 'shell_binaries' is a Falco list containing binaries like sh, bash, zsh, etc. Option A uses a non-existent macro 'spawned_process'; the correct macro is 'spawned_process' in newer Falco versions but the condition must still reference proc.name.",
+    "topics": ["runtime-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Falco Rules", "url": "https://falco.org/docs/rules/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-002",
+    "type": "single_choice",
+    "prompt": "What are the four audit log levels in a Kubernetes audit policy, ordered from least to most verbose?",
+    "choices": [
+      { "id": "a", "text": "None, Minimal, Full, Verbose" },
+      { "id": "b", "text": "None, Metadata, Request, RequestResponse" },
+      { "id": "c", "text": "Off, Info, Debug, Trace" },
+      { "id": "d", "text": "Silent, Metadata, Body, Full" }
+    ],
+    "correct": "b",
+    "explanation": "Kubernetes audit policy supports four levels: None (no event recorded), Metadata (records event metadata but not request/response body), Request (records event metadata and request body but not response), and RequestResponse (records event metadata, request body, and response body — the most verbose). Choosing the right level per resource type balances security visibility with log volume and storage costs.",
+    "topics": ["runtime-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Audit Logging", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-003",
+    "type": "single_choice",
+    "prompt": "A Falco rule has the following condition: 'evt.type = execve and container and not proc.name in (trusted_binaries)'. What does the 'not' clause accomplish?",
+    "choices": [
+      { "id": "a", "text": "It inverts the entire rule, making it fire only when the process name IS in trusted_binaries" },
+      { "id": "b", "text": "It creates an exception — the rule fires for any execve in a container EXCEPT for processes in the trusted_binaries list" },
+      { "id": "c", "text": "It causes Falco to suppress the alert if multiple occurrences happen within a window" },
+      { "id": "d", "text": "It filters events before they reach the rule condition" }
+    ],
+    "correct": "b",
+    "explanation": "In Falco conditions, 'not' negates the following expression. So 'not proc.name in (trusted_binaries)' means: this condition is true when the process name is NOT in the trusted list. Combined with the rest of the condition, the rule fires whenever any process executes inside a container UNLESS it's in the trusted_binaries allowlist. This pattern (alert on everything except known-good) is a common whitelist-based detection approach.",
+    "topics": ["runtime-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Falco Rules", "url": "https://falco.org/docs/rules/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-004",
+    "type": "single_choice",
+    "prompt": "What is the purpose of setting 'readOnlyRootFilesystem: true' in a container's securityContext?",
+    "choices": [
+      { "id": "a", "text": "It prevents the container image from being pulled more than once" },
+      { "id": "b", "text": "It mounts the container's root filesystem as read-only, preventing attackers from writing files, installing tools, or modifying configuration" },
+      { "id": "c", "text": "It disables write access to Kubernetes Secret volumes mounted in the container" },
+      { "id": "d", "text": "It forces all container logs to be written to stdout" }
+    ],
+    "correct": "b",
+    "explanation": "Setting readOnlyRootFilesystem: true makes the container's root filesystem immutable at runtime. An attacker who compromises the container cannot write new files, modify existing binaries, or install tools from the network. This is a key runtime security control for immutable container deployments. Writable paths needed by the application (temp directories, logs) should be explicitly mounted as emptyDir volumes.",
+    "topics": ["runtime-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Security Context", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-005",
+    "type": "single_choice",
+    "prompt": "An audit policy rule specifies level: RequestResponse for resources: ['secrets']. What data is captured in the audit log when a Secret is read?",
+    "choices": [
+      { "id": "a", "text": "Only the timestamp and user identity" },
+      { "id": "b", "text": "Event metadata, the request body (the Secret object being read), and the response body including the Secret data" },
+      { "id": "c", "text": "Only the resource name and namespace" },
+      { "id": "d", "text": "The event metadata and request body, but the response body is always redacted for Secrets" }
+    ],
+    "correct": "b",
+    "explanation": "RequestResponse level captures everything: event metadata (user, verb, resource, namespace, timestamp), the request body (if applicable), and the full response body. For a Secret GET, this includes the Secret's data fields containing the actual values. This is why RequestResponse level for Secrets is both the most useful for forensics AND the most sensitive from a data exposure perspective. Audit logs must be protected as carefully as the Secrets themselves.",
+    "topics": ["runtime-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Audit Logging", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-006",
+    "type": "single_choice",
+    "prompt": "Falco detects a container writing to '/etc/shadow'. What Falco built-in rule category would most likely detect this?",
+    "choices": [
+      { "id": "a", "text": "Network activity rules" },
+      { "id": "b", "text": "File integrity monitoring (write to sensitive files) rules" },
+      { "id": "c", "text": "System call rate anomaly rules" },
+      { "id": "d", "text": "Container escape rules" }
+    ],
+    "correct": "b",
+    "explanation": "Falco includes built-in rules for detecting writes to sensitive system files like /etc/shadow, /etc/passwd, /etc/sudoers, and SSH key files. These fall under the 'sensitive file' or 'file integrity monitoring' category. The built-in rule 'Write below etc' and 'Modify Shell Configuration File' are examples. These rules fire on open+write syscalls targeting monitored paths.",
+    "topics": ["runtime-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Falco Default Rules", "url": "https://falco.org/docs/reference/rules/default-rules/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-007",
+    "type": "single_choice",
+    "prompt": "The kube-apiserver flag '--audit-policy-file' is set. What must also be configured for audit events to be persisted?",
+    "choices": [
+      { "id": "a", "text": "An audit backend: either --audit-log-path (file backend) or --audit-webhook-config-file (webhook backend), or both" },
+      { "id": "b", "text": "The audit policy file is sufficient; Kubernetes automatically logs to /var/log/kubernetes/audit.log" },
+      { "id": "c", "text": "The --audit-enable=true flag must also be set" },
+      { "id": "d", "text": "An RBAC policy granting the API server write access to the log directory" }
+    ],
+    "correct": "a",
+    "explanation": "The audit policy file defines WHAT to log (rules, levels, resources). But to persist the events, you must also configure an audit backend. Kubernetes supports two: the log backend (--audit-log-path, --audit-log-maxage, --audit-log-maxbackup, --audit-log-maxsize) and the webhook backend (--audit-webhook-config-file). Without a backend, events are generated but not stored anywhere.",
+    "topics": ["runtime-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Audit Logging", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-008",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid Falco rule fields for identifying Kubernetes context? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "k8s.ns.name (Kubernetes namespace name)" },
+      { "id": "b", "text": "k8s.pod.name (Kubernetes Pod name)" },
+      { "id": "c", "text": "k8s.cluster.region (AWS region of the cluster)" },
+      { "id": "d", "text": "container.image.repository (container image repository)" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "Falco provides Kubernetes metadata fields including k8s.ns.name (namespace), k8s.pod.name (pod name), k8s.pod.labels (pod labels), and container fields like container.image.repository and container.image.tag. These allow Falco rules to target specific namespaces, pods, or images. 'k8s.cluster.region' is not a native Falco field — cluster region is not available through the standard Falco metadata enrichment.",
+    "topics": ["runtime-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Falco Supported Fields", "url": "https://falco.org/docs/reference/rules/supported-fields/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-009",
+    "type": "single_choice",
+    "prompt": "An audit policy is configured with the following rule first: '{level: None, verbs: [get, list, watch]}'. What is the effect?",
+    "choices": [
+      { "id": "a", "text": "All get, list, and watch requests are logged at RequestResponse level" },
+      { "id": "b", "text": "All get, list, and watch requests are not logged, regardless of what other rules say about those verbs" },
+      { "id": "c", "text": "Only get, list, and watch requests from anonymous users are suppressed" },
+      { "id": "d", "text": "The rule is invalid because None cannot be used with verbs" }
+    ],
+    "correct": "b",
+    "explanation": "Audit policy rules are evaluated in order and the first matching rule wins. A rule with level: None means 'do not log this'. Since this rule matches all get/list/watch requests first (no resource or user filter), no read operations will be logged, even if later rules specify higher log levels for those verbs. This pattern is often used to suppress the noise of frequent polling operations from controllers.",
+    "topics": ["runtime-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Audit Logging", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-010",
+    "type": "single_choice",
+    "prompt": "Falco sends an alert: 'Notice Unexpected outbound connection destination (command=curl http://malicious.example.com, connection=10.0.0.5:80)'. What Falco capability enabled this detection?",
+    "choices": [
+      { "id": "a", "text": "Kubernetes audit log integration" },
+      { "id": "b", "text": "Linux syscall inspection via eBPF or the kernel module, monitoring connect syscalls" },
+      { "id": "c", "text": "Container runtime API polling for network connections" },
+      { "id": "d", "text": "Network packet capture (pcap) analysis" }
+    ],
+    "correct": "b",
+    "explanation": "Falco uses a kernel-level driver (either a kernel module or eBPF probe) to intercept Linux system calls in real time. Network connections trigger the 'connect' syscall, which Falco captures and enriches with process and container metadata. This is fundamentally different from network packet inspection (pcap) — Falco sees the intent (the syscall) rather than the packet contents, allowing it to associate network activity with specific processes and containers.",
+    "topics": ["runtime-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Falco Architecture", "url": "https://falco.org/docs/architecture/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-011",
+    "type": "true_false",
+    "prompt": "Setting 'readOnlyRootFilesystem: true' prevents a container from writing to emptyDir volumes mounted into it.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "False. readOnlyRootFilesystem: true makes only the container's root filesystem read-only. Volumes mounted into the container — including emptyDir, ConfigMap, Secret, and PVC volumes — are separate mounts and are not affected by this setting. This is by design: applications that need a read-only root filesystem can still write to specific mount points (like /tmp via emptyDir) for legitimate temporary data.",
+    "topics": ["runtime-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Security Context", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-012",
+    "type": "single_choice",
+    "prompt": "Which Falco rule priority indicates an event that warrants immediate investigation but is not a confirmed breach?",
+    "choices": [
+      { "id": "a", "text": "CRITICAL" },
+      { "id": "b", "text": "ERROR" },
+      { "id": "c", "text": "WARNING" },
+      { "id": "d", "text": "NOTICE" }
+    ],
+    "correct": "c",
+    "explanation": "Falco defines several priority levels: EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFORMATIONAL, and DEBUG. WARNING indicates a potentially suspicious event that warrants investigation — it may be a threat indicator or a configuration anomaly. CRITICAL is reserved for events with high confidence of being a security incident. NOTICE is used for unusual but not necessarily malicious activity. Most built-in Falco rules use WARNING or NOTICE for behavioral detections.",
+    "topics": ["runtime-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Falco Rules", "url": "https://falco.org/docs/rules/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-013",
+    "type": "single_choice",
+    "prompt": "An attacker has compromised a container and is attempting to read /etc/kubernetes/admin.conf from within the container. Which combination of controls would most effectively prevent this?",
+    "choices": [
+      { "id": "a", "text": "Set resource limits on the container" },
+      { "id": "b", "text": "Use readOnlyRootFilesystem: true and ensure /etc/kubernetes is not mounted as a hostPath volume; Falco can detect the read attempt for alerting" },
+      { "id": "c", "text": "Set runAsNonRoot: true on the container" },
+      { "id": "d", "text": "Apply a NetworkPolicy denying egress from the container" }
+    ],
+    "correct": "b",
+    "explanation": "The admin.conf kubeconfig file lives on the host filesystem. A container can only access it if /etc/kubernetes is mounted as a hostPath volume. Preventing hostPath mounts (via Pod Security Standards 'restricted' or a Gatekeeper policy) eliminates the primary access vector. readOnlyRootFilesystem prevents writing back. Falco provides detection if a suspicious read from a sensitive path occurs. runAsNonRoot and NetworkPolicy address different attack vectors.",
+    "topics": ["runtime-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Securing a Cluster", "url": "https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/" },
+      { "label": "Falco", "url": "https://falco.org/docs/getting-started/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-014",
+    "type": "single_choice",
+    "prompt": "What does the Falco 'output' field in a rule definition specify?",
+    "choices": [
+      { "id": "a", "text": "The file path where Falco writes alert logs" },
+      { "id": "b", "text": "The alert message template, which can include dynamic fields from the event (e.g., %proc.name, %container.id)" },
+      { "id": "c", "text": "The webhook endpoint that receives Falco alerts" },
+      { "id": "d", "text": "The severity threshold above which alerts are forwarded to an external SIEM" }
+    ],
+    "correct": "b",
+    "explanation": "The 'output' field in a Falco rule is a message template that is rendered for each triggered alert. It can include dynamic values from the event using field interpolation with %field.name syntax (e.g., '%user.name attempted to write to sensitive file %fd.name in container %container.id'). This makes alerts actionable by including the specific context of the detected event rather than a generic message.",
+    "topics": ["runtime-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Falco Rules", "url": "https://falco.org/docs/rules/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-rs-015",
+    "type": "single_choice",
+    "prompt": "You need to detect when a new process is spawned inside a container at runtime with Falco. Which syscall event type should the rule condition reference?",
+    "choices": [
+      { "id": "a", "text": "evt.type = fork" },
+      { "id": "b", "text": "evt.type = execve" },
+      { "id": "c", "text": "evt.type = clone" },
+      { "id": "d", "text": "evt.type = spawn" }
+    ],
+    "correct": "b",
+    "explanation": "The 'execve' syscall is called when a new program image is loaded into a process — this is the event that represents 'a new process is starting to run a specific binary'. While fork() and clone() create new processes, they inherit the parent's program image. Falco's process spawn detection is based on execve (or execveat) because that's the syscall that represents a distinct new program executing. 'spawn' is not a Linux syscall.",
+    "topics": ["runtime-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Falco Rules", "url": "https://falco.org/docs/rules/" }
+    ],
+    "version": 1
+  }
+]

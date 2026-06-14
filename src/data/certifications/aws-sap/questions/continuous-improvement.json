@@ -1,0 +1,291 @@
+[
+  {
+    "id": "aws-sap-ci-001",
+    "type": "single_choice",
+    "prompt": "A company's production Lambda functions consume 1,792 MB of memory but profiling shows they only use 400 MB on average. The team wants to reduce costs while maintaining performance. Which tool provides the most data-driven recommendation for right-sizing Lambda memory?",
+    "choices": [
+      { "id": "a", "text": "AWS Cost Explorer Rightsizing Recommendations" },
+      { "id": "b", "text": "AWS Compute Optimizer with Lambda function analysis" },
+      { "id": "c", "text": "AWS Trusted Advisor under Cost Optimization checks" },
+      { "id": "d", "text": "Amazon CloudWatch Contributor Insights" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Compute Optimizer analyzes Lambda function utilization metrics including memory usage, duration, and error rate over a lookback period and provides specific memory size recommendations with projected cost and performance impact. It accounts for the relationship between memory and CPU in Lambda (higher memory = more CPU allocation = potentially shorter duration, which affects cost). Cost Explorer Rightsizing covers EC2, not Lambda. Trusted Advisor has basic Lambda checks but lacks the depth of Compute Optimizer recommendations. CloudWatch Contributor Insights analyzes log patterns, not resource sizing.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS Compute Optimizer for Lambda", "url": "https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-lambda-recommendations.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-002",
+    "type": "single_choice",
+    "prompt": "An operations team wants to reduce MTTR for incidents by automatically running diagnostic runbooks when CloudWatch Alarms fire. The runbook should collect logs, check EC2 instance health, and post results to a ticketing system. All without human intervention on routine incidents. Which AWS service supports this pattern natively?",
+    "choices": [
+      { "id": "a", "text": "AWS Lambda triggered by CloudWatch Alarm state changes via EventBridge" },
+      { "id": "b", "text": "AWS Systems Manager Automation with EventBridge trigger on CloudWatch Alarm state change" },
+      { "id": "c", "text": "AWS Step Functions triggered by SNS notification from CloudWatch Alarm" },
+      { "id": "d", "text": "AWS OpsWorks lifecycle hooks triggered by CloudWatch Alarm" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Systems Manager Automation is purpose-built for operational runbooks. Automation documents (Runbooks) can collect logs, run AWS CLI commands, check resource health, and invoke APIs (including third-party systems via Lambda steps within the automation). EventBridge rules can trigger SSM Automation when a CloudWatch Alarm transitions to ALARM state. SSM Automation provides native audit trails, step-level approval gates, and a library of pre-built runbooks. Lambda is more flexible but requires coding all runbook logic. Step Functions is more appropriate for complex multi-day workflows. OpsWorks is legacy and does not integrate directly with CloudWatch Alarms.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Systems Manager Automation", "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-003",
+    "type": "single_choice",
+    "prompt": "A team's microservices application on ECS has intermittent p99 latency spikes every few hours. CloudWatch metrics show normal CPU and memory. They cannot reproduce the spikes in staging. What observability approach will most efficiently identify the service and operation causing the latency?",
+    "choices": [
+      { "id": "a", "text": "Add detailed CloudWatch custom metrics for every function call and analyze with CloudWatch Logs Insights" },
+      { "id": "b", "text": "Enable AWS X-Ray on all ECS services; use the X-Ray Service Map and Trace analysis to identify latency outliers across services" },
+      { "id": "c", "text": "Deploy Amazon CloudWatch Container Insights with enhanced observability and set alarms on container restart counts" },
+      { "id": "d", "text": "Enable VPC Flow Logs and analyze network latency between services using Athena queries" }
+    ],
+    "correct": "b",
+    "explanation": "AWS X-Ray provides distributed tracing across all services in a request path. The X-Ray Service Map visually shows inter-service dependencies and highlights latency at each node. Trace analysis lets you filter for high-latency traces (e.g., p99) and drill into individual trace segments to identify the specific service call, operation, and timing contributing to the spike. X-Ray is designed for exactly this use case: finding latency sources in distributed systems that are not visible in aggregate metrics. Custom CloudWatch metrics for every function call would require massive instrumentation effort and does not capture cross-service context. Container Insights monitors container-level resource metrics. VPC Flow Logs capture network-level packet data, not application-level latency.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS X-Ray Developer Guide", "url": "https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-004",
+    "type": "single_choice",
+    "prompt": "A company has 1,000 EC2 instances across 5 accounts. The security team wants a single-pane view of which instances have outdated SSM agents, missing security patches, and non-compliant software inventory, without logging into each account. Which approach provides this?",
+    "choices": [
+      { "id": "a", "text": "AWS Config aggregator collecting compliance data from all accounts into a central account" },
+      { "id": "b", "text": "AWS Systems Manager Fleet Manager with a Resource Data Sync to an S3 bucket in a central account, queried via Athena" },
+      { "id": "c", "text": "AWS Security Hub aggregating Config findings from all accounts to a delegated administrator account" },
+      { "id": "d", "text": "Amazon Inspector aggregating EC2 vulnerability findings across all accounts to a delegated administrator" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Systems Manager Fleet Manager provides a unified console for EC2 instance management including SSM agent version, patch compliance status, and software inventory. Resource Data Sync aggregates SSM inventory data from multiple accounts and regions into a single S3 bucket in a central account. Once in S3, Athena can query across all instances. This provides a single pane of glass for patch state, agent version, and inventory without cross-account console login. AWS Config tracks configuration compliance but does not collect SSM-specific operational data like software inventory or agent versions. Security Hub aggregates security findings but not SSM operational state. Inspector focuses on vulnerability assessments, not patch compliance workflows.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Systems Manager Inventory", "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-inventory.html" },
+      { "label": "Resource Data Sync", "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-resource-data-sync.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-005",
+    "type": "single_choice",
+    "prompt": "A development team frequently deploys code that causes CloudFormation stack drift. The operations team needs to detect drift automatically and alert when any production stack resource deviates from its template. What is the most automated approach with native AWS services?",
+    "choices": [
+      { "id": "a", "text": "Run CloudFormation drift detection manually before each deployment" },
+      { "id": "b", "text": "Create an EventBridge Scheduler rule to trigger a Lambda function that calls CloudFormation DescribeStackDrift on all production stacks and publishes drift findings to SNS" },
+      { "id": "c", "text": "Enable AWS Config with the cloudformation-stack-drift-detection-check managed rule and configure an SNS notification on non-compliant resources" },
+      { "id": "d", "text": "Deploy AWS CloudTrail insights to detect unusual CloudFormation API call patterns" }
+    ],
+    "correct": "c",
+    "explanation": "AWS Config provides the cloudformation-stack-drift-detection-check managed rule that automatically evaluates CloudFormation stacks against their templates and flags non-compliant resources. Combined with Config Rules' notification integration (SNS, EventBridge), the team receives automatic alerts when drift is detected. This requires no custom Lambda code. Manual drift detection is not automated. The Lambda-based EventBridge Scheduler approach works but requires writing and maintaining custom code. CloudTrail Insights detects unusual API call volumes, not resource configuration drift.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Config Managed Rules", "url": "https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-006",
+    "type": "single_choice",
+    "prompt": "A company wants to query application logs across 20 CloudWatch Log Groups to find all ERROR-level events correlated by a request ID within a 5-minute window. Queries run ad hoc and results need to be available within 30 seconds. Which feature best supports this?",
+    "choices": [
+      { "id": "a", "text": "CloudWatch Log Insights querying multiple log groups simultaneously with a regex filter" },
+      { "id": "b", "text": "Export all log groups to S3 and query with Amazon Athena" },
+      { "id": "c", "text": "Subscribe log groups to a Kinesis stream and query with Amazon OpenSearch" },
+      { "id": "d", "text": "Use CloudWatch Contributor Insights to identify top error contributors" }
+    ],
+    "correct": "a",
+    "explanation": "CloudWatch Logs Insights supports querying up to 50 log groups simultaneously in a single query. The query language supports regex filters, field extraction, and time-window filtering. A query like `fields @timestamp, @message | filter level = 'ERROR' | filter requestId = 'xyz'` across all 20 log groups returns results within seconds for typical log volumes. Athena queries on S3 exports have export lag and Athena query startup time. OpenSearch requires a streaming pipeline setup and does not meet ad-hoc 30-second latency for complex correlation without pre-indexing. Contributor Insights identifies top contributors to log patterns, not ad-hoc correlation queries.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "CloudWatch Logs Insights", "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-007",
+    "type": "single_choice",
+    "prompt": "A company runs a multi-tier web application and wants to perform a Well-Architected Review. The results show their reliability pillar score is low due to no chaos engineering practice and manual recovery procedures. Which combination of improvements directly addresses reliability pillar recommendations?",
+    "choices": [
+      { "id": "a", "text": "Enable AWS Shield Advanced and AWS WAF to protect against DDoS and improve availability SLAs" },
+      { "id": "b", "text": "Implement AWS Fault Injection Simulator (FIS) experiments to validate failover, and use Systems Manager Automation runbooks to automate recovery" },
+      { "id": "c", "text": "Migrate the application to AWS Lambda to achieve automatic redundancy and remove the need for recovery procedures" },
+      { "id": "d", "text": "Enable Multi-AZ for all RDS instances and configure Auto Scaling on all EC2 tiers" }
+    ],
+    "correct": "b",
+    "explanation": "The AWS Well-Architected Reliability pillar explicitly recommends testing recovery procedures through game days and chaos engineering. AWS Fault Injection Simulator (FIS) is the AWS-native chaos engineering service that allows controlled injection of faults (EC2 termination, network packet loss, AZ failures) to validate that failover and recovery mechanisms work as designed. Systems Manager Automation runbooks replace manual recovery procedures with automated, auditable workflows. Shield/WAF addresses security availability, not recovery automation. Migrating to Lambda does not inherently address the identified gaps in recovery practice. Multi-AZ and Auto Scaling are infrastructure improvements but do not address the identified gaps of chaos testing and manual recovery.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Fault Injection Simulator", "url": "https://docs.aws.amazon.com/fis/latest/userguide/what-is.html" },
+      { "label": "Reliability Pillar", "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-008",
+    "type": "multi_choice",
+    "prompt": "A company wants to reduce their AWS bill by 40% without significant architectural changes. Their workloads include: 50 production EC2 instances (steady, 24/7), 100 dev/test EC2 instances (business hours only), and 10 TB of S3 data (80% not accessed in 90+ days). Which TWO optimizations have the highest cost impact? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "Purchase 1-year Compute Savings Plans for the 50 production EC2 instances" },
+      { "id": "b", "text": "Schedule dev/test EC2 instances to stop outside business hours using AWS Instance Scheduler" },
+      { "id": "c", "text": "Enable S3 Intelligent-Tiering on the S3 bucket to automatically move infrequently accessed data" },
+      { "id": "d", "text": "Convert all EC2 instances to Spot Instances for maximum savings" },
+      { "id": "e", "text": "Enable S3 Transfer Acceleration for the S3 bucket to reduce data transfer costs" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "Compute Savings Plans for the production instances provide up to 66% savings over On-Demand with a 1-year no-upfront commitment, with the flexibility to change instance families, sizes, and regions. For 50 steady-state 24/7 instances this is the highest-impact lever. Scheduling dev/test instances to run only during business hours (e.g., 10 hours/day, 5 days/week vs. 24/7) reduces those 100 instances' compute hours by ~70%, generating immediate bill reduction. S3 Intelligent-Tiering helps with access-pattern optimization but the savings on 10 TB (8 TB infrequent) are modest compared to compute savings. Converting production to Spot is inappropriate for steady workloads due to interruption risk. S3 Transfer Acceleration increases, not decreases, costs.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Savings Plans", "url": "https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html" },
+      { "label": "AWS Instance Scheduler", "url": "https://aws.amazon.com/solutions/implementations/instance-scheduler-on-aws/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-009",
+    "type": "single_choice",
+    "prompt": "An architect performing a Well-Architected Review identifies that the application has no defined load testing strategy and performance baselines are unknown. As a result, capacity planning is reactive. Which sequence of actions best addresses this performance efficiency gap?",
+    "choices": [
+      { "id": "a", "text": "Enable CloudWatch detailed monitoring on all resources and set alarms at 80% thresholds" },
+      { "id": "b", "text": "Use Amazon CloudWatch Synthetics to run canary scripts that simulate user traffic continuously" },
+      { "id": "c", "text": "Establish performance baselines using AWS Load Testing solution or Distributed Load Testing on AWS, then use the results to right-size resources and configure Auto Scaling targets" },
+      { "id": "d", "text": "Enable AWS Compute Optimizer and follow all its recommendations immediately" }
+    ],
+    "correct": "c",
+    "explanation": "The Performance Efficiency pillar of the Well-Architected Framework recommends establishing performance baselines through load testing before optimizing. The AWS Distributed Load Testing on AWS solution (or third-party tools) generates realistic load, identifies bottlenecks, and establishes baseline metrics. These baselines then inform right-sizing decisions and Auto Scaling target tracking configurations. CloudWatch detailed monitoring and alarms are good operational practices but do not establish baselines. CloudWatch Synthetics monitors availability and user-facing performance but does not generate load for capacity planning. Compute Optimizer recommendations are useful but act on historical utilization, not load-tested capacity requirements.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Performance Efficiency Pillar", "url": "https://docs.aws.amazon.com/wellarchitected/latest/performance-efficiency-pillar/welcome.html" },
+      { "label": "Distributed Load Testing on AWS", "url": "https://aws.amazon.com/solutions/implementations/distributed-load-testing-on-aws/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-010",
+    "type": "single_choice",
+    "prompt": "A company uses AWS Config with conformance packs to enforce security baselines across 50 accounts. The security team wants to automatically remediate non-compliant resources (e.g., S3 buckets without server-side encryption) without manual intervention. What is the correct AWS-native configuration?",
+    "choices": [
+      { "id": "a", "text": "Create a CloudWatch Events rule that triggers a Lambda function when Config flags a non-compliant resource" },
+      { "id": "b", "text": "Configure AWS Config Rules with SSM Automation document as the automatic remediation action" },
+      { "id": "c", "text": "Use AWS Security Hub automated response playbooks with the SOAR integration" },
+      { "id": "d", "text": "Set up an SNS notification from Config that triggers a Lambda to call the resource API directly" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Config supports automatic remediation natively: each Config Rule can have an SSM Automation document attached as a remediation action. When a resource is evaluated as non-compliant, Config can automatically trigger the SSM Automation runbook to remediate it (e.g., enable S3 bucket encryption). This is the native, no-custom-code path. Options A and D achieve the same result but require writing and maintaining custom Lambda code. Security Hub SOAR integration is valid for complex response playbooks but requires additional tooling and is heavier than Config's native remediation.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Remediating Noncompliant Resources with AWS Config", "url": "https://docs.aws.amazon.com/config/latest/developerguide/remediation.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-011",
+    "type": "single_choice",
+    "prompt": "A team wants to identify the specific AWS API calls responsible for unexpected CloudTrail costs in a multi-account environment. They need to attribute API call volume to specific services and accounts over the past 30 days. Which query approach is most effective?",
+    "choices": [
+      { "id": "a", "text": "Use AWS Cost Explorer and filter by CloudTrail service" },
+      { "id": "b", "text": "Query CloudTrail logs in S3 using Amazon Athena with aggregation queries on eventName, eventSource, and recipientAccountId" },
+      { "id": "c", "text": "Use Amazon GuardDuty to detect unusual API call patterns and identify high-volume callers" },
+      { "id": "d", "text": "Enable CloudTrail Insights and look for unusual API call volume patterns" }
+    ],
+    "correct": "b",
+    "explanation": "CloudTrail logs stored in S3 can be queried directly with Amazon Athena using the CloudTrail table schema. A query grouping by eventSource, eventName, and recipientAccountId with a COUNT(*) and date filter reveals which specific API calls (and in which accounts) generate the highest volume over 30 days. This gives attribution at the individual API call level. Cost Explorer shows CloudTrail service cost but cannot attribute to specific API call types. GuardDuty detects security anomalies, not billing attribution. CloudTrail Insights identifies deviations from baseline call rates but does not provide 30-day aggregate counts by API call.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Querying CloudTrail Logs with Athena", "url": "https://docs.aws.amazon.com/athena/latest/ug/cloudtrail-logs.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-012",
+    "type": "single_choice",
+    "prompt": "An e-commerce application on Aurora MySQL experiences high read latency during peak hours (100k+ concurrent users). The Aurora cluster has 1 writer and 2 reader instances. Adding more readers has not resolved the issue. Analysis shows 60% of queries hit the writer. What architectural change will most effectively offload reads from the writer?",
+    "choices": [
+      { "id": "a", "text": "Enable Aurora parallel query to distribute query processing across storage nodes" },
+      { "id": "b", "text": "Add more reader instances and update the application connection string to use the reader endpoint" },
+      { "id": "c", "text": "Add Amazon ElastiCache for Redis in front of Aurora and cache the results of frequently executed read queries with appropriate TTLs" },
+      { "id": "d", "text": "Enable Aurora Auto Scaling to add reader instances dynamically based on CPU" }
+    ],
+    "correct": "c",
+    "explanation": "If adding reader instances has not resolved the issue and 60% of queries still hit the writer, the application is not using the reader endpoint effectively, or the queries are not distributed evenly. More importantly, caching frequently repeated read queries in ElastiCache eliminates the database round-trip entirely for cacheable content. For an e-commerce application, product listings, prices, and inventory (with appropriate TTLs) can absorb the majority of read traffic. This reduces load on all Aurora instances. Option B (reader endpoint) should already be in use; if it is and readers are not being used, the problem is application connection management. Parallel query optimizes analytical queries, not high-concurrency OLTP reads. Auto Scaling on CPU adds readers reactively but does not address the root cause of writer traffic.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Caching Strategies", "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Strategies.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-013",
+    "type": "true_false",
+    "prompt": "AWS Trusted Advisor checks are available in full detail to all AWS accounts regardless of support plan, including access to all cost optimization, security, fault tolerance, performance, and service limits checks.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Trusted Advisor check availability depends on the AWS Support plan. Accounts on the Basic and Developer support plans have access to a limited subset of checks (primarily service limits and a few security checks). Business, Enterprise On-Ramp, and Enterprise support plans provide access to all Trusted Advisor checks across all categories (cost optimization, security, fault tolerance, performance, and service limits), including the full detail and refresh capability. This is an important consideration when designing governance and cost optimization programs at enterprise scale.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS Trusted Advisor", "url": "https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-014",
+    "type": "single_choice",
+    "prompt": "A company wants to enforce that all EC2 instances in their AWS Organization are tagged with 'CostCenter' and 'Environment' tags. Non-compliant instances should be flagged automatically and their owners notified. Which solution achieves this with the least custom code?",
+    "choices": [
+      { "id": "a", "text": "Write a Lambda function triggered by EC2 RunInstances events via EventBridge that checks tags and sends SNS notifications" },
+      { "id": "b", "text": "Use AWS Config managed rule required-tags, deploy via conformance pack across the Organization, and configure EventBridge notification to SNS when Config evaluates non-compliant resources" },
+      { "id": "c", "text": "Use AWS Organizations tag policies to enforce the required tags and automatically terminate non-compliant instances" },
+      { "id": "d", "text": "Enable AWS Resource Groups tagging API reports and set up weekly email reports to engineering managers" }
+    ],
+    "correct": "b",
+    "explanation": "The AWS Config required-tags managed rule evaluates EC2 instances against a specified list of required tag keys. Deployed as a conformance pack via AWS Organizations, it automatically applies the rule to all accounts. EventBridge can route Config non-compliance events to SNS, which notifies account owners. This requires no Lambda code. Option A works but requires writing and maintaining custom code. Tag policies (Option C) can enforce tag key values at resource creation time in some services but cannot automatically terminate instances and don't apply retroactively to existing resources. Resource Groups tagging API reports are manual and not automated.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Config Conformance Packs", "url": "https://docs.aws.amazon.com/config/latest/developerguide/conformance-packs.html" },
+      { "label": "required-tags Config Rule", "url": "https://docs.aws.amazon.com/config/latest/developerguide/required-tags.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-ci-015",
+    "type": "single_choice",
+    "prompt": "An architect reviews a legacy three-tier application and finds that the web tier (EC2 Auto Scaling) and app tier (EC2 Auto Scaling) are in the same VPC subnet with no network segmentation. The data tier is Amazon RDS with public accessibility enabled. Which combination of changes best improves the security posture without re-architecting the application?",
+    "choices": [
+      { "id": "a", "text": "Move all tiers to private subnets, disable RDS public accessibility, and configure security groups to allow only the app tier to access RDS on port 3306" },
+      { "id": "b", "text": "Add AWS WAF to the ALB in front of the web tier and enable Amazon Inspector on all EC2 instances" },
+      { "id": "c", "text": "Enable VPC Flow Logs and set up GuardDuty to detect and alert on suspicious database access patterns" },
+      { "id": "d", "text": "Deploy an AWS Network Firewall between tiers and enable RDS encryption at rest" }
+    ],
+    "correct": "a",
+    "explanation": "The Well-Architected Security pillar's network protection recommendations include defense in depth through subnet segmentation and least-privilege security group rules. Moving the web tier to a public subnet (behind the ALB), the app tier to a private subnet accessible only from the web tier security group, and the data tier to a private subnet with RDS public accessibility disabled are the fundamental network segmentation changes that directly address the identified gaps. Disabling RDS public accessibility removes direct internet exposure. WAF and Inspector are additive but do not address the core network architecture gap. Flow Logs and GuardDuty are detective controls that do not prevent the exposure. Network Firewall and RDS encryption are valid improvements but do not address the public accessibility and lack of segmentation.",
+    "topics": ["continuous-improvement"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Security Pillar - Network Protection", "url": "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/network-protection.html" }
+    ],
+    "version": 1
+  }
+]

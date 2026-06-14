@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-ckad-ec-001",
+    "type": "single_choice",
+    "prompt": "What is the maximum size of a single ConfigMap in Kubernetes?",
+    "choices": [
+      { "id": "a", "text": "256 KB" },
+      { "id": "b", "text": "1 MB" },
+      { "id": "c", "text": "4 MB" },
+      { "id": "d", "text": "Unlimited" }
+    ],
+    "correct": "b",
+    "explanation": "ConfigMaps are etcd objects and are limited to 1 MiB (approximately 1 MB). If your configuration data is larger, consider mounting it via a persistent volume or using an external configuration management system. The same 1 MiB limit applies to Secrets. Attempting to create a ConfigMap or Secret larger than this limit will result in an API error.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ConfigMaps", "url": "https://kubernetes.io/docs/concepts/configuration/configmap/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-002",
+    "type": "single_choice",
+    "prompt": "Which of the following correctly injects a single key from a ConfigMap as an environment variable named APP_COLOR?",
+    "choices": [
+      { "id": "a", "text": "env:\n  - name: APP_COLOR\n    valueFrom:\n      configMapKeyRef:\n        name: my-config\n        key: color" },
+      { "id": "b", "text": "env:\n  - name: APP_COLOR\n    value: configMap/my-config/color" },
+      { "id": "c", "text": "envFrom:\n  - configMapRef:\n      name: my-config\n      key: color" },
+      { "id": "d", "text": "envFrom:\n  - name: APP_COLOR\n    configMapRef:\n      name: my-config" }
+    ],
+    "correct": "a",
+    "explanation": "To expose a specific ConfigMap key as a named environment variable, use env[].valueFrom.configMapKeyRef. The 'name' field is the ConfigMap name and 'key' is the specific key within it. 'envFrom.configMapRef' imports all keys from the ConfigMap as environment variables but cannot rename them or select individual keys.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Using ConfigMap data in a Pod", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-003",
+    "type": "single_choice",
+    "prompt": "A pod mounts a Secret as a volume at /etc/secrets. A new key is added to the Secret. When does the pod see the updated content?",
+    "choices": [
+      { "id": "a", "text": "Immediately, because Secrets are stored in memory" },
+      { "id": "b", "text": "After the pod is restarted" },
+      { "id": "c", "text": "After a kubelet sync period (typically up to a few minutes), without restarting the pod" },
+      { "id": "d", "text": "Never — Secret volumes are immutable once mounted" }
+    ],
+    "correct": "c",
+    "explanation": "When a Secret is mounted as a volume, the kubelet periodically refreshes the projected content. The update propagation delay is approximately the kubelet's sync period plus the cache propagation time. The pod does NOT need to restart. However, if the Secret data is read at startup into application memory, the application must be designed to re-read it to see changes. Secrets injected as environment variables do NOT update without a restart.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Secrets: using secrets as files from a pod", "url": "https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-files-from-a-pod" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-004",
+    "type": "single_choice",
+    "prompt": "What is the default encoding used for values stored in a Kubernetes Secret?",
+    "choices": [
+      { "id": "a", "text": "AES-256 encryption" },
+      { "id": "b", "text": "Base64 encoding" },
+      { "id": "c", "text": "SHA-256 hashing" },
+      { "id": "d", "text": "Plain text" }
+    ],
+    "correct": "b",
+    "explanation": "Secret values are base64-encoded in the manifest and in etcd by default. Base64 is an encoding, not encryption — it provides no security on its own. The security comes from RBAC controlling who can GET Secrets, encryption at rest for etcd (if configured), and TLS in transit. For truly sensitive workloads, use an external secrets manager or enable etcd encryption at rest.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Secrets", "url": "https://kubernetes.io/docs/concepts/configuration/secret/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-005",
+    "type": "single_choice",
+    "prompt": "A container is running out of memory and being OOMKilled. Which spec field sets a hard memory ceiling for a container?",
+    "choices": [
+      { "id": "a", "text": "resources.requests.memory" },
+      { "id": "b", "text": "resources.limits.memory" },
+      { "id": "c", "text": "resources.max.memory" },
+      { "id": "d", "text": "resources.ceiling.memory" }
+    ],
+    "correct": "b",
+    "explanation": "resources.limits.memory sets the maximum amount of memory a container can use. If a container exceeds this value, the kernel OOM killer terminates it (exit code 137). resources.requests.memory is used by the scheduler to find a node with enough capacity but does not enforce a ceiling at runtime. There are no 'max' or 'ceiling' fields.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Resource Management for Pods and Containers", "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-006",
+    "type": "single_choice",
+    "prompt": "What happens when a container's CPU usage exceeds its CPU limit in Kubernetes?",
+    "choices": [
+      { "id": "a", "text": "The container is killed and restarted" },
+      { "id": "b", "text": "The container is throttled and its CPU access is reduced, but it continues running" },
+      { "id": "c", "text": "The pod is evicted and rescheduled on a node with more CPU" },
+      { "id": "d", "text": "The container's request is adjusted upward to match the limit" }
+    ],
+    "correct": "b",
+    "explanation": "CPU is a compressible resource. When a container exceeds its CPU limit, the Linux kernel's CFS (Completely Fair Scheduler) throttles the container's CPU time slices. The container stays running but executes more slowly. This is in contrast to memory: exceeding the memory limit causes the OOM killer to terminate the container. Understanding this distinction is fundamental to resource management in Kubernetes.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Resource Management for Pods and Containers", "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-007",
+    "type": "single_choice",
+    "prompt": "Which SecurityContext field prevents a container from running as root?",
+    "choices": [
+      { "id": "a", "text": "securityContext.runAsNonRoot: true" },
+      { "id": "b", "text": "securityContext.runAsUser: 0" },
+      { "id": "c", "text": "securityContext.noRoot: true" },
+      { "id": "d", "text": "securityContext.privileged: false" }
+    ],
+    "correct": "a",
+    "explanation": "Setting securityContext.runAsNonRoot: true causes the container runtime to reject the container if its image is configured to run as UID 0 (root). You can combine this with runAsUser to specify the exact non-root UID. securityContext.runAsUser: 0 would explicitly run AS root. securityContext.privileged controls whether the container gets all Linux capabilities, which is a separate concern.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Configure a Security Context for a Pod or Container", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-008",
+    "type": "single_choice",
+    "prompt": "A pod needs to call the Kubernetes API to list other pods in its namespace. What Kubernetes object grants it the necessary permissions?",
+    "choices": [
+      { "id": "a", "text": "A ClusterRole bound to the node the pod runs on" },
+      { "id": "b", "text": "A Role and RoleBinding that grant list pods permissions to the pod's ServiceAccount" },
+      { "id": "c", "text": "An annotation on the pod: kubernetes.io/api-access: list-pods" },
+      { "id": "d", "text": "A PodSecurityPolicy that includes the API access rule" }
+    ],
+    "correct": "b",
+    "explanation": "Pods authenticate to the Kubernetes API using their ServiceAccount token (automatically mounted at /var/run/secrets/kubernetes.io/serviceaccount/token). Permissions are granted through RBAC: create a Role with the needed rules (apiGroups: [''], resources: ['pods'], verbs: ['list']) and a RoleBinding that assigns the Role to the pod's ServiceAccount. Nodes do not grant API permissions, and PodSecurityPolicy has been removed in Kubernetes 1.25.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Using RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-009",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid ways to expose ConfigMap data to a container? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "As individual environment variables using valueFrom.configMapKeyRef" },
+      { "id": "b", "text": "As all keys loaded into the environment using envFrom.configMapRef" },
+      { "id": "c", "text": "As files in a mounted volume using volumes[].configMap" },
+      { "id": "d", "text": "As a command-line argument via args[] using the configMap substitution syntax" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Kubernetes supports three native ways to consume ConfigMap data in pods: (1) individual env vars via configMapKeyRef, (2) bulk env import via envFrom.configMapRef, and (3) volume mounts where each key becomes a file. There is no built-in configMap substitution syntax for command args — you can reference environment variables in args with $(VAR_NAME) after injecting the ConfigMap as an env var, but that is a two-step process.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Using ConfigMap data in a Pod", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-010",
+    "type": "single_choice",
+    "prompt": "What does setting securityContext.readOnlyRootFilesystem: true on a container accomplish?",
+    "choices": [
+      { "id": "a", "text": "The container cannot read any files on the host node's filesystem" },
+      { "id": "b", "text": "The container's root filesystem is mounted read-only, preventing writes to / and its subdirectories" },
+      { "id": "c", "text": "The container image layers are made read-only in the registry" },
+      { "id": "d", "text": "Files in emptyDir volumes mounted by this container also become read-only" }
+    ],
+    "correct": "b",
+    "explanation": "readOnlyRootFilesystem: true mounts the container's root filesystem as read-only. Any attempt to write to the container's filesystem (except explicitly mounted volumes like emptyDir or PVCs) will fail with a permission error. This is a defense-in-depth measure that prevents malware or bugs from persisting files on the container filesystem. Volume mounts are not affected by this setting.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Configure a Security Context for a Pod or Container", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-011",
+    "type": "single_choice",
+    "prompt": "By default, how is the ServiceAccount token mounted into a pod?",
+    "choices": [
+      { "id": "a", "text": "It is not mounted unless explicitly requested" },
+      { "id": "b", "text": "It is automatically mounted at /var/run/secrets/kubernetes.io/serviceaccount/" },
+      { "id": "c", "text": "It is injected as an environment variable named KUBERNETES_TOKEN" },
+      { "id": "d", "text": "It is stored in a Secret that must be manually referenced in the pod spec" }
+    ],
+    "correct": "b",
+    "explanation": "By default, Kubernetes automatically mounts the pod's ServiceAccount token as a projected volume at /var/run/secrets/kubernetes.io/serviceaccount/. This directory contains the token, ca.crt, and namespace files. If automounting is undesired (e.g., for pods that do not need API access), set automountServiceAccountToken: false in the pod spec or on the ServiceAccount itself.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ServiceAccounts", "url": "https://kubernetes.io/docs/concepts/security/service-accounts/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-012",
+    "type": "true_false",
+    "prompt": "True or False: A container's resource requests affect scheduling but do not limit actual runtime resource usage.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Resource requests are used by the Kubernetes scheduler to find a node with sufficient available capacity. Once scheduled, the container is not capped at the request value — it can use more resources up to the limit (or beyond if no limit is set). Limits are what actually constrain runtime usage. Setting only requests without limits means the container can use as much resource as the node provides, potentially starving other workloads.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Resource Management for Pods and Containers", "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-013",
+    "type": "single_choice",
+    "prompt": "Which Kubernetes object should you use to store a TLS certificate and private key for use by an Ingress controller?",
+    "choices": [
+      { "id": "a", "text": "ConfigMap with type: tls" },
+      { "id": "b", "text": "Secret with type: kubernetes.io/tls" },
+      { "id": "c", "text": "Secret with type: Opaque" },
+      { "id": "d", "text": "CertificateSigningRequest" }
+    ],
+    "correct": "b",
+    "explanation": "Kubernetes has a dedicated Secret type 'kubernetes.io/tls' for storing TLS certificates and private keys. The Secret must contain tls.crt (the certificate) and tls.key (the private key) keys. Ingress resources reference these Secrets in spec.tls[].secretName. Using the correct type enforces the expected structure. An Opaque Secret could also store TLS data but won't be validated for the expected keys.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "TLS Secrets", "url": "https://kubernetes.io/docs/concepts/configuration/secret/#tls-secrets" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-014",
+    "type": "single_choice",
+    "prompt": "A container needs to drop all Linux capabilities and add only NET_BIND_SERVICE. Which SecurityContext configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "capabilities:\n  add: [\"NET_BIND_SERVICE\"]\n  drop: [\"ALL\"]" },
+      { "id": "b", "text": "capabilities:\n  drop: [\"ALL\"]\n  add: [\"NET_BIND_SERVICE\"]" },
+      { "id": "c", "text": "Both A and B are correct — order of add/drop does not matter" },
+      { "id": "d", "text": "capabilities:\n  net_bind_service: true\n  drop_all: true" }
+    ],
+    "correct": "c",
+    "explanation": "Both field orderings produce the same result because Kubernetes processes 'drop' before 'add' regardless of the order you write them in the YAML. The runtime first removes all capabilities (drop: ALL) and then adds back only what is listed in 'add'. The effective capability set is exactly what is in 'add'. Option D uses fictional field names that do not exist.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Set capabilities for a Container", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ec-015",
+    "type": "single_choice",
+    "prompt": "What is the difference between a Role and a ClusterRole in Kubernetes RBAC?",
+    "choices": [
+      { "id": "a", "text": "A Role can only grant read permissions; a ClusterRole can grant write permissions" },
+      { "id": "b", "text": "A Role is namespace-scoped; a ClusterRole is cluster-scoped and can grant access to cluster-wide resources" },
+      { "id": "c", "text": "A ClusterRole applies only to the kube-system namespace; a Role applies to all others" },
+      { "id": "d", "text": "A Role requires a ServiceAccount; a ClusterRole can be bound to any subject" }
+    ],
+    "correct": "b",
+    "explanation": "A Role is namespaced and can only grant access to resources within that namespace. A ClusterRole is not namespaced and can grant access to: (1) cluster-scoped resources like Nodes and PersistentVolumes, (2) non-resource URLs like /healthz, and (3) namespaced resources across all namespaces when used with a ClusterRoleBinding. A ClusterRole can also be bound within a namespace using a RoleBinding.",
+    "topics": ["app-env-config-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Using RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  }
+]

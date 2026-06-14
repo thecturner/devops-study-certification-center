@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-itsm-pm-001",
+    "type": "single_choice",
+    "prompt": "What is the primary distinction between an incident and a problem in ServiceNow ITSM?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "An incident is an unplanned interruption; a problem is the underlying root cause of one or more incidents"
+      },
+      {
+        "id": "b",
+        "text": "An incident is a service request; a problem is a user complaint"
+      },
+      {
+        "id": "c",
+        "text": "An incident requires approval to resolve; a problem does not"
+      },
+      {
+        "id": "d",
+        "text": "An incident affects hardware; a problem affects software"
+      }
+    ],
+    "correct": "a",
+    "explanation": "In ITIL terminology, an incident is an unplanned interruption or reduction in quality of an IT service. A problem is the cause (or potential cause) of one or more incidents. Problem management aims to identify root causes and prevent recurrence, while incident management focuses on restoring service as quickly as possible.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-002",
+    "type": "single_choice",
+    "prompt": "What is the correct OOTB state flow for a problem record in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "New > Assess > Root Cause Analysis > Fix in Progress > Resolved > Closed"
+      },
+      {
+        "id": "b",
+        "text": "Open > In Progress > On Hold > Resolved > Closed"
+      },
+      {
+        "id": "c",
+        "text": "New > In Progress > Known Error > Resolved > Closed"
+      },
+      {
+        "id": "d",
+        "text": "Draft > Assess > Investigate > Fix > Closed"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The default ServiceNow problem record lifecycle follows the states: New, Assess, Root Cause Analysis, Fix in Progress, Resolved, and Closed. This maps to the ITIL problem management process of problem detection, categorization, investigation, resolution planning, and closure. Each state has defined entry and exit criteria.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-003",
+    "type": "single_choice",
+    "prompt": "What is the Known Error Database (KEDB) used for in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Recording problems where the root cause is known and a workaround or fix exists"
+      },
+      {
+        "id": "b",
+        "text": "Storing all closed incidents for historical analysis"
+      },
+      {
+        "id": "c",
+        "text": "Tracking change requests related to problem resolution"
+      },
+      {
+        "id": "d",
+        "text": "Archiving resolved problems for compliance purposes"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Known Error Database (KEDB) in ServiceNow stores Known Error Records: problems where the root cause has been identified and a workaround or permanent fix exists. Service desk agents can reference the KEDB when handling related incidents to apply the workaround, reducing resolution time and improving the caller experience.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-004",
+    "type": "single_choice",
+    "prompt": "Which field on a problem record in ServiceNow is used to document a temporary solution that can be applied while the permanent fix is developed?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Workaround"
+      },
+      {
+        "id": "b",
+        "text": "Cause notes"
+      },
+      {
+        "id": "c",
+        "text": "Fix notes"
+      },
+      {
+        "id": "d",
+        "text": "Resolution notes"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Workaround field on a problem record stores a documented temporary fix or mitigation that can be shared with service desk agents to resolve related incidents while the permanent fix is being developed. Populating this field is a key output of the Root Cause Analysis state and enables faster incident resolution.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-005",
+    "type": "single_choice",
+    "prompt": "Which role in ServiceNow is responsible for managing the problem management process and ensuring problems are investigated and resolved?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Problem Analyst"
+      },
+      {
+        "id": "b",
+        "text": "Incident Manager"
+      },
+      {
+        "id": "c",
+        "text": "Problem Manager"
+      },
+      {
+        "id": "d",
+        "text": "Problem Coordinator"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Problem Manager role in ServiceNow is accountable for the end-to-end problem management process. This includes ensuring problems are properly categorized, assigned, investigated, and resolved in a timely manner, and that the KEDB is maintained. The Problem Coordinator role assists with day-to-day problem routing and administration.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-006",
+    "type": "single_choice",
+    "prompt": "How does linking incidents to a problem record benefit the incident resolution process in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It allows the workaround from the problem to be surfaced to agents handling related incidents"
+      },
+      {
+        "id": "b",
+        "text": "It automatically closes all linked incidents when the problem is resolved"
+      },
+      {
+        "id": "c",
+        "text": "It prevents new incidents from being created for the same issue"
+      },
+      {
+        "id": "d",
+        "text": "It assigns all linked incidents to the problem investigation team"
+      }
+    ],
+    "correct": "a",
+    "explanation": "When incidents are linked to a problem record in ServiceNow, agents working those incidents can see the associated problem's workaround. This speeds resolution of related incidents by providing a documented temporary fix. Additionally, when the problem is resolved, agents can use that resolution to close all linked incidents, though this does not happen automatically by default.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-007",
+    "type": "single_choice",
+    "prompt": "At which problem state should a Known Error Record be created in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "New"
+      },
+      {
+        "id": "b",
+        "text": "Assess"
+      },
+      {
+        "id": "c",
+        "text": "Root Cause Analysis"
+      },
+      {
+        "id": "d",
+        "text": "Fix in Progress"
+      }
+    ],
+    "correct": "c",
+    "explanation": "A Known Error Record should be created during the Root Cause Analysis state, once the root cause of the problem has been identified and a workaround is available. At this point the problem becomes a 'known error' because both the cause and a workaround are documented. Creating it earlier would be premature as the root cause is not yet confirmed.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-008",
+    "type": "single_choice",
+    "prompt": "Which root cause analysis technique uses a cause-and-effect diagram also known as a fishbone diagram?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Ishikawa analysis"
+      },
+      {
+        "id": "b",
+        "text": "5 Whys"
+      },
+      {
+        "id": "c",
+        "text": "Fault Tree Analysis"
+      },
+      {
+        "id": "d",
+        "text": "Kepner-Tregoe analysis"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Ishikawa diagram (also called a fishbone or cause-and-effect diagram) is a root cause analysis technique that visually maps potential causes of a problem across categories such as people, processes, equipment, and environment. It is named after Kaoru Ishikawa and is widely used in ITSM problem investigations. The 5 Whys is a separate technique involving iterative questioning.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-009",
+    "type": "single_choice",
+    "prompt": "What is a Problem Task in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A sub-task created within a problem record to assign specific investigation or fix activities to team members"
+      },
+      {
+        "id": "b",
+        "text": "A child incident linked to a problem for tracking purposes"
+      },
+      {
+        "id": "c",
+        "text": "A change request spawned from a problem to implement a fix"
+      },
+      {
+        "id": "d",
+        "text": "A scheduled job that closes problems after a defined period"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Problem Tasks in ServiceNow are sub-tasks created within a problem record that can be assigned to different individuals or teams to carry out specific investigation, diagnostic, or remediation activities. They allow work to be distributed while keeping all activity associated with the parent problem record for tracking and reporting.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-010",
+    "type": "single_choice",
+    "prompt": "A problem has been investigated and a permanent fix requires a software patch. What is the correct next step in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Create a change request from the problem and link it to track the fix implementation"
+      },
+      {
+        "id": "b",
+        "text": "Resolve the problem record immediately with fix notes"
+      },
+      {
+        "id": "c",
+        "text": "Close the problem and open a new incident to track the patch deployment"
+      },
+      {
+        "id": "d",
+        "text": "Convert the problem to a service request for the patch"
+      }
+    ],
+    "correct": "a",
+    "explanation": "When a problem's permanent fix requires a change to the IT environment (such as deploying a patch), the correct practice is to create a change request from the problem record and link them. This ensures the change management process governs the implementation, the fix is tracked through the change lifecycle, and the problem can be resolved once the change is successfully implemented.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-011",
+    "type": "single_choice",
+    "prompt": "When can a problem record be set to 'Closed' state in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "After a workaround has been documented"
+      },
+      {
+        "id": "b",
+        "text": "After the problem is moved to Root Cause Analysis state"
+      },
+      {
+        "id": "c",
+        "text": "Only after the problem has been Resolved and confirmed that the fix is effective"
+      },
+      {
+        "id": "d",
+        "text": "After all linked incidents are closed"
+      }
+    ],
+    "correct": "c",
+    "explanation": "A problem can only be Closed after it has first been set to Resolved, confirming that the permanent fix has been implemented and verified. The Closed state is terminal and indicates the problem is fully remediated. Simply documenting a workaround or resolving related incidents does not satisfy the criteria for closing a problem.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-012",
+    "type": "single_choice",
+    "prompt": "What does 'deferring' a problem mean in ServiceNow problem management?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Postponing the investigation and fix to a future date due to lower priority or resource constraints"
+      },
+      {
+        "id": "b",
+        "text": "Closing the problem without resolving the root cause"
+      },
+      {
+        "id": "c",
+        "text": "Reassigning the problem to a different team"
+      },
+      {
+        "id": "d",
+        "text": "Converting the problem to a known error without a workaround"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Deferring a problem in ServiceNow means formally postponing the investigation or fix work to a future date, often because the issue has low business impact relative to available resources or because a scheduled maintenance window must be used. The deferred problem remains open and visible but is explicitly marked as not being actively worked.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-013",
+    "type": "single_choice",
+    "prompt": "How does the KEDB improve the efficiency of incident management in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It replaces the need to create incidents by providing pre-built resolutions"
+      },
+      {
+        "id": "b",
+        "text": "It automatically routes incidents to the problem team for investigation"
+      },
+      {
+        "id": "c",
+        "text": "It allows agents to quickly apply documented workarounds to incidents related to known errors, reducing resolution time"
+      },
+      {
+        "id": "d",
+        "text": "It prevents duplicate incidents from being created for known issues"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Known Error Database surfaces documented workarounds to service desk agents when they are handling incidents that match a known error. By providing a ready-made resolution path, the KEDB significantly reduces the time agents spend diagnosing already-understood issues. This is one of the key value propositions of integrating problem and incident management.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-014",
+    "type": "single_choice",
+    "prompt": "Which state in the problem lifecycle indicates that the root cause has been identified and a fix is being implemented?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Root Cause Analysis"
+      },
+      {
+        "id": "b",
+        "text": "Assess"
+      },
+      {
+        "id": "c",
+        "text": "Fix in Progress"
+      },
+      {
+        "id": "d",
+        "text": "Resolved"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The 'Fix in Progress' state in the problem lifecycle indicates that the root cause has been identified and the team is actively implementing a permanent resolution, typically via a linked change request. This state is distinct from Root Cause Analysis, which focuses on investigation, and from Resolved, which indicates the fix has been completed and verified.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-015",
+    "type": "single_choice",
+    "prompt": "What is 'proactive problem management' in the context of ServiceNow ITSM?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Automatically creating problems from every new incident"
+      },
+      {
+        "id": "b",
+        "text": "Sending automated notifications to users about known issues"
+      },
+      {
+        "id": "c",
+        "text": "Identifying and resolving problems before they cause incidents, often through trend analysis"
+      },
+      {
+        "id": "d",
+        "text": "Scheduling regular reviews of closed problem records"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Proactive problem management involves identifying potential problems before they cause incidents, typically through analysis of incident trends, event monitoring data, or infrastructure health reports. ServiceNow ITSM supports this through reporting and analytics that can highlight recurring incident patterns, prompting the problem team to investigate before users are impacted.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-016",
+    "type": "single_choice",
+    "prompt": "Which table in ServiceNow stores the relationship between an incident and a problem record?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "task_rel_task"
+      },
+      {
+        "id": "b",
+        "text": "incident_problem"
+      },
+      {
+        "id": "c",
+        "text": "problem_incident"
+      },
+      {
+        "id": "d",
+        "text": "sys_relationship"
+      }
+    ],
+    "correct": "a",
+    "explanation": "ServiceNow uses the task_rel_task table to store relationships between task records, including the link between incidents and problems. When an agent uses the 'Link Incidents' related list on a problem, a record is created in task_rel_task defining the parent-child or peer relationship between the two task records.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-017",
+    "type": "single_choice",
+    "prompt": "During a problem review, the team determines that the issue originated from a recent change deployment. What ITSM process should be initiated as a result?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Open a new incident for the deployment team"
+      },
+      {
+        "id": "b",
+        "text": "Create a new problem to investigate the change process"
+      },
+      {
+        "id": "c",
+        "text": "Raise an emergency change to roll back the deployment"
+      },
+      {
+        "id": "d",
+        "text": "Document the change as the root cause in the problem record and link the change"
+      }
+    ],
+    "correct": "d",
+    "explanation": "When a problem investigation identifies a change as the root cause, the correct action is to document the change as the root cause in the problem record and link it to the change request. This closes the loop between change and problem management, provides evidence for the PIR, and informs future change risk assessments. An emergency change may also be needed to remediate, but documentation is the immediate step.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-018",
+    "type": "single_choice",
+    "prompt": "What is the '5 Whys' technique used for in problem management?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Asking five stakeholders to confirm the problem's impact"
+      },
+      {
+        "id": "b",
+        "text": "A five-step approval process for problem resolution"
+      },
+      {
+        "id": "c",
+        "text": "Iteratively asking 'why' to drill down from a symptom to its root cause"
+      },
+      {
+        "id": "d",
+        "text": "Evaluating five potential workarounds before selecting the best one"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The 5 Whys is a root cause analysis technique that involves asking 'Why?' repeatedly (typically five times) to peel back layers of symptoms and reach the fundamental cause of a problem. It is a simple but powerful method that helps problem teams avoid treating symptoms rather than root causes. The process stops when the underlying systemic cause is identified.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-019",
+    "type": "single_choice",
+    "prompt": "Can a problem record have an SLA applied to it in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "No, SLAs only apply to incidents and change requests"
+      },
+      {
+        "id": "b",
+        "text": "Yes, but only during the Root Cause Analysis state"
+      },
+      {
+        "id": "c",
+        "text": "No, problem management uses OLAs only"
+      },
+      {
+        "id": "d",
+        "text": "Yes, SLA definitions can be configured to apply to the problem (task) table"
+      }
+    ],
+    "correct": "d",
+    "explanation": "ServiceNow's SLA engine can apply SLA definitions to any task type including problems. By configuring an SLA definition to target the problem table (problem) with appropriate start/stop conditions, organizations can track time-to-resolve objectives for problems and trigger escalations when those targets are at risk. This is less common than incident SLAs but is fully supported.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-020",
+    "type": "single_choice",
+    "prompt": "Which of the following best describes the 'Assess' state in the ServiceNow problem lifecycle?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The root cause is being actively investigated using RCA techniques"
+      },
+      {
+        "id": "b",
+        "text": "A fix has been identified and is awaiting change management approval"
+      },
+      {
+        "id": "c",
+        "text": "The problem is awaiting sign-off from the problem manager before investigation begins"
+      },
+      {
+        "id": "d",
+        "text": "The problem has been logged and is being evaluated for impact, urgency, and assignment"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Assess state is the initial triage stage following problem creation where the problem coordinator evaluates the record, confirms it is a genuine problem (not a duplicate), categorizes it, assesses its priority based on impact and urgency, and assigns it to the appropriate team for investigation. Actual root cause analysis happens in the next state.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-021",
+    "type": "single_choice",
+    "prompt": "What key metric is most commonly used to measure the effectiveness of problem management in ServiceNow reporting?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Number of change requests raised from problems"
+      },
+      {
+        "id": "b",
+        "text": "Number of problem tasks created per problem"
+      },
+      {
+        "id": "c",
+        "text": "Time spent in the Root Cause Analysis state"
+      },
+      {
+        "id": "d",
+        "text": "Reduction in recurring incidents (repeat incident rate) linked to known errors"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The most meaningful measure of problem management effectiveness is the reduction in recurring incidents related to known errors. This metric directly reflects whether problem investigation and resolution activities are preventing future service disruptions. Other metrics like time in RCA are process efficiency measures but do not capture whether the process is achieving its business outcome.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-022",
+    "type": "single_choice",
+    "prompt": "Which field must be populated on a problem record before it can transition from Root Cause Analysis to Fix in Progress state?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Workaround"
+      },
+      {
+        "id": "b",
+        "text": "Fix notes"
+      },
+      {
+        "id": "c",
+        "text": "Linked change request"
+      },
+      {
+        "id": "d",
+        "text": "Root Cause"
+      }
+    ],
+    "correct": "d",
+    "explanation": "In the default ServiceNow problem management configuration, the Root Cause field must be populated before a problem record can advance from Root Cause Analysis to Fix in Progress. This enforces the discipline of documenting the identified cause before moving to fix implementation. Workaround is recommended but not always mandatory at this state transition.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-023",
+    "type": "single_choice",
+    "prompt": "A problem coordinator notices two problem records investigating the same underlying issue. What is the correct action in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Close both problems and create a new combined problem record"
+      },
+      {
+        "id": "b",
+        "text": "Duplicate one problem into the other"
+      },
+      {
+        "id": "c",
+        "text": "Mark one problem as a duplicate of the other and close it"
+      },
+      {
+        "id": "d",
+        "text": "Link the two problems as parent and child"
+      }
+    ],
+    "correct": "c",
+    "explanation": "When two problem records are identified as investigating the same underlying issue, the correct action is to mark the less-advanced record as a duplicate of the primary one and close it. ServiceNow supports duplicate flagging on problem records. This ensures investigation resources are consolidated and the KEDB does not contain redundant entries.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-024",
+    "type": "single_choice",
+    "prompt": "Which problem management state does NOT exist in the default ServiceNow OOTB problem lifecycle?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Root Cause Analysis"
+      },
+      {
+        "id": "b",
+        "text": "Assess"
+      },
+      {
+        "id": "c",
+        "text": "Pending Change"
+      },
+      {
+        "id": "d",
+        "text": "Fix in Progress"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The OOTB ServiceNow problem lifecycle states are: New, Assess, Root Cause Analysis, Fix in Progress, Resolved, and Closed. 'Pending Change' is not an OOTB problem state, although some organizations customize the state model to add it. The Fix in Progress state is used when the problem is linked to an in-flight change request.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-025",
+    "type": "single_choice",
+    "prompt": "After a major incident is resolved, which problem management activity should occur as a best practice in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Automatically close all linked incidents"
+      },
+      {
+        "id": "b",
+        "text": "Convert the major incident to a change request"
+      },
+      {
+        "id": "c",
+        "text": "Archive the incident record immediately"
+      },
+      {
+        "id": "d",
+        "text": "Create or update a problem record to investigate the root cause and prevent recurrence"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Best practice following the resolution of a major incident is to create or update a problem record to conduct a thorough root cause analysis and implement preventive measures. This is sometimes called a post-incident review (PIR) or post-mortem. ServiceNow supports this workflow with a UI action on the major incident to create a linked problem record.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-026",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Problem Category' and 'Problem Subcategory' fields in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "They determine the SLA that applies to the problem"
+      },
+      {
+        "id": "b",
+        "text": "They define the priority matrix for the problem record"
+      },
+      {
+        "id": "c",
+        "text": "They control which assignment groups can view the problem"
+      },
+      {
+        "id": "d",
+        "text": "They classify the problem by type of IT service or component affected, enabling routing and reporting"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Problem Category and Subcategory fields classify the problem by the type of IT service, technology, or component affected (e.g., Category: Hardware, Subcategory: Server). They are used by assignment rules to route the problem to the correct technical team and by reporting to identify areas with the highest problem volumes for targeted improvement efforts.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-027",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, which related list on a problem record is used to track the specific change request that will implement the permanent fix?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Caused by Changes"
+      },
+      {
+        "id": "b",
+        "text": "Fix Requests"
+      },
+      {
+        "id": "c",
+        "text": "Change Requests"
+      },
+      {
+        "id": "d",
+        "text": "Associated Changes"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The Change Requests related list on a problem record in ServiceNow displays change requests that have been created to implement the permanent fix for the problem. Clicking 'New' in this related list creates a new change request pre-linked to the problem. This linkage allows the problem team to monitor the change's progress and close the problem once the change is implemented.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-028",
+    "type": "single_choice",
+    "prompt": "What does the 'Problem Investigation' state in the ITIL v4 framework correspond to in ServiceNow's problem lifecycle?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Assess"
+      },
+      {
+        "id": "b",
+        "text": "Fix in Progress"
+      },
+      {
+        "id": "c",
+        "text": "New"
+      },
+      {
+        "id": "d",
+        "text": "Root Cause Analysis"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The ITIL v4 'Problem Investigation and Diagnosis' activity corresponds to the ServiceNow 'Root Cause Analysis' state. This is where the assigned team applies RCA techniques such as 5 Whys or Ishikawa analysis to identify the underlying cause. ServiceNow's state naming differs slightly from ITIL terminology but the activities are equivalent.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-029",
+    "type": "single_choice",
+    "prompt": "A problem has been investigated but the cost of the permanent fix exceeds the business impact of the issue. What should happen to the problem in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The problem should be resolved immediately with no fix"
+      },
+      {
+        "id": "b",
+        "text": "The problem should be closed without resolution"
+      },
+      {
+        "id": "c",
+        "text": "The problem should be converted to a service request for the business to approve the cost"
+      },
+      {
+        "id": "d",
+        "text": "The problem should be marked as a known error, the workaround documented, and the problem deferred or accepted as a risk"
+      }
+    ],
+    "correct": "d",
+    "explanation": "When the cost of the permanent fix outweighs the business impact, the correct ITIL-aligned approach is to document it as a known error with a workaround, and either formally accept the risk or defer the fix. The problem remains in the KEDB so agents can use the workaround, and the decision to not fix is documented for governance purposes. Closing without resolution would lose the workaround documentation.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-030",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature can automatically suggest creating a problem record when multiple incidents with the same CI and category are detected?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "SLA breach notifications"
+      },
+      {
+        "id": "b",
+        "text": "Inbound Actions configured on the problem table"
+      },
+      {
+        "id": "c",
+        "text": "Assignment Rules for the problem table"
+      },
+      {
+        "id": "d",
+        "text": "Problem detection via Predictive Intelligence or the Identify Problem UI action on incidents"
+      }
+    ],
+    "correct": "d",
+    "explanation": "ServiceNow supports problem identification through Predictive Intelligence (machine learning that clusters similar incidents) and through the 'Identify Problem' UI action on incident records. When an agent identifies a pattern, they can use this action to create a linked problem. In implementations using the ITSM Predictive Intelligence plugin, the system may proactively suggest problem creation.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-031",
+    "type": "single_choice",
+    "prompt": "What is the relationship between problem management and change management in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Change management creates problems when changes fail"
+      },
+      {
+        "id": "b",
+        "text": "Problem management raises change requests to implement permanent fixes"
+      },
+      {
+        "id": "c",
+        "text": "They share the same record type in ServiceNow"
+      },
+      {
+        "id": "d",
+        "text": "Change management approves problem records before investigation begins"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Problem management and change management are closely linked: problem management identifies root causes and the required permanent fixes, then raises change requests to have those fixes implemented through the change management process. This ensures fixes are governed and risk-assessed. Change management can also generate problems when failed changes cause incidents.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-032",
+    "type": "single_choice",
+    "prompt": "Which field on the problem record in ServiceNow captures the identified underlying cause of the problem?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Description"
+      },
+      {
+        "id": "b",
+        "text": "Root Cause"
+      },
+      {
+        "id": "c",
+        "text": "Cause notes"
+      },
+      {
+        "id": "d",
+        "text": "Problem statement"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Root Cause field on a ServiceNow problem record is the designated field for documenting the identified underlying cause after the investigation is complete. Populating this field is typically required before the problem can advance from Root Cause Analysis to Fix in Progress. The Description field captures the initial problem statement rather than the confirmed cause.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-033",
+    "type": "single_choice",
+    "prompt": "How does ServiceNow support the problem review process after a fix has been implemented?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The problem is automatically closed when the linked change is completed"
+      },
+      {
+        "id": "b",
+        "text": "The problem moves to Resolved state for final review before Closed, allowing verification that the fix is effective"
+      },
+      {
+        "id": "c",
+        "text": "A knowledge article is automatically published from the problem"
+      },
+      {
+        "id": "d",
+        "text": "The problem manager receives an automatic task to conduct the review"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Once the fix has been implemented (via a completed change request), the problem moves to the Resolved state for a post-implementation review. In Resolved state, the team confirms the fix was effective and that no new incidents related to the issue have occurred. Only after this verification is the problem moved to Closed. This two-step approach ensures fixes are validated.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-034",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the Problem Coordinator role in ServiceNow ITSM?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To approve change requests created from problems"
+      },
+      {
+        "id": "b",
+        "text": "To perform day-to-day problem administration including routing, categorization, and KEDB updates"
+      },
+      {
+        "id": "c",
+        "text": "To conduct root cause analysis investigations"
+      },
+      {
+        "id": "d",
+        "text": "To manage SLAs on problem records"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Problem Coordinator role is responsible for the operational administration of the problem management process. This includes ensuring new problems are correctly categorized and assigned, monitoring the problem queue, updating KEDB records, and facilitating communication between the problem team and service desk. The Problem Manager role has broader accountability for the process.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-035",
+    "type": "single_choice",
+    "prompt": "Which OOTB ServiceNow feature allows problem managers to see a trend of incidents linked to the same CI or problem category over time?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "CMDB Health Dashboard"
+      },
+      {
+        "id": "b",
+        "text": "Problem Management Overview dashboard and PA indicators"
+      },
+      {
+        "id": "c",
+        "text": "Incident Overview dashboard"
+      },
+      {
+        "id": "d",
+        "text": "The KEDB search results page"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Problem Management Overview dashboard in ServiceNow ITSM, combined with Performance Analytics (PA) indicators, provides visibility into problem volume trends, age distribution, recurring incident counts, and time spent in each state. This enables problem managers to identify hot spots, measure process effectiveness, and justify investment in proactive problem management activities.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-036",
+    "type": "single_choice",
+    "prompt": "What is the effect on a Known Error Record when its parent problem is resolved in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The Known Error Record is automatically deleted"
+      },
+      {
+        "id": "b",
+        "text": "The Known Error Record remains in the KEDB and should be updated or retired by the problem team"
+      },
+      {
+        "id": "c",
+        "text": "The Known Error Record is converted to a knowledge article automatically"
+      },
+      {
+        "id": "d",
+        "text": "The Known Error Record is locked and cannot be updated"
+      }
+    ],
+    "correct": "b",
+    "explanation": "When a problem is resolved, its associated Known Error Record remains in the KEDB. The problem team should review and update or retire the Known Error Record to reflect the permanent fix, ensuring that agents are no longer directed to apply the workaround unnecessarily. The record is not automatically deleted or converted; this requires a deliberate action by the problem team.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-037",
+    "type": "single_choice",
+    "prompt": "Which type of problem management involves analyzing current infrastructure or service vulnerabilities to prevent incidents before they occur?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Reactive problem management"
+      },
+      {
+        "id": "b",
+        "text": "Proactive problem management"
+      },
+      {
+        "id": "c",
+        "text": "Corrective problem management"
+      },
+      {
+        "id": "d",
+        "text": "Preventive problem management"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Proactive problem management involves identifying and eliminating potential problems before they cause incidents. This includes trend analysis, infrastructure health checks, and reviewing monitoring data for early warning signs. Reactive problem management, by contrast, responds to incidents that have already occurred. ServiceNow supports both through analytics and integration with monitoring tools.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-038",
+    "type": "single_choice",
+    "prompt": "A problem record in ServiceNow is currently in 'Root Cause Analysis' state. Which action would move it to 'Fix in Progress'?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Linking a knowledge article to the problem"
+      },
+      {
+        "id": "b",
+        "text": "Populating the Root Cause field and creating or linking a change request"
+      },
+      {
+        "id": "c",
+        "text": "Assigning the problem to a fix team"
+      },
+      {
+        "id": "d",
+        "text": "Setting the problem priority to 1-Critical"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Moving a problem from Root Cause Analysis to Fix in Progress typically requires the Root Cause field to be populated (confirming the cause is known) and ideally linking a change request that will implement the permanent fix. The state change signals that investigation is complete and remediation work has started. Simply assigning the problem or changing priority does not advance the state.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-039",
+    "type": "single_choice",
+    "prompt": "Which of the following correctly describes the difference between a workaround and a permanent fix in problem management?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A workaround closes the problem; a permanent fix closes the incident"
+      },
+      {
+        "id": "b",
+        "text": "A workaround reduces or eliminates the impact temporarily; a permanent fix resolves the root cause and prevents recurrence"
+      },
+      {
+        "id": "c",
+        "text": "A workaround is applied by the problem team; a permanent fix is applied by the service desk"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference; both terms describe the same remediation activity"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A workaround is a temporary measure that reduces or eliminates the impact of a problem on users, allowing service to continue while the underlying root cause is investigated and fixed. A permanent fix addresses the root cause directly, preventing the problem from causing future incidents. ITIL distinguishes clearly between the two: workarounds enable quick incident resolution, while permanent fixes resolve the problem.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-pm-040",
+    "type": "single_choice",
+    "prompt": "When a problem is in the 'New' state in ServiceNow, which activity should the problem coordinator perform first?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Begin root cause analysis immediately"
+      },
+      {
+        "id": "b",
+        "text": "Review the problem record to confirm it is not a duplicate, categorize it, set priority, and assign it"
+      },
+      {
+        "id": "c",
+        "text": "Create a change request to implement a fix"
+      },
+      {
+        "id": "d",
+        "text": "Link all related incidents before assigning"
+      }
+    ],
+    "correct": "b",
+    "explanation": "When a problem is in New state, the problem coordinator's first action is triage: verify it is not a duplicate, categorize it appropriately, set the priority based on impact and urgency, and assign it to the correct team for investigation. This assessment moves the problem to the Assess state. Jumping straight to root cause analysis or fix implementation skips the essential triage step.",
+    "topics": [
+      "problem-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

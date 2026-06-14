@@ -1,0 +1,331 @@
+[
+  {
+    "id": "aws-dop-sc-001",
+    "type": "single_choice",
+    "prompt": "A platform team wants developers to be able to create IAM roles for their Lambda functions, but those roles must never exceed the permissions the developer's team already has. If a developer creates a role without the required boundary, it should be denied. Which mechanism enforces this?",
+    "choices": [
+      { "id": "a", "text": "Create an SCP that denies iam:CreateRole unless the request includes a condition key iam:PermissionsBoundary matching the approved boundary policy ARN" },
+      { "id": "b", "text": "Assign a permission boundary to the developer IAM users; they automatically propagate to any roles they create" },
+      { "id": "c", "text": "Configure AWS Config rule iam-no-inline-policy-check to block role creation with excessive permissions" },
+      { "id": "d", "text": "Use IAM Access Analyzer to automatically detect and remediate over-permissive role policies after creation" }
+    ],
+    "correct": "a",
+    "explanation": "An SCP with a Deny effect on iam:CreateRole with a condition of StringNotEquals iam:PermissionsBoundary to the approved boundary ARN ensures no role can be created without the boundary attached. Permission boundaries assigned to users do not automatically propagate to roles they create. Config rules check configuration after the fact; they cannot block API calls. IAM Access Analyzer identifies over-permissive policies retroactively but does not prevent role creation.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "IAM Permission Boundaries",
+        "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-002",
+    "type": "single_choice",
+    "prompt": "An RDS PostgreSQL database password must rotate automatically every 30 days. The application retrieves the password from Secrets Manager on each database connection attempt. During rotation, the application must not experience authentication failures. Which rotation strategy ensures zero-downtime rotation?",
+    "choices": [
+      { "id": "a", "text": "Single-user rotation: the Lambda function updates the password in the database and the secret simultaneously" },
+      { "id": "b", "text": "Multi-user rotation: the Lambda alternates between two database users (primary and clone), updating one while the other remains active" },
+      { "id": "c", "text": "Application-side rotation: the application polls Secrets Manager every minute and updates its cached password" },
+      { "id": "d", "text": "Snapshot rotation: take an RDS snapshot before rotation, restore if authentication fails after rotation" }
+    ],
+    "correct": "b",
+    "explanation": "Multi-user rotation maintains two database users with alternating passwords. During rotation, the Lambda creates a new version of the secret with the clone user's credentials, updates the clone user's password in the database, verifies it, and switches the secret to use the clone. The primary user remains functional throughout. Single-user rotation has a brief window where the old password is invalid in the database but the application might still have the old secret cached. Application-side polling improves resilience but does not address the rotation window. Snapshot rotation is not a Secrets Manager strategy.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Rotation Strategies for Secrets Manager",
+        "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets_strategies.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-003",
+    "type": "single_choice",
+    "prompt": "A Security Hub finding shows that an S3 bucket is publicly accessible. The security team wants this finding to automatically trigger remediation. The remediation must: (1) apply S3 Block Public Access, (2) log the remediation in an audit trail, and (3) notify the bucket owner. Which integration chain implements this with managed services?",
+    "choices": [
+      { "id": "a", "text": "Security Hub finding → EventBridge → Step Functions state machine that: (1) calls S3 PutPublicAccessBlock, (2) logs to CloudTrail via API call (automatic), (3) sends SNS notification with bucket owner tag value" },
+      { "id": "b", "text": "Security Hub finding → EventBridge → Lambda that: (1) calls S3 PutPublicAccessBlock, (2) writes to a DynamoDB audit table, (3) publishes to SNS" },
+      { "id": "c", "text": "Security Hub finding → AWS Config auto-remediation with Systems Manager Automation document that calls S3 PutPublicAccessBlock and SNS publish" },
+      { "id": "d", "text": "GuardDuty finding → Security Hub → EventBridge → Lambda remediation" }
+    ],
+    "correct": "b",
+    "explanation": "Security Hub publishes findings to EventBridge. A Lambda function provides full flexibility: (1) calling S3 PutPublicAccessBlock for remediation, (2) writing to a DynamoDB audit table for a structured audit trail (CloudTrail automatically logs the Lambda's S3 API calls too), and (3) publishing to an SNS topic for owner notification. Step Functions adds orchestration overhead for a three-step sequential process that Lambda handles inline. Config auto-remediation with SSM Automation is appropriate for Config findings, but Security Hub findings routed through EventBridge are better handled by Lambda directly. GuardDuty findings are threat detections, not configuration compliance findings.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Automated Response and Remediation in Security Hub",
+        "url": "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-cloudwatch-events.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-004",
+    "type": "single_choice",
+    "prompt": "A compliance requirement states that all data at rest in S3 must be encrypted with customer-managed KMS keys (not AWS-managed). An SCP must prevent any S3 PutObject operation that does not specify the correct KMS key. Which SCP condition enforces this?",
+    "choices": [
+      { "id": "a", "text": "Deny s3:PutObject with condition StringNotEquals s3:x-amz-server-side-encryption-aws-kms-key-id to the approved CMK ARN" },
+      { "id": "b", "text": "Deny s3:PutObject with condition StringEquals s3:x-amz-server-side-encryption to AES256" },
+      { "id": "c", "text": "Deny kms:Decrypt unless the caller is the approved S3 bucket principal" },
+      { "id": "d", "text": "Apply a bucket policy requiring SSE-KMS on all objects; SCPs cannot enforce S3 header conditions" }
+    ],
+    "correct": "a",
+    "explanation": "The condition key s3:x-amz-server-side-encryption-aws-kms-key-id matches the KMS key ARN specified in the PutObject request header. A Deny with StringNotEquals on this condition key blocks any upload not specifying the approved CMK, regardless of which account or role performs the upload (since SCPs apply to all principals in member accounts). Option B denies AES256 (SSE-S3) but does not enforce the specific CMK. Option C restricts decryption, not encryption enforcement. SCPs can enforce S3 header conditions; bucket policies are per-bucket and can be bypassed by bucket owners or admins.",
+    "topics": ["security-compliance"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "AWS Service Control Policies for S3 Encryption",
+        "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples_s3.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-005",
+    "type": "true_false",
+    "prompt": "Service Control Policies (SCPs) in AWS Organizations act as permission guardrails that restrict what IAM principals in member accounts can do, but they do not grant permissions on their own; both the SCP and an IAM identity-based or resource-based policy must allow the action for it to succeed.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "SCPs define the maximum permissions available to principals in an account but do not grant permissions. An action is allowed only when the SCP permits it AND an IAM policy (identity-based or resource-based) grants it. If either is absent or denies, the action is denied. SCPs are evaluated before IAM policies in the authorization chain. This is a fundamental concept: enabling FullAWSAccess SCP on an account does not grant any user permissions; it only means IAM policies can grant any service, unrestricted by SCPs.",
+    "topics": ["security-compliance"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Service Control Policies",
+        "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-006",
+    "type": "single_choice",
+    "prompt": "Amazon Macie detects that an S3 bucket contains files with PII (Social Security Numbers). The security team wants to automatically quarantine the affected bucket by blocking all public access and revoking any cross-account S3 bucket policies. Which service combination implements the automated quarantine?",
+    "choices": [
+      { "id": "a", "text": "Macie finding → EventBridge → Lambda that calls S3 PutPublicAccessBlock and S3 DeleteBucketPolicy, then notifies via SNS" },
+      { "id": "b", "text": "Macie finding → Security Hub → AWS Config auto-remediation → SSM Automation that blocks access" },
+      { "id": "c", "text": "Macie finding → GuardDuty integration → EventBridge → Lambda quarantine" },
+      { "id": "d", "text": "Macie finding → SNS → Lambda that blocks the bucket, with Security Hub for audit trail" }
+    ],
+    "correct": "a",
+    "explanation": "Macie publishes policy and sensitive data findings to EventBridge. A Lambda triggered by the Macie finding event type can immediately: (1) call s3:PutPublicAccessBlock to enable all four Block Public Access settings, (2) call s3:DeleteBucketPolicy or s3:PutBucketPolicy to remove cross-account grants, and (3) publish to SNS. This is the most direct, low-latency path. Security Hub aggregation adds latency. Macie does not integrate with GuardDuty findings. SNS as the first hop adds an indirection layer that is unnecessary when EventBridge can route directly.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Monitoring Amazon Macie Findings with EventBridge",
+        "url": "https://docs.aws.amazon.com/macie/latest/user/findings-monitor-events-eventbridge.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-007",
+    "type": "multi_choice",
+    "prompt": "A company wants to use AWS Config to continuously monitor that all EC2 instances use approved AMIs from an internal AMI catalog. Non-compliant instances should trigger an alert but not be automatically terminated. Which two components are required to implement this? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "A custom AWS Config rule backed by a Lambda function that checks ec2:DescribeInstances and compares the AMI ID against a maintained list in SSM Parameter Store" },
+      { "id": "b", "text": "An EventBridge rule matching AWS Config compliance state change events for the custom rule, triggering an SNS notification when a resource becomes NON_COMPLIANT" },
+      { "id": "c", "text": "An AWS Config remediation action set to AUTO_REMEDIATION that terminates non-compliant instances" },
+      { "id": "d", "text": "A CloudWatch alarm on the AWS Config ComplianceByResourceType metric filtering for the custom rule" },
+      { "id": "e", "text": "An AWS Config conformance pack that groups the AMI rule with other EC2 compliance rules for reporting" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "The two required components are: (1) a custom Config rule with a Lambda evaluator that checks whether each EC2 instance's AMI ID is in the approved list (stored in SSM Parameter Store or a DynamoDB table for dynamic updates); and (2) an EventBridge rule matching Config compliance state change events (ConfigurationItemChangeNotification) that filters for NON_COMPLIANT and sends an SNS alert. Auto-remediation (option C) would terminate instances, which the requirement explicitly prohibits. Config metrics in CloudWatch (option D) are aggregate counts, not per-resource events. A conformance pack (option E) is useful for grouping but not required for this specific use case.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Creating AWS Config Custom Lambda Rules",
+        "url": "https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_develop-rules_lambda-functions.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-008",
+    "type": "single_choice",
+    "prompt": "A company uses AWS Inspector v2 for vulnerability scanning of EC2 instances and Lambda functions. After a critical CVE is published, the security team needs to identify all affected resources across all accounts in the Organization within 1 hour. Inspector is enabled in all accounts. How do they obtain a consolidated report?",
+    "choices": [
+      { "id": "a", "text": "In the Inspector delegated administrator account, use the Findings page with a filter on vulnerability ID (CVE number) across all member accounts, then export the filtered findings to S3 as a CSV" },
+      { "id": "b", "text": "Query CloudTrail logs in each account for Inspector scan events related to the CVE and aggregate results in Athena" },
+      { "id": "c", "text": "Run the Inspector CLI command describe-findings with the CVE number in each account and combine the JSON outputs" },
+      { "id": "d", "text": "Use Security Hub with Inspector integration enabled; search Security Hub findings by CVE ID across all accounts from the delegated administrator" }
+    ],
+    "correct": "a",
+    "explanation": "Amazon Inspector v2 supports multi-account management through AWS Organizations. The delegated administrator account has a consolidated view of all findings from all member accounts. The Findings page supports filtering by vulnerability ID (CVE number), resource type, severity, and account. Findings can be exported to S3 in CSV or JSON format for further analysis. CloudTrail logs API calls, not vulnerability findings. Per-account CLI queries are operationally infeasible across hundreds of accounts. Security Hub aggregates Inspector findings but searching by CVE is more direct in Inspector itself.",
+    "topics": ["security-compliance"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Amazon Inspector Multi-Account Management",
+        "url": "https://docs.aws.amazon.com/inspector/latest/user/getting_started_tutorial.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-009",
+    "type": "single_choice",
+    "prompt": "An IAM role's trust policy currently allows ec2.amazonaws.com to assume the role. A developer modified the trust policy to also allow arn:aws:iam::123456789012:role/ExternalRole without authorization. IAM Access Analyzer should detect this change. Which Access Analyzer finding type identifies this condition?",
+    "choices": [
+      { "id": "a", "text": "External access finding, because the cross-account role trust creates external access to the role's permissions" },
+      { "id": "b", "text": "Unused access finding, because the external role has not yet used the trust relationship" },
+      { "id": "c", "text": "Policy validation finding, because the trust policy contains a non-standard principal" },
+      { "id": "d", "text": "IAM Access Analyzer does not analyze trust policies; only resource-based policies on S3, KMS, and SQS are analyzed" }
+    ],
+    "correct": "a",
+    "explanation": "IAM Access Analyzer analyzes resource-based policies, including IAM role trust policies. When a trust policy grants access to a principal outside the analyzer's zone of trust (typically the AWS account or Organization), Access Analyzer generates an external access finding. A cross-account role ARN in a trust policy grants that external role the ability to assume the analyzed role, creating cross-account access. Unused access findings track permissions that exist but are not used. Policy validation findings catch syntax and best-practice issues, not cross-account principals. Access Analyzer does analyze IAM trust policies as of its current capabilities.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "IAM Access Analyzer Resource Types",
+        "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-resources.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-010",
+    "type": "single_choice",
+    "prompt": "A DevOps pipeline deploys CloudFormation stacks. Before deployment, the team wants to validate that the template does not create any resources that violate company security policies (e.g., no S3 buckets without encryption, no security groups with 0.0.0.0/0 ingress on port 22). Which tool performs pre-deployment template policy validation?",
+    "choices": [
+      { "id": "a", "text": "AWS CloudFormation Guard (cfn-guard) with custom rule files, integrated as a CodeBuild step before the CloudFormation deploy action" },
+      { "id": "b", "text": "AWS Config with cloudformation-stack-drift-detection-check managed rule applied before deployment" },
+      { "id": "c", "text": "AWS Trusted Advisor checks on the CloudFormation template before deployment" },
+      { "id": "d", "text": "IAM policy simulation (iam:SimulateCustomPolicy) to validate that the template's resources comply with security policies" }
+    ],
+    "correct": "a",
+    "explanation": "AWS CloudFormation Guard is a policy-as-code tool that evaluates CloudFormation templates against custom rules written in Guard's DSL. Rules can enforce encryption settings, security group configurations, resource type restrictions, and tag requirements. Integrating cfn-guard as a CodeBuild step in the pipeline fails the build if the template violates policies, preventing non-compliant stacks from being deployed. AWS Config evaluates deployed resources, not templates before deployment. Trusted Advisor analyzes live account configurations. IAM policy simulation validates IAM policies, not CloudFormation resource configurations.",
+    "topics": ["security-compliance"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "AWS CloudFormation Guard User Guide",
+        "url": "https://docs.aws.amazon.com/cfn-guard/latest/ug/what-is-guard.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-011",
+    "type": "single_choice",
+    "prompt": "A company needs to ensure that no IAM user in any account in the Organization has access keys older than 90 days. Keys older than 90 days must be automatically disabled. Which combination implements this compliance requirement?",
+    "choices": [
+      { "id": "a", "text": "AWS Config managed rule access-keys-rotated with maxAccessKeyAge=90 and an SSM Automation remediation action that calls iam:UpdateAccessKey to set status to Inactive" },
+      { "id": "b", "text": "A daily Lambda function that calls iam:ListUsers, iam:ListAccessKeys, and iam:UpdateAccessKey across all accounts via assume role" },
+      { "id": "c", "text": "An SCP that denies all API calls if the caller's access key was created more than 90 days ago" },
+      { "id": "d", "text": "IAM password policy with maximum password age of 90 days; this also applies to access keys" }
+    ],
+    "correct": "a",
+    "explanation": "The AWS Config managed rule access-keys-rotated evaluates IAM access keys and marks them NON_COMPLIANT when older than the maxAccessKeyAge setting (90 days). Config auto-remediation can invoke an SSM Automation document that calls iam:UpdateAccessKey with Status=Inactive to disable the key. This is fully managed with no custom Lambda code. A daily Lambda requires building cross-account assume-role logic and key age calculation. SCPs cannot evaluate the age of credentials as a condition key. IAM password policy does not apply to access keys.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "AWS Config Managed Rule: access-keys-rotated",
+        "url": "https://docs.aws.amazon.com/config/latest/developerguide/access-keys-rotated.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-012",
+    "type": "single_choice",
+    "prompt": "A company's pipeline builds and pushes Docker images to ECR. After a security scan finds critical vulnerabilities in a base image, all images built from that base must be identified and the pipeline must be blocked from deploying them. Which ECR and pipeline integration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Enable ECR enhanced scanning (Inspector integration); create a CodePipeline approval action that checks the Inspector finding count for the image being deployed and rejects if critical findings exist" },
+      { "id": "b", "text": "Run docker scan in the CodeBuild buildspec; fail the build stage if the output contains CRITICAL severity findings" },
+      { "id": "c", "text": "Enable ECR basic scanning and configure an EventBridge rule on scan findings to block deployments" },
+      { "id": "d", "text": "Use ECR image tag immutability to prevent overwriting scanned images with unscanned ones" }
+    ],
+    "correct": "a",
+    "explanation": "ECR enhanced scanning (powered by Amazon Inspector) provides continuous vulnerability assessment of images at push and against new CVEs as they are published. A CodePipeline approval action or a pre-deployment CodeBuild step can call ECR DescribeImageScanFindings, check for CRITICAL findings, and fail or block the pipeline if found. This catches vulnerabilities even if they were not present at the time of the original push. docker scan is a third-party integration that runs only at build time. ECR basic scanning is limited to push-time scanning and does not provide Inspector's continuous re-evaluation. Tag immutability prevents tag overwrite but is not related to vulnerability-based deployment blocking.",
+    "topics": ["security-compliance"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Amazon ECR Enhanced Scanning",
+        "url": "https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning-enhanced.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-013",
+    "type": "single_choice",
+    "prompt": "A company uses GuardDuty in all accounts in an AWS Organization. The security team in the management account wants to suppress false-positive findings for a specific internal IP range that performs authorized vulnerability scanning. Which GuardDuty feature suppresses findings from this IP range without disabling GuardDuty?",
+    "choices": [
+      { "id": "a", "text": "Create a GuardDuty suppression rule with a filter matching the source IP CIDR range; suppressed findings are still archived and visible but excluded from active findings counts" },
+      { "id": "b", "text": "Add the IP range to the GuardDuty trusted IP list; GuardDuty will not generate findings for traffic from listed IPs" },
+      { "id": "c", "text": "Create a Security Hub suppression rule that filters out findings from the IP range after they are published" },
+      { "id": "d", "text": "Create a GuardDuty threat intelligence IP set; finding from IPs in this set are automatically resolved" }
+    ],
+    "correct": "b",
+    "explanation": "GuardDuty trusted IP lists (IPSet resource type) tell GuardDuty not to generate findings for traffic from the listed IP addresses. This prevents false positives at the source without suppression rules. Suppression rules (option A) archive findings after they are generated; the findings still consume API credits and appear in the archive. Security Hub suppression (option C) acts after Security Hub receives findings; it does not prevent GuardDuty from generating them. Threat intelligence sets are for malicious IP detection, not suppression of authorized scanners.",
+    "topics": ["security-compliance"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "GuardDuty Trusted IP Lists and Threat Intel Sets",
+        "url": "https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_upload-lists.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-014",
+    "type": "single_choice",
+    "prompt": "A CI/CD pipeline uses an IAM role with broad permissions to deploy infrastructure. Security audit reveals that the role can modify IAM policies, potentially allowing privilege escalation. The team wants to prevent any action that could allow privilege escalation while keeping deployment permissions intact. Which IAM policy construct best scopes the deployment role?",
+    "choices": [
+      { "id": "a", "text": "Attach an IAM permission boundary to the deployment role that excludes iam:CreatePolicy, iam:PutRolePolicy, iam:AttachRolePolicy, and iam:PassRole without a condition" },
+      { "id": "b", "text": "Use an SCP to deny iam:* actions for the deployment role's ARN" },
+      { "id": "c", "text": "Add an explicit Deny statement in the deployment role's identity policy for iam:CreatePolicy and iam:PutRolePolicy" },
+      { "id": "d", "text": "Enable IAM Access Analyzer and act on unused permission findings to reduce the role's blast radius" }
+    ],
+    "correct": "a",
+    "explanation": "A permission boundary on the deployment role defines the maximum permissions it can have. Excluding privilege escalation actions (iam:CreatePolicy, iam:PutRolePolicy, iam:AttachRolePolicy, iam:PassRole without a condition restricting the role being passed) from the boundary means even if someone adds these to the identity policy, they cannot be used. Permission boundaries are enforced by IAM at call time, not by trust. An SCP with iam:* Deny would block all IAM actions including reading, which is needed for deployments. Deny in the identity policy is correct but does not prevent a compromised pipeline from removing the Deny statement if it has iam:PutRolePolicy rights. Access Analyzer is detective, not preventive.",
+    "topics": ["security-compliance"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "IAM Permission Boundaries for IAM Entities",
+        "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sc-015",
+    "type": "single_choice",
+    "prompt": "A company must demonstrate to auditors that all Amazon S3 buckets containing financial data have server-side encryption enabled and that any configuration change disabling encryption is detected and reported within 15 minutes. Which solution meets both requirements?",
+    "choices": [
+      { "id": "a", "text": "Deploy the AWS Config managed rule s3-bucket-server-side-encryption-enabled with a configuration change trigger; use EventBridge to route NON_COMPLIANT state changes to SNS within seconds" },
+      { "id": "b", "text": "Schedule a Lambda function every 15 minutes that calls s3:GetBucketEncryption for all buckets and alerts if encryption is not enabled" },
+      { "id": "c", "text": "Enable CloudTrail S3 data events and create a CloudWatch Logs metric filter on PutBucketEncryption API calls; alert when the call count drops to zero for more than 15 minutes" },
+      { "id": "d", "text": "Use Security Hub with the AWS Foundational Security Best Practices standard enabled; Security Hub evaluates S3 encryption compliance every 12 hours" }
+    ],
+    "correct": "a",
+    "explanation": "The AWS Config managed rule s3-bucket-server-side-encryption-enabled evaluates S3 buckets and marks them NON_COMPLIANT when default encryption is not configured. With a configuration change trigger, Config evaluates a bucket within seconds of detecting a configuration change. An EventBridge rule matching Config compliance state change events routes NON_COMPLIANT findings to SNS, providing detection well within the 15-minute requirement. The scheduled Lambda meets the timing requirement but uses custom code. The CloudTrail metric filter approach tracks API calls, not configuration state. Security Hub's 12-hour evaluation cycle violates the 15-minute requirement.",
+    "topics": ["security-compliance"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "AWS Config Managed Rule: s3-bucket-server-side-encryption-enabled",
+        "url": "https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-server-side-encryption-enabled.html"
+      }
+    ],
+    "version": 1
+  }
+]

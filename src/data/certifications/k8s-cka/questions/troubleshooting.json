@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-cka-ts-001",
+    "type": "single_choice",
+    "prompt": "A pod is in 'CrashLoopBackOff' state. Which kubectl command shows the logs from the previous (crashed) container instance?",
+    "choices": [
+      { "id": "a", "text": "kubectl logs <pod> --previous" },
+      { "id": "b", "text": "kubectl logs <pod> --last-crash" },
+      { "id": "c", "text": "kubectl describe pod <pod> --logs" },
+      { "id": "d", "text": "kubectl get events --field-selector involvedObject.name=<pod>" }
+    ],
+    "correct": "a",
+    "explanation": "kubectl logs <pod> --previous (or -p) retrieves the logs from the previously terminated container instance. This is essential when a container is crashing because the current instance may not have produced useful output yet, but the previous run's logs contain the error that caused it to exit.",
+    "topics": ["troubleshooting"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Debugging Pods", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-002",
+    "type": "single_choice",
+    "prompt": "A node shows 'NotReady' in kubectl get nodes output. Which command would you run on the node itself to check the kubelet's status?",
+    "choices": [
+      { "id": "a", "text": "kubectl logs node/<node-name>" },
+      { "id": "b", "text": "systemctl status kubelet" },
+      { "id": "c", "text": "kubectl describe node <node-name> --kubelet" },
+      { "id": "d", "text": "journalctl -u apiserver" }
+    ],
+    "correct": "b",
+    "explanation": "The kubelet runs as a systemd service on most Linux nodes. Running systemctl status kubelet shows its current state and recent log output. You can get more detailed logs with journalctl -u kubelet -f. The kubelet is responsible for reporting node readiness, so a failed kubelet directly causes the NotReady condition.",
+    "topics": ["troubleshooting"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Troubleshooting Clusters", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-003",
+    "type": "single_choice",
+    "prompt": "A pod exits with status code 137. What does this indicate?",
+    "choices": [
+      { "id": "a", "text": "The container process exited cleanly with no errors" },
+      { "id": "b", "text": "The container was killed by the OOM (Out of Memory) killer" },
+      { "id": "c", "text": "The container's liveness probe failed repeatedly" },
+      { "id": "d", "text": "The container image was not found in the registry" }
+    ],
+    "correct": "b",
+    "explanation": "Exit code 137 means the process was killed by signal 9 (SIGKILL), which is what the Linux OOM killer sends when a container exceeds its memory limit. In kubectl describe pod output, this shows as OOMKilled in the Last State section. You should check the container's memory limit and either increase it or reduce the application's memory usage.",
+    "topics": ["troubleshooting"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Debugging Pods", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-004",
+    "type": "single_choice",
+    "prompt": "You need to run a temporary busybox pod to debug network connectivity inside the cluster. Which command creates an interactive pod and removes it when you exit?",
+    "choices": [
+      { "id": "a", "text": "kubectl run tmp --image=busybox --restart=Never -- /bin/sh" },
+      { "id": "b", "text": "kubectl run tmp --image=busybox -it --rm -- /bin/sh" },
+      { "id": "c", "text": "kubectl create pod tmp --image=busybox --interactive --tty" },
+      { "id": "d", "text": "kubectl exec -it busybox -- /bin/sh" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl run tmp --image=busybox -it --rm -- /bin/sh creates a pod with an interactive TTY (-it), runs a shell, and deletes the pod when the shell exits (--rm). This is the standard pattern for ad-hoc debugging pods. Without --rm, the pod persists after exit and must be deleted manually.",
+    "topics": ["troubleshooting"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Debugging with a Shell", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/get-shell-running-container/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-005",
+    "type": "single_choice",
+    "prompt": "A pod is stuck in 'Pending' state and kubectl describe pod shows 'Insufficient cpu'. What is the most appropriate remediation?",
+    "choices": [
+      { "id": "a", "text": "Delete and recreate the pod with a different image" },
+      { "id": "b", "text": "Add a node to the cluster or reduce the pod's CPU request" },
+      { "id": "c", "text": "Restart the kube-scheduler" },
+      { "id": "d", "text": "Delete the LimitRange in the namespace" }
+    ],
+    "correct": "b",
+    "explanation": "When the scheduler reports 'Insufficient cpu', it means no node has enough allocatable CPU to satisfy the pod's resource request. The pod will remain Pending until either: a node with sufficient CPU becomes available (by adding nodes or removing other workloads), or the pod's CPU request is reduced so it fits on an existing node. Simply restarting the scheduler will not help because the resource shortage is real.",
+    "topics": ["troubleshooting"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Assign Resources to Pods", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-006",
+    "type": "single_choice",
+    "prompt": "Which command lists all events in the 'production' namespace sorted by creation time, most recent first?",
+    "choices": [
+      { "id": "a", "text": "kubectl get events -n production --sort-by='.lastTimestamp'" },
+      { "id": "b", "text": "kubectl get events -n production --order=time" },
+      { "id": "c", "text": "kubectl describe events -n production --timestamp" },
+      { "id": "d", "text": "kubectl logs -n production --all-containers" }
+    ],
+    "correct": "a",
+    "explanation": "kubectl get events -n production --sort-by='.lastTimestamp' retrieves events from the production namespace and sorts them by their lastTimestamp field. This is useful for quickly identifying recent errors or warnings. You can also use --sort-by='.metadata.creationTimestamp'. Events are a key source of information when pods fail to schedule or containers fail to start.",
+    "topics": ["troubleshooting"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Viewing Cluster Events", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-007",
+    "type": "single_choice",
+    "prompt": "A Deployment's pods are running but the application is not reachable via its Service. The service selector is 'app=web' but the pod labels show 'app=webapp'. What is the fix?",
+    "choices": [
+      { "id": "a", "text": "Restart the CoreDNS pods" },
+      { "id": "b", "text": "Update the Service selector to match 'app=webapp', or update the pod labels to match 'app=web'" },
+      { "id": "c", "text": "Change the Service type from ClusterIP to NodePort" },
+      { "id": "d", "text": "Add an Ingress resource to route traffic to the pods" }
+    ],
+    "correct": "b",
+    "explanation": "A Service routes traffic to pods whose labels match the Service's selector. If the selector does not match any pod labels, the Service creates no Endpoints and traffic goes nowhere. The fix is to align the labels: either update the Service's spec.selector or update the pods' labels (via the Deployment's pod template). You can verify with kubectl get endpoints <service-name>.",
+    "topics": ["troubleshooting"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Debugging Services", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-008",
+    "type": "single_choice",
+    "prompt": "You suspect a pod's container cannot reach an external IP. From within the container, which command would you run first to test basic network connectivity?",
+    "choices": [
+      { "id": "a", "text": "kubectl exec <pod> -- traceroute 8.8.8.8" },
+      { "id": "b", "text": "kubectl exec <pod> -- curl -v http://8.8.8.8" },
+      { "id": "c", "text": "kubectl exec <pod> -- nslookup kubernetes.default" },
+      { "id": "d", "text": "kubectl exec <pod> -- ping 8.8.8.8" }
+    ],
+    "correct": "d",
+    "explanation": "ping 8.8.8.8 (or another known external IP) is the quickest first test for Layer 3 IP connectivity from inside the container. If ping fails, there is likely a routing or CNI issue. If ping succeeds but curl fails, the problem is likely Layer 7 (DNS, HTTP). nslookup kubernetes.default tests cluster-internal DNS resolution, not external connectivity.",
+    "topics": ["troubleshooting"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Debugging DNS Resolution", "url": "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-009",
+    "type": "single_choice",
+    "prompt": "A static pod defined in /etc/kubernetes/manifests/ is not running. The kubelet is healthy. What should you check first?",
+    "choices": [
+      { "id": "a", "text": "Run kubectl apply -f to deploy the manifest" },
+      { "id": "b", "text": "Check the manifest file for YAML syntax errors and valid API fields" },
+      { "id": "c", "text": "Restart kube-apiserver" },
+      { "id": "d", "text": "Check the node's resource quota" }
+    ],
+    "correct": "b",
+    "explanation": "Static pods are managed directly by the kubelet, which watches the staticPodPath directory (/etc/kubernetes/manifests/ by default). If a static pod is not running, the most common cause is a YAML syntax error or an invalid field in the manifest that prevents the kubelet from parsing it. The kubelet will silently ignore malformed manifests. Check kubelet logs with journalctl -u kubelet for parsing errors.",
+    "topics": ["troubleshooting"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Static Pods", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-010",
+    "type": "true_false",
+    "prompt": "kubectl describe node shows 'MemoryPressure=True' as a node condition. This will prevent new pods from being scheduled onto that node by default.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. When a node enters MemoryPressure condition, the node controller automatically adds a node.kubernetes.io/memory-pressure:NoSchedule taint. The default scheduler respects this taint and will not schedule new pods onto the node unless they have a matching toleration. This is part of Kubernetes' eviction and pressure management system to protect node stability.",
+    "topics": ["troubleshooting"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Node Conditions", "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-011",
+    "type": "single_choice",
+    "prompt": "A pod's readiness probe is failing. Which of the following correctly describes the effect on the pod's traffic exposure?",
+    "choices": [
+      { "id": "a", "text": "The pod is killed and restarted" },
+      { "id": "b", "text": "The pod is removed from the Service's Endpoints, receiving no traffic" },
+      { "id": "c", "text": "The pod is evicted from the node" },
+      { "id": "d", "text": "The pod is drained and the node is cordoned" }
+    ],
+    "correct": "b",
+    "explanation": "A failing readiness probe causes the pod to be marked as not ready, which removes it from the Service Endpoints slice. Traffic from Services no longer routes to the pod. The pod continues running; it is not killed. A failing liveness probe (not readiness) causes the container to be killed and restarted. This distinction is important for zero-downtime deployments.",
+    "topics": ["troubleshooting"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Liveness, Readiness, and Startup Probes", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-012",
+    "type": "single_choice",
+    "prompt": "You want to check the API server logs on a control plane node where the API server runs as a static pod. Which command retrieves those logs?",
+    "choices": [
+      { "id": "a", "text": "kubectl logs -n kube-system kube-apiserver-<node-name>" },
+      { "id": "b", "text": "journalctl -u kube-apiserver" },
+      { "id": "c", "text": "systemctl logs kube-apiserver" },
+      { "id": "d", "text": "kubectl get logs kube-apiserver" }
+    ],
+    "correct": "a",
+    "explanation": "When the API server runs as a static pod (as deployed by kubeadm), its logs are accessible via kubectl logs because the kubelet mirrors the static pod in the kube-system namespace with a name of kube-apiserver-<node-name>. journalctl -u kube-apiserver would work if the API server were a systemd service, but kubeadm deploys it as a static pod. kubectl get logs is not a valid command.",
+    "topics": ["troubleshooting"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Troubleshooting Clusters", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-013",
+    "type": "single_choice",
+    "prompt": "A Deployment has 3 replicas but only 2 pods are running. kubectl describe deployment shows 'has timed out waiting for rollout to finish'. What does this indicate?",
+    "choices": [
+      { "id": "a", "text": "The Deployment's progressDeadlineSeconds was exceeded before all replicas became available" },
+      { "id": "b", "text": "The cluster does not have enough namespaces for the third pod" },
+      { "id": "c", "text": "Two pods succeeded the liveness probe but the third skipped it" },
+      { "id": "d", "text": "The ReplicaSet controller is not running" }
+    ],
+    "correct": "a",
+    "explanation": "Deployments have a progressDeadlineSeconds field (default 600 seconds) that defines the maximum time the controller will wait for the Deployment to progress. If the Deployment is stuck (e.g., the new pods cannot start due to image pull errors, insufficient resources, or failing probes) and the deadline is exceeded, the Deployment's condition is set to 'ProgressDeadlineExceeded'. This does not automatically roll back the Deployment.",
+    "topics": ["troubleshooting"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Failed Deployment", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#failed-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-014",
+    "type": "multi_choice",
+    "prompt": "Which of the following kubectl commands are useful for troubleshooting why a pod is stuck in 'Pending'? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "kubectl describe pod <pod-name>" },
+      { "id": "b", "text": "kubectl get events --field-selector involvedObject.name=<pod-name>" },
+      { "id": "c", "text": "kubectl logs <pod-name>" },
+      { "id": "d", "text": "kubectl describe nodes" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "kubectl describe pod shows the Events section with scheduler messages explaining why the pod cannot be placed. kubectl get events filtered to the pod name shows scheduling errors like Insufficient cpu or Unschedulable. kubectl describe nodes shows allocatable resources and current usage, helping identify whether any node has capacity. kubectl logs is not useful for a Pending pod because the container has not started yet, so there are no container logs.",
+    "topics": ["troubleshooting"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Debugging Pods", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ts-015",
+    "type": "single_choice",
+    "prompt": "The etcd pod on a control plane node is not starting. You find that the etcd data directory is corrupted. Which is the correct recovery approach?",
+    "choices": [
+      { "id": "a", "text": "Run kubectl delete pod etcd-<node> and let the static pod restart" },
+      { "id": "b", "text": "Use etcdctl snapshot restore from a backup, update the etcd static pod manifest to point to the new data directory, and restart the kubelet" },
+      { "id": "c", "text": "Delete the /etc/kubernetes/manifests/etcd.yaml file and redeploy etcd with Helm" },
+      { "id": "d", "text": "Run kubeadm reset and rejoin the node" }
+    ],
+    "correct": "b",
+    "explanation": "The correct recovery procedure for a corrupted etcd data directory is: (1) restore from a snapshot using etcdctl snapshot restore --data-dir=/var/lib/etcd-restore <snapshot-file>, (2) update the etcd static pod manifest (etcd.yaml) to reference the new data directory in the --data-dir flag and the hostPath volume, and (3) move the manifest back to /etc/kubernetes/manifests/ if needed, which triggers the kubelet to restart the static pod. kubeadm reset would destroy the entire node configuration.",
+    "topics": ["troubleshooting"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Operating etcd clusters", "url": "https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#restoring-an-etcd-cluster" }
+    ],
+    "version": 1
+  }
+]

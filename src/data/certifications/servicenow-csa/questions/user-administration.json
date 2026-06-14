@@ -1,0 +1,629 @@
+[
+  {
+    "id": "sn-csa-ua-001",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is the primary purpose of a 'Group'?",
+    "choices": [
+      { "id": "a", "text": "To define which tables a set of users can access" },
+      { "id": "b", "text": "To assign work items and manage members collectively for routing and notification" },
+      { "id": "c", "text": "To create a shared inbox for email communication" },
+      { "id": "d", "text": "To store custom configuration for a set of users" }
+    ],
+    "correct": "b",
+    "explanation": "Groups in ServiceNow are collections of users that can be assigned work (like incidents), used in notification rules, and managed as a unit. Groups can have group members, group managers, and associated roles.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-002",
+    "type": "single_choice",
+    "prompt": "What does the 'admin' role grant in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Read-only access to all tables and records" },
+      { "id": "b", "text": "Full access to all tables, records, and system configuration" },
+      { "id": "c", "text": "Access to create and manage incidents only" },
+      { "id": "d", "text": "Access to deploy update sets to production" }
+    ],
+    "correct": "b",
+    "explanation": "The 'admin' role in ServiceNow grants unrestricted access to all tables, records, and system configuration. It bypasses most ACL (Access Control List) checks and allows full platform administration.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-003",
+    "type": "single_choice",
+    "prompt": "Which type of access control determines whether a user can perform a specific operation (read, write, create, delete) on a record?",
+    "choices": [
+      { "id": "a", "text": "UI Policy" },
+      { "id": "b", "text": "Data Policy" },
+      { "id": "c", "text": "Access Control List (ACL) rule" },
+      { "id": "d", "text": "Business Rule" }
+    ],
+    "correct": "c",
+    "explanation": "ACL (Access Control List) rules in ServiceNow control what operations (read, write, create, delete) a user or role can perform on a table, record, or field. They are the primary security mechanism for data access.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-004",
+    "type": "true_false",
+    "prompt": "In ServiceNow, a user can be assigned a role either directly or by inheriting it from a group membership.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow supports role assignment both directly on the user record and through group membership. When a user is added to a group, they inherit all roles assigned to that group.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-005",
+    "type": "single_choice",
+    "prompt": "Which field on a ServiceNow user record controls whether the user can log in to the instance?",
+    "choices": [
+      { "id": "a", "text": "locked_out" },
+      { "id": "b", "text": "enabled" },
+      { "id": "c", "text": "active" },
+      { "id": "d", "text": "user_status" }
+    ],
+    "correct": "c",
+    "explanation": "The 'active' field (Active checkbox) on a user record controls whether the user can log in. Setting Active to false effectively deactivates the account without deleting it. A separate 'Locked out' field indicates if the account has been locked due to failed login attempts.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-006",
+    "type": "single_choice",
+    "prompt": "What causes a user account to become 'Locked Out' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "The user has not logged in for 30 days" },
+      { "id": "b", "text": "An administrator manually locked the account for security reasons" },
+      { "id": "c", "text": "The user exceeded the maximum number of consecutive failed login attempts as configured in the password policy" },
+      { "id": "d", "text": "The user's license has expired" }
+    ],
+    "correct": "c",
+    "explanation": "A user becomes locked out in ServiceNow when they exceed the configured maximum number of consecutive failed login attempts. The threshold is set in the password policy. Administrators can unlock the account manually, or users can use the self-service password reset flow.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-007",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is the 'security_admin' role and when is it needed?",
+    "choices": [
+      { "id": "a", "text": "A role that grants read access to all security logs" },
+      { "id": "b", "text": "An elevated privilege role required to create or modify ACL rules, even for users with the admin role" },
+      { "id": "c", "text": "A role required to access the Security Operations module" },
+      { "id": "d", "text": "A role that allows users to manage other admins' accounts" }
+    ],
+    "correct": "b",
+    "explanation": "The security_admin role provides elevated access specifically for managing Access Control rules (ACLs). Even users with the admin role must elevate to security_admin to create or modify ACLs. This prevents accidental or unauthorized changes to security rules.",
+    "topics": ["user-administration"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-008",
+    "type": "true_false",
+    "prompt": "In ServiceNow, roles can contain other roles, and a user who has the parent role automatically gains all roles included within it.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow supports role hierarchy through 'contains roles'. When Role A contains Role B, any user or group with Role A automatically has the permissions of Role B as well. This enables hierarchical permission structures where higher-level roles include the rights of lower-level roles.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-009",
+    "type": "single_choice",
+    "prompt": "What are the five standard ACL operation types in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "View, Edit, Insert, Remove, Run" },
+      { "id": "b", "text": "Read, Write, Create, Delete, Execute" },
+      { "id": "c", "text": "Read, Update, Insert, Delete, Approve" },
+      { "id": "d", "text": "Get, Set, Post, Put, Delete" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow ACL rules control five operations: Read (view the record/field), Write (edit existing records), Create (insert new records), Delete (remove records), and Execute (run scripts or callable methods). Each ACL rule applies to one operation type.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Access Control Rules", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-security/page/administer/contextual-security/concept/c_AccessControl.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-010",
+    "type": "single_choice",
+    "prompt": "What is the difference between a table-level ACL and a field-level ACL in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Table-level ACLs apply to all fields; field-level ACLs restrict access to one specific field" },
+      { "id": "b", "text": "Table-level ACLs are checked first; field-level ACLs are only checked if the table ACL passes" },
+      { "id": "c", "text": "Table-level ACLs apply to the whole record operation; field-level ACLs control access to individual fields" },
+      { "id": "d", "text": "There is no difference; they work identically in ServiceNow" }
+    ],
+    "correct": "c",
+    "explanation": "Table-level ACLs govern whether a user can perform an operation (read/write/create/delete) on records in a table as a whole. Field-level ACLs add an additional layer, controlling access to specific individual fields within those records. Both levels can exist simultaneously.",
+    "topics": ["user-administration"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-011",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is 'Impersonation' used for by administrators?",
+    "choices": [
+      { "id": "a", "text": "To log into ServiceNow using another person's credentials" },
+      { "id": "b", "text": "To temporarily assume another user's identity and permissions to troubleshoot access issues" },
+      { "id": "c", "text": "To send emails on behalf of another user" },
+      { "id": "d", "text": "To assign tasks to a user without their knowledge" }
+    ],
+    "correct": "b",
+    "explanation": "Impersonation allows administrators to temporarily view and interact with ServiceNow as if they were a specific user, inheriting that user's roles and permissions. This is a legitimate troubleshooting tool. All impersonation sessions are logged in the Impersonation Log for audit purposes.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-012",
+    "type": "true_false",
+    "prompt": "Any ServiceNow user can impersonate any other user on the system.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Impersonation is restricted to users with the admin role (or delegated impersonation rights). Even admins cannot impersonate users with higher privilege levels (such as other admins) by default. All impersonation activities are recorded in the system audit log.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-013",
+    "type": "single_choice",
+    "prompt": "What is 'Delegated Development' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A process where developers delegate code reviews to other team members" },
+      { "id": "b", "text": "A feature that allows non-admin users to develop within a specific application scope without full admin access" },
+      { "id": "c", "text": "An automated deployment tool that delegates updates to the production instance" },
+      { "id": "d", "text": "A method of assigning development tasks in project management" }
+    ],
+    "correct": "b",
+    "explanation": "Delegated Development allows an administrator to grant selected users the ability to develop within a specific scoped application without giving them the admin role on the entire instance. This enables controlled, scoped development access.",
+    "topics": ["user-administration"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-014",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature allows organizations to configure Single Sign-On (SSO) so users authenticate via an external identity provider?",
+    "choices": [
+      { "id": "a", "text": "OAuth 2.0 Client Configuration" },
+      { "id": "b", "text": "SAML 2.0 SSO Integration" },
+      { "id": "c", "text": "LDAP Group Sync" },
+      { "id": "d", "text": "Multi-Factor Authentication (MFA) Gateway" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow supports SAML 2.0 for Single Sign-On, enabling users to authenticate through an external Identity Provider (IdP) such as Okta, Azure AD, or PingFederate. The user's identity is asserted by the IdP, and ServiceNow grants access based on the SAML assertion.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-015",
+    "type": "single_choice",
+    "prompt": "Where in ServiceNow would an administrator configure the minimum password length and complexity requirements?",
+    "choices": [
+      { "id": "a", "text": "User record preferences" },
+      { "id": "b", "text": "System Properties > Security" },
+      { "id": "c", "text": "Password Policy record in the Password Reset module" },
+      { "id": "d", "text": "ACL rules with the 'password' operation type" }
+    ],
+    "correct": "c",
+    "explanation": "Password policies in ServiceNow are configured as records in the Password Reset module. Administrators define requirements such as minimum length, complexity rules (uppercase, numbers, special characters), and maximum failed attempts before lockout. Policies can be assigned per user or group.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-016",
+    "type": "single_choice",
+    "prompt": "What is the 'Group Type' field on a ServiceNow Group record used for?",
+    "choices": [
+      { "id": "a", "text": "To define what database tables the group can access" },
+      { "id": "b", "text": "To categorize groups for organizational purposes or to filter assignment groups in specific contexts" },
+      { "id": "c", "text": "To set the group's license tier" },
+      { "id": "d", "text": "To control whether the group receives email notifications" }
+    ],
+    "correct": "b",
+    "explanation": "The Group Type field on a Group record is a categorization field that can be used to classify groups (e.g., 'IT', 'HR', 'Approval'). It can also be used to filter which groups appear in assignment or approval fields within specific applications.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-017",
+    "type": "single_choice",
+    "prompt": "Which ACL rule type uses a script to dynamically determine if a user has access?",
+    "choices": [
+      { "id": "a", "text": "Conditional ACL" },
+      { "id": "b", "text": "Script-based ACL" },
+      { "id": "c", "text": "Role-based ACL" },
+      { "id": "d", "text": "Dynamic ACL" }
+    ],
+    "correct": "b",
+    "explanation": "Script-based ACLs in ServiceNow use a script field (returning true or false) to dynamically evaluate whether a user should have access. This allows for complex, contextual access decisions beyond simple role checks, such as evaluating record field values or user attributes.",
+    "topics": ["user-administration"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-018",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Time Zone' field on a ServiceNow user record?",
+    "choices": [
+      { "id": "a", "text": "To restrict user login to specific time zones for security purposes" },
+      { "id": "b", "text": "To display dates and times in the user's local time zone throughout the UI" },
+      { "id": "c", "text": "To configure when scheduled reports are delivered to the user" },
+      { "id": "d", "text": "To set the business hours for SLA calculations for that user's incidents" }
+    ],
+    "correct": "b",
+    "explanation": "The Time Zone field on a user record sets the user's preferred time zone. ServiceNow stores all timestamps in UTC internally but displays them in the user's configured time zone, ensuring dates and times make sense for users in different geographic locations.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-019",
+    "type": "true_false",
+    "prompt": "Multi-Factor Authentication (MFA) in ServiceNow can be enforced for all users or selectively for specific roles.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow supports configuring MFA both globally (for all users) and selectively (for specific roles or user groups). This allows organizations to apply stronger authentication requirements to sensitive roles such as admins while using standard authentication for other users.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-020",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow module is used to view and manage all user accounts on the instance?",
+    "choices": [
+      { "id": "a", "text": "System Administration > Users" },
+      { "id": "b", "text": "User Administration > Users" },
+      { "id": "c", "text": "Security > User Management" },
+      { "id": "d", "text": "Platform > User Directory" }
+    ],
+    "correct": "b",
+    "explanation": "The Users list is found under User Administration > Users in the application navigator. This module displays all user records (sys_user table) and allows administrators to create, edit, activate, and deactivate user accounts.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-021",
+    "type": "single_choice",
+    "prompt": "What is an 'IP Address Restriction' in ServiceNow user administration?",
+    "choices": [
+      { "id": "a", "text": "A firewall rule that blocks traffic from specific IP addresses at the network level" },
+      { "id": "b", "text": "A configuration that allows login only from defined IP address ranges, adding a network-based access control layer" },
+      { "id": "c", "text": "A feature that logs all IP addresses used by a specific user" },
+      { "id": "d", "text": "A rate-limiting rule for API calls from specific IP addresses" }
+    ],
+    "correct": "b",
+    "explanation": "IP Address Restrictions in ServiceNow allow administrators to restrict logins to specific IP address ranges. Users attempting to log in from outside the allowed ranges will be denied access. This is an additional security layer beyond username/password authentication.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-022",
+    "type": "single_choice",
+    "prompt": "How does a user manage their notification preferences in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "By asking an administrator to configure notifications on their behalf" },
+      { "id": "b", "text": "Through the Notification Subscriptions section in their user profile or notification preferences page" },
+      { "id": "c", "text": "By creating a personal filter in the notification table" },
+      { "id": "d", "text": "Users cannot manage their own notification preferences" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow users can manage which notifications they receive through the Notification Subscriptions page in their profile. Administrators configure which notifications are subscribable; users can then opt in or out of those notifications within the bounds configured by admins.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-023",
+    "type": "single_choice",
+    "prompt": "What is the effect of adding a role to a Group in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Only the group manager receives that role" },
+      { "id": "b", "text": "All current and future members of the group inherit that role" },
+      { "id": "c", "text": "The role applies only to records assigned to that group" },
+      { "id": "d", "text": "The role must be approved by an administrator before it takes effect" }
+    ],
+    "correct": "b",
+    "explanation": "When a role is added to a Group in ServiceNow, all current members inherit that role immediately, and any future member added to the group will also inherit the role automatically. This simplifies mass role assignment and role management at scale.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-024",
+    "type": "true_false",
+    "prompt": "In ServiceNow, an administrator can configure the system to automatically deactivate user accounts after a set number of days of inactivity.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow includes inactivity lockout functionality that can automatically deactivate (mark inactive) user accounts that have not logged in for a configurable number of days. This is a common security hygiene practice to prevent orphaned accounts from remaining active.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-025",
+    "type": "single_choice",
+    "prompt": "What is the difference between a user's 'Roles' (direct) and 'Effective Roles' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Direct roles are permanent; effective roles expire after 24 hours" },
+      { "id": "b", "text": "Direct roles are explicitly assigned; effective roles include all direct roles plus inherited roles from groups and contained roles" },
+      { "id": "c", "text": "Effective roles are a subset of direct roles filtered by department" },
+      { "id": "d", "text": "There is no difference between the two" }
+    ],
+    "correct": "b",
+    "explanation": "A user's direct roles are those explicitly assigned to the user record itself. Effective roles are the complete set of roles the user actually has, including direct assignments, roles inherited from group membership, and roles nested within those roles via the 'contains roles' hierarchy.",
+    "topics": ["user-administration"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-026",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature allows a user to see and interact with the system as if they are another user, for troubleshooting purposes?",
+    "choices": [
+      { "id": "a", "text": "User Switch" },
+      { "id": "b", "text": "Role Simulation" },
+      { "id": "c", "text": "Impersonation" },
+      { "id": "d", "text": "Session Replay" }
+    ],
+    "correct": "c",
+    "explanation": "Impersonation lets an administrator temporarily assume another user's identity. The admin sees the system exactly as that user would, making it easy to diagnose access issues or reproduce problems. Impersonation sessions are fully logged.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-027",
+    "type": "multi_choice",
+    "prompt": "Which of the following can serve as recipients in a ServiceNow ACL rule condition? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "A specific role" },
+      { "id": "b", "text": "A script that returns true or false" },
+      { "id": "c", "text": "A specific user's username" },
+      { "id": "d", "text": "A condition using record field values" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "ACL rules in ServiceNow evaluate access using roles (e.g., the user must have the 'itil' role), scripts (returning true/false based on logic), and conditions (field-value comparisons on the record). You cannot target a specific individual username directly in an ACL rule; access should be granted via roles.",
+    "topics": ["user-administration"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-028",
+    "type": "single_choice",
+    "prompt": "Where would an administrator configure Service Portal access controls to restrict which users can access a specific portal?",
+    "choices": [
+      { "id": "a", "text": "On the Portal record, using the 'Roles' field to specify which roles can access the portal" },
+      { "id": "b", "text": "In the User Administration module by setting a portal-specific flag on user records" },
+      { "id": "c", "text": "Service Portals are always accessible to all users, access cannot be restricted" },
+      { "id": "d", "text": "By configuring firewall rules on the web server" }
+    ],
+    "correct": "a",
+    "explanation": "Service Portal access can be restricted by specifying required roles on the Portal record. Users without those roles will be redirected to the login page or shown an access denied message. This allows organizations to create portals for specific user populations.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-029",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow group field identifies the user responsible for managing the group and its members?",
+    "choices": [
+      { "id": "a", "text": "Group Owner" },
+      { "id": "b", "text": "Manager" },
+      { "id": "c", "text": "Group Lead" },
+      { "id": "d", "text": "Group Admin" }
+    ],
+    "correct": "b",
+    "explanation": "The 'Manager' field on a Group record identifies the user responsible for managing the group. The group manager can be used as a recipient in notifications, approval workflows, and has special visibility into the group's work items in some configurations.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-030",
+    "type": "true_false",
+    "prompt": "In ServiceNow, deleting a user record permanently removes all records created by or assigned to that user.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Deleting a user record in ServiceNow does not delete records associated with that user. Incidents, changes, and other records they created or were assigned to remain intact. The user reference fields on those records may show a blank or the user's name but the data is preserved. Best practice is to deactivate rather than delete users.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-031",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'User Preferences' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Global system settings that apply to all users" },
+      { "id": "b", "text": "Per-user settings that customize the platform experience, such as time zone, language, and UI preferences" },
+      { "id": "c", "text": "Security preferences that control which data the user can see" },
+      { "id": "d", "text": "Notification-only preferences for choosing email vs. SMS alerts" }
+    ],
+    "correct": "b",
+    "explanation": "User Preferences are personal settings stored per user that customize their ServiceNow experience. These include time zone, language/locale, home page, list row count, and various UI-related settings. They are stored in the sys_user_preference table.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-032",
+    "type": "single_choice",
+    "prompt": "When a ServiceNow ACL rule has both a 'Roles' requirement and a 'Script' condition, what must be true for the user to gain access?",
+    "choices": [
+      { "id": "a", "text": "Either the role condition OR the script condition must be satisfied" },
+      { "id": "b", "text": "Both the role condition AND the script condition must be satisfied" },
+      { "id": "c", "text": "The script condition always takes precedence over the role condition" },
+      { "id": "d", "text": "The role condition always takes precedence over the script condition" }
+    ],
+    "correct": "b",
+    "explanation": "In a ServiceNow ACL rule, when both a Role condition and a Script condition are configured, both must evaluate to true (AND logic) for the user to be granted access. If either fails, the access is denied. This enables layered access requirements.",
+    "topics": ["user-administration"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-033",
+    "type": "single_choice",
+    "prompt": "Which table in ServiceNow stores all user records?",
+    "choices": [
+      { "id": "a", "text": "sys_person" },
+      { "id": "b", "text": "sys_user" },
+      { "id": "c", "text": "user_account" },
+      { "id": "d", "text": "sys_user_account" }
+    ],
+    "correct": "b",
+    "explanation": "All user accounts in ServiceNow are stored in the sys_user table. When you navigate to User Administration > Users, you are viewing the sys_user table. The sys_user_has_role and sys_user_grmember tables store role and group membership relationships.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-034",
+    "type": "multi_choice",
+    "prompt": "Which of the following methods can an administrator use to assign a role to a user in ServiceNow? Select TWO.",
+    "choices": [
+      { "id": "a", "text": "Directly on the user's record via the Roles related list" },
+      { "id": "b", "text": "By adding the user to a group that already has the role assigned" },
+      { "id": "c", "text": "By modifying the user's password to include role codes" },
+      { "id": "d", "text": "Through the ACL rule that auto-assigns roles based on email domain" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "Roles can be assigned directly on the user record through the Roles related list, or indirectly by adding the user to a group that has the role. There is no mechanism to assign roles via passwords or via ACL rules; ACLs check for roles but do not assign them.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-035",
+    "type": "true_false",
+    "prompt": "A ServiceNow group can have multiple managers simultaneously.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "The Manager field on a Group record in ServiceNow is a single Reference field pointing to one user. Only one user can be the designated manager of a group at a time. If multiple people need manager-level access, they would typically be added as group members with appropriate roles.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-036",
+    "type": "single_choice",
+    "prompt": "What is the recommended approach when an employee leaves an organization regarding their ServiceNow account?",
+    "choices": [
+      { "id": "a", "text": "Delete the user record immediately to free up the license" },
+      { "id": "b", "text": "Change the user's password to prevent access but leave the account active" },
+      { "id": "c", "text": "Set the user record to Inactive to disable login while preserving historical data integrity" },
+      { "id": "d", "text": "Remove all roles from the user but keep the account active" }
+    ],
+    "correct": "c",
+    "explanation": "The recommended practice when an employee leaves is to set their user account to Inactive (uncheck the Active field). This prevents login while preserving all historical references to that user in records (incidents, changes, etc.), maintaining data integrity and audit trails.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-037",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow system log records all instances of one user impersonating another?",
+    "choices": [
+      { "id": "a", "text": "System Audit Log" },
+      { "id": "b", "text": "Impersonation Log (sys_impersonation_log)" },
+      { "id": "c", "text": "Security Incident Log" },
+      { "id": "d", "text": "User Activity Log" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow records all impersonation events in the Impersonation Log (sys_impersonation_log). Each entry shows who did the impersonating, who was impersonated, and the timestamps of the impersonation session. This provides a clear audit trail for compliance purposes.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-038",
+    "type": "single_choice",
+    "prompt": "What does 'LDAP Integration' in ServiceNow primarily enable?",
+    "choices": [
+      { "id": "a", "text": "Synchronizing user accounts and group memberships from a directory service such as Active Directory" },
+      { "id": "b", "text": "Encrypting all user data stored in the ServiceNow database" },
+      { "id": "c", "text": "Enabling users to authenticate via biometric devices" },
+      { "id": "d", "text": "Synchronizing service catalog items with an external configuration management database" }
+    ],
+    "correct": "a",
+    "explanation": "LDAP Integration in ServiceNow connects to directory services like Microsoft Active Directory to synchronize user accounts, group memberships, and organizational data. This keeps ServiceNow user data in sync with the authoritative source and can provision new users automatically.",
+    "topics": ["user-administration"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-039",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is the purpose of the 'Password Reset' module?",
+    "choices": [
+      { "id": "a", "text": "It allows administrators to batch-reset passwords for multiple users at once" },
+      { "id": "b", "text": "It provides a self-service mechanism for users to reset their own passwords without administrator involvement" },
+      { "id": "c", "text": "It stores all current passwords in an encrypted audit log" },
+      { "id": "d", "text": "It generates one-time passwords for API authentication" }
+    ],
+    "correct": "b",
+    "explanation": "The Password Reset module in ServiceNow provides users with a self-service portal to reset their forgotten passwords by answering security questions or verifying their identity via email or SMS. This reduces the help desk workload and improves user experience.",
+    "topics": ["user-administration"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-ua-040",
+    "type": "true_false",
+    "prompt": "In ServiceNow, when SAML SSO is enabled, users must still maintain a local ServiceNow password for fallback authentication.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "When SAML SSO is fully configured in ServiceNow, authentication is delegated entirely to the external Identity Provider. Administrators can optionally keep local password authentication as a fallback for break-glass scenarios, but it is not required by default when SSO is enabled.",
+    "topics": ["user-administration"],
+    "difficulty": "hard",
+    "version": 1
+  }
+]

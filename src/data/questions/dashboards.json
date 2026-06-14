@@ -1,0 +1,664 @@
+[
+  {
+    "id": "dash-001",
+    "type": "single_choice",
+    "prompt": "What is the key difference between a Timeboard and a Screenboard in Datadog?",
+    "choices": [
+      { "id": "a", "text": "Timeboards are only available to admin users; Screenboards are available to all users" },
+      { "id": "b", "text": "Timeboards have a synchronized time axis across all graphs; Screenboards allow each widget to have an independent timeframe" },
+      { "id": "c", "text": "Timeboards can only display metrics; Screenboards can display logs and traces" },
+      { "id": "d", "text": "Timeboards are read-only; Screenboards can be edited by any team member" }
+    ],
+    "correct": "b",
+    "explanation": "The primary distinction is time control. On a Timeboard, all graphs share the same locked time window, which is ideal for troubleshooting correlated events. On a Screenboard, each widget can have its own independent time scope, making them better suited for high-level status boards and TV displays.",
+    "topics": ["dashboard-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Dashboard Types" }],
+    "version": 1
+  },
+  {
+    "id": "dash-002",
+    "type": "single_choice",
+    "prompt": "Which Datadog dashboard widget is best suited for displaying a single current value, such as the current number of active users?",
+    "choices": [
+      { "id": "a", "text": "Timeseries widget" },
+      { "id": "b", "text": "Heatmap widget" },
+      { "id": "c", "text": "Query Value widget" },
+      { "id": "d", "text": "Distribution widget" }
+    ],
+    "correct": "c",
+    "explanation": "The Query Value widget displays a single aggregated value (such as a current count, sum, or average) in large text. It is ideal for KPI dashboards and status boards where a single prominent number conveys the current state of a metric.",
+    "topics": ["widget-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Query Value Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-003",
+    "type": "true_false",
+    "prompt": "Template variables in Datadog dashboards allow a single dashboard to be reused for multiple services, environments, or hosts by dynamically filtering all widgets at once.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Template variables add interactive filter controls at the top of a dashboard. When a user selects a value (e.g., env:production or service:checkout), all widgets that reference that template variable are automatically updated, making one dashboard reusable across many contexts.",
+    "topics": ["template-variables"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Template Variables" }],
+    "version": 1
+  },
+  {
+    "id": "dash-004",
+    "type": "single_choice",
+    "prompt": "Which widget type is specifically designed to show the distribution of values (e.g., latency percentiles) as a histogram?",
+    "choices": [
+      { "id": "a", "text": "Top List widget" },
+      { "id": "b", "text": "Distribution widget" },
+      { "id": "c", "text": "Query Value widget" },
+      { "id": "d", "text": "Geomap widget" }
+    ],
+    "correct": "b",
+    "explanation": "The Distribution widget renders a histogram showing the distribution of values across a metric. It is commonly used with APM latency metrics to visualize the spread of response times and identify percentile thresholds.",
+    "topics": ["widget-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Distribution Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-005",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'TV Mode' in Datadog dashboards?",
+    "choices": [
+      { "id": "a", "text": "To record a video of the dashboard and send it to your team" },
+      { "id": "b", "text": "To display the dashboard full-screen, hiding navigation and controls, for use on monitors and wall displays" },
+      { "id": "c", "text": "To increase the refresh rate of all widgets to every 5 seconds" },
+      { "id": "d", "text": "To convert the dashboard to a read-only view for guests" }
+    ],
+    "correct": "b",
+    "explanation": "TV Mode presents a dashboard in a clean full-screen view without the Datadog navigation bar, sidebar, or editing controls. It is designed for displaying dashboards on office monitors, wall-mounted TVs, or NOC screens.",
+    "topics": ["dashboard-types", "tv-mode"],
+    "difficulty": "easy",
+    "refs": [{ "label": "TV Mode" }],
+    "version": 1
+  },
+  {
+    "id": "dash-006",
+    "type": "single_choice",
+    "prompt": "How can a Datadog dashboard be shared with someone who does not have a Datadog account?",
+    "choices": [
+      { "id": "a", "text": "Dashboards cannot be shared outside of Datadog" },
+      { "id": "b", "text": "By creating a public shared URL or embedding it with an embed code" },
+      { "id": "c", "text": "By exporting the dashboard as a PDF only" },
+      { "id": "d", "text": "By sending a read-only Datadog guest account invitation" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog supports generating a public share link (URL) that allows anyone with the link to view a read-only version of the dashboard without a Datadog login. Embed codes are also available to embed dashboards in internal wikis or portals.",
+    "topics": ["dashboard-sharing"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Sharing Dashboards" }],
+    "version": 1
+  },
+  {
+    "id": "dash-007",
+    "type": "true_false",
+    "prompt": "A Datadog dashboard can be exported as JSON and re-imported into the same or a different Datadog organization.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Every Datadog dashboard has an underlying JSON definition that can be exported via the dashboard settings menu or the Datadog API. This JSON can then be imported into another dashboard or organization, enabling version control, templating, and sharing of dashboard definitions.",
+    "topics": ["dashboard-json"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Dashboard JSON Export" }],
+    "version": 1
+  },
+  {
+    "id": "dash-008",
+    "type": "single_choice",
+    "prompt": "What does the Timeseries widget in Datadog display?",
+    "choices": [
+      { "id": "a", "text": "A ranked list of the top N values for a metric at a single point in time" },
+      { "id": "b", "text": "A metric or multiple metrics plotted over a time range as a line, bar, or area chart" },
+      { "id": "c", "text": "A geographic map with metrics overlaid on countries or regions" },
+      { "id": "d", "text": "A single aggregated number for the selected time window" }
+    ],
+    "correct": "b",
+    "explanation": "The Timeseries widget plots one or more metric queries over a time range. It supports line, area, and bar chart visualizations and is the most commonly used widget for visualizing trends, comparing time periods, and spotting anomalies.",
+    "topics": ["widget-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Timeseries Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-009",
+    "type": "single_choice",
+    "prompt": "Which widget type displays a ranked list of items sorted by a metric value, such as the top 10 services by error rate?",
+    "choices": [
+      { "id": "a", "text": "Table widget" },
+      { "id": "b", "text": "Treemap widget" },
+      { "id": "c", "text": "Top List widget" },
+      { "id": "d", "text": "Distribution widget" }
+    ],
+    "correct": "c",
+    "explanation": "The Top List widget displays a ranked list of tag values sorted by a metric, such as the top 10 hosts by CPU usage or top 5 services by error count. Each entry shows the value and a color-coded bar.",
+    "topics": ["widget-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Top List Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-010",
+    "type": "single_choice",
+    "prompt": "What is the primary difference between a Datadog Notebook and a standard Dashboard?",
+    "choices": [
+      { "id": "a", "text": "Notebooks support more widget types than dashboards" },
+      { "id": "b", "text": "Notebooks combine graphs with free-form Markdown text cells, making them ideal for narrative documentation like postmortems and runbooks" },
+      { "id": "c", "text": "Notebooks automatically refresh data every minute; dashboards do not" },
+      { "id": "d", "text": "Notebooks are only accessible to users with the Admin role" }
+    ],
+    "correct": "b",
+    "explanation": "Notebooks are a document-style format that interleaves Markdown text cells with metric and log visualizations. They are designed for collaborative, narrative use cases such as incident postmortems, runbooks, and investigative reports, unlike dashboards, which are primarily for real-time monitoring.",
+    "topics": ["notebooks"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Notebooks" }],
+    "version": 1
+  },
+  {
+    "id": "dash-011",
+    "type": "single_choice",
+    "prompt": "What is a 'Composite Graph' in a Datadog dashboard?",
+    "choices": [
+      { "id": "a", "text": "A graph that combines multiple widget types on a single canvas" },
+      { "id": "b", "text": "A formula-based widget that performs arithmetic on two or more existing metric queries and plots the result" },
+      { "id": "c", "text": "A graph automatically generated by Datadog's anomaly detection AI" },
+      { "id": "d", "text": "A group of widgets that share a common title" }
+    ],
+    "correct": "b",
+    "explanation": "A Composite Graph (now called Formula in the widget editor) allows you to define arithmetic expressions over two or more metric queries, for example, dividing errors by requests to compute error rate, or plotting the difference between two time series.",
+    "topics": ["composite-graphs", "formulas"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Composite Graphs and Formulas" }],
+    "version": 1
+  },
+  {
+    "id": "dash-012",
+    "type": "true_false",
+    "prompt": "Dashboard template variables can have a default value that pre-selects a filter when the dashboard is first opened.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "When configuring a template variable, you can set a default value. This pre-populates the filter control so users see a specific scope (such as env:production) when they open the dashboard, rather than seeing all data unfiltered.",
+    "topics": ["template-variables"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Template Variables" }],
+    "version": 1
+  },
+  {
+    "id": "dash-013",
+    "type": "single_choice",
+    "prompt": "Which dashboard widget is best for visualizing metric density across two dimensions using color intensity?",
+    "choices": [
+      { "id": "a", "text": "Timeseries widget" },
+      { "id": "b", "text": "Heatmap widget" },
+      { "id": "c", "text": "Scatter Plot widget" },
+      { "id": "d", "text": "Treemap widget" }
+    ],
+    "correct": "b",
+    "explanation": "The Heatmap widget uses color intensity to represent the density or magnitude of metric values across groups and time. It is particularly useful for visualizing distributions of metrics across many hosts, such as showing how many hosts fall into each latency bucket over time.",
+    "topics": ["widget-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Heatmap Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-014",
+    "type": "single_choice",
+    "prompt": "What is the 'Geomap' widget used for in Datadog dashboards?",
+    "choices": [
+      { "id": "a", "text": "Displaying a network topology map of your infrastructure" },
+      { "id": "b", "text": "Plotting metric or log data on a world map based on geographic location (country or region)" },
+      { "id": "c", "text": "Showing the physical location of your Datadog-monitored servers" },
+      { "id": "d", "text": "Visualizing data center rack placement" }
+    ],
+    "correct": "b",
+    "explanation": "The Geomap widget renders data on a world map, coloring countries or regions based on a metric value or event count. It is commonly used to visualize user traffic, error rates, or performance by geography.",
+    "topics": ["widget-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Geomap Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-015",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid use cases for Datadog Notebooks? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Incident postmortem reports with embedded metric graphs" },
+      { "id": "b", "text": "Runbooks with step-by-step instructions and live data" },
+      { "id": "c", "text": "Real-time alerting on metric thresholds" },
+      { "id": "d", "text": "Ad-hoc investigation and data exploration" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "Notebooks are designed for collaborative, document-style use cases: postmortems, runbooks, and ad-hoc data exploration all benefit from combining narrative text with live metric graphs. Real-time alerting is handled by Monitors, not Notebooks.",
+    "topics": ["notebooks"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Notebooks" }],
+    "version": 1
+  },
+  {
+    "id": "dash-016",
+    "type": "single_choice",
+    "prompt": "In Datadog dashboards, what does 'timeframe synchronization' mean?",
+    "choices": [
+      { "id": "a", "text": "Automatically setting all dashboards to the same timezone" },
+      { "id": "b", "text": "Ensuring all widgets on a Timeboard display data for the same time window, controlled by a global time selector" },
+      { "id": "c", "text": "Syncing the dashboard refresh interval with the Datadog Agent reporting interval" },
+      { "id": "d", "text": "Aligning dashboard time with UTC regardless of user location" }
+    ],
+    "correct": "b",
+    "explanation": "On Timeboards, a global time selector controls the time window for all widgets simultaneously. When you pan or zoom the time range, all graphs update in sync, making it easy to correlate events across different metrics during troubleshooting.",
+    "topics": ["timeframe-controls"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Timeframe Controls" }],
+    "version": 1
+  },
+  {
+    "id": "dash-017",
+    "type": "true_false",
+    "prompt": "The Treemap widget in Datadog is used to visualize hierarchical or proportional data using nested rectangles sized by metric value.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The Treemap widget represents proportional data as nested rectangles where the size of each rectangle is proportional to the metric value. It is useful for comparing parts of a whole, such as disk usage by service or request volume by endpoint.",
+    "topics": ["widget-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Treemap Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-018",
+    "type": "single_choice",
+    "prompt": "What access control permission is required to share a Datadog dashboard publicly?",
+    "choices": [
+      { "id": "a", "text": "No special permission is required; any user can share any dashboard publicly" },
+      { "id": "b", "text": "The user must have a role with the 'Dashboards Public Share' permission enabled" },
+      { "id": "c", "text": "Only the dashboard creator can share it publicly" },
+      { "id": "d", "text": "Public sharing requires Datadog Enterprise plan only" }
+    ],
+    "correct": "b",
+    "explanation": "Public dashboard sharing is controlled by the 'Dashboards Public Share' permission in Datadog's role-based access control (RBAC) system. An organization admin must grant this permission to a role before users with that role can create public share links.",
+    "topics": ["dashboard-sharing", "permissions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Dashboard Permissions" }],
+    "version": 1
+  },
+  {
+    "id": "dash-019",
+    "type": "single_choice",
+    "prompt": "What is a 'Dashboard List' in Datadog?",
+    "choices": [
+      { "id": "a", "text": "An automatically generated report of all dashboards with access logs" },
+      { "id": "b", "text": "A user-created or team-created collection of dashboards for easy organization and discovery" },
+      { "id": "c", "text": "A list of all dashboards shared publicly" },
+      { "id": "d", "text": "A read-only overview of all dashboards in the organization" }
+    ],
+    "correct": "b",
+    "explanation": "Dashboard Lists are organizational collections that group related dashboards together for easier access and discoverability. Teams can create lists by function (e.g., 'SRE On-Call Dashboards') or by system (e.g., 'Payments Service Dashboards'), helping users navigate large dashboard catalogs.",
+    "topics": ["dashboard-lists"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Dashboard Lists" }],
+    "version": 1
+  },
+  {
+    "id": "dash-020",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid chart types available in the Datadog Timeseries widget? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Line chart" },
+      { "id": "b", "text": "Bar chart" },
+      { "id": "c", "text": "Area chart" },
+      { "id": "d", "text": "Bubble chart" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "The Datadog Timeseries widget supports line, bar, and area chart display styles. Bubble charts are not a native Timeseries visualization option in Datadog.",
+    "topics": ["widget-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Timeseries Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-021",
+    "type": "single_choice",
+    "prompt": "What does 'starring' (marking as favorite) a dashboard do in Datadog?",
+    "choices": [
+      { "id": "a", "text": "It makes the dashboard publicly accessible" },
+      { "id": "b", "text": "It pins the dashboard to the top of your personal dashboard list for quick access" },
+      { "id": "c", "text": "It notifies all team members that the dashboard is important" },
+      { "id": "d", "text": "It locks the dashboard against further edits" }
+    ],
+    "correct": "b",
+    "explanation": "Starring (favoriting) a dashboard pins it to the top of your personal 'My Dashboards' or starred list, making it easy to quickly navigate to frequently used dashboards without searching through the full catalog. This is a per-user setting.",
+    "topics": ["dashboard-lists"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Dashboard Favorites" }],
+    "version": 1
+  },
+  {
+    "id": "dash-022",
+    "type": "true_false",
+    "prompt": "In Datadog, a Screenboard allows each widget to independently control its own time range.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Screenboards are designed for flexibility: each widget can have its own independent time range. This makes Screenboards ideal for status boards where you might want some widgets showing the last 1 hour and others showing the last 7 days, all on the same screen.",
+    "topics": ["dashboard-types", "timeframe-controls"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Dashboard Types" }],
+    "version": 1
+  },
+  {
+    "id": "dash-023",
+    "type": "single_choice",
+    "prompt": "What is the 'Formula' feature in Datadog widget editors used for?",
+    "choices": [
+      { "id": "a", "text": "Writing custom Python scripts to transform metric data" },
+      { "id": "b", "text": "Performing arithmetic operations (such as addition, division, or multiplication) on two or more metric queries within a single widget" },
+      { "id": "c", "text": "Defining alert thresholds using mathematical expressions" },
+      { "id": "d", "text": "Creating calculated fields in a Datadog log pipeline" }
+    ],
+    "correct": "b",
+    "explanation": "The Formula feature in widget editors allows you to combine multiple metric queries using arithmetic expressions. For example, you can define query a as total requests and query b as error requests, then write the formula b/a*100 to visualize error percentage in a single widget.",
+    "topics": ["composite-graphs", "formulas"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Formulas and Functions" }],
+    "version": 1
+  },
+  {
+    "id": "dash-024",
+    "type": "single_choice",
+    "prompt": "Which method can be used to programmatically create and manage Datadog dashboards as code?",
+    "choices": [
+      { "id": "a", "text": "Only through the Datadog web UI; no API is available" },
+      { "id": "b", "text": "Via the Datadog API or Terraform using the Datadog provider" },
+      { "id": "c", "text": "Only by uploading YAML files to the Datadog Agent" },
+      { "id": "d", "text": "Via a Git integration that auto-syncs dashboard JSON files" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog provides a full REST API for managing dashboards programmatically, and the official Datadog Terraform provider supports the datadog_dashboard resource, enabling infrastructure-as-code workflows for dashboard management and version control.",
+    "topics": ["dashboard-json"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Dashboards API" }],
+    "version": 1
+  },
+  {
+    "id": "dash-025",
+    "type": "true_false",
+    "prompt": "Datadog Notebooks support real-time collaboration, allowing multiple users to edit the same notebook simultaneously.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog Notebooks support real-time collaborative editing. Multiple team members can open and edit the same notebook at the same time, with changes visible to all participants, similar to Google Docs. This makes them useful for collaborative incident investigations.",
+    "topics": ["notebooks"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Notebooks Collaboration" }],
+    "version": 1
+  },
+  {
+    "id": "dash-026",
+    "type": "single_choice",
+    "prompt": "What does the 'Table' widget in Datadog display?",
+    "choices": [
+      { "id": "a", "text": "A relational database table schema" },
+      { "id": "b", "text": "Tabular data showing multiple metrics or tags in rows and columns, with optional conditional formatting" },
+      { "id": "c", "text": "A schedule or timetable for on-call rotations" },
+      { "id": "d", "text": "A list of Datadog monitors and their current statuses" }
+    ],
+    "correct": "b",
+    "explanation": "The Table widget renders metric data in a rows-and-columns format, where each row typically represents a tag value (such as a service or host) and columns represent different metrics. Conditional formatting can color-code cells based on thresholds, making it easy to spot outliers.",
+    "topics": ["widget-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Table Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-027",
+    "type": "multi_choice",
+    "prompt": "Which of the following actions can be performed with a template variable in a Datadog dashboard? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Filter all widget queries to show data for a specific tag value" },
+      { "id": "b", "text": "Set multiple template variable values simultaneously using saved views" },
+      { "id": "c", "text": "Automatically page on-call engineers when the template variable value changes" },
+      { "id": "d", "text": "Use the template variable value in widget titles for dynamic labeling" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "Template variables can filter widget queries by tag values, can be saved as preset combinations using 'Saved Views', and their values can be referenced in widget titles using the $variable syntax. They cannot trigger paging or alerting, that is the role of Monitors.",
+    "topics": ["template-variables"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Template Variables" }],
+    "version": 1
+  },
+  {
+    "id": "dash-028",
+    "type": "single_choice",
+    "prompt": "What is the 'Change' widget in Datadog used for?",
+    "choices": [
+      { "id": "a", "text": "Displaying a list of recent configuration changes to infrastructure" },
+      { "id": "b", "text": "Showing the change in a metric's value between the current period and a comparison period" },
+      { "id": "c", "text": "Tracking changes to dashboard widget configurations" },
+      { "id": "d", "text": "Displaying a changelog of Datadog platform updates" }
+    ],
+    "correct": "b",
+    "explanation": "The Change widget shows how a metric's value has changed between the current time window and a reference period (e.g., last week or last hour). It displays the absolute or percentage change per tag value, helping identify which items have improved or degraded.",
+    "topics": ["widget-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Change Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-029",
+    "type": "true_false",
+    "prompt": "Datadog automatically saves a version history of dashboard changes, allowing users to roll back to a previous version.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog does not natively provide an automatic version history or rollback feature for dashboard changes in the UI. Teams that want version control for dashboards typically manage dashboard JSON through the API, Terraform, or an external version control system like Git.",
+    "topics": ["dashboard-json"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Dashboard Management" }],
+    "version": 1
+  },
+  {
+    "id": "dash-030",
+    "type": "single_choice",
+    "prompt": "In a Datadog dashboard, what does clicking on a graph and selecting a specific time range do?",
+    "choices": [
+      { "id": "a", "text": "It deletes data points outside the selected range" },
+      { "id": "b", "text": "On a Timeboard, it zooms all graphs to the selected time window; on a Screenboard, it zooms only that widget" },
+      { "id": "c", "text": "It creates a monitor for the selected time range" },
+      { "id": "d", "text": "It exports the selected range as a CSV file" }
+    ],
+    "correct": "b",
+    "explanation": "Clicking and dragging to select a time range on a Timeboard zooms all widgets to that range simultaneously (due to synchronized timeframes). On a Screenboard, the same action zooms only the individual widget that was clicked, since each widget has its own independent time control.",
+    "topics": ["timeframe-controls", "dashboard-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Timeframe Controls" }],
+    "version": 1
+  },
+  {
+    "id": "dash-031",
+    "type": "single_choice",
+    "prompt": "What is the Scatter Plot widget used for in Datadog?",
+    "choices": [
+      { "id": "a", "text": "Plotting individual log events as points over time" },
+      { "id": "b", "text": "Visualizing the correlation between two metrics across a set of tags, with each point representing one tag value" },
+      { "id": "c", "text": "Showing data points scattered randomly to simulate chaos engineering" },
+      { "id": "d", "text": "Displaying the geographic distribution of users" }
+    ],
+    "correct": "b",
+    "explanation": "The Scatter Plot widget plots two metrics on X and Y axes, with each point representing a tag group value (such as a host or service). It is useful for identifying correlations, for example, plotting CPU usage vs. request latency per host to see if higher CPU correlates with slower responses.",
+    "topics": ["widget-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Scatter Plot Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-032",
+    "type": "true_false",
+    "prompt": "Dashboard template variables can reference tags from metrics, logs, APM traces, and RUM data sources.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Template variables are flexible, they can be based on tags from any data source that Datadog indexes, including metrics tags, log facets, APM service or env tags, and RUM attributes. The available values shown in the dropdown dynamically reflect the selected tag's values.",
+    "topics": ["template-variables"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Template Variables" }],
+    "version": 1
+  },
+  {
+    "id": "dash-033",
+    "type": "single_choice",
+    "prompt": "What is the 'Note' or 'Free Text' widget in Datadog dashboards used for?",
+    "choices": [
+      { "id": "a", "text": "Displaying the output of a custom log search query" },
+      { "id": "b", "text": "Adding static Markdown text, links, or images to a dashboard for context and documentation" },
+      { "id": "c", "text": "Capturing user annotations on specific data points" },
+      { "id": "d", "text": "Triggering a Datadog Workflow when clicked" }
+    ],
+    "correct": "b",
+    "explanation": "The Note (Free Text) widget allows dashboard authors to add static Markdown content, headers, descriptions, links, and images, to their dashboards. This provides context, section labels, and documentation directly alongside live metric graphs.",
+    "topics": ["widget-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Note Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-034",
+    "type": "multi_choice",
+    "prompt": "Which of the following dashboard sharing options are available in Datadog? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Sharing a public URL that anyone can view without logging in" },
+      { "id": "b", "text": "Embedding the dashboard in an external webpage via an iframe" },
+      { "id": "c", "text": "Sharing to specific Datadog users or teams with view-only access" },
+      { "id": "d", "text": "Automatically emailing a dashboard snapshot on a schedule" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Datadog supports public URL sharing (unauthenticated access), iframe embed codes for external portals, and permission-based sharing with specific Datadog users or teams. Scheduled dashboard email reports are a separate feature (Scheduled Reports) and not part of the core sharing options for all plans.",
+    "topics": ["dashboard-sharing", "permissions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Sharing Dashboards" }],
+    "version": 1
+  },
+  {
+    "id": "dash-035",
+    "type": "single_choice",
+    "prompt": "What is the 'Group' widget in a Datadog dashboard?",
+    "choices": [
+      { "id": "a", "text": "A widget that displays aggregate metrics for a group of hosts" },
+      { "id": "b", "text": "A container that groups multiple widgets together with a shared title for visual organization" },
+      { "id": "c", "text": "A widget linked to a Datadog team for permission management" },
+      { "id": "d", "text": "A way to group multiple monitors under a single threshold" }
+    ],
+    "correct": "b",
+    "explanation": "The Group widget is a container that visually organizes multiple other widgets under a shared title and collapsible section. It helps structure large dashboards into logical sections (e.g., 'Frontend Metrics' or 'Database Health'), improving readability and navigation.",
+    "topics": ["widget-types"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Group Widget" }],
+    "version": 1
+  },
+  {
+    "id": "dash-036",
+    "type": "single_choice",
+    "prompt": "In Datadog Notebooks, what does 'snapshotting' a cell do?",
+    "choices": [
+      { "id": "a", "text": "Saves the live data in a cell as a static image at the current point in time" },
+      { "id": "b", "text": "Deletes the cell from the notebook" },
+      { "id": "c", "text": "Converts the cell to a dashboard widget" },
+      { "id": "d", "text": "Shares the cell with external stakeholders" }
+    ],
+    "correct": "a",
+    "explanation": "Snapshotting a graph cell in a Notebook captures the current visualization as a static image. This is useful for preserving the state of metrics at a specific time during an incident investigation or postmortem, so the historical context is retained even as live data changes.",
+    "topics": ["notebooks"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Notebooks" }],
+    "version": 1
+  },
+  {
+    "id": "dash-037",
+    "type": "true_false",
+    "prompt": "The 'custom' dashboard type in Datadog (introduced as a unified dashboard format) supports both time-synced and free-layout widget arrangements.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog unified the Timeboard and Screenboard concepts into a single 'Dashboard' type that supports both time-synced global time controls and per-widget time overrides. Users can mix locked timeseries graphs with free-standing status widgets on the same canvas.",
+    "topics": ["dashboard-types"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Dashboard Types" }],
+    "version": 1
+  },
+  {
+    "id": "dash-038",
+    "type": "multi_choice",
+    "prompt": "Which of the following are benefits of defining Datadog dashboards as JSON and storing them in version control? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Tracking who changed which widget and when via Git history" },
+      { "id": "b", "text": "Rolling back to a previous dashboard version via Git revert" },
+      { "id": "c", "text": "Automatically alerting when a dashboard is modified" },
+      { "id": "d", "text": "Reproducible dashboard deployment across multiple Datadog organizations" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "Storing dashboard JSON in version control provides change history (who changed what and when), rollback capability via Git revert, and reproducible deployments across environments or organizations. Automatic alerting on dashboard modifications requires a separate Datadog Audit Trail or webhook integration.",
+    "topics": ["dashboard-json"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Dashboard JSON Export" }],
+    "version": 1
+  },
+  {
+    "id": "dash-039",
+    "type": "single_choice",
+    "prompt": "What is the maximum number of template variables that can be added to a single Datadog dashboard?",
+    "choices": [
+      { "id": "a", "text": "5" },
+      { "id": "b", "text": "10" },
+      { "id": "c", "text": "50" },
+      { "id": "d", "text": "There is no hard limit imposed by Datadog" }
+    ],
+    "correct": "d",
+    "explanation": "Datadog does not impose a documented hard limit on the number of template variables per dashboard. In practice, dashboards can have many template variables (tens or more). However, performance and usability considerations encourage keeping the number reasonable.",
+    "topics": ["template-variables"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Template Variables" }],
+    "version": 1
+  },
+  {
+    "id": "dash-040",
+    "type": "single_choice",
+    "prompt": "In Datadog, what is the 'Monitor Summary' widget?",
+    "choices": [
+      { "id": "a", "text": "A widget that displays a summary of all metric queries in a dashboard" },
+      { "id": "b", "text": "A widget that shows the status of Datadog monitors matching a search query, providing a live alert status board" },
+      { "id": "c", "text": "A widget that displays a summary of recent Datadog audit events" },
+      { "id": "d", "text": "A widget that aggregates multiple timeseries into a single summary line" }
+    ],
+    "correct": "b",
+    "explanation": "The Monitor Summary widget shows a list of Datadog monitors filtered by a query (e.g., by service, team, or tag) and their current status (OK, Warning, Alert, No Data). It is useful for building at-a-glance NOC dashboards and health status boards that surface active alerts.",
+    "topics": ["widget-types"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Monitor Summary Widget" }],
+    "version": 1
+  }
+]

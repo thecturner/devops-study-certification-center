@@ -1,0 +1,286 @@
+[
+  {
+    "id": "k8s-cks-cs-001",
+    "type": "single_choice",
+    "prompt": "Which tool is the de facto standard for auditing a Kubernetes cluster against CIS Kubernetes Benchmark controls?",
+    "choices": [
+      { "id": "a", "text": "kube-bench" },
+      { "id": "b", "text": "kube-hunter" },
+      { "id": "c", "text": "kubesec" },
+      { "id": "d", "text": "trivy" }
+    ],
+    "correct": "a",
+    "explanation": "kube-bench is the open-source tool from Aqua Security that checks Kubernetes clusters against CIS Kubernetes Benchmark recommendations. It runs checks against the API server, scheduler, controller manager, etcd, and node components. kube-hunter tests for exploitable weaknesses from an attacker's perspective, while kubesec and trivy serve different purposes.",
+    "topics": ["cluster-setup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "CIS Kubernetes Benchmark", "url": "https://www.cisecurity.org/benchmark/kubernetes" },
+      { "label": "kube-bench", "url": "https://github.com/aquasecurity/kube-bench" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-002",
+    "type": "single_choice",
+    "prompt": "A NetworkPolicy in the 'app' namespace selects Pods with label 'role: frontend' and specifies no egress rules. What is the result?",
+    "choices": [
+      { "id": "a", "text": "All egress from selected Pods is allowed because no rules restrict it" },
+      { "id": "b", "text": "All egress from selected Pods is denied" },
+      { "id": "c", "text": "Egress is allowed only within the same namespace" },
+      { "id": "d", "text": "The policy is invalid and will be rejected by the API server" }
+    ],
+    "correct": "b",
+    "explanation": "When a NetworkPolicy selects Pods and includes 'Egress' in its policyTypes (or omits policyTypes when egress rules are absent and ingress rules are specified), the policy applies an implicit deny-all to selected egress traffic. A policy with an empty egress array blocks all outbound traffic from the selected Pods. You must add explicit egress rules to allow specific traffic.",
+    "topics": ["cluster-setup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-003",
+    "type": "single_choice",
+    "prompt": "Which kube-apiserver flag must be set to 'false' to comply with the CIS Kubernetes Benchmark recommendation against anonymous authentication?",
+    "choices": [
+      { "id": "a", "text": "--allow-privileged=false" },
+      { "id": "b", "text": "--anonymous-auth=false" },
+      { "id": "c", "text": "--insecure-port=0" },
+      { "id": "d", "text": "--authorization-mode=AlwaysDeny" }
+    ],
+    "correct": "b",
+    "explanation": "The CIS Kubernetes Benchmark recommends setting --anonymous-auth=false on the API server to prevent unauthenticated requests. When anonymous auth is enabled, requests that are not rejected by other authentication methods are treated as anonymous and may access public endpoints. Setting --insecure-port=0 (already the default in modern versions) is also important but is a separate control.",
+    "topics": ["cluster-setup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Securing a Cluster", "url": "https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-004",
+    "type": "single_choice",
+    "prompt": "You need to allow Pods in namespace 'monitoring' to scrape metrics from Pods in namespace 'app' on port 8080, but deny all other ingress to 'app' Pods. Which NetworkPolicy resource and namespace should you create this in?",
+    "choices": [
+      { "id": "a", "text": "Create it in the 'monitoring' namespace targeting 'app' Pods" },
+      { "id": "b", "text": "Create it in the 'app' namespace with a namespaceSelector for 'monitoring'" },
+      { "id": "c", "text": "Create it in the 'kube-system' namespace to apply cluster-wide" },
+      { "id": "d", "text": "NetworkPolicy cannot filter by namespace; use a ClusterNetworkPolicy instead" }
+    ],
+    "correct": "b",
+    "explanation": "NetworkPolicy is a namespaced resource and controls traffic to/from Pods in the namespace where it is created. To restrict ingress to 'app' Pods, create the NetworkPolicy in the 'app' namespace. Use a namespaceSelector in the ingress from rule to identify the 'monitoring' namespace (by label), combined with a port rule for 8080. A deny-all ingress policy plus this allow rule achieves the desired isolation.",
+    "topics": ["cluster-setup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-005",
+    "type": "single_choice",
+    "prompt": "An Ingress resource is configured without TLS. What is the security implication and what must be added?",
+    "choices": [
+      { "id": "a", "text": "No implication; Kubernetes encrypts all Ingress traffic by default" },
+      { "id": "b", "text": "Traffic between the client and the Ingress controller will be unencrypted; add a TLS Secret and reference it in the Ingress spec.tls block" },
+      { "id": "c", "text": "The Ingress controller will automatically use a self-signed certificate" },
+      { "id": "d", "text": "Traffic is already encrypted at the Pod level via mTLS" }
+    ],
+    "correct": "b",
+    "explanation": "Without TLS configuration, an Ingress serves traffic over HTTP, exposing data in transit. To enable HTTPS, create a TLS Secret containing the certificate and private key, then reference it in the Ingress resource under spec.tls with the secretName and hosts. The Ingress controller will then terminate TLS at the edge.",
+    "topics": ["cluster-setup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Ingress TLS", "url": "https://kubernetes.io/docs/concepts/services-networking/ingress/#tls" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-006",
+    "type": "single_choice",
+    "prompt": "A Pod running on a cloud node attempts to access the instance metadata service at http://169.254.169.254 to retrieve IAM credentials. Which NetworkPolicy construct can block this?",
+    "choices": [
+      { "id": "a", "text": "An ingress rule denying traffic from 169.254.169.254/32" },
+      { "id": "b", "text": "An egress rule with an ipBlock that excludes 169.254.169.254/32" },
+      { "id": "c", "text": "A podSelector that excludes the Pod's label" },
+      { "id": "d", "text": "NetworkPolicy cannot block link-local addresses; use iptables rules on the node" }
+    ],
+    "correct": "b",
+    "explanation": "The cloud instance metadata endpoint (169.254.169.254) is a link-local address reachable from any Pod by default. A NetworkPolicy egress rule using an ipBlock with cidr: 0.0.0.0/0 and except: [169.254.169.254/32] will allow general internet egress while blocking access to the metadata service. Some CNI plugins also support this natively.",
+    "topics": ["cluster-setup"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-007",
+    "type": "true_false",
+    "prompt": "The CIS Kubernetes Benchmark recommends enabling the AlwaysAdmit admission controller on the API server to ensure maximum compatibility with all workloads.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "False. The CIS Benchmark explicitly recommends against using AlwaysAdmit because it bypasses all admission control checks and allows any Pod to be admitted regardless of security policies. The recommended admission controllers include NodeRestriction, PodSecurity (or an OPA webhook), and others that enforce security controls.",
+    "topics": ["cluster-setup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Admission Controllers Reference", "url": "https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-008",
+    "type": "single_choice",
+    "prompt": "Which CIS Kubernetes Benchmark control addresses the storage of etcd data and requires enabling encryption at rest?",
+    "choices": [
+      { "id": "a", "text": "1.1.11 — Ensure that the etcd data directory permissions are set to 700" },
+      { "id": "b", "text": "2.1 — Ensure that the --cert-file and --key-file arguments are set" },
+      { "id": "c", "text": "1.2.33 — Ensure that encryption providers are appropriately configured" },
+      { "id": "d", "text": "3.2.1 — Ensure that a minimal audit policy is created" }
+    ],
+    "correct": "c",
+    "explanation": "CIS control 1.2.33 (or equivalent in updated versions) requires that the API server's --encryption-provider-config flag point to a valid EncryptionConfiguration file that enables encryption of Secrets and other sensitive resources at rest in etcd. Without this, Secrets are stored in plain base64 in etcd.",
+    "topics": ["cluster-setup"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Encrypting Secret Data at Rest", "url": "https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-009",
+    "type": "single_choice",
+    "prompt": "You are creating a NetworkPolicy to allow DNS resolution for all Pods in a namespace while denying all other egress. Which port and protocol must be permitted in the egress rule?",
+    "choices": [
+      { "id": "a", "text": "TCP port 53 only" },
+      { "id": "b", "text": "UDP port 53 only" },
+      { "id": "c", "text": "Both TCP and UDP on port 53" },
+      { "id": "d", "text": "TCP port 5353 (mDNS)" }
+    ],
+    "correct": "c",
+    "explanation": "DNS queries are sent over UDP port 53 by default, but DNS can also use TCP port 53 for responses larger than 512 bytes (e.g., DNSSEC, zone transfers). Kubernetes CoreDNS uses both. A NetworkPolicy that only permits UDP 53 will cause intermittent DNS failures for large responses. You must allow both TCP/53 and UDP/53 for reliable DNS egress.",
+    "topics": ["cluster-setup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-010",
+    "type": "single_choice",
+    "prompt": "The kube-apiserver flag --profiling is enabled. Why does the CIS Benchmark recommend disabling it?",
+    "choices": [
+      { "id": "a", "text": "Profiling increases API server latency significantly" },
+      { "id": "b", "text": "Profiling data may expose system and program details useful to an attacker" },
+      { "id": "c", "text": "Profiling conflicts with audit logging" },
+      { "id": "d", "text": "The profiling endpoint requires root access and breaks RBAC" }
+    ],
+    "correct": "b",
+    "explanation": "When --profiling=true (the default), the API server exposes /debug/pprof endpoints that reveal internal runtime data including goroutine stacks, heap allocations, and timing information. This data can help an attacker understand system internals and identify exploitation opportunities. The CIS Benchmark recommends setting --profiling=false in production.",
+    "topics": ["cluster-setup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Security Checklist", "url": "https://kubernetes.io/docs/concepts/security/security-checklist/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-011",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid policyTypes values in a Kubernetes NetworkPolicy? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "Ingress" },
+      { "id": "b", "text": "Egress" },
+      { "id": "c", "text": "Both" },
+      { "id": "d", "text": "None" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "The only valid policyTypes values are 'Ingress' and 'Egress'. These can be specified together in a single policy (e.g., policyTypes: [Ingress, Egress]). 'Both' and 'None' are not valid values. Omitting policyTypes causes Kubernetes to infer the types from which rules are defined in the policy.",
+    "topics": ["cluster-setup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-012",
+    "type": "single_choice",
+    "prompt": "The NodeRestriction admission controller is enabled. Which of the following actions does it prevent?",
+    "choices": [
+      { "id": "a", "text": "A kubelet from modifying labels on any Node object other than its own" },
+      { "id": "b", "text": "A Pod from accessing the host network namespace" },
+      { "id": "c", "text": "Containers from running as root" },
+      { "id": "d", "text": "The API server from listening on the insecure port" }
+    ],
+    "correct": "a",
+    "explanation": "NodeRestriction limits the Node and Pod objects that a kubelet can modify. Specifically, a kubelet can only modify its own Node object and Pod objects scheduled to its node. It cannot modify other nodes, add arbitrary labels (only node-restriction.kubernetes.io/ prefixed labels are allowed on other nodes), or access Secrets/ConfigMaps not associated with Pods on its node. This prevents a compromised node from impersonating or tampering with other cluster resources.",
+    "topics": ["cluster-setup"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Admission Controllers: NodeRestriction", "url": "https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-013",
+    "type": "single_choice",
+    "prompt": "Which API server flag, when set to 'true', allows the API server to serve on an insecure HTTP port (no TLS, no authentication)?",
+    "choices": [
+      { "id": "a", "text": "--tls-skip-verify=true" },
+      { "id": "b", "text": "--insecure-port (set to a non-zero value)" },
+      { "id": "c", "text": "--auth-mode=None" },
+      { "id": "d", "text": "--anonymous-auth=true" }
+    ],
+    "correct": "b",
+    "explanation": "Setting --insecure-port to a non-zero value (historically 8080) causes the API server to serve on that port without TLS, authentication, or authorization. The CIS Benchmark requires this to be set to 0 (disabled). As of Kubernetes 1.20, the insecure port was removed from kube-apiserver; it is only present in older versions. Setting --anonymous-auth=true is a separate control that allows unauthenticated access through the secure port.",
+    "topics": ["cluster-setup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Securing a Cluster", "url": "https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-014",
+    "type": "single_choice",
+    "prompt": "A NetworkPolicy's podSelector is set to '{}' (empty). What does this mean?",
+    "choices": [
+      { "id": "a", "text": "The policy selects no Pods and has no effect" },
+      { "id": "b", "text": "The policy selects all Pods in the namespace" },
+      { "id": "c", "text": "The policy is applied cluster-wide to all namespaces" },
+      { "id": "d", "text": "The policy selector is invalid and will be rejected" }
+    ],
+    "correct": "b",
+    "explanation": "An empty podSelector ({}) matches all Pods in the namespace where the NetworkPolicy is created. This is commonly used to apply a default-deny or default-allow policy to an entire namespace. Contrast with specifying matchLabels to target a specific subset of Pods.",
+    "topics": ["cluster-setup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-cs-015",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the '--audit-log-path' flag on the kube-apiserver, and why does the CIS Benchmark require it?",
+    "choices": [
+      { "id": "a", "text": "It specifies where kubeadm stores upgrade logs" },
+      { "id": "b", "text": "It enables API server audit logging to a file, providing a record of all requests for security investigation" },
+      { "id": "c", "text": "It configures the path for kube-bench scan results" },
+      { "id": "d", "text": "It sets the directory for etcd WAL logs" }
+    ],
+    "correct": "b",
+    "explanation": "Setting --audit-log-path to a valid file path enables Kubernetes audit logging. Every request to the API server is recorded with metadata including the user, timestamp, resource, and action. The CIS Benchmark requires this because audit logs are essential for detecting unauthorized access, investigating incidents, and meeting compliance requirements. Without it, API activity is invisible.",
+    "topics": ["cluster-setup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Audit Logging", "url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/" }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-cka-sn-001",
+    "type": "single_choice",
+    "prompt": "Which Service type exposes an application on a port on every node in the cluster, making it accessible from outside the cluster?",
+    "choices": [
+      { "id": "a", "text": "ClusterIP" },
+      { "id": "b", "text": "NodePort" },
+      { "id": "c", "text": "LoadBalancer" },
+      { "id": "d", "text": "ExternalName" }
+    ],
+    "correct": "b",
+    "explanation": "NodePort exposes the Service on a static port (30000-32767 by default) on every node's IP. Traffic to <NodeIP>:<NodePort> is forwarded to the Service. ClusterIP is only accessible within the cluster. LoadBalancer provisions an external load balancer (cloud-specific) and includes a NodePort. ExternalName maps the Service to a DNS name without proxying.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Service Types", "url": "https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-002",
+    "type": "single_choice",
+    "prompt": "What is the DNS name format used to resolve a Service named 'db' in the 'backend' namespace from within the cluster?",
+    "choices": [
+      { "id": "a", "text": "db.backend" },
+      { "id": "b", "text": "db.backend.svc.cluster.local" },
+      { "id": "c", "text": "backend.db.cluster.local" },
+      { "id": "d", "text": "svc.backend.db" }
+    ],
+    "correct": "b",
+    "explanation": "Kubernetes DNS resolves Services using the format <service-name>.<namespace>.svc.<cluster-domain>. The default cluster domain is cluster.local, so the full FQDN is db.backend.svc.cluster.local. From within the same namespace, you can use just 'db'. From a different namespace, 'db.backend' is sufficient because the search domain includes <namespace>.svc.cluster.local.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "DNS for Services and Pods", "url": "https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-003",
+    "type": "single_choice",
+    "prompt": "A NetworkPolicy selects pods with label 'role=db' and has an empty ingress field (ingress: []). What is the effect?",
+    "choices": [
+      { "id": "a", "text": "All ingress traffic to the selected pods is allowed" },
+      { "id": "b", "text": "All ingress traffic to the selected pods is denied" },
+      { "id": "c", "text": "Only traffic from pods in the same namespace is allowed" },
+      { "id": "d", "text": "The NetworkPolicy has no effect because the ingress field is empty" }
+    ],
+    "correct": "b",
+    "explanation": "An empty ingress array (ingress: []) in a NetworkPolicy that selects pods means no ingress traffic is allowed to those pods. The NetworkPolicy is still effective; it just has no ingress rules, which means it allows nothing. This is different from having no NetworkPolicy at all (which allows all traffic). An empty ingress field effectively isolates the selected pods from all inbound connections.",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "NetworkPolicies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-004",
+    "type": "single_choice",
+    "prompt": "Which kubectl command creates a ClusterIP Service named 'my-svc' that selects pods with label app=myapp and exposes port 80 targeting port 8080 on the pods?",
+    "choices": [
+      { "id": "a", "text": "kubectl expose deployment myapp --name=my-svc --port=80 --target-port=8080" },
+      { "id": "b", "text": "kubectl create service clusterip my-svc --tcp=80:8080 --selector=app=myapp" },
+      { "id": "c", "text": "kubectl create svc my-svc --port=80 --pod-port=8080 --label=app=myapp" },
+      { "id": "d", "text": "kubectl expose svc my-svc --app=myapp --from=80 --to=8080" }
+    ],
+    "correct": "a",
+    "explanation": "kubectl expose deployment <name> creates a Service selecting pods from the named deployment. --port specifies the Service port and --target-port is the container port. The resulting Service inherits the deployment's selector labels. Alternatively, kubectl create service clusterip my-svc --tcp=80:8080 creates the Service but does not automatically set the selector; you would need to add it separately or use --selector in some kubectl versions.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Service", "url": "https://kubernetes.io/docs/concepts/services-networking/service/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-005",
+    "type": "single_choice",
+    "prompt": "An Ingress resource has pathType: Prefix and path: /api. Which of the following request paths would be matched?",
+    "choices": [
+      { "id": "a", "text": "/api only (exact match)" },
+      { "id": "b", "text": "/api and /api/v1/users" },
+      { "id": "c", "text": "/api and /apiversion" },
+      { "id": "d", "text": "/api, /api/v1/users, and /apiversion" }
+    ],
+    "correct": "b",
+    "explanation": "With pathType: Prefix, the path /api matches any request where the URL path begins with /api/ or is exactly /api. It matches /api and /api/v1/users because /api is a prefix of /api/v1/users. It does not match /apiversion because the prefix comparison is done on path elements separated by '/', so /api is not a prefix of /apiversion at the element level.",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Ingress Path Types", "url": "https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-006",
+    "type": "single_choice",
+    "prompt": "What component is responsible for implementing NetworkPolicy rules in a Kubernetes cluster?",
+    "choices": [
+      { "id": "a", "text": "kube-proxy" },
+      { "id": "b", "text": "kube-apiserver" },
+      { "id": "c", "text": "The CNI plugin (e.g., Calico, Cilium, Weave)" },
+      { "id": "d", "text": "CoreDNS" }
+    ],
+    "correct": "c",
+    "explanation": "NetworkPolicy objects are stored in the API server, but enforcement of the rules is the responsibility of the CNI (Container Network Interface) plugin. Not all CNI plugins support NetworkPolicy. Flannel, for example, does not enforce NetworkPolicies by default. Calico, Cilium, Weave Net, and others do. kube-proxy manages Service iptables/IPVS rules for ClusterIP and NodePort forwarding, not pod-to-pod NetworkPolicy enforcement.",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "NetworkPolicy", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/#prerequisites" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-007",
+    "type": "single_choice",
+    "prompt": "A pod cannot resolve the DNS name 'kubernetes.default'. What is the first thing you should check?",
+    "choices": [
+      { "id": "a", "text": "Whether kube-proxy is running" },
+      { "id": "b", "text": "Whether CoreDNS pods are running in the kube-system namespace" },
+      { "id": "c", "text": "Whether the node has sufficient CPU resources" },
+      { "id": "d", "text": "Whether the pod has a NetworkPolicy blocking egress to port 53" }
+    ],
+    "correct": "b",
+    "explanation": "Cluster DNS resolution is handled by CoreDNS running in the kube-system namespace. If CoreDNS pods are not running or are unhealthy, all DNS resolution within the cluster fails. Check with kubectl get pods -n kube-system -l k8s-app=kube-dns. If CoreDNS is healthy, then check NetworkPolicies blocking UDP/TCP port 53 from the pod to the CoreDNS Service (10.96.0.10 by default).",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Debugging DNS Resolution", "url": "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-008",
+    "type": "true_false",
+    "prompt": "By default, all pods in a Kubernetes cluster can communicate with all other pods in any namespace without any NetworkPolicy restrictions.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Kubernetes networking requires all pods to be able to communicate with each other without NAT by default. There is no built-in network isolation unless NetworkPolicy objects are explicitly created. A namespace without any NetworkPolicies is fully open: pods can send and receive traffic from any other pod in the cluster. NetworkPolicies are additive allow rules applied when a CNI plugin that supports them is in use.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "The Kubernetes network model", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/#the-two-sorts-of-pod-isolation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-009",
+    "type": "single_choice",
+    "prompt": "Which Ingress annotation is typically used to specify the Ingress controller class when multiple controllers are deployed in the same cluster (Kubernetes 1.18+)?",
+    "choices": [
+      { "id": "a", "text": "annotations: kubernetes.io/ingress-class: nginx" },
+      { "id": "b", "text": "spec.ingressClassName: nginx" },
+      { "id": "c", "text": "annotations: ingress.class: nginx" },
+      { "id": "d", "text": "spec.class: nginx" }
+    ],
+    "correct": "b",
+    "explanation": "Since Kubernetes 1.18, the recommended approach is to use spec.ingressClassName in the Ingress resource, which references an IngressClass object. The older annotation kubernetes.io/ingress.class (not ingress-class) was used in older Kubernetes versions and may still be supported for backward compatibility by some controllers. spec.ingressClassName is the canonical approach in current clusters.",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Ingress Class", "url": "https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-010",
+    "type": "single_choice",
+    "prompt": "A NetworkPolicy allows ingress to pods labeled 'app=db' only from pods labeled 'app=backend' on port 5432. A pod labeled 'app=monitor' tries to connect to an 'app=db' pod on port 5432. What happens?",
+    "choices": [
+      { "id": "a", "text": "The connection succeeds because monitoring is exempt from NetworkPolicies" },
+      { "id": "b", "text": "The connection is dropped because 'app=monitor' does not match the ingress podSelector" },
+      { "id": "c", "text": "The connection succeeds but is rate-limited" },
+      { "id": "d", "text": "The connection succeeds because the port matches" }
+    ],
+    "correct": "b",
+    "explanation": "NetworkPolicies in Kubernetes are based on explicit allow rules. The policy allows ingress to 'app=db' pods only from pods matching 'app=backend'. A pod labeled 'app=monitor' does not match that selector, so its connection attempts to the 'app=db' pods on port 5432 are dropped. The matching port alone is not sufficient; the source pod must also match the podSelector.",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "NetworkPolicies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-011",
+    "type": "single_choice",
+    "prompt": "What is the role of kube-proxy in a Kubernetes cluster?",
+    "choices": [
+      { "id": "a", "text": "To proxy all HTTP traffic between pods and enforce TLS" },
+      { "id": "b", "text": "To maintain network rules on nodes that enable Service communication by forwarding traffic to the correct pod endpoints" },
+      { "id": "c", "text": "To provide DNS resolution for pod and Service names" },
+      { "id": "d", "text": "To enforce NetworkPolicy rules between pods" }
+    ],
+    "correct": "b",
+    "explanation": "kube-proxy runs on each node and maintains iptables or IPVS rules that implement Service abstractions. When a Service is created, kube-proxy ensures that traffic sent to the Service's ClusterIP:port is forwarded to one of the backing pod endpoints. kube-proxy is not a traditional HTTP proxy and does not enforce NetworkPolicies (that is the CNI plugin's job) or provide DNS (that is CoreDNS).",
+    "topics": ["services-networking"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "kube-proxy", "url": "https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-012",
+    "type": "single_choice",
+    "prompt": "You need to expose an application externally using an Ingress but also need session affinity so requests from the same client go to the same pod. Which approach is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Set spec.sessionAffinity: ClientIP on the backend Service" },
+      { "id": "b", "text": "Use a NetworkPolicy with session persistence" },
+      { "id": "c", "text": "Set the Ingress pathType to Exact" },
+      { "id": "d", "text": "Configure the Ingress with spec.rules.host: sticky" }
+    ],
+    "correct": "a",
+    "explanation": "Kubernetes Services support session affinity via spec.sessionAffinity: ClientIP, which routes requests from the same client IP to the same pod for a configurable duration (spec.sessionAffinityConfig.clientIP.timeoutSeconds, default 10800 seconds). Some Ingress controllers also support cookie-based session affinity via annotations (e.g., nginx.ingress.kubernetes.io/affinity: cookie), but the built-in Kubernetes mechanism is the Service-level ClientIP affinity.",
+    "topics": ["services-networking"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Service Session Affinity", "url": "https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-013",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid podSelector configurations in a NetworkPolicy ingress rule? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "podSelector: {} (empty selector, matches all pods in the same namespace)" },
+      { "id": "b", "text": "podSelector: {matchLabels: {role: frontend}}" },
+      { "id": "c", "text": "podSelector: {matchLabels: {namespace: backend}}" },
+      { "id": "d", "text": "podSelector combined with namespaceSelector to match pods in another namespace" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "An empty podSelector {} matches all pods in the namespace covered by the rule (or namespaceSelector if specified). A podSelector with matchLabels matches pods with those labels. Combining podSelector with namespaceSelector selects pods in other namespaces that match both selectors. Option C is syntactically valid but semantically wrong: matchLabels: {namespace: backend} matches pods with the label 'namespace=backend', not pods in the backend namespace. To target a namespace, use namespaceSelector with the namespace's labels.",
+    "topics": ["services-networking"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "NetworkPolicy Selectors", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/#behavior-of-to-and-from-selectors" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-014",
+    "type": "single_choice",
+    "prompt": "A Service of type LoadBalancer is created in a bare-metal cluster without a cloud provider. What happens to the EXTERNAL-IP field?",
+    "choices": [
+      { "id": "a", "text": "It is automatically assigned from the pod CIDR range" },
+      { "id": "b", "text": "It remains <pending> indefinitely unless a bare-metal load balancer like MetalLB is configured" },
+      { "id": "c", "text": "It defaults to the node's primary IP address" },
+      { "id": "d", "text": "The Service falls back to NodePort type automatically" }
+    ],
+    "correct": "b",
+    "explanation": "In cloud environments, a LoadBalancer Service triggers the cloud controller manager to provision an external load balancer and assign a public IP. In a bare-metal cluster without a cloud controller or a bare-metal load balancer solution like MetalLB, no component provisions an external IP. The EXTERNAL-IP field shows <pending> indefinitely. The Service still works as a NodePort internally, but no external IP is assigned.",
+    "topics": ["services-networking"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "LoadBalancer", "url": "https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-sn-015",
+    "type": "single_choice",
+    "prompt": "Which kubectl command displays the Endpoints object associated with a Service named 'api-svc' to verify which pod IPs are backing it?",
+    "choices": [
+      { "id": "a", "text": "kubectl get endpoints api-svc" },
+      { "id": "b", "text": "kubectl describe service api-svc --pods" },
+      { "id": "c", "text": "kubectl get pods --service=api-svc" },
+      { "id": "d", "text": "kubectl get svc api-svc --show-endpoints" }
+    ],
+    "correct": "a",
+    "explanation": "kubectl get endpoints api-svc (or kubectl get ep api-svc) shows the Endpoints object for the Service, listing the pod IP addresses and ports that the Service is currently routing to. If the Endpoints object is empty or missing pod IPs, it indicates the Service selector does not match any pod labels. kubectl describe service also shows the Endpoints section but the dedicated command is more direct.",
+    "topics": ["services-networking"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Debugging Services", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/" }
+    ],
+    "version": 1
+  }
+]

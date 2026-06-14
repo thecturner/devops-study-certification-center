@@ -1,0 +1,179 @@
+{
+  "topics": [
+    {
+      "id": "key-concepts",
+      "label": "Key Concepts of Service Management",
+      "description": "Covers the foundational vocabulary and mental models of ITIL 4 service management, including the definition of a service, utility versus warranty, value co-creation, and the roles of customers, users, and sponsors. Understanding these concepts is essential for correctly interpreting every other ITIL 4 topic on the exam.",
+      "studyPointers": [
+        {
+          "label": "ITIL 4 Foundation overview (Axelos)",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation"
+        },
+        {
+          "label": "ITIL 4 key concepts: value, utility, and warranty (Axelos blog)",
+          "url": "https://www.axelos.com/resource-hub/blog/itil-4-key-concepts-of-service-management"
+        },
+        {
+          "label": "ITIL 4 Foundation study guide — IT Governance",
+          "url": "https://www.itgovernance.co.uk/itil"
+        },
+        {
+          "label": "Official ITIL 4 Foundation publication (AXELOS)",
+          "url": "https://www.axelos.com/store/book/itil-foundation-itil-4-edition"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Utility or warranty?",
+          "prompt": "A scenario describes a service that stores files securely with 99.9% availability and 24/7 monitoring. You are asked what aspect of value this represents.",
+          "focus": "Distinguish utility (what the service does) from warranty (how reliably it performs). Availability, security, and continuity are warranty attributes."
+        },
+        {
+          "title": "Identifying stakeholder roles",
+          "prompt": "A scenario describes three people: a department head who approves funding, a manager who defines requirements, and staff who use the service daily.",
+          "focus": "Map each person to the correct ITIL 4 role: sponsor (budget authority), customer (defines requirements and accountable for outcomes), and user (day-to-day use)."
+        }
+      ]
+    },
+    {
+      "id": "four-dimensions",
+      "label": "The Four Dimensions of Service Management",
+      "description": "Defines the four perspectives that must be considered for every service: Organizations and People, Information and Technology, Partners and Suppliers, and Value Streams and Processes. Each dimension is influenced by external PESTLE factors and all four must be addressed holistically to deliver well-rounded services.",
+      "studyPointers": [
+        {
+          "label": "ITIL 4 Foundation overview (Axelos)",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation"
+        },
+        {
+          "label": "Four dimensions of service management explained (ITSM.tools)",
+          "url": "https://itsm.tools/itil-4-four-dimensions-of-service-management/"
+        },
+        {
+          "label": "PESTLE analysis for IT service management (IT Process Wiki)",
+          "url": "https://wiki.en.it-processmaps.com/index.php/ITIL_4"
+        },
+        {
+          "label": "Official ITIL 4 Foundation publication (AXELOS)",
+          "url": "https://www.axelos.com/store/book/itil-foundation-itil-4-edition"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Which dimension applies?",
+          "prompt": "A scenario describes an organization implementing AI chatbots, outsourcing network operations, mapping workflow bottlenecks, or redefining RACI accountability. You must identify which of the four dimensions is being addressed.",
+          "focus": "Learn the primary concern of each dimension: people/culture (O&P), tools/data (I&T), sourcing relationships (P&S), workflow efficiency (VS&P). Scenario keywords map to dimensions."
+        },
+        {
+          "title": "PESTLE categorization",
+          "prompt": "A scenario describes an external factor such as a new data protection regulation, a global recession reducing IT budgets, growing demand for remote work, or a government carbon-reduction mandate.",
+          "focus": "Map external drivers to the correct PESTLE category: Legal (regulations), Economic (budgets/markets), Social (behavior/culture shifts), Environmental (sustainability/carbon)."
+        }
+      ]
+    },
+    {
+      "id": "service-value-system",
+      "label": "The ITIL 4 Service Value System",
+      "description": "Describes the overall structure that enables value creation: inputs of opportunity and demand flow through governance, guiding principles, practices, continual improvement, and the six-activity Service Value Chain to produce value as output. The SVS is designed to be flexible and supports multiple concurrent value streams.",
+      "studyPointers": [
+        {
+          "label": "ITIL 4 Foundation overview (Axelos)",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation"
+        },
+        {
+          "label": "ITIL 4 Service Value System explained (Axelos blog)",
+          "url": "https://www.axelos.com/resource-hub/blog/itil-4-service-value-system"
+        },
+        {
+          "label": "ITIL 4 Service Value Chain activities (ITSM.tools)",
+          "url": "https://itsm.tools/itil-4-service-value-chain/"
+        },
+        {
+          "label": "Official ITIL 4 Foundation publication (AXELOS)",
+          "url": "https://www.axelos.com/store/book/itil-foundation-itil-4-edition"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "SVS component identification",
+          "prompt": "A question asks which SVS component provides direction and control, which contains the 34 practices, or which produces the final value output.",
+          "focus": "Know all five SVS components (guiding principles, governance, service value chain, practices, continual improvement) and the inputs (opportunity and demand) and output (value)."
+        },
+        {
+          "title": "Service Value Chain activity mapping",
+          "prompt": "A scenario describes an activity such as assessing stakeholder needs, procuring a new component, deploying a service into production, or setting organizational direction.",
+          "focus": "Map activities to the correct SVC step: Plan (direction), Engage (stakeholder relationships), Design and Transition (new/changed services), Obtain/Build (procurement/build), Deliver and Support (operational delivery), Improve (enhancement)."
+        }
+      ]
+    },
+    {
+      "id": "guiding-principles",
+      "label": "The Seven Guiding Principles",
+      "description": "Covers the seven universal recommendations that guide decision-making and actions in all circumstances: Focus on value, Start where you are, Progress iteratively with feedback, Collaborate and promote visibility, Think and work holistically, Keep it simple and practical, and Optimize and automate. Exam questions test which principle applies in a given scenario and understand that principles interact and support each other.",
+      "studyPointers": [
+        {
+          "label": "ITIL 4 seven guiding principles (Axelos)",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation"
+        },
+        {
+          "label": "ITIL 4 guiding principles explained (Axelos blog)",
+          "url": "https://www.axelos.com/resource-hub/blog/itil-4-guiding-principles"
+        },
+        {
+          "label": "Guiding principles cheat sheet (ITSM.tools)",
+          "url": "https://itsm.tools/itil-4-guiding-principles/"
+        },
+        {
+          "label": "Official ITIL 4 Foundation publication (AXELOS)",
+          "url": "https://www.axelos.com/store/book/itil-foundation-itil-4-edition"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Principle in action",
+          "prompt": "A scenario describes a team delivering a large project in one release instead of increments, automating a broken process, or redesigning a service without assessing the current state.",
+          "focus": "Identify which guiding principle is being violated or applied. Common traps: confusing 'Optimize and automate' (sequence: optimize first) with 'Keep it simple', or confusing 'Think holistically' with 'Collaborate and promote visibility'."
+        },
+        {
+          "title": "Principle interaction",
+          "prompt": "A question asks whether multiple principles can apply simultaneously or whether principles must be followed in a fixed order.",
+          "focus": "Principles are universal, non-sequential, and can interact. They are recommendations, not rules. Multiple principles often apply to the same situation and reinforce each other."
+        }
+      ]
+    },
+    {
+      "id": "practices",
+      "label": "Key ITIL 4 Management Practices",
+      "description": "Covers the purpose, scope, and distinguishing features of the core ITIL 4 practices tested at Foundation level, including Incident Management, Problem Management, Change Enablement, Service Desk, Service Level Management, Service Request Management, Monitoring and Event Management, Service Configuration Management, Release Management, Deployment Management, and Continual Improvement. Exam questions frequently test the distinctions between closely related practices.",
+      "studyPointers": [
+        {
+          "label": "ITIL 4 Foundation overview (Axelos)",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation"
+        },
+        {
+          "label": "ITIL 4 practices overview (Axelos resource hub)",
+          "url": "https://www.axelos.com/resource-hub/blog/itil-4-practices"
+        },
+        {
+          "label": "ITIL 4 practice comparison — incident vs problem vs change (ITSM.tools)",
+          "url": "https://itsm.tools/itil-4-practices/"
+        },
+        {
+          "label": "Official ITIL 4 Foundation publication (AXELOS)",
+          "url": "https://www.axelos.com/store/book/itil-foundation-itil-4-edition"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Incident vs problem vs service request",
+          "prompt": "A scenario describes a user unable to log in (incident), a recurring server crash with no known cause (problem), or a user requesting a software installation (service request).",
+          "focus": "Incidents are unplanned interruptions. Problems are underlying causes of incidents. Service requests are pre-defined, low-risk, pre-approved requests. These three are frequently confused on the exam."
+        },
+        {
+          "title": "Change type classification",
+          "prompt": "A scenario describes a routine password reset procedure, a new feature requiring full CAB review, or an emergency patch needed within the hour.",
+          "focus": "Standard changes are pre-authorized and low risk. Normal changes require individual authorization. Emergency changes are expedited for urgent situations. Know the characteristics that distinguish each type."
+        }
+      ]
+    }
+  ]
+}

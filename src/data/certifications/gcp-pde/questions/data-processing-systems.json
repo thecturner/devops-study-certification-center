@@ -1,0 +1,298 @@
+[
+  {
+    "id": "gcp-pde-dp-001",
+    "type": "single_choice",
+    "prompt": "A retail company needs to store clickstream events from 50 million daily users. Each event is a small JSON document (~1 KB). Queries will always filter by user ID and timestamp, and the team needs single-digit millisecond reads at the 99th percentile. Which storage service best fits these requirements?",
+    "choices": [
+      { "id": "a", "text": "BigQuery with a clustered table on user_id" },
+      { "id": "b", "text": "Cloud Bigtable with a row key of user_id#timestamp" },
+      { "id": "c", "text": "Cloud Spanner with a composite index on user_id and timestamp" },
+      { "id": "d", "text": "Cloud Firestore in Datastore mode with user_id as the ancestor key" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Bigtable is purpose-built for high-throughput, low-latency key-value and wide-column workloads at petabyte scale. A row key of user_id#timestamp enables efficient range scans for a given user and ensures data locality. BigQuery is an analytical engine optimized for batch queries, not sub-millisecond point reads. Cloud Spanner offers strong consistency and ACID transactions but is more expensive and better suited to relational workloads. Firestore in Datastore mode is a document database suited for smaller operational datasets, not petabyte-scale time-series event stores.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Bigtable schema design", "url": "https://cloud.google.com/bigtable/docs/schema-design" },
+      { "label": "Choosing a storage option", "url": "https://cloud.google.com/storage-options" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-002",
+    "type": "single_choice",
+    "prompt": "A financial services company needs a database for its order management system. Orders involve multiple tables (accounts, positions, trades), require ACID transactions across tables, and the system must handle global distribution with strong consistency. Which GCP service is the best fit?",
+    "choices": [
+      { "id": "a", "text": "Cloud Bigtable" },
+      { "id": "b", "text": "Cloud SQL (PostgreSQL)" },
+      { "id": "c", "text": "Cloud Spanner" },
+      { "id": "d", "text": "BigQuery" }
+    ],
+    "correct": "c",
+    "explanation": "Cloud Spanner provides externally consistent ACID transactions across multiple tables, horizontal scalability, and global distribution — making it ideal for mission-critical financial systems. Cloud SQL supports ACID transactions and is suitable for relational workloads, but it does not scale horizontally across regions without read replicas and lacks Spanner's global strong consistency. Cloud Bigtable is a NoSQL wide-column store with no multi-row transaction support. BigQuery is an analytical data warehouse not designed for online transaction processing.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Spanner overview", "url": "https://cloud.google.com/spanner/docs/overview" },
+      { "label": "Comparing database options in GCP", "url": "https://cloud.google.com/blog/topics/developers-practitioners/your-google-cloud-database-options-explained" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-003",
+    "type": "single_choice",
+    "prompt": "A gaming company generates 500,000 score events per second during peak hours and needs real-time leaderboard lookups with latency under 10 ms. The schema is fixed: game_id, player_id, score, timestamp. Which architecture is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Pub/Sub ingestion into BigQuery streaming inserts, query with BI Engine" },
+      { "id": "b", "text": "Pub/Sub ingestion into Dataflow, write to Cloud Bigtable keyed by game_id#score_inverted#player_id" },
+      { "id": "c", "text": "Pub/Sub ingestion into Dataflow, write to Cloud Spanner with secondary index on score" },
+      { "id": "d", "text": "Pub/Sub ingestion into Dataflow, write to Cloud SQL with a composite index on game_id and score" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Bigtable handles millions of reads and writes per second with single-digit millisecond latency. Using a row key of game_id#inverted_score#player_id allows a single range scan to return the top scores in sorted order without a full table scan. BigQuery streaming inserts have higher latency and are not suited for sub-10 ms leaderboard reads. Cloud Spanner can handle this but is more expensive and reads are typically in the tens of milliseconds. Cloud SQL cannot sustain 500,000 writes per second and is a single-region service.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Bigtable performance and schema design", "url": "https://cloud.google.com/bigtable/docs/performance" },
+      { "label": "Bigtable schema design for time-series data", "url": "https://cloud.google.com/bigtable/docs/schema-design-time-series" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-004",
+    "type": "single_choice",
+    "prompt": "A Dataflow streaming pipeline reads from Pub/Sub and counts page views per URL in 1-minute windows. During testing, the team notices that late-arriving events (delayed up to 3 minutes) are being dropped. Which Dataflow concept should they configure to handle this?",
+    "choices": [
+      { "id": "a", "text": "Side inputs" },
+      { "id": "b", "text": "Allowed lateness with triggers" },
+      { "id": "c", "text": "Combine transforms" },
+      { "id": "d", "text": "Splittable DoFns" }
+    ],
+    "correct": "b",
+    "explanation": "Apache Beam's allowed lateness setting tells the runner how long after a window closes to continue accepting late data. Pairing it with accumulating or discarding triggers controls how late-arriving elements update previously emitted results. Without setting an allowed lateness, late data is dropped by default once the watermark passes the window end. Side inputs are used to pass additional read-only datasets into a transform, not to handle late arrivals. Combine transforms aggregate data but do not themselves address late-event handling. Splittable DoFns enable parallel processing of large elements.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Apache Beam windowing and triggers", "url": "https://cloud.google.com/dataflow/docs/concepts/streaming-pipelines" },
+      { "label": "Beam programming guide: windowing", "url": "https://beam.apache.org/documentation/programming-guide/#windowing" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-005",
+    "type": "single_choice",
+    "prompt": "A data engineering team needs to run Apache Spark jobs for daily ETL processing of 10 TB of log files stored in Cloud Storage. The jobs run for 2 hours and the cluster is idle the rest of the day. Which GCP service and configuration minimizes cost?",
+    "choices": [
+      { "id": "a", "text": "Dataflow with the Flex Template runner" },
+      { "id": "b", "text": "Dataproc with ephemeral clusters and preemptible VMs" },
+      { "id": "c", "text": "Dataproc with a persistent cluster and autoscaling" },
+      { "id": "d", "text": "Cloud Composer triggering a Dataflow job" }
+    ],
+    "correct": "b",
+    "explanation": "Dataproc supports creating ephemeral clusters that are spun up for the job and torn down immediately after, eliminating idle cluster costs. Adding preemptible VMs for worker nodes reduces compute costs by up to 80%. A persistent cluster with autoscaling still incurs costs for the master node and minimum worker nodes during idle periods. Dataflow is a fully managed service that works well for batch and streaming but does not natively run Spark; migrating Spark jobs to Dataflow would require rewriting them. Using Cloud Composer to trigger a Dataflow job solves orchestration but not the Spark requirement.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Dataproc cluster lifecycle", "url": "https://cloud.google.com/dataproc/docs/concepts/overview" },
+      { "label": "Dataproc preemptible VMs", "url": "https://cloud.google.com/dataproc/docs/concepts/compute/preemptible-vm" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-006",
+    "type": "single_choice",
+    "prompt": "A Pub/Sub topic receives sensor readings from 10,000 IoT devices. Each device publishes one message per second with a device_id attribute. A subscriber must process messages from the same device in strict order. What is the correct approach?",
+    "choices": [
+      { "id": "a", "text": "Create one subscription per device" },
+      { "id": "b", "text": "Enable message ordering on the topic and set an ordering key equal to device_id when publishing" },
+      { "id": "c", "text": "Use Pub/Sub Lite with a single zone partition per device" },
+      { "id": "d", "text": "Add a sequence number to each message and sort at the subscriber" }
+    ],
+    "correct": "b",
+    "explanation": "Pub/Sub supports message ordering when publishers set an ordering key on published messages and ordering is enabled on the subscription. Messages with the same ordering key are delivered to subscribers in the order they were published. Creating one subscription per device is operationally infeasible at 10,000 devices. Pub/Sub Lite supports ordering within a partition, but partition-per-device would also be operationally complex. Sorting at the subscriber introduces latency and requires buffering, which defeats the purpose of a streaming pipeline.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Pub/Sub message ordering", "url": "https://cloud.google.com/pubsub/docs/ordering" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-007",
+    "type": "single_choice",
+    "prompt": "A Dataflow pipeline performs an expensive lookup against a slowly-changing reference dataset (about 100 MB, updated once per day) for every incoming Pub/Sub message. What is the recommended pattern to avoid fetching the reference data for every message?",
+    "choices": [
+      { "id": "a", "text": "Load the reference data as a side input using a bounded PCollection" },
+      { "id": "b", "text": "Fetch the reference data from Cloud Storage inside the DoFn for each element" },
+      { "id": "c", "text": "Write the reference data to Pub/Sub and join streams" },
+      { "id": "d", "text": "Use a Combine.globally transform to broadcast the reference data" }
+    ],
+    "correct": "a",
+    "explanation": "Side inputs in Apache Beam allow a transform to access an additional dataset (bounded PCollection) that is broadcast to all workers and cached in memory. This is the canonical pattern for enriching a streaming pipeline with a reference dataset without per-element I/O calls. Fetching from Cloud Storage inside each DoFn would create millions of storage API calls per hour, adding latency and cost. Joining two Pub/Sub streams is complex and the reference data is not a stream. Combine.globally is an aggregation operation, not a broadcast mechanism.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Beam side inputs", "url": "https://cloud.google.com/dataflow/docs/guides/common-patterns#side-inputs" },
+      { "label": "Beam programming guide: side inputs", "url": "https://beam.apache.org/documentation/programming-guide/#side-inputs" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-008",
+    "type": "single_choice",
+    "prompt": "Which windowing strategy in Apache Beam assigns each element to every fixed-size window that the element's timestamp falls within, and is best suited for calculating rolling averages?",
+    "choices": [
+      { "id": "a", "text": "Fixed windows" },
+      { "id": "b", "text": "Sliding windows" },
+      { "id": "c", "text": "Session windows" },
+      { "id": "d", "text": "Global windows" }
+    ],
+    "correct": "b",
+    "explanation": "Sliding windows overlap and each element can belong to multiple windows, making them ideal for rolling computations like a 5-minute moving average sampled every 30 seconds. Fixed windows are non-overlapping; each element belongs to exactly one window, producing tumbling interval aggregates rather than rolling ones. Session windows group elements by inactivity gaps, useful for user session analysis but not rolling averages. Global windows contain all elements in a single window and require explicit triggers to emit results.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dataflow windowing concepts", "url": "https://cloud.google.com/dataflow/docs/concepts/streaming-pipelines#windowing" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-009",
+    "type": "single_choice",
+    "prompt": "A data team wants to build an ELT pipeline that reads from multiple SaaS APIs (Salesforce, Marketo) and loads the raw data into BigQuery without writing custom connector code. Which GCP service is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Cloud Data Fusion" },
+      { "id": "b", "text": "Dataflow with custom Java DoFns" },
+      { "id": "c", "text": "BigQuery Data Transfer Service" },
+      { "id": "d", "text": "Datastream" }
+    ],
+    "correct": "a",
+    "explanation": "Cloud Data Fusion is a fully managed, GUI-driven data integration service built on open-source CDAP. It ships with 150+ pre-built connectors including Salesforce and Marketo, enabling no-code or low-code ELT pipeline construction. BigQuery Data Transfer Service supports scheduled transfers from Google properties (Google Ads, Google Analytics) and a small set of partner SaaS tools, but does not cover the breadth of connectors that Data Fusion provides. Dataflow is code-first and requires writing connector logic for non-native sources. Datastream is a CDC service for relational database replication, not SaaS API ingestion.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Data Fusion overview", "url": "https://cloud.google.com/data-fusion/docs/concepts/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-010",
+    "type": "single_choice",
+    "prompt": "A pipeline must process events with exactly-once semantics end-to-end from Pub/Sub to BigQuery. Which combination achieves this guarantee natively?",
+    "choices": [
+      { "id": "a", "text": "Pub/Sub push subscription writing directly to BigQuery via HTTP webhooks" },
+      { "id": "b", "text": "Dataflow streaming pipeline using the BigQuery Storage Write API with exactly-once mode" },
+      { "id": "c", "text": "Pub/Sub to Cloud Storage via Cloud Functions, then BigQuery batch load jobs" },
+      { "id": "d", "text": "Pub/Sub pull subscription with a Cloud Run consumer writing to BigQuery streaming inserts" }
+    ],
+    "correct": "b",
+    "explanation": "The BigQuery Storage Write API in exactly-once (committed) mode, combined with Dataflow's built-in checkpointing and idempotent write semantics, provides end-to-end exactly-once delivery from Pub/Sub to BigQuery. Dataflow natively integrates with Pub/Sub and handles deduplication, watermarking, and retries. A push subscription via webhooks is at-least-once and offers no deduplication guarantee at the BigQuery layer. The Cloud Storage intermediate approach is at-least-once for the Pub/Sub to GCS step. Cloud Run consumers with streaming inserts are at-least-once because the BigQuery legacy streaming API does not guarantee deduplication.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "BigQuery Storage Write API", "url": "https://cloud.google.com/bigquery/docs/write-api" },
+      { "label": "Dataflow exactly-once semantics", "url": "https://cloud.google.com/dataflow/docs/concepts/exactly-once" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-011",
+    "type": "single_choice",
+    "prompt": "A startup stores user profile documents with highly variable and evolving schemas (each user may have different optional attributes). They need flexible queries on any attribute, with writes in the tens of thousands per second and reads under 50 ms. Which storage solution best fits?",
+    "choices": [
+      { "id": "a", "text": "Cloud Firestore in Native mode" },
+      { "id": "b", "text": "Cloud Bigtable" },
+      { "id": "c", "text": "Cloud Spanner" },
+      { "id": "d", "text": "BigQuery with JSON columns" }
+    ],
+    "correct": "a",
+    "explanation": "Cloud Firestore in Native mode is a serverless document database that supports schemaless documents, flexible ad-hoc queries on any field via automatically managed indexes, and offers single-digit millisecond reads at scale. It scales automatically and requires no cluster management. Cloud Bigtable is schema-rigid (row key + column families) and has no query language for filtering on arbitrary attributes. Cloud Spanner requires predefined schemas and indexing, making it less flexible for variable document shapes. BigQuery JSON columns enable flexible schema storage but BigQuery is not an operational database and cannot deliver sub-50 ms point reads.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Firestore data model", "url": "https://cloud.google.com/firestore/docs/data-model" },
+      { "label": "Choosing a database: Firestore vs Bigtable", "url": "https://cloud.google.com/firestore/docs/choosing" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-012",
+    "type": "single_choice",
+    "prompt": "A Pub/Sub subscription is configured with a 600-second acknowledgment deadline. A subscriber pulls a batch of 500 messages, processes them, and 620 seconds elapse before it sends acknowledgments. What will happen?",
+    "choices": [
+      { "id": "a", "text": "The messages are permanently lost because the deadline expired" },
+      { "id": "b", "text": "Pub/Sub will redeliver the unacknowledged messages to available subscribers" },
+      { "id": "c", "text": "The messages are moved to the dead-letter topic automatically" },
+      { "id": "d", "text": "The subscription is paused until the subscriber reconnects" }
+    ],
+    "correct": "b",
+    "explanation": "Pub/Sub uses at-least-once delivery semantics. If a subscriber does not acknowledge a message before the acknowledgment deadline expires, Pub/Sub redelivers the message to any available subscriber. Messages are never lost due to acknowledgment timeouts — they are retried. Messages are only moved to a dead-letter topic when the max delivery attempts threshold is exceeded and a dead-letter topic is configured. Pub/Sub does not pause subscriptions on timeout. Messages are retained in Pub/Sub for up to 7 days by default.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Pub/Sub subscriber overview", "url": "https://cloud.google.com/pubsub/docs/subscriber" },
+      { "label": "Pub/Sub delivery semantics", "url": "https://cloud.google.com/pubsub/docs/at-least-once-delivery" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-013",
+    "type": "single_choice",
+    "prompt": "A batch ETL pipeline transforms 5 TB of CSV files in Cloud Storage and writes results to BigQuery. Processing is idempotent. The team wants to reduce costs significantly. Which Dataflow configuration option best achieves this?",
+    "choices": [
+      { "id": "a", "text": "Use Dataflow Prime for vertical autoscaling" },
+      { "id": "b", "text": "Enable Flexible Resource Scheduling (FlexRS) using preemptible VMs and delayed execution" },
+      { "id": "c", "text": "Increase the number of workers to finish faster and reduce total runtime cost" },
+      { "id": "d", "text": "Switch to Dataflow streaming mode for continuous ingestion" }
+    ],
+    "correct": "b",
+    "explanation": "Flexible Resource Scheduling (FlexRS) reduces batch job costs by up to 40% by scheduling jobs during periods when Compute Engine capacity is available at lower prices and by mixing preemptible VMs with standard VMs. Because the pipeline is idempotent, preemption and retry do not cause correctness issues. Dataflow Prime adds vertical autoscaling but does not guarantee the cost reduction that FlexRS provides for batch workloads. Adding more workers reduces wall-clock time but the total CPU-hour cost remains similar. Switching to streaming mode does not apply to batch ETL jobs.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Dataflow Flexible Resource Scheduling", "url": "https://cloud.google.com/dataflow/docs/guides/flexrs" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-014",
+    "type": "single_choice",
+    "prompt": "A streaming pipeline must compute the number of transactions per merchant_id over a 10-minute fixed window. The same merchant can appear in multiple parallel bundles. Which Beam transform is most efficient for this aggregation?",
+    "choices": [
+      { "id": "a", "text": "ParDo with a per-element counter stored in an external Redis cache" },
+      { "id": "b", "text": "GroupByKey followed by a custom DoFn that sums values" },
+      { "id": "c", "text": "Combine.perKey with a SumLongFn combiner" },
+      { "id": "d", "text": "CoGroupByKey merging two PCollections by merchant_id" }
+    ],
+    "correct": "c",
+    "explanation": "Combine.perKey is the idiomatic and most efficient Beam transform for per-key aggregations. The combiner function is applied incrementally at each worker before the shuffle phase (partial combining), dramatically reducing the amount of data that must be shuffled across the network. GroupByKey followed by a custom DoFn achieves the same result but without the partial combining optimization, leading to higher data shuffle costs. ParDo with Redis introduces external state and network latency for every element. CoGroupByKey is for joining two separate PCollections, not for counting within one.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Beam Combine transform", "url": "https://cloud.google.com/dataflow/docs/guides/common-patterns#combineperkey" },
+      { "label": "Beam programming guide: Combine", "url": "https://beam.apache.org/documentation/programming-guide/#combine" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-dp-015",
+    "type": "single_choice",
+    "prompt": "A company needs to migrate a legacy on-premises Hadoop HDFS + Hive cluster that runs weekly batch jobs to GCP. The team wants to maintain compatibility with existing Hive SQL scripts and minimize rewrite effort. Which migration path is recommended?",
+    "choices": [
+      { "id": "a", "text": "Lift-and-shift the cluster to Dataflow using the Hive Beam connector" },
+      { "id": "b", "text": "Migrate data to Cloud Storage and run existing Hive jobs on Dataproc with the Cloud Storage connector" },
+      { "id": "c", "text": "Import data into BigQuery and rewrite all Hive SQL as BigQuery standard SQL" },
+      { "id": "d", "text": "Run Hive queries inside Cloud Data Fusion pipelines" }
+    ],
+    "correct": "b",
+    "explanation": "Dataproc is Google's managed Hadoop and Hive service. By migrating data from HDFS to Cloud Storage and using the Cloud Storage connector (which makes GCS appear as HDFS to the cluster), existing Hive scripts can run with minimal or no modification. Ephemeral Dataproc clusters can be created per job to minimize cost. Migrating to Dataflow requires rewriting jobs in Apache Beam, which is significant effort. Rewriting all scripts as BigQuery SQL is also a large migration project and changes semantics. Cloud Data Fusion does not natively execute raw Hive QL scripts.",
+    "topics": ["data-processing-systems"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Migrating from Hadoop to Dataproc", "url": "https://cloud.google.com/dataproc/docs/guides/migration-guide" },
+      { "label": "Cloud Storage connector for Hadoop", "url": "https://cloud.google.com/dataproc/docs/concepts/connectors/cloud-storage" }
+    ],
+    "version": 1
+  }
+]

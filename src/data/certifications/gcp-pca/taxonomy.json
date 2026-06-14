@@ -1,0 +1,119 @@
+{
+  "topics": [
+    {
+      "id": "solution-design",
+      "label": "Designing and Planning a Cloud Solution Architecture",
+      "description": "Covers selecting appropriate GCP services to meet complex, multi-constraint requirements including latency, throughput, consistency, cost, and compliance. Emphasises trade-off analysis across storage systems, connectivity options, and architectural patterns such as event-driven design, microservices, and hybrid/multi-cloud deployments.",
+      "studyPointers": [
+        { "label": "GCP Architecture Framework", "url": "https://cloud.google.com/architecture/framework" },
+        { "label": "Cloud Storage Product Picker", "url": "https://cloud.google.com/storage-options" },
+        { "label": "Network Connectivity: Interconnect vs VPN", "url": "https://cloud.google.com/network-connectivity/docs/how-to/choose-product" },
+        { "label": "Anthos: Hybrid and Multi-cloud Overview", "url": "https://cloud.google.com/anthos/docs/concepts/overview" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Database Selection Under Competing Constraints",
+          "prompt": "A scenario presents a workload with requirements across consistency, query language (SQL vs NoSQL), throughput, latency, and global distribution. The candidate must eliminate distractors that satisfy some but not all constraints.",
+          "focus": "Knowing the precise differentiation between Cloud Spanner (strong consistency + SQL + global), Bigtable (high throughput + time-series + no SQL joins), BigQuery (analytics + batch + high latency for point reads), and Firestore (document + real-time + single-region consistency)."
+        },
+        {
+          "title": "Hybrid Connectivity Architecture",
+          "prompt": "An enterprise needs private, low-latency connectivity from on-premises to GCP with specific bandwidth requirements and a no-public-internet policy. The candidate must select between Dedicated Interconnect, Partner Interconnect, Cloud VPN, and Direct Peering.",
+          "focus": "Bandwidth thresholds (Dedicated = 10 Gbps minimum, Partner = 50 Mbps to 10 Gbps), latency characteristics, public internet traversal, and appropriate use of Private Service Connect for service-level private endpoints."
+        }
+      ]
+    },
+    {
+      "id": "infrastructure-management",
+      "label": "Managing and Provisioning a Solution Infrastructure",
+      "description": "Focuses on infrastructure-as-code practices (Terraform, Deployment Manager), GKE cluster lifecycle management (upgrades, autoscaling, node pool design), Cloud Run advanced configuration, and managed services like Cloud CDN and Traffic Director. Requires understanding of operational concerns such as state locking, rolling updates, and connection limits.",
+      "studyPointers": [
+        { "label": "GKE: Cluster Autoscaler Documentation", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler" },
+        { "label": "Terraform on GCP: Best Practices", "url": "https://cloud.google.com/docs/terraform/best-practices-for-terraform" },
+        { "label": "Cloud Run: Configuring Services", "url": "https://cloud.google.com/run/docs/configuring/services/overview" },
+        { "label": "GKE: Multi-cluster Ingress", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/multi-cluster-ingress" }
+      ],
+      "examScenarios": [
+        {
+          "title": "GKE Upgrade with Zero Downtime",
+          "prompt": "A production GKE cluster with multiple node pools needs to be upgraded to a new minor Kubernetes version while maintaining application availability. PodDisruptionBudgets are in place. The candidate must identify the correct upgrade sequence and surge upgrade configuration.",
+          "focus": "Control plane must be upgraded before nodes; surge upgrades (maxSurge=1, maxUnavailable=0) add capacity before draining; version skew rules between control plane and node versions."
+        },
+        {
+          "title": "Terraform State Management at Scale",
+          "prompt": "A platform team managing many projects with Terraform encounters state conflicts, drift from manual changes, and environment configuration duplication. The candidate must identify GCS backend locking, module reuse patterns, and drift detection strategies.",
+          "focus": "GCS backend provides built-in state locking; Terraform modules enable reuse with per-environment variable overrides; `terraform plan` in Cloud Build detects drift without applying changes."
+        }
+      ]
+    },
+    {
+      "id": "security-compliance",
+      "label": "Designing for Security and Compliance",
+      "description": "Addresses GCP's layered security model including VPC Service Controls for API-level data exfiltration prevention, Organisation Policy constraints for guardrails, Identity-Aware Proxy for zero-trust access, Binary Authorization for supply-chain security, and Cloud KMS/CMEK for encryption governance. Compliance frameworks like FedRAMP (Assured Workloads) and data residency are also covered.",
+      "studyPointers": [
+        { "label": "VPC Service Controls: Overview", "url": "https://cloud.google.com/vpc-service-controls/docs/overview" },
+        { "label": "Organisation Policy: Constraint List", "url": "https://cloud.google.com/resource-manager/docs/organisation-policy/org-policy-constraints" },
+        { "label": "Binary Authorization Overview", "url": "https://cloud.google.com/binary-authorization/docs/overview" },
+        { "label": "Assured Workloads: Compliance Regimes", "url": "https://cloud.google.com/assured-workloads/docs/overview" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Data Exfiltration Prevention with VPC Service Controls",
+          "prompt": "An organisation needs to prevent sensitive data in BigQuery and Cloud Storage from being exfiltrated even by users with valid IAM permissions. A trusted external service in a different project needs access. The candidate must design perimeter boundaries and ingress rules.",
+          "focus": "VPC Service Controls block API access regardless of IAM; ingress/egress rules grant cross-perimeter access to specific service accounts without adding their project to the perimeter."
+        },
+        {
+          "title": "Preventing Service Account Key Abuse",
+          "prompt": "After a key compromise incident, the security team wants to prevent creation of long-lived service account keys across the organisation while allowing workloads to authenticate to GCP APIs.",
+          "focus": "Organisation Policy `constraints/iam.disableServiceAccountKeyCreation` blocks new key creation; Workload Identity Federation and attached service accounts replace keys with short-lived credentials."
+        }
+      ]
+    },
+    {
+      "id": "technical-processes",
+      "label": "Analysing and Optimising Technical and Business Processes",
+      "description": "Covers business continuity planning (RPO/RTO), disaster recovery patterns (cold standby, pilot light, warm standby, active-active), GCP cost optimisation strategies (CUDs, Spot VMs, BigQuery cost controls), and system integration patterns using Apigee, Cloud Endpoints, and Cloud Tasks. Includes database migration approaches with Database Migration Service.",
+      "studyPointers": [
+        { "label": "GCP: Disaster Recovery Planning Guide", "url": "https://cloud.google.com/architecture/dr-scenarios-planning-guide" },
+        { "label": "Apigee: API Management Concepts", "url": "https://cloud.google.com/apigee/docs/api-platform/get-started/what-apigee" },
+        { "label": "GCP: Committed Use Discounts", "url": "https://cloud.google.com/compute/docs/instances/signing-up-committed-use-discounts" },
+        { "label": "Database Migration Service Overview", "url": "https://cloud.google.com/database-migration/docs/overview" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Selecting a DR Pattern Under Cost and RTO Constraints",
+          "prompt": "An architect must choose a DR pattern (cold standby, pilot light, warm standby, active-active) for a mission-critical platform given explicit RTO, RPO, and monthly cost budget constraints. Each pattern has different cost and recovery time implications.",
+          "focus": "Cold standby: lowest cost, highest RTO (hours). Pilot light: low cost, RTO 15-30 minutes. Warm standby: moderate cost, RTO 5-15 minutes. Active-active: highest cost, near-zero RTO. Match the pattern to the stated RTO/RPO and budget."
+        },
+        {
+          "title": "Cost Optimisation for Mixed Workload Types",
+          "prompt": "A company runs both always-on production services and interruptible batch jobs on Compute Engine. They want to minimise total compute spend without over-committing on variable workloads.",
+          "focus": "CUDs for predictable, always-on capacity; Spot VMs for interruptible batch with checkpoint/resume; avoid applying CUDs to variable workloads that do not run continuously."
+        }
+      ]
+    },
+    {
+      "id": "reliability-operations",
+      "label": "Managing Implementation and Ensuring Solution and Operations Reliability",
+      "description": "Covers SRE practices on GCP including SLI/SLO/SLA design, error budget management, burn rate alerting, Cloud Monitoring alert configuration, distributed tracing with Cloud Trace, structured logging with Cloud Logging, and GKE autoscaling patterns. Also addresses deployment reliability (canary releases, Cloud Run traffic splitting) and capacity planning.",
+      "studyPointers": [
+        { "label": "Cloud Monitoring: SLO Overview", "url": "https://cloud.google.com/monitoring/slo-overview" },
+        { "label": "Cloud Logging: Structured Logging", "url": "https://cloud.google.com/logging/docs/structured-logging" },
+        { "label": "Cloud Trace Overview", "url": "https://cloud.google.com/trace/docs/overview" },
+        { "label": "GCP Architecture Framework: Reliability", "url": "https://cloud.google.com/architecture/framework/reliability" }
+      ],
+      "examScenarios": [
+        {
+          "title": "SLO Error Budget Policy Decisions",
+          "prompt": "An SRE team has consumed a large portion of their error budget mid-window. A development team wants to deploy a risky feature. The candidate must apply error budget policy principles to determine whether the deployment should proceed.",
+          "focus": "Error budget burn rate determines risk appetite; high consumption signals reliability investment is needed before new features; burn rate thresholds (e.g., 720x for 1-hour exhaustion) drive alert severity."
+        },
+        {
+          "title": "Autoscaling Based on Non-CPU Metrics",
+          "prompt": "A GKE queue-processing application needs to scale pods based on Pub/Sub queue depth, not CPU utilisation. The candidate must identify the correct GKE HPA configuration using Cloud Monitoring external metrics.",
+          "focus": "HPA external metrics adapter can consume Cloud Monitoring metrics including Pub/Sub `num_undelivered_messages`; Cluster Autoscaler responds to pending pods created by HPA; VPA is not relevant for queue-based scaling."
+        }
+      ]
+    }
+  ]
+}

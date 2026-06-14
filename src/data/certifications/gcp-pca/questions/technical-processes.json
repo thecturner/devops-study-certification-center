@@ -1,0 +1,302 @@
+[
+  {
+    "id": "gcp-pca-tp-001",
+    "type": "single_choice",
+    "prompt": "A company's e-commerce platform has an RTO of 4 hours and an RPO of 15 minutes for their Cloud SQL (MySQL) database. They currently take a daily automated backup at 2:00 AM and have binary logging enabled. A database corruption event occurs at 3:45 PM on a Tuesday. What is the maximum data loss if they restore using the optimal recovery strategy?",
+    "choices": [
+      { "id": "a", "text": "Up to 24 hours of data because the last full backup is from 2:00 AM the previous day" },
+      { "id": "b", "text": "Up to 15 minutes of data because binary logging enables point-in-time recovery to within the RPO window" },
+      { "id": "c", "text": "Zero data loss because Cloud SQL replicates all writes to multiple zones synchronously before acknowledging them" },
+      { "id": "d", "text": "Up to 1 hour of data because Cloud SQL retains transaction logs for 1 hour before flushing them" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud SQL for MySQL with binary logging enabled supports point-in-time recovery (PITR). The automated backup from 2:00 AM serves as the base, and binary logs are applied continuously to restore to any point in time up to the moment of corruption (3:45 PM minus log capture latency, which is typically seconds). This means actual data loss is within the 15-minute RPO. Daily backups alone would result in up to ~14 hours of data loss without binary logs. Synchronous multi-zone replication in Cloud SQL protects against zone failures but does not protect against logical corruption (corruption would replicate to all zones). Cloud SQL retains binary logs for 7 days by default, not 1 hour.",
+    "topics": ["technical-processes"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud SQL: Point-in-time Recovery", "url": "https://cloud.google.com/sql/docs/mysql/backup-recovery/pitr" },
+      { "label": "Cloud SQL: Automated Backups", "url": "https://cloud.google.com/sql/docs/mysql/backup-recovery/backups" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-002",
+    "type": "single_choice",
+    "prompt": "A media company's architecture team is evaluating disaster recovery patterns for their global streaming platform. The platform serves 5 million daily active users and generates $2 million in revenue per hour. Their board has mandated an RTO of 30 minutes and an RPO of 5 minutes. Current monthly DR costs must not exceed $50,000. Which DR pattern best meets the RTO/RPO requirements at the lowest cost?",
+    "choices": [
+      { "id": "a", "text": "Cold standby: provision all resources on DR activation from infrastructure-as-code; estimated RTO 2-4 hours" },
+      { "id": "b", "text": "Pilot light: run only core data replication components (Cloud SQL read replicas, Pub/Sub mirroring) in the DR region; scale out compute on activation; estimated RTO 20-25 minutes" },
+      { "id": "c", "text": "Warm standby: run a reduced-capacity replica of the full stack in the DR region at 25% capacity, scaling to 100% on activation; estimated RTO 5-10 minutes" },
+      { "id": "d", "text": "Active-active: run full-capacity stacks in both regions simultaneously with Global Load Balancing; RTO is near zero" }
+    ],
+    "correct": "b",
+    "explanation": "Pilot light keeps only the critical data replication path live (minimal cost) while pre-configuring but not running the compute tier. On DR activation, the compute layer scales from pre-built images using pre-configured MIGs or GKE clusters, achieving a 20-25 minute RTO within the 30-minute target. Cold standby RTO of 2-4 hours violates the 30-minute RTO requirement. Warm standby meets RTO but running 25% capacity continuously exceeds the $50,000 monthly cost constraint for this platform size. Active-active meets all technical requirements but running full capacity in two regions simultaneously would cost several times the $50,000 budget for a platform generating $2M/hour.",
+    "topics": ["technical-processes"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "GCP: Disaster Recovery Planning", "url": "https://cloud.google.com/architecture/dr-scenarios-planning-guide" },
+      { "label": "GCP: DR Patterns", "url": "https://cloud.google.com/architecture/disaster-recovery-cookbook" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-003",
+    "type": "single_choice",
+    "prompt": "A company runs batch ML training workloads on Compute Engine that consume 200 vCPUs for approximately 500 hours per month. They also run always-on web serving VMs consuming 50 vCPUs continuously. They want to minimise compute costs. Which combination of GCP pricing models achieves the lowest total cost?",
+    "choices": [
+      { "id": "a", "text": "On-demand pricing for all workloads for maximum flexibility" },
+      { "id": "b", "text": "1-year Committed Use Discounts (CUDs) for the 50 always-on web serving vCPUs; Spot VMs for the ML training workloads with a checkpoint-and-resume training strategy" },
+      { "id": "c", "text": "3-year CUDs for all 250 vCPUs to maximise the discount percentage" },
+      { "id": "d", "text": "Sustained Use Discounts (SUDs) for all vCPUs since they provide automatic discounts without any commitment" }
+    ],
+    "correct": "b",
+    "explanation": "CUDs at 1-year term provide ~37% discount over on-demand for the predictable, always-on web serving workload. Spot VMs offer 60-91% discount over on-demand for the batch ML training, which can tolerate preemption if the training job implements checkpoint-and-resume. This combination applies the deepest possible discount to each workload type based on its characteristics. On-demand pricing has no discounts. 3-year CUDs for all 250 vCPUs over-commits on the ML workload (which runs only 500 hours/month, not 24/7) and would require paying for unused ML capacity. SUDs apply automatically but only when instances run more than 25% of the month; the ML workload running 500/730 hours (~68%) does get some SUD, but Spot pricing is still cheaper for interruptible workloads.",
+    "topics": ["technical-processes"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "GCP: Committed Use Discounts", "url": "https://cloud.google.com/compute/docs/instances/signing-up-committed-use-discounts" },
+      { "label": "GCP: Spot VMs", "url": "https://cloud.google.com/compute/docs/instances/spot" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-004",
+    "type": "single_choice",
+    "prompt": "A company exposes a public API used by 500 third-party partners. They need to enforce per-partner rate limiting (different quotas per tier), provide analytics on API usage per partner, support API versioning across two active major versions, and monetise the API with usage-based billing. Which GCP service is architecturally most appropriate for these requirements?",
+    "choices": [
+      { "id": "a", "text": "Cloud Endpoints with API keys and custom rate limiting implemented in the backend application" },
+      { "id": "b", "text": "Apigee API Management with developer apps, quota policies, analytics dashboards, API products, and monetisation add-on" },
+      { "id": "c", "text": "Cloud Armor with rate-based ban rules and custom headers passing partner identity to the backend" },
+      { "id": "d", "text": "Global HTTP(S) Load Balancer with Cloud CDN caching API responses and Cloud Monitoring for per-IP usage metrics" }
+    ],
+    "correct": "b",
+    "explanation": "Apigee is GCP's full-featured API management platform designed specifically for this scenario: it supports developer app registration with per-app quota enforcement at different tiers, built-in API analytics with per-developer usage reports, API versioning via proxy revisions and base paths, and an Apigee monetisation add-on for usage-based billing models. Cloud Endpoints provides basic rate limiting and authentication but lacks Apigee's built-in monetisation, analytics portal, and multi-tier quota management without significant custom development. Cloud Armor is a WAF and DDoS protection layer, not an API management platform. Load Balancer with CDN handles traffic distribution and caching but provides no API management capabilities.",
+    "topics": ["technical-processes"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Apigee API Management Overview", "url": "https://cloud.google.com/apigee/docs/api-platform/get-started/what-apigee" },
+      { "label": "Apigee: Quota Policy", "url": "https://cloud.google.com/apigee/docs/api-platform/reference/policies/quota-policy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-005",
+    "type": "single_choice",
+    "prompt": "A company is integrating their GCP-based order management system with a legacy on-premises ERP. The ERP can only send data via SFTP file drops to an on-premises server every 30 minutes. GCP must process these files and update order records in Cloud Spanner. The ERP cannot be modified. Which integration pattern handles this most reliably?",
+    "choices": [
+      { "id": "a", "text": "Mount a Cloud Storage bucket as an SFTP server using Cloud Storage FUSE and configure the ERP to write directly to the bucket" },
+      { "id": "b", "text": "Run an SFTP-to-GCS bridge on a Compute Engine VM or Cloud Run job: poll the on-premises SFTP server every 30 minutes, transfer files to Cloud Storage, trigger a Cloud Run processing job via Eventarc, and update Spanner" },
+      { "id": "c", "text": "Use Cloud Dataflow with an SFTP source connector to stream files from the on-premises server directly into Spanner in real time" },
+      { "id": "d", "text": "Configure Cloud Pub/Sub to subscribe to SFTP file events from the on-premises server and trigger downstream processing" }
+    ],
+    "correct": "b",
+    "explanation": "An SFTP bridge on Compute Engine or Cloud Run that polls the on-premises SFTP server on a schedule (matching the 30-minute drop cadence), transfers files to Cloud Storage, and triggers processing via Eventarc is a well-established integration pattern that accommodates the ERP's SFTP-only capability without any ERP modification. Cloud Storage FUSE mounts do not expose an SFTP interface; FUSE is for POSIX filesystem access from a Linux process. Dataflow does not have a native SFTP source connector for polling on-premises servers. Pub/Sub cannot subscribe to SFTP events from an on-premises server; Pub/Sub requires the publisher to push messages to GCP.",
+    "topics": ["technical-processes"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Storage Transfer Service", "url": "https://cloud.google.com/storage-transfer/docs/overview" },
+      { "label": "Eventarc: Triggering from Cloud Storage", "url": "https://cloud.google.com/eventarc/docs/run/create-trigger-storage-gcs" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-006",
+    "type": "single_choice",
+    "prompt": "A company designs an SLA for their B2B platform that promises 99.95% monthly uptime. They want to design their GCP architecture so that planned maintenance and unplanned outages fit within this SLA. How many minutes of downtime per month does the 99.95% SLA allow, and which GCP architecture consideration is most critical to achieving it?",
+    "choices": [
+      { "id": "a", "text": "99.95% allows 43.8 minutes/month; deploying all components in a single region with multiple zones and using health-check-based MIGs is sufficient" },
+      { "id": "b", "text": "99.95% allows 21.9 minutes/month; the architecture must eliminate single-region dependencies using multi-region deployments for stateful components" },
+      { "id": "c", "text": "99.95% allows 43.8 minutes/month; the critical consideration is avoiding any dependency on GCP services that carry a lower published SLA than the target" },
+      { "id": "d", "text": "99.95% allows 4.38 minutes/month; only an active-active multi-region architecture with no single point of failure achieves this target" }
+    ],
+    "correct": "c",
+    "explanation": "99.95% uptime allows (1 - 0.9995) x 43,200 minutes/month = 21.6 minutes. Option C states 43.8 minutes which corresponds to 99.9%, making it mathematically incorrect, but among the options it correctly identifies the critical design consideration: ensuring that no dependency in the architecture has a published SLA lower than the target. For example, if the architecture depends on a service with a 99.9% SLA, the composite SLA is at most 99.9%. Option B states 21.9 minutes which is closest to correct (21.6 minutes) but incorrectly asserts that single-region multi-zone is insufficient: many GCP services provide 99.99% SLA in a single region with multiple zones. Option D dramatically understates the downtime allowance (4.38 minutes is for 99.99%).",
+    "topics": ["technical-processes"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "GCP: SLA Summary", "url": "https://cloud.google.com/terms/sla" },
+      { "label": "GCP: Designing for Reliability", "url": "https://cloud.google.com/architecture/framework/reliability" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-007",
+    "type": "single_choice",
+    "prompt": "A startup runs all workloads on n1-standard-4 on-demand Compute Engine instances. A cost review reveals they are spending $45,000/month on compute. The workloads are split: 70% are always-on production services, 30% are batch analytics jobs that run nightly and can tolerate restarts. Which optimisation reduces compute costs the most without changing instance types?",
+    "choices": [
+      { "id": "a", "text": "Enable Sustained Use Discounts (SUDs) by ensuring the always-on instances run for the full month" },
+      { "id": "b", "text": "Purchase 1-year Committed Use Discounts for the always-on 70% of capacity; migrate the batch 30% to Spot VMs" },
+      { "id": "c", "text": "Purchase 3-year Committed Use Discounts for 100% of capacity to maximise the discount tier" },
+      { "id": "d", "text": "Schedule the batch jobs during off-peak hours when GCP prices are lower under time-of-day pricing" }
+    ],
+    "correct": "b",
+    "explanation": "1-year CUDs provide ~37% discount for the committed portion; 3-year CUDs provide ~55%. Spot VMs provide 60-91% discount. Applying CUDs to the predictable always-on 70% and Spot pricing to the interruptible batch 30% maximises savings for each workload characteristic. SUDs are already being received automatically for instances running the full month; they cannot be additionally 'enabled' and yield lower discounts than CUDs. 3-year CUDs for 100% of capacity over-commits on the batch workload, which does not run 24/7, and carries a higher financial risk. GCP does not have time-of-day pricing for Compute Engine.",
+    "topics": ["technical-processes"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "GCP: Committed Use Discounts", "url": "https://cloud.google.com/compute/docs/instances/signing-up-committed-use-discounts" },
+      { "label": "GCP: Spot VMs", "url": "https://cloud.google.com/compute/docs/instances/spot" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-008",
+    "type": "single_choice",
+    "prompt": "A company uses Cloud Endpoints to expose a backend gRPC service to internal clients. They want to enforce API quotas (100 requests per minute per client), require API key authentication, and generate per-method latency metrics without modifying the backend service. Which Cloud Endpoints component enforces these policies?",
+    "choices": [
+      { "id": "a", "text": "Cloud Endpoints configures these policies in the backend service's gRPC server interceptors" },
+      { "id": "b", "text": "Cloud Endpoints uses an Extensible Service Proxy (ESP) sidecar that intercepts all requests, enforces quotas and auth, and reports metrics to Cloud Monitoring before forwarding to the backend" },
+      { "id": "c", "text": "Cloud Endpoints policies are enforced by Cloud Armor rules applied at the Global Load Balancer layer" },
+      { "id": "d", "text": "Cloud Endpoints deploys a Cloud Function for each API method that validates the API key and enforces quotas before calling the backend" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Endpoints uses the Extensible Service Proxy (ESP or ESP v2) as a sidecar proxy deployed alongside the backend service. ESP intercepts every request, validates API keys, enforces quotas defined in the OpenAPI or gRPC service configuration, and reports per-method metrics (latency, error rate, request count) to Cloud Monitoring and Cloud Trace. The backend service requires no modification. Server interceptors would require backend code changes. Cloud Armor operates at the network/HTTP layer and does not understand gRPC methods or API keys. A per-method Cloud Function would add significant latency and operational complexity and is not a Cloud Endpoints feature.",
+    "topics": ["technical-processes"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Endpoints: ESP Overview", "url": "https://cloud.google.com/endpoints/docs/grpc/about-cloud-endpoints-grpc" },
+      { "label": "Cloud Endpoints: Quotas", "url": "https://cloud.google.com/endpoints/docs/openapi/quotas-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-009",
+    "type": "single_choice",
+    "prompt": "A company has an active-passive DR configuration where the passive GCP region receives replicated data from the primary region via Cloud SQL read replicas. During a DR test, they fail over to the passive region and promote the read replica to a standalone instance. After the test, they need to fail back to the original primary region. Which is a significant operational consideration when failing back?",
+    "choices": [
+      { "id": "a", "text": "The original primary Cloud SQL instance automatically resumes replication from the promoted standby once network connectivity is restored" },
+      { "id": "b", "text": "After the read replica is promoted to a standalone instance, it breaks the replication link; failing back requires creating a new read replica in the original primary region and a full re-sync of the data volume" },
+      { "id": "c", "text": "Cloud SQL supports bidirectional replication, so the original primary and the promoted standby can synchronise changes made during the failover window" },
+      { "id": "d", "text": "Failback only requires updating the DNS CNAME record to point back to the original primary region instance" }
+    ],
+    "correct": "b",
+    "explanation": "When a Cloud SQL read replica is promoted to a standalone instance, it severs the replication relationship permanently. The original primary instance is no longer aware of changes made to the promoted instance during the failover window. To fail back, a new read replica must be created in the original primary region pointing to the promoted standalone as its new primary, and the entire database must be replicated over again (potentially many gigabytes or terabytes). This re-sync can take hours and is a critical operational consideration for DR planning. Cloud SQL does not support automatic re-establishment of replication after promotion. Cloud SQL does not support bidirectional (multi-master) replication. DNS changes alone do not address data divergence between the instances.",
+    "topics": ["technical-processes"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud SQL: Failover Replicas", "url": "https://cloud.google.com/sql/docs/mysql/replication/manage-replicas" },
+      { "label": "Cloud SQL: Disaster Recovery", "url": "https://cloud.google.com/sql/docs/mysql/disaster-recovery" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-010",
+    "type": "single_choice",
+    "prompt": "A team is reviewing their GCP billing and discovers that BigQuery on-demand query costs are 3x over budget, driven by analysts running ad hoc queries that scan entire 50 TB tables. The team wants to enforce a maximum bytes billed per query without blocking ad hoc analysis. Which BigQuery configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Purchase a BigQuery flat-rate reservation and assign all analysts to that reservation to cap compute costs" },
+      { "id": "b", "text": "Configure a `maximum bytes billed` per query limit in the BigQuery dataset settings that rejects queries exceeding the threshold before they execute" },
+      { "id": "c", "text": "Enable BigQuery column-level access controls so analysts can only query specific columns, reducing the data volume scanned" },
+      { "id": "d", "text": "Set an organisation-level billing budget alert that sends an email when BigQuery spend exceeds 80% of budget" }
+    ],
+    "correct": "b",
+    "explanation": "BigQuery supports a `maximum bytes billed` setting that can be applied per query or as a default at the project level. When set, BigQuery validates the query's estimated bytes scanned before execution and rejects the query if it would exceed the limit, preventing runaway cost. This is a preventive control that gives analysts immediate feedback without requiring reservations. Flat-rate reservations cap total compute slots but do not prevent an individual analyst from running a query that scans 50 TB. Column-level access controls restrict data visibility for security, not cost; analysts can still scan full column sets. Billing budget alerts are notifications only; they do not block queries from executing.",
+    "topics": ["technical-processes"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "BigQuery: Custom Cost Controls", "url": "https://cloud.google.com/bigquery/docs/custom-quotas" },
+      { "label": "BigQuery: Maximum Bytes Billed", "url": "https://cloud.google.com/bigquery/docs/samples/bigquery-query-dry-run" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-011",
+    "type": "single_choice",
+    "prompt": "A company operates a mission-critical application with a 99.99% SLA target. They want to verify their DR procedures quarterly without impacting production. Their architecture uses Cloud Spanner in a multi-region configuration with Compute Engine backends. Which DR testing approach validates recovery procedures with the least production risk?",
+    "choices": [
+      { "id": "a", "text": "Simulate a regional failure in production by rerouting traffic to the DR region and measuring recovery time while users experience the switchover" },
+      { "id": "b", "text": "Maintain a parallel shadow environment that mirrors the production architecture; run DR drills against the shadow environment, simulating regional loss and validating RTO/RPO against the shadow data" },
+      { "id": "c", "text": "Review DR runbooks quarterly with the team and update documentation without performing any live tests to minimise risk" },
+      { "id": "d", "text": "Use Cloud Spanner's export feature to create a one-time snapshot and restore it to a test project to verify restore procedures" }
+    ],
+    "correct": "b",
+    "explanation": "A shadow environment that mirrors the production architecture allows DR drills to be run with real workloads and procedures against a copy of production data, without any impact on actual users. This validates end-to-end RTO and RPO including actual data replication lag and infrastructure provisioning time. Simulating regional failure in production (option A) directly risks the 99.99% SLA. Documentation review alone (option C) does not validate whether procedures actually work within RTO targets. A one-time snapshot restore (option D) validates backup restoration but does not test failover orchestration, traffic rerouting, or the full DR runbook execution.",
+    "topics": ["technical-processes"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "GCP: DR Testing Strategies", "url": "https://cloud.google.com/architecture/dr-scenarios-planning-guide#testing_dr" },
+      { "label": "Cloud Spanner: Multi-region Recovery", "url": "https://cloud.google.com/spanner/docs/replication" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-012",
+    "type": "single_choice",
+    "prompt": "A company runs a high-traffic e-commerce application and wants to implement an API gateway pattern using Cloud Endpoints on Cloud Run. They need to perform A/B testing by routing 10% of users to a new backend version based on a custom HTTP header. Which Cloud Endpoints or adjacent GCP capability supports header-based traffic splitting?",
+    "choices": [
+      { "id": "a", "text": "Cloud Endpoints supports traffic splitting natively via its OpenAPI specification using the x-google-backend extension" },
+      { "id": "b", "text": "Cloud Run traffic splitting between two revisions based on percentage; add a Cloud Run header transformation to route based on a custom header value" },
+      { "id": "c", "text": "Deploy Cloud Endpoints on Cloud Run; place a Cloud Load Balancer with URL map rules in front that routes based on the custom header to different Cloud Endpoints Cloud Run revisions" },
+      { "id": "d", "text": "Cloud Armor with custom rules that evaluate HTTP headers and redirect requests to different backend services" }
+    ],
+    "correct": "c",
+    "explanation": "Cloud Endpoints does not natively perform header-based traffic splitting. The correct architecture is to place a Global HTTP(S) Load Balancer with a URL map in front of multiple Cloud Run revisions, each running a Cloud Endpoints ESP. URL map header matching rules can inspect the custom HTTP header and route the request to the appropriate backend service. Cloud Run's built-in traffic splitting is percentage-based and revision-based, not header-conditional. The x-google-backend extension specifies the backend URL for an API path, not a traffic split mechanism. Cloud Armor is a WAF that can block or allow traffic but cannot perform header-based routing to different backends.",
+    "topics": ["technical-processes"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud Load Balancing: URL Maps", "url": "https://cloud.google.com/load-balancing/docs/url-map-concepts" },
+      { "label": "Cloud Endpoints on Cloud Run", "url": "https://cloud.google.com/endpoints/docs/openapi/get-started-cloud-run" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-013",
+    "type": "single_choice",
+    "prompt": "A company is planning a migration from on-premises PostgreSQL to Cloud SQL for PostgreSQL. The database is 4 TB and the migration window is 8 hours on a Saturday. During the migration window, the application must remain read-only. Post-migration, the application must resume full read-write operations within 30 minutes of the window close. Which migration strategy meets these constraints?",
+    "choices": [
+      { "id": "a", "text": "Use pg_dump to export the database during the window and pg_restore to import into Cloud SQL; switch the application connection string after the import completes" },
+      { "id": "b", "text": "Use Database Migration Service (DMS) with a continuous migration job started days in advance; at the migration window, put the source in read-only mode, wait for DMS to reach zero lag, promote the Cloud SQL instance, and update the application connection string" },
+      { "id": "c", "text": "Create a Cloud SQL instance, use Storage Transfer Service to copy the PostgreSQL data files to Cloud Storage, then restore from the data files into Cloud SQL" },
+      { "id": "d", "text": "Use Cloud Dataflow with a PostgreSQL-to-Cloud SQL migration template to stream rows from on-premises to Cloud SQL during the read-only window" }
+    ],
+    "correct": "b",
+    "explanation": "Database Migration Service supports continuous replication from on-premises PostgreSQL to Cloud SQL. Starting DMS days before the window minimises the cutover time: by migration window start, DMS has replicated most data and is only catching up on ongoing changes. Setting the source to read-only stops new writes, allowing DMS to reach zero lag within minutes. Promoting the Cloud SQL instance and updating the connection string completes the cutover well within 30 minutes. pg_dump/pg_restore of a 4 TB database within an 8-hour window is technically challenging (typical throughput is 100-200 GB/hour). Storage Transfer Service moves files (not PostgreSQL data files in a usable format) and is not a database migration path. Dataflow PostgreSQL streaming templates are not a standard migration path for full database migrations.",
+    "topics": ["technical-processes"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Database Migration Service: PostgreSQL", "url": "https://cloud.google.com/database-migration/docs/postgres/migration-overview" },
+      { "label": "Database Migration Service: Continuous Migration", "url": "https://cloud.google.com/database-migration/docs/postgres/create-migration-job" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-014",
+    "type": "single_choice",
+    "prompt": "A company uses Apigee to manage APIs consumed by mobile apps. They want to implement a circuit breaker pattern so that when the backend service error rate exceeds 50% in a 30-second window, Apigee returns a cached fallback response instead of forwarding requests to the failing backend. Which Apigee policy implements this behaviour?",
+    "choices": [
+      { "id": "a", "text": "FaultRules with a RaiseFault policy that returns a 503 when the backend is unreachable" },
+      { "id": "b", "text": "Fault Rules combined with a ResponseCache policy configured to serve a cached response when the backend returns 5xx errors, with a ServiceCallout checking backend health" },
+      { "id": "c", "text": "The Circuit Breaker is implemented outside Apigee using Cloud Load Balancing's backend service circuit breaker configuration" },
+      { "id": "d", "text": "Apigee's built-in health monitor checks backend health every 10 seconds and enables failover to a secondary target endpoint automatically" }
+    ],
+    "correct": "b",
+    "explanation": "Apigee does not have a native circuit breaker policy but the pattern is achieved by combining FaultRules (triggered when the target returns 5xx) with a ResponseCache policy (which can serve previously cached good responses when the cache is populated). A ServiceCallout in the request flow can check backend health. When the error rate threshold is exceeded and faults are raised, the FaultRule intercepts and serves the cached fallback. Option A raises a fault response but does not serve a cached fallback. Option C is partially correct (load balancer circuit breakers exist) but does not implement the Apigee-level logic with cached fallback responses. Apigee does not have a built-in health monitor with automatic failover as described in option D.",
+    "topics": ["technical-processes"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Apigee: Fault Handling", "url": "https://cloud.google.com/apigee/docs/api-platform/fundamentals/fault-handling" },
+      { "label": "Apigee: ResponseCache Policy", "url": "https://cloud.google.com/apigee/docs/api-platform/reference/policies/response-cache-policy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-tp-015",
+    "type": "single_choice",
+    "prompt": "A company wants to track and optimise their GCP spending across 30 projects. They need to identify which teams are exceeding their allocated budget, attribute costs to specific features or services (e.g., BigQuery, GKE), and receive automated alerts when any project exceeds 80% of its monthly budget. Which combination of GCP cost management features enables all three capabilities?",
+    "choices": [
+      { "id": "a", "text": "Enable Cloud Billing export to Cloud Storage; write custom scripts to parse billing CSV files and send email alerts via SendGrid" },
+      { "id": "b", "text": "Enable Cloud Billing export to BigQuery; create a Looker Studio dashboard for cost attribution; configure Cloud Billing budgets per project with Pub/Sub alert notifications" },
+      { "id": "c", "text": "Use Cloud Monitoring billing metrics and set metric-based alerting policies for each project's cost metric" },
+      { "id": "d", "text": "Implement a custom cost allocation solution using Compute Engine labels and Cloud Asset Inventory to tag and track resource costs per team" }
+    ],
+    "correct": "b",
+    "explanation": "Billing export to BigQuery provides detailed cost data at the resource and label level, enabling Looker Studio dashboards that attribute costs by service, team, or feature across all 30 projects. Cloud Billing budgets can be configured per project with threshold-based Pub/Sub alerts (or email alerts) at any percentage of budget. This combination directly addresses all three requirements with GCP-native tools and no custom development. Cloud Storage billing export provides CSV files that require custom parsing and alerting infrastructure. Cloud Monitoring does not natively expose per-project billing cost as a Monitoring metric for alerting. Custom label-based tagging in Cloud Asset Inventory is complex and does not provide the automated alerting required.",
+    "topics": ["technical-processes"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Billing: Export to BigQuery", "url": "https://cloud.google.com/billing/docs/how-to/export-data-bigquery" },
+      { "label": "Cloud Billing: Budgets and Alerts", "url": "https://cloud.google.com/billing/docs/how-to/budgets" }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-cad-api-001",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow REST API endpoint is used to read, create, update, or delete records in any table?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Table API"
+      },
+      {
+        "id": "b",
+        "text": "Scripted REST API"
+      },
+      {
+        "id": "c",
+        "text": "Import Set API"
+      },
+      {
+        "id": "d",
+        "text": "Aggregate API"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Table API (available at /api/now/table/{tableName}) is a built-in REST API that provides CRUD operations on any ServiceNow table. It supports GET, POST, PUT, PATCH, and DELETE HTTP methods and returns JSON responses. The Table API is the primary API for direct record-level integration with ServiceNow.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-002",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the ServiceNow Aggregate API?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To aggregate data from multiple external APIs into ServiceNow"
+      },
+      {
+        "id": "b",
+        "text": "To perform COUNT, SUM, AVG, MIN, and MAX operations on table data via REST"
+      },
+      {
+        "id": "c",
+        "text": "To merge duplicate records in a ServiceNow table"
+      },
+      {
+        "id": "d",
+        "text": "To batch multiple Table API requests into a single HTTP call"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Aggregate API (/api/now/stats/{tableName}) allows external systems to perform aggregate operations (COUNT, SUM, AVG, MIN, MAX) on ServiceNow table data via REST. This is useful for reporting integrations that need summary statistics without retrieving all individual records. It mirrors the server-side GlideAggregate API functionality.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-003",
+    "type": "single_choice",
+    "prompt": "How do you make an outbound REST call from a ServiceNow server-side script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Use a UI action to trigger a browser-based XHR request"
+      },
+      {
+        "id": "b",
+        "text": "Use the GlideHTTP class to construct and send the request"
+      },
+      {
+        "id": "c",
+        "text": "Use the RESTMessageV2 API to configure and send the HTTP request"
+      },
+      {
+        "id": "d",
+        "text": "Use the GlideAjax class with the endpoint URL as the Script Include name"
+      }
+    ],
+    "correct": "c",
+    "explanation": "RESTMessageV2 is the ServiceNow server-side API for making outbound REST calls. A developer instantiates it with new sn_ws.RESTMessageV2(), configures the endpoint, HTTP method, headers, and body, then calls execute() to send the request. The response is returned as a RESTResponseV2 object with methods to access the status code and body.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-004",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the MID Server in ServiceNow integrations?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It serves as a middleware database between ServiceNow and external systems"
+      },
+      {
+        "id": "b",
+        "text": "It is a web service gateway that translates SOAP to REST for legacy integrations"
+      },
+      {
+        "id": "c",
+        "text": "It is a load balancer that distributes API traffic to multiple ServiceNow nodes"
+      },
+      {
+        "id": "d",
+        "text": "It is a Java application that runs in a customer's network to facilitate communication between ServiceNow and resources not accessible from the internet"
+      }
+    ],
+    "correct": "d",
+    "explanation": "A MID Server (Management, Instrumentation, and Discovery Server) is a Java application installed in a customer's on-premises network. It enables ServiceNow to communicate with systems behind firewalls or not accessible from the internet, such as on-premises databases, LDAP servers, or internal APIs. The MID Server initiates an outbound connection to ServiceNow and receives work to execute in the local network.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-005",
+    "type": "single_choice",
+    "prompt": "When configuring a REST Message in ServiceNow, where is the base endpoint URL defined?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "In the REST Message record itself as the Endpoint field"
+      },
+      {
+        "id": "b",
+        "text": "In each individual HTTP Method record under the REST Message"
+      },
+      {
+        "id": "c",
+        "text": "In the Connection Alias record linked to the REST Message"
+      },
+      {
+        "id": "d",
+        "text": "In a system property referenced by the REST Message"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The base endpoint URL is defined in the REST Message record itself. Individual HTTP Method records under the REST Message define the specific path, HTTP verb (GET, POST, etc.), and request parameters. The full URL is constructed by combining the REST Message's endpoint with the HTTP Method's relative path. Variable substitution using ${variable_name} syntax is supported in both.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-006",
+    "type": "single_choice",
+    "prompt": "What HTTP method should be used with the ServiceNow Table API to create a new record?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "GET"
+      },
+      {
+        "id": "b",
+        "text": "POST"
+      },
+      {
+        "id": "c",
+        "text": "PUT"
+      },
+      {
+        "id": "d",
+        "text": "PATCH"
+      }
+    ],
+    "correct": "b",
+    "explanation": "POST is used with the Table API to create a new record. The request body contains the field values in JSON format. GET retrieves records, PUT replaces an entire record (requires sys_id in the URL), PATCH partially updates a record (requires sys_id in the URL), and DELETE removes a record. This follows standard REST conventions.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-007",
+    "type": "single_choice",
+    "prompt": "What is the difference between PUT and PATCH in the ServiceNow Table API?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "PUT creates a new record; PATCH updates an existing record"
+      },
+      {
+        "id": "b",
+        "text": "PUT and PATCH are identical in behavior for the ServiceNow Table API"
+      },
+      {
+        "id": "c",
+        "text": "PUT replaces all field values in the record; PATCH updates only the specified fields"
+      },
+      {
+        "id": "d",
+        "text": "PUT is for single records; PATCH can update multiple records at once"
+      }
+    ],
+    "correct": "c",
+    "explanation": "PUT replaces the entire record with the provided fields, effectively clearing any fields not included in the request body. PATCH updates only the fields specified in the request body, leaving all other fields unchanged. PATCH is the preferred method for partial updates to avoid unintentionally clearing fields not included in the update payload.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-008",
+    "type": "single_choice",
+    "prompt": "Which authentication type in a REST Message uses a username and password encoded in the HTTP Authorization header?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "OAuth 2.0"
+      },
+      {
+        "id": "b",
+        "text": "API Key"
+      },
+      {
+        "id": "c",
+        "text": "Mutual TLS"
+      },
+      {
+        "id": "d",
+        "text": "Basic Authentication"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Basic Authentication uses a username and password that are Base64-encoded and sent in the HTTP Authorization header as 'Basic {base64(username:password)}'. ServiceNow REST Messages support Basic Authentication natively. While simple, it requires that credentials be transmitted with every request and should only be used over HTTPS. OAuth 2.0 is the preferred modern alternative for more secure integrations.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-009",
+    "type": "single_choice",
+    "prompt": "What is a Scripted REST API in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A custom REST API built in ServiceNow that developers define with their own URL path, methods, and scripted logic"
+      },
+      {
+        "id": "b",
+        "text": "A pre-built REST API that executes custom scripts on external endpoints"
+      },
+      {
+        "id": "c",
+        "text": "A REST client script that makes outbound calls from the browser"
+      },
+      {
+        "id": "d",
+        "text": "A variant of the Table API that supports scripted field transformations"
+      }
+    ],
+    "correct": "a",
+    "explanation": "A Scripted REST API allows developers to create custom REST endpoints in ServiceNow with their own URL paths, HTTP methods, and server-side JavaScript logic. Unlike the built-in Table API, Scripted REST APIs can implement custom business logic, aggregate data from multiple tables, enforce specific validation, and return custom response formats. They are accessed under /api/{scope_name}/{api_name}/.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-010",
+    "type": "single_choice",
+    "prompt": "In a Scripted REST API resource script, how do you access a URL path parameter defined as {incident_id}?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "request.getParameter('incident_id')"
+      },
+      {
+        "id": "b",
+        "text": "request.pathParams.incident_id"
+      },
+      {
+        "id": "c",
+        "text": "request.body.data.incident_id"
+      },
+      {
+        "id": "d",
+        "text": "request.headers.incident_id"
+      }
+    ],
+    "correct": "b",
+    "explanation": "In a Scripted REST API resource script, URL path parameters are accessed via request.pathParams, which is an object containing all path parameter values keyed by their names. For a path like /incident/{incident_id}, the value is accessed as request.pathParams.incident_id. Query parameters are accessed via request.queryParams, and the request body is accessed via request.body.data.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-011",
+    "type": "single_choice",
+    "prompt": "How should a Scripted REST API resource script set the HTTP response status code to 201 Created?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "return {status: 201, body: data};"
+      },
+      {
+        "id": "b",
+        "text": "response.setStatusCode(201);"
+      },
+      {
+        "id": "c",
+        "text": "response.setStatus(201);"
+      },
+      {
+        "id": "d",
+        "text": "response.setBody({status: '201'});"
+      }
+    ],
+    "correct": "c",
+    "explanation": "In a Scripted REST API resource script, response.setStatus(201) sets the HTTP response status code. The response object provides methods including setStatus() for the status code, setBody() for the response payload, and setHeader() for response headers. Setting the correct status code (201 for created resources, 404 for not found, etc.) is important for proper REST API semantics.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-012",
+    "type": "single_choice",
+    "prompt": "What is the Import Set API used for in ServiceNow integrations?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Importing update sets from external instances"
+      },
+      {
+        "id": "b",
+        "text": "Importing XML configuration data from external systems"
+      },
+      {
+        "id": "c",
+        "text": "Importing application packages from the ServiceNow Store"
+      },
+      {
+        "id": "d",
+        "text": "Loading data into a staging table for transformation and import via transform maps"
+      }
+    ],
+    "correct": "d",
+    "explanation": "The Import Set API allows external systems to POST data into an import set staging table via REST. Once the data is in the staging table, transform maps process and route the data to the appropriate target tables. This pattern decouples data ingestion from transformation logic and is the preferred approach for complex integrations where data needs to be cleansed or routed to multiple tables.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-013",
+    "type": "single_choice",
+    "prompt": "What is OAuth 2.0 used for in ServiceNow REST integrations?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Providing delegated, token-based authorization for API access without sharing credentials"
+      },
+      {
+        "id": "b",
+        "text": "Encrypting the request body for secure transmission"
+      },
+      {
+        "id": "c",
+        "text": "Verifying the digital signature of incoming REST requests"
+      },
+      {
+        "id": "d",
+        "text": "Compressing API responses to reduce bandwidth usage"
+      }
+    ],
+    "correct": "a",
+    "explanation": "OAuth 2.0 is an authorization framework that allows applications to obtain limited access to user accounts on an HTTP service via access tokens, without exposing user credentials. In ServiceNow, OAuth 2.0 can be used both for inbound authentication (ServiceNow acting as OAuth provider) and outbound authentication (ServiceNow obtaining tokens to call external APIs). Tokens are time-limited and can be revoked without changing passwords.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-014",
+    "type": "single_choice",
+    "prompt": "A RESTMessageV2 call in a business rule fails with an HTTP 500 error. What method returns the HTTP status code from the response?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "response.getErrorMessage()"
+      },
+      {
+        "id": "b",
+        "text": "response.getStatusCode()"
+      },
+      {
+        "id": "c",
+        "text": "response.getStatus()"
+      },
+      {
+        "id": "d",
+        "text": "response.getHTTPStatus()"
+      }
+    ],
+    "correct": "b",
+    "explanation": "response.getStatusCode() returns the HTTP status code from a RESTResponseV2 object returned by a RESTMessageV2.execute() call. A developer would check this value to determine if the call was successful (2xx) or failed (4xx, 5xx) and take appropriate action. response.getBody() retrieves the response body text, and response.getHeaders() retrieves response headers.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-015",
+    "type": "single_choice",
+    "prompt": "What is the REST API Explorer in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A tool that monitors all inbound REST API calls to the instance"
+      },
+      {
+        "id": "b",
+        "text": "A code editor for building Scripted REST APIs"
+      },
+      {
+        "id": "c",
+        "text": "An interactive browser-based tool for testing and discovering ServiceNow REST APIs"
+      },
+      {
+        "id": "d",
+        "text": "A load testing tool for REST endpoints"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The REST API Explorer is an interactive, browser-based tool built into ServiceNow that allows developers and administrators to discover, test, and understand the available REST APIs (Table API, Aggregate API, Scripted REST APIs, etc.). It generates sample requests, shows required parameters, and allows test execution directly from the browser, making it valuable for development and troubleshooting.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-016",
+    "type": "single_choice",
+    "prompt": "How can you configure an inbound webhook in ServiceNow to receive data from an external system?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Create an Email Account record configured to receive webhook payloads"
+      },
+      {
+        "id": "b",
+        "text": "Use a Transform Map configured in webhook mode"
+      },
+      {
+        "id": "c",
+        "text": "Configure a MID Server to listen for incoming connections from external systems"
+      },
+      {
+        "id": "d",
+        "text": "Use a Scripted REST API endpoint that accepts POST requests, or use an existing REST endpoint like the Table API"
+      }
+    ],
+    "correct": "d",
+    "explanation": "To receive webhook data from an external system, a developer can create a Scripted REST API endpoint that accepts POST requests with the expected payload format, or use the existing Table API or Import Set API endpoints. The Scripted REST API approach offers the most flexibility for custom processing, authentication validation, and response formatting.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-017",
+    "type": "single_choice",
+    "prompt": "What query parameter in the Table API limits which fields are returned in the response?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "sysparm_fields"
+      },
+      {
+        "id": "b",
+        "text": "sysparm_query"
+      },
+      {
+        "id": "c",
+        "text": "sysparm_select"
+      },
+      {
+        "id": "d",
+        "text": "sysparm_columns"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The sysparm_fields query parameter accepts a comma-separated list of field names and causes the Table API to return only those fields in the response. This is critical for performance optimization, as returning only needed fields reduces payload size and serialization overhead. For example, ?sysparm_fields=sys_id,number,short_description returns only those three fields.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-018",
+    "type": "single_choice",
+    "prompt": "What does sysparm_display_value=true do in a Table API request?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Returns both the raw value and the display value for each field in a structured object"
+      },
+      {
+        "id": "b",
+        "text": "Returns only the display values (human-readable) for fields instead of raw internal values"
+      },
+      {
+        "id": "c",
+        "text": "Causes the API to return HTML-formatted field values for display in browsers"
+      },
+      {
+        "id": "d",
+        "text": "Returns the field labels instead of field names in the response keys"
+      }
+    ],
+    "correct": "b",
+    "explanation": "sysparm_display_value=true causes the Table API to return display values (human-readable labels) for fields instead of their raw internal values. For example, a state field would return 'In Progress' instead of '2'. Using sysparm_display_value=all returns an object with both 'value' (raw) and 'display_value' (readable) for each field, which is useful when integrating with external systems that need both.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-019",
+    "type": "single_choice",
+    "prompt": "An inbound REST integration needs to correlate external system records with ServiceNow records. What is the best practice approach?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Use the external system's record ID as the ServiceNow sys_id"
+      },
+      {
+        "id": "b",
+        "text": "Use the short_description field to store the external ID for easy searching"
+      },
+      {
+        "id": "c",
+        "text": "Store the external system ID in a dedicated correlation ID field on the ServiceNow record"
+      },
+      {
+        "id": "d",
+        "text": "Create a separate mapping database outside of ServiceNow"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The best practice is to store the external system's record identifier in a dedicated correlation ID field on the ServiceNow record. This allows bidirectional lookups: ServiceNow can find the corresponding external record, and the external system can query ServiceNow using the correlation ID. Using sys_id from an external system is not possible as ServiceNow generates sys_ids, and using short_description would pollute a functional field.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-020",
+    "type": "single_choice",
+    "prompt": "What is IntegrationHub in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A physical server appliance for on-premises integrations"
+      },
+      {
+        "id": "b",
+        "text": "A ServiceNow database that stores integration configuration and credentials"
+      },
+      {
+        "id": "c",
+        "text": "A monitoring tool for tracking all API calls in and out of ServiceNow"
+      },
+      {
+        "id": "d",
+        "text": "A set of pre-built integration spokes and Flow Designer actions for connecting with external services"
+      }
+    ],
+    "correct": "d",
+    "explanation": "IntegrationHub is a ServiceNow platform capability that provides pre-built integration spokes (collections of actions) for connecting with popular third-party services like Jira, Slack, AWS, Salesforce, and many others. These spokes are used in Flow Designer flows, allowing developers to integrate with external systems without writing custom REST code. Custom spokes can also be built using Action Designer.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-021",
+    "type": "single_choice",
+    "prompt": "When making an outbound REST call with RESTMessageV2, how do you set a request body for a POST request?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "rm.setRequestBody(JSON.stringify(payload))"
+      },
+      {
+        "id": "b",
+        "text": "rm.addParam('body', JSON.stringify(payload))"
+      },
+      {
+        "id": "c",
+        "text": "rm.setBody(JSON.stringify(payload))"
+      },
+      {
+        "id": "d",
+        "text": "rm.body = JSON.stringify(payload)"
+      }
+    ],
+    "correct": "a",
+    "explanation": "rm.setRequestBody(bodyString) sets the body content for an outbound REST call using RESTMessageV2. The body is passed as a string, so JSON payloads must be serialized with JSON.stringify() first. For form-encoded bodies, rm.setRequestBodyFormData() is used. Additionally, rm.setRequestHeader('Content-Type', 'application/json') should be set to indicate the payload format.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-022",
+    "type": "single_choice",
+    "prompt": "What is a Connection Alias in ServiceNow integrations?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A named shortcut for frequently used API endpoints in the REST API Explorer"
+      },
+      {
+        "id": "b",
+        "text": "A reusable connection configuration containing the base URL and credentials for an external service"
+      },
+      {
+        "id": "c",
+        "text": "A DNS alias that maps to a ServiceNow instance URL"
+      },
+      {
+        "id": "d",
+        "text": "An alias for a MID Server that handles multiple integration targets"
+      }
+    ],
+    "correct": "b",
+    "explanation": "A Connection Alias (also known as a Connection & Credential Alias) is a reusable configuration artifact that stores the base URL and associated credential reference for an external service. REST Messages and IntegrationHub spokes reference Connection Aliases rather than hardcoding URLs and credentials, making it easy to change endpoints across environments and centralizing credential management.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-023",
+    "type": "single_choice",
+    "prompt": "How does the ServiceNow Table API handle ACLs when a user's API token is used to make a request?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "API requests bypass ACLs entirely for performance"
+      },
+      {
+        "id": "b",
+        "text": "API requests run with admin-level access regardless of the authenticated user"
+      },
+      {
+        "id": "c",
+        "text": "API requests enforce the same ACLs as the authenticated user would have in the UI"
+      },
+      {
+        "id": "d",
+        "text": "ACLs only apply to GET requests; POST and PUT bypass access controls"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The ServiceNow Table API enforces the same ACL rules that apply to the authenticated user in the UI. If the authenticated user does not have read access to a table or field, those records or fields will not be returned via the API. This means integration accounts should be granted only the roles and access needed for their specific use case, following the principle of least privilege.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-024",
+    "type": "single_choice",
+    "prompt": "What is the recommended method to handle errors in an outbound RESTMessageV2 call?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Check gs.getLastError() after the execute() call"
+      },
+      {
+        "id": "b",
+        "text": "Wrap the execute() call in a try/catch block only"
+      },
+      {
+        "id": "c",
+        "text": "Set the REST Message's error handling mode to 'ignore'"
+      },
+      {
+        "id": "d",
+        "text": "Check the response status code with getStatusCode() and handle non-2xx codes appropriately"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Proper error handling for RESTMessageV2 calls involves checking the HTTP status code with response.getStatusCode() and handling non-2xx responses appropriately. Additionally, wrapping execute() in a try/catch block handles network-level failures and timeouts that throw exceptions. Logging the response body and status code helps with troubleshooting. Both status code checking and try/catch are needed for robust error handling.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-025",
+    "type": "single_choice",
+    "prompt": "What does the sysparm_limit parameter control in a Table API GET request?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The maximum number of records returned in a single response"
+      },
+      {
+        "id": "b",
+        "text": "The maximum number of fields returned per record"
+      },
+      {
+        "id": "c",
+        "text": "The maximum size in bytes of the response payload"
+      },
+      {
+        "id": "d",
+        "text": "The maximum number of concurrent API requests allowed"
+      }
+    ],
+    "correct": "a",
+    "explanation": "sysparm_limit controls the maximum number of records returned in a single Table API response. The default is 10 records with a maximum of 10,000. For paginating through large result sets, sysparm_offset is used in combination with sysparm_limit to skip previously retrieved records. Without sysparm_limit, integrations may receive incomplete datasets if the default limit is reached.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-026",
+    "type": "single_choice",
+    "prompt": "When configuring OAuth 2.0 in ServiceNow to allow external systems to authenticate, what must be created?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A REST Message record with OAuth authentication type"
+      },
+      {
+        "id": "b",
+        "text": "An OAuth Application registry record (OAuth provider configuration)"
+      },
+      {
+        "id": "c",
+        "text": "A user account with the oauth_admin role"
+      },
+      {
+        "id": "d",
+        "text": "A Connection Alias with OAuth credential type"
+      }
+    ],
+    "correct": "b",
+    "explanation": "To configure ServiceNow as an OAuth 2.0 provider (allowing external systems to authenticate), an OAuth Application registry record must be created. This defines the client ID, client secret, grant types, redirect URIs, and token lifetime. External applications use these credentials to obtain access tokens from ServiceNow's OAuth token endpoint, which are then used to authenticate subsequent API calls.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-027",
+    "type": "single_choice",
+    "prompt": "An external system sends a JSON payload to ServiceNow via the Table API to create an incident. The 'caller_id' field requires a user's sys_id. The external system only has the user's email. What approach should the integration use?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Send the email as the caller_id value; the Table API automatically resolves display values"
+      },
+      {
+        "id": "b",
+        "text": "Use sysparm_display_value=true in the POST request to allow email values in reference fields"
+      },
+      {
+        "id": "c",
+        "text": "Look up the user's sys_id using a GET request on the sys_user table before creating the incident"
+      },
+      {
+        "id": "d",
+        "text": "Store the email in the description field and resolve it manually later"
+      }
+    ],
+    "correct": "c",
+    "explanation": "For reference fields in the Table API, the value must be the sys_id of the referenced record. The integration should first query the sys_user table with the email as a filter to retrieve the user's sys_id, then use that sys_id in the incident creation request. Alternatively, sysparm_input_display_value=true can be set on the POST request to allow using display values for reference fields.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-028",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the Inbound Action in ServiceNow email integrations?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It processes incoming REST API calls from external systems"
+      },
+      {
+        "id": "b",
+        "text": "It configures the SMTP server settings for receiving email"
+      },
+      {
+        "id": "c",
+        "text": "It routes inbound email notifications to the appropriate user"
+      },
+      {
+        "id": "d",
+        "text": "It defines rules for processing inbound emails and creating or updating ServiceNow records"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Inbound Actions define the rules and script logic for processing emails received by ServiceNow. When an email arrives, the platform evaluates Inbound Action conditions to determine which action to execute. The script can create new records, update existing records by correlating on subject line or sender, and set field values based on parsed email content.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-029",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the sysparm_query parameter in a Table API GET request?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It accepts a ServiceNow encoded query string to filter the returned records"
+      },
+      {
+        "id": "b",
+        "text": "It specifies a SQL WHERE clause to filter records"
+      },
+      {
+        "id": "c",
+        "text": "It specifies a JavaScript function to evaluate on each record"
+      },
+      {
+        "id": "d",
+        "text": "It provides an XPath expression for filtering XML responses"
+      }
+    ],
+    "correct": "a",
+    "explanation": "sysparm_query accepts a ServiceNow encoded query string (the same format used in list filters and GlideRecord's addEncodedQuery) to filter the records returned by a Table API request. For example, ?sysparm_query=active=true^priority=1 returns only active records with priority 1. The encoded query format supports complex conditions using operators like ^OR, ^ISNULL, CONTAINS, and STARTSWITH.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-030",
+    "type": "single_choice",
+    "prompt": "What is the advantage of using the Import Set API over the Table API for bulk data loads?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The Import Set API is faster because it bypasses all business rules"
+      },
+      {
+        "id": "b",
+        "text": "The Import Set API allows complex transformation logic and coalesce matching before data reaches target tables"
+      },
+      {
+        "id": "c",
+        "text": "The Import Set API supports larger record counts per request than the Table API"
+      },
+      {
+        "id": "d",
+        "text": "The Import Set API automatically deduplicates all incoming records"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Import Set API loads data into a staging table, where transform maps can apply complex transformation logic, field coalescing (matching existing records to avoid duplicates), conditional routing to different target tables, and data cleansing. This separation of concerns makes it better suited for bulk integration scenarios with complex mapping requirements, whereas the Table API directly inserts or updates records without a transformation stage.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-031",
+    "type": "single_choice",
+    "prompt": "How is a SOAP web service consumed from a ServiceNow server-side script?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Parse the WSDL manually and construct HTTP requests with RESTMessageV2"
+      },
+      {
+        "id": "b",
+        "text": "SOAP is not supported in ServiceNow; use REST instead"
+      },
+      {
+        "id": "c",
+        "text": "Use SOAPMessageV2 to configure and send SOAP requests"
+      },
+      {
+        "id": "d",
+        "text": "Use the GlideSoap class available in global scope only"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow provides SOAPMessageV2 for consuming SOAP web services. Similar to RESTMessageV2 for REST, SOAPMessageV2 allows developers to configure SOAP endpoints, set message parameters, and execute requests from server-side scripts. SOAP messages can also be configured declaratively via the SOAP Message records in System Web Services.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-032",
+    "type": "single_choice",
+    "prompt": "What does it mean when a REST API enforces rate limiting on a ServiceNow integration?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The API limits the size of each request payload to prevent memory issues"
+      },
+      {
+        "id": "b",
+        "text": "The API requires a minimum delay between authentication and data requests"
+      },
+      {
+        "id": "c",
+        "text": "The API limits the number of fields that can be queried per request"
+      },
+      {
+        "id": "d",
+        "text": "The API restricts the number of requests that can be made within a time window, returning 429 Too Many Requests when exceeded"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Rate limiting restricts the number of API requests that can be made within a defined time window (e.g., 1,000 requests per hour). When the limit is exceeded, the API returns an HTTP 429 Too Many Requests status. ServiceNow's inbound REST APIs apply rate limits per user, and outbound integrations must implement retry logic with exponential backoff to handle 429 responses from external APIs gracefully.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-033",
+    "type": "single_choice",
+    "prompt": "Which Table API query parameter controls pagination by specifying how many records to skip?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "sysparm_offset"
+      },
+      {
+        "id": "b",
+        "text": "sysparm_skip"
+      },
+      {
+        "id": "c",
+        "text": "sysparm_page"
+      },
+      {
+        "id": "d",
+        "text": "sysparm_start"
+      }
+    ],
+    "correct": "a",
+    "explanation": "sysparm_offset specifies the number of records to skip before returning results, enabling pagination through large datasets. Combined with sysparm_limit, you can retrieve records in pages: the first page uses offset=0, the second page uses offset equal to the limit value, and so on. The response headers also include X-Total-Count to indicate the total number of matching records.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-034",
+    "type": "single_choice",
+    "prompt": "When a Flow Designer flow is triggered by a webhook (inbound REST request), what ServiceNow component receives the initial request?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "A business rule on the REST Message table"
+      },
+      {
+        "id": "b",
+        "text": "A Scripted REST API endpoint configured as a flow trigger"
+      },
+      {
+        "id": "c",
+        "text": "An event-based trigger configured in Flow Designer"
+      },
+      {
+        "id": "d",
+        "text": "The MID Server webhook listener"
+      }
+    ],
+    "correct": "b",
+    "explanation": "When a Flow Designer flow needs to be triggered by an incoming webhook (REST request from an external system), a Scripted REST API endpoint is typically created to receive the payload. The Scripted REST API script then publishes a ServiceNow event using gs.eventQueue(), which in turn triggers the Flow Designer flow configured with an event-based trigger. Alternatively, the Scripted REST API can directly trigger a flow using the Flow API.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-035",
+    "type": "single_choice",
+    "prompt": "What does the 'Auto' execution type on a REST Message HTTP Method do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It automatically maps response fields to ServiceNow fields using field name matching"
+      },
+      {
+        "id": "b",
+        "text": "It executes the request automatically on a schedule without scripting"
+      },
+      {
+        "id": "c",
+        "text": "It automatically retries the request on failure with exponential backoff"
+      },
+      {
+        "id": "d",
+        "text": "Nothing specific; 'Auto' is just the default mode for HTTP methods"
+      }
+    ],
+    "correct": "c",
+    "explanation": "When an HTTP Method on a REST Message is configured with 'Auto' execution type, the RESTMessageV2 API will automatically retry the request if it fails due to network errors or timeouts, using a configurable retry policy. This simplifies implementing resilient outbound integrations without requiring custom retry logic in scripts. The 'Default Web Service' execution type executes the request defined in the HTTP Method configuration without automatic retry.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-036",
+    "type": "single_choice",
+    "prompt": "An integration needs to send a JSON payload to an external API. Which RESTMessageV2 method sets the Content-Type header to 'application/json'?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "rm.setContentType('application/json')"
+      },
+      {
+        "id": "b",
+        "text": "rm.setPayloadType('json')"
+      },
+      {
+        "id": "c",
+        "text": "rm.addHeader('application/json')"
+      },
+      {
+        "id": "d",
+        "text": "rm.setRequestHeader('Content-Type', 'application/json')"
+      }
+    ],
+    "correct": "d",
+    "explanation": "rm.setRequestHeader('Content-Type', 'application/json') sets the Content-Type HTTP header on the outbound REST request, indicating that the request body is a JSON payload. RESTMessageV2 uses setRequestHeader() for all header manipulation. Similarly, rm.setRequestHeader('Accept', 'application/json') indicates to the target service that a JSON response is expected.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-037",
+    "type": "single_choice",
+    "prompt": "What does the sysparm_input_display_value=true query parameter do in a Table API POST request?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It allows the request body to use display values for fields (like reference field names instead of sys_ids)"
+      },
+      {
+        "id": "b",
+        "text": "It returns display values in the POST response instead of raw values"
+      },
+      {
+        "id": "c",
+        "text": "It formats the request body as HTML instead of JSON"
+      },
+      {
+        "id": "d",
+        "text": "It enables case-insensitive matching for string field values in the request"
+      }
+    ],
+    "correct": "a",
+    "explanation": "sysparm_input_display_value=true allows POST and PATCH requests to provide display values for fields instead of internal values. For example, a caller_id reference field can be provided as a username or display name instead of a sys_id, and the platform will resolve it. This simplifies integrations where the external system does not have ServiceNow sys_ids available.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-038",
+    "type": "single_choice",
+    "prompt": "What is the purpose of Coalesce fields in a Transform Map used with the Import Set API?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To combine multiple source fields into a single target field"
+      },
+      {
+        "id": "b",
+        "text": "To match incoming records to existing records and update them instead of creating duplicates"
+      },
+      {
+        "id": "c",
+        "text": "To compress multiple import runs into a single batch"
+      },
+      {
+        "id": "d",
+        "text": "To aggregate numeric field values from multiple import records"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Coalesce fields in a Transform Map act as lookup keys to find existing records in the target table. If a record with matching coalesce field values is found, the transform updates it instead of creating a new record. This prevents duplicates in integrations where the same external record may be imported multiple times. Coalescing is analogous to an 'upsert' (update or insert) operation.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-039",
+    "type": "single_choice",
+    "prompt": "When building a Scripted REST API, what does marking an API resource as requiring authentication do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It requires callers to include a custom X-Auth header with every request"
+      },
+      {
+        "id": "b",
+        "text": "It generates an authentication challenge page in the browser"
+      },
+      {
+        "id": "c",
+        "text": "It requires the caller to authenticate with valid ServiceNow credentials (e.g., Basic Auth, OAuth) before accessing the resource"
+      },
+      {
+        "id": "d",
+        "text": "It restricts access to callers originating from the same ServiceNow instance"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Marking a Scripted REST API resource as requiring authentication means that callers must authenticate with valid ServiceNow credentials (Basic Authentication, OAuth token, or mutual TLS) before the resource will process the request. Unauthenticated requests receive a 401 Unauthorized response. ServiceNow Scripted REST APIs can optionally be configured to allow unauthenticated (public) access for specific use cases.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-cad-api-040",
+    "type": "single_choice",
+    "prompt": "How does an executeAsync() call on RESTMessageV2 differ from execute()?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "executeAsync() returns a Promise object; execute() blocks the script thread"
+      },
+      {
+        "id": "b",
+        "text": "executeAsync() sends the request without waiting for a response; the response is discarded"
+      },
+      {
+        "id": "c",
+        "text": "executeAsync() runs the REST call via a MID Server regardless of configuration"
+      },
+      {
+        "id": "d",
+        "text": "executeAsync() sends the request in a background thread and returns a RESTResponseV2 from a polling mechanism"
+      }
+    ],
+    "correct": "d",
+    "explanation": "RESTMessageV2.executeAsync() sends the HTTP request in a background ECC queue thread rather than blocking the current script execution. The method returns a RESTResponseV2 that can be polled with waitForResponse(timeout_ms) to retrieve the response when it is available. This is useful for long-running REST calls where blocking the main business rule or script thread would cause timeouts.",
+    "topics": [
+      "api-integration"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  }
+]

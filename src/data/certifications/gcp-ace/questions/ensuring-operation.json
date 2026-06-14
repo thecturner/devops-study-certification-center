@@ -1,0 +1,301 @@
+[
+  {
+    "id": "gcp-ace-eo-001",
+    "type": "single_choice",
+    "prompt": "You need to create an alerting policy in Cloud Monitoring that pages on-call engineers when the average CPU utilization across all instances in a managed instance group exceeds 85% for more than 5 minutes. Which alert condition type should you configure?",
+    "choices": [
+      { "id": "a", "text": "Log-based alert on a log metric that counts CPU threshold events" },
+      { "id": "b", "text": "Metric threshold condition on compute.googleapis.com/instance/cpu/utilization with a 5-minute alignment period" },
+      { "id": "c", "text": "Uptime check that verifies instance health on a 5-minute interval" },
+      { "id": "d", "text": "Service-level objective (SLO) alert with a 5-minute burn rate window" }
+    ],
+    "correct": "b",
+    "explanation": "A metric threshold condition on `compute.googleapis.com/instance/cpu/utilization` with a 5-minute alignment period and a threshold of 0.85 is the correct approach for alerting on sustained CPU utilization. Log-based alerts are appropriate for log-derived signals, not raw metrics. Uptime checks verify reachability of an HTTP endpoint or TCP port, not CPU utilization. SLO alerts are designed for error budget burn rate monitoring, not raw resource utilization thresholds.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Alerting overview", "url": "https://cloud.google.com/monitoring/alerts" },
+      { "label": "Metric threshold conditions", "url": "https://cloud.google.com/monitoring/alerts/concepts-indepth#condition-types" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-002",
+    "type": "single_choice",
+    "prompt": "Your security team requires that all Cloud Audit Logs for a production project be exported to a dedicated Cloud Storage bucket in a separate security project for long-term retention and immutability. Which Cloud Logging feature accomplishes this?",
+    "choices": [
+      { "id": "a", "text": "Log-based metrics with an export to Cloud Storage" },
+      { "id": "b", "text": "A log sink with a Cloud Storage bucket as the destination" },
+      { "id": "c", "text": "Log exclusion filter to forward audit logs to Cloud Storage" },
+      { "id": "d", "text": "Cloud Monitoring notification channel pointed at Cloud Storage" }
+    ],
+    "correct": "b",
+    "explanation": "Log sinks (also called log exports) in Cloud Logging route copies of log entries matching a filter to a destination such as Cloud Storage, BigQuery, Pub/Sub, or another Log Bucket. Creating a sink with a Cloud Storage bucket in the security project as the destination exports audit logs without affecting the original logs. Log-based metrics create metrics from log entries but do not route the logs themselves to external storage. Log exclusion filters remove log entries from the logging pipeline; they do not export them. Cloud Monitoring notification channels send alerts, not log data.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Logging export overview", "url": "https://cloud.google.com/logging/docs/export" },
+      { "label": "Log sinks", "url": "https://cloud.google.com/logging/docs/export/configure_export_v2" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-003",
+    "type": "single_choice",
+    "prompt": "A Compute Engine instance is unresponsive. You cannot SSH into the instance because the networking stack is not responding. You need to diagnose the issue by viewing the instance's boot messages and OS-level console output. Which tool should you use?",
+    "choices": [
+      { "id": "a", "text": "Cloud Monitoring agent logs" },
+      { "id": "b", "text": "Cloud Logging instance activity logs" },
+      { "id": "c", "text": "Serial console output for the instance" },
+      { "id": "d", "text": "Cloud Trace for the instance's startup requests" }
+    ],
+    "correct": "c",
+    "explanation": "The serial console provides direct access to a Compute Engine instance's console output, including BIOS messages, kernel boot logs, and OS-level messages, even when the network is unavailable. Cloud Monitoring agent logs require the agent to be running and the network to be functional. Cloud Logging instance activity logs show GCP-side actions (API calls), not OS-level boot output. Cloud Trace records distributed traces from applications, not boot diagnostics.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Serial console access", "url": "https://cloud.google.com/compute/docs/troubleshooting/troubleshooting-using-serial-console" },
+      { "label": "Viewing serial port output", "url": "https://cloud.google.com/compute/docs/instances/viewing-serial-port-output" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-004",
+    "type": "single_choice",
+    "prompt": "Your team is generating large volumes of DEBUG-level logs from a Cloud Run service that are filling up your Cloud Logging quota. You want to stop storing DEBUG logs without affecting INFO, WARNING, and ERROR logs. What is the correct approach?",
+    "choices": [
+      { "id": "a", "text": "Set the logging level in the Cloud Run service environment variable to INFO" },
+      { "id": "b", "text": "Create a log exclusion filter in Cloud Logging that matches severity=DEBUG" },
+      { "id": "c", "text": "Create a log sink that routes DEBUG logs to /dev/null" },
+      { "id": "d", "text": "Apply a VPC firewall rule to block logging traffic from Cloud Run" }
+    ],
+    "correct": "b",
+    "explanation": "Log exclusion filters in Cloud Logging allow you to specify a filter (e.g., `severity=DEBUG`) that, when matched, prevents matching log entries from being ingested and stored, reducing log volume and costs. Setting the logging level in the application environment can also help but does not guarantee that all SDKs and frameworks in the service honor the setting. Log sinks route logs to destinations; there is no `/dev/null` sink. VPC firewall rules control network traffic, not log ingestion.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Log exclusions", "url": "https://cloud.google.com/logging/docs/exclusions" },
+      { "label": "Advanced logs queries", "url": "https://cloud.google.com/logging/docs/view/logging-query-language" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-005",
+    "type": "single_choice",
+    "prompt": "You need to verify that your public-facing web application at https://api.example.com/health returns HTTP 200 within 2 seconds from multiple global locations, and alert your team if it does not. Which Cloud Monitoring feature should you configure?",
+    "choices": [
+      { "id": "a", "text": "A custom log-based metric monitoring the application's HTTP response log field" },
+      { "id": "b", "text": "An uptime check targeting api.example.com/health with an HTTPS protocol" },
+      { "id": "c", "text": "A Cloud Trace latency distribution alert" },
+      { "id": "d", "text": "A synthetic monitor using Puppeteer via Cloud Functions" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Monitoring uptime checks send synthetic requests from multiple global probe locations to your endpoint and alert you if the endpoint does not return the expected response (HTTP 200) within the configured timeout. This directly satisfies the requirement. A log-based metric monitors log data but relies on the application generating logs, meaning it would miss cases where the application is unreachable. Cloud Trace measures distributed tracing latency for individual requests, not uptime from external vantage points. Synthetic monitors via Puppeteer are part of the newer Cloud Monitoring synthetic monitoring feature and are more complex than a simple uptime check.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Uptime checks overview", "url": "https://cloud.google.com/monitoring/uptime-checks" },
+      { "label": "Creating uptime checks", "url": "https://cloud.google.com/monitoring/uptime-checks/manage" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-006",
+    "type": "single_choice",
+    "prompt": "A GKE pod is stuck in CrashLoopBackOff. You need to inspect the logs from the most recent container restart to diagnose the crash. Which kubectl command retrieves the logs from the previous container instance?",
+    "choices": [
+      { "id": "a", "text": "kubectl logs pod-name" },
+      { "id": "b", "text": "kubectl logs pod-name --previous" },
+      { "id": "c", "text": "kubectl describe pod pod-name" },
+      { "id": "d", "text": "kubectl get events --field-selector involvedObject.name=pod-name" }
+    ],
+    "correct": "b",
+    "explanation": "`kubectl logs pod-name --previous` (or `-p`) retrieves the logs from the terminated container in the pod, which contains the output from the crash. `kubectl logs pod-name` without the flag shows logs from the current (restarting) container, which may have no output yet. `kubectl describe pod` shows events and status conditions but not the full container log output. `kubectl get events` shows Kubernetes events like OOMKilled or Evicted but not the application's own log output.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "kubectl logs", "url": "https://kubernetes.io/docs/reference/kubectl/cheatsheet/#interacting-with-running-pods" },
+      { "label": "Debugging pods", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-007",
+    "type": "single_choice",
+    "prompt": "You want to capture distributed trace data from your microservices on GKE to understand end-to-end request latency and identify bottlenecks. Which GCP service should you use, and what must be present in your application?",
+    "choices": [
+      { "id": "a", "text": "Cloud Logging; instrument with structured logs that include latency fields" },
+      { "id": "b", "text": "Cloud Trace; instrument your code with the Cloud Trace SDK or use an OpenTelemetry exporter" },
+      { "id": "c", "text": "Cloud Monitoring; configure a latency distribution metric via the Monitoring API" },
+      { "id": "d", "text": "Cloud Profiler; add the Profiler agent to each service" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Trace is GCP's distributed tracing service. Applications must be instrumented using the Cloud Trace client libraries or an OpenTelemetry SDK configured with a GCP exporter to send trace spans. This allows end-to-end request tracing across services. Cloud Logging captures log output but does not provide distributed trace context or latency waterfall visualization. Cloud Monitoring tracks metrics but not distributed traces. Cloud Profiler performs CPU and memory profiling of running applications, not distributed request tracing.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Trace overview", "url": "https://cloud.google.com/trace/docs/overview" },
+      { "label": "OpenTelemetry on Google Cloud", "url": "https://cloud.google.com/trace/docs/setup" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-008",
+    "type": "single_choice",
+    "prompt": "You manage a fleet of Compute Engine instances and need to run a script across all of them simultaneously to install a security patch. SSH-ing into each one individually is not practical. Which GCP feature lets you run the script remotely across all instances at once?",
+    "choices": [
+      { "id": "a", "text": "Cloud Scheduler with a Pub/Sub topic" },
+      { "id": "b", "text": "OS Config VM Manager with a patch job or OS policy" },
+      { "id": "c", "text": "Cloud Functions triggered by a manual HTTP request" },
+      { "id": "d", "text": "Startup scripts with a rolling restart of the managed instance group" }
+    ],
+    "correct": "b",
+    "explanation": "OS Config VM Manager provides patch management and OS policies that can apply patches and run scripts across a fleet of Compute Engine instances simultaneously from a central management plane. Cloud Scheduler with Pub/Sub can trigger actions but does not directly execute scripts on instances. Cloud Functions can call GCP APIs but cannot directly execute commands on instance OS. Startup scripts run at boot time; triggering them via an MIG rolling restart causes downtime and only runs the script on new instances.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "VM Manager overview", "url": "https://cloud.google.com/compute/docs/vm-manager" },
+      { "label": "Patch management", "url": "https://cloud.google.com/compute/docs/os-patch-management" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-009",
+    "type": "single_choice",
+    "prompt": "A GKE node is reporting NotReady and new pods cannot be scheduled to it. You want to investigate the node without disrupting running pods on other nodes. Which sequence of kubectl commands should you use to cordon the node and then view its condition details?",
+    "choices": [
+      { "id": "a", "text": "kubectl delete node NODE_NAME → kubectl get nodes" },
+      { "id": "b", "text": "kubectl cordon NODE_NAME → kubectl describe node NODE_NAME" },
+      { "id": "c", "text": "kubectl drain NODE_NAME --ignore-daemonsets → kubectl get pods -o wide" },
+      { "id": "d", "text": "kubectl taint nodes NODE_NAME key=value:NoExecute → kubectl get events" }
+    ],
+    "correct": "b",
+    "explanation": "`kubectl cordon NODE_NAME` marks the node as unschedulable, preventing new pods from being assigned to it while existing pods continue running. `kubectl describe node NODE_NAME` then shows detailed condition information including memory pressure, disk pressure, and kubelet errors. Deleting the node removes it from the cluster entirely. `kubectl drain` also evicts existing pods, which is more disruptive than needed for investigation. Tainting with NoExecute evicts existing pods, causing unnecessary disruption.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "kubectl cordon", "url": "https://kubernetes.io/docs/reference/kubectl/cheatsheet/#node-operations" },
+      { "label": "Troubleshooting nodes", "url": "https://cloud.google.com/kubernetes-engine/docs/troubleshooting/troubleshoot-nodes" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-010",
+    "type": "single_choice",
+    "prompt": "You want to create a log-based metric that counts the number of HTTP 500 errors appearing in Cloud Run logs so you can alert on error rate spikes. Which log filter should you use when creating the metric?",
+    "choices": [
+      { "id": "a", "text": "resource.type=\"cloud_run_revision\" AND httpRequest.status=500" },
+      { "id": "b", "text": "resource.type=\"gce_instance\" AND severity=ERROR" },
+      { "id": "c", "text": "logName=\"projects/PROJECT_ID/logs/run.googleapis.com%2Frequests\" AND severity>=ERROR" },
+      { "id": "d", "text": "resource.labels.service_name=\"my-service\" AND textPayload:\"500\"" }
+    ],
+    "correct": "a",
+    "explanation": "The filter `resource.type=\"cloud_run_revision\" AND httpRequest.status=500` correctly scopes the metric to Cloud Run request logs and matches entries where the HTTP status code is exactly 500. Option B filters GCE instance logs, not Cloud Run. Option C uses the log name for Cloud Run requests, but `severity>=ERROR` would also catch application ERROR logs that are not HTTP 500 responses. Option D uses a text payload search which is imprecise and would match logs mentioning '500' in any context.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Log-based metrics", "url": "https://cloud.google.com/logging/docs/logs-based-metrics" },
+      { "label": "Cloud Run logs", "url": "https://cloud.google.com/run/docs/logging" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-011",
+    "type": "single_choice",
+    "prompt": "You want to understand which functions in your Python application on Cloud Run are consuming the most CPU time in production. Which GCP service provides a flame graph visualization of CPU usage broken down by function call?",
+    "choices": [
+      { "id": "a", "text": "Cloud Trace" },
+      { "id": "b", "text": "Cloud Monitoring" },
+      { "id": "c", "text": "Cloud Profiler" },
+      { "id": "d", "text": "Error Reporting" }
+    ],
+    "correct": "c",
+    "explanation": "Cloud Profiler continuously collects CPU and heap profiles from production applications with minimal overhead and visualizes them as flame graphs, making it easy to identify which functions consume the most CPU. Cloud Trace measures request latency across services but does not show intra-process CPU profiling. Cloud Monitoring tracks aggregate metrics but does not provide per-function CPU breakdown. Error Reporting aggregates and groups application exceptions, not CPU profiling data.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Profiler overview", "url": "https://cloud.google.com/profiler/docs/about-profiler" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-012",
+    "type": "single_choice",
+    "prompt": "A Compute Engine instance running a web server is not serving traffic. You need to SSH into the instance to investigate but get a 'connection refused' error. The instance shows as RUNNING in the Console. What should you check first?",
+    "choices": [
+      { "id": "a", "text": "Verify the instance has sufficient disk space" },
+      { "id": "b", "text": "Check that the VPC firewall allows ingress TCP on port 22 from your source IP" },
+      { "id": "c", "text": "Restart the Compute Engine API in the project" },
+      { "id": "d", "text": "Check the instance's OS for running processes via Cloud Monitoring" }
+    ],
+    "correct": "b",
+    "explanation": "A 'connection refused' error when the instance is RUNNING typically indicates that either the SSH daemon is not running or, more commonly, a firewall rule is blocking TCP port 22. The first and most common check is verifying that a VPC firewall rule allows ingress on TCP port 22 from your source IP (or 0.0.0.0/0 for the default-allow-ssh rule). Disk space issues would affect the OS but not block TCP connections at the network level. There is no 'Compute Engine API restart' operation. Cloud Monitoring metrics require the agent to be running and functional, which assumes the OS is responsive.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Troubleshooting SSH", "url": "https://cloud.google.com/compute/docs/troubleshooting/troubleshooting-ssh" },
+      { "label": "VPC firewall rules", "url": "https://cloud.google.com/vpc/docs/firewalls" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-013",
+    "type": "single_choice",
+    "prompt": "You need to view the startup script output from a Compute Engine instance to debug why a web server is not starting correctly after instance creation. Where should you look?",
+    "choices": [
+      { "id": "a", "text": "Cloud Trace for the instance's HTTP requests during startup" },
+      { "id": "b", "text": "Cloud Logging under the resource type 'gce_instance' for the instance" },
+      { "id": "c", "text": "The Cloud Console VM details page under the 'Startup script' tab" },
+      { "id": "d", "text": "Cloud Monitoring under the Compute Engine dashboard metrics" }
+    ],
+    "correct": "b",
+    "explanation": "Startup script output on Compute Engine is automatically sent to Cloud Logging under the `gce_instance` resource type with log entries from the `google-startup-scripts` service. You can view these in the Logs Explorer filtered by `resource.type=\"gce_instance\"`. Cloud Trace tracks distributed request traces, not startup scripts. The Cloud Console VM details page shows the script content, not its output. Cloud Monitoring metrics measure performance data, not log output.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Startup scripts", "url": "https://cloud.google.com/compute/docs/instances/startup-scripts/linux" },
+      { "label": "Viewing startup script output in Logging", "url": "https://cloud.google.com/compute/docs/instances/startup-scripts/linux#viewing-output" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-014",
+    "type": "single_choice",
+    "prompt": "Your Cloud Monitoring dashboard shows that an alerting policy fired but the notification was never received by the on-call engineer. The engineer's email address is correct. What should you investigate?",
+    "choices": [
+      { "id": "a", "text": "Check whether the alert severity was set to INFO, which does not trigger notifications" },
+      { "id": "b", "text": "Verify the notification channel is correctly configured and that the alert policy references it" },
+      { "id": "c", "text": "Restart the Cloud Monitoring service in the project" },
+      { "id": "d", "text": "Check that Cloud Trace is enabled, as it is required for alerting to function" }
+    ],
+    "correct": "b",
+    "explanation": "When an alert fires but no notification is received, the most common causes are a misconfigured notification channel (wrong email, unverified channel) or the alert policy not being linked to any notification channel. Verifying that the email notification channel is verified and that the alert policy's notification channels list includes it covers both failure modes. Cloud Monitoring alerts do not have a severity filter that suppresses email; severity in logs is separate from alerting. Cloud Monitoring is a managed service and cannot be restarted. Cloud Trace is unrelated to alert notification delivery.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Notification channels", "url": "https://cloud.google.com/monitoring/support/notification-options" },
+      { "label": "Managing alerting policies", "url": "https://cloud.google.com/monitoring/alerts/using-alerting-ui" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-eo-015",
+    "type": "single_choice",
+    "prompt": "You want to keep audit logs for your GCP project for 7 years to comply with financial regulations, but Cloud Logging's default retention for audit logs is only 400 days. What is the most operationally simple way to achieve 7-year retention?",
+    "choices": [
+      { "id": "a", "text": "Manually export audit logs to a Cloud Storage bucket every month using gcloud" },
+      { "id": "b", "text": "Create a log sink that continuously exports audit logs to a Cloud Storage bucket with a retention policy of 7 years" },
+      { "id": "c", "text": "Upgrade the Cloud Logging tier to extend the default retention period" },
+      { "id": "d", "text": "Configure a BigQuery scheduled query to archive logs daily" }
+    ],
+    "correct": "b",
+    "explanation": "A log sink configured to export audit logs to a Cloud Storage bucket is the recommended, continuous, and automated approach. You set the bucket's retention policy (or enable object lock for immutability) to 7 years. Once the sink is in place, no manual intervention is needed. Manual monthly exports are error-prone and operationally expensive. There is no 'Cloud Logging tier upgrade' that extends retention beyond 400 days for audit logs. BigQuery archival via scheduled queries adds unnecessary pipeline complexity and cost.",
+    "topics": ["ensuring-operation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Logging retention", "url": "https://cloud.google.com/logging/docs/storage#default-retention" },
+      { "label": "Exporting logs to Cloud Storage", "url": "https://cloud.google.com/logging/docs/export/configure_export_v2" }
+    ],
+    "version": 1
+  }
+]

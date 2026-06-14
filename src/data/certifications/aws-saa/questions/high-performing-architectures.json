@@ -1,0 +1,286 @@
+[
+  {
+    "id": "aws-saa-hp-001",
+    "type": "single_choice",
+    "prompt": "A company is uploading large media files (5-50 GB each) to S3 from on-premises servers. The uploads are slow and frequently fail midway. Which S3 feature most improves upload reliability and speed for these large objects?",
+    "choices": [
+      { "id": "a", "text": "S3 Transfer Acceleration" },
+      { "id": "b", "text": "Multipart upload" },
+      { "id": "c", "text": "S3 Cross-Region Replication" },
+      { "id": "d", "text": "S3 Intelligent-Tiering" }
+    ],
+    "correct": "b",
+    "explanation": "Multipart upload splits large objects into parts that are uploaded independently and in parallel. Failed parts can be retried without restarting the entire upload, and parallel uploads saturate available bandwidth. AWS recommends multipart upload for objects larger than 100 MB. S3 Transfer Acceleration speeds up transfers over long distances by routing through CloudFront edge locations but doesn't solve the reliability issue of large single-part uploads. CRR replicates existing objects to another Region and doesn't address upload performance. Intelligent-Tiering manages storage class transitions, not upload performance.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Uploading and Copying Objects Using Multipart Upload", "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-002",
+    "type": "single_choice",
+    "prompt": "A global e-commerce website serves static assets (images, CSS, JavaScript) from an S3 bucket in us-east-1. Users in Europe and Asia Pacific report slow page load times for these assets. What is the most effective solution to reduce latency for these users?",
+    "choices": [
+      { "id": "a", "text": "Enable S3 Transfer Acceleration on the bucket" },
+      { "id": "b", "text": "Create S3 buckets in each Region and use Route 53 geolocation routing" },
+      { "id": "c", "text": "Distribute the assets through Amazon CloudFront with edge locations globally" },
+      { "id": "d", "text": "Increase the EC2 instance size serving the origin" }
+    ],
+    "correct": "c",
+    "explanation": "Amazon CloudFront is a global CDN with 400+ edge locations. Static assets are cached at the edge closest to each user, dramatically reducing latency for international users. S3 Transfer Acceleration optimizes uploads to S3, not downloads by end users. Creating regional S3 buckets requires complex synchronization and Route 53 configuration. The assets are served from S3, not EC2, so instance sizing is irrelevant.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon CloudFront Developer Guide", "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-003",
+    "type": "single_choice",
+    "prompt": "A web application performs thousands of identical database queries per second against a MySQL RDS instance, causing high CPU utilization and query latency. The data changes infrequently. Which caching solution most reduces RDS load with the lowest application complexity?",
+    "choices": [
+      { "id": "a", "text": "Add a second RDS Read Replica" },
+      { "id": "b", "text": "Place Amazon ElastiCache for Memcached in front of RDS" },
+      { "id": "c", "text": "Enable RDS Proxy to pool database connections" },
+      { "id": "d", "text": "Place Amazon ElastiCache for Redis in front of RDS" }
+    ],
+    "correct": "d",
+    "explanation": "ElastiCache for Redis provides sub-millisecond caching for frequently accessed, infrequently changing query results. The application checks the cache first and only queries RDS on a cache miss. Redis additionally supports persistence, rich data types, and replication, making it the preferred choice for a general-purpose caching layer. Memcached is simpler and supports multi-threaded scaling but lacks replication and persistence. A Read Replica reduces read load but doesn't cache at the in-memory layer. RDS Proxy pools connections but doesn't cache query results.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Amazon ElastiCache for Redis", "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/WhatIs.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-004",
+    "type": "single_choice",
+    "prompt": "A company runs a compute-intensive genomics workload that requires maximum CPU performance with no multi-tenancy on the underlying hardware. Which EC2 instance purchasing option satisfies this requirement?",
+    "choices": [
+      { "id": "a", "text": "Spot Instances" },
+      { "id": "b", "text": "Placement Groups (Cluster placement group)" },
+      { "id": "c", "text": "Dedicated Instances" },
+      { "id": "d", "text": "On-Demand Instances with Enhanced Networking" }
+    ],
+    "correct": "c",
+    "explanation": "Dedicated Instances run on hardware dedicated to a single AWS customer, ensuring no other customer's workloads share the physical server. This eliminates noisy-neighbor concerns. Spot Instances can be interrupted and run on shared hardware. Cluster placement groups optimize network performance between instances but don't prevent multi-tenancy. On-Demand with enhanced networking improves network throughput but doesn't guarantee single-tenant hardware.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dedicated Instances", "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-005",
+    "type": "single_choice",
+    "prompt": "A financial services company needs to process stock ticker updates from thousands of sources in real time, with the ability to replay events for up to 7 days for auditing. Which AWS service is best suited for ingesting and buffering this streaming data?",
+    "choices": [
+      { "id": "a", "text": "Amazon SQS Standard queue" },
+      { "id": "b", "text": "Amazon SNS topic" },
+      { "id": "c", "text": "Amazon Kinesis Data Streams" },
+      { "id": "d", "text": "Amazon MQ" }
+    ],
+    "correct": "c",
+    "explanation": "Amazon Kinesis Data Streams is purpose-built for real-time streaming data at high throughput. It retains records for 1 to 365 days (7-day retention is within the standard range), enabling replay and multiple independent consumers reading from the same stream at different positions. SQS retains messages up to 14 days but deletes messages after they are consumed, preventing replay. SNS delivers and discards messages without retention. Amazon MQ is a managed message broker for JMS/AMQP workloads, not optimized for high-throughput streaming.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Amazon Kinesis Data Streams Developer Guide", "url": "https://docs.aws.amazon.com/streams/latest/dev/introduction.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-006",
+    "type": "single_choice",
+    "prompt": "A company's REST API is deployed behind an Application Load Balancer and serves mostly cacheable responses. During peak hours, many identical GET requests hit the origin servers. How can the company reduce origin load and improve API response times without changing the application code?",
+    "choices": [
+      { "id": "a", "text": "Enable CloudFront in front of the ALB and configure a cache behavior with an appropriate TTL" },
+      { "id": "b", "text": "Enable ALB connection draining" },
+      { "id": "c", "text": "Use AWS Global Accelerator to route requests to the nearest endpoint" },
+      { "id": "d", "text": "Enable ALB slow start mode to gradually increase traffic to new instances" }
+    ],
+    "correct": "a",
+    "explanation": "CloudFront can cache API responses at edge locations based on configured TTL and cache keys (including query strings and headers). Repeat identical GET requests are served from the edge cache without reaching the ALB or origin servers. ALB connection draining gracefully handles instance deregistration but doesn't cache responses. Global Accelerator improves network path performance but doesn't cache content. ALB slow start mode reduces load on newly registered instances during warm-up, not on the overall origin.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Caching API Responses with CloudFront", "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cache-hit-ratio.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-007",
+    "type": "single_choice",
+    "prompt": "A machine learning training job requires extremely high throughput between instances (hundreds of Gbps) and very low latency inter-node communication. Which EC2 networking feature should the Solutions Architect specify for the instance cluster?",
+    "choices": [
+      { "id": "a", "text": "Enhanced Networking (ENA) in a VPC with a private subnet" },
+      { "id": "b", "text": "Elastic Fabric Adapter (EFA) with instances in a cluster placement group" },
+      { "id": "c", "text": "VPC Flow Logs for network monitoring" },
+      { "id": "d", "text": "Elastic Network Interface (ENI) bonding for increased throughput" }
+    ],
+    "correct": "b",
+    "explanation": "Elastic Fabric Adapter (EFA) is a network interface for EC2 instances that provides OS-bypass capabilities for extremely low latency and high throughput inter-node communication, essential for tightly coupled HPC and ML training workloads. Placing instances in a Cluster Placement Group minimizes network distance. Standard Enhanced Networking (ENA) improves single-instance network performance but doesn't provide the OS-bypass or the inter-node throughput needed for distributed training. VPC Flow Logs are for network monitoring. ENI bonding is not a supported AWS feature for increasing throughput.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Elastic Fabric Adapter", "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-008",
+    "type": "single_choice",
+    "prompt": "A company's relational database on RDS PostgreSQL is experiencing high read latency because read replicas are taking up to 5 minutes to reflect writes. The application is time-sensitive and cannot tolerate stale data. Which database technology should the Solutions Architect recommend instead?",
+    "choices": [
+      { "id": "a", "text": "RDS PostgreSQL with a larger instance type" },
+      { "id": "b", "text": "Amazon Aurora PostgreSQL, which provides replica lag typically under 10 milliseconds" },
+      { "id": "c", "text": "Amazon DynamoDB with strongly consistent reads" },
+      { "id": "d", "text": "Amazon Redshift for low-latency OLTP queries" }
+    ],
+    "correct": "b",
+    "explanation": "Aurora PostgreSQL shares the same storage volume across the writer and all readers using a distributed, shared storage architecture. This eliminates traditional replication lag: replica lag is typically under 10 milliseconds rather than the minutes seen with standard RDS asynchronous replication. Increasing instance size doesn't reduce replication lag. DynamoDB is a NoSQL service incompatible with a relational schema. Redshift is an analytical data warehouse designed for complex queries over large datasets, not low-latency OLTP.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Amazon Aurora Storage Architecture", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-009",
+    "type": "single_choice",
+    "prompt": "A media streaming company serves video files to users across the world. Users in South America are experiencing high buffer times. The videos are stored in an S3 bucket in us-east-1. Without replicating the videos to another Region, what is the fastest way to improve performance for South American users?",
+    "choices": [
+      { "id": "a", "text": "Enable S3 Transfer Acceleration on the bucket" },
+      { "id": "b", "text": "Create an Amazon CloudFront distribution backed by the S3 bucket" },
+      { "id": "c", "text": "Use AWS Global Accelerator to route video requests" },
+      { "id": "d", "text": "Enable S3 Requester Pays to prioritize heavy users" }
+    ],
+    "correct": "b",
+    "explanation": "CloudFront caches the videos at edge locations in South America (such as São Paulo). After the first user streams a video, it is cached at the edge and subsequent users retrieve it with dramatically lower latency. S3 Transfer Acceleration improves upload speeds from end users to S3, not download speeds for video streaming. Global Accelerator routes TCP/UDP traffic to the nearest AWS Region using Anycast but doesn't cache content. Requester Pays changes billing but has no performance impact.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Using CloudFront with Amazon S3", "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistS3AndCustomOrigins.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-010",
+    "type": "multi_choice",
+    "prompt": "A company wants to maximize IOPS for a latency-sensitive database running on EC2. Which TWO EBS volume types are optimized for high IOPS and low latency? (Select two.)",
+    "choices": [
+      { "id": "a", "text": "io2 Block Express" },
+      { "id": "b", "text": "st1 (Throughput Optimized HDD)" },
+      { "id": "c", "text": "sc1 (Cold HDD)" },
+      { "id": "d", "text": "gp3 (General Purpose SSD)" },
+      { "id": "e", "text": "gp2 (General Purpose SSD, previous generation)" }
+    ],
+    "correct": ["a", "d"],
+    "explanation": "io2 Block Express is the highest-performance EBS SSD volume, delivering up to 256,000 IOPS and sub-millisecond latency, designed for I/O-intensive databases. gp3 provides up to 16,000 IOPS independently of volume size and is a strong choice for most latency-sensitive workloads at lower cost than io2. st1 (Throughput Optimized HDD) is optimized for sequential throughput, not IOPS. sc1 (Cold HDD) is designed for infrequently accessed data. gp2 is the previous-generation general purpose SSD with lower IOPS ceiling than gp3.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Amazon EBS Volume Types", "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-011",
+    "type": "single_choice",
+    "prompt": "A gaming company needs to improve performance of API calls for users globally without implementing a CDN. The application runs on EC2 in two Regions. Which AWS service routes users to the nearest healthy endpoint using the AWS global network instead of the public internet?",
+    "choices": [
+      { "id": "a", "text": "Amazon Route 53 with latency-based routing" },
+      { "id": "b", "text": "AWS Global Accelerator" },
+      { "id": "c", "text": "Amazon CloudFront with custom origins" },
+      { "id": "d", "text": "AWS Direct Connect" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Global Accelerator uses static anycast IP addresses and the AWS global network backbone to route user traffic to the nearest healthy endpoint, reducing latency from the first hop. Unlike Route 53 latency-based routing (which relies on DNS TTL and the public internet), Global Accelerator provides consistent, measurably lower latency by keeping traffic on the AWS backbone. CloudFront is a CDN that caches content; it does not apply to dynamic API traffic without caching. Direct Connect provides dedicated connectivity from on-premises to AWS, not for end-user traffic routing.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "AWS Global Accelerator", "url": "https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-012",
+    "type": "single_choice",
+    "prompt": "A company has a large amount of data in S3 that must be queried with standard SQL for ad hoc analysis without loading it into a database. Which AWS service enables SQL queries directly against data in S3 with no infrastructure to manage?",
+    "choices": [
+      { "id": "a", "text": "Amazon Redshift" },
+      { "id": "b", "text": "Amazon RDS" },
+      { "id": "c", "text": "Amazon Athena" },
+      { "id": "d", "text": "AWS Glue" }
+    ],
+    "correct": "c",
+    "explanation": "Amazon Athena is a serverless, interactive query service that allows standard SQL queries directly against data in S3 using Presto. There is no infrastructure to provision; you pay per query. Redshift is a managed data warehouse that requires loading data into Redshift storage or using Redshift Spectrum. RDS is a relational database that requires data to be loaded into tables. AWS Glue is an ETL service for data transformation; while it has a Data Catalog that Athena uses, Glue itself doesn't run SQL queries against S3.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon Athena User Guide", "url": "https://docs.aws.amazon.com/athena/latest/ug/what-is.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-013",
+    "type": "true_false",
+    "prompt": "Amazon ElastiCache for Memcached supports Multi-AZ with automatic failover to a replica node, similar to ElastiCache for Redis.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "ElastiCache for Memcached does not support replication or Multi-AZ failover. Memcached nodes are standalone; data is lost if a node fails. ElastiCache for Redis supports replication, Multi-AZ with automatic failover, and data persistence. This is a key architectural difference when choosing between the two: if you need high availability and durability for cached data, choose Redis.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Comparing Memcached and Redis", "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/mem-ug/SelectEngine.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-014",
+    "type": "single_choice",
+    "prompt": "A company's Lambda function connects to an RDS database. During peak load, Lambda scales to hundreds of concurrent invocations, causing the RDS instance to run out of database connections and return connection errors. Which solution resolves this without changing the Lambda code significantly?",
+    "choices": [
+      { "id": "a", "text": "Increase the max_connections parameter in the RDS parameter group" },
+      { "id": "b", "text": "Use Amazon RDS Proxy between Lambda and RDS to pool and reuse database connections" },
+      { "id": "c", "text": "Switch to DynamoDB, which has no connection limits" },
+      { "id": "d", "text": "Deploy the Lambda function inside the VPC and enable RDS Multi-AZ" }
+    ],
+    "correct": "b",
+    "explanation": "RDS Proxy maintains a pool of established database connections and multiplexes many Lambda invocations onto a small number of pooled connections. Lambda connects to the RDS Proxy endpoint (instead of directly to RDS), and RDS Proxy manages connection efficiency. This resolves the connection exhaustion problem without changing the Lambda code significantly (just update the connection endpoint). Increasing max_connections has hardware limits and can impact memory. Switching to DynamoDB requires a full application rewrite. Placing Lambda in the VPC is required for RDS access but doesn't solve connection exhaustion.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Amazon RDS Proxy", "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-saa-hp-015",
+    "type": "single_choice",
+    "prompt": "A company needs to transfer petabytes of data from an on-premises data center to Amazon S3. The on-premises network connection is a 100 Mbps internet link, which would take months to transfer the full dataset. Which AWS service accelerates this physical data transfer?",
+    "choices": [
+      { "id": "a", "text": "AWS DataSync over the existing internet connection" },
+      { "id": "b", "text": "AWS Snowball Edge Storage Optimized" },
+      { "id": "c", "text": "AWS Direct Connect (1 Gbps)" },
+      { "id": "d", "text": "S3 Transfer Acceleration" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Snowball Edge Storage Optimized is a physical device (80 TB usable) that AWS ships to the customer. Data is loaded on-premises and the device is shipped back to AWS for import to S3. For petabyte-scale transfers, multiple Snowball Edge devices (or Snowmobile for exabyte scale) complete the transfer in days or weeks rather than months. DataSync over 100 Mbps would still take months for petabytes. Setting up Direct Connect at 1 Gbps would reduce time but provisioning takes weeks and still may be slower for petabytes. S3 Transfer Acceleration optimizes internet upload speed but doesn't bypass the 100 Mbps bottleneck.",
+    "topics": ["high-performing-architectures"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "AWS Snowball Edge", "url": "https://docs.aws.amazon.com/snowball/latest/developer-guide/whatisedge.html" }
+    ],
+    "version": 1
+  }
+]

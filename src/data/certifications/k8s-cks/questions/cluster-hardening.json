@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-cks-ch-001",
+    "type": "single_choice",
+    "prompt": "What is the difference between a Role and a ClusterRole in Kubernetes RBAC?",
+    "choices": [
+      { "id": "a", "text": "A Role grants more permissions than a ClusterRole by default" },
+      { "id": "b", "text": "A Role is namespace-scoped; a ClusterRole is cluster-scoped and can also be bound within a namespace" },
+      { "id": "c", "text": "A ClusterRole can only be used with ClusterRoleBindings, never with RoleBindings" },
+      { "id": "d", "text": "Roles support resource-level permissions; ClusterRoles only support API group-level permissions" }
+    ],
+    "correct": "b",
+    "explanation": "A Role exists within a specific namespace and can only grant permissions to resources in that namespace. A ClusterRole is not namespaced and can grant permissions to cluster-scoped resources (nodes, PVs), non-resource URLs, and namespaced resources across all namespaces. Importantly, a ClusterRole can be bound within a specific namespace via a RoleBinding, which limits its effect to that namespace.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-002",
+    "type": "single_choice",
+    "prompt": "A ServiceAccount named 'app-sa' in namespace 'prod' should be prevented from being automounted into new Pods. Which field achieves this at the ServiceAccount level?",
+    "choices": [
+      { "id": "a", "text": "serviceAccountName: none" },
+      { "id": "b", "text": "automountServiceAccountToken: false on the ServiceAccount object" },
+      { "id": "c", "text": "mountServiceAccount: false on the Pod spec" },
+      { "id": "d", "text": "tokenProjection: disabled on the ServiceAccount object" }
+    ],
+    "correct": "b",
+    "explanation": "Setting automountServiceAccountToken: false on the ServiceAccount object prevents the token from being automounted into any Pod that uses this ServiceAccount, unless the Pod explicitly overrides it with automountServiceAccountToken: true in its spec. This reduces the attack surface by ensuring workloads that don't need API access don't receive credentials.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Configure ServiceAccounts", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-003",
+    "type": "single_choice",
+    "prompt": "When upgrading a kubeadm cluster, what is the correct upgrade sequence?",
+    "choices": [
+      { "id": "a", "text": "Worker nodes first, then control plane, then etcd" },
+      { "id": "b", "text": "etcd first, then control plane, then worker nodes" },
+      { "id": "c", "text": "Control plane first, then worker nodes one at a time" },
+      { "id": "d", "text": "All nodes simultaneously using kubeadm upgrade all" }
+    ],
+    "correct": "c",
+    "explanation": "The correct sequence for a kubeadm cluster upgrade is: upgrade the control plane first (kubeadm upgrade apply on the primary control plane node, then kubeadm upgrade node on additional control planes), then upgrade worker nodes one at a time (drain, upgrade kubeadm, apply, upgrade kubelet/kubectl, uncordon). Upgrading worker nodes first risks incompatibility with the old control plane.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Upgrading kubeadm clusters", "url": "https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-004",
+    "type": "single_choice",
+    "prompt": "A user has a ClusterRoleBinding that grants the 'cluster-admin' ClusterRole. What is the most immediate action to reduce the blast radius if this account is compromised?",
+    "choices": [
+      { "id": "a", "text": "Rotate the user's kubeconfig client certificate" },
+      { "id": "b", "text": "Delete the ClusterRoleBinding to revoke cluster-admin access immediately" },
+      { "id": "c", "text": "Drain all nodes the user has accessed" },
+      { "id": "d", "text": "Restart the API server to invalidate all cached tokens" }
+    ],
+    "correct": "b",
+    "explanation": "Deleting the ClusterRoleBinding is the fastest way to revoke the excessive permissions. While rotating the certificate is also important for certificate-based auth, the binding is what grants the authority — removing it immediately limits what the compromised account can do. After removing the binding, rotate credentials and audit what actions the account took.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-005",
+    "type": "single_choice",
+    "prompt": "Which RBAC verb allows a subject to execute commands inside a running container?",
+    "choices": [
+      { "id": "a", "text": "exec on the pods resource" },
+      { "id": "b", "text": "create on the pods/exec subresource" },
+      { "id": "c", "text": "update on the pods resource" },
+      { "id": "d", "text": "patch on the containers subresource" }
+    ],
+    "correct": "b",
+    "explanation": "The ability to run 'kubectl exec' into a Pod is controlled by the 'create' verb on the 'pods/exec' subresource. This is a common privilege escalation vector: a user who can exec into a Pod running as root, or with access to sensitive host paths or the node network, can effectively gain elevated cluster access. It should be granted sparingly.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-006",
+    "type": "single_choice",
+    "prompt": "The API server is configured with --authorization-mode=AlwaysAllow. What is the security risk, and what should the mode be changed to for a production cluster?",
+    "choices": [
+      { "id": "a", "text": "AlwaysAllow is fine for production; change to Node,RBAC only if performance is a concern" },
+      { "id": "b", "text": "AlwaysAllow grants every authenticated and unauthenticated request full access; change to Node,RBAC" },
+      { "id": "c", "text": "AlwaysAllow enables ABAC; change to RBAC only" },
+      { "id": "d", "text": "AlwaysAllow is the default and cannot be changed without rebuilding the cluster" }
+    ],
+    "correct": "b",
+    "explanation": "AlwaysAllow bypasses all authorization checks, meaning any request — including anonymous ones — is permitted. This is catastrophically insecure for a production cluster. The CIS Benchmark mandates using Node,RBAC as the authorization mode. Node authorization handles kubelet API calls, while RBAC enforces fine-grained permissions for all other actors.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Controlling Access to the API Server", "url": "https://kubernetes.io/docs/concepts/security/controlling-access/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-007",
+    "type": "multi_choice",
+    "prompt": "Which of the following RBAC verbs are considered high-risk because they can enable privilege escalation? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "bind (on ClusterRoles)" },
+      { "id": "b", "text": "escalate (on ClusterRoles)" },
+      { "id": "c", "text": "impersonate (on users/groups/serviceaccounts)" },
+      { "id": "d", "text": "list (on ConfigMaps)" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "The 'bind' verb allows a subject to create RoleBindings or ClusterRoleBindings referencing any role, potentially granting themselves more privileges. The 'escalate' verb allows modifying Roles/ClusterRoles to add permissions beyond what the grantor has. The 'impersonate' verb allows acting as another user, group, or ServiceAccount. All three are privilege escalation vectors and should be tightly controlled. 'list' on ConfigMaps may expose secrets stored there but is not inherently an escalation verb.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-008",
+    "type": "single_choice",
+    "prompt": "You want to restrict which users can create Pods in a namespace without restricting the system:masters group. Which resource should you create?",
+    "choices": [
+      { "id": "a", "text": "A ClusterRoleBinding that grants the 'system:masters' group admin access" },
+      { "id": "b", "text": "A Role with create denied on pods, bound to the users via RoleBinding" },
+      { "id": "c", "text": "A Role that does NOT include 'create' on pods, and a RoleBinding that binds the target users to that Role (replacing any broader binding)" },
+      { "id": "d", "text": "A ResourceQuota that sets pods: 0 in the namespace" }
+    ],
+    "correct": "c",
+    "explanation": "RBAC works on additive permissions — you cannot explicitly deny. To restrict Pod creation, remove any existing bindings that grant the 'create' verb on pods to those users and replace with a Role that only grants the minimum required verbs. ResourceQuota can limit count but does not restrict who can create Pods. system:masters bypasses all RBAC and cannot be restricted this way.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-009",
+    "type": "single_choice",
+    "prompt": "A Pod's ServiceAccount needs to read ConfigMaps only within the 'staging' namespace. What is the most restrictive RBAC configuration that satisfies this?",
+    "choices": [
+      { "id": "a", "text": "A ClusterRole with 'get,list' on configmaps, bound via ClusterRoleBinding to the ServiceAccount" },
+      { "id": "b", "text": "A Role with 'get,list' on configmaps in 'staging', bound via RoleBinding to the ServiceAccount in 'staging'" },
+      { "id": "c", "text": "A ClusterRole with 'get,list' on configmaps, bound via RoleBinding in 'staging' to the ServiceAccount" },
+      { "id": "d", "text": "Both B and C are equally restrictive" }
+    ],
+    "correct": "d",
+    "explanation": "Both options B and C are equally restrictive in effect. A Role bound via RoleBinding is namespace-scoped by definition. A ClusterRole bound via a RoleBinding (not ClusterRoleBinding) is also limited to the namespace of the RoleBinding. Both approaches grant 'get,list' on configmaps only in 'staging'. Option A (ClusterRoleBinding) would grant the permission across all namespaces and violates least-privilege.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-010",
+    "type": "true_false",
+    "prompt": "Kubernetes client certificate authentication supports certificate revocation via CRL or OCSP natively in the API server.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "False. The Kubernetes API server does not natively support CRL (Certificate Revocation List) or OCSP (Online Certificate Status Protocol) for client certificates. Once a client certificate is signed by a trusted CA, it remains valid until it expires. To revoke access, you must rotate the cluster CA (invalidating all existing certificates) or use a different auth mechanism like OIDC tokens that support revocation.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Controlling Access to the API Server", "url": "https://kubernetes.io/docs/concepts/security/controlling-access/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-011",
+    "type": "single_choice",
+    "prompt": "The CIS Benchmark recommends restricting access to the kubelet API. Which flag on the kubelet restricts anonymous access?",
+    "choices": [
+      { "id": "a", "text": "--authorization-mode=Webhook and --authentication-token-webhook=true" },
+      { "id": "b", "text": "--anonymous-auth=false" },
+      { "id": "c", "text": "--kubelet-auth=deny" },
+      { "id": "d", "text": "--read-only-port=0" }
+    ],
+    "correct": "b",
+    "explanation": "Setting --anonymous-auth=false on the kubelet disables anonymous requests to the kubelet API (port 10250). Combined with --authorization-mode=Webhook (which delegates authorization to the API server) and --client-ca-file, this ensures only authenticated and authorized callers can access the kubelet. Setting --read-only-port=0 (also recommended) closes the unauthenticated read-only port (10255).",
+    "topics": ["cluster-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Securing a Cluster", "url": "https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-012",
+    "type": "single_choice",
+    "prompt": "You run 'kubectl auth can-i create pods --as system:serviceaccount:default:my-sa'. What does this command do?",
+    "choices": [
+      { "id": "a", "text": "Creates a Pod using the my-sa ServiceAccount credentials" },
+      { "id": "b", "text": "Checks whether the my-sa ServiceAccount in the default namespace has permission to create Pods" },
+      { "id": "c", "text": "Lists the Pods that my-sa has created" },
+      { "id": "d", "text": "Grants the my-sa ServiceAccount permission to create Pods" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl auth can-i is a dry-run authorization check. The --as flag impersonates the specified subject for the check. This command asks the API server: 'Would system:serviceaccount:default:my-sa be allowed to create pods in the current namespace?' It returns 'yes' or 'no' without actually performing any action. This is essential for auditing ServiceAccount permissions.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-013",
+    "type": "single_choice",
+    "prompt": "A Kubernetes cluster is running v1.27. The CKS exam environment uses v1.29. Why does the CKS curriculum emphasize upgrading Kubernetes promptly?",
+    "choices": [
+      { "id": "a", "text": "Older versions do not support kubectl" },
+      { "id": "b", "text": "CVEs are patched in new releases; running old versions exposes the cluster to known, publicly disclosed vulnerabilities" },
+      { "id": "c", "text": "RBAC is not available in versions older than 1.28" },
+      { "id": "d", "text": "etcd encryption requires Kubernetes 1.29+" }
+    ],
+    "correct": "b",
+    "explanation": "Kubernetes follows a rapid release cadence (~3 releases per year) and only maintains the last 3 minor versions with security patches. Running unsupported versions means CVEs are no longer being patched, and attackers can exploit publicly known vulnerabilities. The CKS curriculum stresses timely upgrades as a core cluster hardening practice.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Upgrading kubeadm clusters", "url": "https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-014",
+    "type": "single_choice",
+    "prompt": "A developer claims they need 'get', 'list', 'watch', 'create', 'update', 'patch', and 'delete' on all resources in the cluster for their application. What should you do?",
+    "choices": [
+      { "id": "a", "text": "Bind the built-in 'cluster-admin' ClusterRole to their ServiceAccount" },
+      { "id": "b", "text": "Accept the request since the developer knows their app best" },
+      { "id": "c", "text": "Require the developer to enumerate exactly which resources and verbs their app needs and create a scoped Role or ClusterRole accordingly" },
+      { "id": "d", "text": "Grant access for 24 hours using a time-limited token" }
+    ],
+    "correct": "c",
+    "explanation": "The principle of least privilege requires granting only the permissions actually needed. Blanket access to all resources is almost never justified for an application. The correct response is to ask the developer to specify exactly which API groups, resources, and verbs the app requires, then create a narrowly scoped Role (namespaced) or ClusterRole (cluster-wide) with only those permissions.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cks-ch-015",
+    "type": "single_choice",
+    "prompt": "Which command lists all ClusterRoleBindings that reference the 'cluster-admin' ClusterRole, helping identify over-privileged subjects?",
+    "choices": [
+      { "id": "a", "text": "kubectl get clusterrolebindings -o wide | grep cluster-admin" },
+      { "id": "b", "text": "kubectl describe clusterrole cluster-admin" },
+      { "id": "c", "text": "kubectl auth whoami --role cluster-admin" },
+      { "id": "d", "text": "kubectl get roles --all-namespaces | grep cluster-admin" }
+    ],
+    "correct": "a",
+    "explanation": "Running 'kubectl get clusterrolebindings -o wide' shows the roleRef for each binding. Piping to 'grep cluster-admin' filters to only bindings that reference that ClusterRole, revealing every subject (user, group, ServiceAccount) with cluster-admin privileges. You can also use 'kubectl get clusterrolebindings -o json | jq' for more structured parsing. This is a critical audit step for cluster hardening.",
+    "topics": ["cluster-hardening"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "RBAC Authorization", "url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/" }
+    ],
+    "version": 1
+  }
+]

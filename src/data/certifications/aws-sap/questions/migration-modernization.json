@@ -1,0 +1,290 @@
+[
+  {
+    "id": "aws-sap-mm-001",
+    "type": "single_choice",
+    "prompt": "A company wants to migrate an on-premises Oracle 19c database (8 TB) to Amazon Aurora PostgreSQL. The database is in active production and must have less than 1 hour of downtime during cutover. The schema has Oracle-specific stored procedures and data types. Which migration approach and tools are required?",
+    "choices": [
+      { "id": "a", "text": "Use AWS Database Migration Service (DMS) with full-load mode only; schedule a maintenance window for the final load" },
+      { "id": "b", "text": "Use AWS Schema Conversion Tool (SCT) to convert the Oracle schema and stored procedures to PostgreSQL, then DMS with full-load plus ongoing replication (CDC) for near-zero downtime cutover" },
+      { "id": "c", "text": "Export Oracle data with Data Pump, import into Aurora PostgreSQL using pg_restore, then reconcile differences manually" },
+      { "id": "d", "text": "Use AWS DataSync to transfer Oracle data files to S3, then load into Aurora using the aws_s3 extension" }
+    ],
+    "correct": "b",
+    "explanation": "Migrating from Oracle to Aurora PostgreSQL is a heterogeneous migration requiring two tools. AWS Schema Conversion Tool (SCT) analyzes Oracle-specific objects (stored procedures, views, packages, data types) and converts them to their PostgreSQL equivalents, flagging items requiring manual review. DMS handles the data migration: full load for the initial bulk transfer, then Change Data Capture (CDC) for ongoing replication while the application remains on Oracle. At cutover, the application switches to Aurora with minimal downtime (minutes for the final sync). DMS full-load only requires hours of downtime for 8 TB. Data Pump export/import does not handle heterogeneous schema conversion. DataSync is for file-based transfers, not database migrations.",
+    "topics": ["migration-modernization"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Schema Conversion Tool", "url": "https://docs.aws.amazon.com/SchemaConversionTool/latest/userguide/CHAP_Welcome.html" },
+      { "label": "AWS DMS Ongoing Replication", "url": "https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Task.CDC.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-002",
+    "type": "single_choice",
+    "prompt": "A company has 500 on-premises servers they need to discover and assess before migrating to AWS. They need application dependency maps to understand which servers communicate with each other, estimated AWS costs post-migration, and a migration wave plan. Which combination of AWS services provides this?",
+    "choices": [
+      { "id": "a", "text": "AWS Migration Hub for tracking, AWS Config for dependency mapping, and AWS Cost Explorer for cost estimation" },
+      { "id": "b", "text": "AWS Application Discovery Service (agent-based) for discovery and dependency mapping, AWS Migration Evaluator for TCO and cost estimation, and AWS Migration Hub for wave planning" },
+      { "id": "c", "text": "AWS Server Migration Service for discovery, AWS Pricing Calculator for cost estimation, and Jira for wave planning" },
+      { "id": "d", "text": "AWS Systems Manager Inventory for server discovery, AWS Compute Optimizer for right-sizing, and AWS Cost Explorer for TCO" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Application Discovery Service with the Discovery Agent installed on servers provides detailed utilization metrics and network connection data, enabling application dependency mapping (which servers communicate). AWS Migration Evaluator (formerly TSO Logic) analyzes the discovery data to project AWS costs and right-sizing, providing a business case. AWS Migration Hub provides a central place to track and organize servers into migration waves. AWS Config is a configuration compliance service, not a dependency mapper. SMS (Server Migration Service) replicates VMs but does not perform discovery. SSM Inventory collects software inventory but not network dependency maps.",
+    "topics": ["migration-modernization"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS Application Discovery Service", "url": "https://docs.aws.amazon.com/application-discovery/latest/userguide/what-is-appdiscovery.html" },
+      { "label": "AWS Migration Evaluator", "url": "https://aws.amazon.com/migration-evaluator/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-003",
+    "type": "single_choice",
+    "prompt": "A company is moving 300 TB of NFS file share data from an on-premises data center to Amazon S3. The data center has a 1 Gbps Direct Connect link to AWS. The migration must complete within 3 weeks and ongoing file changes during migration must be captured. Which service and approach achieves this?",
+    "choices": [
+      { "id": "a", "text": "Use AWS Snowball Edge Storage Optimized devices for the bulk transfer and DataSync for incremental sync after delivery" },
+      { "id": "b", "text": "Use AWS DataSync over Direct Connect with a task schedule that performs incremental syncs every hour" },
+      { "id": "c", "text": "Use rsync over the Direct Connect link with a final rsync pass at cutover" },
+      { "id": "d", "text": "Use AWS Transfer Family with SFTP to move files and rely on versioning to capture changes" }
+    ],
+    "correct": "a",
+    "explanation": "1 Gbps theoretical throughput over 3 weeks provides ~300 TB capacity (1 Gbps x 21 days x 86400 sec / 8 = ~226 TB), which is marginal and leaves no buffer for overhead or competing traffic. Snowball Edge devices (80 TB each) can transfer 300 TB offline in parallel without consuming network bandwidth. Once data arrives at AWS and is ingested to S3, DataSync is deployed over Direct Connect to synchronize changes made after the Snowball snapshot, ensuring completeness at cutover. DataSync over Direct Connect alone (Option B) would attempt to stream all 300 TB over the connection, risking exceeding the 3-week window. rsync is a valid tool but lacks DataSync's managed scheduling, integrity verification, and multi-threading optimizations. Transfer Family is for protocol-based file transfer services, not bulk migration.",
+    "topics": ["migration-modernization"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "AWS Snow Family", "url": "https://docs.aws.amazon.com/snowball/latest/developer-guide/whatissnowball.html" },
+      { "label": "AWS DataSync", "url": "https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-004",
+    "type": "single_choice",
+    "prompt": "A company runs a VMware vSphere environment with 150 VMs on-premises. They want to migrate to AWS with minimal re-architecture (lift-and-shift) but maintain the ability to use familiar VMware tools (vCenter, vMotion) post-migration for a transition period. Which migration option supports this?",
+    "choices": [
+      { "id": "a", "text": "Use AWS Server Migration Service to replicate VMs to EC2 AMIs and run on standard EC2 instances" },
+      { "id": "b", "text": "Migrate to VMware Cloud on AWS (VMC on AWS), which provides VMware-native infrastructure on AWS hardware managed with vCenter" },
+      { "id": "c", "text": "Use AWS Application Migration Service (MGN) to lift-and-shift VMs to EC2 and install VMware Horizon for familiar tooling" },
+      { "id": "d", "text": "Deploy VMware Workstation on EC2 instances to replicate the on-premises VMware environment" }
+    ],
+    "correct": "b",
+    "explanation": "VMware Cloud on AWS (VMC on AWS) is a jointly engineered service by AWS and VMware that runs VMware SDDC (Software-Defined Data Center) on dedicated AWS hardware. It provides native VMware tools including vCenter, vMotion, vSAN, and NSX, allowing the migration of VMs using VMware HCX without converting to EC2 AMIs. Operations staff can continue using familiar VMware workflows during the transition period. AWS SMS (Server Migration Service) and Application Migration Service (MGN) convert VMware VMs to EC2 AMIs, losing VMware-native tooling. VMware Horizon is an end-user computing product, not a migration or management tool. VMware Workstation on EC2 is an unsupported, non-scalable approach.",
+    "topics": ["migration-modernization"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "VMware Cloud on AWS", "url": "https://aws.amazon.com/vmware/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-005",
+    "type": "single_choice",
+    "prompt": "A company is migrating a three-tier Java web application from on-premises to AWS. The application uses an Oracle application server, Oracle database, and in-house load balancer. The migration strategy is 're-platform': keep Java but modernize the supporting infrastructure. Which target architecture represents a re-platform approach?",
+    "choices": [
+      { "id": "a", "text": "Lift-and-shift: move all three tiers to EC2 as-is, replacing only the hardware" },
+      { "id": "b", "text": "Re-architect: rewrite the Java application as microservices on ECS with DynamoDB" },
+      { "id": "c", "text": "Deploy the Java application to AWS Elastic Beanstalk (replacing the Oracle app server), migrate the Oracle DB to Amazon Aurora PostgreSQL (replacing Oracle DB), and use ALB (replacing the in-house load balancer)" },
+      { "id": "d", "text": "Deploy the Java application to EC2 with Oracle WebLogic licensed from the AWS Marketplace and retain Oracle DB on RDS Oracle" }
+    ],
+    "correct": "c",
+    "explanation": "Re-platform (also called 'lift-tinker-and-shift') means making targeted optimizations when moving to the cloud without changing the core application architecture. In this case: replacing the Oracle application server with Elastic Beanstalk (a managed Java application platform), replacing Oracle DB with Aurora PostgreSQL (different engine, but re-platforming the database tier to a managed cloud service), and replacing the in-house load balancer with ALB. The Java application code is largely unchanged. Option A is lift-and-shift (re-host). Option B is re-architect. Option D retains Oracle products and represents a re-host of the app server component, not re-platform.",
+    "topics": ["migration-modernization"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "6 R's of Migration", "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/large-migration-guide/migration-strategies.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-006",
+    "type": "single_choice",
+    "prompt": "A company needs to migrate a SQL Server database (2 TB, active production) from on-premises to Amazon RDS for SQL Server. The migration must have less than 30 minutes of downtime. SQL Server native backup files are 500 GB. Which migration approach meets the downtime requirement?",
+    "choices": [
+      { "id": "a", "text": "Back up the SQL Server database to an S3 bucket using native backup, then restore to RDS SQL Server during a maintenance window" },
+      { "id": "b", "text": "Use AWS DMS with SQL Server as source (using CDC), full-load the database to RDS, then switch application connection strings after CDC lag drops to near-zero" },
+      { "id": "c", "text": "Use SQL Server database mirroring between on-premises and RDS SQL Server, then promote RDS as principal" },
+      { "id": "d", "text": "Create an RDS SQL Server snapshot from on-premises data and restore in the target region" }
+    ],
+    "correct": "b",
+    "explanation": "DMS with Change Data Capture (CDC) for SQL Server (using SQL Server CDC or backup LSN) allows the initial full load to run without any downtime on the source, then continuously replicates changes. When the CDC lag reaches near-zero (seconds or minutes of lag), the application is quiesced briefly, CDC catches up fully, and the connection string is switched to RDS. Total downtime is typically under 5 minutes, well within the 30-minute requirement. Native backup restore (Option A) requires restoring 500 GB to RDS during a maintenance window; RDS restore is completed during the window, but the window itself would exceed 30 minutes for 2 TB. SQL Server mirroring to RDS is not a supported configuration (RDS manages the SQL Server instance). RDS snapshots cannot be created from on-premises data directly.",
+    "topics": ["migration-modernization"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "DMS SQL Server as Source", "url": "https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SQLServer.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-007",
+    "type": "single_choice",
+    "prompt": "A company has a 5 PB dataset in an on-premises NAS with no internet connectivity at the data center and no Direct Connect. They need to migrate the data to Amazon S3 within 6 months. What is the most appropriate data transfer solution?",
+    "choices": [
+      { "id": "a", "text": "Provision a 10 Gbps internet connection to the data center and use DataSync over the internet" },
+      { "id": "b", "text": "Order multiple AWS Snowball Edge Storage Optimized devices (80 TB each) in parallel waves; ship loaded devices to AWS" },
+      { "id": "c", "text": "Order one AWS Snowmobile (100 PB capacity) to transfer the entire dataset in a single shipment" },
+      { "id": "d", "text": "Order AWS Snowball Edge Compute Optimized devices for parallel compute and storage transfer" }
+    ],
+    "correct": "b",
+    "explanation": "5 PB requires offline transfer (no internet, no Direct Connect). Snowball Edge Storage Optimized devices hold 80 TB usable each. To transfer 5 PB: 5,000 TB / 80 TB = ~63 devices. In parallel waves, multiple devices can be loaded simultaneously and shipped while new ones are being loaded. With 10-15 devices in rotation, 5 PB can realistically be migrated within 6 months. Snowmobile (Option C) is appropriate for 10 PB or more data volumes; at 5 PB and given the 6-month timeline, Snowball Edge is more practical and cost-effective. A 10 Gbps internet connection would take ~45 days at full throughput but is not available here. Compute Optimized devices have less storage capacity (28 TB usable) than Storage Optimized, making them less appropriate for bulk data transfer.",
+    "topics": ["migration-modernization"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Snow Family", "url": "https://docs.aws.amazon.com/snowball/latest/developer-guide/whatissnowball.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-008",
+    "type": "multi_choice",
+    "prompt": "A company is modernizing a monolithic .NET application to microservices on AWS. The application has a single SQL Server database shared by all components. Which TWO patterns should they apply to decouple the database as part of the modernization? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "Apply the Strangler Fig pattern: incrementally carve out microservices with their own databases, routing traffic to new services over time" },
+      { "id": "b", "text": "Apply the Database-per-Service pattern: give each microservice its own dedicated database appropriate to its access pattern" },
+      { "id": "c", "text": "Keep the shared SQL Server database but expose it through a shared data access layer API to all microservices" },
+      { "id": "d", "text": "Move the entire monolith to a containerized ECS deployment as the first step to microservices" },
+      { "id": "e", "text": "Replicate the shared SQL Server to DynamoDB Global Tables immediately before starting the microservice decomposition" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "The Strangler Fig pattern is the industry-standard approach for incrementally migrating a monolith to microservices: a proxy (e.g., API Gateway or ALB) routes requests to either the monolith or newly carved-out microservices. New functionality goes into microservices; existing functionality migrates incrementally. The Database-per-Service pattern ensures each microservice owns its data store (polyglot persistence: Aurora for relational, DynamoDB for key-value, ElastiCache for caching), eliminating shared database coupling. Together they enable safe, incremental modernization. Keeping a shared database (Option C) maintains coupling, the core problem being solved. Containerizing the monolith (Option D) is a re-host, not modernization. Replicating to DynamoDB immediately (Option E) ignores the access pattern analysis required to choose the right database per service.",
+    "topics": ["migration-modernization"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Strangler Fig Pattern", "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/apply-the-strangler-fig-pattern-to-microservices-migrations.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-009",
+    "type": "single_choice",
+    "prompt": "An enterprise uses AWS Application Migration Service (MGN) to replicate 80 on-premises servers to AWS. They want to test the migrated servers in AWS before the production cutover to validate functionality. How does MGN support this without affecting the production source servers?",
+    "choices": [
+      { "id": "a", "text": "MGN does not support test instances; a manual AMI creation process is required for testing" },
+      { "id": "b", "text": "MGN supports Test Mode: launch a Test Instance from the replicated data at any time; it does not affect ongoing replication or the source server" },
+      { "id": "c", "text": "Pause replication for each server, create a test AMI, run tests, then resume replication" },
+      { "id": "d", "text": "Use AWS Application Discovery Service to create a test environment from the discovered server configuration" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Application Migration Service (MGN) natively supports launching Test Instances (previously called 'test cutover'). At any point during replication, you can launch a Test Instance in AWS using the latest replicated disk snapshot. This test instance is isolated and does not affect the continuous block-level replication from the source server. After testing, you terminate the test instance and replication continues normally. At cutover time, you launch the final Cutover Instance. This workflow allows full validation of the migrated environment before any production impact. Pausing replication for testing would leave a gap in the replicated data.",
+    "topics": ["migration-modernization"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS Application Migration Service", "url": "https://docs.aws.amazon.com/mgn/latest/ug/what-is-application-migration-service.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-010",
+    "type": "single_choice",
+    "prompt": "A company wants to migrate data continuously from an on-premises NFS server to Amazon EFS for a shared file system used by multiple EC2 instances. The on-premises server connects to AWS over a VPN. After initial migration, changes must be synchronized every 6 hours. Which AWS service is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "AWS Snowball Edge with DataSync software to transfer NFS data and incremental syncs" },
+      { "id": "b", "text": "AWS DataSync agent deployed on-premises, with a task configured for NFS source to EFS destination, scheduled every 6 hours" },
+      { "id": "c", "text": "AWS Transfer Family with NFS protocol support to ingest on-premises files into EFS" },
+      { "id": "d", "text": "AWS Storage Gateway File Gateway to present EFS as an NFS mount to on-premises clients" }
+    ],
+    "correct": "b",
+    "explanation": "AWS DataSync is purpose-built for automated, scheduled data movement between on-premises storage and AWS storage services. The DataSync agent is deployed on-premises (as a VM or EC2 instance in the on-premises network), configured with the NFS source, and a DataSync Task is configured with EFS as the destination. Tasks can be scheduled (e.g., every 6 hours) and DataSync performs incremental transfers, only moving files that have changed since the last sync. It transfers data over the VPN connection. DataSync handles permissions, timestamps, and integrity verification. Snowball Edge is for offline/bulk transfer, not scheduled incremental sync. Transfer Family does not support NFS as a source protocol for migration. Storage Gateway File Gateway works in the opposite direction (presents AWS storage to on-premises clients).",
+    "topics": ["migration-modernization"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS DataSync NFS to EFS", "url": "https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-011",
+    "type": "single_choice",
+    "prompt": "A company performs a Well-Architected Migration Review and identifies that their lift-and-shift approach to migrating 200 servers resulted in over-provisioning: servers sized at the 95th percentile of on-premises utilization are running at 10-15% utilization on EC2. What is the recommended post-migration optimization step?",
+    "choices": [
+      { "id": "a", "text": "Terminate all EC2 instances and re-migrate from on-premises with new sizing" },
+      { "id": "b", "text": "Enable AWS Compute Optimizer and use its EC2 instance type recommendations to right-size each instance" },
+      { "id": "c", "text": "Immediately purchase 3-year Reserved Instances for all 200 servers at the current over-provisioned sizes to reduce cost" },
+      { "id": "d", "text": "Convert all EC2 instances to Spot Instances to reduce costs for the underutilized capacity" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Compute Optimizer analyzes 14 days of EC2 utilization metrics (CPU, memory with CloudWatch agent, disk, network) and provides instance type recommendations that reduce over-provisioning while meeting performance requirements. It identifies the optimal instance family and size. This is the standard post-lift-and-shift optimization path recommended in the AWS Migration Acceleration Program. Re-migrating from on-premises is disruptive and unnecessary. Purchasing 3-year RIs at over-provisioned sizes locks in unnecessary cost for 3 years. Converting to Spot Instances is inappropriate for production servers requiring predictable availability.",
+    "topics": ["migration-modernization"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Compute Optimizer", "url": "https://docs.aws.amazon.com/compute-optimizer/latest/ug/what-is-compute-optimizer.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-012",
+    "type": "single_choice",
+    "prompt": "A company is migrating a containerized application from on-premises Kubernetes to Amazon EKS. The application uses persistent volumes backed by on-premises NFS. They want to migrate with minimal application changes and maintain persistent storage in AWS. Which storage solution provides the most seamless transition?",
+    "choices": [
+      { "id": "a", "text": "Migrate NFS data to S3; update the application to use the AWS S3 SDK instead of NFS mounts" },
+      { "id": "b", "text": "Use Amazon EFS as the persistent volume backend in EKS via the EFS CSI driver; migrate NFS data to EFS using DataSync" },
+      { "id": "c", "text": "Create EBS volumes in EKS using the EBS CSI driver; EBS provides ReadWriteMany access mode for NFS replacement" },
+      { "id": "d", "text": "Use Amazon FSx for Windows File Server mounted via the FSx CSI driver for NFS workloads" }
+    ],
+    "correct": "b",
+    "explanation": "Amazon EFS supports NFS protocol natively (NFSv4.1) and provides ReadWriteMany (RWX) access mode, matching on-premises NFS semantics that allow multiple pods/nodes to mount the same volume simultaneously. The Amazon EFS CSI driver for EKS enables Kubernetes PersistentVolumes backed by EFS. AWS DataSync migrates the existing NFS data to EFS prior to cutover. This requires minimal application changes (just update the StorageClass). EBS volumes support ReadWriteOnce only (single-node access), making them unsuitable for multi-pod NFS replacement. S3 requires application code changes. FSx for Windows File Server uses SMB protocol, not NFS.",
+    "topics": ["migration-modernization"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Amazon EFS CSI Driver for EKS", "url": "https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-013",
+    "type": "true_false",
+    "prompt": "AWS Database Migration Service (DMS) can be used to migrate data between two Amazon RDS instances in different regions, enabling cross-region database replication as part of a migration or ongoing replication strategy.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "AWS DMS supports both source and target endpoints being AWS managed database services including RDS instances in different regions. A DMS replication instance in either region can connect to both the source and target RDS endpoints. This pattern is commonly used to migrate RDS databases across regions or to set up cross-region replication for DR purposes. DMS supports homogeneous migrations (e.g., RDS MySQL to RDS MySQL) and heterogeneous migrations (e.g., RDS Oracle to RDS PostgreSQL) in cross-region configurations.",
+    "topics": ["migration-modernization"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS DMS Endpoints", "url": "https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Endpoints.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-014",
+    "type": "single_choice",
+    "prompt": "A company has an on-premises Windows Server application that writes to a local file share (CIFS/SMB) and cannot be modified. They want to migrate to AWS while keeping the application on EC2 and replacing the local file share with a managed AWS storage service that the application connects to without code changes. Which service is the correct choice?",
+    "choices": [
+      { "id": "a", "text": "Amazon EFS with NFS protocol access from the Windows EC2 instance" },
+      { "id": "b", "text": "Amazon FSx for Windows File Server with SMB protocol support, Active Directory integration" },
+      { "id": "c", "text": "Amazon S3 with S3 File Gateway to expose an SMB endpoint to the EC2 instance" },
+      { "id": "d", "text": "Amazon EBS Multi-Attach volume shared between multiple EC2 instances" }
+    ],
+    "correct": "b",
+    "explanation": "Amazon FSx for Windows File Server is a fully managed Windows-native shared file system that supports SMB protocol, Windows ACLs, and Active Directory integration. It is designed as a drop-in replacement for on-premises Windows file shares. The Windows EC2 application connects to FSx over SMB (the same protocol as the original file share) with no application code changes. EFS supports NFS, not SMB natively. S3 File Gateway (AWS Storage Gateway) exposes an SMB endpoint but introduces a local gateway appliance cache and is designed for hybrid scenarios, not pure AWS. EBS Multi-Attach supports only a single EC2 instance without cluster file system software and does not support SMB protocol.",
+    "topics": ["migration-modernization"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Amazon FSx for Windows File Server", "url": "https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-mm-015",
+    "type": "single_choice",
+    "prompt": "A company completes a lift-and-shift migration of 150 servers to EC2. Six months later, they want to re-architect the highest-traffic service (a stateless REST API with an Oracle backend) to a cloud-native design. Which re-architecture approach reduces operational overhead the most while maintaining functionality?",
+    "choices": [
+      { "id": "a", "text": "Move the REST API from EC2 to ECS Fargate with Application Auto Scaling; migrate Oracle to RDS for Oracle" },
+      { "id": "b", "text": "Rewrite the REST API as Lambda functions behind API Gateway; migrate Oracle to Amazon Aurora PostgreSQL using SCT and DMS" },
+      { "id": "c", "text": "Containerize the REST API in Docker on EC2 with Docker Swarm for orchestration; keep Oracle on RDS" },
+      { "id": "d", "text": "Migrate Oracle to DynamoDB and keep the REST API on EC2 with an Auto Scaling group" }
+    ],
+    "correct": "b",
+    "explanation": "Re-architecting to Lambda + API Gateway eliminates EC2 instance management entirely: no OS patching, no capacity planning, no Auto Scaling group configuration. Lambda scales automatically to zero. Migrating Oracle to Aurora PostgreSQL eliminates Oracle licensing costs (often the largest cost driver) and Aurora is a fully managed service with automated backups, Multi-AZ, and read replicas. SCT handles schema conversion and DMS handles data migration with CDC for minimal downtime. ECS Fargate (Option A) reduces EC2 management but retains server-based thinking; migrating to RDS Oracle keeps licensing costs. Docker Swarm adds complexity without reducing operational overhead. Migrating Oracle directly to DynamoDB without evaluating the access patterns is risky for a relational API backend.",
+    "topics": ["migration-modernization"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "6 R's of Migration", "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/large-migration-guide/migration-strategies.html" },
+      { "label": "AWS Lambda", "url": "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" }
+    ],
+    "version": 1
+  }
+]

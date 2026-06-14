@@ -1,0 +1,119 @@
+{
+  "topics": [
+    {
+      "id": "application-design-build",
+      "label": "Application Design and Build",
+      "description": "Designing and building containerized applications for Kubernetes. Covers writing Dockerfiles, building container images, understanding multi-container pod patterns (sidecar, init, ambassador, adapter), and managing batch workloads with Jobs and CronJobs.",
+      "studyPointers": [
+        { "label": "Init Containers", "url": "https://kubernetes.io/docs/concepts/workloads/pods/init-containers/" },
+        { "label": "Sidecar Containers", "url": "https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/" },
+        { "label": "Jobs", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/job/" },
+        { "label": "CronJob", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Build and run a multi-container pod with an init container",
+          "prompt": "Create a pod that uses an init container to write a configuration file to a shared emptyDir volume, then starts a main nginx container that serves that file.",
+          "focus": "initContainers spec, shared volumes, container ordering guarantees"
+        },
+        {
+          "title": "Create a CronJob that runs a batch task on a schedule",
+          "prompt": "Write a CronJob manifest that runs a Perl one-liner every 5 minutes, retains 3 successful and 1 failed job history, and sets a deadline of 100 seconds for each run.",
+          "focus": "schedule syntax, successfulJobsHistoryLimit, failedJobsHistoryLimit, startingDeadlineSeconds"
+        }
+      ]
+    },
+    {
+      "id": "application-deployment",
+      "label": "Application Deployment",
+      "description": "Deploying and updating applications using Deployments with rolling update strategies. Managing Helm releases, performing blue/green and canary deployments, and understanding rollback procedures.",
+      "studyPointers": [
+        { "label": "Deployments", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" },
+        { "label": "Rolling Update Strategy", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment" },
+        { "label": "Helm: Using Helm", "url": "https://helm.sh/docs/intro/using_helm/" },
+        { "label": "kubectl rollout", "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_rollout/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Perform a rolling update and rollback",
+          "prompt": "Update a Deployment's container image using kubectl set image, monitor the rollout status, then roll back to the previous revision after detecting errors in the new version.",
+          "focus": "kubectl rollout status, kubectl rollout undo, maxSurge, maxUnavailable"
+        },
+        {
+          "title": "Implement a canary deployment pattern",
+          "prompt": "Given a stable Deployment with 5 replicas, create a canary Deployment with 1 replica using the same pod labels plus an additional 'track: canary' label, and configure the Service selector to send traffic to both.",
+          "focus": "label selectors, multiple deployments behind a single Service, traffic splitting by replica count"
+        }
+      ]
+    },
+    {
+      "id": "application-observability",
+      "label": "Application Observability and Maintenance",
+      "description": "Keeping applications healthy and diagnosable. Covers liveness, readiness, and startup probes, container logging patterns, monitoring basics, API deprecation handling, and debugging running pods.",
+      "studyPointers": [
+        { "label": "Configure Liveness, Readiness and Startup Probes", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/" },
+        { "label": "Logging Architecture", "url": "https://kubernetes.io/docs/concepts/cluster-administration/logging/" },
+        { "label": "Debugging Pods", "url": "https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/" },
+        { "label": "Deprecated API Migration Guide", "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Add probes to prevent traffic to an unready pod",
+          "prompt": "Add a readiness probe that checks HTTP GET /healthz on port 8080 with an initial delay of 5s and a period of 10s. Add a liveness probe that execs 'cat /tmp/healthy' every 15s.",
+          "focus": "readinessProbe vs livenessProbe, httpGet vs exec probe types, initialDelaySeconds, periodSeconds"
+        },
+        {
+          "title": "Debug a crashing container without restarting it",
+          "prompt": "A container in a pod is crash-looping. Use kubectl to retrieve its previous logs, inspect events, and attach an ephemeral debug container to investigate the filesystem.",
+          "focus": "kubectl logs --previous, kubectl debug, kubectl describe pod events"
+        }
+      ]
+    },
+    {
+      "id": "app-env-config-security",
+      "label": "Application Environment, Configuration and Security",
+      "description": "Configuring applications securely using ConfigMaps and Secrets. Setting resource requests and limits, applying SecurityContext rules, working with ServiceAccounts, and understanding RBAC as it relates to application workloads.",
+      "studyPointers": [
+        { "label": "ConfigMaps", "url": "https://kubernetes.io/docs/concepts/configuration/configmap/" },
+        { "label": "Secrets", "url": "https://kubernetes.io/docs/concepts/configuration/secret/" },
+        { "label": "Configure a Security Context for a Pod or Container", "url": "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/" },
+        { "label": "Resource Management for Pods and Containers", "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Inject configuration and secrets into a pod",
+          "prompt": "Create a ConfigMap with an app.properties key and a Secret with a db-password key. Mount the ConfigMap as a volume at /etc/config and expose the Secret as an environment variable DB_PASSWORD.",
+          "focus": "configMapKeyRef, secretKeyRef, envFrom, volumeMounts with configMap and secret volumes"
+        },
+        {
+          "title": "Lock down a pod with SecurityContext",
+          "prompt": "Configure a pod to run as user 1000, drop all Linux capabilities, prevent privilege escalation, and use a read-only root filesystem. Verify with kubectl exec.",
+          "focus": "runAsUser, runAsNonRoot, allowPrivilegeEscalation, readOnlyRootFilesystem, capabilities.drop"
+        }
+      ]
+    },
+    {
+      "id": "services-networking",
+      "label": "Services and Networking",
+      "description": "Exposing applications within and outside the cluster using Services of different types (ClusterIP, NodePort, LoadBalancer). Routing external traffic with Ingress resources, controlling traffic flow with NetworkPolicies, and leveraging Kubernetes DNS for service discovery.",
+      "studyPointers": [
+        { "label": "Service", "url": "https://kubernetes.io/docs/concepts/services-networking/service/" },
+        { "label": "Ingress", "url": "https://kubernetes.io/docs/concepts/services-networking/ingress/" },
+        { "label": "Network Policies", "url": "https://kubernetes.io/docs/concepts/services-networking/network-policies/" },
+        { "label": "DNS for Services and Pods", "url": "https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Expose a deployment and restrict ingress with a NetworkPolicy",
+          "prompt": "Create a ClusterIP Service for a deployment on port 80. Then write a NetworkPolicy that allows only pods with label 'role=frontend' in the same namespace to reach the pods on port 8080. Verify with a test pod.",
+          "focus": "Service selectors, podSelector, NetworkPolicy ingress rules, namespaceSelector"
+        },
+        {
+          "title": "Route host-based traffic with an Ingress",
+          "prompt": "Create an Ingress resource that routes api.example.com/v1 to service 'api-svc' on port 8080 and api.example.com/static to service 'static-svc' on port 80, using pathType Prefix.",
+          "focus": "Ingress rules, host matching, pathType Prefix vs Exact, ingressClassName"
+        }
+      ]
+    }
+  ]
+}

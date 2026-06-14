@@ -1,0 +1,289 @@
+[
+  {
+    "id": "aws-sap-oc-001",
+    "type": "single_choice",
+    "prompt": "An enterprise is expanding to 200 AWS accounts across 5 business units. They need centralized security guardrails, automated account provisioning, and consolidated billing while allowing each BU operational autonomy. Which combination of services best meets these requirements?",
+    "choices": [
+      { "id": "a", "text": "AWS Organizations with SCPs and a custom account vending machine Lambda" },
+      { "id": "b", "text": "AWS Control Tower with Account Factory and AWS Organizations" },
+      { "id": "c", "text": "AWS Config aggregator with consolidated billing only" },
+      { "id": "d", "text": "Multiple AWS Organizations with cross-organization peering" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Control Tower provides a pre-built landing zone with guardrails (detective and preventive), Account Factory for automated account provisioning, and integrates with AWS Organizations for centralized management and SCPs. It is purpose-built for multi-account governance at scale. A custom Lambda vending machine requires significant undifferentiated heavy lifting. AWS Config aggregator handles compliance reporting but not account provisioning governance. Multiple Organizations cannot share a consolidated billing relationship.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Control Tower", "url": "https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-002",
+    "type": "single_choice",
+    "prompt": "A company uses AWS Organizations with 50 accounts. The security team wants to prevent all accounts in the 'Development' OU from creating any IAM users, while still allowing the master account to do so. Which approach achieves this with the least operational overhead?",
+    "choices": [
+      { "id": "a", "text": "Apply a permission boundary to every IAM role in Development accounts" },
+      { "id": "b", "text": "Attach an SCP to the Development OU that denies iam:CreateUser" },
+      { "id": "c", "text": "Use AWS Config rules to detect and remediate IAM user creation" },
+      { "id": "d", "text": "Deploy a Lambda function triggered by CloudTrail events to delete newly created IAM users" }
+    ],
+    "correct": "b",
+    "explanation": "Service Control Policies (SCPs) are the correct mechanism for applying guardrails across all accounts in an OU. An SCP with Deny on iam:CreateUser attached to the Development OU will prevent any principal in those accounts from creating IAM users, regardless of their permissions. SCPs do not apply to the management account, which satisfies the exception requirement. Permission boundaries require per-role application. Config rules are detective, not preventive. A reactive Lambda approach has a gap window and adds complexity.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Service Control Policies", "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-003",
+    "type": "single_choice",
+    "prompt": "A networking team manages Transit Gateway in a shared services account and wants application teams in 20 spoke accounts to attach their VPCs to it. The application teams should not be able to modify the Transit Gateway itself. What is the most scalable approach to share the Transit Gateway?",
+    "choices": [
+      { "id": "a", "text": "Share the Transit Gateway via AWS RAM and grant tgw:AttachVpc permissions to spoke accounts" },
+      { "id": "b", "text": "Peer the Transit Gateway to a VPC in each spoke account individually" },
+      { "id": "c", "text": "Share the Transit Gateway via AWS RAM so spoke accounts can create attachments without management permissions" },
+      { "id": "d", "text": "Use VPC peering from each spoke account to the shared services VPC" }
+    ],
+    "correct": "c",
+    "explanation": "AWS Resource Access Manager (RAM) allows sharing Transit Gateway resources across accounts in the same Organization. When a spoke account receives a RAM share for a Transit Gateway, it can create VPC attachments without needing permissions to manage the TGW itself. VPC peering does not support transitive routing and scales poorly at 20+ accounts. Option A incorrectly describes the permission model (RAM handles the sharing; IAM in the spoke account controls attachment creation). TGW peering is for connecting TGWs across regions/accounts, not for VPC-to-TGW attachment.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Resource Access Manager", "url": "https://docs.aws.amazon.com/ram/latest/userguide/what-is.html" },
+      { "label": "Sharing a Transit Gateway", "url": "https://docs.aws.amazon.com/vpc/latest/tgw/tgw-transit-gateways.html#tgw-sharing" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-004",
+    "type": "single_choice",
+    "prompt": "An enterprise uses AWS Control Tower. The CISO requires that no account can disable AWS CloudTrail in any region. A Control Tower mandatory guardrail already detects this. The CISO now wants this to be preventive. What change accomplishes this?",
+    "choices": [
+      { "id": "a", "text": "Enable the optional preventive guardrail 'Disallow Changes to CloudTrail' in Control Tower" },
+      { "id": "b", "text": "Deploy an AWS Config rule with automatic remediation to re-enable CloudTrail" },
+      { "id": "c", "text": "Attach a custom SCP to the Root OU denying cloudtrail:StopLogging and cloudtrail:DeleteTrail" },
+      { "id": "d", "text": "Create an EventBridge rule that triggers a Lambda to re-enable CloudTrail when it is stopped" }
+    ],
+    "correct": "c",
+    "explanation": "While Control Tower offers guardrails, attaching a custom SCP at the Root OU level that Denies cloudtrail:StopLogging and cloudtrail:DeleteTrail is the most robust preventive control. SCPs are enforced at authorization time and cannot be circumvented by any principal in any member account, regardless of their IAM permissions. Control Tower's built-in guardrail for CloudTrail changes may be detective-only, depending on the version; a custom SCP ensures preventive enforcement. Config with remediation is eventually consistent and has a window of non-compliance. An EventBridge-triggered Lambda is reactive and has a gap.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Service Control Policies", "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html" },
+      { "label": "AWS Control Tower Guardrails", "url": "https://docs.aws.amazon.com/controltower/latest/userguide/guardrails.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-005",
+    "type": "multi_choice",
+    "prompt": "A company is designing an AWS landing zone for 100 accounts. They want centralized logging, cross-account security hub findings aggregation, and the ability to restrict accounts from leaving the Organization. Which TWO actions should be part of the landing zone design? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "Create a dedicated Log Archive account to centralize CloudTrail and Config logs via S3 bucket policies" },
+      { "id": "b", "text": "Enable AWS Security Hub in a delegated administrator account and enable auto-enable for new accounts" },
+      { "id": "c", "text": "Attach an SCP to the Root OU denying organizations:LeaveOrganization" },
+      { "id": "d", "text": "Enable AWS GuardDuty per-account and export findings to each account's own S3 bucket" },
+      { "id": "e", "text": "Deploy VPC Flow Logs to each account's local CloudWatch Logs group" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "A centralized Log Archive account with S3 bucket policies that only allow write from Organization accounts is a landing zone best practice for immutable, centralized audit logs. Security Hub with a delegated administrator auto-enables findings aggregation across new accounts with minimal ongoing effort. Option C (LeaveOrganization SCP) addresses a separate concern but is not among the two best answers for the stated goals. GuardDuty centralization requires a delegated administrator, not per-account S3 buckets. VPC Flow Logs to local CloudWatch does not address centralization.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "AWS Security Hub Administrator Account", "url": "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts.html" },
+      { "label": "Landing Zone Architecture", "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/migration-aws-environment/welcome.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-006",
+    "type": "single_choice",
+    "prompt": "A company has a management account with 80 member accounts. Finance requires that no member account can purchase Reserved Instances or Savings Plans without approval from the central finance team. How should this be enforced?",
+    "choices": [
+      { "id": "a", "text": "Set RI purchase limits in the Billing console for each member account" },
+      { "id": "b", "text": "Attach an SCP that denies ec2:PurchaseReservedInstancesOffering and savingsplans:CreateSavingsPlan to all OUs except a Finance approval OU" },
+      { "id": "c", "text": "Enable Consolidated Billing and rely on RI sharing to prevent unauthorized purchases" },
+      { "id": "d", "text": "Use IAM boundaries on each member account's admin roles to deny RI purchases" }
+    ],
+    "correct": "b",
+    "explanation": "An SCP applied to the relevant OUs that Denies ec2:PurchaseReservedInstancesOffering and savingsplans:CreateSavingsPlan is the correct mechanism. This prevents any principal in those accounts from purchasing commitments regardless of their IAM permissions. The finance approval OU (or a specific account) can be excluded from the SCP when purchases are approved. There is no RI purchase limit setting at the account level. Consolidated billing's RI sharing is about sharing benefits, not preventing purchases. IAM boundaries require per-role deployment and are operationally intensive across 80 accounts.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Service Control Policies", "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-007",
+    "type": "single_choice",
+    "prompt": "An enterprise uses an on-premises Active Directory for employee identities. They want AWS console access for 5,000 employees across 60 AWS accounts without creating IAM users. Employees should land in accounts based on their AD group membership. What is the recommended architecture?",
+    "choices": [
+      { "id": "a", "text": "Deploy AD Connector in each account and configure SAML federation per account" },
+      { "id": "b", "text": "Use AWS IAM Identity Center (SSO) with AD as the identity source and assign permission sets to groups per account" },
+      { "id": "c", "text": "Create IAM roles in each account with SAML trust to the on-premises IdP" },
+      { "id": "d", "text": "Deploy an AWS Managed Microsoft AD in a shared account and use cross-account role assumption" }
+    ],
+    "correct": "b",
+    "explanation": "AWS IAM Identity Center (formerly AWS SSO) is purpose-built for this use case. It integrates with Active Directory (via AWS Directory Service or AD Connector) as an identity source, allows you to define permission sets (sets of IAM policies), and assign those permission sets to AD groups on a per-account basis. Users authenticate once and access their permitted accounts through the SSO portal. This avoids creating IAM users in any account. Creating SAML trust per account does not scale to 60 accounts and does not provide centralized management. Cross-account role assumption alone does not address the federated identity problem.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "AWS IAM Identity Center User Guide", "url": "https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-008",
+    "type": "single_choice",
+    "prompt": "A company runs AWS Control Tower. A new acquisition needs to be onboarded as its own OU with different guardrails than existing OUs. The acquired company runs workloads that legitimately need AWS Config Rules to be disabled in certain regions. Which statement is correct about customizing guardrails for this OU?",
+    "choices": [
+      { "id": "a", "text": "Mandatory guardrails cannot be disabled for any OU; the acquired company must comply or be placed in a separate Organization" },
+      { "id": "b", "text": "Mandatory guardrails cannot be disabled, but strongly recommended and elective guardrails can be omitted from the new OU" },
+      { "id": "c", "text": "All guardrails can be customized per OU including mandatory ones if an exception is requested from AWS Support" },
+      { "id": "d", "text": "Create a separate AWS Control Tower deployment for the acquired company with its own management account" }
+    ],
+    "correct": "b",
+    "explanation": "AWS Control Tower guardrails have three categories: mandatory (always enforced, cannot be disabled for any enrolled OU), strongly recommended (enabled by default, can be disabled), and elective (optional, enabled or disabled per OU). If the acquired company's workloads conflict with a mandatory guardrail, the workloads must be adapted or kept outside Control Tower enrollment. Strongly recommended and elective guardrails can be selectively applied per OU. Creating a separate Control Tower deployment creates governance fragmentation and does not solve the problem.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "AWS Control Tower Guardrails", "url": "https://docs.aws.amazon.com/controltower/latest/userguide/guardrails.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-009",
+    "type": "single_choice",
+    "prompt": "A company wants to share a centrally managed Amazon VPC subnet (in a Networking account) with 15 application accounts so that resources in those accounts can be launched into the shared subnet. The networking team must retain control over route tables and NACLs. Which approach is correct?",
+    "choices": [
+      { "id": "a", "text": "Use VPC peering between the Networking account and each of the 15 accounts" },
+      { "id": "b", "text": "Share the subnet using AWS RAM; the Networking account retains route table and NACL management" },
+      { "id": "c", "text": "Share the VPC using AWS RAM; participant accounts can modify route tables within the VPC" },
+      { "id": "d", "text": "Create an Interface VPC Endpoint in the Networking account shared with participant accounts" }
+    ],
+    "correct": "b",
+    "explanation": "AWS RAM supports sharing individual subnets with other AWS accounts in the same Organization. Participant accounts can launch resources (EC2 instances, Lambda functions, RDS instances) into the shared subnet but cannot manage the subnet's route table, NACL, or any VPC-level construct. Those remain under the Owner account's control. VPC peering does not provide subnet-level resource placement across accounts. Sharing the full VPC (option C) is not accurate; RAM shares specific resource types like subnets. Interface endpoints are for service access, not subnet sharing.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "VPC Sharing", "url": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-010",
+    "type": "single_choice",
+    "prompt": "An enterprise's security team wants to audit every API call across all 100 AWS accounts in their Organization. They need a tamper-resistant audit log with cross-account write access blocked at the bucket level. What is the most operationally efficient setup?",
+    "choices": [
+      { "id": "a", "text": "Enable CloudTrail in each account, configure each account to deliver logs to its own S3 bucket, and replicate to a central bucket" },
+      { "id": "b", "text": "Create an Organization Trail in the management account; it automatically captures activity in all member accounts and delivers to a central S3 bucket with a deny policy preventing member accounts from modifying the bucket" },
+      { "id": "c", "text": "Deploy an EventBridge rule in each account to forward CloudTrail events to a central event bus" },
+      { "id": "d", "text": "Use AWS Config aggregator to collect API events from all accounts into a central account" }
+    ],
+    "correct": "b",
+    "explanation": "An Organization Trail created in the management account is the most efficient mechanism. It automatically applies to all existing and future member accounts without requiring any per-account configuration. The S3 bucket in the Log Archive account can have a bucket policy that allows only CloudTrail service to write, preventing any account principal (including management account principals) from deleting or modifying logs. Per-account trails with replication require per-account setup. EventBridge forwards events but is not the CloudTrail audit mechanism. AWS Config aggregates Config data, not CloudTrail API logs.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Creating a Trail for an Organization", "url": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-011",
+    "type": "single_choice",
+    "prompt": "A global company wants to ensure that no AWS resources are deployed outside of us-east-1 and eu-west-1 across all 120 accounts. This restriction must be enforced even for users with AdministratorAccess. What is the correct mechanism?",
+    "choices": [
+      { "id": "a", "text": "Apply a permission boundary to every IAM role in every account restricting to those two regions" },
+      { "id": "b", "text": "Enable AWS Config in each account with a rule that deletes out-of-region resources" },
+      { "id": "c", "text": "Attach an SCP to the Root OU with a Deny statement on all actions for aws:RequestedRegion conditions outside us-east-1 and eu-west-1" },
+      { "id": "d", "text": "Use Amazon Macie to detect cross-region data egress and block it automatically" }
+    ],
+    "correct": "c",
+    "explanation": "The aws:RequestedRegion global condition key can be used in SCPs to restrict which regions services can be used in. An SCP with a Deny on all actions (or specific service actions) with a condition that the RequestedRegion is not in the allowed list is the correct preventive mechanism. This applies to all principals in all member accounts, including those with AdministratorAccess. Permission boundaries require per-role application across 120 accounts, which is not scalable. Config rules are detective and reactive. Macie is a data security service, not a regional restriction mechanism.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "SCP Example: Restrict AWS Regions", "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples_general.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-012",
+    "type": "true_false",
+    "prompt": "An SCP attached to the management (master) account of an AWS Organization restricts actions for all IAM principals including the root user of the management account.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "SCPs do NOT apply to the management account (formerly called master account). The management account is exempt from SCPs regardless of where the SCP is attached. SCPs apply to member accounts and the IAM principals within them. This is a critical distinction in multi-account design: the management account should be treated as highly privileged and access to it should be tightly restricted through other means (MFA, minimal IAM principals, dedicated use only for billing and organization management).",
+    "topics": ["organizational-complexity"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Service Control Policies", "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-013",
+    "type": "single_choice",
+    "prompt": "An enterprise acquires a company with 10 existing AWS accounts not enrolled in the parent Organization. The parent Organization has mandatory SCPs restricting certain services. The acquired accounts run production workloads that use those restricted services. What is the correct migration approach?",
+    "choices": [
+      { "id": "a", "text": "Invite the acquired accounts to join the Organization; the SCPs will not apply until the accounts are moved into an OU" },
+      { "id": "b", "text": "Migrate workloads to new accounts provisioned through Control Tower, then decommission the acquired accounts" },
+      { "id": "c", "text": "Invite the accounts to join the Organization; place them in a dedicated OU with relaxed SCPs initially; gradually tighten SCPs while modernizing workloads" },
+      { "id": "d", "text": "Keep the acquired accounts in a separate Organization permanently to avoid SCP conflicts" }
+    ],
+    "correct": "c",
+    "explanation": "The recommended approach is to invite the acquired accounts to join the Organization and place them in a dedicated 'migration' or 'exceptions' OU with an SCP that permits the services their workloads currently need. This allows centralized billing and visibility immediately. SCPs can then be tightened progressively as workloads are modernized. Option A is incorrect: when accounts are invited and accept, they initially land under the Root OU and SCPs from the Root OU apply immediately. Keeping a separate Organization permanently creates governance fragmentation. Migrating to new accounts first may not be feasible for complex production workloads.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Inviting an AWS Account to Join Your Organization", "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_invites.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-014",
+    "type": "single_choice",
+    "prompt": "A company uses AWS Control Tower and wants to automatically enroll new accounts created by Account Factory into a specific OU with a set of elective guardrails pre-applied. Which feature supports this without custom automation?",
+    "choices": [
+      { "id": "a", "text": "Control Tower Lifecycle Events triggering a Lambda to apply guardrails after account creation" },
+      { "id": "b", "text": "Account Factory for Terraform (AFT) with customizations applied post-provisioning" },
+      { "id": "c", "text": "Account Factory in Control Tower, specifying the target OU at provisioning time; guardrails for that OU are automatically applied" },
+      { "id": "d", "text": "AWS Service Catalog with a product that deploys guardrails via CloudFormation after account vending" }
+    ],
+    "correct": "c",
+    "explanation": "In AWS Control Tower, when you provision an account via Account Factory, you specify the target OU. Any guardrails (including elective guardrails that have been enabled on that OU) are automatically applied to the new account during enrollment. This requires no additional automation. The guardrail application is part of the Account Factory enrollment workflow. AFT (option B) is more powerful for complex customizations but introduces Terraform as a dependency. Lifecycle Events with Lambda is a valid pattern but introduces custom code. Service Catalog add-ons are not required for standard guardrail application.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Account Factory", "url": "https://docs.aws.amazon.com/controltower/latest/userguide/account-factory.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-sap-oc-015",
+    "type": "single_choice",
+    "prompt": "A company has consolidated billing enabled across 80 accounts. One team with reserved EC2 instances in Account A wants those reservations to benefit workloads in Account B and Account C. What must be true for RI benefit sharing to work across accounts?",
+    "choices": [
+      { "id": "a", "text": "The accounts must be in the same VPC and same Availability Zone" },
+      { "id": "b", "text": "RI sharing must be enabled in the Organization's consolidated billing settings, and the instance types must match" },
+      { "id": "c", "text": "The reserved instances must be convertible type and must be manually reassigned to each account" },
+      { "id": "d", "text": "A cross-account IAM role must be created in each account to allow billing service access" }
+    ],
+    "correct": "b",
+    "explanation": "Reserved Instance (and Savings Plan) benefit sharing is controlled at the Organization level in the consolidated billing settings. When enabled (the default), EC2 Reserved Instances can automatically apply to matching instance usage in any linked account within the same Organization, regardless of which account owns the reservation. The instance family, operating system, tenancy, and region must match for the RI to apply. No cross-account IAM roles are needed; this is a billing-layer feature. Convertible RIs add exchange flexibility but are not required for cross-account sharing.",
+    "topics": ["organizational-complexity"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "RI Sharing", "url": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ri-behavior.html" }
+    ],
+    "version": 1
+  }
+]

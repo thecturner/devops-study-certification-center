@@ -1,0 +1,295 @@
+[
+  {
+    "id": "gcp-pde-sq-001",
+    "type": "single_choice",
+    "prompt": "A healthcare company stores patient data in BigQuery. Regulatory requirements mandate that the Social Security Number (SSN) column must only be visible to users with the 'PHI_Viewer' IAM group, while all other analysts can see the rest of the table. What is the most appropriate BigQuery feature?",
+    "choices": [
+      { "id": "a", "text": "Create a separate table with the SSN column removed and grant analysts access to that table only" },
+      { "id": "b", "text": "Use BigQuery column-level security with a policy tag from Data Catalog to restrict the SSN column" },
+      { "id": "c", "text": "Use BigQuery row-level security to filter rows containing SSN values" },
+      { "id": "d", "text": "Encrypt the SSN column with Cloud KMS and only share the key with PHI_Viewer users" }
+    ],
+    "correct": "b",
+    "explanation": "BigQuery column-level security uses policy tags from Data Catalog. You attach a policy tag to the SSN column and grant the 'PHI_Viewer' group the Fine-Grained Reader role on that policy tag. Users without that role see the column as NULL or receive an access denied error. This enforces access control at the column level within the same table. Creating a separate table duplicates data and creates maintenance overhead. Row-level security filters entire rows, not individual columns. Encrypting with Cloud KMS at the column level is not a native BigQuery feature and does not integrate with query-time access control.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "BigQuery column-level security", "url": "https://cloud.google.com/bigquery/docs/column-level-security-intro" },
+      { "label": "Data Catalog policy tags", "url": "https://cloud.google.com/bigquery/docs/best-practices-policy-tags" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-002",
+    "type": "single_choice",
+    "prompt": "A financial services company needs to share a summarized profit-and-loss view of their BigQuery dataset with external auditors. The auditors should only see aggregated data, not the underlying transaction rows, and should not be able to run arbitrary queries on the base tables. What is the recommended approach?",
+    "choices": [
+      { "id": "a", "text": "Export the summarized data to a Cloud Storage bucket and grant the auditors Storage Object Viewer" },
+      { "id": "b", "text": "Create an authorized view in BigQuery that contains the aggregated query and grant the auditors access only to the view dataset" },
+      { "id": "c", "text": "Use BigQuery row-level security to limit auditors to aggregate-level rows" },
+      { "id": "d", "text": "Grant auditors BigQuery Data Viewer on the base dataset and instruct them not to query base tables" }
+    ],
+    "correct": "b",
+    "explanation": "An authorized view is a BigQuery view that has been granted access to the underlying dataset's data, while the view itself can be placed in a separate dataset with restricted access. Auditors can query the view and receive only the aggregated results; they cannot access the underlying tables directly. This is the standard pattern for controlled data sharing. Exporting to Cloud Storage provides a point-in-time snapshot that becomes stale. Row-level security filters rows, not columns or aggregation level. Granting Data Viewer on the base dataset gives auditors access to all underlying transaction rows, violating the requirement.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "BigQuery authorized views", "url": "https://cloud.google.com/bigquery/docs/authorized-views" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-003",
+    "type": "single_choice",
+    "prompt": "A data engineering team needs to scan a Cloud Storage bucket containing customer uploads for credit card numbers, passport numbers, and other PII before the data is loaded into BigQuery. Which GCP service performs this automated inspection?",
+    "choices": [
+      { "id": "a", "text": "Cloud Armor" },
+      { "id": "b", "text": "Cloud Data Loss Prevention (DLP)" },
+      { "id": "c", "text": "Cloud Asset Inventory" },
+      { "id": "d", "text": "Security Command Center" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Data Loss Prevention (Cloud DLP) is GCP's managed service for discovering, classifying, and optionally de-identifying sensitive data. It can scan Cloud Storage, BigQuery, and Datastore for over 150 built-in infoTypes (credit card numbers, SSNs, passport numbers, etc.) and return findings with confidence scores. Cloud Armor is a web application firewall and DDoS protection service. Cloud Asset Inventory tracks GCP resource configurations and policies, not file content. Security Command Center aggregates security findings across GCP services but does not itself scan file content for PII.",
+    "topics": ["solution-quality"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud DLP overview", "url": "https://cloud.google.com/dlp/docs/dlp-overview" },
+      { "label": "Cloud DLP inspecting Cloud Storage", "url": "https://cloud.google.com/dlp/docs/inspecting-storage" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-004",
+    "type": "single_choice",
+    "prompt": "An organization wants to enforce that all new BigQuery datasets created in any project in their organization must use customer-managed encryption keys (CMEK). Which GCP mechanism enforces this at the organization level?",
+    "choices": [
+      { "id": "a", "text": "A Cloud Monitoring alert policy that notifies when a dataset without CMEK is created" },
+      { "id": "b", "text": "An Organization Policy constraint that requires CMEK for BigQuery resources" },
+      { "id": "c", "text": "A Cloud Functions trigger that automatically enables CMEK on newly created datasets" },
+      { "id": "d", "text": "A BigQuery default encryption setting configured in each project's settings" }
+    ],
+    "correct": "b",
+    "explanation": "GCP Organization Policies allow administrators to enforce constraints across all projects in an organization. The `constraints/gcp.restrictNonCmekServices` and BigQuery-specific CMEK constraints can be applied at the organization, folder, or project level to prevent creation of resources that do not use CMEK. This is a preventive control that blocks non-compliant resource creation. A Cloud Monitoring alert is a detective control that notifies after the fact but does not prevent non-compliant dataset creation. A Cloud Functions trigger is a reactive control that could attempt remediation but has a window of non-compliance. A BigQuery default encryption setting configures a default key for a project but can be overridden per dataset.",
+    "topics": ["solution-quality"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "BigQuery CMEK", "url": "https://cloud.google.com/bigquery/docs/customer-managed-encryption" },
+      { "label": "Organization Policy for CMEK", "url": "https://cloud.google.com/bigquery/docs/cmek-org-policy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-005",
+    "type": "single_choice",
+    "prompt": "A data platform team uses Dataplex to organize data across multiple Cloud Storage buckets and BigQuery datasets. They want to automatically apply metadata tags (e.g., 'PII=true', 'domain=finance') to tables as they are discovered. Which Dataplex feature supports this?",
+    "choices": [
+      { "id": "a", "text": "Dataplex Data Profiles for automated column statistics" },
+      { "id": "b", "text": "Dataplex Catalog with tag templates attached to assets in Dataplex lakes and zones" },
+      { "id": "c", "text": "Dataplex Data Quality tasks with SQL-based rules" },
+      { "id": "d", "text": "Dataplex Discovery with BigQuery External Tables auto-creation" }
+    ],
+    "correct": "b",
+    "explanation": "Dataplex integrates with Data Catalog and provides Catalog functionality where tag templates (structured metadata schemas) can be attached to tables, files, and other data assets organized within Dataplex lakes and zones. This enables automated governance metadata like PII classification and domain ownership to be applied at scale. Dataplex Data Profiles computes statistical summaries of column values (null counts, distinct values) but does not apply governance tags. Data Quality tasks run SQL-based validation rules to check data correctness, not to apply metadata tags. Dataplex Discovery automatically registers data assets in BigQuery as external tables and in the catalog, but the tag application is done through the Catalog feature.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dataplex metadata and catalog", "url": "https://cloud.google.com/dataplex/docs/data-catalog" },
+      { "label": "Data Catalog tag templates", "url": "https://cloud.google.com/data-catalog/docs/tags-and-tag-templates" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-006",
+    "type": "single_choice",
+    "prompt": "A data engineering team wants to validate that a daily BigQuery ETL job produces expected results: no NULL values in the user_id column, total row count within 10% of the previous day, and all amounts are non-negative. Which Dataplex feature enables this with no-code rule definition?",
+    "choices": [
+      { "id": "a", "text": "Dataplex Data Profiles" },
+      { "id": "b", "text": "Dataplex Data Quality tasks with built-in and custom SQL rules" },
+      { "id": "c", "text": "BigQuery INFORMATION_SCHEMA views queried via Cloud Monitoring" },
+      { "id": "d", "text": "Cloud DLP inspection jobs scheduled on the target table" }
+    ],
+    "correct": "b",
+    "explanation": "Dataplex Data Quality tasks allow teams to define data quality rules (NOT_NULL, row count checks, range validations, custom SQL assertions) in a YAML or UI-based configuration without writing pipeline code. The results are stored in BigQuery and can be monitored and alerted on. Dataplex Data Profiles computes statistical summaries but does not evaluate pass/fail rules. BigQuery INFORMATION_SCHEMA provides schema and partition metadata but not row-level quality validation. Cloud DLP is for PII detection, not general data quality validation such as row counts or range checks.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dataplex Data Quality overview", "url": "https://cloud.google.com/dataplex/docs/data-quality-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-007",
+    "type": "single_choice",
+    "prompt": "A security audit requires that all data access to BigQuery tables containing customer PII must be logged and auditable for the past 2 years. Which GCP feature provides this capability with minimal configuration?",
+    "choices": [
+      { "id": "a", "text": "Enable BigQuery Data Access audit logs via Cloud Audit Logs and configure a log sink to Cloud Storage with a 2-year retention bucket" },
+      { "id": "b", "text": "Enable BigQuery audit logs and store them in BigQuery itself using the default 90-day retention" },
+      { "id": "c", "text": "Use Cloud Monitoring to create a custom metric for BigQuery query counts" },
+      { "id": "d", "text": "Deploy a Cloud Functions listener on BigQuery jobs.insert events" }
+    ],
+    "correct": "a",
+    "explanation": "Cloud Audit Logs records Data Access logs for BigQuery when enabled, capturing who accessed which tables, when, and what queries were run. To retain logs beyond the default Cloud Logging 30-day retention (or the max 400-day retention for paid tiers), you configure a log sink that exports logs to a Cloud Storage bucket with a lifecycle policy or a BigQuery dataset with a longer table retention. Cloud Storage can hold logs for any duration. Default BigQuery audit log retention in Cloud Logging is not 2 years. Cloud Monitoring custom metrics track numeric measurements, not individual access events. A Cloud Functions listener on jobs.insert could capture events but requires custom code and storage management.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "BigQuery audit logging", "url": "https://cloud.google.com/bigquery/docs/reference/auditlogs" },
+      { "label": "Cloud Audit Logs overview", "url": "https://cloud.google.com/logging/docs/audit" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-008",
+    "type": "single_choice",
+    "prompt": "A data team needs to understand the lineage of a BigQuery table: which upstream sources contributed to it, which transformations were applied, and which downstream datasets depend on it. Which GCP service provides data lineage tracking natively?",
+    "choices": [
+      { "id": "a", "text": "Cloud Monitoring with custom lineage metrics" },
+      { "id": "b", "text": "Dataplex with Data Lineage (formerly Data Catalog Lineage)" },
+      { "id": "c", "text": "BigQuery INFORMATION_SCHEMA.JOBS_BY_PROJECT view" },
+      { "id": "d", "text": "Cloud Asset Inventory tracking BigQuery dataset dependencies" }
+    ],
+    "correct": "b",
+    "explanation": "Dataplex includes a Data Lineage feature (previously part of Data Catalog) that automatically captures and visualizes end-to-end data lineage for data processed through BigQuery, Dataflow, and other GCP services. It shows upstream sources, transformation steps, and downstream consumers in a graph visualization. Cloud Monitoring does not capture data lineage. INFORMATION_SCHEMA.JOBS_BY_PROJECT shows query history and resource usage but does not construct a lineage graph across datasets. Cloud Asset Inventory tracks resource configurations and IAM policies, not data flow relationships between tables.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Data Lineage overview", "url": "https://cloud.google.com/data-catalog/docs/how-to/track-lineage" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-009",
+    "type": "single_choice",
+    "prompt": "A team runs ad-hoc queries on BigQuery and is concerned about runaway queries consuming excessive slots and driving up on-demand costs. What is the most effective preventive control?",
+    "choices": [
+      { "id": "a", "text": "Require all queries to include a LIMIT clause" },
+      { "id": "b", "text": "Set a maximum bytes billed quota per query using the maximumBytesBilled job configuration parameter" },
+      { "id": "c", "text": "Enable BigQuery BI Engine to cache frequently run queries" },
+      { "id": "d", "text": "Use slot reservations to cap total slots available to the project" }
+    ],
+    "correct": "b",
+    "explanation": "The maximumBytesBilled parameter on a BigQuery job configuration causes the query to fail before executing if the estimated bytes to be billed exceed the specified threshold. This is a per-query preventive control that protects against accidental full-table scans. LIMIT clauses in SQL limit the rows returned but do not limit the bytes scanned — BigQuery scans all matching rows before applying LIMIT. BI Engine reduces latency for repeated queries but does not prevent expensive ad-hoc queries from running. Slot reservations cap compute resources but do not limit data scanned per query; an expensive query will still run, just more slowly.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "BigQuery cost controls", "url": "https://cloud.google.com/bigquery/docs/controlling-costs" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-010",
+    "type": "single_choice",
+    "prompt": "A company's BigQuery dataset contains a column with encrypted credit card tokens. The data security team wants to search for any files in Cloud Storage that contain raw (un-tokenized) credit card numbers before they are ingested. Which Cloud DLP action accomplishes this?",
+    "choices": [
+      { "id": "a", "text": "DLP Inspect job scanning Cloud Storage with the CREDIT_CARD_NUMBER infoType, generating findings" },
+      { "id": "b", "text": "DLP De-identify job replacing all numbers in Cloud Storage files with tokenized values" },
+      { "id": "c", "text": "DLP Re-identify job restoring original values from tokenized data" },
+      { "id": "d", "text": "DLP Risk analysis job computing statistical sensitivity scores for Cloud Storage buckets" }
+    ],
+    "correct": "a",
+    "explanation": "Cloud DLP Inspect jobs scan content (Cloud Storage, BigQuery, Datastore, or inline content) for specified infoTypes and generate findings reports detailing where and how many instances of sensitive data were found. Using the CREDIT_CARD_NUMBER infoType against the Cloud Storage bucket will identify files containing raw card numbers before they are ingested. De-identify jobs transform detected sensitive data (masking, tokenization, redaction) but the task is discovery, not transformation. Re-identify jobs are used to reverse de-identification for authorized access. Risk analysis jobs compute statistical metrics like k-anonymity and l-diversity for a dataset, not for detecting specific infoType occurrences in raw files.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud DLP inspecting storage", "url": "https://cloud.google.com/dlp/docs/inspecting-storage" },
+      { "label": "Cloud DLP infoTypes", "url": "https://cloud.google.com/dlp/docs/infotypes-reference" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-011",
+    "type": "single_choice",
+    "prompt": "An organization uses BigQuery on-demand pricing. After analyzing the past month's billing, they discover a single analyst's queries account for 40% of total BigQuery costs due to inefficient queries. Which control allows the organization to limit per-user query costs without restricting all users?",
+    "choices": [
+      { "id": "a", "text": "Set a per-user custom quota for bytes processed per day in the BigQuery project settings" },
+      { "id": "b", "text": "Revoke the analyst's BigQuery Data Viewer role until they fix their queries" },
+      { "id": "c", "text": "Create a separate BigQuery project for the analyst and set a project-level budget alert" },
+      { "id": "d", "text": "Enable maximumBytesBilled project-wide at the organization policy level" }
+    ],
+    "correct": "a",
+    "explanation": "BigQuery supports per-user daily query quotas configurable via the BigQuery API or Console under Quotas. Setting a bytes-processed-per-day quota for a specific user limits how much data they can scan in a given day without affecting other users. Revoking the Data Viewer role prevents access entirely, not just cost control. A separate project with a budget alert is a detective control (alert fires after spending) rather than a preventive one. Organization Policy maximumBytesBilled applies to all queries in all projects, not to a specific user.",
+    "topics": ["solution-quality"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "BigQuery custom quotas", "url": "https://cloud.google.com/bigquery/docs/custom-quotas" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-012",
+    "type": "single_choice",
+    "prompt": "A data pipeline test suite must verify that a Dataflow pipeline correctly filters out records where the event_type field equals 'test'. Which testing approach is most appropriate for unit testing the filter logic?",
+    "choices": [
+      { "id": "a", "text": "Run the full pipeline end-to-end against production Pub/Sub and BigQuery in a test environment" },
+      { "id": "b", "text": "Use the Apache Beam TestPipeline runner with in-memory PCollections and PAssert to validate filter outputs" },
+      { "id": "c", "text": "Write a Python unit test that calls the filter function directly without using any Beam primitives" },
+      { "id": "d", "text": "Deploy the pipeline to Dataflow and inspect the output BigQuery table for test records" }
+    ],
+    "correct": "b",
+    "explanation": "Apache Beam's TestPipeline runner executes pipelines in-memory during unit tests without requiring any GCP infrastructure. PAssert provides declarative assertions on PCollection contents, making it the idiomatic way to test Beam transforms including filters. This approach is fast, isolated, and does not incur GCP costs. Running end-to-end against production systems in a test is not a unit test and has side effects. Calling the filter function directly as a plain Python function tests the function in isolation but misses Beam-specific behaviors (type checking, serialization, distributed semantics). Deploying to Dataflow for testing is slow and expensive.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Testing Dataflow pipelines", "url": "https://cloud.google.com/dataflow/docs/guides/unit-testing" },
+      { "label": "Apache Beam TestPipeline", "url": "https://beam.apache.org/documentation/pipelines/test-your-pipeline/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-013",
+    "type": "single_choice",
+    "prompt": "A BigQuery table stores 5 years of transaction history. The compliance team requires that rows older than 3 years can only be accessed by users in the 'compliance_reader' group, while all other analysts can only see the last 3 years. What is the most maintainable implementation?",
+    "choices": [
+      { "id": "a", "text": "Create two tables: one for the last 3 years and one for older data, managing copies manually" },
+      { "id": "b", "text": "Apply a BigQuery row-level access policy that filters rows based on transaction_date < DATE_SUB(CURRENT_DATE(), INTERVAL 3 YEAR) for regular analysts" },
+      { "id": "c", "text": "Partition the table by year and grant partition-level IAM access to older partitions for compliance_reader only" },
+      { "id": "d", "text": "Use a scheduled query that deletes rows older than 3 years from the analyst-facing table daily" }
+    ],
+    "correct": "b",
+    "explanation": "BigQuery row-level security (row access policies) allows defining filter expressions that are applied transparently to queries based on the querying user's group membership. A row access policy can filter on transaction_date to show only the last 3 years to regular analysts, while the compliance_reader group bypasses the filter via a separate policy or no policy. This is fully managed by the row access policy and does not require data duplication or manual maintenance. Two separate tables duplicate data and create synchronization challenges. BigQuery IAM does not support partition-level access grants for different user groups within the same table. Scheduled deletion destroys data permanently, preventing compliance access to historical records.",
+    "topics": ["solution-quality"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "BigQuery row-level security", "url": "https://cloud.google.com/bigquery/docs/row-level-security-intro" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-014",
+    "type": "single_choice",
+    "prompt": "A data team wants to catalog all BigQuery tables in their organization, enable analysts to search for datasets by business domain, and attach business glossary terms to columns. Which GCP service provides this functionality?",
+    "choices": [
+      { "id": "a", "text": "BigQuery INFORMATION_SCHEMA" },
+      { "id": "b", "text": "Data Catalog (part of Dataplex)" },
+      { "id": "c", "text": "Cloud Asset Inventory" },
+      { "id": "d", "text": "Cloud Monitoring dashboards" }
+    ],
+    "correct": "b",
+    "explanation": "Data Catalog (now integrated into Dataplex) is GCP's unified metadata management and data discovery service. It automatically catalogs BigQuery tables and Cloud Storage objects, provides a search interface for analysts to discover datasets by name, description, or tag, and supports attaching structured tag templates (including business glossary terms) to tables and columns. INFORMATION_SCHEMA provides schema and query history metadata for BigQuery but is not a searchable enterprise catalog. Cloud Asset Inventory tracks GCP resource configurations for governance and security purposes, not data discovery. Cloud Monitoring is for operational metrics, not data cataloging.",
+    "topics": ["solution-quality"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Data Catalog overview", "url": "https://cloud.google.com/data-catalog/docs/concepts/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-sq-015",
+    "type": "single_choice",
+    "prompt": "A BigQuery dataset is encrypted with a customer-managed encryption key (CMEK) stored in Cloud KMS. The security team wants to ensure that if the KMS key is disabled, BigQuery queries against the dataset fail immediately. What is the expected behavior?",
+    "choices": [
+      { "id": "a", "text": "BigQuery caches decrypted data for 24 hours, so queries succeed until the cache expires" },
+      { "id": "b", "text": "Queries against the CMEK-encrypted dataset fail immediately when the KMS key is disabled, because BigQuery must decrypt data using the key for each query" },
+      { "id": "c", "text": "Queries succeed but write operations are blocked when the KMS key is disabled" },
+      { "id": "d", "text": "BigQuery falls back to Google-managed encryption automatically when the CMEK key is disabled" }
+    ],
+    "correct": "b",
+    "explanation": "BigQuery CMEK integration requires the Cloud KMS key to be accessible for every read and write operation. When the key is disabled, BigQuery cannot decrypt the data encryption key (DEK) that protects the dataset, so all queries fail immediately with a permission denied or key disabled error. BigQuery does not cache decrypted data; the key must be available for each operation. CMEK does not affect reads vs. writes differently — both require key access. BigQuery does not fall back to Google-managed encryption; the encryption mode is fixed at table creation and cannot be changed without re-creating the table.",
+    "topics": ["solution-quality"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "BigQuery CMEK", "url": "https://cloud.google.com/bigquery/docs/customer-managed-encryption" },
+      { "label": "Cloud KMS key states", "url": "https://cloud.google.com/kms/docs/key-states" }
+    ],
+    "version": 1
+  }
+]

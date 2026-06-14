@@ -1,0 +1,501 @@
+[
+  {
+    "id": "svc-001",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of Datadog Service Catalog?",
+    "choices": [
+      { "id": "a", "text": "To monitor the performance of individual microservices using APM traces" },
+      { "id": "b", "text": "To provide a centralized registry of all services with ownership, documentation, and operational metadata" },
+      { "id": "c", "text": "To automatically deploy services to cloud infrastructure" },
+      { "id": "d", "text": "To generate SLO reports for services based on their error rates" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog Service Catalog is a centralized registry that provides a single source of truth for all services in an organization. It captures ownership information, on-call contacts, documentation links, dependencies, and production readiness data, helping teams manage service ownership at scale.",
+    "topics": ["service-catalog-overview"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Service Catalog Overview" }],
+    "version": 1
+  },
+  {
+    "id": "svc-002",
+    "type": "single_choice",
+    "prompt": "Which schema version of the Datadog Service Catalog definition introduced the 'integrations' field for linking PagerDuty and other on-call systems?",
+    "choices": [
+      { "id": "a", "text": "v1" },
+      { "id": "b", "text": "v2" },
+      { "id": "c", "text": "v2.1" },
+      { "id": "d", "text": "v2.2" }
+    ],
+    "correct": "b",
+    "explanation": "The service definition schema v2 introduced the 'integrations' field, which supports linking on-call providers like PagerDuty by specifying the service URL. This allows Datadog to surface on-call information directly in the Service Catalog.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Definition Schema v2" }],
+    "version": 1
+  },
+  {
+    "id": "svc-003",
+    "type": "single_choice",
+    "prompt": "In the Datadog Service Catalog schema v2.2, which field is used to define the team that owns a service?",
+    "choices": [
+      { "id": "a", "text": "owner" },
+      { "id": "b", "text": "team" },
+      { "id": "c", "text": "maintainer" },
+      { "id": "d", "text": "responsible-team" }
+    ],
+    "correct": "b",
+    "explanation": "In the service definition YAML schema, the 'team' field specifies the owning team for a service. This value should match a team name configured in your Datadog organization to enable ownership tracking and routing.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Service Definition Schema" }],
+    "version": 1
+  },
+  {
+    "id": "svc-004",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid methods for registering a service in Datadog Service Catalog?",
+    "choices": [
+      { "id": "a", "text": "Posting a service definition YAML to the Datadog API" },
+      { "id": "b", "text": "Using the Datadog Terraform provider to manage service definitions as code" },
+      { "id": "c", "text": "Pushing a service definition file to a GitHub repository connected to Datadog" },
+      { "id": "d", "text": "Sending a service definition via the Datadog Agent's configuration file" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Services can be registered via the Datadog API (HTTP POST with YAML/JSON), via the Datadog Terraform provider (datadog_service_definition resource), or by committing service definition files to a GitHub repository configured with the Datadog GitHub integration. The Agent config file is not a mechanism for service catalog registration.",
+    "topics": ["service-catalog-overview", "populating-catalog"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Creating Service Definitions" }],
+    "version": 1
+  },
+  {
+    "id": "svc-005",
+    "type": "true_false",
+    "prompt": "Datadog automatically populates the Service Catalog with services detected by APM distributed tracing without requiring any manual service definition.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Services that emit APM traces to Datadog are automatically discovered and appear in the Service Catalog. These auto-detected entries include performance data (request rate, error rate, latency) but lack ownership metadata until a service definition is provided.",
+    "topics": ["apm-auto-detection"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Service Catalog - APM Services" }],
+    "version": 1
+  },
+  {
+    "id": "svc-006",
+    "type": "single_choice",
+    "prompt": "What happens to a service's entry in the Service Catalog when it is detected by APM but has no associated service definition file?",
+    "choices": [
+      { "id": "a", "text": "It does not appear in the catalog until a definition is provided" },
+      { "id": "b", "text": "It appears with performance data but shows no owner, contacts, or documentation links" },
+      { "id": "c", "text": "It appears only in the 'Unregistered' tab and cannot be searched" },
+      { "id": "d", "text": "It is automatically assigned to a default team called 'Unowned'" }
+    ],
+    "correct": "b",
+    "explanation": "APM-detected services appear in the Service Catalog immediately with their performance metrics (latency, throughput, error rate) but without ownership metadata. The catalog shows them as lacking an owner, contacts, documentation, and on-call information until a definition is registered.",
+    "topics": ["apm-auto-detection", "service-catalog-overview"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-007",
+    "type": "single_choice",
+    "prompt": "In a Datadog Service Catalog definition, what is the 'contacts' field used for?",
+    "choices": [
+      { "id": "a", "text": "Specifying the email addresses of external API consumers" },
+      { "id": "b", "text": "Defining communication channels (Slack, email, etc.) and individuals responsible for the service" },
+      { "id": "c", "text": "Listing the database connection strings used by the service" },
+      { "id": "d", "text": "Configuring webhook endpoints for Datadog alerts" }
+    ],
+    "correct": "b",
+    "explanation": "The 'contacts' field in a service definition specifies the people and channels that should be contacted about the service, such as a Slack channel, team email, or specific on-call individuals. This information is surfaced in the catalog to help other teams know how to reach the owning team.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Service Definition Schema" }],
+    "version": 1
+  },
+  {
+    "id": "svc-008",
+    "type": "single_choice",
+    "prompt": "Which field in the Service Catalog definition schema allows you to link external resources such as a Runbook, documentation, or source code repository?",
+    "choices": [
+      { "id": "a", "text": "contacts" },
+      { "id": "b", "text": "links" },
+      { "id": "c", "text": "refs" },
+      { "id": "d", "text": "resources" }
+    ],
+    "correct": "b",
+    "explanation": "The 'links' field in the service definition schema is used to attach URLs to external resources like documentation, runbooks, dashboards, or source code repositories. Each link entry includes a name and a URL.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Service Definition Schema" }],
+    "version": 1
+  },
+  {
+    "id": "svc-009",
+    "type": "true_false",
+    "prompt": "Service definitions in Datadog can be managed as code using the official Datadog Terraform provider.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The Datadog Terraform provider includes the datadog_service_definition resource, which allows teams to manage service definitions using infrastructure-as-code workflows. This enables version control, code review, and automated deployment of service catalog entries.",
+    "topics": ["populating-catalog"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Terraform Provider: datadog_service_definition" }],
+    "version": 1
+  },
+  {
+    "id": "svc-010",
+    "type": "single_choice",
+    "prompt": "What is the purpose of Service Scorecards in Datadog Service Catalog?",
+    "choices": [
+      { "id": "a", "text": "To rank services by their APM error rate for SLA reporting" },
+      { "id": "b", "text": "To evaluate services against production readiness and engineering standards criteria, providing a score for each rule" },
+      { "id": "c", "text": "To automatically remediate services that fail compliance checks" },
+      { "id": "d", "text": "To generate cost reports based on service resource consumption" }
+    ],
+    "correct": "b",
+    "explanation": "Service Scorecards allow organizations to define sets of rules (such as 'has an owner defined', 'has on-call configured', 'has SLOs set up') and automatically evaluate each service against these criteria. Each service receives a score showing how well it meets the defined standards.",
+    "topics": ["scorecards"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Scorecards" }],
+    "version": 1
+  },
+  {
+    "id": "svc-011",
+    "type": "multi_choice",
+    "prompt": "Which of the following are example criteria that might appear as rules in a Datadog Service Scorecard for production readiness?",
+    "choices": [
+      { "id": "a", "text": "Service has an owner team defined" },
+      { "id": "b", "text": "Service has at least one SLO configured" },
+      { "id": "c", "text": "Service has on-call information linked" },
+      { "id": "d", "text": "Service has a runbook link defined" },
+      { "id": "e", "text": "Service has fewer than 10 open vulnerabilities" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Service Scorecards evaluate services against defined engineering standards. Common production readiness rules include having an owner defined, SLOs configured, on-call information set up, and runbook links available. While vulnerability counts could be used, they are not a standard default scorecard rule.",
+    "topics": ["scorecards"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Scorecards" }],
+    "version": 1
+  },
+  {
+    "id": "svc-012",
+    "type": "single_choice",
+    "prompt": "How can you filter services in the Datadog Service Catalog to find all services owned by a specific team?",
+    "choices": [
+      { "id": "a", "text": "By typing the team name into the global search bar at the top of the Datadog UI" },
+      { "id": "b", "text": "By using the 'Team' filter in the Service Catalog filter panel" },
+      { "id": "c", "text": "By clicking the team name on any service entry to filter by that team" },
+      { "id": "d", "text": "Both B and C are correct" }
+    ],
+    "correct": "d",
+    "explanation": "The Service Catalog provides multiple ways to filter by team ownership. You can use the Team filter facet in the left-hand filter panel, and clicking on a team name in a service entry also filters the catalog to show all services belonging to that team.",
+    "topics": ["browsing-catalog"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-013",
+    "type": "true_false",
+    "prompt": "Datadog Service Catalog supports the concept of service dependencies, allowing you to see which services call or are called by a given service.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Service Catalog integrates with APM tracing data to automatically surface service dependencies, showing upstream callers and downstream dependencies for each service. This is derived from trace context propagation between services.",
+    "topics": ["service-dependencies"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Catalog - Dependencies" }],
+    "version": 1
+  },
+  {
+    "id": "svc-014",
+    "type": "single_choice",
+    "prompt": "What does the 'schema-version' field in a Datadog service definition YAML specify?",
+    "choices": [
+      { "id": "a", "text": "The version of the Datadog Agent that should collect data for this service" },
+      { "id": "b", "text": "The version of the service definition schema format being used (e.g., v2, v2.1, v2.2)" },
+      { "id": "c", "text": "The semantic version number of the service itself" },
+      { "id": "d", "text": "The API version of the Datadog Service Catalog REST API" }
+    ],
+    "correct": "b",
+    "explanation": "The 'schema-version' field tells Datadog which version of the service definition schema format the YAML conforms to. Different schema versions support different fields and capabilities, such as v2.2 adding more detailed component types.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Service Definition Schema Versions" }],
+    "version": 1
+  },
+  {
+    "id": "svc-015",
+    "type": "single_choice",
+    "prompt": "When using the GitHub integration with Datadog Service Catalog, where should service definition files be placed in the repository?",
+    "choices": [
+      { "id": "a", "text": "In a directory named .datadog/service-definitions/ in the repository root" },
+      { "id": "b", "text": "In any location, as long as the file is named service.datadog.yaml" },
+      { "id": "c", "text": "Only in the repository's root directory" },
+      { "id": "d", "text": "In the .github/workflows/ directory" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog's GitHub integration scans repositories for files named 'service.datadog.yaml' (or matching the configured pattern) and automatically imports them into the Service Catalog. The file can be placed anywhere in the repository.",
+    "topics": ["populating-catalog"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: GitHub Integration for Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-016",
+    "type": "single_choice",
+    "prompt": "In the Service Catalog, what does 'on-call' integration provide?",
+    "choices": [
+      { "id": "a", "text": "It automatically creates incidents in Datadog when a monitor alerts for that service" },
+      { "id": "b", "text": "It surfaces the current on-call engineer from PagerDuty or other on-call tools directly in the service entry" },
+      { "id": "c", "text": "It sends all Datadog alerts to the on-call provider instead of Datadog's notification system" },
+      { "id": "d", "text": "It enables automatic escalation policies based on service severity" }
+    ],
+    "correct": "b",
+    "explanation": "When a service definition includes an integration with an on-call provider like PagerDuty, Datadog Service Catalog displays the current on-call engineer directly in the service entry. This helps anyone investigating an issue quickly identify who to contact.",
+    "topics": ["ownership-oncall"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Catalog On-Call Integration" }],
+    "version": 1
+  },
+  {
+    "id": "svc-017",
+    "type": "true_false",
+    "prompt": "A service definition in Datadog Service Catalog must include a 'team' field to be considered valid.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "The 'team' field is recommended but not required for a service definition to be valid. A minimal valid service definition requires only the 'schema-version', 'dd-service' (service name), and 'datadog-version' fields. However, without a team, the service will be shown as unowned in the catalog.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Definition Schema" }],
+    "version": 1
+  },
+  {
+    "id": "svc-018",
+    "type": "single_choice",
+    "prompt": "Which field in the service definition schema v2.1 allows you to specify the programming language or type of the service (e.g., 'web', 'worker', 'db')?",
+    "choices": [
+      { "id": "a", "text": "type" },
+      { "id": "b", "text": "kind" },
+      { "id": "c", "text": "tier" },
+      { "id": "d", "text": "category" }
+    ],
+    "correct": "a",
+    "explanation": "The 'type' field in the service definition schema classifies the kind of service, with values like 'web', 'worker', 'db', 'cache', 'lambda', or 'custom'. This helps categorize services in the catalog and can be used for filtering.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Definition Schema v2.1" }],
+    "version": 1
+  },
+  {
+    "id": "svc-019",
+    "type": "multi_choice",
+    "prompt": "Which of the following information is surfaced in a service's detail view in the Datadog Service Catalog?",
+    "choices": [
+      { "id": "a", "text": "Owning team and contact information" },
+      { "id": "b", "text": "APM performance metrics (latency, throughput, error rate)" },
+      { "id": "c", "text": "Links to documentation and runbooks" },
+      { "id": "d", "text": "Current on-call engineer (if on-call integration is configured)" },
+      { "id": "e", "text": "Real-time source code diff for recent deployments" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "A service's detail view in Service Catalog shows ownership, APM performance data (if the service emits traces), documentation links, and on-call information. Real-time source code diffs are not a feature of the Service Catalog.",
+    "topics": ["browsing-catalog", "service-catalog-overview"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-020",
+    "type": "single_choice",
+    "prompt": "In Datadog Service Catalog, what is the purpose of the 'dd-service' field in a service definition?",
+    "choices": [
+      { "id": "a", "text": "It specifies the Datadog service tag used in APM traces and metrics to identify this service" },
+      { "id": "b", "text": "It configures which Datadog services (APM, Logs, etc.) are enabled for this entry" },
+      { "id": "c", "text": "It maps the catalog entry to a Datadog monitor name" },
+      { "id": "d", "text": "It sets the display name shown in the Datadog UI" }
+    ],
+    "correct": "a",
+    "explanation": "The 'dd-service' field is the unique identifier for the service and must match the 'service' tag value used in APM traces, logs, and metrics for that service. This is how Datadog links the catalog entry to the actual telemetry data being collected.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-021",
+    "type": "true_false",
+    "prompt": "The Datadog Service Catalog only shows services that have APM tracing enabled.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Service Catalog can include any service registered via a service definition, regardless of whether APM tracing is configured. Services without APM will not show performance metrics, but they will still appear in the catalog with their metadata, ownership, and documentation information.",
+    "topics": ["service-catalog-overview"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-022",
+    "type": "single_choice",
+    "prompt": "Which HTTP method is used when submitting a service definition to the Datadog API to create or update it?",
+    "choices": [
+      { "id": "a", "text": "GET" },
+      { "id": "b", "text": "PUT" },
+      { "id": "c", "text": "POST" },
+      { "id": "d", "text": "PATCH" }
+    ],
+    "correct": "b",
+    "explanation": "Service definitions are submitted to the Datadog Service Catalog API using HTTP PUT to the /api/v2/services/definitions endpoint. PUT is used for upsert behavior, creating the definition if it does not exist or updating it if it does.",
+    "topics": ["populating-catalog"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog API Docs: Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-023",
+    "type": "single_choice",
+    "prompt": "What distinguishes schema v2.2 from v2.1 in the Datadog Service Catalog definition format?",
+    "choices": [
+      { "id": "a", "text": "v2.2 adds support for the 'contacts' field" },
+      { "id": "b", "text": "v2.2 introduces support for specifying service extensions and additional metadata fields" },
+      { "id": "c", "text": "v2.2 removes the 'integrations' field and replaces it with 'on-call'" },
+      { "id": "d", "text": "v2.2 is the first version to support the 'team' field" }
+    ],
+    "correct": "b",
+    "explanation": "Schema v2.2 introduced additional fields and refinements to the service definition format, including support for extensions and more granular metadata. Earlier schema versions (v2, v2.1) are still supported but v2.2 provides the most complete feature set.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Service Definition Schema Versions" }],
+    "version": 1
+  },
+  {
+    "id": "svc-024",
+    "type": "true_false",
+    "prompt": "Service Catalog scorecards can be customized to add organization-specific rules beyond the default set provided by Datadog.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog Service Scorecards allow organizations to create custom rules that reflect their own engineering standards and production readiness requirements, in addition to the default rules provided by Datadog. Custom rules can be defined to evaluate any aspect of the service definition or associated telemetry.",
+    "topics": ["scorecards"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Scorecards" }],
+    "version": 1
+  },
+  {
+    "id": "svc-025",
+    "type": "single_choice",
+    "prompt": "When the Datadog GitHub integration is configured for Service Catalog, how frequently does Datadog sync service definition files from GitHub repositories?",
+    "choices": [
+      { "id": "a", "text": "Only when a webhook event is triggered by a push or pull request merge" },
+      { "id": "b", "text": "Every 24 hours on a fixed schedule" },
+      { "id": "c", "text": "Every 10 minutes via polling" },
+      { "id": "d", "text": "Only when manually triggered from the Datadog UI" }
+    ],
+    "correct": "a",
+    "explanation": "The Datadog GitHub integration uses GitHub webhooks to trigger syncs when changes are pushed to the repository. This means service definition changes are reflected in the Service Catalog shortly after a commit is pushed or a pull request is merged.",
+    "topics": ["populating-catalog"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: GitHub Integration for Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-026",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid contact types in the Datadog service definition 'contacts' field?",
+    "choices": [
+      { "id": "a", "text": "email" },
+      { "id": "b", "text": "slack" },
+      { "id": "c", "text": "microsoft-teams" },
+      { "id": "d", "text": "pagerduty" },
+      { "id": "e", "text": "jira" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "The service definition schema supports contact types including 'email', 'slack', and 'microsoft-teams' in the contacts field. PagerDuty is configured in the 'integrations' section rather than 'contacts', and Jira is not a supported contact type.",
+    "topics": ["service-definition-schema"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Definition Schema" }],
+    "version": 1
+  },
+  {
+    "id": "svc-027",
+    "type": "single_choice",
+    "prompt": "What is the relationship between a service in Datadog Service Catalog and the 'service' tag in APM?",
+    "choices": [
+      { "id": "a", "text": "They are independent; the catalog does not use APM service tags" },
+      { "id": "b", "text": "The 'dd-service' field in the catalog definition must match the APM 'service' tag for the service's telemetry to be linked to the catalog entry" },
+      { "id": "c", "text": "APM services are created as separate entries and linked to catalog entries via a foreign key" },
+      { "id": "d", "text": "Only services with the 'catalog:true' tag in APM appear in the Service Catalog" }
+    ],
+    "correct": "b",
+    "explanation": "The service catalog uses the 'dd-service' field as the service identifier, which must match the value of the 'service' tag used in APM traces, metrics, and logs. This matching is how Datadog links the catalog metadata entry to the actual telemetry data for that service.",
+    "topics": ["apm-auto-detection", "service-definition-schema"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-028",
+    "type": "true_false",
+    "prompt": "Datadog Service Catalog can display the current deployment status and recent deployments for a service.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "When Deployment Tracking is configured (via the DD_VERSION tag and deployment events), the Service Catalog can display recent deployments, including version numbers and deployment times. This is surfaced in the service detail panel alongside performance data.",
+    "topics": ["service-catalog-overview"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Catalog - Deployments" }],
+    "version": 1
+  },
+  {
+    "id": "svc-029",
+    "type": "single_choice",
+    "prompt": "In the Datadog Service Catalog, what does the 'Reliability' section of a service entry typically show?",
+    "choices": [
+      { "id": "a", "text": "The SLO compliance status and error budget for the service" },
+      { "id": "b", "text": "A reliability score calculated from uptime logs" },
+      { "id": "c", "text": "The number of open incidents for the service in the past 30 days" },
+      { "id": "d", "text": "The p99 latency trend over the past 7 days" }
+    ],
+    "correct": "a",
+    "explanation": "The Reliability section of a service entry in Service Catalog surfaces associated SLOs and their current compliance status (e.g., whether the service is meeting its error budget). This gives teams an at-a-glance view of reliability commitments.",
+    "topics": ["service-catalog-overview"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Service Catalog" }],
+    "version": 1
+  },
+  {
+    "id": "svc-030",
+    "type": "single_choice",
+    "prompt": "What happens if two service definitions are submitted to Datadog with the same 'dd-service' value but different schema versions?",
+    "choices": [
+      { "id": "a", "text": "Both definitions are stored and the older one is shown by default" },
+      { "id": "b", "text": "The most recently submitted definition replaces the previous one for that service" },
+      { "id": "c", "text": "An error is returned and neither definition is accepted" },
+      { "id": "d", "text": "The definition with the higher schema version always takes precedence" }
+    ],
+    "correct": "b",
+    "explanation": "When a service definition is submitted for a service name that already exists in the catalog, the new submission overwrites the previous definition. This allows teams to update their service definitions by simply submitting a new version.",
+    "topics": ["populating-catalog"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Service Definition API" }],
+    "version": 1
+  }
+]

@@ -1,0 +1,302 @@
+[
+  {
+    "id": "gcp-pca-im-001",
+    "type": "single_choice",
+    "prompt": "A platform team manages GCP infrastructure using Terraform with a shared state backend in Cloud Storage. After a recent team growth, two engineers simultaneously ran `terraform apply` on the same workspace, causing a state conflict and a partial deployment. Which Terraform state management practice on GCP prevents this scenario?",
+    "choices": [
+      { "id": "a", "text": "Store state in a versioned Cloud Storage bucket; rely on object versioning to recover from conflicts" },
+      { "id": "b", "text": "Enable Cloud Storage object locking on the state bucket and configure Terraform to use GCS as the backend, which provides built-in state locking" },
+      { "id": "c", "text": "Split the monolithic workspace into separate Terraform workspaces per engineer so state files do not overlap" },
+      { "id": "d", "text": "Use a Cloud Firestore document to manually track who is running terraform apply and enforce a serial execution process" }
+    ],
+    "correct": "b",
+    "explanation": "The GCS backend in Terraform uses Cloud Storage object locking to implement state locking. When one engineer runs `terraform apply`, the state file is locked, and any concurrent `apply` will fail with a lock error until the first operation completes. Versioning helps with recovery but does not prevent concurrent writes. Separate workspaces per engineer break the shared state model and would deploy duplicate resources. A manual Firestore-based process is error-prone and does not provide atomic locking.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Terraform GCS Backend", "url": "https://developer.hashicorp.com/terraform/language/settings/backends/gcs" },
+      { "label": "Cloud Storage: Object Locking", "url": "https://cloud.google.com/storage/docs/object-lock" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-002",
+    "type": "single_choice",
+    "prompt": "A team runs a GKE Standard cluster with three node pools: a general-purpose pool, a GPU pool for ML workloads, and a high-memory pool for data processing. They want to upgrade the Kubernetes control plane and all node pools to a new minor version with zero application downtime. Pods have PodDisruptionBudgets configured. What is the correct upgrade sequence and configuration?",
+    "choices": [
+      { "id": "a", "text": "Upgrade all node pools first, then upgrade the control plane to maintain compatibility" },
+      { "id": "b", "text": "Upgrade the control plane first (GKE manages this automatically), then upgrade each node pool with surge upgrade settings (maxSurge=1, maxUnavailable=0)" },
+      { "id": "c", "text": "Upgrade the control plane and all node pools simultaneously using the GKE cluster upgrade API endpoint" },
+      { "id": "d", "text": "Create a new cluster at the target version and use Workload Migration to move pods, then delete the old cluster" }
+    ],
+    "correct": "b",
+    "explanation": "GKE requires the control plane to be upgraded before node pools; the Kubernetes version skew policy only supports nodes one minor version behind the control plane. Upgrading the control plane first is both required and automatic in GKE. Surge upgrades with maxSurge=1 and maxUnavailable=0 add a new node before draining an old one, ensuring capacity is always available and PodDisruptionBudgets are respected. Upgrading nodes before the control plane violates Kubernetes version skew support. Simultaneous upgrades are not supported. Creating a new cluster and migrating workloads is a valid pattern but is far more operationally complex than in-place upgrade with surge settings.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "GKE: Upgrading Nodes", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/upgrading-a-cluster" },
+      { "label": "GKE: Surge Upgrades", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pool-upgrade-strategies#surge-upgrade" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-003",
+    "type": "single_choice",
+    "prompt": "A company runs a customer-facing web application on a Managed Instance Group (MIG) behind a Global HTTP(S) Load Balancer. During a rolling update to deploy a new application version, the health check begins failing for some new instances, causing them to be replaced before completing startup. The application takes 90 seconds to warm up. What is the correct MIG configuration to prevent premature instance replacement during updates?",
+    "choices": [
+      { "id": "a", "text": "Increase the health check interval to 120 seconds and set the unhealthy threshold to 10 consecutive failures" },
+      { "id": "b", "text": "Configure the MIG update policy with initialDelaySec set to 120 seconds so the autohealer waits for instances to warm up before evaluating health checks" },
+      { "id": "c", "text": "Disable health checks during the rolling update window using the MIG update API, then re-enable after the update completes" },
+      { "id": "d", "text": "Use a canary update strategy with a 5-minute stabilisation period before rolling out to all instances" }
+    ],
+    "correct": "b",
+    "explanation": "The MIG `initialDelaySec` (also known as the autohealing initial delay) tells the autohealer not to take action on unhealthy health check signals for the specified number of seconds after an instance starts, allowing the application warm-up period to complete. Setting it to 120 seconds prevents premature replacement. Increasing check intervals and thresholds changes the health check sensitivity globally, not just during startup, and adds detection latency for genuine failures. Disabling health checks entirely removes the protection mechanism and is not an API-supported rollout option. A canary strategy helps validate a small cohort but does not solve the warm-up timing problem.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "MIG: Autohealing with Health Checks", "url": "https://cloud.google.com/compute/docs/instance-groups/autohealing-instances-in-migs" },
+      { "label": "MIG: Rolling Updates", "url": "https://cloud.google.com/compute/docs/instance-groups/rolling-out-updates-to-managed-instance-groups" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-004",
+    "type": "single_choice",
+    "prompt": "A platform team manages 12 GCP projects across three environments (dev, staging, prod) using Terraform. They want to reuse infrastructure modules (e.g., GKE cluster, VPC, Cloud SQL) across all environments without duplicating code, while allowing each environment to override defaults like machine type and instance count. Which Terraform feature on GCP best supports this pattern?",
+    "choices": [
+      { "id": "a", "text": "Use Terraform workspaces with workspace-specific variable files to differentiate environment configurations within a single module directory" },
+      { "id": "b", "text": "Create reusable Terraform modules in a shared module registry, then call each module from environment-specific root configurations with per-environment variable overrides" },
+      { "id": "c", "text": "Copy the Terraform configuration for each environment and use find-and-replace to change environment-specific values between deployments" },
+      { "id": "d", "text": "Use Terraform data sources to dynamically discover existing resources and avoid writing any environment-specific configuration" }
+    ],
+    "correct": "b",
+    "explanation": "Terraform modules encapsulate reusable infrastructure patterns with input variables for customisation. Each environment's root configuration calls the shared module with environment-specific variable values, eliminating code duplication while allowing overrides like machine type and instance count. Workspaces are intended for managing state isolation, not for code reuse across structurally different environments; they do not allow different variable files natively without wrappers. Copying and modifying configuration files is error-prone and is exactly what modules are designed to prevent. Data sources discover existing resources but cannot create or configure new infrastructure.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Terraform Modules", "url": "https://developer.hashicorp.com/terraform/language/modules" },
+      { "label": "GCP Terraform Module Registry", "url": "https://registry.terraform.io/namespaces/terraform-google-modules" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-005",
+    "type": "single_choice",
+    "prompt": "A GKE cluster runs 500 pods with highly variable resource demands. During business hours, CPU requests spike to 80% of cluster capacity; overnight, usage drops to 15%. The team wants to minimise node costs while ensuring pods are never pending due to insufficient capacity. Cluster availability must be maintained (no pods evicted unexpectedly). Which combination of GKE autoscaling features achieves this?",
+    "choices": [
+      { "id": "a", "text": "Cluster Autoscaler with scale-down enabled and Vertical Pod Autoscaler in Auto mode to resize pods in place" },
+      { "id": "b", "text": "Cluster Autoscaler to add and remove nodes based on pending pods, combined with Horizontal Pod Autoscaler to adjust replica counts based on CPU utilisation" },
+      { "id": "c", "text": "GKE Autopilot, which automatically manages node provisioning and bin-packing based on pod resource requests" },
+      { "id": "d", "text": "Node auto-provisioning with a fixed minimum of 10 nodes and maximum of 100 nodes, using preemptible VM node pools to reduce overnight costs" }
+    ],
+    "correct": "b",
+    "explanation": "Cluster Autoscaler adds nodes when pods are pending due to insufficient resources and removes underutilised nodes overnight, directly addressing the cost objective. HPA adjusts replica counts based on CPU metrics, reducing the resource footprint during off-peak periods and enabling Cluster Autoscaler to scale down further. VPA in Auto mode restarts pods to resize them, risking unexpected evictions which violates the availability requirement. GKE Autopilot is a valid option but requires GKE Standard to be recreated as Autopilot, and the question implies an existing Standard cluster. Preemptible node pools risk unexpected evictions and violate the stability requirement.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "GKE Cluster Autoscaler", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler" },
+      { "label": "GKE Horizontal Pod Autoscaling", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-006",
+    "type": "single_choice",
+    "prompt": "A company wants to deploy a stateless API service on Cloud Run that must process exactly one request at a time per container instance to avoid race conditions in its in-memory state machine. The service experiences bursty traffic patterns with 0 to 10,000 requests per minute. Which Cloud Run configuration ensures correctness under burst while minimising cold start impact?",
+    "choices": [
+      { "id": "a", "text": "Set concurrency to 1, max-instances to 10000, and min-instances to 0; enable CPU always-allocated for faster startup" },
+      { "id": "b", "text": "Set concurrency to 1, min-instances to 10 to reduce cold starts during bursts, and max-instances to 10000" },
+      { "id": "c", "text": "Set concurrency to 80 (default) with request queuing enabled to serialise requests at the load balancer layer" },
+      { "id": "d", "text": "Deploy the service on Cloud Run for Anthos with a sidecar proxy enforcing serial request delivery per pod" }
+    ],
+    "correct": "b",
+    "explanation": "Setting concurrency to 1 ensures each container instance handles exactly one request at a time, eliminating race conditions. Setting min-instances to 10 keeps warm instances available to absorb the initial burst, reducing cold starts under the bursty pattern. max-instances to 10000 provides headroom for peak load. Option A is functionally correct for isolation but min-instances of 0 means every burst begins with cold starts, which is suboptimal when minimising cold start impact is a stated requirement. Option C with concurrency 80 allows multiple concurrent requests per instance, directly violating the single-request-per-instance requirement. Option D adds unnecessary operational complexity without addressing the concurrency requirement at the application layer.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Run: Concurrency", "url": "https://cloud.google.com/run/docs/about-concurrency" },
+      { "label": "Cloud Run: Min Instances", "url": "https://cloud.google.com/run/docs/configuring/min-instances" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-007",
+    "type": "single_choice",
+    "prompt": "An organisation uses Deployment Manager to manage their GCP infrastructure. They want to add a new Cloud SQL instance to an existing Deployment Manager configuration without deleting and recreating any existing resources. A new team member incorrectly deletes the base template file. What is the safest recovery approach?",
+    "choices": [
+      { "id": "a", "text": "Run `gcloud deployment-manager deployments delete` and recreate the entire deployment from scratch with the new Cloud SQL instance included" },
+      { "id": "b", "text": "Use `gcloud deployment-manager deployments describe` to retrieve the current manifest, reconstruct the template from it, add the Cloud SQL resource, and run `gcloud deployment-manager deployments update`" },
+      { "id": "c", "text": "Abandon the Deployment Manager deployment and import existing resources into Terraform state using `terraform import`" },
+      { "id": "d", "text": "Manually create the Cloud SQL instance via the console and add it to the deployment manifest as an existing resource reference" }
+    ],
+    "correct": "b",
+    "explanation": "Deployment Manager stores the current manifest (rendered template) for each deployment, which can be retrieved via `deployments describe`. Reconstructing the template from the manifest and running `deployments update` allows adding the new Cloud SQL instance without touching existing resources. `deployments delete` would tear down all managed resources, causing service disruption. Switching to Terraform is a strategic decision requiring careful planning and is not an appropriate immediate recovery action. Deployment Manager does not support importing manually created resources as existing references; all resources in a deployment must be declared in the template.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Deployment Manager: Updating Deployments", "url": "https://cloud.google.com/deployment-manager/docs/deployments/updating-deployments" },
+      { "label": "Deployment Manager: Manifests", "url": "https://cloud.google.com/deployment-manager/docs/concepts/manifests" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-008",
+    "type": "single_choice",
+    "prompt": "A team runs a GKE cluster that serves both latency-sensitive web traffic and batch ML training jobs. During peak ML training, batch pods consume all available GPU and CPU, causing web serving pods to be throttled. They need to guarantee CPU and memory resources for web serving pods regardless of ML workload activity. Which GKE feature most directly solves this problem?",
+    "choices": [
+      { "id": "a", "text": "Configure resource requests and limits on all pods and rely on the Kubernetes scheduler for fair-share allocation" },
+      { "id": "b", "text": "Create separate node pools for web serving and ML training; use node affinity and tolerations to schedule workloads on dedicated pools" },
+      { "id": "c", "text": "Enable Vertical Pod Autoscaler on the web serving deployment to dynamically increase resource requests when ML jobs consume cluster resources" },
+      { "id": "d", "text": "Use PriorityClasses to assign higher scheduling priority to web serving pods so they preempt ML training pods when resources are scarce" }
+    ],
+    "correct": "b",
+    "explanation": "Dedicated node pools with node affinity and tolerations provide physical resource isolation: web serving pods run on dedicated nodes that ML pods cannot schedule onto, guaranteeing resources regardless of ML activity. Resource requests and limits rely on fair-share scheduling but do not prevent ML pods from consuming nodes that could otherwise serve web traffic. VPA adjusts requests based on observed usage but cannot create capacity that does not exist; it would not help when ML training has consumed all nodes. PriorityClasses enable preemption but can cause ML pod evictions and potential job restarts without preventing the competition for shared node resources.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "GKE: Node Pools", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools" },
+      { "label": "GKE: Node Affinity and Taints", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/node-taints" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-009",
+    "type": "single_choice",
+    "prompt": "A global e-commerce company runs a GKE cluster in us-central1. During a regional GCP outage, the application became unavailable for 4 hours. They need to redesign for 99.99% availability across two GCP regions with automatic failover, a shared Ingress hostname, and no manual DNS changes during failover. Which architecture achieves this?",
+    "choices": [
+      { "id": "a", "text": "Two independent GKE clusters with Cloud DNS failover policies routing traffic to the healthy region" },
+      { "id": "b", "text": "Multi-cluster Ingress with GKE clusters in us-central1 and us-east1, backed by a Global HTTP(S) Load Balancer with health checks per cluster" },
+      { "id": "c", "text": "GKE Federation with a single KubeFed control plane managing pods across both regions and a single Ingress resource" },
+      { "id": "d", "text": "Active-passive failover using Cloud Monitoring alerts triggering a Cloud Functions script to update DNS records when the primary cluster is unhealthy" }
+    ],
+    "correct": "b",
+    "explanation": "Multi-cluster Ingress (now part of GKE Fleet) deploys a Global HTTP(S) Load Balancer with health-checked backend services pointing to both regional clusters. When one region fails, the load balancer automatically routes all traffic to the healthy region with no DNS TTL delay, satisfying the automatic failover and shared hostname requirements. Cloud DNS failover policies have TTL-based propagation delays that do not meet sub-minute failover. KubeFed is deprecated and was never a GA product. A Cloud Functions DNS update approach has alert evaluation delays and DNS propagation latency, both incompatible with 99.99% availability.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "GKE Multi-cluster Ingress", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/multi-cluster-ingress" },
+      { "label": "GKE Fleet Overview", "url": "https://cloud.google.com/anthos/fleet-management/docs/fleet-concepts" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-010",
+    "type": "single_choice",
+    "prompt": "A company's Cloud CDN-enabled Global Load Balancer serves static assets from a Cloud Storage backend bucket. After a new product launch, they observe that 40% of requests are cache misses for assets that should be cached indefinitely. Cloud Logging shows these requests have a `Cache-Control: no-store` header set on the responses. How should this be resolved without modifying the application code?",
+    "choices": [
+      { "id": "a", "text": "Set a default TTL override on the Cloud CDN configuration to cache all responses for 86400 seconds regardless of response headers" },
+      { "id": "b", "text": "Configure a Cloud Storage bucket default object metadata to set Cache-Control: public, max-age=31536000 on all new uploads" },
+      { "id": "c", "text": "Enable Cloud CDN signed URLs so that asset requests bypass the Cache-Control header restrictions" },
+      { "id": "d", "text": "Add a Cloud Load Balancing header transformation rule to strip the Cache-Control: no-store header before the response reaches CDN" }
+    ],
+    "correct": "d",
+    "explanation": "Cloud Load Balancing supports response header transformation rules that can modify or remove headers before the response is cached by Cloud CDN. Removing the `Cache-Control: no-store` header allows CDN to apply the configured TTL and cache the asset. Setting a default TTL override (option A) does not override `no-store`; Cloud CDN respects `no-store` directives over configured TTLs. Setting bucket metadata (option B) requires updating existing objects and does not address the `no-store` header being returned by the application logic. Signed URLs control access, not caching behaviour.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud CDN: Caching Modes", "url": "https://cloud.google.com/cdn/docs/caching#cacheability" },
+      { "label": "Cloud Load Balancing: Header Transformation", "url": "https://cloud.google.com/load-balancing/docs/https/modify-headers" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-011",
+    "type": "single_choice",
+    "prompt": "A startup uses GKE Autopilot for all production workloads. Their ML inference service requires NVIDIA T4 GPUs. They observe that GPU pods remain in Pending state with the error `0/N nodes are available: N Insufficient nvidia.com/gpu`. What is the most likely cause and resolution?",
+    "choices": [
+      { "id": "a", "text": "GKE Autopilot does not support GPUs; migrate the inference service to a GKE Standard cluster with a dedicated GPU node pool" },
+      { "id": "b", "text": "The pods are missing a `nodeSelector` for `cloud.google.com/gke-accelerator: nvidia-tesla-t4`; adding this selector triggers Autopilot to provision GPU nodes" },
+      { "id": "c", "text": "GPU nodes must be manually pre-provisioned in Autopilot by enabling node auto-provisioning with a GPU resource limit" },
+      { "id": "d", "text": "The pods need a toleration for `nvidia.com/gpu:NoSchedule` added by GKE to GPU nodes to allow scheduling" }
+    ],
+    "correct": "b",
+    "explanation": "GKE Autopilot does support GPUs (T4, A100, L4) but requires pods to explicitly request GPU resources (`nvidia.com/gpu: 1` in resource limits) and include the appropriate node selector (`cloud.google.com/gke-accelerator: nvidia-tesla-t4`). Without the node selector, Autopilot does not know which GPU type to provision and the pod remains pending. Option A is incorrect; Autopilot GA supports GPUs. Option C is incorrect; Autopilot manages node provisioning automatically without node auto-provisioning configuration. Option D is incorrect; Autopilot handles GPU tolerations automatically when the node selector and resource request are present.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "GKE Autopilot: GPU Workloads", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/autopilot-gpus" },
+      { "label": "GKE: Requesting GPUs", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/gpus" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-012",
+    "type": "single_choice",
+    "prompt": "A company provisions GCP infrastructure via Terraform across 15 projects. A security audit found that some Terraform runs created service accounts with `roles/owner` at the project level, violating least-privilege policy. They want to prevent any future Terraform execution from granting roles more permissive than `roles/editor` at the project or higher level. Which GCP mechanism enforces this at the platform level?",
+    "choices": [
+      { "id": "a", "text": "Add a Terraform `precondition` block in all IAM binding modules that checks the role value before applying" },
+      { "id": "b", "text": "Configure an Organisation Policy constraint `iam.allowedPolicyMemberDomains` to restrict IAM member domains" },
+      { "id": "c", "text": "Deploy a custom constraint via Organisation Policy using the IAM `deny` policy to deny the `iam.setIamPolicy` action when the binding includes `roles/owner` at project or higher" },
+      { "id": "d", "text": "Enable Security Command Center Premium to detect and alert on owner role bindings, then automatically remediate via a Cloud Functions workflow" }
+    ],
+    "correct": "c",
+    "explanation": "Organisation Policy's deny IAM policies allow platform-level enforcement by denying the `iam.setIamPolicy` permission when certain conditions are met, such as when the requested binding includes `roles/owner`. This blocks Terraform or any caller from granting the role regardless of how the IAM call is made. Terraform preconditions only protect against the controlled module; they can be bypassed by other modules or direct CLI calls. `iam.allowedPolicyMemberDomains` restricts which identity domains can receive bindings but does not restrict which roles can be granted. SCC with remediation is a detective and reactive control, not a preventive one.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "IAM Deny Policies", "url": "https://cloud.google.com/iam/docs/deny-overview" },
+      { "label": "Organisation Policy: IAM Constraints", "url": "https://cloud.google.com/resource-manager/docs/organisation-policy/org-policy-constraints" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-013",
+    "type": "single_choice",
+    "prompt": "A team deploys a Cloud Run service that calls a downstream Cloud SQL (PostgreSQL) database. Under load, they observe `too many connections` errors from Cloud SQL despite only 20 Cloud Run instances being active. A single Cloud Run instance can receive up to 80 concurrent requests (concurrency=80). What is the root cause and appropriate mitigation?",
+    "choices": [
+      { "id": "a", "text": "Cloud Run instances each open one connection per concurrent request; 20 instances x 80 concurrency = 1600 potential connections exceeds Cloud SQL's default max_connections" },
+      { "id": "b", "text": "Cloud SQL requires Cloud Run to use Unix socket connections instead of TCP; the error occurs because TCP connections are not pooled" },
+      { "id": "c", "text": "Cloud Run's serverless execution model does not support persistent database connections; use Firestore instead" },
+      { "id": "d", "text": "The Cloud SQL Auth proxy sidecar is not configured; adding it will automatically pool connections to stay within limits" }
+    ],
+    "correct": "a",
+    "explanation": "With concurrency set to 80 per instance and 20 active instances, up to 1,600 simultaneous database connections may be opened if the application opens a new connection per request handler. Cloud SQL's default `max_connections` for small PostgreSQL instances is 100-500, which is easily exceeded. The fix is to use Cloud SQL Auth Proxy combined with a connection pool (e.g., PgBouncer, or a language-level pool like SQLAlchemy's pool) to limit total connections regardless of Cloud Run concurrency. Option B is incorrect; TCP via Auth Proxy is the standard and supported approach. Option C is incorrect; Cloud Run supports persistent connections with proper pooling. Option D alone is insufficient; the Auth Proxy enables IAM auth and SSL but does not limit connections.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud SQL: Connections from Cloud Run", "url": "https://cloud.google.com/sql/docs/postgres/connect-run" },
+      { "label": "Cloud SQL Auth Proxy", "url": "https://cloud.google.com/sql/docs/postgres/sql-proxy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-014",
+    "type": "single_choice",
+    "prompt": "An organisation wants to implement Traffic Director as a service mesh control plane for their microservices running on Compute Engine VMs (not GKE). They need traffic management features like weighted traffic splitting and circuit breaking without deploying Envoy sidecars manually on each VM. Which Traffic Director deployment model supports this with the least manual configuration?",
+    "choices": [
+      { "id": "a", "text": "Deploy Envoy as a standalone proxy on each VM and configure xDS bootstrap manually pointing to Traffic Director" },
+      { "id": "b", "text": "Use Traffic Director with automatic Envoy injection for GCE VMs via the Traffic Director managed control plane and VM-level sidecar injection scripts" },
+      { "id": "c", "text": "Use a proxyless gRPC service mesh; Traffic Director controls gRPC services directly without Envoy sidecars by embedding xDS client libraries in the application" },
+      { "id": "d", "text": "Deploy a centralised Nginx reverse proxy per region as a substitute for Envoy and configure Traffic Director to manage Nginx upstream routing" }
+    ],
+    "correct": "c",
+    "explanation": "Traffic Director supports proxyless gRPC service meshes where the xDS API is consumed directly by gRPC client libraries embedded in the application. This eliminates the need to deploy and manage Envoy sidecars while still providing Traffic Director's traffic management features including weighted splits and circuit breaking. Manual Envoy deployment (option A) is the most operationally intensive approach. Automatic sidecar injection for Compute Engine VMs is not a native Traffic Director feature in the same way it is for GKE. Nginx is not an xDS-compatible data plane and Traffic Director does not manage Nginx upstream configurations.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Traffic Director: Proxyless gRPC", "url": "https://cloud.google.com/traffic-director/docs/traffic-director-concepts#proxyless" },
+      { "label": "Traffic Director Overview", "url": "https://cloud.google.com/traffic-director/docs/traffic-director-concepts" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pca-im-015",
+    "type": "single_choice",
+    "prompt": "A company provisions all GCP resources via Terraform. After a major infrastructure change, they discover that a manual change was made directly in the GCP Console by a developer, causing Terraform state to drift from actual infrastructure. They need to detect and correct drift automatically on a scheduled basis across 30 projects. Which approach achieves continuous drift detection with minimal custom tooling?",
+    "choices": [
+      { "id": "a", "text": "Run `terraform plan` nightly in Cloud Build triggered by Cloud Scheduler; parse the plan output to detect non-empty diffs and alert via Cloud Monitoring" },
+      { "id": "b", "text": "Enable GCP Audit Logs and configure a log sink to Pub/Sub; trigger a Cloud Function to run `terraform apply` whenever a manual change event is detected" },
+      { "id": "c", "text": "Use Policy Intelligence Recommender to identify resource configurations that diverge from Terraform-defined baselines" },
+      { "id": "d", "text": "Configure Cloud Asset Inventory exports to BigQuery and write SQL queries to compare current resource state against Terraform plan JSON output" }
+    ],
+    "correct": "a",
+    "explanation": "`terraform plan` performs a live comparison of Terraform state against actual GCP infrastructure, reporting all drift. Running it in Cloud Build on a schedule via Cloud Scheduler provides automatic, repeatable drift detection across all projects. Parsing the exit code (non-zero when changes are detected) enables Cloud Monitoring alerting. This approach uses fully managed services with no custom tooling beyond the Cloud Build step definition. Triggering `terraform apply` from Audit Log events (option B) is dangerous: it could automatically apply drift corrections without human review, potentially causing data loss. Policy Intelligence Recommender addresses IAM and cost recommendations, not Terraform state drift. Cloud Asset Inventory does not natively understand Terraform state format.",
+    "topics": ["infrastructure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Build: CI/CD Pipelines", "url": "https://cloud.google.com/build/docs/overview" },
+      { "label": "Cloud Scheduler Overview", "url": "https://cloud.google.com/scheduler/docs/overview" }
+    ],
+    "version": 1
+  }
+]

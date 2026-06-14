@@ -1,0 +1,295 @@
+[
+  {
+    "id": "gcp-pde-ia-001",
+    "type": "single_choice",
+    "prompt": "A data engineering team manages their GCP infrastructure as code using Terraform. They need to provision a Dataproc cluster. After running `terraform apply`, they manually scale the cluster through the GCP Console. On the next `terraform plan`, what happens?",
+    "choices": [
+      { "id": "a", "text": "Terraform detects no drift because it only tracks the initial configuration" },
+      { "id": "b", "text": "Terraform detects configuration drift and plans to revert the cluster to the Terraform-defined state" },
+      { "id": "c", "text": "Terraform automatically imports the manual changes into the state file" },
+      { "id": "d", "text": "Terraform deletes the manually changed cluster and recreates it from scratch" }
+    ],
+    "correct": "b",
+    "explanation": "Terraform compares the actual state of resources (refreshed from GCP APIs) against the desired state defined in HCL configuration files. Manual changes made outside Terraform create configuration drift. On the next plan, Terraform will show changes needed to reconcile the actual state with the declared configuration — in this case, reverting the worker count to what is defined in Terraform. Terraform does not silently ignore out-of-band changes. It does not automatically import manual changes into state. It plans targeted updates, not full deletions, unless the resource configuration requires recreation.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Terraform GCP Dataproc cluster resource", "url": "https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dataproc_cluster" },
+      { "label": "Terraform state management", "url": "https://developer.hashicorp.com/terraform/language/state" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-002",
+    "type": "single_choice",
+    "prompt": "A team uses Terraform to manage a BigQuery dataset. They need to add a new table to the dataset without affecting the existing tables managed by a separate Terraform workspace. Which Terraform resource configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Use google_bigquery_dataset with delete_contents_on_destroy = true" },
+      { "id": "b", "text": "Use google_bigquery_table as a separate resource referencing the existing dataset by dataset_id" },
+      { "id": "c", "text": "Use a Terraform data source (data.google_bigquery_dataset) and pass it to a new dataset resource" },
+      { "id": "d", "text": "Import the entire dataset into the new workspace and manage all tables together" }
+    ],
+    "correct": "b",
+    "explanation": "google_bigquery_table is an independent Terraform resource that references a dataset by its dataset_id. Adding a new table resource in a separate workspace or configuration file only manages that specific table; it has no effect on other tables in the same dataset that are managed elsewhere. google_bigquery_dataset manages dataset-level metadata (access policies, location, labels), not individual tables. A data source allows reading existing resource attributes but cannot be used to manage the resource. Importing the entire dataset into one workspace would mean all tables must be managed in one place, which breaks the workspace separation the team already has.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Terraform google_bigquery_table", "url": "https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_table" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-003",
+    "type": "single_choice",
+    "prompt": "A data platform team wants to build a CI/CD pipeline that runs automated tests on a Dataflow pipeline's Python code, builds a Dataflow Flex Template, and pushes the template to Artifact Registry on every merge to the main branch. Which GCP service orchestrates this workflow?",
+    "choices": [
+      { "id": "a", "text": "Cloud Composer (Airflow) with a Git-triggered DAG" },
+      { "id": "b", "text": "Cloud Build with a trigger on the GitHub repository's main branch" },
+      { "id": "c", "text": "Cloud Run Jobs with a container that runs tests and builds" },
+      { "id": "d", "text": "Vertex AI Pipelines with a CI component" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Build is GCP's managed CI/CD service. It supports triggers on GitHub, Cloud Source Repositories, and Bitbucket. On a push or merge to the main branch, a Cloud Build trigger can run a multi-step build configuration: execute Python tests, build the Dataflow Flex Template container, and push the image to Artifact Registry. Cloud Composer is a workflow orchestrator for data pipelines, not for CI/CD build automation. Cloud Run Jobs can execute containerized workloads but are not a CI/CD orchestration layer with native Git triggers. Vertex AI Pipelines is for ML workflow orchestration, not software build pipelines.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Build overview", "url": "https://cloud.google.com/build/docs/overview" },
+      { "label": "Building Dataflow Flex Templates", "url": "https://cloud.google.com/dataflow/docs/guides/templates/using-flex-templates" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-004",
+    "type": "single_choice",
+    "prompt": "A team provisions GCP Pub/Sub topics, BigQuery datasets, and Dataflow jobs using Terraform. The Terraform state is stored in a Cloud Storage bucket. Two engineers run `terraform apply` simultaneously on different machines. What is the risk, and how does Terraform mitigate it?",
+    "choices": [
+      { "id": "a", "text": "Both applies succeed independently, resulting in correct final state because GCP operations are idempotent" },
+      { "id": "b", "text": "Terraform uses state file locking (via Cloud Storage object lock or a separate lock backend) to prevent concurrent applies from corrupting the state" },
+      { "id": "c", "text": "Terraform automatically merges the two apply results into a consistent state file" },
+      { "id": "d", "text": "The second apply will fail with a GCP quota error because resources are already being created" }
+    ],
+    "correct": "b",
+    "explanation": "When using Cloud Storage as a Terraform remote backend, Terraform acquires a lock on the state file before performing any state-modifying operation. If another apply is in progress and holds the lock, the second apply waits or fails with a lock error, preventing both applies from modifying the state concurrently and corrupting it. GCP API idempotency does not protect Terraform state file integrity — state file corruption from concurrent writes is a separate problem. Terraform does not merge concurrent applies. A GCP quota error is unrelated to concurrency and would not reliably prevent the second apply.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Terraform GCS backend state locking", "url": "https://developer.hashicorp.com/terraform/language/backend/gcs" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-005",
+    "type": "single_choice",
+    "prompt": "A data team wants to schedule a Cloud Composer DAG to run every weekday at 6:00 AM UTC. The pipeline should not run on weekends. Which cron expression configures this in the DAG schedule parameter?",
+    "choices": [
+      { "id": "a", "text": "`0 6 * * 1-5`" },
+      { "id": "b", "text": "`6 0 * * MON-FRI`" },
+      { "id": "c", "text": "`0 6 * * 0-4`" },
+      { "id": "d", "text": "`0 6 1-5 * *`" }
+    ],
+    "correct": "a",
+    "explanation": "Cron expression format is: minute hour day-of-month month day-of-week. `0 6 * * 1-5` means: minute 0, hour 6, any day of month, any month, days of week 1-5 (Monday through Friday). This runs at 6:00 AM UTC every weekday. `6 0 * * MON-FRI` would run at hour 0, minute 6 (12:06 AM). `0 6 * * 0-4` uses 0-4 which is Sunday through Thursday, not Monday through Friday. `0 6 1-5 * *` uses the day-of-month field (days 1-5 of the month), not the day-of-week field.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Composer scheduling DAGs", "url": "https://cloud.google.com/composer/docs/how-to/using/writing-dags#schedule" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-006",
+    "type": "single_choice",
+    "prompt": "A Dataflow pipeline is containerized as a Flex Template. The team wants to update the pipeline code and deploy a new version to production with zero disruption to the running pipeline. What is the correct procedure?",
+    "choices": [
+      { "id": "a", "text": "Update the existing running job in place using gcloud dataflow jobs update" },
+      { "id": "b", "text": "Drain the current job, build and push the updated Flex Template image, then launch a new job from the updated template" },
+      { "id": "c", "text": "Cancel the existing job and immediately start a new job from the updated template" },
+      { "id": "d", "text": "Use Dataflow's built-in hot-swap feature to replace the container image without restarting" }
+    ],
+    "correct": "b",
+    "explanation": "Dataflow jobs are immutable once running — code cannot be hot-swapped in place. The standard zero-disruption update procedure is to drain the current job (which flushes in-flight elements and closes windows gracefully), then start a new job using the updated Flex Template image. Draining ensures no data loss during the transition. gcloud dataflow jobs update does not exist as a command for in-place code replacement. Canceling the job immediately discards in-flight data. Dataflow does not have a hot-swap capability for container images on a running job.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dataflow Flex Templates", "url": "https://cloud.google.com/dataflow/docs/guides/templates/using-flex-templates" },
+      { "label": "Updating a Dataflow pipeline", "url": "https://cloud.google.com/dataflow/docs/guides/updating-a-pipeline" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-007",
+    "type": "single_choice",
+    "prompt": "A team manages multiple Dataproc clusters across dev, staging, and prod environments using Terraform. They want to enforce that prod clusters always use a specific node machine type and never use preemptible VMs. What is the recommended Terraform approach?",
+    "choices": [
+      { "id": "a", "text": "Add a comment in the Terraform code documenting the prod configuration requirements" },
+      { "id": "b", "text": "Use Terraform variable validation blocks and conditional expressions to enforce machine type and preemptibility constraints for the prod workspace" },
+      { "id": "c", "text": "Create a separate Terraform provider configuration for prod that restricts available machine types" },
+      { "id": "d", "text": "Use a Cloud Policy to block preemptible VM creation in the prod project" }
+    ],
+    "correct": "b",
+    "explanation": "Terraform variable validation blocks allow declaring constraints on input variable values with custom error messages. Combined with conditional expressions in the resource block, the configuration can enforce that the prod environment always uses the required machine type and always sets preemptible to false. This enforcement is in the Terraform code itself, applies at plan/apply time, and does not require external systems. A comment is a documentation convention that is not enforced. A separate provider configuration does not restrict resource attributes. A Cloud Policy (Organization Policy) could enforce VM types at the GCP level but is a separate mechanism outside Terraform and is harder to express for Dataproc-specific attributes.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Terraform variable validation", "url": "https://developer.hashicorp.com/terraform/language/values/variables#custom-validation-rules" },
+      { "label": "Terraform google_dataproc_cluster", "url": "https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dataproc_cluster" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-008",
+    "type": "single_choice",
+    "prompt": "A Cloud Composer DAG orchestrates a data pipeline: Task A extracts data, Task B and Task C transform it in parallel, and Task D loads the merged output. Which Airflow dependency syntax correctly models this flow?",
+    "choices": [
+      { "id": "a", "text": "`task_a >> [task_b, task_c] >> task_d`" },
+      { "id": "b", "text": "`task_a.set_downstream([task_b, task_c]); task_d.set_upstream([task_b, task_c])`" },
+      { "id": "c", "text": "Both A and B are correct" },
+      { "id": "d", "text": "`task_a >> task_b >> task_c >> task_d`" }
+    ],
+    "correct": "c",
+    "explanation": "In Apache Airflow, both the bitshift operator syntax (>>) and the set_downstream/set_upstream method syntax are equivalent and produce the same DAG structure. `task_a >> [task_b, task_c] >> task_d` sets task_a as upstream of both task_b and task_c, and both task_b and task_c as upstream of task_d, creating a parallel fan-out/fan-in pattern. The set_downstream/set_upstream version achieves the same result explicitly. Both are valid and commonly used. The sequential chain `task_a >> task_b >> task_c >> task_d` runs all tasks in series, not in parallel.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Composer DAG dependencies", "url": "https://cloud.google.com/composer/docs/how-to/using/writing-dags#task-dependencies" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-009",
+    "type": "single_choice",
+    "prompt": "A team deploys a containerized Dataflow pipeline on GKE using the Dataflow runner on Kubernetes. They want to automatically scale the number of Dataflow workers based on Pub/Sub subscription backlog depth. Which GCP/Kubernetes component enables this?",
+    "choices": [
+      { "id": "a", "text": "GKE Horizontal Pod Autoscaler (HPA) on CPU utilization" },
+      { "id": "b", "text": "KEDA (Kubernetes Event-Driven Autoscaling) with a Pub/Sub scaler" },
+      { "id": "c", "text": "GKE Cluster Autoscaler scaling node pools based on pod pending state" },
+      { "id": "d", "text": "Dataflow's built-in autoscaler, which works independently of Kubernetes" }
+    ],
+    "correct": "b",
+    "explanation": "KEDA is a Kubernetes autoscaler that can scale deployments based on external event sources, including Pub/Sub subscription backlog. It reads the message count from the Pub/Sub API and adjusts replica count to match throughput needs. HPA scales based on CPU or memory by default and cannot natively read Pub/Sub backlog metrics without a custom metrics adapter. Cluster Autoscaler scales the number of nodes based on pending pod scheduling constraints, not on application-level metrics like Pub/Sub backlog. Dataflow's built-in autoscaler works when using the managed Dataflow service, but if running Dataflow on GKE with the portable runner, external autoscaling mechanisms like KEDA are needed.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "KEDA Pub/Sub scaler", "url": "https://keda.sh/docs/latest/scalers/gcp-pub-sub/" },
+      { "label": "GKE autoscaling overview", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-010",
+    "type": "single_choice",
+    "prompt": "A data team wants to trigger a Cloud Composer DAG run whenever a new CSV file is uploaded to a specific Cloud Storage bucket. What is the recommended event-driven integration pattern?",
+    "choices": [
+      { "id": "a", "text": "Configure a Cloud Composer sensor that polls the bucket every minute using GCSObjectExistenceSensor" },
+      { "id": "b", "text": "Use a Cloud Storage Pub/Sub notification to trigger a Cloud Function that calls the Airflow REST API to trigger the DAG" },
+      { "id": "c", "text": "Set the DAG schedule to run every 5 minutes and check for new files at the start" },
+      { "id": "d", "text": "Use a Cloud Build trigger on the Cloud Storage bucket" }
+    ],
+    "correct": "b",
+    "explanation": "The event-driven pattern uses Cloud Storage object notifications (sent to Pub/Sub on file creation), a Cloud Function subscribed to that topic, which then calls the Airflow REST API to programmatically trigger a DAG run passing the filename as a conf parameter. This is near-real-time and does not waste compute polling. A GCSObjectExistenceSensor is a polling pattern that occupies an Airflow worker slot between checks and introduces latency up to the polling interval. Scheduling the DAG every 5 minutes is also polling and wastes resources when no files arrive. Cloud Build is a CI/CD service and does not have native Cloud Storage bucket triggers for data files.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Triggering DAGs with Cloud Storage events", "url": "https://cloud.google.com/composer/docs/how-to/using/triggering-with-gcs" },
+      { "label": "Cloud Storage Pub/Sub notifications", "url": "https://cloud.google.com/storage/docs/pubsub-notifications" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-011",
+    "type": "single_choice",
+    "prompt": "A Terraform configuration provisions a Cloud Storage bucket and a BigQuery dataset in the same module. The BigQuery dataset has a `default_partition_expiration_ms` that references a variable. During a plan, Terraform shows the dataset will be destroyed and recreated. What most likely caused this?",
+    "choices": [
+      { "id": "a", "text": "The Cloud Storage bucket was deleted externally, causing dependent resources to be recreated" },
+      { "id": "b", "text": "An immutable field (such as dataset location) was changed in the Terraform configuration" },
+      { "id": "c", "text": "The Terraform provider version was upgraded and the resource schema changed" },
+      { "id": "d", "text": "The variable value for partition expiration changed, triggering a forced replacement" }
+    ],
+    "correct": "b",
+    "explanation": "Certain BigQuery dataset attributes, notably the dataset location (e.g., US, EU, us-central1), cannot be changed in place after creation. If the location field is modified in the Terraform configuration, the provider will mark the resource for destruction and recreation because the field is immutable. Terraform marks such fields with `ForceNew` in the provider. Changes to mutable fields like default_partition_expiration_ms or labels are applied in-place without recreation. The Cloud Storage bucket being deleted would affect resources that depend on it but not the BigQuery dataset. Provider version upgrades can cause changes but are a less common and less specific cause than an immutable field change.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Terraform google_bigquery_dataset", "url": "https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_dataset" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-012",
+    "type": "single_choice",
+    "prompt": "A data engineering team uses Cloud Workflows to orchestrate a multi-step ETL process: invoke a Dataflow job, wait for completion, then run a BigQuery stored procedure. What is the key advantage of Cloud Workflows over Cloud Composer for this use case?",
+    "choices": [
+      { "id": "a", "text": "Cloud Workflows is serverless and has no minimum cost for idle time, while Cloud Composer incurs ongoing environment costs" },
+      { "id": "b", "text": "Cloud Workflows supports Python natively while Cloud Composer only supports YAML" },
+      { "id": "c", "text": "Cloud Workflows has better Pub/Sub integration than Cloud Composer" },
+      { "id": "d", "text": "Cloud Workflows can manage Dataproc clusters while Cloud Composer cannot" }
+    ],
+    "correct": "a",
+    "explanation": "Cloud Workflows is fully serverless — you pay only per workflow step executed, with no idle infrastructure cost. Cloud Composer runs a managed Airflow environment (GKE-based) that incurs continuous costs for the scheduler, workers, and web server even when no DAGs are running. For simple, linear orchestration of GCP service calls (Dataflow + BigQuery), Cloud Workflows is more cost-effective. Cloud Composer uses Python for DAG authoring, not YAML; Cloud Workflows uses a YAML/JSON-based syntax. Both services have Pub/Sub integration. Both can trigger Dataproc jobs via API calls.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Workflows overview", "url": "https://cloud.google.com/workflows/docs/overview" },
+      { "label": "Choosing an orchestration service", "url": "https://cloud.google.com/blog/products/data-analytics/cloud-composer-vs-cloud-workflows" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-013",
+    "type": "single_choice",
+    "prompt": "A data team wants to containerize their batch Dataflow pipeline so it can be run by any authorized team member or CI/CD system without requiring local Python environment setup. Which approach achieves this?",
+    "choices": [
+      { "id": "a", "text": "Build a Dataflow Classic Template and store the template spec in Cloud Storage" },
+      { "id": "b", "text": "Build a Dataflow Flex Template, package the pipeline in a Docker container, and store the template spec in Artifact Registry" },
+      { "id": "c", "text": "Package the pipeline as a Python wheel and install it via pip in each environment" },
+      { "id": "d", "text": "Run the pipeline with the DirectRunner inside a GKE container" }
+    ],
+    "correct": "b",
+    "explanation": "Dataflow Flex Templates package the pipeline and all its dependencies (Python code, libraries) into a Docker container image stored in Artifact Registry or Container Registry. The template spec JSON stored in Cloud Storage or Artifact Registry references the image. Any authorized user or CI/CD system can launch the pipeline via the REST API or gcloud with just the template location and parameters — no local Python environment required. Classic Templates are compiled at template creation time and cannot include dynamic parameters or complex dependencies as easily as Flex Templates. Packaging as a Python wheel still requires a Python environment at run time. Running with DirectRunner in GKE does not leverage Dataflow's managed distributed execution.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dataflow Flex Templates overview", "url": "https://cloud.google.com/dataflow/docs/guides/templates/using-flex-templates" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-014",
+    "type": "single_choice",
+    "prompt": "A Terraform module provisions a Dataproc cluster with an initialization action script stored in a Cloud Storage bucket. The script bucket name is passed as a variable. During a destroy operation, Terraform tries to delete the cluster but fails because the service account used by Terraform does not have permission to delete the cluster. What is the correct resolution?",
+    "choices": [
+      { "id": "a", "text": "Add `prevent_destroy = true` to the Dataproc cluster resource lifecycle block" },
+      { "id": "b", "text": "Grant the Terraform service account the Dataproc Editor or Dataproc Admin role on the project" },
+      { "id": "c", "text": "Run `terraform state rm` to remove the cluster from state without deleting it" },
+      { "id": "d", "text": "Use `terraform taint` to mark the resource for recreation, which will implicitly delete the old resource" }
+    ],
+    "correct": "b",
+    "explanation": "Terraform uses the credentials of a service account to perform GCP API operations. If that service account lacks permission to delete a Dataproc cluster, `terraform destroy` will fail with a permission denied error. Granting the Dataproc Editor or Dataproc Admin role provides the necessary delete permissions. `prevent_destroy` would prevent Terraform from deleting the resource but does not fix the underlying permission issue. `terraform state rm` removes the resource from Terraform state but leaves the cluster running — the cluster still exists, just unmanaged. `terraform taint` marks a resource for recreation on the next apply; it does not address destroy permissions and would also fail for the same reason.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dataproc IAM roles", "url": "https://cloud.google.com/dataproc/docs/concepts/iam/iam" },
+      { "label": "Terraform service account permissions for GCP", "url": "https://cloud.google.com/docs/terraform/best-practices-for-terraform" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-pde-ia-015",
+    "type": "single_choice",
+    "prompt": "A data team runs a nightly Dataproc Spark job via Cloud Composer. The cluster takes 8 minutes to provision before the job starts. To reduce total pipeline duration, what is the most effective optimization?",
+    "choices": [
+      { "id": "a", "text": "Switch to a persistent Dataproc cluster that stays running 24/7" },
+      { "id": "b", "text": "Use Dataproc Serverless for Spark to eliminate cluster provisioning time" },
+      { "id": "c", "text": "Use Cloud Composer's DataprocCreateClusterOperator with a smaller master machine type" },
+      { "id": "d", "text": "Pre-create the cluster during business hours and reuse it for the nightly job" }
+    ],
+    "correct": "b",
+    "explanation": "Dataproc Serverless (Spark) is a fully managed, serverless Spark execution environment that starts immediately without cluster provisioning. Jobs begin executing in seconds rather than the 5-10 minutes required to provision a standard Dataproc cluster. It eliminates the 8-minute provisioning delay entirely. A persistent 24/7 cluster eliminates provisioning time but incurs significant idle cost for a nightly job. A smaller master machine type reduces cluster cost marginally but does not meaningfully reduce the 8-minute provisioning time, which is driven by VM boot time and initialization. Pre-creating the cluster during business hours still means maintaining an idle cluster for hours before the nightly run.",
+    "topics": ["infrastructure-automation"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dataproc Serverless overview", "url": "https://cloud.google.com/dataproc-serverless/docs/overview" }
+    ],
+    "version": 1
+  }
+]

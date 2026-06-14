@@ -1,0 +1,144 @@
+{
+  "topics": [
+    {
+      "id": "cloud-concepts",
+      "label": "Cloud Concepts",
+      "description": "Covers the foundational principles of cloud computing including service models (IaaS, PaaS, SaaS), deployment models (public, private, hybrid, multi-cloud), the shared responsibility model, and core cloud benefits such as high availability, elasticity, agility, fault tolerance, and the shift from CapEx to OpEx spending.",
+      "studyPointers": [
+        {
+          "label": "Microsoft Learn: Describe cloud computing",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/"
+        },
+        {
+          "label": "Microsoft Learn: Describe the benefits of cloud services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/"
+        },
+        {
+          "label": "Microsoft Learn: Describe cloud service types",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-cloud-service-types/"
+        },
+        {
+          "label": "Azure Docs: Shared responsibility in the cloud",
+          "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Matching service model to workload",
+          "prompt": "A question describes a company's situation (e.g., 'wants to run a web app without managing servers') and asks which cloud service model — IaaS, PaaS, or SaaS — best fits.",
+          "focus": "Know which responsibilities belong to the customer vs. the provider for each service model, and recognize real-world Azure examples of each (VMs = IaaS, App Service = PaaS, Microsoft 365 = SaaS)."
+        },
+        {
+          "title": "Identifying the correct cloud benefit",
+          "prompt": "A question describes a property of cloud computing (e.g., 'the system continued running when one datacenter failed') and asks you to identify the cloud benefit it represents.",
+          "focus": "Be precise about the differences between high availability, fault tolerance, scalability, elasticity, and agility — they are commonly confused on the exam."
+        }
+      ]
+    },
+    {
+      "id": "azure-architecture",
+      "label": "Azure Architecture and Services",
+      "description": "Covers the physical and logical structure of Azure including regions, region pairs, Availability Zones, and the management hierarchy (management groups, subscriptions, resource groups, resources). Also covers core Azure services across compute (VMs, App Service, AKS, Functions), storage (Blob, Azure SQL, Cosmos DB), networking (VNet, VPN Gateway, ExpressRoute, CDN, Firewall), and identity (Microsoft Entra ID).",
+      "studyPointers": [
+        {
+          "label": "Microsoft Learn: Describe Azure architecture fundamentals",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/"
+        },
+        {
+          "label": "Microsoft Learn: Describe Azure compute and networking services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-compute-networking-services/"
+        },
+        {
+          "label": "Microsoft Learn: Describe Azure storage services",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/"
+        },
+        {
+          "label": "Microsoft Learn: Describe Azure identity, access, and security",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-azure-identity-access-security/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Selecting the right Azure service",
+          "prompt": "A question presents a use case (e.g., 'needs a globally distributed NoSQL database with low latency') and asks which Azure service best fits.",
+          "focus": "Know the purpose and positioning of the most common Azure services — especially when to use Cosmos DB vs. Azure SQL, Blob Storage vs. Table Storage, App Service vs. AKS vs. Functions, and VPN Gateway vs. ExpressRoute."
+        },
+        {
+          "title": "Understanding the management hierarchy",
+          "prompt": "A question asks where to apply an Azure Policy or RBAC role to affect all subscriptions in an organization, or asks to identify the correct container type for a given scenario.",
+          "focus": "Be clear on the four-level hierarchy: Management Groups > Subscriptions > Resource Groups > Resources. Know that governance controls applied at a higher scope inherit downward."
+        }
+      ]
+    },
+    {
+      "id": "azure-management",
+      "label": "Azure Management and Governance",
+      "description": "Covers the tools and features used to manage and govern Azure resources, including the Azure Portal, CLI, PowerShell, Cloud Shell, Azure Resource Manager, ARM Templates, Azure Monitor, Azure Advisor, Azure Service Health, Azure Policy, RBAC, resource locks, tags, Azure Blueprints, and Microsoft Purview.",
+      "studyPointers": [
+        {
+          "label": "Microsoft Learn: Describe features and tools for managing Azure",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-features-tools-manage-deploy-azure-resources/"
+        },
+        {
+          "label": "Microsoft Learn: Describe monitoring tools in Azure",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-monitoring-tools-azure/"
+        },
+        {
+          "label": "Microsoft Learn: Describe features and tools for governance in Azure",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-features-tools-azure-for-governance-compliance/"
+        },
+        {
+          "label": "Azure Docs: What is Azure role-based access control?",
+          "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Choosing the right governance control",
+          "prompt": "A question describes a governance requirement (e.g., 'prevent users from creating resources outside approved regions') and asks which Azure feature — Policy, RBAC, locks, or tags — best addresses it.",
+          "focus": "Understand that Azure Policy enforces resource configuration rules, RBAC controls who can do what, resource locks prevent accidental deletion or modification, and tags organize resources for management and billing."
+        },
+        {
+          "title": "Selecting the right management tool",
+          "prompt": "A question asks which Azure tool is best for a described scenario, such as automating resource deployment via script, viewing resource health, or getting cost optimization tips.",
+          "focus": "Know the distinct purpose of Azure Monitor (telemetry and alerts), Azure Advisor (recommendations), Azure Service Health (platform incidents), Azure Policy (compliance), ARM Templates (infrastructure as code), and Azure Cloud Shell (browser-based CLI/PowerShell)."
+        }
+      ]
+    },
+    {
+      "id": "pricing-support",
+      "label": "Azure Pricing and Support",
+      "description": "Covers how Azure pricing works including the consumption-based model, factors affecting cost (region, resource type, consumption), cost management tools (Pricing Calculator, TCO Calculator, Cost Management + Billing), reserved instances, and ways to reduce costs. Also covers Azure SLAs, composite SLA calculation, support plans (Basic, Developer, Standard, Professional Direct), and the distinction between preview and GA services.",
+      "studyPointers": [
+        {
+          "label": "Microsoft Learn: Describe cost management in Azure",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-cost-management-azure/"
+        },
+        {
+          "label": "Microsoft Learn: Describe features and tools for managing and minimizing costs",
+          "url": "https://learn.microsoft.com/en-us/training/modules/describe-cost-management-azure/"
+        },
+        {
+          "label": "Azure Support Plans comparison",
+          "url": "https://azure.microsoft.com/en-us/support/plans/"
+        },
+        {
+          "label": "Azure SLA summary page",
+          "url": "https://azure.microsoft.com/en-us/support/legal/sla/summary/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Choosing the right cost estimation tool",
+          "prompt": "A scenario describes a situation where someone needs to estimate costs — either for a planned deployment or to compare on-premises vs. cloud — and asks which tool is appropriate.",
+          "focus": "The Azure Pricing Calculator is for estimating the cost of specific Azure services before deploying. The TCO Calculator is for comparing the cost of on-premises infrastructure to Azure. Cost Management is for analyzing actual spending on existing resources."
+        },
+        {
+          "title": "Understanding SLA implications",
+          "prompt": "A question presents a deployment architecture (e.g., single VM, VM across Availability Zones, two services in series) and asks about the resulting SLA.",
+          "focus": "Know that composite SLAs for services in series are calculated by multiplying individual SLAs (making the total lower). Redundancy across Availability Zones increases the SLA. A single VM with standard HDD has no SLA. No Azure service provides a 100% SLA."
+        }
+      ]
+    }
+  ]
+}

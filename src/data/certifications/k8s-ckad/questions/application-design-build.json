@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-ckad-ab-001",
+    "type": "single_choice",
+    "prompt": "Which container pattern runs a helper container alongside the main container in the same pod to enhance or extend its functionality at runtime?",
+    "choices": [
+      { "id": "a", "text": "Init container" },
+      { "id": "b", "text": "Sidecar container" },
+      { "id": "c", "text": "Ephemeral container" },
+      { "id": "d", "text": "Pause container" }
+    ],
+    "correct": "b",
+    "explanation": "A sidecar container runs alongside the main container throughout the pod's lifetime, sharing the same network namespace and volumes. Common uses include log shippers, proxy agents, and config reloaders. Init containers run sequentially before the main container starts and then stop. Ephemeral containers are injected temporarily for debugging.",
+    "topics": ["application-design-build"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Sidecar Containers", "url": "https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-002",
+    "type": "single_choice",
+    "prompt": "What is the guaranteed behavior of init containers in a pod spec?",
+    "choices": [
+      { "id": "a", "text": "They run in parallel with all other containers in the pod" },
+      { "id": "b", "text": "They run sequentially, each must complete successfully before the next starts" },
+      { "id": "c", "text": "They run once per node and share state across pods" },
+      { "id": "d", "text": "They restart automatically if the main container crashes" }
+    ],
+    "correct": "b",
+    "explanation": "Init containers run sequentially in the order they are defined in the spec. Each init container must exit with a 0 exit code before the next one starts. Only after all init containers complete successfully does Kubernetes start the regular containers. If any init container fails, Kubernetes restarts the pod (subject to the restartPolicy).",
+    "topics": ["application-design-build"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Init Containers", "url": "https://kubernetes.io/docs/concepts/workloads/pods/init-containers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-003",
+    "type": "single_choice",
+    "prompt": "You need a Job that processes exactly 6 work items, running no more than 2 items concurrently. Which Job spec fields control this?",
+    "choices": [
+      { "id": "a", "text": "completions: 6, parallelism: 2" },
+      { "id": "b", "text": "replicas: 6, maxSurge: 2" },
+      { "id": "c", "text": "completions: 6, maxUnavailable: 4" },
+      { "id": "d", "text": "parallelism: 6, backoffLimit: 2" }
+    ],
+    "correct": "a",
+    "explanation": "The 'completions' field specifies how many pods must successfully complete for the Job to be done. The 'parallelism' field caps how many pods can run simultaneously. Setting completions: 6 and parallelism: 2 processes all 6 items while keeping at most 2 running at once. 'replicas' and 'maxSurge' are Deployment concepts, not Job fields.",
+    "topics": ["application-design-build"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Jobs", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/job/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-004",
+    "type": "single_choice",
+    "prompt": "What does the ENTRYPOINT instruction define in a Dockerfile?",
+    "choices": [
+      { "id": "a", "text": "The base image to build from" },
+      { "id": "b", "text": "The default executable that runs when the container starts, which is not easily overridden" },
+      { "id": "c", "text": "A default command appended to CMD that users can freely replace at runtime" },
+      { "id": "d", "text": "Environment variables available to all subsequent build stages" }
+    ],
+    "correct": "b",
+    "explanation": "ENTRYPOINT defines the container's main executable. Unlike CMD, it is not easily overridden by arguments passed at runtime (you would need --entrypoint to override it). CMD is appended as arguments to ENTRYPOINT. A common pattern is ENTRYPOINT [\"myapp\"] with CMD [\"--help\"] so users can pass alternative flags without replacing the executable.",
+    "topics": ["application-design-build"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Dockerfile reference: ENTRYPOINT", "url": "https://docs.docker.com/reference/dockerfile/#entrypoint" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-005",
+    "type": "single_choice",
+    "prompt": "A CronJob is configured with schedule: '*/15 * * * *' and startingDeadlineSeconds: 200. The cron controller is down for 10 minutes. How many missed job starts will Kubernetes count against the deadline?",
+    "choices": [
+      { "id": "a", "text": "0 — missed starts are ignored when the controller recovers" },
+      { "id": "b", "text": "2 — the number of 15-minute windows that fit in the 200-second deadline" },
+      { "id": "c", "text": "The controller looks back 200 seconds and counts each missed start within that window" },
+      { "id": "d", "text": "All missed starts since the last successful run regardless of deadline" }
+    ],
+    "correct": "c",
+    "explanation": "When startingDeadlineSeconds is set, the CronJob controller looks back that many seconds from the current time when it resumes, counting how many scheduled starts were missed. If more than 100 are missed in that window, the CronJob is suspended and logs an error. This prevents a flood of jobs from running after a long controller outage.",
+    "topics": ["application-design-build"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "CronJob", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-006",
+    "type": "single_choice",
+    "prompt": "Which volume type allows two containers in the same pod to share files for the lifetime of the pod without using persistent storage?",
+    "choices": [
+      { "id": "a", "text": "hostPath" },
+      { "id": "b", "text": "persistentVolumeClaim" },
+      { "id": "c", "text": "emptyDir" },
+      { "id": "d", "text": "configMap" }
+    ],
+    "correct": "c",
+    "explanation": "An emptyDir volume is created when a pod is assigned to a node and exists for as long as that pod runs on that node. All containers in the pod can read and write the same emptyDir volume, making it ideal for sharing scratch space or passing data between a sidecar and the main container. It is deleted when the pod is removed.",
+    "topics": ["application-design-build"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Volumes: emptyDir", "url": "https://kubernetes.io/docs/concepts/storage/volumes/#emptydir" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-007",
+    "type": "single_choice",
+    "prompt": "In a pod spec, what is the correct field name for listing init containers?",
+    "choices": [
+      { "id": "a", "text": "spec.preContainers" },
+      { "id": "b", "text": "spec.initContainers" },
+      { "id": "c", "text": "spec.bootstrapContainers" },
+      { "id": "d", "text": "spec.containers[].init: true" }
+    ],
+    "correct": "b",
+    "explanation": "Init containers are declared under spec.initContainers as a list, parallel in structure to spec.containers. They run in the listed order before any containers in spec.containers start. There is no 'preContainers', 'bootstrapContainers', or init flag on individual container specs.",
+    "topics": ["application-design-build"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Init Containers", "url": "https://kubernetes.io/docs/concepts/workloads/pods/init-containers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-008",
+    "type": "single_choice",
+    "prompt": "A Job's pod fails repeatedly. Which field controls the maximum number of retries before the Job is marked Failed?",
+    "choices": [
+      { "id": "a", "text": "restartLimit" },
+      { "id": "b", "text": "maxRetries" },
+      { "id": "c", "text": "backoffLimit" },
+      { "id": "d", "text": "failureThreshold" }
+    ],
+    "correct": "c",
+    "explanation": "The 'backoffLimit' field on a Job spec defines how many times the Job will retry failed pods before marking the Job as Failed. The default is 6. Each retry uses exponential backoff capped at 6 minutes. 'failureThreshold' is a probe field, not a Job field. 'restartLimit' and 'maxRetries' do not exist.",
+    "topics": ["application-design-build"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Job: handling pod and container failures", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/job/#handling-pod-and-container-failures" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-009",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid use cases for an init container? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "Waiting for a database to be ready before the main app starts" },
+      { "id": "b", "text": "Shipping application logs to an external aggregator while the app runs" },
+      { "id": "c", "text": "Cloning a Git repository into a shared volume before the main container reads it" },
+      { "id": "d", "text": "Running database migrations before the web server starts" }
+    ],
+    "correct": ["a", "c", "d"],
+    "explanation": "Init containers are designed for setup tasks that must complete before the main application runs: waiting for dependencies, seeding shared volumes, and running migrations are all canonical uses. Log shipping while the app runs is a sidecar pattern, not an init container pattern, because it needs to persist throughout the pod's lifetime.",
+    "topics": ["application-design-build"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Init Containers: examples", "url": "https://kubernetes.io/docs/concepts/workloads/pods/init-containers/#examples" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-010",
+    "type": "single_choice",
+    "prompt": "Which Dockerfile instruction sets environment variables that are available both during the build and at container runtime?",
+    "choices": [
+      { "id": "a", "text": "ARG" },
+      { "id": "b", "text": "ENV" },
+      { "id": "c", "text": "LABEL" },
+      { "id": "d", "text": "EXPOSE" }
+    ],
+    "correct": "b",
+    "explanation": "ENV sets environment variables that persist into the final image and are available to the running container. ARG defines build-time variables that are NOT available after the image is built unless also set with ENV. LABEL adds metadata, and EXPOSE documents which ports the container listens on without actually publishing them.",
+    "topics": ["application-design-build"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Dockerfile reference: ENV", "url": "https://docs.docker.com/reference/dockerfile/#env" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-011",
+    "type": "single_choice",
+    "prompt": "What happens to the data in an emptyDir volume when the pod is deleted?",
+    "choices": [
+      { "id": "a", "text": "It is flushed to the node's disk and retained for the next pod on that node" },
+      { "id": "b", "text": "It is permanently deleted along with the pod" },
+      { "id": "c", "text": "It is preserved until the node is rebooted" },
+      { "id": "d", "text": "It is migrated to a PersistentVolume automatically" }
+    ],
+    "correct": "b",
+    "explanation": "emptyDir volumes live only as long as the pod exists on the node. When the pod is deleted for any reason — eviction, node failure, manual deletion — the data in emptyDir is gone permanently. If you need data to survive pod restarts or deletion, use a PersistentVolumeClaim instead.",
+    "topics": ["application-design-build"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Volumes: emptyDir", "url": "https://kubernetes.io/docs/concepts/storage/volumes/#emptydir" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-012",
+    "type": "true_false",
+    "prompt": "True or False: A CronJob with concurrencyPolicy: Forbid will skip a new job run if the previous run is still active.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "concurrencyPolicy: Forbid prevents a new scheduled job from starting if the previous one has not finished. The new run is simply skipped. The default policy is Allow, which allows concurrent runs. Replace terminates the current run and starts a new one. Forbid is useful when you must not run overlapping instances of a task.",
+    "topics": ["application-design-build"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "CronJob: concurrency policy", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#concurrency-policy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-013",
+    "type": "single_choice",
+    "prompt": "In a multi-stage Dockerfile, what is the primary benefit of using multiple FROM instructions?",
+    "choices": [
+      { "id": "a", "text": "It allows different base images to be merged into a single layer" },
+      { "id": "b", "text": "Build artifacts from an earlier stage can be copied into a leaner final image, reducing its size" },
+      { "id": "c", "text": "Each FROM creates a separate image tag automatically" },
+      { "id": "d", "text": "It enables parallel builds across multiple CPU cores" }
+    ],
+    "correct": "b",
+    "explanation": "Multi-stage builds let you compile or build in a feature-rich image (e.g., golang:1.22) and then COPY only the resulting binary into a minimal final image (e.g., gcr.io/distroless/base). Build tools, source code, and intermediate files are left behind, producing a smaller, more secure final image with a reduced attack surface.",
+    "topics": ["application-design-build"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Multi-stage builds", "url": "https://docs.docker.com/build/building/multi-stage/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-014",
+    "type": "single_choice",
+    "prompt": "A pod with restartPolicy: Never has its only container exit with code 1. What happens?",
+    "choices": [
+      { "id": "a", "text": "The container is restarted immediately" },
+      { "id": "b", "text": "The pod is deleted and rescheduled on another node" },
+      { "id": "c", "text": "The pod stays in Failed phase and is not restarted" },
+      { "id": "d", "text": "Kubernetes creates a replacement pod via the node's garbage collector" }
+    ],
+    "correct": "c",
+    "explanation": "With restartPolicy: Never, Kubernetes will not restart the container regardless of how it exits. The pod's phase moves to Failed. The pod object remains so you can inspect logs and events. This policy is typical for Jobs where you want to see failure details rather than enter a crash loop.",
+    "topics": ["application-design-build"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Pod lifecycle: restart policy", "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ab-015",
+    "type": "single_choice",
+    "prompt": "You define a Job with completionMode: Indexed and completions: 4. How does each pod know which work item it is responsible for?",
+    "choices": [
+      { "id": "a", "text": "Via the JOB_INDEX environment variable set by Kubernetes" },
+      { "id": "b", "text": "Via the JOB_COMPLETION_INDEX environment variable injected by Kubernetes" },
+      { "id": "c", "text": "By reading the pod's name which ends with -0, -1, -2, or -3" },
+      { "id": "d", "text": "By querying the Kubernetes API for its pod ordinal" }
+    ],
+    "correct": "b",
+    "explanation": "When completionMode is set to Indexed, Kubernetes assigns each pod a unique index from 0 to completions-1 and exposes it via the JOB_COMPLETION_INDEX environment variable. The pod can use this value to determine which shard of work to process. This is the recommended approach for parallel work-queue patterns where each item is clearly partitioned.",
+    "topics": ["application-design-build"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Indexed Job for Parallel Processing with Static Work Assignment", "url": "https://kubernetes.io/docs/tasks/job/indexed-parallel-processing-static/" }
+    ],
+    "version": 1
+  }
+]

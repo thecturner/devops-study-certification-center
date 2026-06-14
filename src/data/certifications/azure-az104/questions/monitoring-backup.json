@@ -1,0 +1,288 @@
+[
+  {
+    "id": "azure-az104-mb-001",
+    "type": "single_choice",
+    "prompt": "An administrator needs to collect and analyze performance metrics and logs from multiple Azure VMs, Azure SQL Databases, and Azure App Services in a single query interface. Which Azure service provides this unified observability capability?",
+    "choices": [
+      { "id": "a", "text": "Azure Monitor Metrics Explorer for all resource types" },
+      { "id": "b", "text": "A Log Analytics workspace with diagnostic settings routing logs from all resources" },
+      { "id": "c", "text": "Azure Service Health dashboard for all resource types" },
+      { "id": "d", "text": "Application Insights with a multi-application monitoring profile" }
+    ],
+    "correct": "b",
+    "explanation": "A Log Analytics workspace is the central log store for Azure Monitor. By configuring diagnostic settings on each resource to route logs and metrics to the same workspace, an administrator can query and correlate data across all resource types using KQL in a single interface. Metrics Explorer (A) shows time-series metrics but does not support cross-resource log correlation. Service Health (C) shows Azure platform-level incidents, not resource performance data. Application Insights (D) is specialized for application performance monitoring and does not natively aggregate infrastructure logs from VMs or SQL Databases.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Log Analytics workspace overview", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-workspace-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-002",
+    "type": "single_choice",
+    "prompt": "An administrator wants to receive an email notification whenever the CPU utilization of a VM exceeds 90% for more than 5 minutes. What is the correct sequence of Azure Monitor objects to configure?",
+    "choices": [
+      { "id": "a", "text": "Create a Diagnostic Setting, then a Log Analytics query, then a Webhook" },
+      { "id": "b", "text": "Create a metric alert rule with a 5-minute evaluation window targeting the CPU metric, and attach an action group with an email action" },
+      { "id": "c", "text": "Create a Log Analytics alert targeting the Heartbeat table with a threshold, then configure an action group" },
+      { "id": "d", "text": "Enable Azure Monitor Workbooks and set a refresh interval with email delivery" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Monitor metric alerts evaluate resource metrics on a configurable evaluation window and fire when a threshold is breached. The alert rule references the VM's CPU percentage metric with an aggregation of Average over 5 minutes and a threshold of 90%. An action group defines what happens when the alert fires — in this case, sending an email. Log Analytics alerts (C) work for log-based queries, not simple CPU metrics. Diagnostic settings (A) route data but do not trigger notifications. Workbooks (D) are visualization tools, not alerting mechanisms.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Monitor metric alerts", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-metric-overview" },
+      { "label": "Action groups in Azure Monitor", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/action-groups" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-003",
+    "type": "single_choice",
+    "prompt": "An administrator needs to query Log Analytics to find all Azure Activity Log events where a virtual machine was deleted in the past 7 days. Which KQL query correctly retrieves this data?",
+    "choices": [
+      { "id": "a", "text": "AzureActivity | where TimeGenerated > ago(7d) | where OperationNameValue == 'Microsoft.Compute/virtualMachines/delete'" },
+      { "id": "b", "text": "AzureMetrics | where TimeGenerated > ago(7d) | where MetricName == 'VMDelete'" },
+      { "id": "c", "text": "Heartbeat | where TimeGenerated > ago(7d) | where Computer contains 'delete'" },
+      { "id": "d", "text": "Event | where TimeGenerated > ago(7d) | where EventID == 4625 and Source == 'VM'" }
+    ],
+    "correct": "a",
+    "explanation": "Activity Log events are stored in the AzureActivity table in Log Analytics. Filtering by TimeGenerated and OperationNameValue for the delete operation correctly identifies VM deletion events. AzureMetrics (B) contains performance metric data, not control-plane events. Heartbeat (C) tracks VM agent check-ins, not operations. Event (D) contains Windows Event Log entries and EventID 4625 is a failed logon event, unrelated to resource deletion.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Analyze Azure Activity logs in Log Analytics", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/activity-log" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-004",
+    "type": "single_choice",
+    "prompt": "A company uses Azure Backup to protect Azure VMs stored in a Recovery Services vault. An administrator needs to restore a specific file from a backup taken 3 days ago without restoring the entire VM. Which restore option provides this capability?",
+    "choices": [
+      { "id": "a", "text": "Restore the entire VM to a new location and copy the file manually" },
+      { "id": "b", "text": "Use the 'File Recovery' option in Azure Backup to mount the recovery point as a disk and browse files" },
+      { "id": "c", "text": "Use Azure Site Recovery to initiate a test failover and extract the file from the test environment" },
+      { "id": "d", "text": "Restore the managed disk snapshot to a new disk and attach it to a helper VM" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Backup's 'File Recovery' (item-level restore) feature mounts the selected recovery point as iSCSI-attached drives on the target machine using a downloadable script. The administrator can then browse the mounted volume and copy specific files without restoring the full VM. Restoring the entire VM (A) is disruptive and unnecessary. Site Recovery (C) is a disaster recovery service, not a file recovery tool. Snapshot restore to a new disk (D) works but is more complex than the native file recovery option.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Recover files from Azure virtual machine backup", "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-restore-files-from-vm" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-005",
+    "type": "single_choice",
+    "prompt": "A company runs critical VMs on-premises and in Azure. They need a disaster recovery solution that replicates on-premises VMs to Azure and allows failover with an RTO of under 2 hours. Which Azure service provides this?",
+    "choices": [
+      { "id": "a", "text": "Azure Backup with geo-redundant storage in a Recovery Services vault" },
+      { "id": "b", "text": "Azure Site Recovery (ASR) with continuous replication to Azure" },
+      { "id": "c", "text": "Azure Migrate with a continuous sync option" },
+      { "id": "d", "text": "Azure Data Box with daily incremental backups" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Site Recovery replicates on-premises VMs (Hyper-V, VMware, or physical) to Azure continuously and enables failover in minutes, achieving RTOs well within 2 hours. Azure Backup (A) provides point-in-time recovery but is not a DR replication service and RTOs are measured in hours to days for full VM restores. Azure Migrate (C) is a migration tool for one-time migrations, not ongoing DR replication. Azure Data Box (D) is a physical data transfer appliance and does not support continuous replication.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Site Recovery overview", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-006",
+    "type": "single_choice",
+    "prompt": "An administrator needs to configure Azure VM backups with a 30-day daily retention, 12-week weekly retention, and instant restore for the last 5 days. Where are these settings configured?",
+    "choices": [
+      { "id": "a", "text": "In the VM's Disk settings under snapshot management" },
+      { "id": "b", "text": "In the Recovery Services vault's Backup policy" },
+      { "id": "c", "text": "In the Log Analytics workspace's data retention settings" },
+      { "id": "d", "text": "In Azure Monitor's diagnostic settings for the Recovery Services vault" }
+    ],
+    "correct": "b",
+    "explanation": "Backup policies in the Recovery Services vault define backup frequency, retention rules (daily, weekly, monthly, yearly), and the instant restore point duration. All retention and scheduling configurations are centrally managed through the vault's backup policy, which is then applied to individual VMs. Disk snapshot management (A) handles ad-hoc snapshots, not policy-driven backup with retention rules. Log Analytics retention (C) controls log data retention, not backup retention. Diagnostic settings (D) route vault telemetry to Log Analytics, not configure backup policies.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Manage Azure VM backup policies", "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-manage-vms" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-007",
+    "type": "single_choice",
+    "prompt": "During an Azure Site Recovery drill, the team performs a test failover. What is the key difference between a test failover and a planned failover in ASR?",
+    "choices": [
+      { "id": "a", "text": "A test failover replicates to a different Azure region; a planned failover uses the primary replication target" },
+      { "id": "b", "text": "A test failover creates a replica VM in an isolated network without disrupting replication; a planned failover stops replication and promotes the replica" },
+      { "id": "c", "text": "A test failover uses the latest recovery point; a planned failover uses the oldest available recovery point" },
+      { "id": "d", "text": "A test failover requires shutting down the source VM; a planned failover does not" }
+    ],
+    "correct": "b",
+    "explanation": "A test failover in Azure Site Recovery spins up a copy of the replicated VM in an isolated Azure VNet for validation without disrupting ongoing replication or affecting the source environment. A planned failover intentionally fails over to Azure (synchronizing final changes first), stops replication, and the Azure VMs become the primary. An unplanned failover is used when the source is already down. Test failovers do not use a different region (A), both can use the latest recovery point (C), and test failovers do not require shutting down the source (D).",
+    "topics": ["monitoring-backup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Run a disaster recovery drill to Azure", "url": "https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-test-failover-to-azure" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-008",
+    "type": "single_choice",
+    "prompt": "An administrator needs to automate the monthly patching of 200 Azure VMs across multiple subscriptions. VMs should be patched in waves with a maintenance window and a pre-patch snapshot. Which Azure service best handles this at scale?",
+    "choices": [
+      { "id": "a", "text": "Azure Policy with a DeployIfNotExists effect that installs updates" },
+      { "id": "b", "text": "Azure Automation Update Management with maintenance windows and pre-scripts" },
+      { "id": "c", "text": "A PowerShell script in an Azure Runbook triggered monthly by a schedule" },
+      { "id": "d", "text": "Azure DevOps pipeline with a rolling deployment strategy targeting VMs" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Automation Update Management (or Azure Update Manager) provides a centralized solution for scheduling OS updates across multiple VMs and subscriptions, defining maintenance windows, configuring pre and post-scripts (for tasks like taking snapshots), and reporting compliance. Azure Policy (A) enforces configuration but does not orchestrate patch waves. A simple PowerShell runbook (C) can run updates but lacks the scheduling, wave, and pre-script orchestration that Update Management provides natively. Azure DevOps (D) is a CI/CD tool and is not designed for OS patch management.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Automation Update Management overview", "url": "https://learn.microsoft.com/en-us/azure/automation/update-management/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-009",
+    "type": "single_choice",
+    "prompt": "An administrator configures a diagnostic setting on an Azure SQL Database to route SQL Insights logs to a Log Analytics workspace. After 24 hours, the logs are not appearing in the workspace. What is the most likely cause?",
+    "choices": [
+      { "id": "a", "text": "The Log Analytics workspace must be in the same region as the Azure SQL Database" },
+      { "id": "b", "text": "The diagnostic setting was saved but the selected log category for SQL Insights was not checked" },
+      { "id": "c", "text": "Log Analytics workspaces have a 48-hour delay before new data sources appear" },
+      { "id": "d", "text": "Azure SQL Database requires a Log Analytics agent installed on the database server" }
+    ],
+    "correct": "b",
+    "explanation": "Diagnostic settings require specific log and metric categories to be selected. If the SQL Insights category (or the relevant log category) was not checked when the diagnostic setting was created or saved, no data for that category will flow to the workspace. Log Analytics workspaces can be in a different region from the resource (A is false). There is no 48-hour universal delay (C) — data typically appears within minutes. Azure SQL Database is a PaaS service and does not require an agent (D).",
+    "topics": ["monitoring-backup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Monitor diagnostic settings", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/diagnostic-settings" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-010",
+    "type": "single_choice",
+    "prompt": "A developer team wants to understand the end-to-end request flow of an Azure-hosted web application, including dependencies on external APIs and database calls, and identify which component is causing latency spikes. Which Azure Monitor feature should be enabled?",
+    "choices": [
+      { "id": "a", "text": "Azure Monitor Workbooks with a custom dashboard for HTTP response codes" },
+      { "id": "b", "text": "Application Insights with distributed tracing enabled" },
+      { "id": "c", "text": "Log Analytics with the AzureDiagnostics table and HTTP log category" },
+      { "id": "d", "text": "Azure Network Watcher with connection monitor enabled" }
+    ],
+    "correct": "b",
+    "explanation": "Application Insights provides distributed tracing through its dependency tracking feature, which records each outbound call (database queries, external API calls, service bus messages) as a dependency within the request's trace. The Application Map and Transaction Search views visualize the full call graph, enabling identification of latency sources. Workbooks (A) visualize data but do not collect distributed traces. Log Analytics AzureDiagnostics (C) captures infrastructure-level logs, not application-level traces. Network Watcher (D) monitors network connectivity, not application-level request flows.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Application Insights overview", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-011",
+    "type": "single_choice",
+    "prompt": "An Azure Automation runbook must run every night at 11 PM UTC to clean up temporary test resources. The runbook has been published. What must be configured for automated nightly execution?",
+    "choices": [
+      { "id": "a", "text": "Create an Azure Monitor alert that triggers the runbook webhook at 11 PM" },
+      { "id": "b", "text": "Create a schedule in Azure Automation and link it to the runbook" },
+      { "id": "c", "text": "Configure a cron job on an Azure VM to trigger the runbook via the REST API" },
+      { "id": "d", "text": "Enable the runbook's recurrence setting in the runbook's properties blade" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Automation supports schedules that can be created independently and then linked to one or more runbooks. A schedule defines when and how often the runbook runs. The schedule and runbook are linked through the 'Link to Schedule' option. An Azure Monitor alert with a webhook (A) can trigger runbooks but is designed for event-driven scenarios, not time-based scheduling. A cron job on a VM (C) introduces unnecessary infrastructure dependency. There is no 'recurrence setting' in the runbook's properties blade (D) — this is managed through separate schedule objects.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Manage schedules in Azure Automation", "url": "https://learn.microsoft.com/en-us/azure/automation/shared-resources/schedules" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-012",
+    "type": "single_choice",
+    "prompt": "A backup administrator notices that the soft delete feature is enabled on a Recovery Services vault. An operator accidentally deletes a VM backup item. What is the effect of soft delete?",
+    "choices": [
+      { "id": "a", "text": "The backup data is immediately and permanently deleted" },
+      { "id": "b", "text": "The backup data is retained for 14 additional days in a soft-deleted state, during which it can be recovered" },
+      { "id": "c", "text": "The backup data is moved to the Archive tier and retained for 90 days" },
+      { "id": "d", "text": "The deletion is blocked and an administrator must submit a support ticket to delete backup data" }
+    ],
+    "correct": "b",
+    "explanation": "When soft delete is enabled on a Recovery Services vault, deleted backup data is retained for 14 additional days in a soft-deleted state. During this period, the data is protected from permanent deletion and can be undeleted to resume protection. The backup data does not move to Archive (C). Soft delete does not block the delete operation (D); it simply defers permanent deletion. Immediate permanent deletion (A) is what happens when soft delete is disabled.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Soft delete for Azure Backup", "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-security-feature-cloud" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-013",
+    "type": "single_choice",
+    "prompt": "An organization wants to create a unified, interactive report in Azure Monitor that combines metric charts, log query results, and rich text for a monthly operations review. Which Azure Monitor feature supports this?",
+    "choices": [
+      { "id": "a", "text": "Azure Monitor Alerts summary view" },
+      { "id": "b", "text": "Azure Monitor Workbooks" },
+      { "id": "c", "text": "Log Analytics dashboard tiles pinned to an Azure dashboard" },
+      { "id": "d", "text": "Azure Service Health reports" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Monitor Workbooks provide an interactive, template-based reporting environment that can combine multiple data sources including metrics, log queries, resource graph, and rich text in a single document. They support parameters, conditional rendering, and sharing. Alert summary views (A) show alert state, not combined reports. Pinned dashboard tiles (C) are read-only and lack the interactivity and combination capability of Workbooks. Service Health (D) shows Azure platform health, not custom operational reports.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Monitor Workbooks overview", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/visualize/workbooks-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-014",
+    "type": "single_choice",
+    "prompt": "A company stores backups in a Recovery Services vault with geo-redundant storage (GRS). A primary region outage occurs. The administrator wants to restore a VM backup using the secondary region copy. Which feature enables cross-region restore?",
+    "choices": [
+      { "id": "a", "text": "Cross-region restore is automatic with GRS vaults and does not require special configuration" },
+      { "id": "b", "text": "The administrator must enable Cross Region Restore (CRR) on the Recovery Services vault explicitly" },
+      { "id": "c", "text": "Cross-region restore requires creating a new vault in the secondary region and replicating backups to it" },
+      { "id": "d", "text": "Cross-region restore is only supported for Azure SQL Database backups, not VM backups" }
+    ],
+    "correct": "b",
+    "explanation": "Cross Region Restore (CRR) is a feature that must be explicitly enabled on a GRS Recovery Services vault. Once enabled, backup data in the secondary region becomes available for restore operations in the paired region, supporting recovery during a primary region outage. CRR is not automatic — GRS replicates the data, but restore access to the secondary copy requires the CRR feature to be turned on (A is false). No secondary vault is needed (C). CRR does support Azure VM backups (D is false).",
+    "topics": ["monitoring-backup"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cross Region Restore in Azure Backup", "url": "https://learn.microsoft.com/en-us/azure/backup/backup-azure-arm-restore-vms#cross-region-restore" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-mb-015",
+    "type": "single_choice",
+    "prompt": "An administrator needs to back up an on-premises Windows Server file server to Azure without deploying Azure Backup Server. The files total 500 GB and grow by 10 GB per week. Which agent and vault combination is correct?",
+    "choices": [
+      { "id": "a", "text": "Install the Azure Backup MARS agent on the file server and back up to a Recovery Services vault" },
+      { "id": "b", "text": "Install the Azure Monitor agent on the file server and route file data to a Log Analytics workspace" },
+      { "id": "c", "text": "Install the Azure Backup server agent on the file server and back up to a Backup vault" },
+      { "id": "d", "text": "Configure Azure File Sync and use lifecycle management to archive older files to Azure" }
+    ],
+    "correct": "a",
+    "explanation": "The Microsoft Azure Recovery Services (MARS) agent is designed for direct backup of on-premises Windows files and folders to a Recovery Services vault without requiring Azure Backup Server or DPM. It is lightweight and installs directly on the source server. The Azure Monitor agent (B) is for log and metric collection, not data backup. Azure Backup Server (C) is a separate appliance solution, and the question specifies not using it; additionally, MABS uses a Recovery Services vault, not a Backup vault. Azure File Sync (D) is not a backup solution — it synchronizes data and does not provide point-in-time recovery.",
+    "topics": ["monitoring-backup"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Back up Windows Server files and folders with MARS agent", "url": "https://learn.microsoft.com/en-us/azure/backup/backup-windows-with-mars-agent" }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-cka-ws-001",
+    "type": "single_choice",
+    "prompt": "Which kubectl command updates the image of the 'nginx' container in a deployment named 'web-deploy' to 'nginx:1.25'?",
+    "choices": [
+      { "id": "a", "text": "kubectl set image deployment/web-deploy nginx=nginx:1.25" },
+      { "id": "b", "text": "kubectl update deployment web-deploy --image=nginx:1.25" },
+      { "id": "c", "text": "kubectl patch deployment web-deploy --image nginx:1.25" },
+      { "id": "d", "text": "kubectl edit deployment web-deploy nginx:1.25" }
+    ],
+    "correct": "a",
+    "explanation": "kubectl set image deployment/<deployment-name> <container-name>=<image>:<tag> is the imperative command to update a container's image in a Deployment. This triggers a rolling update. You can monitor the rollout with kubectl rollout status deployment/web-deploy.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Updating a Deployment", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-002",
+    "type": "single_choice",
+    "prompt": "A Deployment has 5 replicas. You run kubectl rollout undo deployment/my-app. What does this do?",
+    "choices": [
+      { "id": "a", "text": "Scales the Deployment to 0 replicas" },
+      { "id": "b", "text": "Rolls back to the previous revision of the Deployment" },
+      { "id": "c", "text": "Pauses the current rolling update" },
+      { "id": "d", "text": "Deletes the Deployment and re-creates it from the original manifest" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl rollout undo deployment/<name> reverts the Deployment to its previous revision by rolling back the pod template spec to the one recorded in the previous ReplicaSet. You can roll back to a specific revision using --to-revision=<number>. Revision history is controlled by the revisionHistoryLimit field (default 10).",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Rolling Back a Deployment", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-003",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a DaemonSet in Kubernetes?",
+    "choices": [
+      { "id": "a", "text": "To run exactly one pod per cluster" },
+      { "id": "b", "text": "To run a copy of a pod on all (or selected) nodes in the cluster" },
+      { "id": "c", "text": "To run a batch job to completion" },
+      { "id": "d", "text": "To manage a group of identical pods with stable network identities" }
+    ],
+    "correct": "b",
+    "explanation": "A DaemonSet ensures that a copy of a pod runs on all (or a subset of) nodes. When nodes are added to the cluster, pods are added automatically. When nodes are removed, pods are garbage collected. Common use cases include cluster storage daemons, log collectors, and node monitoring agents like the Datadog Agent.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "DaemonSet", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-004",
+    "type": "single_choice",
+    "prompt": "A CronJob is configured with schedule: '*/5 * * * *'. A job run takes 7 minutes. What is the default behavior if a new job is triggered before the previous one finishes?",
+    "choices": [
+      { "id": "a", "text": "The new job is skipped and a warning is logged" },
+      { "id": "b", "text": "The previous job is killed and the new one starts" },
+      { "id": "c", "text": "Both jobs run concurrently" },
+      { "id": "d", "text": "The new job queues until the current job finishes" }
+    ],
+    "correct": "c",
+    "explanation": "The default concurrencyPolicy for a CronJob is Allow, which means concurrent jobs are permitted. If a new schedule fires while the previous job is still running, a new Job object is created and both run simultaneously. You can change this to Forbid (skip the new job if the previous is still running) or Replace (cancel the previous job and start a new one).",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "CronJob", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-005",
+    "type": "single_choice",
+    "prompt": "Which field in a Pod spec ensures the pod is only scheduled on nodes with the label 'gpu=true'?",
+    "choices": [
+      { "id": "a", "text": "spec.nodeSelector: {gpu: 'true'}" },
+      { "id": "b", "text": "spec.nodeName: gpu-node" },
+      { "id": "c", "text": "spec.affinity.nodeAffinity.preferredDuringScheduling" },
+      { "id": "d", "text": "spec.tolerations: [{key: gpu, value: 'true'}]" }
+    ],
+    "correct": "a",
+    "explanation": "spec.nodeSelector is the simplest way to constrain pod scheduling to nodes with specific labels. You specify a map of key-value pairs that must all match labels on the node. spec.nodeName bypasses the scheduler and assigns to a specific node by name, not by label. Tolerations handle taints, not label-based selection. Preferred affinity is a soft constraint, not a hard requirement.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "nodeSelector", "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-006",
+    "type": "single_choice",
+    "prompt": "A taint is applied to a node: kubectl taint nodes node1 key=value:NoSchedule. What must a pod have to be scheduled on node1?",
+    "choices": [
+      { "id": "a", "text": "A nodeSelector matching the taint key" },
+      { "id": "b", "text": "A toleration for key=value with effect NoSchedule" },
+      { "id": "c", "text": "A node affinity rule targeting node1" },
+      { "id": "d", "text": "An annotation with the taint key-value pair" }
+    ],
+    "correct": "b",
+    "explanation": "Taints repel pods. A pod that does not tolerate a taint will not be scheduled on the tainted node. To schedule a pod on node1 with the NoSchedule taint key=value, the pod must have a matching toleration: tolerations: [{key: key, operator: Equal, value: value, effect: NoSchedule}]. Tolerations are different from nodeSelector and affinity, which attract pods to nodes rather than overriding repulsion.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Taints and Tolerations", "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-007",
+    "type": "single_choice",
+    "prompt": "What is the difference between resources.requests and resources.limits in a container spec?",
+    "choices": [
+      { "id": "a", "text": "Requests are the minimum guaranteed resources; limits are the maximum the container can use" },
+      { "id": "b", "text": "Requests are the maximum resources; limits are the minimum guaranteed" },
+      { "id": "c", "text": "Both are upper bounds; requests are enforced by the kubelet, limits by the OS" },
+      { "id": "d", "text": "Requests apply only to CPU; limits apply only to memory" }
+    ],
+    "correct": "a",
+    "explanation": "resources.requests defines the amount of CPU and memory the scheduler uses to find a suitable node. The node must have at least this much allocatable resource. resources.limits defines the maximum the container is allowed to use. If a container exceeds its memory limit it is OOMKilled; if it exceeds its CPU limit it is throttled. If limits are not set, the container can use all available resources on the node.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Resource Management", "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-008",
+    "type": "single_choice",
+    "prompt": "A Job spec has parallelism: 3 and completions: 6. How does the Job controller behave?",
+    "choices": [
+      { "id": "a", "text": "It runs 3 pods simultaneously until 6 pods have completed successfully" },
+      { "id": "b", "text": "It runs 6 pods in parallel for 3 minutes" },
+      { "id": "c", "text": "It runs 3 pods, and if any fail, the Job fails immediately" },
+      { "id": "d", "text": "It runs 3 pods and requires all 3 to complete 6 times each" }
+    ],
+    "correct": "a",
+    "explanation": "parallelism controls how many pods may run at the same time. completions defines the total number of successful pod completions required before the Job is considered complete. With parallelism: 3 and completions: 6, the Job controller starts up to 3 pods at a time, and continues until 6 pods have completed successfully in total. Failed pods are retried up to backoffLimit times.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Jobs", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/job/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-009",
+    "type": "single_choice",
+    "prompt": "What does the requiredDuringSchedulingIgnoredDuringExecution node affinity type enforce?",
+    "choices": [
+      { "id": "a", "text": "Pods with this affinity can only be scheduled if the rule is satisfied, but running pods are not evicted if the rule becomes unsatisfied later" },
+      { "id": "b", "text": "Pods are evicted from nodes if the affinity rule becomes unsatisfied after scheduling" },
+      { "id": "c", "text": "The scheduler prefers nodes that satisfy the rule but will schedule elsewhere if needed" },
+      { "id": "d", "text": "The affinity rule is only evaluated at pod creation time, not during updates" }
+    ],
+    "correct": "a",
+    "explanation": "requiredDuringSchedulingIgnoredDuringExecution is a hard scheduling constraint: the pod will not be scheduled on a node unless the rule is satisfied. However, if the rule becomes unsatisfied after the pod is running (e.g., a label is removed from the node), the pod continues running and is not evicted. The 'IgnoredDuringExecution' part indicates the rule is not enforced for already-running pods.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Node Affinity", "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-010",
+    "type": "true_false",
+    "prompt": "A Deployment automatically creates a new ReplicaSet each time a rolling update is triggered, preserving the old ReplicaSet for rollback purposes.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "True. Each time a Deployment's pod template is updated, a new ReplicaSet is created. The old ReplicaSet is scaled down to 0 but is kept (up to revisionHistoryLimit, default 10) to enable rollbacks via kubectl rollout undo. You can see all ReplicaSets associated with a Deployment using kubectl get rs.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Deployment Rollout History", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#checking-rollout-history-of-a-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-011",
+    "type": "single_choice",
+    "prompt": "You want to ensure a pod is never scheduled on the same node as another pod with label 'app=cache'. Which scheduling mechanism achieves this?",
+    "choices": [
+      { "id": "a", "text": "Node affinity with NotIn operator" },
+      { "id": "b", "text": "Pod anti-affinity with topologyKey: kubernetes.io/hostname" },
+      { "id": "c", "text": "A taint on nodes that run the cache pods" },
+      { "id": "d", "text": "A PodDisruptionBudget for the cache pods" }
+    ],
+    "correct": "b",
+    "explanation": "Pod anti-affinity with topologyKey: kubernetes.io/hostname ensures that the pod is not scheduled on a node that already runs a pod matching the label selector. Because each node has a unique kubernetes.io/hostname label, this effectively prevents co-location. Node affinity acts on node labels, not on which pods are running. Taints would require modifying nodes dynamically as pods are placed.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Pod Affinity and Anti-Affinity", "url": "https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-012",
+    "type": "single_choice",
+    "prompt": "Which kubectl command scales a deployment named 'api-server' to 10 replicas imperatively?",
+    "choices": [
+      { "id": "a", "text": "kubectl set replicas deployment/api-server --count=10" },
+      { "id": "b", "text": "kubectl scale deployment api-server --replicas=10" },
+      { "id": "c", "text": "kubectl update deployment api-server --replicas=10" },
+      { "id": "d", "text": "kubectl resize deployment/api-server 10" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl scale deployment <name> --replicas=<count> is the imperative command to change the number of replicas. It can also be used for ReplicaSets, StatefulSets, and ReplicationControllers. For exam tasks, this is often faster than editing the manifest with kubectl edit.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Scaling a Deployment", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#scaling-a-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-013",
+    "type": "single_choice",
+    "prompt": "What is the key difference between a Deployment and a StatefulSet?",
+    "choices": [
+      { "id": "a", "text": "Deployments support rolling updates; StatefulSets do not" },
+      { "id": "b", "text": "StatefulSets provide stable network identities and ordered, graceful deployment and scaling" },
+      { "id": "c", "text": "StatefulSets do not support persistent storage" },
+      { "id": "d", "text": "Deployments are for stateful apps; StatefulSets are for stateless apps" }
+    ],
+    "correct": "b",
+    "explanation": "StatefulSets are designed for stateful applications that require: stable, unique network identifiers (pods get names like pod-0, pod-1); stable, persistent storage (each pod gets its own PVC via volumeClaimTemplates); and ordered, graceful deployment and scaling (pods are created and deleted in order). Deployments treat pods as interchangeable and do not guarantee ordering or stable identities.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "StatefulSets", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-014",
+    "type": "multi_choice",
+    "prompt": "Which of the following fields in a Deployment spec control the rolling update behavior? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "strategy.rollingUpdate.maxSurge" },
+      { "id": "b", "text": "strategy.rollingUpdate.maxUnavailable" },
+      { "id": "c", "text": "progressDeadlineSeconds" },
+      { "id": "d", "text": "revisionHistoryLimit" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "maxSurge controls how many additional pods above the desired replica count can exist during an update (allows temporary overcapacity). maxUnavailable controls how many pods can be unavailable during the update. Both are part of spec.strategy.rollingUpdate. progressDeadlineSeconds defines the timeout for detecting a stuck rollout. revisionHistoryLimit controls how many old ReplicaSets are retained for rollback. Only maxSurge and maxUnavailable directly shape the rolling update cadence.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Rolling Update Strategy", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-cka-ws-015",
+    "type": "single_choice",
+    "prompt": "A pod has a container with no resource requests or limits set. How does the scheduler treat this pod?",
+    "choices": [
+      { "id": "a", "text": "The pod is rejected by the scheduler" },
+      { "id": "b", "text": "The pod is treated as if it requested zero resources, can be scheduled on any node, and is the first evicted under pressure" },
+      { "id": "c", "text": "The scheduler assigns default requests from the cluster's default LimitRange" },
+      { "id": "d", "text": "The pod is assigned to the node with the most available memory" }
+    ],
+    "correct": "b",
+    "explanation": "If no resource requests or limits are set, the scheduler treats the pod as requesting zero resources for scheduling purposes, meaning it can be placed on any node. At runtime, the container can consume available resources on the node without throttling. However, pods with no requests are classified as BestEffort QoS class and are the first to be evicted when the node is under memory pressure. If a LimitRange with default requests/limits exists in the namespace, those defaults are applied automatically.",
+    "topics": ["workloads-scheduling"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Quality of Service Classes", "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/" }
+    ],
+    "version": 1
+  }
+]

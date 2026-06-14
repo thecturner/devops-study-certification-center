@@ -1,0 +1,331 @@
+[
+  {
+    "id": "aws-dop-ml-001",
+    "type": "single_choice",
+    "prompt": "A team needs to identify the top 5 Lambda functions by invocation count over the last 24 hours across all functions in an account. CloudWatch Logs collects Lambda execution logs. Which CloudWatch feature produces this report most efficiently?",
+    "choices": [
+      { "id": "a", "text": "CloudWatch Logs Insights with a query using stats count(*) by functionName, sort by count desc, limit 5" },
+      { "id": "b", "text": "CloudWatch Metrics with a GetMetricStatistics API call filtering on Invocations across all Lambda functions" },
+      { "id": "c", "text": "CloudWatch Contributor Insights with a rule on Lambda log groups tracking the functionName dimension" },
+      { "id": "d", "text": "AWS X-Ray trace summaries filtered by service type Lambda, sorted by call count" }
+    ],
+    "correct": "a",
+    "explanation": "CloudWatch Logs Insights queries can aggregate across multiple log groups simultaneously and use the stats function to count, sum, or average fields, then sort and limit results. A query across Lambda log groups with stats count(*) by functionName answers this question directly. CloudWatch Metrics GetMetricStatistics requires individual function queries and cannot aggregate across all functions in a single call. Contributor Insights tracks top contributors in real time but requires a rule for each log group or pattern. X-Ray trace summaries require tracing to be enabled on all functions.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "CloudWatch Logs Insights Query Syntax",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-002",
+    "type": "single_choice",
+    "prompt": "A CloudWatch alarm is configured on a custom metric with insufficient data treatment set to MISSING. The alarm is used to block a CodePipeline approval stage. If the metric stops being published (e.g., the application crashes), what happens to the alarm state?",
+    "choices": [
+      { "id": "a", "text": "The alarm transitions to INSUFFICIENT_DATA state, which CodePipeline treats as a non-blocking state" },
+      { "id": "b", "text": "The alarm remains in its last known state (OK or ALARM) when data is missing" },
+      { "id": "c", "text": "The alarm transitions to OK state, unblocking the pipeline" },
+      { "id": "d", "text": "The alarm transitions to ALARM state, blocking the pipeline" }
+    ],
+    "correct": "a",
+    "explanation": "When a CloudWatch alarm's treat missing data is set to MISSING (the default), the alarm transitions to INSUFFICIENT_DATA when it lacks data points for the evaluation period. INSUFFICIENT_DATA is a distinct state from OK and ALARM. If the pipeline is only blocked by ALARM state, INSUFFICIENT_DATA allows the pipeline to proceed, which may be a security gap. Teams that want a crashed application to block the pipeline should set treat missing data to BREACHING, which transitions the alarm to ALARM state when data is absent.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Configuring How CloudWatch Alarms Treat Missing Data",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-003",
+    "type": "single_choice",
+    "prompt": "An organization wants to audit all S3 bucket policy changes across all accounts in their AWS Organization. They need these audit events stored centrally in a single S3 bucket in the security account. Which CloudTrail configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Create an organizational CloudTrail in the management account with S3 data events enabled, writing to a bucket in the security account" },
+      { "id": "b", "text": "Create individual CloudTrails in each account and configure S3 event notifications to forward logs to the security account" },
+      { "id": "c", "text": "Enable AWS Config in each account and use CloudTrail integration to write config change events to a central bucket" },
+      { "id": "d", "text": "Create an organizational CloudTrail in the management account with management events enabled, writing to a bucket in the security account" }
+    ],
+    "correct": "d",
+    "explanation": "S3 bucket policy changes are management events (control plane operations), not S3 data events. An organizational CloudTrail with management events enabled captures all API calls including PutBucketPolicy, DeleteBucketPolicy, etc., across all accounts in the Organization. Writing to an S3 bucket in the security account with an appropriate bucket policy for cross-account delivery provides central storage. S3 data events track object-level operations (GetObject, PutObject), not policy changes. Per-account CloudTrails require significant operational overhead. AWS Config tracks resource configuration, not API event logs.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Creating a Trail for an Organization",
+        "url": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-004",
+    "type": "single_choice",
+    "prompt": "A microservices application running on ECS has intermittent latency spikes affecting only a subset of downstream service calls. The team needs to identify which specific service-to-service call path introduces the latency. Which AWS service provides the most direct answer?",
+    "choices": [
+      { "id": "a", "text": "AWS X-Ray service map and trace analysis, filtered by response time percentile" },
+      { "id": "b", "text": "CloudWatch Container Insights with custom metrics for each service-to-service call" },
+      { "id": "c", "text": "VPC Flow Logs analyzed with CloudWatch Logs Insights to identify slow connections by IP pair" },
+      { "id": "d", "text": "CloudWatch Synthetics canaries running synthetic transactions through each service path" }
+    ],
+    "correct": "a",
+    "explanation": "AWS X-Ray instruments distributed traces across service-to-service calls, creating a trace that shows the duration of each segment and subsegment. The service map visualizes the call graph, and filtering by high response time percentiles (P95, P99) identifies which specific edge in the graph introduces latency. Container Insights provides infrastructure-level metrics but not call-path tracing. VPC Flow Logs show connection-level data without application context. Synthetics tests predefined paths but cannot identify which internal service hop is slow without X-Ray integration.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "AWS X-Ray Service Map",
+        "url": "https://docs.aws.amazon.com/xray/latest/devguide/xray-console-servicemap.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-005",
+    "type": "true_false",
+    "prompt": "An AWS Config rule with a trigger type of Configuration Changes evaluates resources only when their configuration changes, while a rule with a trigger type of Periodic evaluates resources on a defined schedule regardless of configuration changes.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "AWS Config rules have two evaluation trigger types. Configuration changes rules run whenever AWS Config detects a relevant resource configuration change. Periodic rules run on a schedule (every 1, 3, 6, 12, or 24 hours) and evaluate all in-scope resources at that interval. Some rules support both triggers. Understanding this distinction is important for compliance reporting: periodic rules catch drift from non-configuration-tracked changes (e.g., time-based compliance like certificate expiry), while change-triggered rules respond immediately to API changes.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "AWS Config Rules Trigger Types",
+        "url": "https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-006",
+    "type": "single_choice",
+    "prompt": "A team wants to create a CloudWatch dashboard that shows the 99th percentile latency for an API Gateway stage across all methods, using a single metric math expression. The API Gateway publishes latency per stage as a CloudWatch metric. Which CloudWatch metric math function calculates the P99 from a set of latency metrics?",
+    "choices": [
+      { "id": "a", "text": "ANOMALY_DETECTION_BAND applied to the average latency metric" },
+      { "id": "b", "text": "METRICS('latency') with PERCENTILE applied at 99 in a metric math expression" },
+      { "id": "c", "text": "Use the p99 statistic directly on the AWS/ApiGateway Latency metric in the metric widget" },
+      { "id": "d", "text": "SUM(METRICS()) divided by COUNT(METRICS()) to approximate P99" }
+    ],
+    "correct": "c",
+    "explanation": "CloudWatch supports percentile statistics (p1 through p99.9) as first-class statistics on metrics that publish statistical samples. API Gateway's Latency metric supports percentile statistics. You can select the p99 statistic directly in the metric widget or in a GetMetricStatistics API call without metric math. ANOMALY_DETECTION_BAND creates an expected range, not a percentile. METRICS() with PERCENTILE is not valid metric math syntax. SUM/COUNT calculates the mean, not a percentile.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Statistics That Can Be Returned by a CloudWatch API",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-007",
+    "type": "single_choice",
+    "prompt": "CloudWatch Synthetics is being used to monitor a critical checkout flow. The canary fails intermittently, but investigation shows the actual user journey works fine during those windows. What is the most likely cause and recommended fix?",
+    "choices": [
+      { "id": "a", "text": "The canary timeout is too short; increase the canary timeout to allow for network variability" },
+      { "id": "b", "text": "The canary is running from a single CloudWatch region; enable multi-region canary deployment" },
+      { "id": "c", "text": "The canary uses hardcoded credentials that are rotating; use Secrets Manager integration in the canary script" },
+      { "id": "d", "text": "The canary script uses fixed sleep timers instead of waitForSelector; replace sleeps with element-wait conditions to handle rendering delays" }
+    ],
+    "correct": "d",
+    "explanation": "Intermittent canary failures where the real user experience is fine typically indicate timing issues in the canary script itself. Fixed sleep timers cause failures when page rendering is slower than the sleep duration due to network variability. The fix is to use explicit wait conditions (waitForSelector, waitForNavigation) that wait for actual page elements rather than fixed delays. Timeout adjustments are a partial fix. Multi-region canaries test from different locations but do not fix timing logic. Credential rotation would cause consistent authentication failures, not intermittent ones.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Creating CloudWatch Synthetics Canaries",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Create.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-008",
+    "type": "single_choice",
+    "prompt": "An EventBridge rule must match all EC2 instance state change events where the instance transitions to 'stopped' state, but only for instances tagged with 'Environment: Production'. How should the event pattern be written?",
+    "choices": [
+      { "id": "a", "text": "Filter by source aws.ec2 and detail-type EC2 Instance State-change Notification with detail.state: stopped; use a Lambda function to filter the tag after matching" },
+      { "id": "b", "text": "EventBridge event patterns cannot filter on EC2 instance tags; a downstream Lambda must check the tag via DescribeInstances" },
+      { "id": "c", "text": "Write an event pattern matching source aws.ec2, detail-type EC2 Instance State-change Notification, and detail.state stopped; combine with a content filter on tags using the $or operator" },
+      { "id": "d", "text": "Use EventBridge Pipes to enrich the event with tag information before applying the filter rule" }
+    ],
+    "correct": "b",
+    "explanation": "EC2 instance state change events published to EventBridge include the instance ID and state, but they do not include resource tags in the event payload. EventBridge event patterns can only filter on fields present in the event JSON. Since tags are not in the event, filtering by tag requires a downstream step: the matched rule invokes a Lambda that calls DescribeInstances to retrieve tags and then conditionally acts. EventBridge Pipes (option D) can enrich events but are designed for streaming sources, not EC2 state changes. This is a known limitation that requires an extra API call.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Amazon EC2 Event Types for EventBridge",
+        "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-instance-state-changes.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-009",
+    "type": "multi_choice",
+    "prompt": "A security team wants to use AWS Config conformance packs to enforce compliance across all accounts in an AWS Organization. Which two statements about conformance packs are correct? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "Conformance packs can include both AWS managed Config rules and custom Lambda-backed rules" },
+      { "id": "b", "text": "Organizational conformance packs are deployed from the management account or a delegated administrator account and apply to member accounts automatically" },
+      { "id": "c", "text": "Conformance packs auto-remediate non-compliant resources using embedded remediation actions that cannot be overridden per account" },
+      { "id": "d", "text": "Conformance packs provide a compliance score (percentage of compliant resources) at the pack level" },
+      { "id": "e", "text": "Each account can opt out of specific rules within an organizational conformance pack" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "Conformance packs support both AWS managed rules (e.g., s3-bucket-public-read-prohibited) and custom Lambda-backed rules in the same pack definition. Organizational conformance packs are deployed from the management or delegated administrator account and propagate to all member accounts in specified OUs. Option C is incorrect: remediation actions in conformance packs are optional and per-rule, not mandatory; accounts can have custom remediation. Option D is partially incorrect: conformance packs do show compliance but the overall score is at the rule level, not a single pack-level percentage score in the same way Security Hub provides. Option E is incorrect: member accounts cannot opt out of individual rules in an organizational conformance pack.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "AWS Config Conformance Packs",
+        "url": "https://docs.aws.amazon.com/config/latest/developerguide/conformance-packs.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-010",
+    "type": "single_choice",
+    "prompt": "X-Ray sampling is configured with a default rate of 5% and reservoir of 1 request per second. During a traffic spike of 500 requests per second, how many requests per second does X-Ray trace?",
+    "choices": [
+      { "id": "a", "text": "25 requests per second (5% of 500)" },
+      { "id": "b", "text": "1 request per second (reservoir only)" },
+      { "id": "c", "text": "1 request per second reservoir plus 5% of the remaining 499, totaling approximately 26 requests per second" },
+      { "id": "d", "text": "500 requests per second (reservoir is applied first, then 5% of all remaining requests)" }
+    ],
+    "correct": "c",
+    "explanation": "X-Ray sampling uses a reservoir (fixed number of requests per second that are always traced) plus a fixed rate applied to requests beyond the reservoir. With reservoir=1 and fixed_rate=0.05: the first 1 request per second is always traced (reservoir), then 5% of the remaining 499 requests = ~24.95, totaling approximately 26 requests per second traced out of 500. This prevents sampling from dropping to zero at low traffic while keeping trace volume manageable at high traffic.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Configuring Sampling Rules for AWS X-Ray",
+        "url": "https://docs.aws.amazon.com/xray/latest/devguide/xray-console-sampling.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-011",
+    "type": "single_choice",
+    "prompt": "CloudWatch Container Insights is enabled for an EKS cluster. The DevOps team wants to alert when any pod's memory utilization exceeds 90% of its requested memory for more than 5 minutes. Which metric and alarm configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Create a CloudWatch alarm on the pod_memory_utilization metric in the ContainerInsights namespace, with a threshold of 90, a period of 300 seconds, and 1 datapoint within 1 period" },
+      { "id": "b", "text": "Create a CloudWatch alarm on the node_memory_utilization metric with PodName as a dimension" },
+      { "id": "c", "text": "Use a Logs Insights query on Container Insights logs to count high-memory events and alarm when count exceeds 1" },
+      { "id": "d", "text": "Configure a Kubernetes HorizontalPodAutoscaler with memory target at 90% and let CloudWatch detect autoscaling events" }
+    ],
+    "correct": "a",
+    "explanation": "Container Insights publishes pod_memory_utilization as a metric in the ContainerInsights namespace. Setting a CloudWatch alarm with a threshold of 90 and a period of 300 seconds (5 minutes) with 1 datapoint within 1 evaluation period triggers when utilization exceeds 90% for 5 continuous minutes. You can add PodName and Namespace dimensions to filter specific pods. node_memory_utilization measures node-level memory, not pod-level. Logs Insights queries cannot directly drive CloudWatch alarms without a metric filter intermediary. HPA responds to memory pressure but is not an alerting mechanism.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Amazon CloudWatch Container Insights Metrics",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-metrics-EKS.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-012",
+    "type": "single_choice",
+    "prompt": "An operations team uses CloudWatch Contributor Insights to identify which users are generating the most API errors on a REST API. The API logs to CloudWatch Logs in JSON format with fields: userId, statusCode, and path. Which Contributor Insights rule configuration identifies top users by 5xx error count?",
+    "choices": [
+      { "id": "a", "text": "Schema type JSON, log fields [$.userId], filter on $.statusCode >= 500, count contributors" },
+      { "id": "b", "text": "Schema type JSON, log fields [$.path, $.userId], no filter, count by path" },
+      { "id": "c", "text": "Schema type W3, log fields matching the 5th column (statusCode), count occurrences" },
+      { "id": "d", "text": "Use a CloudWatch Logs metric filter to count 5xx errors per userId, then apply Contributor Insights to the metric" }
+    ],
+    "correct": "a",
+    "explanation": "Contributor Insights rules for JSON logs specify the schema as JSON, the contributor key (the dimension to rank, here $.userId), and optional filters. Filtering on $.statusCode >= 500 restricts counting to 5xx responses. The rule then ranks users by error count. Using $.path as a contributor would rank paths, not users. W3 schema is for space-delimited log formats (like ALB access logs). Contributor Insights works on log data directly; it does not analyze CloudWatch metrics.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Using Contributor Insights to Analyze High-Cardinality Data",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-013",
+    "type": "single_choice",
+    "prompt": "A company needs all CloudWatch Logs from production accounts to be centralized in a single logging account for security and compliance review. The log retention period in the source accounts should be reduced to 1 day after export. Which mechanism provides real-time (near-live) log forwarding, NOT batch export?",
+    "choices": [
+      { "id": "a", "text": "Use CloudWatch Logs subscription filters in each source account to stream logs to a Kinesis Data Firehose that delivers to the logging account's S3 or OpenSearch" },
+      { "id": "b", "text": "Schedule an AWS Glue job that exports CloudWatch Logs to S3 in the logging account every hour" },
+      { "id": "c", "text": "Use CloudWatch Logs cross-account subscription to deliver logs directly to a log group in the destination account" },
+      { "id": "d", "text": "Enable CloudTrail data events for all CloudWatch Logs operations and forward CloudTrail logs to the logging account" }
+    ],
+    "correct": "c",
+    "explanation": "CloudWatch Logs supports cross-account subscription delivery. A subscription filter in the source account can deliver log events in near-real-time to a CloudWatch Logs destination in another account (the logging account). This is natively supported and does not require Kinesis. Kinesis Firehose subscriptions also work but add cost and complexity. Glue-based export is batch (hourly), not real-time. CloudTrail data events track API calls to CloudWatch Logs, not the log content itself.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Cross-Account Log Data Sharing with Subscriptions",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CrossAccountSubscriptions.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-014",
+    "type": "single_choice",
+    "prompt": "A team wants to create a CloudWatch composite alarm that fires only when BOTH an API error rate alarm AND a database connection failure alarm are in ALARM state simultaneously, to reduce alert noise. Which CloudWatch feature implements this?",
+    "choices": [
+      { "id": "a", "text": "Create a CloudWatch composite alarm with an alarm rule: ALARM(api-error-alarm) AND ALARM(db-failure-alarm)" },
+      { "id": "b", "text": "Create a metric math alarm combining the two metrics with multiplication; alert when the product exceeds zero" },
+      { "id": "c", "text": "Use EventBridge to detect both alarms firing and trigger an SNS notification via a custom rule" },
+      { "id": "d", "text": "Create a Lambda function that periodically checks both alarm states and sends an SNS notification when both are in ALARM" }
+    ],
+    "correct": "a",
+    "explanation": "CloudWatch composite alarms aggregate the states of multiple alarms using Boolean logic (AND, OR, NOT). An alarm rule of ALARM(api-error-alarm) AND ALARM(db-failure-alarm) fires the composite alarm only when both child alarms are simultaneously in ALARM state. This is a first-class CloudWatch feature specifically designed to reduce noise. Metric math multiplication is not a valid alarm rule approach. EventBridge and Lambda solutions work but require custom rule logic and introduce latency or polling.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Creating a Composite Alarm",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Composite_Alarm.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-ml-015",
+    "type": "single_choice",
+    "prompt": "A company uses AWS Health Dashboard APIs to proactively notify engineering teams about scheduled EC2 maintenance events for their instances. Events must be routed to the correct team based on the instance's Team tag. How should the architecture be implemented?",
+    "choices": [
+      { "id": "a", "text": "Configure an EventBridge rule matching AWS Health events with service EC2 and event type category scheduledChange, then route to a Lambda that reads the affectedEntities, looks up instance tags, and dispatches to the correct SNS topic" },
+      { "id": "b", "text": "Poll the AWS Health DescribeEvents API every hour from a Lambda function and filter by instance ID to find affected instances" },
+      { "id": "c", "text": "Subscribe all teams to a single SNS topic receiving all AWS Health events and let each team filter by instance ID client-side" },
+      { "id": "d", "text": "Enable AWS Personal Health Dashboard in each team member's AWS Console account and configure email notifications" }
+    ],
+    "correct": "a",
+    "explanation": "AWS Health publishes events to EventBridge in near-real-time. An EventBridge rule matching Health events with detail.service EC2 and detail.eventTypeCategory scheduledChange triggers a Lambda. The Lambda reads the affectedEntities from the event (instance IDs), calls DescribeInstances to get team tags, and routes to the correct SNS topic per team. This is event-driven, not polling-based. Hourly polling introduces up to 60 minutes of delay. A single SNS topic for all events creates noise; client-side filtering requires all teams to subscribe to everything. Console notifications are manual and not programmatic.",
+    "topics": ["monitoring-logging"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Monitoring AWS Health Events with Amazon EventBridge",
+        "url": "https://docs.aws.amazon.com/health/latest/ug/cloudwatch-events-health.html"
+      }
+    ],
+    "version": 1
+  }
+]

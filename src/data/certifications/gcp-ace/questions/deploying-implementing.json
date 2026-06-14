@@ -1,0 +1,299 @@
+[
+  {
+    "id": "gcp-ace-di-001",
+    "type": "single_choice",
+    "prompt": "You need to deploy a containerized application to GKE. The deployment must guarantee exactly 3 replicas are always running, and new versions should be rolled out without downtime by replacing one pod at a time. Which Kubernetes object and rollout strategy should you use?",
+    "choices": [
+      { "id": "a", "text": "DaemonSet with Recreate strategy" },
+      { "id": "b", "text": "Deployment with RollingUpdate strategy and maxUnavailable: 0" },
+      { "id": "c", "text": "StatefulSet with OnDelete strategy" },
+      { "id": "d", "text": "ReplicaSet managed directly with manual pod deletion" }
+    ],
+    "correct": "b",
+    "explanation": "A Deployment with `RollingUpdate` strategy and `maxUnavailable: 0` ensures that no existing pods are terminated before a new pod is ready, achieving zero-downtime deployments while maintaining the replica count. A DaemonSet runs one pod per node, not a fixed replica count, and Recreate terminates all pods before creating new ones. StatefulSets are for stateful applications; OnDelete requires manual pod deletion to trigger updates. Managing ReplicaSets directly is error-prone and bypasses the rollout management provided by Deployments.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "GKE Deployments", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/deployment" },
+      { "label": "Rolling updates", "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/update/update-intro/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-002",
+    "type": "single_choice",
+    "prompt": "A development team wants to deploy a stateless HTTP microservice to GCP. The service receives sporadic traffic with periods of zero requests. The team wants zero infrastructure management and to pay only when requests are being processed. Which service should they use?",
+    "choices": [
+      { "id": "a", "text": "Compute Engine with a managed instance group" },
+      { "id": "b", "text": "GKE Autopilot cluster" },
+      { "id": "c", "text": "Cloud Run" },
+      { "id": "d", "text": "App Engine Flexible environment" }
+    ],
+    "correct": "c",
+    "explanation": "Cloud Run scales to zero when there are no requests and charges only for the CPU and memory consumed during request processing. It requires no infrastructure management. Compute Engine MIGs require at least one instance running even at zero traffic and require infrastructure management. GKE Autopilot manages the control plane but still runs nodes that incur costs at rest. App Engine Flexible runs on Compute Engine VMs and maintains at least one instance, resulting in continuous charges.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Run overview", "url": "https://cloud.google.com/run/docs/overview/what-is-cloud-run" },
+      { "label": "Cloud Run pricing", "url": "https://cloud.google.com/run/pricing" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-003",
+    "type": "single_choice",
+    "prompt": "You are deploying an App Engine application. The application uses long-running background threads and requires custom runtimes with native libraries. It also needs access to file system writes. Which App Engine environment should you use?",
+    "choices": [
+      { "id": "a", "text": "App Engine Standard environment" },
+      { "id": "b", "text": "App Engine Flexible environment" },
+      { "id": "c", "text": "App Engine Standard with bundled services" },
+      { "id": "d", "text": "App Engine Standard with Cloud Tasks for background work" }
+    ],
+    "correct": "b",
+    "explanation": "App Engine Flexible runs on Compute Engine VMs inside Docker containers, allowing custom runtimes, native library dependencies, background threads, and writable local disk access. App Engine Standard has sandboxed execution that prohibits long-running background threads, custom native libraries, and local disk writes. Cloud Tasks can offload background work in Standard but does not solve the custom runtime and native library requirements.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Choosing an App Engine environment", "url": "https://cloud.google.com/appengine/docs/the-appengine-environments" },
+      { "label": "App Engine Flexible overview", "url": "https://cloud.google.com/appengine/docs/flexible" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-004",
+    "type": "single_choice",
+    "prompt": "Your team uses Cloud Build to build a Docker image and push it to Artifact Registry. The pipeline then deploys the image to Cloud Run. Which Cloud Build substitution variable contains the short commit SHA that you can use to tag Docker images?",
+    "choices": [
+      { "id": "a", "text": "$COMMIT_SHA" },
+      { "id": "b", "text": "$BUILD_ID" },
+      { "id": "c", "text": "$SHORT_SHA" },
+      { "id": "d", "text": "$REVISION_ID" }
+    ],
+    "correct": "c",
+    "explanation": "`$SHORT_SHA` is a built-in Cloud Build substitution variable containing the first 7 characters of the commit SHA, commonly used to tag container images. `$COMMIT_SHA` contains the full commit SHA. `$BUILD_ID` is the unique identifier for the Cloud Build build, not tied to the commit. `$REVISION_ID` also contains the full commit SHA in most trigger contexts, not the abbreviated form.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Build substitutions", "url": "https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values" },
+      { "label": "Cloud Build triggers", "url": "https://cloud.google.com/build/docs/triggers" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-005",
+    "type": "single_choice",
+    "prompt": "You need to deploy a Cloud Function that processes messages from a Pub/Sub topic. You want the function to trigger automatically whenever a new message arrives. Which deployment command correctly creates this event-driven function?",
+    "choices": [
+      { "id": "a", "text": "gcloud functions deploy my-fn --runtime python311 --trigger-http" },
+      { "id": "b", "text": "gcloud functions deploy my-fn --runtime python311 --trigger-topic my-topic" },
+      { "id": "c", "text": "gcloud functions deploy my-fn --runtime python311 --trigger-event google.pubsub.topic.publish" },
+      { "id": "d", "text": "gcloud functions deploy my-fn --runtime python311 --subscription my-topic-sub" }
+    ],
+    "correct": "b",
+    "explanation": "`--trigger-topic` is the correct flag for Cloud Functions (1st gen) to subscribe to a Pub/Sub topic and invoke the function on each new message. `--trigger-http` creates an HTTP-triggered function, not a Pub/Sub-triggered one. `--trigger-event` is used with `--trigger-resource` for other event types and is not the cleanest way to configure Pub/Sub; `--trigger-topic` is the dedicated shorthand. `--subscription` is not a valid `gcloud functions deploy` flag.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Functions Pub/Sub triggers", "url": "https://cloud.google.com/functions/docs/calling/pubsub" },
+      { "label": "gcloud functions deploy", "url": "https://cloud.google.com/sdk/gcloud/reference/functions/deploy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-006",
+    "type": "single_choice",
+    "prompt": "You want to store container images for your organization in GCP and need the registry to support vulnerability scanning, fine-grained IAM access control per repository, and regional storage. Which service should you use?",
+    "choices": [
+      { "id": "a", "text": "Container Registry (gcr.io)" },
+      { "id": "b", "text": "Artifact Registry" },
+      { "id": "c", "text": "Cloud Storage bucket with CORS enabled" },
+      { "id": "d", "text": "Docker Hub with a GCP service account" }
+    ],
+    "correct": "b",
+    "explanation": "Artifact Registry is GCP's recommended container and artifact registry. It supports per-repository IAM, regional storage choices, and integrated vulnerability scanning. Container Registry (gcr.io) is the legacy service backed by Cloud Storage and has coarser-grained IAM (bucket-level). Cloud Storage buckets are not a container registry and do not support image pulling via standard Docker commands. Docker Hub is an external service and does not provide native GCP IAM or regional storage.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Artifact Registry overview", "url": "https://cloud.google.com/artifact-registry/docs/overview" },
+      { "label": "Vulnerability scanning", "url": "https://cloud.google.com/artifact-registry/docs/analysis" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-007",
+    "type": "single_choice",
+    "prompt": "You are deploying infrastructure to GCP using Terraform. After applying the configuration, you realize the Cloud Storage bucket name is incorrect. You fix the name in the Terraform file. What will `terraform apply` do?",
+    "choices": [
+      { "id": "a", "text": "Rename the existing bucket in-place" },
+      { "id": "b", "text": "Delete the old bucket and create a new bucket with the correct name" },
+      { "id": "c", "text": "Fail because bucket names are immutable" },
+      { "id": "d", "text": "Create a second bucket with the new name and keep the old one" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Storage bucket names are part of the resource identity. Terraform treats a name change as a resource replacement: it will destroy the existing bucket and create a new one with the correct name. Buckets cannot be renamed in-place in GCP. Terraform does not fail on this change; it handles it as destroy + create (shown as `-/+` in the plan). Terraform does not leave orphaned resources; the old bucket is removed according to the plan.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Terraform resource replacement", "url": "https://developer.hashicorp.com/terraform/language/resources/behavior#resource-replacement" },
+      { "label": "Terraform on Google Cloud", "url": "https://cloud.google.com/docs/terraform/resource-management/managing-infrastructure-as-code" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-008",
+    "type": "single_choice",
+    "prompt": "You need to deploy a GKE cluster where pods can call the Cloud Storage API using a specific service account's permissions without storing a key file in the pod. Which GKE feature enables this?",
+    "choices": [
+      { "id": "a", "text": "Mount a service account JSON key as a Kubernetes Secret" },
+      { "id": "b", "text": "Workload Identity federation for GKE" },
+      { "id": "c", "text": "Compute Engine default service account on the node" },
+      { "id": "d", "text": "Cloud IAP tunnel from the pod to the API" }
+    ],
+    "correct": "b",
+    "explanation": "Workload Identity for GKE allows pods to authenticate as a Google service account by linking a Kubernetes service account to a GCP service account. The pod requests a short-lived token from the GKE metadata server; no key file is required. Mounting a JSON key as a Secret stores the long-lived credential in the cluster, which is a security risk. Using the Compute Engine default service account grants the same permissions to all pods on the node, violating least privilege. Cloud IAP tunnels are for human access to resources, not for pod-to-API authentication.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Workload Identity for GKE", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-009",
+    "type": "single_choice",
+    "prompt": "Your GKE deployment uses a ConfigMap to supply environment variables to pods. After updating the ConfigMap, the running pods do not reflect the new values. What must you do to apply the updated ConfigMap values to the pods?",
+    "choices": [
+      { "id": "a", "text": "Run kubectl apply -f configmap.yaml again" },
+      { "id": "b", "text": "Restart the pods by triggering a rolling restart of the Deployment" },
+      { "id": "c", "text": "Delete the ConfigMap and redeploy the Deployment" },
+      { "id": "d", "text": "Environment variables from ConfigMaps update automatically without pod restarts" }
+    ],
+    "correct": "b",
+    "explanation": "When a ConfigMap is used to populate environment variables (`envFrom` or `env` with `configMapKeyRef`), those values are injected at pod startup and are not updated in running pods when the ConfigMap changes. You must restart the pods (e.g., `kubectl rollout restart deployment/<name>`) for the new values to take effect. `kubectl apply` updates the ConfigMap object but does not restart pods. Deleting the ConfigMap and redeploying is unnecessarily disruptive. Only ConfigMaps mounted as volumes can have their contents updated in-place without a pod restart.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ConfigMaps in Kubernetes", "url": "https://kubernetes.io/docs/concepts/configuration/configmap/" },
+      { "label": "kubectl rollout restart", "url": "https://kubernetes.io/docs/reference/kubectl/cheatsheet/#updating-resources" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-010",
+    "type": "single_choice",
+    "prompt": "You are using Cloud Build to automate deployments and want to ensure that the Docker image is built, pushed to Artifact Registry, and then deployed to Cloud Run in a single pipeline. In `cloudbuild.yaml`, which section defines the sequence of these steps?",
+    "choices": [
+      { "id": "a", "text": "The `pipeline` field" },
+      { "id": "b", "text": "The `steps` field as an ordered list of build steps" },
+      { "id": "c", "text": "The `stages` field with parallel and serial blocks" },
+      { "id": "d", "text": "The `jobs` field containing named job definitions" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Build uses a `steps` array in `cloudbuild.yaml` where each step is a Docker container invoked in order. Steps run sequentially by default (unless `waitFor` is used for parallelism), making this the correct structure for a build, push, deploy pipeline. Cloud Build does not have `pipeline`, `stages`, or `jobs` fields; those are concepts from other CI/CD tools like Jenkins or GitHub Actions.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Build configuration file schema", "url": "https://cloud.google.com/build/docs/build-config-file-schema" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-011",
+    "type": "single_choice",
+    "prompt": "You want to deploy a Cloud Run service and gradually shift traffic from the current revision to a new revision, starting at 10% and increasing over time. Which Cloud Run feature supports this?",
+    "choices": [
+      { "id": "a", "text": "Cloud Run traffic splitting between named revisions" },
+      { "id": "b", "text": "Cloud Endpoints routing rules" },
+      { "id": "c", "text": "GKE ingress traffic weights" },
+      { "id": "d", "text": "Cloud Load Balancing weighted backend services" }
+    ],
+    "correct": "a",
+    "explanation": "Cloud Run supports traffic splitting natively: you can route a specified percentage of traffic to each named revision. This allows gradual canary deployments directly from the console or via `gcloud run services update-traffic`. Cloud Endpoints is an API management layer and does not perform traffic splitting between Cloud Run revisions. GKE ingress weights are for Kubernetes services, not Cloud Run. Cloud Load Balancing weighted backends can distribute traffic but do not integrate natively with Cloud Run revision management.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud Run traffic management", "url": "https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-012",
+    "type": "single_choice",
+    "prompt": "You are setting up a GKE cluster and want to restrict the cluster's API server so it is only accessible from a specific corporate IP range (203.0.113.0/24) and not from the public internet. Which cluster configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Enable Private Cluster mode with the control plane's authorized networks set to 203.0.113.0/24" },
+      { "id": "b", "text": "Configure a VPC firewall rule to block traffic to the cluster master CIDR" },
+      { "id": "c", "text": "Enable Private Cluster mode and disable the public endpoint entirely" },
+      { "id": "d", "text": "Set the master CIDR to 203.0.113.0/24 when creating the cluster" }
+    ],
+    "correct": "a",
+    "explanation": "GKE's authorized networks feature restricts access to the public endpoint of the cluster API server to specified CIDR ranges. Using Private Cluster mode with authorized networks set to the corporate IP range ensures that only that range can reach the API server. Disabling the public endpoint entirely (option C) would make the cluster unreachable from the internet at all, requiring a VPN or internal access. VPC firewall rules do not protect the GKE control plane endpoint. The master CIDR in GKE refers to the internal address range for the control plane nodes, not the allowed client IP range.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "GKE private clusters", "url": "https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept" },
+      { "label": "Authorized networks", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-013",
+    "type": "single_choice",
+    "prompt": "Your team stores infrastructure configuration in Deployment Manager templates. You need to deploy a new environment that is identical to production except for the project ID and region. What is the most efficient approach?",
+    "choices": [
+      { "id": "a", "text": "Copy all YAML files and manually edit the project ID and region references" },
+      { "id": "b", "text": "Use Deployment Manager template properties and pass different values for project ID and region at deploy time" },
+      { "id": "c", "text": "Export the production environment using gcloud deployment-manager deployments export and import it" },
+      { "id": "d", "text": "Use Cloud Shell environment variables to override hardcoded values in the YAML files" }
+    ],
+    "correct": "b",
+    "explanation": "Deployment Manager supports parameterized templates via `properties`, allowing the same template to be deployed with different values for project ID, region, or any configurable attribute. This is the idiomatic approach for environment parity. Manually copying and editing files is error-prone and does not scale. `gcloud deployment-manager deployments export` exports the state of a running deployment, not a parameterized template. Cloud Shell environment variables are not a supported mechanism for overriding Deployment Manager YAML values.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Deployment Manager templates", "url": "https://cloud.google.com/deployment-manager/docs/configuration/templates/create-basic-template" },
+      { "label": "Using template properties", "url": "https://cloud.google.com/deployment-manager/docs/configuration/templates/using-schemas" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-014",
+    "type": "single_choice",
+    "prompt": "You want to deploy a Cloud Function that is triggered by an HTTP request, and you need to ensure that only authenticated users (with valid Google identity tokens) can invoke it. Which is the correct approach?",
+    "choices": [
+      { "id": "a", "text": "Deploy the function with --allow-unauthenticated and implement token validation in the function code" },
+      { "id": "b", "text": "Deploy the function without --allow-unauthenticated and grant the invoker role only to authorized principals" },
+      { "id": "c", "text": "Use an API key in the Authorization header validated by Cloud Endpoints" },
+      { "id": "d", "text": "Enable Cloud Armor on the Cloud Functions URL" }
+    ],
+    "correct": "b",
+    "explanation": "When you deploy a Cloud Function without `--allow-unauthenticated`, GCP requires callers to present a valid Google ID token and checks it against the `roles/cloudfunctions.invoker` IAM binding before invoking the function. This is the recommended, built-in authentication mechanism. Implementing token validation in function code is possible but moves security responsibility into application code. API keys via Cloud Endpoints add unnecessary complexity. Cloud Armor is a WAF for HTTP(S) load balancers, not a direct authentication layer for Cloud Functions.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Authenticating function callers", "url": "https://cloud.google.com/functions/docs/securing/authenticating" },
+      { "label": "Cloud Functions IAM", "url": "https://cloud.google.com/functions/docs/reference/iam/roles" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-di-015",
+    "type": "single_choice",
+    "prompt": "You need to run a batch job on GKE that should start, process a dataset to completion, and then terminate. The job must retry failed pods up to 3 times. Which Kubernetes object should you use?",
+    "choices": [
+      { "id": "a", "text": "Deployment with a liveness probe" },
+      { "id": "b", "text": "CronJob" },
+      { "id": "c", "text": "Job with completions: 1 and backoffLimit: 3" },
+      { "id": "d", "text": "DaemonSet with a restart policy of Never" }
+    ],
+    "correct": "c",
+    "explanation": "A Kubernetes Job runs pods to completion and terminates. Setting `backoffLimit: 3` allows up to 3 retries for failed pods before the job is marked as failed. A Deployment is designed for long-running services, not batch jobs. A CronJob schedules Jobs on a cron schedule; since no schedule is mentioned, a plain Job is more appropriate for a one-time batch run. DaemonSets run one pod per node and do not have batch completion semantics.",
+    "topics": ["deploying-implementing"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Kubernetes Jobs", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/job/" },
+      { "label": "Running Jobs in GKE", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/jobs" }
+    ],
+    "version": 1
+  }
+]

@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-mp-dp-001",
+    "type": "single_choice",
+    "prompt": "An IT director is tasked with defining the operating model for a newly formed shared services function. The director needs to clarify how work flows through the function, which decisions are made by the board versus by operational management, and how results are measured. Which ITIL 4 distinction is most directly relevant to structuring this operating model?",
+    "choices": [
+      { "id": "a", "text": "The distinction between value streams and practices." },
+      { "id": "b", "text": "The distinction between governance (direct and control) and management (plan, improve, ensure, engage, deliver, and support)." },
+      { "id": "c", "text": "The distinction between incidents and problems." },
+      { "id": "d", "text": "The distinction between outputs and outcomes." }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 draws a clear line between governance, which is the function of directing organisations and setting accountability structures (the responsibility of the board or equivalent body), and management, which is the function of planning and operating day-to-day activities. Designing an operating model requires this distinction: the board sets direction and risk appetite; management executes within that direction. Value streams and practices are design tools within an operating model, but they do not answer who governs versus who manages. The outputs/outcomes distinction is relevant to measuring value, not to structuring authority.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-002",
+    "type": "single_choice",
+    "prompt": "An improvement initiative lead is choosing between expressing targets as KPIs, OKRs, or CSFs/KPIs. The organisation wants to align teams to ambitious stretch goals that create directional pull, with frequent check-ins on progress, rather than contractual commitments with binary pass/fail reporting. Which measurement approach best fits this intent?",
+    "choices": [
+      { "id": "a", "text": "CSFs with associated KPIs, because CSFs define the conditions for success and KPIs measure progress." },
+      { "id": "b", "text": "SLAs, because contractual commitments create the strongest accountability." },
+      { "id": "c", "text": "OKRs (Objectives and Key Results), because they are designed for ambitious stretch goals with frequent progress check-ins and do not function as contractual performance commitments." },
+      { "id": "d", "text": "KPIs alone, because they provide the most granular operational measurement." }
+    ],
+    "correct": "c",
+    "explanation": "OKRs are specifically designed for setting ambitious, directional objectives (often intended to be only 70% achievable) with measurable key results and regular progress check-ins. They are not contractual commitments; falling short of an OKR is expected and informative. CSFs/KPIs are well-suited for measuring operational health against defined success criteria but have a more binary pass/fail character. SLAs are contractual service commitments, which is exactly what the organisation wants to avoid for this initiative. KPIs alone lack the objective/key-result structure that links metrics to directional intent.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-003",
+    "type": "single_choice",
+    "prompt": "A service management leader is applying the seven-step continual improvement model. The organisation has completed the first two steps: establishing the vision and assessing the current state. The current state assessment reveals that incident resolution times are 40% above target due to tooling limitations and skill gaps. What is the correct third step, and what does it require in this context?",
+    "choices": [
+      { "id": "a", "text": "Define the desired future state with specific, measurable improvement targets for incident resolution time, considering both the tooling and skills dimensions." },
+      { "id": "b", "text": "Immediately implement tool upgrades and training programmes to address the identified gaps." },
+      { "id": "c", "text": "Communicate the current state findings to all stakeholders before defining any targets." },
+      { "id": "d", "text": "Document the current state as a known error in the KEDB and schedule a problem review." }
+    ],
+    "correct": "a",
+    "explanation": "The seven-step continual improvement model follows: (1) What is the vision? (2) Where are we now? (3) Where do we want to be? (4) How do we get there? (5) Take action. (6) Did we get there? (7) How do we keep the momentum? Step three requires defining the desired future state — specific, measurable targets for where the improvement should take the organisation. Implementing solutions is step five. Stakeholder communication is part of the improvement plan but is not the model's third step. The KEDB is an incident/problem management tool, not a continual improvement register.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-004",
+    "type": "single_choice",
+    "prompt": "An organisation has 47 items on its improvement register, ranging from minor process tweaks to a multi-year platform consolidation. The improvement lead needs to decide what to work on next. Which factors should most influence prioritisation decisions?",
+    "choices": [
+      { "id": "a", "text": "The order in which items were added to the register, so that older items are addressed first." },
+      { "id": "b", "text": "The alignment of each item to the organisation's strategic vision, the business impact of improvement, the cost and effort required, and the interdependencies between items." },
+      { "id": "c", "text": "The personal preference of the improvement lead, who has the best operational insight into what needs to change." },
+      { "id": "d", "text": "The items with the lowest cost, to maximise the number of improvements completed per quarter." }
+    ],
+    "correct": "b",
+    "explanation": "Improvement register prioritisation should be driven by strategic alignment (does this move us toward the vision?), business impact (what value does successful improvement deliver?), cost and effort (is the investment proportionate to the return?), and interdependencies (are some improvements prerequisites for others?). FIFO order treats all improvements as equal regardless of value. Personal preference introduces bias. Optimising purely for low cost maximises quantity but not strategic or business value, which could result in many small improvements that collectively deliver little.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-005",
+    "type": "single_choice",
+    "prompt": "An IT organisation is using Kotter's 8-step model to guide a major change to its service management practices. The leadership team has successfully built urgency and formed a guiding coalition. They are now designing the vision for the new operating model. Kotter's model warns against which common failure at this stage?",
+    "choices": [
+      { "id": "a", "text": "Communicating the vision too early, before all stakeholders have been consulted." },
+      { "id": "b", "text": "Creating a vision that is too complex or abstract to be communicated clearly in five minutes or understood within that time." },
+      { "id": "c", "text": "Involving too many people in vision creation, which slows decision-making." },
+      { "id": "d", "text": "Setting a vision that is too ambitious, which demoralises staff if it is not achieved." }
+    ],
+    "correct": "b",
+    "explanation": "Kotter explicitly identifies the failure to create a clear, compelling, and communicable vision as a critical risk in his model's third step. If the vision is so complex that it cannot be explained in five minutes or understood in that time, it cannot guide employee behaviour or build alignment. A vision must be simple enough to be internalisable and memorable. Communicating too early is not a Kotter warning; communication is a dedicated step because under-communication is the common failure. Broad coalition involvement is encouraged in the guiding coalition step. Ambitious visions are necessary for urgency; demoralisation from missed stretch targets is a separate implementation risk.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-006",
+    "type": "single_choice",
+    "prompt": "A senior manager is sponsoring an improvement initiative to introduce automated change approval for standard changes. Three months in, adoption by change managers is low. The sponsor discovers that change managers were not involved in designing the new process and view it as a threat to their roles. Which ADKAR element has not been addressed?",
+    "choices": [
+      { "id": "a", "text": "Ability: change managers lack the technical skills to use the automation tools." },
+      { "id": "b", "text": "Desire: change managers have not been given a reason to want the change and perceive it negatively." },
+      { "id": "c", "text": "Knowledge: change managers do not know what the new process entails." },
+      { "id": "d", "text": "Reinforcement: change managers are not being rewarded for adopting the new process." }
+    ],
+    "correct": "b",
+    "explanation": "ADKAR (Awareness, Desire, Knowledge, Ability, Reinforcement) identifies Desire as the element representing an individual's motivation and choice to participate in and support the change. Change managers who were excluded from design and perceive the change as a threat have not had Desire addressed; they have no personal motivation to adopt. The scenario does not indicate a skills gap (Ability) or lack of process knowledge (Knowledge). Reinforcement is a later element about sustaining adoption; without Desire, reinforcement mechanisms cannot take hold.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-007",
+    "type": "single_choice",
+    "prompt": "A governance body is setting the organisation's risk appetite for IT service changes. The CTO argues for a low risk appetite to protect service stability. The CDO argues that a low risk appetite will slow digital transformation. What is the primary role of the governance body in resolving this tension?",
+    "choices": [
+      { "id": "a", "text": "Delegate the decision to the CTO because service stability is a governance responsibility." },
+      { "id": "b", "text": "Set a differentiated risk appetite by context: for critical production services, a lower risk tolerance; for innovation and transformation initiatives, a higher risk tolerance." },
+      { "id": "c", "text": "Ask an independent consultant to recommend an appropriate risk appetite." },
+      { "id": "d", "text": "Apply the lowest risk appetite across all activities to protect the organisation from any potential harm." }
+    ],
+    "correct": "b",
+    "explanation": "Governance bodies are responsible for setting risk appetite, and mature governance recognises that a single risk appetite is rarely appropriate across all activities. Critical production services warrant lower risk tolerance because failures have immediate customer and regulatory impact. Innovation and transformation initiatives require higher tolerance because exploration, experimentation, and occasional failure are inherent to the activity. Delegating to the CTO removes the governance body's accountability. Independent consulting can inform the decision but does not substitute for governance accountability. A uniformly low risk appetite would effectively prohibit transformation, which is not sound governance.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-008",
+    "type": "single_choice",
+    "prompt": "An organisation is conducting a maturity assessment of its service management practices using a structured maturity model. The assessment finds that incident management processes are documented and followed consistently, but performance is not measured and improvements are not tracked. Which maturity level does this best describe?",
+    "choices": [
+      { "id": "a", "text": "Level 1 — Initial: processes are ad hoc and reactive." },
+      { "id": "b", "text": "Level 2 — Managed: processes are planned, monitored, and controlled at the project level." },
+      { "id": "c", "text": "Level 3 — Defined: processes are documented, standardised, and consistently applied but not yet measured or optimised." },
+      { "id": "d", "text": "Level 4 — Quantitatively Managed: processes are measured and controlled using statistical methods." }
+    ],
+    "correct": "c",
+    "explanation": "Level 3 (Defined) in common maturity models such as CMMI is characterised by processes that are documented, standardised, and consistently applied across the organisation. The absence of measurement and improvement tracking confirms the organisation has not yet reached Level 4 (Quantitatively Managed), where statistical process control and performance data drive decisions. Level 1 processes are undocumented and reactive, which does not match the described consistency. Level 2 processes are managed at the project level but may not be organisation-wide standards, which also does not match the consistent application described.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-009",
+    "type": "single_choice",
+    "prompt": "A PDCA (Plan-Do-Check-Act) cycle is being used to improve a service request fulfillment process. The team has completed the 'Do' phase, implementing the process changes in a pilot group of 20 users. What should happen in the 'Check' phase?",
+    "choices": [
+      { "id": "a", "text": "Roll out the new process to all users, because the pilot demonstrated feasibility." },
+      { "id": "b", "text": "Measure the actual results of the pilot against the planned targets and analyse whether the changes produced the intended improvement." },
+      { "id": "c", "text": "Plan the next improvement cycle based on what was learned during implementation." },
+      { "id": "d", "text": "Document the new process in the knowledge base so it can be communicated to all teams." }
+    ],
+    "correct": "b",
+    "explanation": "The 'Check' phase of PDCA requires comparing actual results against the targets set during the 'Plan' phase to determine whether the change achieved the intended outcome. This evidence-based evaluation is what distinguishes PDCA from ad hoc improvement. Full rollout is the 'Act' step if Check confirms success. Planning the next cycle is also an 'Act' activity. Documenting the process is part of standardisation in 'Act' and should follow evidence of effectiveness in 'Check,' not precede it.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-010",
+    "type": "single_choice",
+    "prompt": "An improvement communications plan is being developed for a change to the service management toolset affecting 800 staff. The plan includes a single all-hands email at the project launch and a system-go-live notification. A change management advisor flags that this communication plan is insufficient. What is the most important missing element?",
+    "choices": [
+      { "id": "a", "text": "A printed brochure explaining the new tool's features." },
+      { "id": "b", "text": "A two-way feedback mechanism and multi-channel, multi-cadence communication that addresses awareness, understanding, and concerns throughout the change lifecycle." },
+      { "id": "c", "text": "An executive video from the CEO endorsing the change before launch." },
+      { "id": "d", "text": "A FAQ document answering technical questions about the new system." }
+    ],
+    "correct": "b",
+    "explanation": "Effective improvement communication must be two-way (creating channels for questions and feedback), multi-channel (different audiences respond to different media), multi-cadence (regular updates at key milestones maintain engagement and address emerging concerns), and address the full change arc from initial awareness through to post-go-live support. A single launch email and a go-live notification create a communication vacuum between those points and provide no mechanism for feedback or question resolution. A CEO video and FAQ are supporting materials within a plan, not substitutes for the plan itself. A printed brochure is tactical and insufficient as the primary gap.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-011",
+    "type": "single_choice",
+    "prompt": "An organisation's strategy sets a three-year objective to become the preferred internal IT partner for all business units. The improvement team is tasked with defining what this means in measurable terms at the operational level. Which approach correctly describes how to cascade this strategic objective to operational metrics?",
+    "choices": [
+      { "id": "a", "text": "Ask each team to independently define their own KPIs without reference to the strategic objective." },
+      { "id": "b", "text": "Translate the strategic objective into Critical Success Factors (CSFs) that define the conditions required for success, then derive KPIs for each CSF that operational teams can measure and act on." },
+      { "id": "c", "text": "Use the strategic objective as the KPI directly, measuring preference through an annual survey." },
+      { "id": "d", "text": "Assign the strategic objective as an OKR to the IT director with no further decomposition." }
+    ],
+    "correct": "b",
+    "explanation": "Cascading objectives from strategic to operational level requires translating high-level intent into Critical Success Factors (what must be true for the objective to be achieved?) and then deriving KPIs that measure those factors at the team level. This provides both strategic alignment (every KPI traces to an objective) and operational actionability (teams know what to measure and improve). Independent team KPI definitions create misalignment. Using the strategic objective directly as a KPI is too high-level to drive operational behaviour. Assigning the OKR without decomposition leaves teams without actionable direction.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-012",
+    "type": "single_choice",
+    "prompt": "An improvement initiative to reduce the incident backlog has been running for four months and achieved its initial target: the backlog dropped from 1,200 to 300 open incidents. However, without sustained focus the backlog has started growing again. Which action best addresses the risk of improvement reverting?",
+    "choices": [
+      { "id": "a", "text": "Close the improvement initiative and accept that backlogs naturally fluctuate." },
+      { "id": "b", "text": "Embed the improved practices into standard process documentation, team performance metrics, and regular management reporting to institutionalise the gain." },
+      { "id": "c", "text": "Launch a new improvement initiative to address the backlog growth as a separate project." },
+      { "id": "d", "text": "Assign additional permanent headcount to incident management to sustain the lower backlog." }
+    ],
+    "correct": "b",
+    "explanation": "Sustained improvement requires embedding gains into the operating fabric of the organisation: updating process documentation so the improved way of working becomes the standard, incorporating performance targets into team metrics, and including relevant KPIs in management reporting so drift is visible. Without this institutionalisation, improved practices revert as attention shifts. Closing the initiative without embedding changes accepts reversion. Launching a new initiative treats a symptom (growing backlog) without addressing the root cause (lack of sustainability mechanisms). Additional headcount may sustain a metric but does not address the systemic sustainability gap.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-013",
+    "type": "single_choice",
+    "prompt": "A service management director is assessing whether to apply Six Sigma DMAIC to a problem management process improvement, or to use a lighter Lean-based approach. What characteristic of the problem should drive the choice of improvement method?",
+    "choices": [
+      { "id": "a", "text": "Six Sigma is always preferable because it is a more rigorous methodology." },
+      { "id": "b", "text": "Lean is appropriate when the primary waste is flow inefficiency; Six Sigma DMAIC is more appropriate when the problem involves high variability and defect rates that require statistical root-cause analysis." },
+      { "id": "c", "text": "DMAIC should be used for any improvement that requires more than two weeks to complete." },
+      { "id": "d", "text": "Lean should be used for IT processes and Six Sigma reserved for manufacturing processes." }
+    ],
+    "correct": "b",
+    "explanation": "The choice between Lean and Six Sigma approaches should be driven by the nature of the problem. Lean excels at identifying and eliminating waste and improving flow in processes where the steps are relatively understood. Six Sigma DMAIC is designed for problems characterised by defects and high variability, where statistical analysis is needed to isolate root causes from noise. Neither is universally superior; the problem type determines the right tool. Duration is not a valid criterion for method selection. Both Lean and Six Sigma are widely applied in IT service management and are not domain-restricted to manufacturing.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-014",
+    "type": "single_choice",
+    "prompt": "A portfolio review reveals 23 active improvement initiatives across IT, of which 11 are stalled due to resource competition. The CITO asks the improvement portfolio manager to propose a consolidation approach. What principle should guide the decision about which initiatives to continue, pause, or close?",
+    "choices": [
+      { "id": "a", "text": "Continue all initiatives but reduce the resources allocated to each proportionally." },
+      { "id": "b", "text": "Continue initiatives based on their strategic value and expected benefit, pausing or closing those that are lowest priority, to concentrate capacity on the initiatives most likely to deliver meaningful outcomes." },
+      { "id": "c", "text": "Continue only the initiatives that were started most recently because they reflect the latest strategic thinking." },
+      { "id": "d", "text": "Close all stalled initiatives and restart them in sequence once resources are available." }
+    ],
+    "correct": "b",
+    "explanation": "Portfolio management of improvements requires intentional prioritisation based on strategic value and expected benefits. Spreading limited resources equally across 23 initiatives practically guarantees all of them deliver slowly or fail. Concentrating capacity on the highest-priority initiatives increases the probability of meaningful, timely outcomes. Recency is not a proxy for strategic priority. Closing all stalled initiatives and restarting sequentially may create a restart overhead and delay recovery of high-value work unnecessarily. The correct answer applies portfolio discipline: analyse, prioritise, and allocate accordingly.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-mp-dp-015",
+    "type": "single_choice",
+    "prompt": "A DPI practitioner wants to create a culture of continual improvement in a 300-person IT operations team that has historically operated in a 'keep the lights on' mode with no formal improvement practice. Which combination of actions is most effective for catalysing a lasting cultural shift?",
+    "choices": [
+      { "id": "a", "text": "Mandate that every team member submit one improvement idea per month, measured in their annual performance review." },
+      { "id": "b", "text": "Publish an improvement register and update it monthly with the status of all submitted ideas." },
+      { "id": "c", "text": "Visibly act on and communicate the outcomes of early improvements, celebrate contributions, make it easy to submit ideas, and connect improvement work to meaningful team goals." },
+      { "id": "d", "text": "Hire a dedicated continuous improvement manager whose role is to identify and implement all improvements on behalf of the team." }
+    ],
+    "correct": "c",
+    "explanation": "Cultural change toward continual improvement requires building intrinsic motivation and demonstrating that improvement work has real impact. Visibly acting on early contributions shows ideas are taken seriously; celebrating contributors reinforces the behaviour; making submission easy removes friction; and connecting improvement to goals the team cares about creates meaning. Mandating ideas and linking them to performance reviews creates compliance behaviour, not genuine improvement culture. Publishing a register is useful but insufficient to catalyse culture change. A dedicated improvement manager centralises the activity, which prevents the distributed ownership that a culture of continual improvement requires.",
+    "topics": ["direct-plan-improve"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4: Direct, Plan and Improve", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional" }
+    ],
+    "version": 1
+  }
+]

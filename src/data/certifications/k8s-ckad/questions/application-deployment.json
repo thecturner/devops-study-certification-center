@@ -1,0 +1,285 @@
+[
+  {
+    "id": "k8s-ckad-ad-001",
+    "type": "single_choice",
+    "prompt": "Which kubectl command updates a Deployment's container image without editing the manifest file directly?",
+    "choices": [
+      { "id": "a", "text": "kubectl patch deployment myapp --image=myapp:2.0" },
+      { "id": "b", "text": "kubectl set image deployment/myapp myapp=myapp:2.0" },
+      { "id": "c", "text": "kubectl update deployment myapp --container=myapp --image=myapp:2.0" },
+      { "id": "d", "text": "kubectl replace deployment myapp --image=myapp:2.0" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl set image deployment/<name> <container-name>=<new-image> is the imperative command for updating a container's image in a Deployment. The syntax is: kubectl set image deployment/myapp myapp=myapp:2.0 where the first 'myapp' after the deployment name is the container name defined in the spec. This triggers a rolling update automatically.",
+    "topics": ["application-deployment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "kubectl set image", "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_set/kubectl_set_image/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-002",
+    "type": "single_choice",
+    "prompt": "What does kubectl rollout undo deployment/myapp do?",
+    "choices": [
+      { "id": "a", "text": "Deletes the Deployment and recreates it from the original manifest" },
+      { "id": "b", "text": "Rolls the Deployment back to the immediately preceding revision" },
+      { "id": "c", "text": "Pauses the current rollout mid-progress" },
+      { "id": "d", "text": "Scales the Deployment down to zero and then back up" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl rollout undo reverts a Deployment to its previous revision by replacing the current pod template with the last recorded one. You can target a specific revision with --to-revision=<n>. Kubernetes stores revision history up to the value of .spec.revisionHistoryLimit (default 10). The undo itself becomes a new revision.",
+    "topics": ["application-deployment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Rolling Back a Deployment", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-003",
+    "type": "single_choice",
+    "prompt": "A Deployment has maxSurge: 1 and maxUnavailable: 0, with 4 replicas. During a rolling update, what is the maximum number of pods that will exist at any moment?",
+    "choices": [
+      { "id": "a", "text": "4" },
+      { "id": "b", "text": "5" },
+      { "id": "c", "text": "3" },
+      { "id": "d", "text": "8" }
+    ],
+    "correct": "b",
+    "explanation": "maxSurge: 1 allows one extra pod above the desired count during the update. With 4 desired replicas, the maximum at any point is 4 + 1 = 5. maxUnavailable: 0 means no old pods are terminated until a new pod is ready, ensuring full capacity throughout the rollout. This is the safest configuration for high-availability services.",
+    "topics": ["application-deployment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Rolling Update Strategy", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-004",
+    "type": "single_choice",
+    "prompt": "What is the key difference between a blue/green deployment and a canary deployment?",
+    "choices": [
+      { "id": "a", "text": "Blue/green shifts 100% of traffic at once; canary gradually routes a small percentage to the new version" },
+      { "id": "b", "text": "Blue/green uses Kubernetes Deployments; canary requires a service mesh" },
+      { "id": "c", "text": "Blue/green is for stateful apps; canary is for stateless apps" },
+      { "id": "d", "text": "Blue/green deletes the old deployment; canary keeps both forever" }
+    ],
+    "correct": "a",
+    "explanation": "In a blue/green deployment, the new version (green) is fully deployed alongside the current version (blue), and then traffic is switched 100% from blue to green in one atomic step. A canary deployment exposes the new version to a small subset of users first, monitoring for errors before gradually increasing traffic. Canary reduces blast radius; blue/green enables instant rollback.",
+    "topics": ["application-deployment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Deployments", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-005",
+    "type": "single_choice",
+    "prompt": "Which kubectl command checks whether a Deployment rollout has completed successfully?",
+    "choices": [
+      { "id": "a", "text": "kubectl get deployment myapp --watch" },
+      { "id": "b", "text": "kubectl rollout status deployment/myapp" },
+      { "id": "c", "text": "kubectl describe deployment myapp | grep Ready" },
+      { "id": "d", "text": "kubectl rollout history deployment/myapp" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl rollout status deployment/<name> blocks until the rollout completes, printing progress messages. It exits with code 0 on success and non-zero if the rollout fails or times out. This makes it useful in CI pipelines. kubectl rollout history shows past revisions but does not wait for the current one.",
+    "topics": ["application-deployment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "kubectl rollout", "url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_rollout/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-006",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the --record flag (now deprecated) that was used with kubectl apply or kubectl set image?",
+    "choices": [
+      { "id": "a", "text": "It wrote the kubectl command to the Deployment's annotation for rollout history tracking" },
+      { "id": "b", "text": "It saved the manifest to a file on disk" },
+      { "id": "c", "text": "It enabled audit logging for the API server" },
+      { "id": "d", "text": "It created a Git commit with the change" }
+    ],
+    "correct": "a",
+    "explanation": "The --record flag annotated the resource with the exact kubectl command used (kubernetes.io/change-cause annotation), making it visible in kubectl rollout history. It was deprecated because it was implementation-specific and unreliable for non-kubectl changes. The recommended approach today is to set the kubernetes.io/change-cause annotation manually in your manifests or CI pipeline.",
+    "topics": ["application-deployment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Checking Rollout History of a Deployment", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#checking-rollout-history-of-a-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-007",
+    "type": "single_choice",
+    "prompt": "In Helm, which command installs a chart from a repository into the cluster and names the release 'my-release'?",
+    "choices": [
+      { "id": "a", "text": "helm apply my-release bitnami/nginx" },
+      { "id": "b", "text": "helm install my-release bitnami/nginx" },
+      { "id": "c", "text": "helm deploy my-release bitnami/nginx" },
+      { "id": "d", "text": "helm create my-release bitnami/nginx" }
+    ],
+    "correct": "b",
+    "explanation": "helm install <release-name> <chart> installs a Helm chart and creates a new release. The release name is used to manage the lifecycle: upgrade, rollback, and uninstall. 'helm create' scaffolds a new chart locally. There is no 'helm apply' or 'helm deploy' command.",
+    "topics": ["application-deployment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Helm: Using Helm", "url": "https://helm.sh/docs/intro/using_helm/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-008",
+    "type": "single_choice",
+    "prompt": "How do you implement a canary deployment using only native Kubernetes Deployments and Services (without a service mesh)?",
+    "choices": [
+      { "id": "a", "text": "Set spec.strategy.type: Canary on the Deployment" },
+      { "id": "b", "text": "Create two Deployments sharing the same pod label used by the Service selector; adjust replica counts to control traffic split" },
+      { "id": "c", "text": "Use kubectl rollout pause to hold a percentage of traffic on the old version" },
+      { "id": "d", "text": "Annotate the Service with canary.kubernetes.io/weight: 10" }
+    ],
+    "correct": "b",
+    "explanation": "Native Kubernetes Services route traffic based on pod label selectors, not weighted rules. The canary pattern is achieved by creating a 'canary' Deployment with the same labels as the stable Deployment (so the Service selects both) but with fewer replicas. If you have 9 stable replicas and 1 canary replica, approximately 10% of traffic hits the canary. There is no built-in Canary strategy type.",
+    "topics": ["application-deployment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Deployments", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-009",
+    "type": "multi_choice",
+    "prompt": "Which of the following statements about Helm values are correct? (Select all that apply.)",
+    "choices": [
+      { "id": "a", "text": "Default values are defined in a values.yaml file inside the chart" },
+      { "id": "b", "text": "You can override values at install time with --set or -f <file>" },
+      { "id": "c", "text": "Helm values are stored as Kubernetes Secrets encrypted with AES-256" },
+      { "id": "d", "text": "Values passed with --set take precedence over values in a -f file" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "charts/values.yaml provides defaults for all configurable parameters. At install or upgrade time you can override them with --set key=value (for individual values) or -f myvalues.yaml (for a full file). When both are present, --set takes precedence. Helm does not encrypt values; release metadata is stored as Kubernetes Secrets but the values themselves are not AES-encrypted by Helm itself.",
+    "topics": ["application-deployment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Helm: Values Files", "url": "https://helm.sh/docs/chart_template_guide/values_files/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-010",
+    "type": "single_choice",
+    "prompt": "A Deployment update is stuck and you want to pause it to investigate before proceeding. Which command pauses the rollout?",
+    "choices": [
+      { "id": "a", "text": "kubectl rollout stop deployment/myapp" },
+      { "id": "b", "text": "kubectl rollout pause deployment/myapp" },
+      { "id": "c", "text": "kubectl scale deployment/myapp --replicas=0" },
+      { "id": "d", "text": "kubectl cordon deployment/myapp" }
+    ],
+    "correct": "b",
+    "explanation": "kubectl rollout pause deployment/<name> halts the rollout at its current state. Existing pods are not changed, and no new pods are created. You can then investigate and, when ready, resume with kubectl rollout resume. This is useful for phased releases or for inspecting canary pods before full rollout. 'kubectl cordon' acts on nodes, not deployments.",
+    "topics": ["application-deployment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Pausing and Resuming a rollout of a Deployment", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#pausing-and-resuming-a-rollout-of-a-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-011",
+    "type": "single_choice",
+    "prompt": "What is the effect of setting spec.revisionHistoryLimit: 0 on a Deployment?",
+    "choices": [
+      { "id": "a", "text": "The Deployment keeps only the current revision's ReplicaSet, making rollback impossible" },
+      { "id": "b", "text": "The Deployment stores all revisions indefinitely" },
+      { "id": "c", "text": "Rolling updates are disabled and only Recreate strategy is allowed" },
+      { "id": "d", "text": "The Deployment deletes its history from etcd to save storage" }
+    ],
+    "correct": "a",
+    "explanation": "revisionHistoryLimit controls how many old ReplicaSets Kubernetes keeps for rollback purposes. Setting it to 0 means old ReplicaSets are deleted immediately after they are scaled down, so kubectl rollout undo has nothing to roll back to. The default is 10. This is a storage optimization but sacrifices rollback capability.",
+    "topics": ["application-deployment"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Clean up Policy", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#clean-up-policy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-012",
+    "type": "true_false",
+    "prompt": "True or False: kubectl rollout undo deployment/myapp --to-revision=3 will roll the Deployment back to revision 3 even if the current revision is 10.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The --to-revision flag allows you to target any specific revision that is still retained in the history (subject to revisionHistoryLimit). If revision 3's ReplicaSet still exists, the Deployment will be updated to match that revision's pod template. The rollback itself becomes a new revision in the history.",
+    "topics": ["application-deployment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Rolling Back to a Previous Revision", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-to-a-previous-revision" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-013",
+    "type": "single_choice",
+    "prompt": "You need to update a Deployment but want all existing pods to be terminated before any new pods start. Which deployment strategy achieves this?",
+    "choices": [
+      { "id": "a", "text": "RollingUpdate" },
+      { "id": "b", "text": "BlueGreen" },
+      { "id": "c", "text": "Recreate" },
+      { "id": "d", "text": "Canary" }
+    ],
+    "correct": "c",
+    "explanation": "The Recreate strategy (spec.strategy.type: Recreate) terminates all existing pods before creating new ones. This causes a brief downtime but is useful when the application cannot run two versions simultaneously, for example due to database schema locks or exclusive resource access. RollingUpdate (the default) keeps some pods running throughout the update.",
+    "topics": ["application-deployment"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Recreate Deployment", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#recreate-deployment" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-014",
+    "type": "single_choice",
+    "prompt": "When using Helm, which command upgrades an existing release named 'my-release' with a new set of values from a file?",
+    "choices": [
+      { "id": "a", "text": "helm update my-release bitnami/nginx -f new-values.yaml" },
+      { "id": "b", "text": "helm upgrade my-release bitnami/nginx -f new-values.yaml" },
+      { "id": "c", "text": "helm apply my-release bitnami/nginx -f new-values.yaml" },
+      { "id": "d", "text": "helm set my-release bitnami/nginx -f new-values.yaml" }
+    ],
+    "correct": "b",
+    "explanation": "helm upgrade <release-name> <chart> applies changes to an existing Helm release. The -f flag points to a values file. If the release does not yet exist, you can use helm upgrade --install to install or upgrade in a single command. 'helm update' is used for updating the local Helm repo cache (helm repo update), not releases.",
+    "topics": ["application-deployment"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Helm: helm upgrade", "url": "https://helm.sh/docs/helm/helm_upgrade/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "k8s-ckad-ad-015",
+    "type": "single_choice",
+    "prompt": "A Deployment's progressDeadlineSeconds is set to 120. What happens if the rollout does not complete within that time?",
+    "choices": [
+      { "id": "a", "text": "Kubernetes automatically rolls the Deployment back to the previous revision" },
+      { "id": "b", "text": "The Deployment is paused and waits for manual intervention" },
+      { "id": "c", "text": "Kubernetes reports the Deployment as degraded with a Progressing condition set to False" },
+      { "id": "d", "text": "The Deployment is deleted and recreated from scratch" }
+    ],
+    "correct": "c",
+    "explanation": "progressDeadlineSeconds defines how long Kubernetes waits for the Deployment to make progress before considering it stalled. After the deadline, the controller sets the Progressing condition to False with reason ProgressDeadlineExceeded. Kubernetes does NOT automatically roll back; you must explicitly undo. The deployment remains in its stalled state until corrected.",
+    "topics": ["application-deployment"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Failed Deployment", "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#failed-deployment" }
+    ],
+    "version": 1
+  }
+]

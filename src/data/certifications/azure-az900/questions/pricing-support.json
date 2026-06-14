@@ -1,0 +1,287 @@
+[
+  {
+    "id": "azure-az900-ps-001",
+    "type": "single_choice",
+    "prompt": "A company wants to estimate the monthly cost of a new Azure infrastructure deployment before committing to it. Which tool should they use?",
+    "choices": [
+      { "id": "a", "text": "Azure TCO Calculator" },
+      { "id": "b", "text": "Azure Pricing Calculator" },
+      { "id": "c", "text": "Azure Cost Management" },
+      { "id": "d", "text": "Azure Advisor" }
+    ],
+    "correct": "b",
+    "explanation": "The Azure Pricing Calculator is used to estimate the cost of specific Azure services and configurations before deploying them. The TCO (Total Cost of Ownership) Calculator compares the cost of running workloads on-premises versus on Azure. Azure Cost Management analyzes and manages actual spending on existing resources. Azure Advisor provides optimization recommendations.",
+    "topics": ["pricing-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Pricing Calculator", "url": "https://azure.microsoft.com/en-us/pricing/calculator/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-002",
+    "type": "single_choice",
+    "prompt": "A company's CFO wants to understand the financial case for migrating on-premises servers to Azure by comparing current costs. Which tool is most appropriate?",
+    "choices": [
+      { "id": "a", "text": "Azure Pricing Calculator" },
+      { "id": "b", "text": "Azure Cost Management + Billing" },
+      { "id": "c", "text": "Azure TCO Calculator" },
+      { "id": "d", "text": "Azure Advisor" }
+    ],
+    "correct": "c",
+    "explanation": "The Azure Total Cost of Ownership (TCO) Calculator helps organizations estimate savings by comparing the cost of running workloads on-premises versus on Azure, accounting for hardware, electricity, datacenter space, and IT labor. The Pricing Calculator estimates specific Azure service costs. Cost Management tracks actual Azure spending. Azure Advisor provides recommendations on existing resources.",
+    "topics": ["pricing-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure TCO Calculator", "url": "https://azure.microsoft.com/en-us/pricing/tco/calculator/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-003",
+    "type": "single_choice",
+    "prompt": "Which of the following factors affects the cost of an Azure virtual machine?",
+    "choices": [
+      { "id": "a", "text": "The number of users accessing the VM" },
+      { "id": "b", "text": "The Azure region where the VM is deployed" },
+      { "id": "c", "text": "The number of resource groups the VM belongs to" },
+      { "id": "d", "text": "The color theme used in the Azure Portal" }
+    ],
+    "correct": "b",
+    "explanation": "Azure pricing varies by region because of differences in local operating costs, taxes, and demand. The number of users accessing a VM does not directly affect VM pricing (though it may affect bandwidth costs). Resource groups are free organizational containers. Portal themes have no pricing impact.",
+    "topics": ["pricing-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Factors affecting Azure pricing", "url": "https://learn.microsoft.com/en-us/training/modules/describe-cost-management-azure/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-004",
+    "type": "single_choice",
+    "prompt": "Which Azure support plan is included for free with every Azure account and provides access to documentation and community forums only?",
+    "choices": [
+      { "id": "a", "text": "Developer" },
+      { "id": "b", "text": "Standard" },
+      { "id": "c", "text": "Basic" },
+      { "id": "d", "text": "Professional Direct" }
+    ],
+    "correct": "c",
+    "explanation": "The Basic support plan is included at no cost with every Azure subscription and provides access to online documentation, Azure Advisor recommendations, and community forums. It does not include access to technical support engineers. Developer, Standard, and Professional Direct plans are paid tiers that add increasing levels of technical support.",
+    "topics": ["pricing-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Support Plans", "url": "https://azure.microsoft.com/en-us/support/plans/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-005",
+    "type": "single_choice",
+    "prompt": "Which Azure support plan provides the fastest critical case response time and is designed for organizations with substantial Azure dependencies?",
+    "choices": [
+      { "id": "a", "text": "Developer" },
+      { "id": "b", "text": "Standard" },
+      { "id": "c", "text": "Professional Direct" },
+      { "id": "d", "text": "Basic" }
+    ],
+    "correct": "c",
+    "explanation": "Professional Direct provides the fastest response times (15-minute critical case response) of the standard commercial support tiers, along with proactive guidance, architectural support, and a designated pool of engineers. Developer is for non-production environments. Standard provides 1-hour critical response. Basic provides no technical support.",
+    "topics": ["pricing-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Support Plans comparison", "url": "https://azure.microsoft.com/en-us/support/plans/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-006",
+    "type": "single_choice",
+    "prompt": "What is an Azure SLA (Service Level Agreement)?",
+    "choices": [
+      { "id": "a", "text": "A document that lists the pricing for all Azure services" },
+      { "id": "b", "text": "Microsoft's commitment to a minimum level of service availability for Azure services" },
+      { "id": "c", "text": "A support contract that guarantees a response time for technical issues" },
+      { "id": "d", "text": "A compliance certificate proving Azure meets industry regulations" }
+    ],
+    "correct": "b",
+    "explanation": "An Azure SLA is Microsoft's formal commitment to minimum uptime and connectivity for each Azure service, typically expressed as a percentage (e.g., 99.9%). If Microsoft fails to meet the SLA, customers may be eligible for service credits. SLAs are not pricing documents, support contracts, or compliance certifications.",
+    "topics": ["pricing-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure SLA overview", "url": "https://azure.microsoft.com/en-us/support/legal/sla/summary/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-007",
+    "type": "single_choice",
+    "prompt": "A single Azure VM has an SLA of 99.9%. If you deploy two VMs across two Availability Zones, what is the expected SLA improvement?",
+    "choices": [
+      { "id": "a", "text": "The SLA stays the same at 99.9%" },
+      { "id": "b", "text": "The composite SLA decreases because there are more components" },
+      { "id": "c", "text": "The SLA increases because redundancy across zones reduces the chance of both failing" },
+      { "id": "d", "text": "The SLA becomes 100% because zone redundancy guarantees no downtime" }
+    ],
+    "correct": "c",
+    "explanation": "Deploying across multiple Availability Zones provides higher availability because both zones would need to fail simultaneously for the service to be unavailable, which is far less likely. Microsoft actually offers a 99.99% SLA for VMs deployed across two or more Availability Zones. No cloud service offers a 100% SLA. Adding redundancy increases, not decreases, availability.",
+    "topics": ["pricing-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: SLA for Virtual Machines", "url": "https://azure.microsoft.com/en-us/support/legal/sla/virtual-machines/v1_9/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-008",
+    "type": "single_choice",
+    "prompt": "Which of the following is a free service included with an Azure free account for 12 months?",
+    "choices": [
+      { "id": "a", "text": "Azure Cosmos DB (unlimited storage)" },
+      { "id": "b", "text": "Azure Virtual Machines (select sizes) for 750 hours per month" },
+      { "id": "c", "text": "Azure ExpressRoute circuits at no cost" },
+      { "id": "d", "text": "Unlimited Azure Blob Storage" }
+    ],
+    "correct": "b",
+    "explanation": "The Azure free account includes 750 hours per month of select VM sizes (B1s, B2pts v2, B2ats v2) for 12 months. Azure Cosmos DB is offered with 1,000 RU/s and 25 GB free forever, not unlimited. ExpressRoute has no free tier. Azure Blob Storage is free up to 5 GB for 12 months, not unlimited.",
+    "topics": ["pricing-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure free account FAQ", "url": "https://azure.microsoft.com/en-us/free/free-account-faq/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-009",
+    "type": "single_choice",
+    "prompt": "Which Azure tool allows you to set spending limits and receive alerts when costs approach a defined threshold?",
+    "choices": [
+      { "id": "a", "text": "Azure Pricing Calculator" },
+      { "id": "b", "text": "Azure Advisor" },
+      { "id": "c", "text": "Azure Cost Management + Billing" },
+      { "id": "d", "text": "Azure Service Health" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Cost Management + Billing allows you to monitor, analyze, and control Azure spending. You can set budgets with alert thresholds so you receive notifications when spending approaches or exceeds defined limits. The Pricing Calculator is for pre-deployment estimation. Azure Advisor provides cost recommendations. Azure Service Health reports on platform incidents.",
+    "topics": ["pricing-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure Cost Management overview", "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/cost-management-billing-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-010",
+    "type": "single_choice",
+    "prompt": "What is the primary difference between a public preview and a generally available (GA) Azure service?",
+    "choices": [
+      { "id": "a", "text": "Public preview services are only available to enterprise customers; GA services are available to everyone" },
+      { "id": "b", "text": "Public preview services may not have an SLA and are still being refined; GA services are production-ready with a full SLA" },
+      { "id": "c", "text": "Public preview services are always free; GA services always have a cost" },
+      { "id": "d", "text": "Public preview services are available in all regions; GA services are limited to paired regions" }
+    ],
+    "correct": "b",
+    "explanation": "Public preview services are available for any Azure customer to test but may lack SLAs, full documentation, and production-grade stability as Microsoft continues to refine them. GA (Generally Available) services are production-ready, fully supported, and covered by SLAs. Previews are not limited to enterprise customers, are not always free, and are not available in all regions.",
+    "topics": ["pricing-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Preview features supplemental terms", "url": "https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-011",
+    "type": "single_choice",
+    "prompt": "You want to reduce the cost of running Azure Virtual Machines for a predictable, long-running workload. Which pricing option provides the largest discount compared to pay-as-you-go?",
+    "choices": [
+      { "id": "a", "text": "Spot pricing" },
+      { "id": "b", "text": "Pay-as-you-go" },
+      { "id": "c", "text": "Reserved Instances (1 or 3-year reservation)" },
+      { "id": "d", "text": "Azure Hybrid Benefit" }
+    ],
+    "correct": "c",
+    "explanation": "Reserved Instances (1-year or 3-year commitments) can save up to 72% compared to pay-as-you-go pricing for predictable, steady-state workloads. Spot pricing can be even cheaper but is suitable only for interruptible workloads (the VM can be evicted). Pay-as-you-go is the baseline rate. Azure Hybrid Benefit reduces cost by applying existing on-premises licenses, and can be combined with Reserved Instances for additional savings.",
+    "topics": ["pricing-support"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Azure Reserved Virtual Machine Instances", "url": "https://learn.microsoft.com/en-us/azure/virtual-machines/prepay-reserved-vm-instances" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-012",
+    "type": "single_choice",
+    "prompt": "Which Azure support plan is recommended for developers testing or experimenting in non-production environments?",
+    "choices": [
+      { "id": "a", "text": "Basic" },
+      { "id": "b", "text": "Developer" },
+      { "id": "c", "text": "Standard" },
+      { "id": "d", "text": "Professional Direct" }
+    ],
+    "correct": "b",
+    "explanation": "The Developer support plan is designed for non-production environments and provides email-based technical support during business hours. Basic has no technical support access. Standard is suitable for production workloads needing 24/7 phone and email support. Professional Direct is for business-critical production workloads requiring faster response times.",
+    "topics": ["pricing-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Support Plans comparison", "url": "https://azure.microsoft.com/en-us/support/plans/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-013",
+    "type": "single_choice",
+    "prompt": "Which of the following actions would reduce Azure costs without significantly impacting functionality?",
+    "choices": [
+      { "id": "a", "text": "Deploying resources to multiple regions simultaneously" },
+      { "id": "b", "text": "Deallocating (stopping) virtual machines when they are not in use" },
+      { "id": "c", "text": "Using premium SSD storage for all resources regardless of workload requirements" },
+      { "id": "d", "text": "Enabling Availability Zones for every resource" }
+    ],
+    "correct": "b",
+    "explanation": "Deallocating (not just stopping) virtual machines releases the compute resources and stops the compute billing charge, while the disk storage charge continues. This is a straightforward cost optimization for VMs not needed outside business hours. Deploying to multiple regions increases costs. Premium SSD costs more than standard storage. Availability Zones add cost through redundancy.",
+    "topics": ["pricing-support"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Manage and optimize costs", "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/cost-mgt-best-practices" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-014",
+    "type": "single_choice",
+    "prompt": "Two Azure services are combined in a solution: Service A has a 99.9% SLA and Service B has a 99.95% SLA. What is the composite SLA?",
+    "choices": [
+      { "id": "a", "text": "99.95%" },
+      { "id": "b", "text": "99.9%" },
+      { "id": "c", "text": "Approximately 99.85%" },
+      { "id": "d", "text": "100%" }
+    ],
+    "correct": "c",
+    "explanation": "The composite SLA for services in series is calculated by multiplying their individual SLAs: 0.999 × 0.9995 = 0.9985, or approximately 99.85%. The composite SLA is always lower than the lowest individual SLA because both services must be available simultaneously. It does not average the two SLAs, and cannot be 100%.",
+    "topics": ["pricing-support"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure Docs: Design reliable Azure applications", "url": "https://learn.microsoft.com/en-us/azure/architecture/framework/resiliency/business-metrics" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-ps-015",
+    "type": "single_choice",
+    "prompt": "What happens to the Azure SLA for a single virtual machine if it uses only standard HDD storage?",
+    "choices": [
+      { "id": "a", "text": "The SLA improves because HDD is more durable than SSD" },
+      { "id": "b", "text": "The SLA remains the same regardless of disk type" },
+      { "id": "c", "text": "There is no SLA for a single VM using standard HDD storage" },
+      { "id": "d", "text": "Microsoft provides a 100% SLA for VMs with HDD storage" }
+    ],
+    "correct": "c",
+    "explanation": "Microsoft does not provide an uptime SLA for a single VM instance that uses standard HDD storage. To receive a connectivity SLA for a single VM, the VM must use Premium SSD, Ultra Disk, or Standard SSD managed disks, which provide the 99.9% single-instance SLA. Deploying across Availability Zones raises the SLA to 99.99%.",
+    "topics": ["pricing-support"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure SLA for Virtual Machines", "url": "https://azure.microsoft.com/en-us/support/legal/sla/virtual-machines/v1_9/" }
+    ],
+    "version": 1
+  }
+]

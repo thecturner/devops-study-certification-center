@@ -1,0 +1,287 @@
+[
+  {
+    "id": "azure-az900-am-001",
+    "type": "single_choice",
+    "prompt": "Which Azure tool provides a browser-based graphical interface for managing Azure resources?",
+    "choices": [
+      { "id": "a", "text": "Azure CLI" },
+      { "id": "b", "text": "Azure PowerShell" },
+      { "id": "c", "text": "Azure Portal" },
+      { "id": "d", "text": "Azure Cloud Shell" }
+    ],
+    "correct": "c",
+    "explanation": "The Azure Portal is a browser-based graphical user interface (GUI) for managing Azure resources. Azure CLI and Azure PowerShell are command-line tools. Azure Cloud Shell is a browser-based command-line environment that can run both Azure CLI and PowerShell commands but is itself not a GUI for managing resources visually.",
+    "topics": ["azure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure portal overview", "url": "https://learn.microsoft.com/en-us/azure/azure-portal/azure-portal-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-002",
+    "type": "single_choice",
+    "prompt": "What does Role-Based Access Control (RBAC) in Azure allow you to do?",
+    "choices": [
+      { "id": "a", "text": "Encrypt data at rest using customer-managed keys" },
+      { "id": "b", "text": "Grant users only the permissions they need to perform their job functions" },
+      { "id": "c", "text": "Monitor resource performance and create alerts" },
+      { "id": "d", "text": "Automatically scale resources based on demand" }
+    ],
+    "correct": "b",
+    "explanation": "RBAC lets you grant users, groups, and service principals the minimum permissions needed to do their job (principle of least privilege) by assigning roles at a specific scope. It is not for encryption, monitoring, or autoscaling. Those functions are handled by Azure Key Vault, Azure Monitor, and autoscale settings respectively.",
+    "topics": ["azure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: What is Azure role-based access control?", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-003",
+    "type": "single_choice",
+    "prompt": "Which Azure service provides personalized recommendations to help you improve cost, security, reliability, and performance?",
+    "choices": [
+      { "id": "a", "text": "Azure Monitor" },
+      { "id": "b", "text": "Azure Service Health" },
+      { "id": "c", "text": "Azure Advisor" },
+      { "id": "d", "text": "Azure Policy" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Advisor analyzes your Azure configuration and usage and provides personalized best-practice recommendations across five categories: cost, security, reliability, operational excellence, and performance. Azure Monitor collects and analyzes telemetry. Azure Service Health reports on Azure platform incidents. Azure Policy enforces organizational standards.",
+    "topics": ["azure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Introduction to Azure Advisor", "url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-004",
+    "type": "single_choice",
+    "prompt": "Which Azure service informs you about planned maintenance, service incidents, and health advisories that may affect your Azure resources?",
+    "choices": [
+      { "id": "a", "text": "Azure Advisor" },
+      { "id": "b", "text": "Azure Service Health" },
+      { "id": "c", "text": "Azure Monitor" },
+      { "id": "d", "text": "Azure Policy" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Service Health provides personalized alerts and guidance when Azure service issues affect your resources, including outages, planned maintenance, and health advisories. Azure Advisor gives optimization recommendations. Azure Monitor collects and analyzes telemetry. Azure Policy enforces compliance rules.",
+    "topics": ["azure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure Service Health overview", "url": "https://learn.microsoft.com/en-us/azure/service-health/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-005",
+    "type": "single_choice",
+    "prompt": "You want to prevent users in your organization from creating resources in certain Azure regions. Which Azure service should you use?",
+    "choices": [
+      { "id": "a", "text": "Azure RBAC" },
+      { "id": "b", "text": "Azure Blueprints" },
+      { "id": "c", "text": "Azure Policy" },
+      { "id": "d", "text": "Azure Locks" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Policy allows you to create, assign, and manage policy definitions that enforce rules over your Azure resources, such as restricting allowed deployment regions. RBAC controls who can perform actions but does not enforce resource configuration rules. Azure Blueprints orchestrates multiple governance artifacts including policies. Azure Locks prevent accidental deletion or modification of existing resources.",
+    "topics": ["azure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: What is Azure Policy?", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-006",
+    "type": "single_choice",
+    "prompt": "Which type of Azure resource lock prevents a resource from being deleted but still allows it to be read and modified?",
+    "choices": [
+      { "id": "a", "text": "ReadOnly lock" },
+      { "id": "b", "text": "Delete lock" },
+      { "id": "c", "text": "CanNotDelete lock" },
+      { "id": "d", "text": "Both B and C are the same lock" }
+    ],
+    "correct": "d",
+    "explanation": "Azure has two types of resource locks: CanNotDelete (also labeled 'Delete' in the portal), which prevents deletion but allows read and modify operations, and ReadOnly, which prevents both deletion and modification. CanNotDelete and Delete are the same lock type shown with different labels depending on context.",
+    "topics": ["azure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Lock resources to prevent changes", "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-007",
+    "type": "single_choice",
+    "prompt": "What is the primary purpose of applying tags to Azure resources?",
+    "choices": [
+      { "id": "a", "text": "To enforce security policies on resources" },
+      { "id": "b", "text": "To organize and categorize resources for management and cost tracking" },
+      { "id": "c", "text": "To replicate resources across Azure regions" },
+      { "id": "d", "text": "To restrict who can delete a resource" }
+    ],
+    "correct": "b",
+    "explanation": "Tags are metadata key-value pairs applied to Azure resources to help organize them, filter them in billing reports, and track costs by department, project, or environment. Tags do not enforce security policies (that is Azure Policy), do not replicate resources, and do not restrict deletion (that is Azure Locks).",
+    "topics": ["azure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Use tags to organize your Azure resources", "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-008",
+    "type": "single_choice",
+    "prompt": "Which Azure management tool lets you run both Azure CLI commands and PowerShell from a browser without installing anything locally?",
+    "choices": [
+      { "id": "a", "text": "Azure Portal" },
+      { "id": "b", "text": "Azure Cloud Shell" },
+      { "id": "c", "text": "Azure Mobile App" },
+      { "id": "d", "text": "Azure DevOps" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Cloud Shell is a browser-based, interactive shell environment that comes pre-authenticated and pre-installed with Azure CLI, Azure PowerShell, and other common tools. No local installation is required. The Azure Portal is a GUI, not a shell. The mobile app has limited management capabilities. Azure DevOps is a set of developer services, not a command-line shell.",
+    "topics": ["azure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Overview of Azure Cloud Shell", "url": "https://learn.microsoft.com/en-us/azure/cloud-shell/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-009",
+    "type": "single_choice",
+    "prompt": "Which Azure service collects metrics, logs, and traces from Azure resources and allows you to create dashboards and alerts?",
+    "choices": [
+      { "id": "a", "text": "Azure Advisor" },
+      { "id": "b", "text": "Azure Service Health" },
+      { "id": "c", "text": "Azure Monitor" },
+      { "id": "d", "text": "Azure Sentinel" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Monitor is the comprehensive monitoring service that collects, analyzes, and acts on telemetry (metrics, logs, traces) from Azure and on-premises resources. It supports dashboards, alerts, and integration with tools like Log Analytics. Azure Advisor gives recommendations. Azure Service Health reports on platform incidents. Azure Sentinel (now Microsoft Sentinel) is a SIEM/SOAR security tool.",
+    "topics": ["azure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Azure Monitor overview", "url": "https://learn.microsoft.com/en-us/azure/azure-monitor/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-010",
+    "type": "single_choice",
+    "prompt": "What is Azure Blueprints used for?",
+    "choices": [
+      { "id": "a", "text": "Creating visual architecture diagrams of your Azure environment" },
+      { "id": "b", "text": "Defining a repeatable set of Azure resources that adhere to organizational standards" },
+      { "id": "c", "text": "Monitoring cost trends and forecasting future spend" },
+      { "id": "d", "text": "Providing an automated chatbot for Azure support questions" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Blueprints enables cloud architects to define a repeatable set of governance artifacts (role assignments, policy assignments, ARM templates, resource groups) that can be deployed to new environments at scale, ensuring standards and compliance are built into every deployment. It is not for diagrams, cost monitoring, or support chatbots.",
+    "topics": ["azure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Overview of Azure Blueprints", "url": "https://learn.microsoft.com/en-us/azure/governance/blueprints/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-011",
+    "type": "single_choice",
+    "prompt": "Which Azure service provides data governance capabilities including scanning, classifying, and understanding your data across on-premises and multi-cloud environments?",
+    "choices": [
+      { "id": "a", "text": "Azure Defender" },
+      { "id": "b", "text": "Microsoft Purview" },
+      { "id": "c", "text": "Azure Information Protection" },
+      { "id": "d", "text": "Azure Key Vault" }
+    ],
+    "correct": "b",
+    "explanation": "Microsoft Purview (formerly Azure Purview) is a unified data governance service that helps organizations discover, classify, and manage data across on-premises, multi-cloud, and SaaS sources. Azure Defender (now Microsoft Defender for Cloud) is a security posture and threat protection tool. Azure Information Protection applies labels to files. Azure Key Vault manages secrets and encryption keys.",
+    "topics": ["azure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: What is Microsoft Purview?", "url": "https://learn.microsoft.com/en-us/purview/purview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-012",
+    "type": "single_choice",
+    "prompt": "A developer wants to use a scripting language with objects and cmdlets to automate Azure resource management. Which tool should they use?",
+    "choices": [
+      { "id": "a", "text": "Azure CLI" },
+      { "id": "b", "text": "Azure PowerShell" },
+      { "id": "c", "text": "Azure Portal" },
+      { "id": "d", "text": "ARM Templates" }
+    ],
+    "correct": "b",
+    "explanation": "Azure PowerShell uses Azure-specific cmdlets and PowerShell scripting to automate Azure resource management. Azure CLI uses bash-style commands and is preferred for Linux/Mac workflows or simpler scripting. The Azure Portal is a GUI. ARM Templates are declarative JSON files for infrastructure deployment, not an interactive scripting tool.",
+    "topics": ["azure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: Get started with Azure PowerShell", "url": "https://learn.microsoft.com/en-us/powershell/azure/get-started-azureps" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-013",
+    "type": "single_choice",
+    "prompt": "What is the purpose of Management Groups in Azure?",
+    "choices": [
+      { "id": "a", "text": "To group Azure resources within a single subscription for easier management" },
+      { "id": "b", "text": "To manage access permissions for individual users within a resource group" },
+      { "id": "c", "text": "To organize multiple subscriptions and apply governance controls at scale" },
+      { "id": "d", "text": "To group Azure regions for disaster recovery planning" }
+    ],
+    "correct": "c",
+    "explanation": "Management Groups are containers for organizing multiple Azure subscriptions, allowing you to apply governance controls (policies, RBAC) that inherit to all subscriptions and resources within the group. They are not for grouping resources within a subscription (that is resource groups), managing individual user permissions, or grouping regions (that is region pairs).",
+    "topics": ["azure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Organize subscriptions with management groups", "url": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-014",
+    "type": "single_choice",
+    "prompt": "A ReadOnly resource lock is applied to an Azure storage account. What operations are still permitted?",
+    "choices": [
+      { "id": "a", "text": "Deleting the storage account" },
+      { "id": "b", "text": "Uploading new blobs to the storage account" },
+      { "id": "c", "text": "Reading the list of blobs stored in the account" },
+      { "id": "d", "text": "Changing the storage account's replication settings" }
+    ],
+    "correct": "c",
+    "explanation": "A ReadOnly lock prevents all write and delete operations on the resource but allows read operations. Reading the list of stored blobs is a read operation and is permitted. Deleting the account, uploading blobs (write), and changing replication settings (modify) are all blocked by a ReadOnly lock.",
+    "topics": ["azure-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Docs: Lock resources to prevent changes", "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az900-am-015",
+    "type": "single_choice",
+    "prompt": "Which Azure feature allows you to define infrastructure as code using JSON templates and deploy resources consistently and repeatedly?",
+    "choices": [
+      { "id": "a", "text": "Azure Blueprints" },
+      { "id": "b", "text": "Azure Policy" },
+      { "id": "c", "text": "ARM Templates" },
+      { "id": "d", "text": "Azure Advisor" }
+    ],
+    "correct": "c",
+    "explanation": "ARM (Azure Resource Manager) Templates are JSON files that declaratively define the infrastructure and configuration you want to deploy. They enable repeatable, consistent deployments as infrastructure as code. Azure Blueprints can include ARM templates but are higher-level governance artifacts. Azure Policy enforces rules. Azure Advisor provides recommendations.",
+    "topics": ["azure-management"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Docs: What are ARM templates?", "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview" }
+    ],
+    "version": 1
+  }
+]

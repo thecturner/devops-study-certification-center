@@ -1,0 +1,287 @@
+[
+  {
+    "id": "itil4-f-fd-001",
+    "type": "single_choice",
+    "prompt": "Which of the four dimensions of service management focuses on roles, responsibilities, and organizational culture?",
+    "choices": [
+      { "id": "a", "text": "Information and Technology" },
+      { "id": "b", "text": "Partners and Suppliers" },
+      { "id": "c", "text": "Organizations and People" },
+      { "id": "d", "text": "Value Streams and Processes" }
+    ],
+    "correct": "c",
+    "explanation": "The Organizations and People dimension covers the structure and culture of the organization, including roles, responsibilities, reporting lines, communication, and how people collaborate. Workforce skills, teamwork norms, and responsibility frameworks such as RACI belong here. Information and Technology addresses tools and data. Partners and Suppliers addresses sourcing relationships. Value Streams and Processes addresses workflows and how activities create value.",
+    "topics": ["four-dimensions"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-002",
+    "type": "single_choice",
+    "prompt": "An organization is implementing AI-driven chatbots to handle first-line support queries and cloud-based knowledge management. Which dimension of service management does this primarily fall under?",
+    "choices": [
+      { "id": "a", "text": "Organizations and People" },
+      { "id": "b", "text": "Information and Technology" },
+      { "id": "c", "text": "Partners and Suppliers" },
+      { "id": "d", "text": "Value Streams and Processes" }
+    ],
+    "correct": "b",
+    "explanation": "The Information and Technology dimension covers the information and knowledge used by services, and the technologies required for service management — including AI, automation, cloud platforms, and knowledge management systems. AI chatbots and cloud-based knowledge tools are technology implementations that fall clearly within this dimension. People impacts (training, roles) would touch Organizations and People, but the primary dimension for the tools and data themselves is Information and Technology.",
+    "topics": ["four-dimensions"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-003",
+    "type": "single_choice",
+    "prompt": "A company outsources its network operations to a third-party vendor and uses a multi-vendor integration model for service delivery. Which dimension of service management is most relevant?",
+    "choices": [
+      { "id": "a", "text": "Value Streams and Processes" },
+      { "id": "b", "text": "Information and Technology" },
+      { "id": "c", "text": "Organizations and People" },
+      { "id": "d", "text": "Partners and Suppliers" }
+    ],
+    "correct": "d",
+    "explanation": "The Partners and Suppliers dimension addresses the relationships an organization has with other organizations involved in delivering services, including sourcing strategies, vendor management, and multi-vendor integration (SIAM). When an organization outsources network operations and integrates multiple vendors, the governance of those relationships is the core concern of the Partners and Suppliers dimension.",
+    "topics": ["four-dimensions"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-004",
+    "type": "single_choice",
+    "prompt": "Which dimension of service management is primarily concerned with how activities and tasks are coordinated to create and deliver services efficiently?",
+    "choices": [
+      { "id": "a", "text": "Organizations and People" },
+      { "id": "b", "text": "Partners and Suppliers" },
+      { "id": "c", "text": "Information and Technology" },
+      { "id": "d", "text": "Value Streams and Processes" }
+    ],
+    "correct": "d",
+    "explanation": "The Value Streams and Processes dimension addresses how activities are sequenced and coordinated to create value — including workflow design, process efficiency, value stream mapping, and eliminating waste. While people perform activities and technology enables them, the question of how activities are organized to produce value outputs is the domain of Value Streams and Processes.",
+    "topics": ["four-dimensions"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-005",
+    "type": "single_choice",
+    "prompt": "Which external factor in the PESTLE model describes regulations such as GDPR that constrain how an organization stores and processes personal data?",
+    "choices": [
+      { "id": "a", "text": "Political" },
+      { "id": "b", "text": "Social" },
+      { "id": "c", "text": "Technological" },
+      { "id": "d", "text": "Legal" }
+    ],
+    "correct": "d",
+    "explanation": "PESTLE stands for Political, Economic, Social, Technological, Legal, and Environmental. Data protection regulations such as GDPR are legal requirements imposed by law, placing them firmly in the Legal category. Political factors include government policy and stability. Social factors include demographic and cultural trends. Technological factors cover emerging technologies and infrastructure changes.",
+    "topics": ["four-dimensions"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-006",
+    "type": "single_choice",
+    "prompt": "How do PESTLE factors relate to the four dimensions of service management?",
+    "choices": [
+      { "id": "a", "text": "PESTLE factors replace the four dimensions when planning large-scale changes" },
+      { "id": "b", "text": "PESTLE factors are external forces that can affect all four dimensions of service management" },
+      { "id": "c", "text": "PESTLE factors apply only to the Partners and Suppliers dimension" },
+      { "id": "d", "text": "PESTLE factors are internal constraints considered only during service design" }
+    ],
+    "correct": "b",
+    "explanation": "PESTLE (Political, Economic, Social, Technological, Legal, Environmental) factors are external forces that sit outside the organization and can influence all four dimensions of service management. For example, a new environmental regulation (Environmental) might affect how technology is procured (Information and Technology), how suppliers are selected (Partners and Suppliers), how processes are redesigned (Value Streams and Processes), and what skills staff need (Organizations and People). They are external, not internal, and apply broadly across all dimensions.",
+    "topics": ["four-dimensions"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-007",
+    "type": "single_choice",
+    "prompt": "An organization defines clear RACI charts for its service desk, change management, and incident management teams. Which dimension is being addressed?",
+    "choices": [
+      { "id": "a", "text": "Value Streams and Processes" },
+      { "id": "b", "text": "Organizations and People" },
+      { "id": "c", "text": "Information and Technology" },
+      { "id": "d", "text": "Partners and Suppliers" }
+    ],
+    "correct": "b",
+    "explanation": "RACI (Responsible, Accountable, Consulted, Informed) charts define accountability and responsibility across roles and teams, which is a core concern of the Organizations and People dimension. This dimension covers organizational structure, culture, skills, and the frameworks that define how people work together. Although RACI is used within processes, the assignment of roles and responsibilities is an organizational governance matter.",
+    "topics": ["four-dimensions"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-008",
+    "type": "single_choice",
+    "prompt": "Which of the following best describes the spectrum of sourcing approaches in the Partners and Suppliers dimension?",
+    "choices": [
+      { "id": "a", "text": "From free open-source to proprietary commercial software" },
+      { "id": "b", "text": "From full insourcing, where all capabilities are internal, to full outsourcing, where all capabilities are provided by external suppliers" },
+      { "id": "c", "text": "From on-premises to fully cloud-hosted infrastructure" },
+      { "id": "d", "text": "From waterfall project delivery to agile continuous delivery" }
+    ],
+    "correct": "b",
+    "explanation": "The Partners and Suppliers dimension describes a spectrum of sourcing strategies ranging from full insourcing (all capabilities kept in-house) through various partnership models to full outsourcing (all capabilities provided by external suppliers). Organizations choose positions on this spectrum based on factors including strategic importance, cost, control, and risk. The other options describe technology or methodology choices, not sourcing strategies.",
+    "topics": ["four-dimensions"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-009",
+    "type": "single_choice",
+    "prompt": "A major economic recession reduces the IT budget of a financial services firm, forcing it to cut tooling costs and renegotiate supplier contracts. Which PESTLE factor is driving this change?",
+    "choices": [
+      { "id": "a", "text": "Political" },
+      { "id": "b", "text": "Economic" },
+      { "id": "c", "text": "Social" },
+      { "id": "d", "text": "Environmental" }
+    ],
+    "correct": "b",
+    "explanation": "Economic factors in PESTLE include market conditions, interest rates, exchange rates, economic cycles, and financial pressures that affect how organizations can invest in and operate services. A recession reducing budgets is a direct Economic factor. Political factors involve government actions and policy. Social factors involve demographic and cultural change. Environmental factors cover ecological sustainability concerns.",
+    "topics": ["four-dimensions"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-010",
+    "type": "single_choice",
+    "prompt": "Why must all four dimensions be considered when designing or improving a service?",
+    "choices": [
+      { "id": "a", "text": "Because regulations require all four dimensions to be documented in service designs" },
+      { "id": "b", "text": "Because neglecting any one dimension can lead to an unbalanced service that fails to deliver value" },
+      { "id": "c", "text": "Because the four dimensions must be addressed sequentially to ensure quality" },
+      { "id": "d", "text": "Because each dimension maps directly to one phase of the service value chain" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4 emphasizes a holistic approach: all four dimensions interact and must be considered together. Focusing on technology (Information and Technology) while ignoring people skills (Organizations and People), process design (Value Streams and Processes), or supplier dependencies (Partners and Suppliers) will produce a sub-optimal or failing service. The dimensions are not sequential — they must be addressed concurrently and each influences the others.",
+    "topics": ["four-dimensions"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-011",
+    "type": "single_choice",
+    "prompt": "An organization maps the sequence of steps from receiving a service request to its fulfillment, identifying bottlenecks and waste. Which dimension is being applied?",
+    "choices": [
+      { "id": "a", "text": "Partners and Suppliers" },
+      { "id": "b", "text": "Organizations and People" },
+      { "id": "c", "text": "Value Streams and Processes" },
+      { "id": "d", "text": "Information and Technology" }
+    ],
+    "correct": "c",
+    "explanation": "Value stream mapping — identifying the end-to-end sequence of activities, handoffs, and waste in a workflow — is a core technique of the Value Streams and Processes dimension. This dimension focuses on how activities are structured and coordinated to efficiently create value. Bottleneck analysis and waste elimination are Lean-influenced practices directly associated with value stream thinking.",
+    "topics": ["four-dimensions"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-012",
+    "type": "single_choice",
+    "prompt": "The rise of remote working has changed employee expectations about IT support accessibility. Which PESTLE factor does this represent?",
+    "choices": [
+      { "id": "a", "text": "Technological" },
+      { "id": "b", "text": "Legal" },
+      { "id": "c", "text": "Social" },
+      { "id": "d", "text": "Economic" }
+    ],
+    "correct": "c",
+    "explanation": "Social factors in PESTLE include cultural shifts, changing work habits, demographic trends, and evolving employee and customer expectations. The shift to remote working and changed expectations about IT support accessibility are a Social factor — they reflect how people's working behavior and attitudes have changed. Technological factors would cover the tools that enable remote work, but the behavioral and expectation change itself is Social.",
+    "topics": ["four-dimensions"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-013",
+    "type": "single_choice",
+    "prompt": "Which statement correctly describes the relationship between technology and process in the Information and Technology dimension?",
+    "choices": [
+      { "id": "a", "text": "Technology always defines the processes an organization must follow" },
+      { "id": "b", "text": "Technology enables and supports service management activities but does not replace the need for well-designed processes and capable people" },
+      { "id": "c", "text": "Automation and AI eliminate the need for human judgment in service management" },
+      { "id": "d", "text": "Technology should only be adopted after all processes have been fully documented" }
+    ],
+    "correct": "b",
+    "explanation": "ITIL 4's Information and Technology dimension recognizes that technology is an enabler — it supports and amplifies good process and people capability but does not replace the need for them. Automation can accelerate routine tasks, but complex decisions, human empathy (e.g., at the service desk), and process governance still require people and well-designed processes. Options A and C overstate technology's role. Option D is impractical and contradicts the iterative, progressive approach ITIL 4 encourages.",
+    "topics": ["four-dimensions"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-014",
+    "type": "single_choice",
+    "prompt": "A government mandate requires all public sector IT suppliers to meet new carbon-reduction targets. Which PESTLE factor is this?",
+    "choices": [
+      { "id": "a", "text": "Political" },
+      { "id": "b", "text": "Social" },
+      { "id": "c", "text": "Legal" },
+      { "id": "d", "text": "Environmental" }
+    ],
+    "correct": "d",
+    "explanation": "Environmental factors in PESTLE cover ecological sustainability, carbon emissions, waste reduction, and green IT requirements. A mandate requiring suppliers to meet carbon-reduction targets is driven by environmental policy objectives and belongs in the Environmental category. If the mandate had been a regulatory law already enacted, it could also have a Legal component — but the primary driver here is environmental sustainability, making Environmental the best answer.",
+    "topics": ["four-dimensions"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "itil4-f-fd-015",
+    "type": "single_choice",
+    "prompt": "An organization is struggling because different teams use incompatible tools, leading to data silos and poor knowledge sharing. Which dimension should be the primary focus of improvement efforts?",
+    "choices": [
+      { "id": "a", "text": "Organizations and People" },
+      { "id": "b", "text": "Partners and Suppliers" },
+      { "id": "c", "text": "Value Streams and Processes" },
+      { "id": "d", "text": "Information and Technology" }
+    ],
+    "correct": "d",
+    "explanation": "Incompatible tools, data silos, and poor knowledge sharing are primarily failures in the Information and Technology dimension, which governs the technologies used for service management and how information flows across the organization. Addressing tool incompatibility — standardizing platforms, integrating data, and enabling knowledge management — falls squarely within this dimension. While people and process changes may also be needed, the root cause described is a technology and information architecture problem.",
+    "topics": ["four-dimensions"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "ITIL 4 Foundation: The Four Dimensions of Service Management", "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-foundation" }
+    ],
+    "version": 1
+  }
+]

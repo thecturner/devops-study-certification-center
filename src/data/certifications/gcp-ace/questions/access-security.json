@@ -1,0 +1,301 @@
+[
+  {
+    "id": "gcp-ace-as-001",
+    "type": "single_choice",
+    "prompt": "A developer needs to be able to read and write objects in a specific Cloud Storage bucket but should not be able to delete the bucket or change its IAM policy. Which IAM role grants the minimum necessary permissions?",
+    "choices": [
+      { "id": "a", "text": "roles/storage.admin" },
+      { "id": "b", "text": "roles/storage.objectAdmin" },
+      { "id": "c", "text": "roles/storage.objectCreator" },
+      { "id": "d", "text": "roles/storage.legacyBucketOwner" }
+    ],
+    "correct": "b",
+    "explanation": "`roles/storage.objectAdmin` grants full control over objects within a bucket (read, write, delete objects, view metadata) but does not grant the ability to delete the bucket or modify its IAM policy. `roles/storage.admin` grants full control over buckets and objects, including deletion and IAM policy changes. `roles/storage.objectCreator` only allows creating (writing) new objects, not reading existing ones. `roles/storage.legacyBucketOwner` is a legacy ACL-based role that also grants bucket IAM policy modification.",
+    "topics": ["access-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Storage IAM roles", "url": "https://cloud.google.com/storage/docs/access-control/iam-roles" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-002",
+    "type": "single_choice",
+    "prompt": "Your organization's security policy states that no service should be granted the Editor or Owner primitive roles. A team lead argues that granting `roles/editor` to a service account is fine because it has all necessary permissions. What is the correct response to this argument?",
+    "choices": [
+      { "id": "a", "text": "Primitive roles are acceptable as long as the service account is tightly scoped to one project" },
+      { "id": "b", "text": "Primitive roles violate the principle of least privilege because they grant broad permissions across all GCP services in the project" },
+      { "id": "c", "text": "Primitive roles are identical to predefined roles and can be used interchangeably" },
+      { "id": "d", "text": "Primitive roles only apply to humans; service accounts are not affected by them" }
+    ],
+    "correct": "b",
+    "explanation": "Primitive roles (Owner, Editor, Viewer) grant permissions across all GCP services in a project, far exceeding what any single service account typically needs. This violates the principle of least privilege and creates excessive blast radius if the service account is compromised. Predefined and custom roles grant only the specific permissions needed. Primitive roles apply equally to user accounts, service accounts, and groups.",
+    "topics": ["access-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "IAM basic roles", "url": "https://cloud.google.com/iam/docs/understanding-roles#basic" },
+      { "label": "Principle of least privilege", "url": "https://cloud.google.com/iam/docs/using-iam-securely#least_privilege" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-003",
+    "type": "single_choice",
+    "prompt": "A Cloud Run service needs to read secrets from Secret Manager. The service runs as a custom service account (`sa@project.iam.gserviceaccount.com`). What is the minimum IAM configuration required?",
+    "choices": [
+      { "id": "a", "text": "Grant roles/secretmanager.admin to the service account at the project level" },
+      { "id": "b", "text": "Grant roles/secretmanager.secretAccessor to the service account on the specific secret resource" },
+      { "id": "c", "text": "Grant roles/editor to the service account and enable the Secret Manager API" },
+      { "id": "d", "text": "Create a custom role with all Secret Manager permissions and assign it at the organization level" }
+    ],
+    "correct": "b",
+    "explanation": "`roles/secretmanager.secretAccessor` grants permission to access (read) the secret's value. Binding this role on the specific secret resource (not at project level) follows least privilege by restricting access to only that secret. `roles/secretmanager.admin` grants full management of all secrets, exceeding the requirement. `roles/editor` is a primitive role with excessive breadth. A custom role at the organization level would grant the permission across all projects, violating least privilege.",
+    "topics": ["access-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Secret Manager access control", "url": "https://cloud.google.com/secret-manager/docs/access-control" },
+      { "label": "Secret Manager IAM roles", "url": "https://cloud.google.com/secret-manager/docs/reference/rest/v1/projects.secrets/getIamPolicy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-004",
+    "type": "single_choice",
+    "prompt": "Your organization wants to prevent any project within a specific folder from creating resources in regions outside of the US. Which approach enforces this at scale?",
+    "choices": [
+      { "id": "a", "text": "Apply an IAM deny policy on the folder that blocks compute.regions.use for non-US regions" },
+      { "id": "b", "text": "Apply the constraints/gcp.resourceLocations organization policy to the folder, restricting allowed locations to US regions" },
+      { "id": "c", "text": "Create a VPC firewall rule in each project that blocks traffic to non-US IP ranges" },
+      { "id": "d", "text": "Set the default region in gcloud config to us-central1 for all developers" }
+    ],
+    "correct": "b",
+    "explanation": "The `constraints/gcp.resourceLocations` organization policy restricts where GCP resources can be created. Applied to a folder, it is inherited by all projects in that folder, preventing resource creation outside the allowed regions. IAM deny policies control what actions identities can take but are not the mechanism for location restriction. VPC firewall rules control network traffic, not resource provisioning location. Setting gcloud config defaults is a client-side preference that developers can override.",
+    "topics": ["access-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Organization policy — resource locations", "url": "https://cloud.google.com/resource-manager/docs/organization-policy/defining-locations" },
+      { "label": "Organization Policy Service", "url": "https://cloud.google.com/resource-manager/docs/organization-policy/overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-005",
+    "type": "single_choice",
+    "prompt": "A team member who previously had admin access to a project has left the company. You need to immediately revoke all their GCP access across all projects they had access to. What is the most efficient approach when the user was managed through Cloud Identity?",
+    "choices": [
+      { "id": "a", "text": "Remove the user's IAM bindings from each project individually using gcloud" },
+      { "id": "b", "text": "Disable or delete the user's Cloud Identity account" },
+      { "id": "c", "text": "Set all projects to private visibility to block the user" },
+      { "id": "d", "text": "Rotate all service account keys in affected projects" }
+    ],
+    "correct": "b",
+    "explanation": "Disabling or deleting the user's Cloud Identity account immediately revokes their ability to authenticate as that Google identity, cutting off access to all GCP resources they had access to, regardless of how many projects were involved. This is far more efficient than removing IAM bindings from each project individually. Setting projects to private visibility does not revoke existing IAM grants. Rotating service account keys addresses machine credentials, not the human user's access.",
+    "topics": ["access-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Suspending and removing users", "url": "https://cloud.google.com/identity/docs/how-to/setup#suspend-user" },
+      { "label": "Best practices for leaving employees", "url": "https://cloud.google.com/iam/docs/using-iam-securely#offboarding" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-006",
+    "type": "single_choice",
+    "prompt": "You need to create a custom IAM role that grants permission to list and read Compute Engine instances but cannot start, stop, or delete them. Which permissions should the custom role include?",
+    "choices": [
+      { "id": "a", "text": "compute.instances.list, compute.instances.get" },
+      { "id": "b", "text": "compute.instances.list, compute.instances.get, compute.instances.start, compute.instances.stop" },
+      { "id": "c", "text": "compute.instances.use" },
+      { "id": "d", "text": "roles/compute.viewer (use the predefined role directly)" }
+    ],
+    "correct": "a",
+    "explanation": "`compute.instances.list` and `compute.instances.get` provide list and read access to Compute Engine instances without granting any modification or lifecycle permissions. Option B includes start and stop permissions, which are explicitly not needed. `compute.instances.use` grants permission to connect to an instance via SSH/RDP, not to read metadata. If `roles/compute.viewer` fully satisfies the requirement, using a predefined role is often preferred, but the question asks for a custom role's minimum permissions, making option A the correct answer.",
+    "topics": ["access-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Custom IAM roles", "url": "https://cloud.google.com/iam/docs/creating-custom-roles" },
+      { "label": "Compute Engine IAM permissions", "url": "https://cloud.google.com/compute/docs/access/iam" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-007",
+    "type": "single_choice",
+    "prompt": "Your application stores a database password in Secret Manager. You need to rotate the secret to a new value. After rotation, you also need to ensure the previous version can no longer be accessed. What is the correct sequence of actions?",
+    "choices": [
+      { "id": "a", "text": "Add a new secret version with the new password, then disable or destroy the previous version" },
+      { "id": "b", "text": "Delete the secret entirely and recreate it with the new password" },
+      { "id": "c", "text": "Update the existing secret version's payload in-place" },
+      { "id": "d", "text": "Create a new secret with a different name and update the application to reference it" }
+    ],
+    "correct": "a",
+    "explanation": "Secret Manager is versioned and immutable: you cannot update an existing version's payload. The correct rotation workflow is to add a new secret version (which becomes the latest version applications access), then disable or destroy the old version to prevent future access. Deleting and recreating the secret would break any IAM bindings and references using the secret's resource name. Updating in-place is not possible. Creating a new secret with a different name requires application code changes and is operationally complex.",
+    "topics": ["access-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Secret Manager secret rotation", "url": "https://cloud.google.com/secret-manager/docs/rotation-recommendations" },
+      { "label": "Managing secret versions", "url": "https://cloud.google.com/secret-manager/docs/managing-secrets" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-008",
+    "type": "single_choice",
+    "prompt": "A GKE workload uses Workload Identity to authenticate as a GCP service account. The pod's Kubernetes service account is `kube-sa` in namespace `my-ns`. Which IAM binding is required on the GCP service account to enable this federation?",
+    "choices": [
+      { "id": "a", "text": "Grant roles/iam.workloadIdentityUser to the Kubernetes service account principal: serviceAccount:PROJECT_ID.svc.id.goog[my-ns/kube-sa]" },
+      { "id": "b", "text": "Grant roles/iam.serviceAccountUser to the GKE node service account" },
+      { "id": "c", "text": "Grant roles/iam.serviceAccountTokenCreator to the Kubernetes service account" },
+      { "id": "d", "text": "Annotate the GCP service account with the Kubernetes namespace and service account name" }
+    ],
+    "correct": "a",
+    "explanation": "Workload Identity requires binding `roles/iam.workloadIdentityUser` on the GCP service account with the Kubernetes service account as the member, using the principal format `serviceAccount:PROJECT_ID.svc.id.goog[NAMESPACE/KSA_NAME]`. This allows the Kubernetes service account to impersonate the GCP service account. Granting `roles/iam.serviceAccountUser` to the node service account gives all workloads on the node that permission, violating per-workload isolation. `roles/iam.serviceAccountTokenCreator` allows creating tokens but is not the Workload Identity-specific binding. The annotation is applied to the Kubernetes service account, not the GCP service account.",
+    "topics": ["access-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Workload Identity for GKE", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity" },
+      { "label": "Workload Identity IAM binding", "url": "https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#authenticating_to" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-009",
+    "type": "single_choice",
+    "prompt": "Your organization's compliance team requires that a production Cloud Storage bucket containing PII cannot be made publicly accessible, even by a project owner. Which feature enforces this restriction?",
+    "choices": [
+      { "id": "a", "text": "A bucket-level IAM policy that denies allUsers and allAuthenticatedUsers" },
+      { "id": "b", "text": "The constraints/storage.publicAccessPrevention organization policy applied to the project" },
+      { "id": "c", "text": "Enabling uniform bucket-level access on the bucket" },
+      { "id": "d", "text": "A VPC Service Controls perimeter around the Cloud Storage API" }
+    ],
+    "correct": "b",
+    "explanation": "The `constraints/storage.publicAccessPrevention` organization policy, when set to `enforced`, prevents any bucket in scope from being made publicly accessible, overriding any IAM binding that would grant access to `allUsers` or `allAuthenticatedUsers`. A project owner cannot override an organization policy. A bucket-level IAM deny policy could be removed by a project owner. Uniform bucket-level access disables legacy ACLs but does not prevent a public IAM binding from being added. VPC Service Controls restrict access by network perimeter but do not prevent a bucket from being set to public.",
+    "topics": ["access-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Public access prevention", "url": "https://cloud.google.com/storage/docs/public-access-prevention" },
+      { "label": "Organization policy constraints for Cloud Storage", "url": "https://cloud.google.com/storage/docs/org-policy-constraints" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-010",
+    "type": "single_choice",
+    "prompt": "You want to protect a Cloud Run service from OWASP Top 10 web attacks such as SQL injection and cross-site scripting. The service is exposed via a Global external HTTP(S) load balancer. Which GCP service provides this protection?",
+    "choices": [
+      { "id": "a", "text": "VPC Service Controls" },
+      { "id": "b", "text": "Cloud Armor with a preconfigured WAF rule set" },
+      { "id": "c", "text": "Identity-Aware Proxy (IAP)" },
+      { "id": "d", "text": "Cloud NAT" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud Armor is GCP's WAF and DDoS protection service that integrates with the Global external HTTP(S) load balancer. It includes preconfigured rule sets based on the ModSecurity core rule set that target OWASP Top 10 threats including SQL injection and XSS. VPC Service Controls restrict access to GCP APIs from network perimeters, not web application attacks. IAP enforces Google Identity-based authentication but is not a WAF. Cloud NAT handles outbound network address translation, not inbound attack protection.",
+    "topics": ["access-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Cloud Armor overview", "url": "https://cloud.google.com/armor/docs/cloud-armor-overview" },
+      { "label": "Cloud Armor WAF rules", "url": "https://cloud.google.com/armor/docs/rule-tuning" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-011",
+    "type": "single_choice",
+    "prompt": "A developer is setting up a service account and proposes downloading a long-lived JSON key file and checking it into the application's repository as a convenient way to deploy to GCP. What is the primary security concern with this approach?",
+    "choices": [
+      { "id": "a", "text": "JSON key files expire after 24 hours and would cause deployment failures" },
+      { "id": "b", "text": "Checking a credential file into a repository risks exposing it in version history, granting anyone with repo access the service account's permissions indefinitely" },
+      { "id": "c", "text": "Service account JSON keys cannot be used in CI/CD environments" },
+      { "id": "d", "text": "JSON key files are limited to 10 API calls per hour" }
+    ],
+    "correct": "b",
+    "explanation": "Long-lived JSON key files committed to a repository (even private ones) risk being exposed in git history, forks, or CI/CD logs, giving any party who accesses the key the full permissions of the service account indefinitely. JSON keys do not expire automatically. They can be used in CI/CD environments but should be stored as secrets, not in repository files. There is no API call rate limit tied to key files.",
+    "topics": ["access-security"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Service account key best practices", "url": "https://cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys" },
+      { "label": "Workload Identity Federation", "url": "https://cloud.google.com/iam/docs/workload-identity-federation" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-012",
+    "type": "single_choice",
+    "prompt": "You need to encrypt a Cloud Storage bucket's data using a key that your organization controls and can rotate or revoke independently of GCP's default encryption. The key must be stored outside of GCP. Which encryption option should you configure?",
+    "choices": [
+      { "id": "a", "text": "Google-managed encryption keys (default)" },
+      { "id": "b", "text": "Customer-managed encryption keys (CMEK) stored in Cloud KMS" },
+      { "id": "c", "text": "Customer-supplied encryption keys (CSEK) provided by your organization's own key management system" },
+      { "id": "d", "text": "Enable Cloud KMS and use an externally managed key via Cloud External Key Manager" }
+    ],
+    "correct": "d",
+    "explanation": "Cloud External Key Manager (EKM) allows GCP to use encryption keys that reside in a supported external key management partner's system, outside of GCP. This satisfies the requirement that the key is stored outside GCP while still being manageable centrally. Default Google-managed keys are fully managed by GCP, not the customer. CMEK with Cloud KMS stores the key within GCP's KMS. CSEK requires the customer to supply the key material with each API request, which is operationally burdensome and does not provide a central KMS outside GCP.",
+    "topics": ["access-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Cloud External Key Manager", "url": "https://cloud.google.com/kms/docs/ekm" },
+      { "label": "Cloud KMS overview", "url": "https://cloud.google.com/kms/docs/key-management-service" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-013",
+    "type": "single_choice",
+    "prompt": "You want to ensure that a Cloud SQL instance can only be accessed from within your VPC and cannot be reached from the public internet, even by users with valid database credentials. Which Cloud SQL feature achieves this?",
+    "choices": [
+      { "id": "a", "text": "Enable Cloud SQL Auth Proxy on all client VMs" },
+      { "id": "b", "text": "Configure the Cloud SQL instance with a private IP only and no public IP" },
+      { "id": "c", "text": "Add an authorized network entry for 0.0.0.0/0 but require SSL" },
+      { "id": "d", "text": "Enable Cloud Armor on the Cloud SQL instance" }
+    ],
+    "correct": "b",
+    "explanation": "Configuring a Cloud SQL instance with a private IP only (and no public IP) means it has no publicly reachable endpoint, making it accessible only from resources within the authorized VPC network. Authorizing 0.0.0.0/0 while requiring SSL still exposes the database to the public internet. The Cloud SQL Auth Proxy is a secure connection tool but by itself does not prevent a public IP from existing on the instance. Cloud Armor is a WAF for HTTP(S) load balancers and cannot be applied to Cloud SQL.",
+    "topics": ["access-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Cloud SQL private IP", "url": "https://cloud.google.com/sql/docs/postgres/private-ip" },
+      { "label": "Cloud SQL connectivity options", "url": "https://cloud.google.com/sql/docs/postgres/connect-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-014",
+    "type": "single_choice",
+    "prompt": "You need to restrict access to the BigQuery API so that only requests originating from within your organization's VPC can succeed, even for identities that have the correct IAM permissions. Which GCP feature implements this network-based access boundary?",
+    "choices": [
+      { "id": "a", "text": "VPC firewall rules targeting the BigQuery API IP ranges" },
+      { "id": "b", "text": "VPC Service Controls with a service perimeter that includes BigQuery" },
+      { "id": "c", "text": "Private Google Access on the VPC subnet" },
+      { "id": "d", "text": "Cloud Armor policy attached to the BigQuery API" }
+    ],
+    "correct": "b",
+    "explanation": "VPC Service Controls create a service perimeter that restricts access to GCP managed services (like BigQuery) based on the request's context, including the VPC network and device attributes. Even if a principal has the correct IAM role, requests from outside the perimeter are denied. VPC firewall rules control VM-to-VM traffic but cannot restrict calls to GCP APIs. Private Google Access allows VMs without external IPs to reach GCP APIs, but does not restrict access from outside the VPC. Cloud Armor is a WAF for HTTP(S) load balancers and cannot be attached to the BigQuery API.",
+    "topics": ["access-security"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "VPC Service Controls overview", "url": "https://cloud.google.com/vpc-service-controls/docs/overview" },
+      { "label": "Service perimeters", "url": "https://cloud.google.com/vpc-service-controls/docs/service-perimeters" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "gcp-ace-as-015",
+    "type": "single_choice",
+    "prompt": "You are auditing your GCP project and discover that a service account has the Owner role at the project level. What risk does this pose, and what should you do?",
+    "choices": [
+      { "id": "a", "text": "No risk; service accounts always need Owner to function correctly" },
+      { "id": "b", "text": "The service account could be used to exfiltrate data, modify IAM policies, or delete resources; replace Owner with the minimum predefined or custom roles needed for the service account's tasks" },
+      { "id": "c", "text": "Rotate the service account key immediately and the Owner role will be automatically downgraded" },
+      { "id": "d", "text": "Remove the service account from the project and recreate it with the correct role" }
+    ],
+    "correct": "b",
+    "explanation": "A service account with the Owner role has unrestricted access to all resources in the project, including the ability to modify IAM policies, delete resources, and access all data. If compromised or misused, the blast radius is the entire project. The correct remediation is to audit the service account's actual needs, then replace the Owner role with the specific predefined or custom roles it requires. Rotating the key does not change the role binding. Deleting and recreating the service account is unnecessarily disruptive and does not address the root cause of over-privileged role assignment.",
+    "topics": ["access-security"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "IAM best practices", "url": "https://cloud.google.com/iam/docs/using-iam-securely" },
+      { "label": "Service account security recommendations", "url": "https://cloud.google.com/iam/docs/best-practices-service-accounts" }
+    ],
+    "version": 1
+  }
+]

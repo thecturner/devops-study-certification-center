@@ -1,0 +1,1202 @@
+[
+  {
+    "id": "sn-itsm-im-001",
+    "type": "single_choice",
+    "prompt": "Which field on an incident record captures the person who reported the issue?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Caller"
+      },
+      {
+        "id": "b",
+        "text": "Opened by"
+      },
+      {
+        "id": "c",
+        "text": "Assigned to"
+      },
+      {
+        "id": "d",
+        "text": "Requested for"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Caller field identifies the user who reported or is affected by the incident. 'Opened by' captures who created the record in the system, which may be a service desk agent rather than the end user. These two fields serve distinct purposes in ServiceNow incident management.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-002",
+    "type": "single_choice",
+    "prompt": "What is the correct default lifecycle order for a ServiceNow incident?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "New > In Progress > On Hold > Resolved > Closed"
+      },
+      {
+        "id": "b",
+        "text": "Open > Assigned > Pending > Resolved > Closed"
+      },
+      {
+        "id": "c",
+        "text": "New > Assigned > Work in Progress > Resolved > Closed"
+      },
+      {
+        "id": "d",
+        "text": "Draft > Open > In Progress > Resolved > Closed"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The default OOTB incident states in ServiceNow ITSM are New, In Progress, On Hold, Resolved, and Closed. On Hold is used when work must pause, typically while awaiting information. Incidents transition to Resolved when a solution is provided and to Closed after confirmation or automatic closure.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-003",
+    "type": "single_choice",
+    "prompt": "Priority on an incident is calculated from which two fields?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Impact and Urgency"
+      },
+      {
+        "id": "b",
+        "text": "Severity and Category"
+      },
+      {
+        "id": "c",
+        "text": "Urgency and Severity"
+      },
+      {
+        "id": "d",
+        "text": "Impact and Severity"
+      }
+    ],
+    "correct": "a",
+    "explanation": "In ServiceNow, Priority is automatically calculated from Impact and Urgency using a priority lookup matrix. Impact measures how widely the incident affects the business, while Urgency measures how quickly resolution is needed. The combination determines the resulting priority value (1-Critical through 5-Planning).",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-004",
+    "type": "single_choice",
+    "prompt": "Which on-hold reason should be selected when a technician is waiting for a vendor to provide a fix?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Awaiting Caller"
+      },
+      {
+        "id": "b",
+        "text": "Awaiting Problem"
+      },
+      {
+        "id": "c",
+        "text": "Awaiting Vendor"
+      },
+      {
+        "id": "d",
+        "text": "Awaiting Change"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow provides several OOTB on-hold reason codes to explain why an incident is paused. 'Awaiting Vendor' is the appropriate choice when progress is blocked by a third-party supplier. Other reasons include Awaiting Caller (waiting for the reporter to provide info), Awaiting Problem (linked to a problem record), and Awaiting Change (a change is needed before resolution).",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-005",
+    "type": "single_choice",
+    "prompt": "Which feature allows a service desk agent to automatically route an incident to the correct assignment group based on the CI or category selected?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Assignment Rules"
+      },
+      {
+        "id": "b",
+        "text": "Inbound Actions"
+      },
+      {
+        "id": "c",
+        "text": "Escalation Rules"
+      },
+      {
+        "id": "d",
+        "text": "Transform Maps"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Assignment Rules in ServiceNow automatically populate the Assignment Group (and optionally the Assigned To field) on an incident based on criteria such as category, subcategory, CI, location, or other fields. This removes the need for agents to manually route tickets and ensures consistent routing logic.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-006",
+    "type": "single_choice",
+    "prompt": "An incident has been resolved but the caller reports the issue has recurred. Which action should the service desk take?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Reopen the original incident by changing the state back to In Progress"
+      },
+      {
+        "id": "b",
+        "text": "Create a new incident and link it to the original"
+      },
+      {
+        "id": "c",
+        "text": "Create a problem record from the resolved incident"
+      },
+      {
+        "id": "d",
+        "text": "Mark the incident as a duplicate"
+      }
+    ],
+    "correct": "a",
+    "explanation": "In ServiceNow, a resolved incident can be reopened if the caller confirms the issue is not actually fixed. Changing the state from Resolved back to In Progress reopens the record and preserves all history. ITSM best practice reserves creating a new ticket for truly new issues; recurrences of the same fault should reopen the existing record to maintain continuity.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-007",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the Watch List field on an incident?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It contains users who receive notifications about the incident"
+      },
+      {
+        "id": "b",
+        "text": "It lists CIs that are affected by the incident"
+      },
+      {
+        "id": "c",
+        "text": "It tracks the approvers required before resolving the incident"
+      },
+      {
+        "id": "d",
+        "text": "It records previous assignees who worked on the ticket"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The Watch List field on an incident record contains users or groups who are interested in the incident and should receive email notifications for updates. These users are not necessarily the caller or the assigned technician but have a stake in the outcome, such as a manager or a related team member.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-008",
+    "type": "single_choice",
+    "prompt": "What triggers ServiceNow to create an incident automatically from an inbound email?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "An Inbound Action defined for the incident table that matches the email"
+      },
+      {
+        "id": "b",
+        "text": "An email notification rule configured on the incident table"
+      },
+      {
+        "id": "c",
+        "text": "A scheduled import set that polls the mailbox"
+      },
+      {
+        "id": "d",
+        "text": "A workflow triggered by the email relay server"
+      }
+    ],
+    "correct": "a",
+    "explanation": "Inbound Actions in ServiceNow process incoming emails directed to a configured mailbox. When an email arrives and matches the condition defined in an Inbound Action (such as matching a target table of 'incident'), the system executes the associated script, which typically creates a new incident record from the email content.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-009",
+    "type": "single_choice",
+    "prompt": "A major incident has been declared. Which ServiceNow feature is used to communicate updates to all stakeholders simultaneously and track the response?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Incident Tasks"
+      },
+      {
+        "id": "b",
+        "text": "Parent-Child Incident linking"
+      },
+      {
+        "id": "c",
+        "text": "Major Incident Management with the dedicated workbench"
+      },
+      {
+        "id": "d",
+        "text": "Problem Management with a linked known error"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow's Major Incident Management feature provides a dedicated workbench for handling high-priority incidents. It enables a major incident manager to coordinate response, send bulk communications, track resolution tasks, and manage the timeline from a single interface. The workbench is separate from the standard incident form and provides consolidated visibility.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-010",
+    "type": "single_choice",
+    "prompt": "When an SLA associated with an incident has breached, what is the default behavior in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The incident is automatically escalated to the next priority level"
+      },
+      {
+        "id": "b",
+        "text": "The incident is automatically assigned to the SLA manager"
+      },
+      {
+        "id": "c",
+        "text": "A notification is sent and the SLA stage is updated to 'Breached'"
+      },
+      {
+        "id": "d",
+        "text": "The incident is closed with a breach resolution code"
+      }
+    ],
+    "correct": "c",
+    "explanation": "When an SLA instance reaches 100% of its time allocation, the SLA stage changes to 'Breached' and the configured breach notification workflows fire. By default, this sends alerts to the assigned group and potentially managers. The incident remains open and must still be resolved; the breach is a tracking event rather than an automated state change.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-011",
+    "type": "single_choice",
+    "prompt": "What is the primary difference between a Parent Incident and an Incident Task?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Parent incidents track multiple related CIs; incident tasks track individual users"
+      },
+      {
+        "id": "b",
+        "text": "Parent incidents are only used for major incidents; incident tasks are used for standard incidents"
+      },
+      {
+        "id": "c",
+        "text": "A parent incident groups related child incidents; incident tasks are work items created within a single incident"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference; both are used to split work among teams"
+      }
+    ],
+    "correct": "c",
+    "explanation": "A Parent Incident is used to group multiple related child incidents that may share a common cause, allowing coordinated resolution. Incident Tasks, by contrast, are sub-tasks created within a single incident to divide the work among different individuals or teams while keeping all work associated with one record. The two features serve distinct coordination purposes.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-012",
+    "type": "single_choice",
+    "prompt": "Which role is required to create and manage incident templates in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "itil"
+      },
+      {
+        "id": "b",
+        "text": "incident_manager"
+      },
+      {
+        "id": "c",
+        "text": "admin or itil_admin"
+      },
+      {
+        "id": "d",
+        "text": "catalog_admin"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Incident templates in ServiceNow can be created by users with the 'itil_admin' or 'admin' roles. Templates pre-populate field values on new incidents to speed data entry for common incident types. Standard ITIL users can apply templates but cannot create or modify them without elevated privileges.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-013",
+    "type": "single_choice",
+    "prompt": "A VIP user logs an incident. Which ServiceNow feature ensures that VIP incidents receive elevated attention without requiring agents to manually change the priority?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Assignment Rules with a VIP condition"
+      },
+      {
+        "id": "b",
+        "text": "A dedicated VIP assignment group"
+      },
+      {
+        "id": "c",
+        "text": "VIP flag on the user record combined with business rules that adjust impact or priority"
+      },
+      {
+        "id": "d",
+        "text": "Setting the caller's default priority to Critical in their profile"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow marks certain users as VIPs using a flag on the sys_user table. Business rules or client scripts can detect when the caller is flagged as a VIP and automatically adjust the impact, urgency, or other fields to ensure prioritized handling. This provides automated differential treatment without requiring manual overrides by agents.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-014",
+    "type": "single_choice",
+    "prompt": "What fields must be populated before an incident can be moved to the 'Resolved' state in the default ServiceNow ITSM configuration?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Work Notes"
+      },
+      {
+        "id": "b",
+        "text": "Close Code and Close Notes"
+      },
+      {
+        "id": "c",
+        "text": "Resolution Code and Resolution Notes"
+      },
+      {
+        "id": "d",
+        "text": "Cause Code"
+      }
+    ],
+    "correct": "c",
+    "explanation": "The default OOTB ServiceNow incident configuration requires that the Resolution Code (also called Close Code in some implementations) and Resolution Notes fields be populated before the state can be set to Resolved. This ensures the resolution is documented for future reference and reporting. Work Notes are a journal entry field but are not mandatory for closure.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-015",
+    "type": "single_choice",
+    "prompt": "Which field is used to link a knowledge article directly to an incident resolution in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Resolution Notes"
+      },
+      {
+        "id": "b",
+        "text": "Work Notes"
+      },
+      {
+        "id": "c",
+        "text": "Additional comments"
+      },
+      {
+        "id": "d",
+        "text": "Knowledge field (kb_knowledge) on the incident"
+      }
+    ],
+    "correct": "d",
+    "explanation": "ServiceNow incident records include a Knowledge field that can reference a knowledge article used in the resolution. When an agent uses a KB article to resolve an incident, linking it here allows reporting on KB article effectiveness and contributes to knowledge-centered service delivery metrics.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-016",
+    "type": "single_choice",
+    "prompt": "How does ServiceNow determine whether to route an inbound email as an update to an existing incident or as a new incident?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "By checking whether the sender is already listed in the Watch List of any open incident"
+      },
+      {
+        "id": "b",
+        "text": "By checking whether the email domain matches a company record"
+      },
+      {
+        "id": "c",
+        "text": "By the time the email was received relative to business hours"
+      },
+      {
+        "id": "d",
+        "text": "By matching the email subject or watermark to an existing incident number"
+      }
+    ],
+    "correct": "d",
+    "explanation": "ServiceNow's inbound email processing checks for a watermark or the incident number in the email subject line or body. If a match is found, the email is added as a journal entry to the existing record. If no watermark or reference is present, the Inbound Action script typically creates a new incident. The watermark is a hidden identifier embedded in outbound notification emails.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-017",
+    "type": "single_choice",
+    "prompt": "Which field on the incident form is typically used by the service desk agent to communicate with the end user about progress?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Work Notes"
+      },
+      {
+        "id": "b",
+        "text": "Resolution Notes"
+      },
+      {
+        "id": "c",
+        "text": "Description"
+      },
+      {
+        "id": "d",
+        "text": "Additional Comments"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Additional Comments (also labeled 'Comments' in some implementations) is the customer-visible journal field on an incident. End users can see entries in this field through the Service Portal. Work Notes, by contrast, are internal-only and visible only to ITIL users. Agents use Additional Comments to send updates to callers.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-018",
+    "type": "single_choice",
+    "prompt": "When an incident is created with Impact = 2 (High) and Urgency = 2 (High), what is the resulting Priority in the default ServiceNow priority matrix?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "1 - Critical"
+      },
+      {
+        "id": "b",
+        "text": "3 - Moderate"
+      },
+      {
+        "id": "c",
+        "text": "4 - Low"
+      },
+      {
+        "id": "d",
+        "text": "2 - High"
+      }
+    ],
+    "correct": "d",
+    "explanation": "In the default ServiceNow ITSM priority lookup matrix, Impact 2 (High) combined with Urgency 2 (High) produces Priority 2 (High). Priority 1 (Critical) requires either Impact 1 combined with Urgency 1 or 2, or Impact 2 with Urgency 1. The matrix is configurable but the OOTB defaults follow this pattern.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-019",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'Related Incidents' on a major incident record?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "To list incidents resolved using the same knowledge article"
+      },
+      {
+        "id": "b",
+        "text": "To track incidents opened by the same caller in the past 30 days"
+      },
+      {
+        "id": "c",
+        "text": "To flag incidents that were incorrectly categorized"
+      },
+      {
+        "id": "d",
+        "text": "To group child incidents that share the same root cause as the major incident"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Related Incidents on a major incident record link child incidents that stem from the same underlying problem or event. This allows the major incident team to see the full scope of impact, coordinate communication to all affected callers simultaneously, and resolve child incidents en masse when the root cause is addressed.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-020",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature allows a system administrator to define that all incidents with Category = 'Network' are automatically assigned to the 'Network Support' group?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Escalation Policy"
+      },
+      {
+        "id": "b",
+        "text": "Inbound Action scripting"
+      },
+      {
+        "id": "c",
+        "text": "Data Lookup and Record Matching"
+      },
+      {
+        "id": "d",
+        "text": "Transform Maps"
+      }
+    ],
+    "correct": "c",
+    "explanation": "ServiceNow's Data Lookup and Record Matching (formerly Assignment Lookup Rules) feature matches incident field values against lookup table entries to automatically populate assignment group, urgency, and other fields. It provides a no-code configuration option for routing logic based on category, subcategory, CI class, location, and similar attributes.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-021",
+    "type": "single_choice",
+    "prompt": "An incident has been on hold with reason 'Awaiting Caller' for 5 days. What can ServiceNow be configured to do automatically using escalation rules?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Close the incident immediately with a 'No Response' close code"
+      },
+      {
+        "id": "b",
+        "text": "Escalate the incident to Priority 1"
+      },
+      {
+        "id": "c",
+        "text": "Reassign the incident to the incident manager"
+      },
+      {
+        "id": "d",
+        "text": "Send a reminder to the caller and eventually auto-resolve if no response"
+      }
+    ],
+    "correct": "d",
+    "explanation": "ServiceNow's escalation rules and inactivity workflows can be configured to send automated reminders to the caller when an incident has been on hold awaiting their response. If the caller still does not respond after a defined period, a subsequent rule can automatically resolve the incident with an appropriate close code. This behavior reduces queue bloat from unresponsive callers.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-022",
+    "type": "single_choice",
+    "prompt": "A knowledge article is created directly from an incident record. What is the default initial state of that article?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Published"
+      },
+      {
+        "id": "b",
+        "text": "Review"
+      },
+      {
+        "id": "c",
+        "text": "Pending Approval"
+      },
+      {
+        "id": "d",
+        "text": "Draft"
+      }
+    ],
+    "correct": "d",
+    "explanation": "When a knowledge article is created from an incident using the 'Create Knowledge' UI action, it is created in Draft state by default. The article must then go through the knowledge management workflow (typically review and approval) before it is published and becomes visible to end users. This prevents unreviewed content from being immediately searchable.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-023",
+    "type": "single_choice",
+    "prompt": "In which scenario is it most appropriate to use an Incident Template rather than a Service Catalog item?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "When end users need a structured form to submit requests through the Employee Service Center"
+      },
+      {
+        "id": "b",
+        "text": "When a workflow with approvals and fulfillment tasks is required"
+      },
+      {
+        "id": "c",
+        "text": "When a change request must be linked to the user's submission"
+      },
+      {
+        "id": "d",
+        "text": "When a service desk agent needs to quickly pre-fill common incident fields for recurring issue types"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Incident Templates are designed for service desk agents to quickly pre-populate fields such as category, subcategory, assignment group, and description for frequently occurring incident types. Service Catalog items are intended for end-user self-service requests that may involve approvals, fulfillment workflows, and variable-driven forms. Templates are an agent-side efficiency tool.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-024",
+    "type": "single_choice",
+    "prompt": "What happens to child incidents when the parent major incident is resolved in ServiceNow OOTB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "All child incidents are automatically resolved with the same resolution notes"
+      },
+      {
+        "id": "b",
+        "text": "Child incidents are automatically closed but not resolved"
+      },
+      {
+        "id": "c",
+        "text": "Child incidents are converted to problem tasks"
+      },
+      {
+        "id": "d",
+        "text": "Child incidents remain in their current state; they must be resolved individually or via a mass update"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Resolving a parent major incident does not automatically cascade the resolved state to associated child incidents in the default ServiceNow configuration. Agents must resolve child incidents individually, or a list-view mass update can be used. Some implementations add custom business rules to automate this, but OOTB behavior requires manual action on each child incident.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-025",
+    "type": "single_choice",
+    "prompt": "An organization wants incidents emailed from a monitoring system to be created with Priority 1 automatically. What is the most appropriate OOTB mechanism?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Set the monitoring system's email address as a VIP user"
+      },
+      {
+        "id": "b",
+        "text": "Create a transform map that maps the email body to incident fields"
+      },
+      {
+        "id": "c",
+        "text": "Use a scheduled script to query open incidents and update priority daily"
+      },
+      {
+        "id": "d",
+        "text": "Configure an Inbound Action that parses the email subject and sets Impact and Urgency accordingly"
+      }
+    ],
+    "correct": "d",
+    "explanation": "Inbound Actions support custom scripting that can parse the incoming email subject or body for keywords (such as 'CRITICAL' in a monitoring alert) and conditionally set Impact, Urgency, or Priority directly. This is the OOTB mechanism for implementing intelligent email-to-incident routing logic without additional plugins.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-026",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow table stores the actual SLA duration instances attached to individual incidents?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "sla_definition"
+      },
+      {
+        "id": "b",
+        "text": "task_sla"
+      },
+      {
+        "id": "c",
+        "text": "incident_sla"
+      },
+      {
+        "id": "d",
+        "text": "sla_breach"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The task_sla table stores individual SLA instance records for each task record (incident, problem, change, etc.) that has an SLA attached. Each row in task_sla represents one running SLA timer against one incident and tracks fields like start time, end time, breached status, and percentage elapsed. The sla_definition table stores the SLA template configuration.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-027",
+    "type": "single_choice",
+    "prompt": "A company configures auto-close so that resolved incidents are automatically closed after 3 days. Which mechanism in ServiceNow OOTB implements this behavior?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "An SLA definition with a 3-day resolution target"
+      },
+      {
+        "id": "b",
+        "text": "A scheduled job that queries resolved incidents older than 3 days and updates their state"
+      },
+      {
+        "id": "c",
+        "text": "A workflow timer activity triggered when the incident reaches Resolved state"
+      },
+      {
+        "id": "d",
+        "text": "A transform map that runs nightly"
+      }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow uses a scheduled job (a scheduled script execution) to implement auto-close functionality. The OOTB 'Auto Close Incidents' scheduled job queries for incidents in Resolved state that have exceeded the configured auto-close duration and updates their state to Closed. The duration is typically set via a system property such as glide.incident.auto_close_time.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-028",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow module allows analysts to see an overview of open incidents by priority, assignment group, and SLA status?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Service Desk workspace"
+      },
+      {
+        "id": "b",
+        "text": "Incident Overview dashboard"
+      },
+      {
+        "id": "c",
+        "text": "Performance Analytics PA scorecard"
+      },
+      {
+        "id": "d",
+        "text": "CMDB Explorer"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Incident Overview dashboard in ServiceNow ITSM provides a pre-built set of reports and charts showing open incidents by priority, assignment group, state, and SLA status. It gives service desk managers and team leads at-a-glance visibility into queue health without requiring custom report configuration.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-029",
+    "type": "single_choice",
+    "prompt": "A business rule fires after an incident is inserted and sets the Assignment Group. However, a separate Inbound Action script also sets the Assignment Group. Which execution sequence applies?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Business rules always run before Inbound Actions; the Inbound Action value wins"
+      },
+      {
+        "id": "b",
+        "text": "Inbound Actions run before the record is inserted; business rules run after insertion and may overwrite the Inbound Action value"
+      },
+      {
+        "id": "c",
+        "text": "Inbound Actions and business rules run in parallel; neither overwrites the other"
+      },
+      {
+        "id": "d",
+        "text": "Inbound Actions run after business rules; the Inbound Action value always wins"
+      }
+    ],
+    "correct": "b",
+    "explanation": "Inbound Actions execute their script logic and set field values as the record is being prepared for insertion. After-insert business rules then fire once the record is committed to the database, potentially overwriting the values set by the Inbound Action. Administrators must account for this execution order when both mechanisms set the same field to avoid unintended routing.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-030",
+    "type": "single_choice",
+    "prompt": "Which OOTB ServiceNow feature can detect if a new incident being created is similar to an existing open incident on the same CI?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Duplicate Detection via Assignment Rules"
+      },
+      {
+        "id": "b",
+        "text": "Similar Incidents / Similarity Search"
+      },
+      {
+        "id": "c",
+        "text": "CMDB Relationship Viewer"
+      },
+      {
+        "id": "d",
+        "text": "Incident Correlation Engine"
+      }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow's Similar Incidents feature (Similarity Search) uses text analytics to surface incidents with similar descriptions, category, or CI. It helps agents avoid creating duplicates and can surface related incidents or knowledge articles. The feature is part of the ITSM product and leverages the text indexing engine.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-031",
+    "type": "single_choice",
+    "prompt": "In the default ITSM configuration, which state transition is NOT allowed without specific customization?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "New to In Progress"
+      },
+      {
+        "id": "b",
+        "text": "Resolved to Closed"
+      },
+      {
+        "id": "c",
+        "text": "Closed to In Progress"
+      },
+      {
+        "id": "d",
+        "text": "In Progress to On Hold"
+      }
+    ],
+    "correct": "c",
+    "explanation": "By default, a Closed incident cannot be transitioned back to In Progress or any active state. Closed is a terminal state in the OOTB configuration. If a caller reports a recurrence, best practice is to open a new incident. Transitioning from Closed back to active states requires custom business rule or state model modification.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-032",
+    "type": "single_choice",
+    "prompt": "What is the function of the 'Notify' field on an incident in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It controls whether the incident triggers SMS or email notifications to the assigned group"
+      },
+      {
+        "id": "b",
+        "text": "It specifies whether the caller should receive email notifications about updates to the incident"
+      },
+      {
+        "id": "c",
+        "text": "It escalates the incident to a manager immediately upon creation"
+      },
+      {
+        "id": "d",
+        "text": "It selects the notification template to use for SLA breach alerts"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Notify field on an incident record controls caller notification preferences, determining whether the caller receives email updates when the incident is updated or resolved. Options typically include 'Email', 'No Notification', or 'SMS' depending on configuration. This allows agents to suppress notifications for incidents where the caller has requested no contact.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-033",
+    "type": "single_choice",
+    "prompt": "Which system property controls the number of days after which a Resolved incident is automatically moved to Closed state in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "glide.incident.auto_close_time"
+      },
+      {
+        "id": "b",
+        "text": "incident.resolution.timeout"
+      },
+      {
+        "id": "c",
+        "text": "itsm.auto_close.days"
+      },
+      {
+        "id": "d",
+        "text": "glide.itsm.resolve_close_days"
+      }
+    ],
+    "correct": "a",
+    "explanation": "The system property 'glide.incident.auto_close_time' controls the auto-close behavior for resolved incidents. Its value specifies the number of days after an incident is set to Resolved before the scheduled auto-close job changes the state to Closed. Administrators set this property in System Properties to match their organization's service level requirements.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-034",
+    "type": "single_choice",
+    "prompt": "When a major incident is created in ServiceNow, which role is specifically designed to own and drive the resolution?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Incident Manager"
+      },
+      {
+        "id": "b",
+        "text": "Major Incident Manager"
+      },
+      {
+        "id": "c",
+        "text": "Problem Manager"
+      },
+      {
+        "id": "d",
+        "text": "Change Coordinator"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Major Incident Manager role in ServiceNow is specifically designed to own P1/P2 incidents declared as major incidents. This role has access to the Major Incident Management workbench and is responsible for coordinating the response team, sending stakeholder communications, and driving resolution. The standard Incident Manager role oversees the incident process broadly.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-035",
+    "type": "single_choice",
+    "prompt": "What is the significance of the 'Contact Type' field on an incident record?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It determines the SLA that applies to the incident"
+      },
+      {
+        "id": "b",
+        "text": "It records how the caller contacted the service desk (phone, email, self-service, etc.)"
+      },
+      {
+        "id": "c",
+        "text": "It specifies which support tier should handle the incident"
+      },
+      {
+        "id": "d",
+        "text": "It controls the notification method used for updates"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Contact Type field records the channel through which the incident was reported, such as Phone, Email, Self-Service Portal, Walk-in, or Monitoring. This data is valuable for reporting on channel distribution, understanding workload sources, and measuring the effectiveness of self-service adoption. It does not directly drive routing or SLA assignment in the default configuration.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-036",
+    "type": "single_choice",
+    "prompt": "An organization wants to prevent agents from manually overriding the Priority field on incidents to maintain reporting integrity. Which ServiceNow mechanism is most appropriate?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Set the Priority field to read-only using a UI Policy or Field-Level Security"
+      },
+      {
+        "id": "b",
+        "text": "Remove the Priority field from the incident form"
+      },
+      {
+        "id": "c",
+        "text": "Configure an after-update business rule to recalculate Priority every time it is changed"
+      },
+      {
+        "id": "d",
+        "text": "Use a catalog item instead of the incident form to capture priority"
+      }
+    ],
+    "correct": "a",
+    "explanation": "To prevent agents from manually editing Priority, administrators can use a UI Policy to make the field read-only on the client side, or Field-Level Security (ACLs) to restrict write access at the server level. The combination of both ensures Priority can only be set by the automated calculation engine and not overridden by users or agents.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-037",
+    "type": "single_choice",
+    "prompt": "An agent wants to quickly find all incidents related to a specific Configuration Item. What is the most efficient method in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Navigate to the CI record and use the Related Lists section to view incidents"
+      },
+      {
+        "id": "b",
+        "text": "Run a report filtered by configuration item"
+      },
+      {
+        "id": "c",
+        "text": "Search for the CI name in the global text search"
+      },
+      {
+        "id": "d",
+        "text": "Open the CMDB Dependency View for the CI"
+      }
+    ],
+    "correct": "a",
+    "explanation": "In ServiceNow, navigating to the CI record in the CMDB and scrolling to the Related Lists section provides a direct view of all incidents, problems, and changes associated with that CI. This is the most efficient method as it does not require building a report or filter. The Related Lists are pre-configured on CI forms for this use case.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-038",
+    "type": "single_choice",
+    "prompt": "Which two standard roles are most commonly used by service desk agents working incidents in ServiceNow?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "admin and itil_admin"
+      },
+      {
+        "id": "b",
+        "text": "itil and sn_incident_write"
+      },
+      {
+        "id": "c",
+        "text": "catalog_user and esc_user"
+      },
+      {
+        "id": "d",
+        "text": "itil_manager and change_manager"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The 'itil' role is the standard OOTB role that grants service desk agents the ability to create, update, and resolve incidents. In newer ServiceNow ITSM implementations, the 'sn_incident_write' role specifically governs write access to the incident module. These two roles are the primary ones assigned to front-line support staff.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-039",
+    "type": "single_choice",
+    "prompt": "What does the 'Escalation' field on an incident record indicate in ServiceNow OOTB?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Whether the incident has been assigned to a tier 2 or tier 3 support group"
+      },
+      {
+        "id": "b",
+        "text": "The level of management notification triggered based on SLA proximity to breach"
+      },
+      {
+        "id": "c",
+        "text": "Whether the incident was created from a monitoring alert"
+      },
+      {
+        "id": "d",
+        "text": "The number of times the incident has been reassigned"
+      }
+    ],
+    "correct": "b",
+    "explanation": "The Escalation field on the incident table tracks the escalation level for management notifications, which is driven by the incident's proximity to SLA breach. As an SLA approaches its threshold, escalation rules increment this field and trigger notifications to supervisors or managers. It does not represent tier routing or reassignment count.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-itsm-im-040",
+    "type": "single_choice",
+    "prompt": "Which is the correct definition of 'escalation' in the context of ServiceNow incident management, encompassing both ITIL types?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Moving an incident to a higher priority only when the SLA is about to breach"
+      },
+      {
+        "id": "b",
+        "text": "Transferring an incident to a different team because the current team lacks skills"
+      },
+      {
+        "id": "c",
+        "text": "Both functional escalation (transfer to another group) and hierarchical escalation (notification to management) can apply"
+      },
+      {
+        "id": "d",
+        "text": "Automatically closing an incident when it breaches its SLA target"
+      }
+    ],
+    "correct": "c",
+    "explanation": "Escalation in ITSM encompasses two types: functional escalation (routing the incident to a different or more specialized team) and hierarchical escalation (notifying management when an incident is at risk of or has breached its SLA). ServiceNow supports both through escalation rules and notification workflows. The term is not limited to one mechanism.",
+    "topics": [
+      "incident-management"
+    ],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

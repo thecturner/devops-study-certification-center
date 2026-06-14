@@ -1,0 +1,331 @@
+[
+  {
+    "id": "aws-dop-sa-001",
+    "type": "single_choice",
+    "prompt": "A team wants to deploy a new Lambda function version so that 10% of traffic shifts immediately, then 100% shifts after 30 minutes if no CloudWatch alarms trigger. Which CodeDeploy deployment configuration achieves this exactly?",
+    "choices": [
+      { "id": "a", "text": "CodeDeployDefault.LambdaLinear10PercentEvery10Minutes" },
+      { "id": "b", "text": "CodeDeployDefault.LambdaCanary10Percent30Minutes" },
+      { "id": "c", "text": "CodeDeployDefault.LambdaAllAtOnce" },
+      { "id": "d", "text": "CodeDeployDefault.LambdaLinear10PercentEvery1Minute" }
+    ],
+    "correct": "b",
+    "explanation": "LambdaCanary10Percent30Minutes shifts 10% of traffic immediately to the new version, waits 30 minutes, then completes the shift if no rollback alarms fire. Linear configurations shift traffic incrementally on a fixed schedule (e.g., 10% more every 10 minutes), not with an initial burst and a single wait. AllAtOnce provides no gradual rollout. LambdaLinear10PercentEvery1Minute would take 9 additional steps and 9 minutes to complete, not a single 30-minute wait.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "CodeDeploy Deployment Configurations for Lambda",
+        "url": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html#deployment-configuration-lambda"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-002",
+    "type": "single_choice",
+    "prompt": "A CodePipeline pipeline in Account A must deploy CloudFormation stacks in Account B. The pipeline uses an S3 artifact bucket in Account A encrypted with a customer-managed KMS key. Which two configurations are required for the cross-account deployment to succeed?",
+    "choices": [
+      { "id": "a", "text": "Grant Account B's CloudFormation service role access to the KMS key policy, and create a cross-account IAM role in Account B that Account A's pipeline role can assume" },
+      { "id": "b", "text": "Share the S3 bucket using AWS RAM and enable public access on the KMS key" },
+      { "id": "c", "text": "Create a VPC peering connection between Account A and Account B and replicate the artifact bucket" },
+      { "id": "d", "text": "Use CodeArtifact as the artifact store and enable cross-account domain access" }
+    ],
+    "correct": "a",
+    "explanation": "Cross-account CodePipeline requires: (1) a cross-account IAM role in the target account that the source account pipeline role can assume, and (2) the artifact bucket's KMS key policy must grant the target account's deployment role decrypt permissions. Without KMS access, CloudFormation cannot read the encrypted artifacts. RAM sharing, VPC peering, and CodeArtifact are not relevant to this pattern.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Create a Pipeline in CodePipeline That Uses Resources from Another Account",
+        "url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/pipelines-create-cross-account.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-003",
+    "type": "single_choice",
+    "prompt": "A CodeBuild project must publish test reports to CodeBuild Test Reports and also upload coverage artifacts to S3. The buildspec.yml currently only runs unit tests. Which buildspec sections must be configured to enable both features?",
+    "choices": [
+      { "id": "a", "text": "Add a reports section with the test results file path and an artifacts section with the coverage files" },
+      { "id": "b", "text": "Add a post_build phase that runs aws codebuild create-report-group and aws s3 cp" },
+      { "id": "c", "text": "Enable test reporting in the CodeBuild console project settings; artifacts are automatically uploaded" },
+      { "id": "d", "text": "Add a cache section for test results and an environment variable pointing to the S3 bucket" }
+    ],
+    "correct": "a",
+    "explanation": "The buildspec.yml reports section defines test result files (JUnit XML, Cucumber JSON, etc.) that CodeBuild automatically ingests into Test Reports. The artifacts section defines files to upload to S3 after the build. Both must be declared in the buildspec; no CLI commands or console settings alone are sufficient. The cache section is for dependency caching, not test reporting.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Build Specification Reference for CodeBuild",
+        "url": "https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-004",
+    "type": "single_choice",
+    "prompt": "A company uses AWS CodeCommit and wants to enforce that no developer can push directly to the main branch; all changes must come through approved pull requests. Which mechanism enforces this at the repository level?",
+    "choices": [
+      { "id": "a", "text": "Create a CodeCommit approval rule template and apply it to the repository, then use an IAM policy that denies codecommit:GitPush on refs/heads/main" },
+      { "id": "b", "text": "Enable branch protection in the CodeCommit console settings" },
+      { "id": "c", "text": "Configure an EventBridge rule to detect pushes to main and trigger a Lambda that reverts the commit" },
+      { "id": "d", "text": "Use a CodePipeline webhook that rejects commits not associated with a pull request" }
+    ],
+    "correct": "a",
+    "explanation": "CodeCommit does not have native branch protection rules like GitHub. The pattern is to combine an IAM policy denying direct push to the protected branch with an approval rule template that requires a minimum number of approvals before a PR can be merged. EventBridge-based revert is reactive, not preventive, and introduces a race condition. There is no branch protection toggle in the console.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Working with Approval Rule Templates in CodeCommit",
+        "url": "https://docs.aws.amazon.com/codecommit/latest/userguide/approval-rule-templates.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-005",
+    "type": "true_false",
+    "prompt": "A CodeDeploy blue/green deployment for an ECS service automatically creates a new task set with the replacement tasks, shifts traffic via the ALB listener rule, and then terminates the original task set after the configured wait period.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "This is exactly how CodeDeploy blue/green works for ECS. CodeDeploy creates a replacement task set (green), registers it with the target group, shifts traffic from the original (blue) task set according to the deployment configuration, and then terminates the original task set after the termination wait time (configurable up to 48 hours). This is distinct from in-place deployments, which update the existing tasks directly.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Blue/Green Deployment with CodeDeploy for ECS",
+        "url": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-create-ecs-bgd.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-006",
+    "type": "single_choice",
+    "prompt": "A pipeline has a CodeBuild stage that takes 45 minutes to run all integration tests. The team wants to reduce this to under 15 minutes without removing any tests. Which CodeBuild feature best addresses this?",
+    "choices": [
+      { "id": "a", "text": "Increase the CodeBuild instance compute type to compute:2xlarge" },
+      { "id": "b", "text": "Enable batch builds with build-list or build-matrix to run tests in parallel across multiple CodeBuild instances" },
+      { "id": "c", "text": "Add a dependency cache to S3 to skip the install phase" },
+      { "id": "d", "text": "Use a Lambda compute type for faster cold starts" }
+    ],
+    "correct": "b",
+    "explanation": "CodeBuild batch builds allow a single build project to fan out into multiple concurrent build tasks. Using a build-list or build-matrix, independent test suites can run simultaneously, reducing total wall-clock time proportionally. A larger instance type speeds up a single-threaded build but does not parallelize test execution. Caching reduces install time, not test execution time. Lambda compute is for shorter builds, not parallelization.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Batch Builds in CodeBuild",
+        "url": "https://docs.aws.amazon.com/codebuild/latest/userguide/batch-build.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-007",
+    "type": "single_choice",
+    "prompt": "A development team uses feature flags to control the rollout of new features without code deployments. They need a managed AWS service to store and evaluate feature flags with millisecond latency at scale, integrated with their existing AppConfig configuration. Which service combination should they use?",
+    "choices": [
+      { "id": "a", "text": "AWS AppConfig with feature flag configuration profiles and the AppConfig Lambda extension for cached retrieval" },
+      { "id": "b", "text": "AWS Systems Manager Parameter Store SecureString parameters polled every 30 seconds by the application" },
+      { "id": "c", "text": "Amazon DynamoDB table with a Global Secondary Index on the feature name, read by the application on each request" },
+      { "id": "d", "text": "AWS Secrets Manager with automatic rotation to toggle feature flag values" }
+    ],
+    "correct": "a",
+    "explanation": "AWS AppConfig natively supports feature flag configuration profiles with a structured schema. The AppConfig Lambda extension (or Agent) caches the configuration locally and polls for updates in the background, providing millisecond retrieval latency without per-request API calls. Parameter Store does not have a feature flag schema or evaluation engine. DynamoDB is a general database and requires custom implementation. Secrets Manager is designed for secrets rotation, not feature flags.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "AWS AppConfig Feature Flags",
+        "url": "https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile.html#appconfig-creating-configuration-and-profile-feature-flags"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-008",
+    "type": "multi_choice",
+    "prompt": "A team wants their CodePipeline to automatically trigger when a new package version is published to a CodeArtifact repository AND when a commit is pushed to the main branch of a CodeCommit repository. Which two trigger mechanisms should they configure? (Select TWO)",
+    "choices": [
+      { "id": "a", "text": "An EventBridge rule matching CodeArtifact package version state change events, targeting the pipeline's execution API" },
+      { "id": "b", "text": "A CodeCommit trigger configured in the repository settings pointing to the pipeline source action" },
+      { "id": "c", "text": "An EventBridge rule matching CodeCommit repository state change events for the main branch, targeting the pipeline" },
+      { "id": "d", "text": "A CloudWatch Events scheduled rule polling both sources every minute" },
+      { "id": "e", "text": "An SNS topic subscribed to both CodeArtifact and CodeCommit notifications, triggering a Lambda to start the pipeline" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Both triggers should use EventBridge rules. CodeArtifact publishes package version state change events to EventBridge, which can target a CodePipeline start-pipeline-execution action. CodeCommit also publishes repository state change events (referenceCreated, referenceUpdated) to EventBridge, filtered by branch name. CodeCommit repository triggers route to SNS or Lambda, not directly to CodePipeline. Scheduled polling is inefficient and introduces latency. The SNS approach adds unnecessary complexity.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Using EventBridge to Start a Pipeline on a Schedule or Event",
+        "url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/triggering.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-009",
+    "type": "single_choice",
+    "prompt": "A company performs EC2-based deployments using CodeDeploy with an in-place deployment strategy. After a failed deployment, the application is in an unknown state on several instances. Which CodeDeploy feature can restore those instances to the last known good application revision automatically?",
+    "choices": [
+      { "id": "a", "text": "Enable automatic rollback on deployment failure in the deployment group settings" },
+      { "id": "b", "text": "Create a new deployment specifying the previous AppSpec revision manually" },
+      { "id": "c", "text": "Use the CodeDeploy StopDeployment API with the autoRollbackEnabled flag" },
+      { "id": "d", "text": "Trigger a CloudWatch alarm that invokes a Lambda to rerun the previous pipeline stage" }
+    ],
+    "correct": "a",
+    "explanation": "CodeDeploy deployment groups support automatic rollback configuration. When enabled, CodeDeploy automatically deploys the last successful revision to all failed instances when a deployment fails or when a CloudWatch alarm threshold is breached. This is configured at the deployment group level and requires no manual intervention. Manual re-deployment and StopDeployment require operator action. The Lambda/CloudWatch approach works but is not a built-in CodeDeploy feature.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "easy",
+    "refs": [
+      {
+        "label": "Automatic Rollbacks in CodeDeploy",
+        "url": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-rollback-and-redeploy.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-010",
+    "type": "single_choice",
+    "prompt": "A CodeArtifact domain contains internal npm packages. A CodeBuild project needs to install these packages without exposing CodeArtifact credentials in the buildspec or environment variables. Which is the most secure approach?",
+    "choices": [
+      { "id": "a", "text": "Store the CodeArtifact token in Secrets Manager and retrieve it in the install phase using aws secretsmanager get-secret-value" },
+      { "id": "b", "text": "Assign the CodeBuild service role a policy with codeartifact:GetAuthorizationToken and codeartifact:ReadFromRepository, then use aws codeartifact login in the install phase to configure npm" },
+      { "id": "c", "text": "Create a public CodeArtifact domain and configure the repository as publicly accessible" },
+      { "id": "d", "text": "Embed the CodeArtifact token as a base64-encoded environment variable in the CodeBuild project" }
+    ],
+    "correct": "b",
+    "explanation": "The recommended approach is to grant the CodeBuild service role the necessary CodeArtifact IAM permissions and use aws codeartifact login --tool npm in the install phase. This command automatically retrieves a temporary authorization token and configures the npm registry, with no static credentials stored anywhere. Secrets Manager adds unnecessary complexity when IAM is sufficient. Public domains expose internal packages. Embedding tokens in environment variables is a credential leak risk.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "Using CodeArtifact with CodeBuild",
+        "url": "https://docs.aws.amazon.com/codeartifact/latest/ug/using-codeartifact-with-codebuild.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-011",
+    "type": "single_choice",
+    "prompt": "A pipeline deploys a new ECS service version using CodeDeploy blue/green. The team wants to validate the green environment by running a smoke test Lambda after traffic is partially shifted, and abort the deployment if the Lambda returns a failure. Which AppSpec hooks enable this pattern?",
+    "choices": [
+      { "id": "a", "text": "BeforeInstall and AfterInstall lifecycle hooks" },
+      { "id": "b", "text": "AfterAllowTestTraffic lifecycle hook pointing to the validation Lambda" },
+      { "id": "c", "text": "BeforeAllowTraffic and AfterAllowTraffic hooks with a CodeBuild test action" },
+      { "id": "d", "text": "ValidateService hook configured in the ECS task definition" }
+    ],
+    "correct": "b",
+    "explanation": "For ECS blue/green deployments, CodeDeploy supports lifecycle hooks including AfterAllowTestTraffic, which fires after test traffic is routed to the replacement task set but before production traffic shifts. A Lambda function specified in this hook can run smoke tests and return a Succeeded or Failed status to CodeDeploy. A Failed status triggers automatic rollback. BeforeInstall/AfterInstall are EC2 hooks. ValidateService is not an ECS AppSpec hook. BeforeAllowTraffic/AfterAllowTraffic fire at different traffic shift points.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "AppSpec 'hooks' Section for Amazon ECS Deployments",
+        "url": "https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-ecs"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-012",
+    "type": "single_choice",
+    "prompt": "A team wants to implement a GitOps workflow where merging a pull request to the main branch of a CodeCommit repository automatically triggers a full pipeline run, including security scanning, integration tests, and deployment to staging. The pipeline must NOT run on commits to feature branches. How should the CodePipeline source action be configured?",
+    "choices": [
+      { "id": "a", "text": "Set the source action BranchName to main and enable the FullRepositoryId trigger with a filter for refs/heads/main" },
+      { "id": "b", "text": "Create separate pipelines for each branch using a naming convention and a Lambda that manages pipeline creation" },
+      { "id": "c", "text": "Configure the source action to poll the repository every minute and filter by branch in a downstream CodeBuild step" },
+      { "id": "d", "text": "Use CodeCommit triggers to invoke an SNS topic that manually starts the pipeline via CLI" }
+    ],
+    "correct": "a",
+    "explanation": "CodePipeline V2 source actions support trigger filtering by branch name. Setting the source action to watch the main branch via EventBridge triggers the pipeline only when the main branch is updated. Polling-based approaches are deprecated in favor of EventBridge triggers and would also trigger on all branches without native filtering. Creating per-branch pipelines with Lambda adds excessive operational overhead. Manual SNS/CLI invocations are not automated GitOps.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "medium",
+    "refs": [
+      {
+        "label": "CodePipeline Source Action Configuration",
+        "url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-CodeCommit.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-013",
+    "type": "single_choice",
+    "prompt": "A company wants to implement a linear canary deployment for an EC2 Auto Scaling group where 25% of instances are updated every 5 minutes. If error rates exceed a threshold during deployment, it should automatically roll back. Which CodeDeploy deployment configuration implements linear 25% every 5 minutes for EC2?",
+    "choices": [
+      { "id": "a", "text": "Create a custom deployment configuration with type LINEAR, percentage 25, and interval 5, then attach a CloudWatch alarm for automatic rollback" },
+      { "id": "b", "text": "Use CodeDeployDefault.HalfAtATime with a 5-minute wait between halves" },
+      { "id": "c", "text": "Use CodeDeployDefault.OneAtATime with a 5-minute interval between each instance" },
+      { "id": "d", "text": "CodeDeploy does not support linear deployments for EC2; use blue/green with weighted target groups instead" }
+    ],
+    "correct": "a",
+    "explanation": "CodeDeploy supports custom deployment configurations for EC2/on-premises using linear or canary traffic shifting at the instance level. You can create a configuration specifying LINEAR type, the percentage per interval (25%), and the interval duration (5 minutes). Attaching a CloudWatch alarm to the deployment group enables automatic rollback when the threshold is breached. HalfAtATime and OneAtATime are predefined configs that do not match the 25%/5-minute requirement. EC2 does support linear deployments.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Create a Custom Deployment Configuration in CodeDeploy",
+        "url": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-014",
+    "type": "single_choice",
+    "prompt": "A pipeline must run SAST (static application security testing) on every pull request before code is merged, but the SAST tool outputs results in SARIF format, not JUnit XML. The team wants the results visible in the CodeBuild test reports console. Which approach integrates SARIF results into CodeBuild Test Reports?",
+    "choices": [
+      { "id": "a", "text": "Use a custom report group with SARIF as the report type in the buildspec reports section" },
+      { "id": "b", "text": "Convert SARIF output to JUnit XML using a post-processing script in the buildspec, then reference the converted file in the reports section" },
+      { "id": "c", "text": "Upload SARIF files to S3 and link the bucket URL in the CodeBuild build log" },
+      { "id": "d", "text": "Use Security Hub custom findings API to ingest SARIF results after each build" }
+    ],
+    "correct": "a",
+    "explanation": "CodeBuild Test Reports supports multiple report formats natively, including SARIF (Static Analysis Results Interchange Format) in addition to JUnit XML, Cucumber JSON, TestNG XML, and Visual Studio TRX. You specify the report_type as SARIF in the buildspec reports section. There is no need to convert the format. Uploading to S3 does not integrate with Test Reports. Security Hub ingestion is a separate workflow for production findings, not build-time reporting.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Working with Test Report Results in CodeBuild",
+        "url": "https://docs.aws.amazon.com/codebuild/latest/userguide/test-reporting.html"
+      }
+    ],
+    "version": 1
+  },
+  {
+    "id": "aws-dop-sa-015",
+    "type": "single_choice",
+    "prompt": "A microservices team has 12 independent services, each in its own CodeCommit repository with its own CodePipeline pipeline. They want a single dashboard view of all pipeline states and the ability to trigger all pipelines simultaneously for a coordinated release. What is the most operationally efficient way to implement the coordinated trigger?",
+    "choices": [
+      { "id": "a", "text": "Create an EventBridge rule that publishes a custom event; each pipeline is triggered by a separate EventBridge rule matching that custom event" },
+      { "id": "b", "text": "Write a Lambda function that loops through all 12 pipeline names and calls StartPipelineExecution for each, triggered by a manual SNS message" },
+      { "id": "c", "text": "Create a CodePipeline meta-pipeline that has 12 parallel CodeBuild stages, each running aws codepipeline start-pipeline-execution" },
+      { "id": "d", "text": "Use AWS Step Functions to invoke all 12 CodePipeline executions in parallel using the Map state" }
+    ],
+    "correct": "a",
+    "explanation": "Publishing a single custom event to EventBridge and having each pipeline's trigger rule match that event enables a true fan-out pattern. Any authorized principal (console, CLI, Lambda) can put the release event, and all 12 pipelines start in parallel without a central coordinator needing to know the pipeline names. The Lambda loop approach works but is sequential (or requires threading) and couples the trigger function to the list of pipeline names. The meta-pipeline and Step Functions approaches introduce unnecessary orchestration layers.",
+    "topics": ["sdlc-automation"],
+    "difficulty": "hard",
+    "refs": [
+      {
+        "label": "Using EventBridge with CodePipeline",
+        "url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/detect-state-changes-cloudwatch-events.html"
+      }
+    ],
+    "version": 1
+  }
+]

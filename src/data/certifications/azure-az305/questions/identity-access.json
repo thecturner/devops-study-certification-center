@@ -1,0 +1,302 @@
+[
+  {
+    "id": "azure-az305-ia-001",
+    "type": "single_choice",
+    "prompt": "A large enterprise has an on-premises Active Directory with 80,000 users and a complex OU structure with group policies. They want to synchronize identities to Microsoft Entra ID with minimal latency and need password hash synchronization. The domain controllers run Windows Server 2012 R2. Which hybrid identity solution should the architect recommend?",
+    "choices": [
+      { "id": "a", "text": "Microsoft Entra Connect Cloud Sync with password hash synchronization" },
+      { "id": "b", "text": "Microsoft Entra Connect (Azure AD Connect) with password hash synchronization" },
+      { "id": "c", "text": "Active Directory Federation Services (AD FS) with Microsoft Entra ID as the relying party" },
+      { "id": "d", "text": "Microsoft Entra Connect Cloud Sync with pass-through authentication" }
+    ],
+    "correct": "b",
+    "explanation": "Microsoft Entra Connect (Azure AD Connect) is the appropriate choice when the environment has over 150,000 objects or requires complex attribute filtering, advanced group writeback, or device writeback — all common in large enterprises. Entra Connect Cloud Sync uses lightweight provisioning agents and supports up to 150,000 objects per on-premises AD domain but does not support all the advanced features needed at this scale. AD FS adds unnecessary complexity when password hash sync is acceptable. Cloud Sync does not support pass-through authentication as a mode.",
+    "topics": ["identity-access"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Choose the right authentication method for hybrid identity", "url": "https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/choose-ad-authn" },
+      { "label": "Microsoft Entra Connect vs Cloud Sync", "url": "https://learn.microsoft.com/en-us/entra/identity/hybrid/cloud-sync/what-is-cloud-sync" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-002",
+    "type": "single_choice",
+    "prompt": "A SaaS company needs to allow consumers from any social identity provider (Google, Facebook, Apple) to sign up and manage their own profiles in a branded portal. Internal employees must not be able to use this portal. The solution must support custom user flows and scale to millions of users. Which identity solution fits these requirements?",
+    "choices": [
+      { "id": "a", "text": "Microsoft Entra ID with guest accounts (B2B collaboration)" },
+      { "id": "b", "text": "Microsoft Entra External ID for customers (Azure AD B2C)" },
+      { "id": "c", "text": "A single Entra ID tenant with federated identity providers configured as enterprise applications" },
+      { "id": "d", "text": "Microsoft Entra ID with Self-Service Password Reset enabled for external users" }
+    ],
+    "correct": "b",
+    "explanation": "Microsoft Entra External ID for customers (formerly Azure AD B2C) is purpose-built for consumer-facing identity with support for social identity providers, custom user flows, branded experiences, and scales to hundreds of millions of users with per-monthly-active-user pricing. B2B collaboration (option A) is designed for business partners accessing your tenant's apps — guests still have identities managed in your directory and cannot self-register from arbitrary social providers at consumer scale. Option C requires managing federation manually per provider without the self-service registration flows B2C provides. SSPR is an employee-facing feature that does not address social login.",
+    "topics": ["identity-access"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Microsoft Entra External ID overview", "url": "https://learn.microsoft.com/en-us/entra/external-id/external-identities-overview" },
+      { "label": "B2B vs B2C comparison", "url": "https://learn.microsoft.com/en-us/entra/external-id/compare-with-b2c" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-003",
+    "type": "single_choice",
+    "prompt": "An architect is designing RBAC for a company with three business units. Each business unit must have full control over its own subscription and cannot see resources in other units. The central security team must be able to audit all subscriptions but not modify resources. The company also needs to enforce a mandatory tagging policy across all subscriptions. What management group structure satisfies all three requirements with the least administrative overhead?",
+    "choices": [
+      { "id": "a", "text": "Place all subscriptions in the root management group, assign Reader to the security team at the root, assign Owner to each BU at the subscription level, and apply Policy at the subscription level per BU" },
+      { "id": "b", "text": "Create a management group per BU, assign Owner to each BU at its management group, assign Reader to the security team at the root management group, and apply the tagging Policy at the root management group" },
+      { "id": "c", "text": "Create a flat structure with no management groups, assign Owner and Reader using custom roles at each subscription, and use Azure Blueprints for tagging" },
+      { "id": "d", "text": "Create a single management group containing all subscriptions, assign Owner at the management group to all BUs, and restrict visibility using resource locks" }
+    ],
+    "correct": "b",
+    "explanation": "A management group per BU enables BU-scoped Owner assignments that do not cross BU boundaries, satisfying isolation. Reader assigned at the root management group propagates to all subscriptions below, giving the security team audit access everywhere without explicit per-subscription assignments. Policy applied at the root management group is inherited by all child subscriptions and management groups, enforcing tagging universally without per-subscription repetition. Option A requires manually applying Policy to every subscription. Option C forgoes management group inheritance, creating massive maintenance burden. Option D grants all BUs Owner across all subscriptions — no isolation.",
+    "topics": ["identity-access"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Organize resources with management groups", "url": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview" },
+      { "label": "Azure RBAC best practices", "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/best-practices" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-004",
+    "type": "single_choice",
+    "prompt": "A financial services company requires that all privileged role assignments (Global Administrator, Privileged Role Administrator) must be time-bound, require approval from a second administrator, and generate an audit log entry for every activation. Assignments must expire automatically after 8 hours. Which feature implements all of these controls?",
+    "choices": [
+      { "id": "a", "text": "Conditional Access policies with session lifetime controls limiting sign-in frequency to 8 hours" },
+      { "id": "b", "text": "Microsoft Entra Privileged Identity Management (PIM) with eligible assignments, approval workflows, and activation time limits" },
+      { "id": "c", "text": "Azure Policy with a deny effect that removes role assignments older than 8 hours" },
+      { "id": "d", "text": "Microsoft Entra ID Access Reviews scheduled to run every 8 hours" }
+    ],
+    "correct": "b",
+    "explanation": "PIM is the dedicated Azure service for just-in-time privileged access. Eligible assignments require users to activate roles on demand, and PIM enforces approval workflows before activation occurs. Activation duration is configurable (maximum 24 hours), and every activation generates an audit log entry. Conditional Access session controls govern session lifetime but do not restrict or approve role assignments. Azure Policy cannot dynamically remove RBAC assignments based on time. Access Reviews are periodic review campaigns that flag stale assignments for human review — they do not enforce real-time time limits or approval workflows.",
+    "topics": ["identity-access"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "What is Microsoft Entra Privileged Identity Management?", "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure" },
+      { "label": "Approve or deny requests for Azure resource roles in PIM", "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-resource-roles-approval-workflow" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-005",
+    "type": "single_choice",
+    "prompt": "A company's security team wants to enforce MFA for all users accessing the Azure portal from outside the corporate network, require compliant devices for access to SharePoint Online, and block all access from countries where the company has no business presence. All three controls must apply simultaneously. Which Azure feature can implement all three requirements in a single policy framework?",
+    "choices": [
+      { "id": "a", "text": "Microsoft Entra ID Protection risk-based sign-in policies" },
+      { "id": "b", "text": "Conditional Access policies with named locations, device compliance, and grant controls" },
+      { "id": "c", "text": "Microsoft Entra PIM activation policies with location and device conditions" },
+      { "id": "d", "text": "Azure Firewall Premium with URL filtering and TLS inspection" }
+    ],
+    "correct": "b",
+    "explanation": "Conditional Access is the policy engine that evaluates signals (user location via named locations, device compliance state from Intune, application being accessed, user/group) and enforces grant controls (require MFA, require compliant device) or block controls. Named locations can define trusted IP ranges for the corporate network and a blocklist of countries for geographic blocking. A single policy can combine all three conditions simultaneously. ID Protection risk policies apply to risky sign-ins/users but cannot enforce device compliance or target specific applications like SharePoint. PIM activation policies govern privileged role activation, not general application access. Azure Firewall operates at network layer and cannot enforce identity-based controls like MFA.",
+    "topics": ["identity-access"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "What is Conditional Access?", "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview" },
+      { "label": "Named locations in Conditional Access", "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/location-condition" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-006",
+    "type": "single_choice",
+    "prompt": "A development team has an Azure App Service application that needs to read secrets from Azure Key Vault. The team rotates App Service plans frequently and deploys the same app across multiple slots. The security policy prohibits storing any credentials in application configuration or code. Which identity mechanism provides the least operational overhead while meeting this requirement?",
+    "choices": [
+      { "id": "a", "text": "Create a service principal with a client secret stored in App Service application settings, grant it Key Vault access" },
+      { "id": "b", "text": "Enable a system-assigned managed identity on the App Service, grant it the Key Vault Secrets User role" },
+      { "id": "c", "text": "Create a user-assigned managed identity, assign it to each App Service slot individually, grant it Key Vault access" },
+      { "id": "d", "text": "Use an Azure AD group with a client certificate credential and assign the group access to Key Vault" }
+    ],
+    "correct": "c",
+    "explanation": "A user-assigned managed identity (UAMI) is the correct choice when the same identity must persist across multiple slots, scale sets, or redeployments. With a system-assigned managed identity (SAAMI), each slot gets its own distinct identity, requiring separate Key Vault access grants for each slot — high operational overhead when slots are rotated frequently. UAMI is created independently, assigned to multiple resources, and a single Key Vault access grant covers all slots that share the same UAMI. Both options B and C avoid credential storage, but option B requires re-granting access for every new slot. Option A stores credentials in application settings. Option D requires certificate management.",
+    "topics": ["identity-access"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Managed identities for Azure resources", "url": "https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview" },
+      { "label": "Use managed identities with App Service", "url": "https://learn.microsoft.com/en-us/azure/app-service/overview-managed-identity" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-007",
+    "type": "single_choice",
+    "prompt": "An architect is designing an Azure Key Vault access model for a regulated workload. The application team needs to create and delete secrets but must not be able to manage Key Vault permissions. The security team must be able to manage permissions but must not be able to read secrets. Auditors need read-only access to Key Vault properties but not secret values. Which access model supports this separation with the least complexity?",
+    "choices": [
+      { "id": "a", "text": "Key Vault access policies: assign Get/Set/Delete to the app team, assign all permissions to the security team, assign no permissions to auditors" },
+      { "id": "b", "text": "Azure RBAC on Key Vault: assign Key Vault Secrets Officer to the app team, Key Vault Contributor to the security team, Reader to auditors" },
+      { "id": "c", "text": "Key Vault access policies with a firewall rule restricting which service principals can modify policies" },
+      { "id": "d", "text": "Azure RBAC: assign Key Vault Secrets Officer to the app team, Key Vault Administrator to the security team, Key Vault Reader to auditors" }
+    ],
+    "correct": "b",
+    "explanation": "Azure RBAC on Key Vault provides the cleanest separation. Key Vault Secrets Officer grants create/read/delete on secrets but not the ability to manage Key Vault access policies or RBAC assignments. Key Vault Contributor is an Azure Resource Manager role that allows managing the Key Vault resource (including access policies) but does not grant data-plane access to read secrets. Reader at the resource level allows viewing Key Vault properties without data-plane access. Option D uses Key Vault Administrator which grants full data and management plane access — the security team would be able to read secrets. Access policies (options A and C) cannot achieve this separation because the entity that manages policies inherently has full control.",
+    "topics": ["identity-access"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure RBAC vs access policies for Key Vault", "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide" },
+      { "label": "Azure built-in roles for Key Vault", "url": "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-migration" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-008",
+    "type": "single_choice",
+    "prompt": "A company is designing a Zero Trust architecture for its Azure workloads. An internal API is accessed by multiple microservices. The API must verify the calling service's identity and authorize based on least-privilege, even when traffic originates from within the same virtual network. Which combination of controls best implements this requirement?",
+    "choices": [
+      { "id": "a", "text": "Place the API behind an Application Gateway with WAF and use network security groups to restrict inbound traffic to the VNET address space" },
+      { "id": "b", "text": "Require each calling microservice to present a token issued by Microsoft Entra ID (via managed identity), validate the token in the API, and authorize by application role or scope" },
+      { "id": "c", "text": "Use service endpoints to restrict the API's storage account to the VNET and configure IP allowlisting at the API layer" },
+      { "id": "d", "text": "Deploy the API to an Azure Kubernetes Service cluster with network policies blocking inter-pod traffic by default" }
+    ],
+    "correct": "b",
+    "explanation": "Zero Trust mandates explicit verification of identity regardless of network location — 'never trust, always verify.' The correct pattern is for each microservice to obtain a token from Entra ID using its managed identity (client credentials flow) and present it to the API. The API validates the token's signature and audience, then checks application roles or scopes for authorization. This works even if someone compromises the network segment. Network-based controls (options A, C, D) trust the network perimeter, which Zero Trust explicitly rejects. IP allowlisting and NSGs verify network location, not workload identity. AKS network policies control network-layer traffic but do not verify application identity.",
+    "topics": ["identity-access"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Zero Trust with Microsoft Entra ID", "url": "https://learn.microsoft.com/en-us/security/zero-trust/zero-trust-identity-technology-pillars" },
+      { "label": "Daemon app calling web API with managed identity", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/scenario-daemon-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-009",
+    "type": "single_choice",
+    "prompt": "A company wants to detect and respond to compromised user accounts in Microsoft Entra ID. The security team requires automatic remediation when a user's sign-in risk is 'High' (blocking the session) but only a prompt for MFA when the risk is 'Medium'. User risk should trigger a forced password change when it reaches 'High'. Which services implement this without custom code?",
+    "choices": [
+      { "id": "a", "text": "Conditional Access policies only, using sign-in risk and user risk conditions with appropriate grant controls" },
+      { "id": "b", "text": "Microsoft Entra ID Protection risk policies combined with Conditional Access: sign-in risk policy for session blocking/MFA, user risk policy for password change" },
+      { "id": "c", "text": "Microsoft Sentinel analytics rules that trigger Logic App playbooks to disable accounts and reset passwords" },
+      { "id": "d", "text": "Defender for Identity alerts forwarded to Defender for Cloud with automated remediation workflows" }
+    ],
+    "correct": "b",
+    "explanation": "Microsoft Entra ID Protection provides native risk-based policies. The sign-in risk policy evaluates each sign-in and applies controls based on risk level (Block for High, require MFA for Medium). The user risk policy evaluates cumulative risk for a user account and can require a secure password change when risk reaches High. Together these two policies, enabled in ID Protection, implement the requirement natively without custom code. Conditional Access alone (option A) can use sign-in risk as a condition but does not have a separate user risk policy for password change enforcement — that requires ID Protection. Sentinel (option C) and Defender for Identity (option D) are SIEM/MDI tools that detect threats but require custom playbooks for remediation, adding complexity.",
+    "topics": ["identity-access"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "What is Microsoft Entra ID Protection?", "url": "https://learn.microsoft.com/en-us/entra/id-protection/overview-identity-protection" },
+      { "label": "Configure risk policies", "url": "https://learn.microsoft.com/en-us/entra/id-protection/howto-identity-protection-configure-risk-policies" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-010",
+    "type": "single_choice",
+    "prompt": "An organization is migrating 50 on-premises applications to Azure. Each application currently authenticates users against on-premises Active Directory using Kerberos or NTLM. The organization cannot rewrite any application code and wants users to continue using their AD credentials via SSO without exposing domain controllers to the internet. Which solution enables this migration with no code changes?",
+    "choices": [
+      { "id": "a", "text": "Deploy Azure AD Application Proxy connectors in the on-premises network and publish the applications through Application Proxy with Kerberos Constrained Delegation" },
+      { "id": "b", "text": "Migrate all applications to Azure App Service and configure Entra ID as the identity provider" },
+      { "id": "c", "text": "Deploy Azure AD Connect with pass-through authentication and configure each application to accept SAML tokens from Entra ID" },
+      { "id": "d", "text": "Create a site-to-site VPN and configure each application server to join the Azure-extended AD domain" }
+    ],
+    "correct": "a",
+    "explanation": "Microsoft Entra Application Proxy with Kerberos Constrained Delegation (KCD) is purpose-built for this exact scenario. Application Proxy connectors installed on-premises broker authentication between Entra ID in the cloud and the internal applications. When a user authenticates via Entra ID, the connector uses KCD to obtain a Kerberos ticket on behalf of the user and presents it to the on-premises application — no code changes required. Domain controllers are never exposed to the internet. Option B requires migrating applications and potentially modifying authentication code. Option C requires applications to support SAML, which legacy Kerberos/NTLM apps cannot without code changes. Option D is a network-only solution that does not provide cloud-based SSO or eliminate internet exposure of internal services.",
+    "topics": ["identity-access"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Microsoft Entra application proxy overview", "url": "https://learn.microsoft.com/en-us/entra/identity/app-proxy/overview-what-is-app-proxy" },
+      { "label": "Kerberos Constrained Delegation with Application Proxy", "url": "https://learn.microsoft.com/en-us/entra/identity/app-proxy/application-proxy-configure-single-sign-on-with-kcd" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-011",
+    "type": "single_choice",
+    "prompt": "A company grants its data science team Owner access to a shared Azure subscription for three months during a project. After the project, the team's access must be automatically removed without manual intervention. Which mechanism implements automatic time-limited access removal?",
+    "choices": [
+      { "id": "a", "text": "Assign the role with a custom start and end date using Azure role assignment conditions" },
+      { "id": "b", "text": "Create an access package in Microsoft Entra ID Governance with a time-limited policy that expires after 90 days" },
+      { "id": "c", "text": "Configure a Conditional Access policy with a session lifetime control set to 90 days" },
+      { "id": "d", "text": "Use Azure Policy with a scheduled remediation task to remove the role assignment after 90 days" }
+    ],
+    "correct": "b",
+    "explanation": "Microsoft Entra ID Governance Access Packages support policies with defined expiration dates. Users can request access, receive the bundle of role assignments and group memberships, and have it automatically expire and be revoked at the configured date — no manual intervention. Azure role assignments do not natively support expiration dates on their own; time-limited assignments at scale require PIM eligible assignments or access packages. Option A does not exist as a built-in feature of standard role assignments outside PIM. Conditional Access session lifetime controls govern how long a session token remains valid, not when a role assignment expires. Azure Policy remediation is designed to enforce resource compliance, not to manage RBAC assignment lifecycle.",
+    "topics": ["identity-access"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "What are access packages in Microsoft Entra ID Governance?", "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-overview" },
+      { "label": "Configure access package policies", "url": "https://learn.microsoft.com/en-us/entra/id-governance/entitlement-management-access-package-lifecycle-policy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-012",
+    "type": "single_choice",
+    "prompt": "An architect is designing authentication for a multi-tenant SaaS application hosted in Azure. The application must allow enterprise customers to use their own corporate identity providers (ADFS, Okta, Azure AD) via federation. The application developer wants to write a single authentication code path rather than per-customer customization. Which approach achieves this?",
+    "choices": [
+      { "id": "a", "text": "Configure the application as a multi-tenant Microsoft Entra ID application and allow external tenant sign-in" },
+      { "id": "b", "text": "Use Azure AD B2C with federated identity providers configured as enterprise IdPs for each customer" },
+      { "id": "c", "text": "Deploy a separate Entra ID tenant per customer and configure trust between tenants" },
+      { "id": "d", "text": "Use Entra ID B2B collaboration with each customer as a connected organization and configure cross-tenant access settings" }
+    ],
+    "correct": "a",
+    "explanation": "Registering the application as a multi-tenant app in Microsoft Entra ID allows users from any Entra ID tenant (including federated tenants using ADFS or Okta) to authenticate using the standard OIDC/OAuth2 authorization code flow. The application uses the common endpoint (login.microsoftonline.com/common) and a single code path handles all enterprise customers regardless of their underlying IdP configuration. Entra ID handles the per-customer federation transparently. B2C (option B) is designed for consumer identity, not enterprise federation at scale. Option C requires a new Entra ID tenant per customer — massive operational overhead. B2B collaboration (option D) creates guest accounts in your tenant and requires individual user invitations, not suited for thousands of enterprise employees signing in from their own tenant.",
+    "topics": ["identity-access"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Multi-tenant application pattern", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/howto-convert-app-to-be-multi-tenant" },
+      { "label": "Signing in with a multi-tenant app", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/single-and-multi-tenant-apps" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-013",
+    "type": "single_choice",
+    "prompt": "A company's Azure environment has 200 resource groups across 15 subscriptions. A new compliance requirement mandates that all resources must have specific tags. The governance team wants tag enforcement to block non-compliant deployments rather than just report on them. They also want existing non-compliant resources identified and remediation tracked. Which Azure services satisfy both the enforcement and remediation tracking requirements?",
+    "choices": [
+      { "id": "a", "text": "Azure Cost Management tag policies with budget alerts for untagged resources" },
+      { "id": "b", "text": "Azure Policy with a Deny effect for new deployments and a DeployIfNotExists or Modify effect with remediation tasks for existing resources" },
+      { "id": "c", "text": "Azure Blueprints to redeploy all resource groups with required tags applied as locked artifacts" },
+      { "id": "d", "text": "Microsoft Defender for Cloud regulatory compliance dashboard with custom controls for tag compliance" }
+    ],
+    "correct": "b",
+    "explanation": "Azure Policy's Deny effect blocks any deployment that doesn't include the required tags at creation time. The Modify effect can automatically append missing tags to existing and new resources, while DeployIfNotExists can trigger remediation tasks that process existing non-compliant resources. Remediation tasks are trackable in the Azure Policy compliance dashboard, showing remediation progress. Azure Cost Management tag policies are advisory only and cannot block deployments. Azure Blueprints deploys a set of artifacts at blueprint assignment time but is not a continuous enforcement mechanism for new resources and does not remediate existing ones. Defender for Cloud's compliance dashboard reports compliance posture but does not enforce or remediate tagging.",
+    "topics": ["identity-access"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Azure Policy effects", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects" },
+      { "label": "Remediate non-compliant resources with Azure Policy", "url": "https://learn.microsoft.com/en-us/azure/governance/policy/how-to/remediate-resources" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-014",
+    "type": "single_choice",
+    "prompt": "Microsoft Defender for Identity has been deployed to monitor all on-premises domain controllers. The security team wants to detect lateral movement attacks such as Pass-the-Hash and Pass-the-Ticket, and have the detection results correlated with Entra ID sign-in risk. Which integration enables automatic correlation between on-premises AD threats and Entra ID risk scores?",
+    "choices": [
+      { "id": "a", "text": "Export Defender for Identity alerts to a Log Analytics workspace and create custom KQL queries in Microsoft Sentinel" },
+      { "id": "b", "text": "Enable the Microsoft Defender for Identity integration in Microsoft Entra ID Protection, which automatically feeds on-premises threat signals into Entra user risk" },
+      { "id": "c", "text": "Configure Defender for Identity to send webhooks to an Azure Function that calls the Entra ID risk API to mark users as risky" },
+      { "id": "d", "text": "Deploy Defender for Endpoint on domain controllers and enable device-based Conditional Access conditions" }
+    ],
+    "correct": "b",
+    "explanation": "Microsoft Entra ID Protection has a native integration with Microsoft Defender for Identity. When Defender for Identity detects on-premises attacks like Pass-the-Hash or Pass-the-Ticket, it automatically elevates the user's risk score in Entra ID Protection, which then triggers risk-based Conditional Access policies without any custom code. This is a first-class, built-in integration that requires enabling in the ID Protection settings. Option A sends alerts to Sentinel but requires custom queries and does not automatically affect Entra risk scores. Option C requires custom code to maintain. Defender for Endpoint on domain controllers addresses endpoint security but does not feed into Entra user risk scoring in the same native way.",
+    "topics": ["identity-access"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Microsoft Defender for Identity and ID Protection integration", "url": "https://learn.microsoft.com/en-us/entra/id-protection/concept-identity-protection-risks" },
+      { "label": "What is Microsoft Defender for Identity?", "url": "https://learn.microsoft.com/en-us/defender-for-identity/what-is" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az305-ia-015",
+    "type": "single_choice",
+    "prompt": "An application requires different levels of authorization: some APIs should be accessible to any authenticated user, some to users with a 'premium' subscription, and some only to service accounts (daemon processes). All callers authenticate via Microsoft Entra ID. Which approach correctly implements this granular authorization model in the application registration?",
+    "choices": [
+      { "id": "a", "text": "Define OAuth2 scopes (delegated permissions) for user-context access levels and app roles for daemon service authorization, then check claims in the API" },
+      { "id": "b", "text": "Use a single application permission 'ReadWrite.All' and implement authorization logic entirely in the API's business layer" },
+      { "id": "c", "text": "Create separate application registrations per access tier and require each caller to use the correct registration" },
+      { "id": "d", "text": "Use Conditional Access session controls with token lifetime set differently per access tier" }
+    ],
+    "correct": "a",
+    "explanation": "The correct Entra ID pattern uses delegated permissions (OAuth2 scopes) for user-context flows where the user's identity and consent determine access — users with a 'premium' scope in their token get premium features. Application roles serve the daemon/service account scenario where no user is present (client credentials flow) — the application is assigned a role, and the role claim appears in the access token. The API checks these claims to implement granular authorization. Option B uses a single broad permission and moves all authorization to application code, losing the benefits of token-level claims and admin consent governance. Option C creates unnecessary complexity with multiple app registrations. Conditional Access session controls affect session token lifetime, not authorization claims or scope.",
+    "topics": ["identity-access"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Scopes, permissions, and consent in Microsoft identity platform", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/permissions-consent-overview" },
+      { "label": "App roles vs groups for authorization", "url": "https://learn.microsoft.com/en-us/entra/identity-platform/howto-add-app-roles-in-apps" }
+    ],
+    "version": 1
+  }
+]

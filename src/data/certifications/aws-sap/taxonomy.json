@@ -1,0 +1,96 @@
+{
+  "topics": [
+    {
+      "id": "organizational-complexity",
+      "label": "Design Solutions for Organizational Complexity",
+      "description": "Architecting and governing multi-account AWS environments at enterprise scale. Covers AWS Organizations, Service Control Policies (SCPs), AWS Control Tower, account vending, AWS Resource Access Manager (RAM), cross-account IAM roles, landing zones, consolidated billing, and federated identity.",
+      "studyPointers": [
+        { "label": "AWS Organizations Best Practices", "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices.html" },
+        { "label": "AWS Control Tower User Guide", "url": "https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html" },
+        { "label": "Service Control Policies", "url": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html" },
+        { "label": "AWS Resource Access Manager", "url": "https://docs.aws.amazon.com/ram/latest/userguide/what-is.html" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Multi-account governance with Control Tower",
+          "prompt": "An enterprise wants to provision new AWS accounts automatically with security baselines pre-applied. Design a solution using AWS Control Tower that enforces mandatory guardrails and allows optional guardrails per OU.",
+          "focus": "Account Factory, preventive vs. detective guardrails, OU hierarchy design"
+        },
+        {
+          "title": "Cross-account resource sharing with RAM",
+          "prompt": "A networking team owns shared VPCs in a central account and wants application teams in spoke accounts to launch resources into those VPCs without full VPC creation permissions. Design the sharing and permission model.",
+          "focus": "AWS RAM resource shares, VPC subnet sharing, cross-account IAM"
+        }
+      ]
+    },
+    {
+      "id": "new-solutions-design",
+      "label": "Design for New Solutions",
+      "description": "Designing greenfield architectures for complex enterprise workloads. Covers microservices patterns (ECS, EKS, Lambda), event-driven architectures (EventBridge, SQS, SNS, Kinesis), API Gateway, Step Functions, caching strategies, database selection (RDS, Aurora, DynamoDB, Redshift, Neptune, ElastiCache), and disaster recovery strategies (RTO/RPO, pilot light, warm standby, multi-site active/active).",
+      "studyPointers": [
+        { "label": "Disaster Recovery of Workloads on AWS", "url": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-workloads-on-aws.html" },
+        { "label": "Amazon EventBridge User Guide", "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html" },
+        { "label": "Serverless Application Architecture", "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-architecture.html" },
+        { "label": "Choosing the Right Database", "url": "https://aws.amazon.com/products/databases/" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Event-driven order processing pipeline",
+          "prompt": "Design a scalable, loosely coupled order processing system where orders from multiple channels fan out to inventory, payments, and fulfillment services with guaranteed delivery and replay capability.",
+          "focus": "SNS fan-out, SQS dead-letter queues, EventBridge event buses, Kinesis for replay"
+        },
+        {
+          "title": "Disaster recovery with aggressive RTO/RPO",
+          "prompt": "A financial services workload running in us-east-1 requires an RPO of 15 minutes and an RTO of 1 hour. Design the most cost-effective DR strategy that meets these constraints.",
+          "focus": "Warm standby vs. pilot light, Aurora Global Database, Route 53 health checks, RDS read replicas"
+        }
+      ]
+    },
+    {
+      "id": "continuous-improvement",
+      "label": "Continuous Improvement for Existing Solutions",
+      "description": "Optimizing and evolving production architectures using the AWS Well-Architected Framework. Covers performance efficiency, cost optimization at scale, operational excellence, reliability patterns, observability (CloudWatch Logs Insights, X-Ray, CloudWatch Container Insights), AWS Config conformance packs, and Systems Manager operational runbooks.",
+      "studyPointers": [
+        { "label": "AWS Well-Architected Framework", "url": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html" },
+        { "label": "Amazon CloudWatch Logs Insights", "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html" },
+        { "label": "AWS X-Ray Developer Guide", "url": "https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html" },
+        { "label": "AWS Systems Manager User Guide", "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Cost optimization for a Lambda-heavy workload",
+          "prompt": "A team has 500 Lambda functions deployed across 3 accounts. Identify and implement cost reduction strategies without degrading performance or reliability.",
+          "focus": "Compute Optimizer, right-sizing memory, Graviton, reserved concurrency, Cost Explorer"
+        },
+        {
+          "title": "Distributed tracing across microservices",
+          "prompt": "An ECS-based microservices application has intermittent latency spikes that are difficult to attribute to a specific service. Design an observability solution to isolate root causes.",
+          "focus": "X-Ray service maps, sampling rules, CloudWatch Container Insights, Logs Insights correlation"
+        }
+      ]
+    },
+    {
+      "id": "migration-modernization",
+      "label": "Accelerate Workload Migration and Modernization",
+      "description": "Planning and executing large-scale migrations and modernization initiatives. Covers AWS Migration Evaluator, Application Discovery Service, Database Migration Service (DMS), Server Migration Service (SMS), DataSync, Snow family, and modernization patterns including lift-and-shift, re-platform, and re-architect. Also covers VMware Cloud on AWS and container-based modernization strategies.",
+      "studyPointers": [
+        { "label": "AWS Database Migration Service User Guide", "url": "https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html" },
+        { "label": "AWS Application Discovery Service", "url": "https://docs.aws.amazon.com/application-discovery/latest/userguide/what-is-appdiscovery.html" },
+        { "label": "AWS DataSync User Guide", "url": "https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html" },
+        { "label": "AWS Snow Family Overview", "url": "https://docs.aws.amazon.com/snowball/latest/developer-guide/whatissnowball.html" }
+      ],
+      "examScenarios": [
+        {
+          "title": "Heterogeneous database migration",
+          "prompt": "Migrate an on-premises Oracle database (5 TB, 99.9% availability SLA) to Amazon Aurora PostgreSQL with minimal downtime. Design the migration strategy and tools.",
+          "focus": "DMS with Schema Conversion Tool, continuous replication, cutover planning, validation"
+        },
+        {
+          "title": "Large-scale data center exit",
+          "prompt": "A company must exit a physical data center within 6 months. 200 servers need migration, including 20 TB of NFS file shares and several Oracle databases. Design the phased migration plan.",
+          "focus": "Application Discovery Service, Migration Hub, Server Migration Service, DataSync, Snow family decision criteria"
+        }
+      ]
+    }
+  ]
+}

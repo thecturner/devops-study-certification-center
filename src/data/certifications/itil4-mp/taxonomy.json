@@ -1,0 +1,144 @@
+{
+  "topics": [
+    {
+      "id": "create-deliver-support",
+      "label": "Create, Deliver and Support",
+      "description": "CDS covers how organisations design and build service value streams end-to-end, make informed sourcing decisions, and operate practices such as incident, problem, service desk, service request, release, deployment, and event management at practitioner depth. It introduces value stream mapping, workforce planning, SIAM models, and the application of shift-left and automation strategies to improve service delivery performance.",
+      "studyPointers": [
+        {
+          "label": "AXELOS: ITIL 4 Managing Professional — CDS",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional"
+        },
+        {
+          "label": "AXELOS: ITIL 4 Practice Guide — Incident Management",
+          "url": "https://www.axelos.com/resource-hub/white-paper/itil-4-practitioner-incident-management"
+        },
+        {
+          "label": "BCS: Service Integration and Management (SIAM) Overview",
+          "url": "https://www.bcs.org/articles-opinion-and-research/service-integration-and-management-siam/"
+        },
+        {
+          "label": "AXELOS: ITIL 4 Practice Guide — Problem Management",
+          "url": "https://www.axelos.com/resource-hub/white-paper/itil-4-practitioner-problem-management"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Tiered escalation vs. swarming",
+          "prompt": "A service desk team must decide between tiered escalation and swarming for a complex incident type. Identify which model reduces elapsed time and explain why.",
+          "focus": "Swarming eliminates queue handoffs and brings expertise to the incident immediately, reducing resolution time for complex issues where tiered routing adds delay."
+        },
+        {
+          "title": "Value stream waste identification",
+          "prompt": "A value stream mapping exercise identifies a step where work sits in a queue for days but active processing takes only hours. Classify the waste type and select the Lean principle that addresses it.",
+          "focus": "Queue wait is a waiting/flow efficiency waste. The Lean principle of flow efficiency targets reducing the ratio of active work time to total elapsed time."
+        }
+      ]
+    },
+    {
+      "id": "drive-stakeholder-value",
+      "label": "Drive Stakeholder Value",
+      "description": "DSV focuses on understanding and managing the full customer and user journey, from initial engagement and onboarding through to offboarding. It covers SLA, SLO, and SLI design, customer experience and user experience distinctions, service catalogue design, demand management, customer satisfaction measurement, and the principles of value co-creation through active collaboration between providers and consumers.",
+      "studyPointers": [
+        {
+          "label": "AXELOS: ITIL 4 Managing Professional — DSV",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional"
+        },
+        {
+          "label": "Google SRE: SLOs, SLAs, and SLIs Explained",
+          "url": "https://sre.google/sre-book/service-level-objectives/"
+        },
+        {
+          "label": "AXELOS: ITIL 4 Practice Guide — Business Relationship Management",
+          "url": "https://www.axelos.com/resource-hub/white-paper/itil-4-practitioner-business-relationship-management"
+        },
+        {
+          "label": "Nielsen Norman Group: Customer Experience vs. User Experience",
+          "url": "https://www.nngroup.com/articles/ux-vs-cx/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "SLO set above SLA",
+          "prompt": "A service provider sets an internal SLO above the external SLA target. Explain why this gap exists and what it enables the operations team to do.",
+          "focus": "The headroom between SLO and SLA gives the operations team time to detect and remediate before breaching the customer-facing commitment, preventing contractual failure."
+        },
+        {
+          "title": "Silent customer failure",
+          "prompt": "A customer contact does not raise a longstanding billing discrepancy because they assume IT won't respond. Identify which aspect of the service relationship has broken down.",
+          "focus": "Trust and relationship engagement have failed. Effective business relationship management requires the customer to believe that raising concerns will lead to action."
+        }
+      ]
+    },
+    {
+      "id": "high-velocity-it",
+      "label": "High-velocity IT",
+      "description": "HVIT examines how organisations adopt and scale digital and IT-intensive ways of working, including DevOps, SRE, Lean IT, and design thinking. It covers the five HVIT objectives, error budget management, blameless postmortems, toil reduction, technical debt strategies, the AIOps automation adoption model, the Cynefin framework for complex environments, and how safety culture and psychological safety drive reliability outcomes.",
+      "studyPointers": [
+        {
+          "label": "AXELOS: ITIL 4 Managing Professional — HVIT",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional"
+        },
+        {
+          "label": "Google SRE Book: Error Budgets",
+          "url": "https://sre.google/sre-book/embracing-risk/"
+        },
+        {
+          "label": "DORA: State of DevOps Report",
+          "url": "https://dora.dev/research/"
+        },
+        {
+          "label": "Cynefin Framework Overview — Cognitive Edge",
+          "url": "https://thecynefin.co/about-us/about-cynefin-framework/"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Error budget nearly exhausted",
+          "prompt": "An SRE team has consumed 80% of its error budget with 12 days remaining. Select the most appropriate response that balances reliability and delivery velocity.",
+          "focus": "The team should freeze non-critical feature releases and focus on reliability work until the budget resets, preserving the remaining 20% as a buffer against unexpected incidents."
+        },
+        {
+          "title": "Automation maturity level",
+          "prompt": "A team's monitoring system generates alerts that engineers manually correlate and remediate using pre-approved scripts. Identify which automation maturity level this represents and describe the next level.",
+          "focus": "This is reactive automation (Level 2). The next level is proactive/event-driven automation where the system correlates and triggers remediation scripts without human intervention."
+        }
+      ]
+    },
+    {
+      "id": "direct-plan-improve",
+      "label": "Direct, Plan and Improve",
+      "description": "DPI addresses how organisations establish direction, governance structures, and continual improvement capability. It covers the governance-versus-management distinction, cascading objectives using CSFs, KPIs, and OKRs, organisational change management frameworks (Kotter and ADKAR), maturity assessment, the seven-step improvement model, PDCA, improvement register management, and how to build a lasting culture of continual improvement.",
+      "studyPointers": [
+        {
+          "label": "AXELOS: ITIL 4 Managing Professional — DPI",
+          "url": "https://www.axelos.com/certifications/itil-service-management/itil-4-managing-professional"
+        },
+        {
+          "label": "Prosci: ADKAR Model Overview",
+          "url": "https://www.prosci.com/methodology/adkar"
+        },
+        {
+          "label": "Kotter International: 8-Step Process for Leading Change",
+          "url": "https://www.kotterinc.com/methodology/8-steps/"
+        },
+        {
+          "label": "ASQ: Plan-Do-Check-Act (PDCA) Cycle",
+          "url": "https://asq.org/quality-resources/pdca-cycle"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Improvement gain not sustained",
+          "prompt": "An improvement initiative achieves its backlog reduction target but the backlog starts growing again after attention shifts. Identify which step of the improvement model was skipped and what actions embed the gain.",
+          "focus": "Step 7 (embed the change / sustain improvement) was skipped. Embedding requires updating procedures, training staff, monitoring metrics, and assigning ownership after the sprint ends."
+        },
+        {
+          "title": "Risk appetite across different activity types",
+          "prompt": "A governance body must set risk appetite for both critical production services and a digital transformation programme. Determine the appropriate approach given that the two activity types require different tolerances.",
+          "focus": "Run-the-business activities require low risk appetite with high availability focus; change-the-business programmes can tolerate higher risk. Governance must define separate appetite statements for each horizon."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+[
+  {
+    "id": "ccaf-cw-001",
+    "type": "single_choice",
+    "prompt": "When Cowork receives a complex task, what is the correct sequence of steps it takes before executing work?",
+    "choices": [
+      { "id": "a", "text": "Execute immediately, then backfill a plan in the response" },
+      { "id": "b", "text": "Analyze the task, create a plan, break it into subtasks, then execute each subtask in an isolated VM" },
+      { "id": "c", "text": "Prompt the user for confirmation before analyzing requirements" },
+      { "id": "d", "text": "Spawn sub-agents first, then assemble a plan from their outputs" }
+    ],
+    "correct": "b",
+    "explanation": "Cowork follows a deliberate task loop: it first analyzes the request, creates a plan, and breaks the work into discrete subtasks. Each subtask then executes inside an isolated VM, which contains side effects and keeps workstreams independent.",
+    "topics": ["cowork"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Cowork — Task Loop Mechanics" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-002",
+    "type": "single_choice",
+    "prompt": "What is the execution environment for Cowork subtasks, and why does this matter?",
+    "choices": [
+      { "id": "a", "text": "A shared Docker container; all subtasks share the same filesystem" },
+      { "id": "b", "text": "The user's local machine; subtasks have direct access to all local resources" },
+      { "id": "c", "text": "An isolated VM per subtask; this prevents subtasks from interfering with each other" },
+      { "id": "d", "text": "A remote sandbox with read-only access to the user's files" }
+    ],
+    "correct": "c",
+    "explanation": "Each Cowork subtask runs inside its own isolated VM. Isolation ensures that one subtask cannot corrupt the state of another, which is what makes reliable parallel workstreams possible.",
+    "topics": ["cowork"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Cowork — Isolated VM Execution" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-003",
+    "type": "single_choice",
+    "prompt": "A Cowork scheduled task is configured to run daily. The desktop app was closed when the run window arrived. What happens when the app reopens?",
+    "choices": [
+      { "id": "a", "text": "The task is skipped permanently and must be rescheduled manually" },
+      { "id": "b", "text": "The task waits silently until the next daily interval" },
+      { "id": "c", "text": "The task runs automatically and a notification is sent to the user" },
+      { "id": "d", "text": "The task runs only if the user explicitly resumes it from the task history" }
+    ],
+    "correct": "c",
+    "explanation": "Cowork scheduled tasks do not wait for the next interval when a run was missed. When the desktop app reopens after a closed run window, the task executes automatically and Cowork sends a notification to inform the user.",
+    "topics": ["cowork"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Cowork — Scheduled Tasks" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-004",
+    "type": "single_choice",
+    "prompt": "Which of the following is NOT a valid Cowork scheduled task cadence?",
+    "choices": [
+      { "id": "a", "text": "Hourly" },
+      { "id": "b", "text": "Weekday" },
+      { "id": "c", "text": "Monthly" },
+      { "id": "d", "text": "On-demand" }
+    ],
+    "correct": "c",
+    "explanation": "Cowork supports hourly, daily, weekly, weekday, and on-demand cadences. Monthly is not an available option. On-demand allows a task to be triggered manually rather than on a time-based schedule.",
+    "topics": ["cowork"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Cowork — Task Cadences" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-005",
+    "type": "single_choice",
+    "prompt": "What does a Cowork plugin bundle together into a single installable package?",
+    "choices": [
+      { "id": "a", "text": "A SKILL.md file and a set of CLAUDE.md overrides" },
+      { "id": "b", "text": "Skills, connectors, and sub-agents" },
+      { "id": "c", "text": "MCP servers and API keys only" },
+      { "id": "d", "text": "A preconfigured system prompt and a set of approved tools" }
+    ],
+    "correct": "b",
+    "explanation": "A Cowork plugin is a distributable package that bundles skills, connectors, and sub-agents together. This lets teams share a coherent, pre-configured capability set at the role, team, or company level without requiring manual component-by-component setup.",
+    "topics": ["cowork"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Cowork — Plugins" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-006",
+    "type": "single_choice",
+    "prompt": "A Cowork user wants Claude to fetch a private internal wiki page during a task. Will the web fetch connector succeed?",
+    "choices": [
+      { "id": "a", "text": "Yes, web fetch can access any URL the user's machine can reach" },
+      { "id": "b", "text": "No, web fetch is server-side and limited to public search results and URLs that have been explicitly shared" },
+      { "id": "c", "text": "Yes, Cowork tunnels through the user's browser session to access authenticated pages" },
+      { "id": "d", "text": "No, web fetch is disabled by default and must be enabled per task" }
+    ],
+    "correct": "b",
+    "explanation": "Cowork's web fetch connector runs server-side, not in the user's browser. It is limited to publicly accessible URLs and URLs that have been explicitly shared. Private or authenticated pages behind a login are not reachable through this connector.",
+    "topics": ["cowork"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Cowork — Web Fetch Limitations" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-007",
+    "type": "single_choice",
+    "prompt": "Which Cowork file permission mode requires Claude to pause and confirm before reading or writing local files?",
+    "choices": [
+      { "id": "a", "text": "Act without asking" },
+      { "id": "b", "text": "Read-only" },
+      { "id": "c", "text": "Ask before acting" },
+      { "id": "d", "text": "Sandboxed" }
+    ],
+    "correct": "c",
+    "explanation": "Cowork's 'Ask before acting' permission mode causes Claude to pause and seek explicit user confirmation before any local file read or write. 'Act without asking' allows Claude to access files autonomously without interruption.",
+    "topics": ["cowork"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Cowork — File Permission Modes" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-008",
+    "type": "single_choice",
+    "prompt": "A user asks Cowork to produce a research briefing synthesizing ten web articles and a set of personal notes. Which combination of capabilities does Cowork draw on?",
+    "choices": [
+      { "id": "a", "text": "Web search connector, web fetch connector, and direct local file access" },
+      { "id": "b", "text": "Web search connector only; notes must be pasted directly into the prompt" },
+      { "id": "c", "text": "A sub-agent per article, with results merged by the orchestrating task" },
+      { "id": "d", "text": "MCP connectors for web and a plugin for note access" }
+    ],
+    "correct": "a",
+    "explanation": "Cowork research workflows combine web search (to discover sources), web fetch (to retrieve article content), and direct local file access (to read personal notes). This lets Cowork synthesize heterogeneous sources into a single coherent output.",
+    "topics": ["cowork"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Cowork — Research Workflows" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-009",
+    "type": "single_choice",
+    "prompt": "During a long Cowork task, a user realizes the approach is heading in the wrong direction. What mechanism does Cowork provide to address this without abandoning the entire task?",
+    "choices": [
+      { "id": "a", "text": "The task must be cancelled and restarted with a new prompt" },
+      { "id": "b", "text": "The user can provide mid-task steering to redirect work, with visibility into the current plan" },
+      { "id": "c", "text": "Cowork automatically detects errors and self-corrects without user input" },
+      { "id": "d", "text": "The user can edit the task plan file directly in the VM filesystem" }
+    ],
+    "correct": "b",
+    "explanation": "Cowork supports mid-task steering: users can see the current plan at any point and provide course corrections without restarting. This interactive steering capability is a core design principle, giving humans meaningful control over autonomous work.",
+    "topics": ["cowork"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Cowork — Interactive Steering" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-010",
+    "type": "single_choice",
+    "prompt": "A user runs a complex Cowork task today, then starts a new standalone Cowork session tomorrow without linking it to the same project. Which statement about memory is correct?",
+    "choices": [
+      { "id": "a", "text": "Cowork retains full memory of all previous sessions regardless of project context" },
+      { "id": "b", "text": "Memory from the first session is available in the new session if the user's account is logged in" },
+      { "id": "c", "text": "Memory is supported within a project but is NOT retained across standalone Cowork sessions" },
+      { "id": "d", "text": "Cowork has no memory capability at all; each task always starts from zero" }
+    ],
+    "correct": "c",
+    "explanation": "Cowork supports memory within the scope of a project, allowing context to accumulate across tasks inside that project. However, standalone Cowork sessions do not share memory with each other or with project sessions. Starting a new standalone session means starting fresh.",
+    "topics": ["cowork"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Cowork — Memory Scope" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-011",
+    "type": "single_choice",
+    "prompt": "An enterprise team wants every engineer to automatically have access to the same Cowork capabilities, including a custom connector to their internal ticketing system. What is the most appropriate distribution mechanism?",
+    "choices": [
+      { "id": "a", "text": "Share a SKILL.md file in the team's shared code repository" },
+      { "id": "b", "text": "Create a company-level plugin that bundles the connector and relevant skills, then distribute it via company settings" },
+      { "id": "c", "text": "Ask each engineer to manually configure the MCP server endpoint" },
+      { "id": "d", "text": "Export the Cowork task history and send it to each team member" }
+    ],
+    "correct": "b",
+    "explanation": "Cowork plugins are the correct distribution mechanism for org-wide capabilities. A company-level plugin bundles skills, connectors, and sub-agents, and can be pushed to all engineers via company settings, eliminating the need for individual setup and ensuring consistency.",
+    "topics": ["cowork"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Cowork — Plugins and Company Customization" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cw-012",
+    "type": "single_choice",
+    "prompt": "A Cowork task is configured to run on a weekday cadence. The task log shows three consecutive entries marked 'skipped'. What is the most likely explanation?",
+    "choices": [
+      { "id": "a", "text": "The task exceeded its token budget on those days and was automatically paused" },
+      { "id": "b", "text": "The desktop app was closed during all three scheduled run windows; the skips were recorded in history and runs triggered on app reopen" },
+      { "id": "c", "text": "A plugin dependency was unavailable, causing the scheduler to record skips without attempting execution" },
+      { "id": "d", "text": "The user manually dismissed the notification for each run" }
+    ],
+    "correct": "b",
+    "explanation": "Cowork records skipped runs in the task history when the desktop app is not open at the scheduled time. When the app reopens, the task executes automatically. The skipped entries in the log are a historical record, not failures — they indicate runs that were deferred to the next available app session.",
+    "topics": ["cowork"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Cowork — Skipped Run History" }],
+    "version": 1
+  }
+]

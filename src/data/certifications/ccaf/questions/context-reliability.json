@@ -1,0 +1,206 @@
+[
+  {
+    "id": "ccaf-cr-001",
+    "type": "single_choice",
+    "prompt": "A multi-turn support agent handles insurance claims. After context compaction, the agent forgets the claim number and payout amount from turn 1. What architectural fix prevents this?",
+    "choices": [
+      { "id": "a", "text": "Increase `max_tokens` to prevent compaction from occurring" },
+      { "id": "b", "text": "Maintain a persistent \"case facts\" block — a structured section containing transactional data (IDs, amounts, dates) — that is injected outside the summarized history on every turn, so it survives compaction" },
+      { "id": "c", "text": "Ask the user to repeat the claim number at the start of each turn as a reliability measure" },
+      { "id": "d", "text": "Store the claim number in a tool call argument so it appears only when tools are invoked" }
+    ],
+    "correct": "b",
+    "explanation": "Context compaction replaces detailed history with a summary, which necessarily loses specific transactional values. The correct pattern is to maintain a \"case facts\" block — a structured section containing claim IDs, amounts, dates, and other binding data — and inject it into the system prompt or as a prefixed message on every turn. Because this block lives outside the history being summarized, it survives compaction and remains available to the agent throughout the conversation.",
+    "topics": ["context-reliability"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Context Compaction and Persistent State" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-002",
+    "type": "single_choice",
+    "prompt": "A RAG system passes 10 retrieved document chunks to Claude as a single user message. The developer notices Claude frequently misses findings from chunks 3 through 7. What is the most likely cause and fix?",
+    "choices": [
+      { "id": "a", "text": "The chunks are too short; increasing their length will improve retrieval recall" },
+      { "id": "b", "text": "Lost-in-the-middle: models attend more strongly to content at the beginning and end of long inputs. Fix by placing key findings at the start of the context block and using explicit section headers to reinforce salience for middle content." },
+      { "id": "c", "text": "Claude cannot process more than 5 document chunks simultaneously; split the request into two calls" },
+      { "id": "d", "text": "Increase temperature to improve the model's ability to recall information from middle positions" }
+    ],
+    "correct": "b",
+    "explanation": "The lost-in-the-middle phenomenon describes how language models tend to attend more reliably to content at the beginning and end of their input, with reduced attention to content in the middle of a long context. When chunks 3-7 are consistently missed, their position is the most likely cause. Mitigations include reordering — placing the most critical chunks at the start or end — and adding explicit section headers or delimiters that help the model segment and attend to each chunk as a distinct unit.",
+    "topics": ["context-reliability"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude API — Context Ordering and Lost-in-the-Middle" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-003",
+    "type": "single_choice",
+    "prompt": "A customer support agent is instructed to escalate to a human only when it detects negative sentiment or low confidence. A customer explicitly asks to speak to a human three times but the agent continues handling the conversation because sentiment is neutral and confidence is high. What went wrong?",
+    "choices": [
+      { "id": "a", "text": "The sentiment detection thresholds are correct but need recalibration; lower the negative sentiment cutoff to catch more cases" },
+      { "id": "b", "text": "Explicit customer escalation requests must be honored immediately, regardless of sentiment or confidence score. Sentiment and self-reported confidence are unreliable proxies; the correct triggers are explicit customer request, policy gap, or no meaningful progress." },
+      { "id": "c", "text": "Add a conversation turn counter and escalate automatically after a fixed number of turns" },
+      { "id": "d", "text": "Reduce the confidence threshold to 50% so the agent escalates more often" }
+    ],
+    "correct": "b",
+    "explanation": "An explicit customer request to speak to a human is an unconditional escalation trigger and must override any automated scoring. Sentiment analysis and model self-reported confidence are probabilistic signals useful for detecting frustration the customer has not verbalized — they are not gatekeepers that can override an explicit human request. The canonical escalation triggers are: (1) explicit customer request, (2) policy gap with no clear guidance, and (3) no meaningful progress after repeated attempts.",
+    "topics": ["context-reliability"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude API — Agentic Escalation Patterns" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-004",
+    "type": "multi_choice",
+    "prompt": "Which of the following are reliable triggers for escalating a customer support conversation to a human agent? Select two.",
+    "choices": [
+      { "id": "a", "text": "The customer explicitly requests to speak to a human" },
+      { "id": "b", "text": "The customer's computed sentiment score drops below 0.4" },
+      { "id": "c", "text": "The agent encounters a policy gap or ambiguous situation with no clear guidance available" },
+      { "id": "d", "text": "The agent's self-reported confidence falls below 70%" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Explicit customer requests (a) are unconditional escalation triggers — they must be honored immediately regardless of any other signal. Policy gaps and ambiguous situations (c) are structural triggers where the agent genuinely cannot proceed responsibly without human judgment. Sentiment scores (b) and model self-reported confidence (d) are probabilistic, unreliable proxies — they can miss distress (false negative) or fire unnecessarily (false positive), making them unsuitable as primary escalation gates.",
+    "topics": ["context-reliability"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude API — Agentic Escalation Patterns" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-005",
+    "type": "multi_choice",
+    "prompt": "A multi-step agent fails on step 3 of 5. It catches the exception and returns `{\"status\": \"error\"}` to the orchestrator. The orchestrator retries the full workflow from step 1. What two problems does this error handling pattern introduce?",
+    "choices": [
+      { "id": "a", "text": "The agent should not catch exceptions at all; unhandled exceptions are the correct propagation mechanism" },
+      { "id": "b", "text": "A generic status with no failure context forces the orchestrator to retry blindly without knowing what failed or why" },
+      { "id": "c", "text": "Returning a JSON object is inherently less safe than returning a plain string error message" },
+      { "id": "d", "text": "Restarting from step 1 repeats already-completed work unnecessarily when only step 3 failed" }
+    ],
+    "correct": ["b", "d"],
+    "explanation": "Two distinct problems arise here. First, `{\"status\": \"error\"}` gives the orchestrator no actionable information — it cannot determine which step failed, why it failed, or what alternatives to try, so any retry is blind. Second, retrying from step 1 is wasteful when steps 1 and 2 completed successfully; the orchestrator should be able to resume from step 3 with the partial results already obtained. The correct error payload should include failure type, the attempted operation, any partial results, and suggested alternatives.",
+    "topics": ["context-reliability"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude API — Multi-Agent Error Propagation" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-006",
+    "type": "single_choice",
+    "prompt": "A subagent encounters a database query failure and needs to report it upstream. Which error payload structure best enables the orchestrator to make an informed retry decision?",
+    "choices": [
+      { "id": "a", "text": "A plain string message such as \"database unavailable\"" },
+      { "id": "b", "text": "Structured context including failure type, the attempted query, any partial results retrieved, and alternative approaches the orchestrator could try" },
+      { "id": "c", "text": "An HTTP status code (e.g., 503) without additional context" },
+      { "id": "d", "text": "Return `null` to signal that the subagent produced no output" }
+    ],
+    "correct": "b",
+    "explanation": "An orchestrator can only make an intelligent retry or fallback decision if it understands what failed and what options remain. A structured error payload with failure type, the attempted query, any partial results already retrieved, and suggested alternatives gives the orchestrator everything it needs to decide whether to retry the same query, try an alternative data source, or escalate. Opaque strings, status codes, and null returns all represent silent failures that force the orchestrator to act without context.",
+    "topics": ["context-reliability"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude API — Multi-Agent Error Propagation" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-007",
+    "type": "single_choice",
+    "prompt": "A research agent retrieves two documents with contradictory claims about a drug's approval status. How should it handle the conflict before returning results to the user?",
+    "choices": [
+      { "id": "a", "text": "Return only the more recent document and discard the older one" },
+      { "id": "b", "text": "Annotate both claims with their source attribution and include publication dates so temporal differences can be identified, surfacing the conflict explicitly rather than resolving it unilaterally" },
+      { "id": "c", "text": "Average the two claims to produce a balanced middle-ground answer" },
+      { "id": "d", "text": "Return only the source with the higher retrieval similarity score" }
+    ],
+    "correct": "b",
+    "explanation": "When sources contradict each other, the agent's role is to surface the conflict transparently, not to resolve it unilaterally. Arbitrarily selecting one source — by recency, similarity score, or any other heuristic — risks suppressing correct information. The correct approach is to attribute both claims to their sources and include publication dates so the user or a downstream step can assess which source is more authoritative or current. This preserves human oversight of consequential decisions.",
+    "topics": ["context-reliability"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude API — Conflicting Source Handling in RAG" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-008",
+    "type": "single_choice",
+    "prompt": "A document classification system reports 94% overall accuracy. The team reduces human review based on this metric. Two weeks later, they discover that a specific document type — invoices — has only 61% accuracy. What evaluation mistake was made?",
+    "choices": [
+      { "id": "a", "text": "94% overall accuracy is always sufficient to reduce human review; the team's decision was correct" },
+      { "id": "b", "text": "Aggregate accuracy masks per-segment failures. The correct approach is stratified sampling and per-document-type analysis before reducing human oversight, since high overall accuracy can hide critical failures in specific classes." },
+      { "id": "c", "text": "The problem is insufficient training data volume; the fix is to collect more documents overall" },
+      { "id": "d", "text": "Apply a globally higher confidence threshold to catch low-confidence predictions across all document types" }
+    ],
+    "correct": "b",
+    "explanation": "Aggregate accuracy is a misleading metric when class distribution is uneven. If invoices represent 10% of documents and the model scores 61% on them, the impact on the 94% headline number may be minimal — masking a critical failure. Evaluation before reducing human oversight must include stratified analysis: per-segment accuracy broken down by document type, field type, or any other dimension that could hide a minority-class failure. High aggregate accuracy does not imply uniform performance across all classes.",
+    "topics": ["context-reliability"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude API — Evaluation Strategy and Stratified Sampling" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-009",
+    "type": "single_choice",
+    "prompt": "An orchestrated multi-agent pipeline produces incorrect financial summaries. The team investigates and finds the coordinator splits \"calculate taxes\" into three subagent tasks that each receive only partial transaction data. Where should the fix be applied?",
+    "choices": [
+      { "id": "a", "text": "Add error handling to each subagent so they surface missing data rather than silently computing with incomplete inputs" },
+      { "id": "b", "text": "The coordinator's task decomposition is the defect. When downstream agents fail due to missing inputs, the root cause is the coordinator's decomposition logic; fix the coordinator's task splitting, not the subagents." },
+      { "id": "c", "text": "Strengthen each subagent's system prompt to instruct it to request missing data before proceeding" },
+      { "id": "d", "text": "Switch to a larger model for the subagents to improve their ability to infer missing transaction values" }
+    ],
+    "correct": "b",
+    "explanation": "When subagents produce wrong results because they received incomplete inputs, the defect is in the coordinator's decomposition logic, not in the subagents themselves. The subagents are correctly executing the task they were given — the task was incorrectly specified. Fixing this at the subagent level (error handling, prompt changes, larger models) treats the symptom without addressing the cause. The coordinator must ensure each task is assigned all the data it requires to produce a correct result.",
+    "topics": ["context-reliability"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Orchestrator Decomposition Meta-Pattern" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-010",
+    "type": "single_choice",
+    "prompt": "A developer's pipeline incorrectly classifies edge-case documents. They propose three fixes: (1) improve tool descriptions to better differentiate document types, (2) add a routing layer, (3) add a secondary classifier model. In what order should these fixes be attempted?",
+    "choices": [
+      { "id": "a", "text": "Add the routing layer first since it is the most deterministic and does not depend on model behavior" },
+      { "id": "b", "text": "Apply fix (1) first — improve the tool descriptions and classification criteria. Infrastructure additions (routing layer, classifier model) should follow only if a proportionate prompt-level fix is insufficient." },
+      { "id": "c", "text": "Apply all three simultaneously to maximize the improvement signal" },
+      { "id": "d", "text": "The secondary classifier model is always the right fix for classification accuracy problems" }
+    ],
+    "correct": "b",
+    "explanation": "The principle of proportionate response says to apply the simplest, most targeted fix first. Improving descriptions and classification criteria directly addresses the ambiguity causing the misclassification and requires no new infrastructure. Routing layers and classifier models add complexity, latency, and maintenance burden — they are appropriate escalations if description improvements prove insufficient, not the first line of action. Root-cause reasoning before infrastructure investment is the canonical meta-pattern here.",
+    "topics": ["context-reliability"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude API — Classification Meta-Patterns" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-011",
+    "type": "single_choice",
+    "prompt": "A developer needs to run Claude over 50,000 historical support tickets for pattern analysis. They plan to use the standard synchronous messages endpoint with streaming. What is the better approach and why?",
+    "choices": [
+      { "id": "a", "text": "Use streaming for better throughput; the streaming endpoint processes more tokens per second than the synchronous endpoint" },
+      { "id": "b", "text": "Use the Batch API. The tickets are non-blocking and latency-insensitive — exactly the right profile for batch processing, which offers 50% cost savings and handles large-scale overnight workloads. The synchronous API is for interactive, low-latency use cases." },
+      { "id": "c", "text": "Use the Files API to upload all tickets at once, then process them in a single request" },
+      { "id": "d", "text": "Run in parallel threads against the synchronous endpoint to achieve equivalent throughput to the Batch API" }
+    ],
+    "correct": "b",
+    "explanation": "The Batch API is designed precisely for non-interactive, latency-insensitive workloads like bulk analysis of historical data. It offers 50% cost savings compared to the synchronous API and processes requests asynchronously — results can be retrieved hours later. The synchronous API with streaming is optimized for interactive use cases where a user is waiting for a real-time response. Running 50,000 requests against the synchronous endpoint in parallel threads would incur full synchronous API cost and rate-limit pressure without the batch savings.",
+    "topics": ["context-reliability"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude API — Batch API" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cr-012",
+    "type": "single_choice",
+    "prompt": "A compliance system requires that no Claude response containing PII is ever stored in logs. A developer adds \"Never include PII in your responses\" to the system prompt and considers the requirement met. What is wrong with this approach?",
+    "choices": [
+      { "id": "a", "text": "The system prompt instruction is sufficient; Claude's Constitutional AI training ensures compliance with privacy instructions" },
+      { "id": "b", "text": "Adding PII examples to the system prompt provides the reinforcement needed to meet the compliance requirement" },
+      { "id": "c", "text": "Prompt instructions are probabilistic — Claude may occasionally include PII despite the instruction. Deterministic requirements must be enforced programmatically: a `PostToolUse` hook or output filter that scans and redacts PII before logging, regardless of Claude's behavior." },
+      { "id": "d", "text": "Use a lower temperature to make Claude's behavior more predictable and reliably exclude PII" }
+    ],
+    "correct": "c",
+    "explanation": "A compliance requirement that says \"never\" is a binary, deterministic guarantee — it cannot be satisfied by probabilistic guidance. Claude generally follows system prompt instructions, but edge cases, unusual inputs, and prompt injection attacks can all cause deviations. The correct architecture for a hard PII compliance requirement is a programmatic output filter: a post-processing step (such as a `PostToolUse` hook with a regex or NER scanner) that identifies and redacts PII from Claude's output before it reaches the log store. This enforcement happens regardless of what Claude produces.",
+    "topics": ["context-reliability"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Hooks and Deterministic Output Filtering" }],
+    "version": 1
+  }
+]

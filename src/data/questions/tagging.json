@@ -1,0 +1,745 @@
+[
+  {
+    "id": "tag-001",
+    "type": "single_choice",
+    "prompt": "Which three tags form the foundation of Datadog's Unified Service Tagging (UST)?",
+    "choices": [
+      { "id": "a", "text": "host, region, datacenter" },
+      { "id": "b", "text": "env, service, version" },
+      { "id": "c", "text": "team, owner, application" },
+      { "id": "d", "text": "environment, app, release" }
+    ],
+    "correct": "b",
+    "explanation": "Unified Service Tagging is built on three reserved tags: env (environment), service (service name), and version (deployment version). Applying all three consistently across metrics, traces, and logs enables seamless correlation.",
+    "topics": ["Tagging", "Unified Service Tagging"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Unified Service Tagging" }],
+    "version": 1
+  },
+  {
+    "id": "tag-002",
+    "type": "true_false",
+    "prompt": "Unified Service Tagging requires that the env, service, and version tags be applied identically across metrics, traces, and logs for a given service.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "The power of Unified Service Tagging comes from consistent tag values across all telemetry types. Inconsistent values (e.g., env:prod in metrics but env:production in traces) break cross-telemetry correlation.",
+    "topics": ["Tagging", "Unified Service Tagging"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Unified Service Tagging" }],
+    "version": 1
+  },
+  {
+    "id": "tag-003",
+    "type": "single_choice",
+    "prompt": "In a containerized environment, what is the recommended way to set UST tags so they propagate automatically to all telemetry from the container?",
+    "choices": [
+      { "id": "a", "text": "Set them in the Datadog Agent's datadog.yaml file" },
+      { "id": "b", "text": "Use the Datadog UI's tag editor after deployment" },
+      { "id": "c", "text": "Set DD_ENV, DD_SERVICE, and DD_VERSION environment variables on the container" },
+      { "id": "d", "text": "Add them to the application's source code as constants" }
+    ],
+    "correct": "c",
+    "explanation": "The recommended approach for containers is to set the DD_ENV, DD_SERVICE, and DD_VERSION environment variables. The Datadog Agent and tracing libraries read these automatically and apply them as tags to all telemetry.",
+    "topics": ["Tagging", "Unified Service Tagging", "Container tagging"],
+    "difficulty": "easy",
+    "refs": [{ "label": "UST Container Setup" }],
+    "version": 1
+  },
+  {
+    "id": "tag-004",
+    "type": "single_choice",
+    "prompt": "Which of the following is a reserved Datadog tag that is automatically set by the Agent and should not be overridden with arbitrary values?",
+    "choices": [
+      { "id": "a", "text": "team" },
+      { "id": "b", "text": "host" },
+      { "id": "c", "text": "application" },
+      { "id": "d", "text": "owner" }
+    ],
+    "correct": "b",
+    "explanation": "The 'host' tag is reserved by Datadog and is automatically set to the hostname of the reporting Agent. Overriding it with arbitrary values will cause issues with host-level aggregation and infrastructure monitoring.",
+    "topics": ["Tagging", "Reserved tags"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Reserved Tags" }],
+    "version": 1
+  },
+  {
+    "id": "tag-005",
+    "type": "multi_choice",
+    "prompt": "Which of the following are Datadog reserved tags with special platform-level meaning? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "env" },
+      { "id": "b", "text": "service" },
+      { "id": "c", "text": "host" },
+      { "id": "d", "text": "team" },
+      { "id": "e", "text": "version" }
+    ],
+    "correct": ["a", "b", "c", "e"],
+    "explanation": "env, service, host, and version are Datadog reserved tags used by the platform for filtering, correlation, and routing. 'team' is a commonly used convention but is not a Datadog-reserved tag with special platform behavior.",
+    "topics": ["Tagging", "Reserved tags"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Reserved Tags" }],
+    "version": 1
+  },
+  {
+    "id": "tag-006",
+    "type": "single_choice",
+    "prompt": "What is the maximum character length for a Datadog tag value?",
+    "choices": [
+      { "id": "a", "text": "64 characters" },
+      { "id": "b", "text": "128 characters" },
+      { "id": "c", "text": "200 characters" },
+      { "id": "d", "text": "512 characters" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog tag values can be up to 200 characters long. Tag keys are limited to 100 characters. Values exceeding these limits will be truncated.",
+    "topics": ["Tagging", "Tag formats and naming conventions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Tag Naming Conventions" }],
+    "version": 1
+  },
+  {
+    "id": "tag-007",
+    "type": "true_false",
+    "prompt": "Datadog tag keys are case-sensitive, so 'Environment' and 'environment' are treated as different tags.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog converts all tag keys to lowercase. 'Environment:prod' and 'environment:prod' are treated as the same tag. It is best practice to use lowercase keys to avoid confusion.",
+    "topics": ["Tagging", "Tag formats and naming conventions"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Tag Formatting" }],
+    "version": 1
+  },
+  {
+    "id": "tag-008",
+    "type": "single_choice",
+    "prompt": "Which of the following is a valid Datadog tag format?",
+    "choices": [
+      { "id": "a", "text": "my tag:value" },
+      { "id": "b", "text": "my_tag:my_value" },
+      { "id": "c", "text": "MyTag:MyValue" },
+      { "id": "d", "text": "my-tag:my value" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog tags must start with a letter and can contain lowercase letters, numbers, underscores, hyphens, slashes, and dots. Spaces are not allowed in either key or value. my_tag:my_value is the correct lowercase format.",
+    "topics": ["Tagging", "Tag formats and naming conventions"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Tag Formatting" }],
+    "version": 1
+  },
+  {
+    "id": "tag-009",
+    "type": "single_choice",
+    "prompt": "What character separates a tag key from its value in Datadog?",
+    "choices": [
+      { "id": "a", "text": "=" },
+      { "id": "b", "text": "." },
+      { "id": "c", "text": ":" },
+      { "id": "d", "text": "_" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog tags use the colon (:) as the separator between key and value, e.g., env:production. Tags can also be valueless (e.g., 'production') but key:value format is standard.",
+    "topics": ["Tagging", "Tag formats and naming conventions"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Tag Format" }],
+    "version": 1
+  },
+  {
+    "id": "tag-010",
+    "type": "single_choice",
+    "prompt": "Where in the Datadog Agent configuration file (datadog.yaml) do you define static tags that will be applied to all metrics from that Agent?",
+    "choices": [
+      { "id": "a", "text": "Under the 'labels' key" },
+      { "id": "b", "text": "Under the 'tags' key at the top level of datadog.yaml" },
+      { "id": "c", "text": "Under the 'global_tags' key in each check configuration" },
+      { "id": "d", "text": "In the 'annotations' block of the Agent deployment" }
+    ],
+    "correct": "b",
+    "explanation": "In datadog.yaml, the top-level 'tags' key accepts a list of tag strings (e.g., - env:prod) that are applied to all metrics sent by that Agent instance.",
+    "topics": ["Tagging", "Tag assignment methods"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Configuration Tags" }],
+    "version": 1
+  },
+  {
+    "id": "tag-011",
+    "type": "single_choice",
+    "prompt": "Which Agent configuration option allows you to add extra tags to all metrics from a specific integration check, without affecting other checks?",
+    "choices": [
+      { "id": "a", "text": "extra_tags in the check's conf.yaml" },
+      { "id": "b", "text": "tags in the check's instance block within conf.yaml" },
+      { "id": "c", "text": "global_tags in datadog.yaml" },
+      { "id": "d", "text": "DD_EXTRA_TAGS environment variable" }
+    ],
+    "correct": "b",
+    "explanation": "Each integration check's conf.yaml has an 'instances' block. Adding a 'tags' list within a specific instance applies those tags only to metrics from that instance, providing fine-grained control.",
+    "topics": ["Tagging", "Tag assignment methods", "Integration-level tagging"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Integration Tagging" }],
+    "version": 1
+  },
+  {
+    "id": "tag-012",
+    "type": "true_false",
+    "prompt": "You can assign tags to a host directly through the Datadog web UI without restarting or reconfiguring the Agent.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Tags can be assigned to hosts via the Datadog UI (Infrastructure List or Host Map). UI-assigned tags take effect immediately and do not require Agent restarts, though Agent-defined tags take precedence in some cases.",
+    "topics": ["Tagging", "Tag assignment methods"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Tagging via UI" }],
+    "version": 1
+  },
+  {
+    "id": "tag-013",
+    "type": "single_choice",
+    "prompt": "Which Datadog API endpoint is used to add tags to a specific host programmatically?",
+    "choices": [
+      { "id": "a", "text": "POST /api/v1/metrics/tags" },
+      { "id": "b", "text": "PUT /api/v1/hosts/{host_name}/tags" },
+      { "id": "c", "text": "POST /api/v1/hosts/tags/{host_name}" },
+      { "id": "d", "text": "PATCH /api/v2/tags/hosts/{host_name}" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Tags API uses PUT /api/v1/hosts/{host_name}/tags to add tags to a host. GET retrieves tags, PUT replaces them, and DELETE removes them for a given hostname.",
+    "topics": ["Tagging", "Tag assignment methods"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Tags API" }],
+    "version": 1
+  },
+  {
+    "id": "tag-014",
+    "type": "single_choice",
+    "prompt": "How do you send a metric with tags using DogStatsD in Python?",
+    "choices": [
+      { "id": "a", "text": "statsd.gauge('my.metric', 1.0, labels={'env': 'prod'})" },
+      { "id": "b", "text": "statsd.gauge('my.metric', 1.0, tags=['env:prod', 'service:web'])" },
+      { "id": "c", "text": "statsd.send('my.metric', 1.0, {'env': 'prod'})" },
+      { "id": "d", "text": "statsd.gauge('my.metric|env:prod', 1.0)" }
+    ],
+    "correct": "b",
+    "explanation": "The DogStatsD Python client's gauge (and other metric methods) accepts a 'tags' parameter as a list of 'key:value' strings. This is the standard pattern for the official datadog Python library.",
+    "topics": ["Tagging", "Tag assignment methods", "DogStatsD"],
+    "difficulty": "medium",
+    "refs": [{ "label": "DogStatsD Tags" }],
+    "version": 1
+  },
+  {
+    "id": "tag-015",
+    "type": "single_choice",
+    "prompt": "Which environment variable can be set on a host or container to pass extra tags to the Datadog Agent?",
+    "choices": [
+      { "id": "a", "text": "DATADOG_TAGS" },
+      { "id": "b", "text": "DD_EXTRA_TAGS" },
+      { "id": "c", "text": "DD_TAGS" },
+      { "id": "d", "text": "DD_HOST_TAGS" }
+    ],
+    "correct": "c",
+    "explanation": "DD_TAGS is the environment variable used to pass a comma-separated list of tags to the Datadog Agent. For example: DD_TAGS=env:prod,team:backend.",
+    "topics": ["Tagging", "Tag assignment methods"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Agent Environment Variables" }],
+    "version": 1
+  },
+  {
+    "id": "tag-016",
+    "type": "single_choice",
+    "prompt": "What is 'tag cardinality' in the context of Datadog?",
+    "choices": [
+      { "id": "a", "text": "The total number of tag keys defined in your account" },
+      { "id": "b", "text": "The number of unique tag value combinations across all time series" },
+      { "id": "c", "text": "The maximum length of a tag key allowed by Datadog" },
+      { "id": "d", "text": "The number of hosts that share the same tag" }
+    ],
+    "correct": "b",
+    "explanation": "Tag cardinality refers to the number of unique combinations of tag values that create separate time series for a metric. High cardinality (e.g., using user IDs or request IDs as tag values) can lead to metric store limits and performance issues.",
+    "topics": ["Tagging", "Tag cardinality"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Tag Cardinality" }],
+    "version": 1
+  },
+  {
+    "id": "tag-017",
+    "type": "true_false",
+    "prompt": "Using a unique request ID as a tag value on a metric is a recommended best practice in Datadog.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Using unique, unbounded values (like request IDs, user IDs, or UUIDs) as metric tag values creates extremely high cardinality, generating millions of unique time series. This is explicitly discouraged as it can cause significant performance and cost issues.",
+    "topics": ["Tagging", "Tag cardinality"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Tag Cardinality Best Practices" }],
+    "version": 1
+  },
+  {
+    "id": "tag-018",
+    "type": "single_choice",
+    "prompt": "Why does high tag cardinality negatively impact Datadog performance?",
+    "choices": [
+      { "id": "a", "text": "It slows down the Datadog Agent's CPU usage on the monitored host" },
+      { "id": "b", "text": "Each unique tag value combination creates a separate time series, dramatically increasing storage and query costs" },
+      { "id": "c", "text": "It prevents logs from being indexed" },
+      { "id": "d", "text": "It causes tag values to be truncated silently" }
+    ],
+    "correct": "b",
+    "explanation": "Each unique combination of metric name and tag values creates an independent time series (custom metric). High cardinality tags multiply the number of custom metrics, increasing storage consumption, query latency, and billing.",
+    "topics": ["Tagging", "Tag cardinality"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Custom Metrics and Cardinality" }],
+    "version": 1
+  },
+  {
+    "id": "tag-019",
+    "type": "single_choice",
+    "prompt": "In a Datadog dashboard widget, how do you use tags to make the widget respond to a template variable filter?",
+    "choices": [
+      { "id": "a", "text": "Add the tag key to the 'group by' clause only" },
+      { "id": "b", "text": "Reference the template variable using $variable_name in the metric query's 'from' filter" },
+      { "id": "c", "text": "Hard-code the tag value in the widget JSON" },
+      { "id": "d", "text": "Enable 'tag forwarding' in the dashboard settings" }
+    ],
+    "correct": "b",
+    "explanation": "Dashboard template variables are referenced in metric queries using $variable_name in the filter/from field. For example, 'from env:$env' applies the currently selected env value to the widget's query.",
+    "topics": ["Tagging", "Tag-based filtering", "Dashboards"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Dashboard Template Variables" }],
+    "version": 1
+  },
+  {
+    "id": "tag-020",
+    "type": "single_choice",
+    "prompt": "When configuring a Datadog monitor, which field allows you to scope the alert to only a specific set of tagged resources?",
+    "choices": [
+      { "id": "a", "text": "The 'group by' field" },
+      { "id": "b", "text": "The 'from' filter in the metric query" },
+      { "id": "c", "text": "The 'Notify' field" },
+      { "id": "d", "text": "The 'Evaluation window' field" }
+    ],
+    "correct": "b",
+    "explanation": "The 'from' filter in the monitor's metric query scopes the data to resources matching the specified tags. For example, 'from env:prod, service:checkout' limits the monitor to the checkout service in production.",
+    "topics": ["Tagging", "Tag-based filtering", "Monitors"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Monitor Scoping with Tags" }],
+    "version": 1
+  },
+  {
+    "id": "tag-021",
+    "type": "true_false",
+    "prompt": "In a Datadog monitor with multi-alert configuration, the 'group by' tag determines which entity (e.g., individual host) triggers its own alert.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "When a monitor uses multi-alert mode with a 'group by' tag (e.g., host), Datadog evaluates the metric independently for each unique value of that tag. Each group can alert or recover independently.",
+    "topics": ["Tagging", "Tag-based filtering", "Monitors"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Multi-Alert Monitors" }],
+    "version": 1
+  },
+  {
+    "id": "tag-022",
+    "type": "single_choice",
+    "prompt": "How can you use tags in a Datadog log query to filter logs from a specific service in a specific environment?",
+    "choices": [
+      { "id": "a", "text": "service=checkout AND env=prod" },
+      { "id": "b", "text": "service:checkout env:prod" },
+      { "id": "c", "text": "tags.service:checkout AND tags.env:prod" },
+      { "id": "d", "text": "filter(service='checkout', env='prod')" }
+    ],
+    "correct": "b",
+    "explanation": "In the Datadog Log Explorer, tags are queried using the key:value syntax, and multiple conditions are combined with spaces (implicit AND) or explicit AND/OR operators. 'service:checkout env:prod' is the correct form.",
+    "topics": ["Tagging", "Tag-based filtering"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Log Explorer Search" }],
+    "version": 1
+  },
+  {
+    "id": "tag-023",
+    "type": "single_choice",
+    "prompt": "When a Kubernetes pod label matches a Datadog tag extraction rule, which component performs the label-to-tag extraction?",
+    "choices": [
+      { "id": "a", "text": "The Kubernetes API server" },
+      { "id": "b", "text": "The Datadog Cluster Agent or Node Agent using autodiscovery tag extraction" },
+      { "id": "c", "text": "The Datadog backend ingestion pipeline" },
+      { "id": "d", "text": "The application's tracing library" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Agent (Node Agent or Cluster Agent) uses Autodiscovery to extract Kubernetes pod labels and annotations and map them to Datadog tags. This is configured via DD_KUBERNETES_POD_LABELS_AS_TAGS.",
+    "topics": ["Tagging", "Container tagging"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Kubernetes Tag Extraction" }],
+    "version": 1
+  },
+  {
+    "id": "tag-024",
+    "type": "single_choice",
+    "prompt": "Which Datadog Agent environment variable maps all Kubernetes pod labels to Datadog tags automatically?",
+    "choices": [
+      { "id": "a", "text": "DD_POD_LABELS_AS_TAGS=true" },
+      { "id": "b", "text": "DD_KUBERNETES_POD_LABELS_AS_TAGS={\"*\":\"%%label%%\"}" },
+      { "id": "c", "text": "DD_EXTRACT_POD_LABELS=all" },
+      { "id": "d", "text": "DD_LABEL_TO_TAG_PREFIX=k8s" }
+    ],
+    "correct": "b",
+    "explanation": "DD_KUBERNETES_POD_LABELS_AS_TAGS accepts a JSON map of label patterns to tag names. Using {\"*\":\"%%label%%\"} maps every pod label to a tag with the same name.",
+    "topics": ["Tagging", "Container tagging"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Kubernetes Labels as Tags" }],
+    "version": 1
+  },
+  {
+    "id": "tag-025",
+    "type": "true_false",
+    "prompt": "Kubernetes annotations can also be extracted as Datadog tags using DD_KUBERNETES_POD_ANNOTATIONS_AS_TAGS.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Similar to DD_KUBERNETES_POD_LABELS_AS_TAGS, the DD_KUBERNETES_POD_ANNOTATIONS_AS_TAGS variable maps pod annotations to Datadog tags, providing flexible tag extraction from Kubernetes metadata.",
+    "topics": ["Tagging", "Container tagging"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Pod Annotations as Tags" }],
+    "version": 1
+  },
+  {
+    "id": "tag-026",
+    "type": "single_choice",
+    "prompt": "In Docker, which mechanism does the Datadog Agent use to extract container labels as tags?",
+    "choices": [
+      { "id": "a", "text": "Reading the Docker daemon's syslog output" },
+      { "id": "b", "text": "Querying the Docker API and mapping labels defined in DD_DOCKER_LABELS_AS_TAGS" },
+      { "id": "c", "text": "Parsing the container's stdout for tag annotations" },
+      { "id": "d", "text": "Reading from a shared /tags volume mount" }
+    ],
+    "correct": "b",
+    "explanation": "The Datadog Agent queries the Docker daemon API to inspect container metadata. The DD_DOCKER_LABELS_AS_TAGS environment variable defines a mapping from Docker label names to Datadog tag names.",
+    "topics": ["Tagging", "Container tagging"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Docker Label Tagging" }],
+    "version": 1
+  },
+  {
+    "id": "tag-027",
+    "type": "single_choice",
+    "prompt": "When tags are inherited from a parent resource in Datadog (e.g., a host's tags being inherited by its containers), this is called:",
+    "choices": [
+      { "id": "a", "text": "Tag propagation" },
+      { "id": "b", "text": "Tag delegation" },
+      { "id": "c", "text": "Tag cardinality promotion" },
+      { "id": "d", "text": "Tag forwarding" }
+    ],
+    "correct": "a",
+    "explanation": "Tag propagation (also called tag inheritance) refers to the automatic passing of tags from a parent resource to its children. For example, host tags can propagate to all processes and containers running on that host.",
+    "topics": ["Tagging", "Inheritance and override behavior"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Tag Inheritance" }],
+    "version": 1
+  },
+  {
+    "id": "tag-028",
+    "type": "true_false",
+    "prompt": "If a container sets DD_ENV=staging but its parent host has the tag env:prod, the container's telemetry will use env:staging.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Tags set directly on a container (via environment variables or labels) override inherited host-level tags for the same key. Container-level tag specificity takes precedence over host-level inherited tags.",
+    "topics": ["Tagging", "Inheritance and override behavior"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Tag Override Behavior" }],
+    "version": 1
+  },
+  {
+    "id": "tag-029",
+    "type": "single_choice",
+    "prompt": "Which setting in datadog.yaml controls whether Agent-collected host tags are also applied to metrics submitted by integrations running on that host?",
+    "choices": [
+      { "id": "a", "text": "inherit_host_tags: true" },
+      { "id": "b", "text": "propagate_tags_to_integrations: true" },
+      { "id": "c", "text": "tag_propagation: host" },
+      { "id": "d", "text": "There is no such setting; host tags always propagate to all metrics" }
+    ],
+    "correct": "d",
+    "explanation": "Host-level tags defined in datadog.yaml are automatically applied to all metrics collected by integrations running on that host. There is no separate toggle; the behavior is inherent in the Agent's design.",
+    "topics": ["Tagging", "Inheritance and override behavior"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Tag Inheritance" }],
+    "version": 1
+  },
+  {
+    "id": "tag-030",
+    "type": "single_choice",
+    "prompt": "Which Datadog integration automatically tags metrics with cloud provider metadata such as availability zone, instance type, and region?",
+    "choices": [
+      { "id": "a", "text": "The Process check" },
+      { "id": "b", "text": "The AWS, GCP, or Azure cloud integrations via API-based metadata collection" },
+      { "id": "c", "text": "The HTTP check" },
+      { "id": "d", "text": "The custom metrics API" }
+    ],
+    "correct": "b",
+    "explanation": "Cloud integrations (AWS, GCP, Azure) pull instance metadata from cloud APIs and attach tags like region, availability_zone, instance_type, and autoscaling_group to all metrics from those resources.",
+    "topics": ["Tagging", "Integration-level tagging"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Cloud Integration Tagging" }],
+    "version": 1
+  },
+  {
+    "id": "tag-031",
+    "type": "true_false",
+    "prompt": "AWS resource tags defined in the AWS console are automatically available as Datadog tags when the AWS integration is enabled.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "When the Datadog AWS integration is configured, it collects AWS resource tags via the AWS API and maps them to Datadog tags on the corresponding metrics and hosts. This allows AWS tags to drive Datadog filtering.",
+    "topics": ["Tagging", "Integration-level tagging"],
+    "difficulty": "easy",
+    "refs": [{ "label": "AWS Tag Collection" }],
+    "version": 1
+  },
+  {
+    "id": "tag-032",
+    "type": "single_choice",
+    "prompt": "What is the effect of using the 'exclude' tag filter in the Datadog AWS integration configuration?",
+    "choices": [
+      { "id": "a", "text": "Stops the Agent from running on hosts with the excluded tag" },
+      { "id": "b", "text": "Prevents metrics from AWS resources with those tags from being collected by Datadog" },
+      { "id": "c", "text": "Hides those tags from the Datadog UI" },
+      { "id": "d", "text": "Removes those tags from all existing metrics retroactively" }
+    ],
+    "correct": "b",
+    "explanation": "In the AWS integration tile, you can configure include and exclude tag filters. Resources with excluded tags will not have their metrics collected, reducing custom metric volume.",
+    "topics": ["Tagging", "Integration-level tagging"],
+    "difficulty": "medium",
+    "refs": [{ "label": "AWS Integration Tag Filtering" }],
+    "version": 1
+  },
+  {
+    "id": "tag-033",
+    "type": "single_choice",
+    "prompt": "In Datadog, 'Teams' is a feature that uses which tag to associate resources with a responsible group?",
+    "choices": [
+      { "id": "a", "text": "owner:team_name" },
+      { "id": "b", "text": "team:team_name" },
+      { "id": "c", "text": "group:team_name" },
+      { "id": "d", "text": "squad:team_name" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog's Teams feature uses the team tag (e.g., team:checkout) to associate monitors, dashboards, services, and other resources with a team. This enables team-scoped views and ownership.",
+    "topics": ["Tagging", "Reserved tags"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Teams" }],
+    "version": 1
+  },
+  {
+    "id": "tag-034",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature uses tags as a key mechanism to restrict which metrics, dashboards, and monitors a specific user or role can access?",
+    "choices": [
+      { "id": "a", "text": "Tag-based Access Control (RBAC with tag restrictions)" },
+      { "id": "b", "text": "Tag Encryption" },
+      { "id": "c", "text": "Private Metrics" },
+      { "id": "d", "text": "Tag Allowlisting" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog supports tag-based access control where roles and permissions can be scoped to specific tag values. For example, a role might only have access to resources tagged with env:staging, preventing access to production data.",
+    "topics": ["Tagging", "RBAC", "Tag-based access control"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Tag-Based Access Control" }],
+    "version": 1
+  },
+  {
+    "id": "tag-035",
+    "type": "true_false",
+    "prompt": "Datadog's metrics-based RBAC allows you to restrict a user's access to only metrics tagged with specific values, such as env:prod.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog supports metrics authorization via tag-based restrictions. An admin can create a restriction policy that limits a role's access to only metrics carrying a specific tag value, enforcing data isolation between teams or environments.",
+    "topics": ["Tagging", "RBAC", "Tag-based access control"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Metrics RBAC" }],
+    "version": 1
+  },
+  {
+    "id": "tag-036",
+    "type": "multi_choice",
+    "prompt": "Which of the following are recommended naming conventions for Datadog tags? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Use lowercase letters" },
+      { "id": "b", "text": "Use underscores to separate words instead of spaces" },
+      { "id": "c", "text": "Keep tag values unique per entity to maximize granularity" },
+      { "id": "d", "text": "Prefer key:value format over valueless tags for filterable attributes" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "Datadog recommends lowercase tags, underscores instead of spaces, and key:value format for attributes you want to filter on. Using unique values per entity (like user IDs) creates high cardinality and should be avoided for metrics.",
+    "topics": ["Tagging", "Tag formats and naming conventions"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Tagging Best Practices" }],
+    "version": 1
+  },
+  {
+    "id": "tag-037",
+    "type": "single_choice",
+    "prompt": "How many tags can be applied to a single Datadog metric data point?",
+    "choices": [
+      { "id": "a", "text": "Up to 10 tags" },
+      { "id": "b", "text": "Up to 50 tags" },
+      { "id": "c", "text": "Up to 100 tags" },
+      { "id": "d", "text": "Unlimited tags" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog supports up to 100 tags per metric data point. Exceeding this limit causes additional tags to be dropped.",
+    "topics": ["Tagging", "Tag formats and naming conventions"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Tag Limits" }],
+    "version": 1
+  },
+  {
+    "id": "tag-038",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature allows you to define a tag collection strategy at the Agent level to drop high-cardinality tags before they are sent to Datadog?",
+    "choices": [
+      { "id": "a", "text": "Tag Filtering via the 'blocked_tags' setting in datadog.yaml" },
+      { "id": "b", "text": "Tag blacklisting in the cloud integration tile" },
+      { "id": "c", "text": "Log pipeline tag processors" },
+      { "id": "d", "text": "Metric metadata overrides in the Metrics Summary" }
+    ],
+    "correct": "a",
+    "explanation": "The Datadog Agent's datadog.yaml supports a 'blocked_tags' (previously 'histogram_aggregates') list that prevents specific tag keys from being collected or forwarded, reducing cardinality at the source.",
+    "topics": ["Tagging", "Tag cardinality"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Agent Tag Filtering" }],
+    "version": 1
+  },
+  {
+    "id": "tag-039",
+    "type": "single_choice",
+    "prompt": "In Datadog APM, the 'env' tag on a trace indicates:",
+    "choices": [
+      { "id": "a", "text": "The programming language runtime environment" },
+      { "id": "b", "text": "The deployment environment (e.g., production, staging) where the traced service is running" },
+      { "id": "c", "text": "The cloud provider environment" },
+      { "id": "d", "text": "The container orchestration platform" }
+    ],
+    "correct": "b",
+    "explanation": "In APM, the 'env' tag corresponds to the deployment environment such as production, staging, or development. It is one of the three UST tags and is used to filter traces to a specific environment in the APM UI.",
+    "topics": ["Tagging", "Unified Service Tagging", "APM"],
+    "difficulty": "easy",
+    "refs": [{ "label": "APM Environments" }],
+    "version": 1
+  },
+  {
+    "id": "tag-040",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid methods for assigning tags to a Kubernetes pod's metrics in Datadog? (Select all that apply)",
+    "choices": [
+      { "id": "a", "text": "Setting pod labels and configuring DD_KUBERNETES_POD_LABELS_AS_TAGS" },
+      { "id": "b", "text": "Setting DD_ENV, DD_SERVICE, DD_VERSION environment variables on the pod" },
+      { "id": "c", "text": "Using Datadog Autodiscovery annotations on the pod (e.g., ad.datadoghq.com/tags)" },
+      { "id": "d", "text": "Editing the pod's tags directly in the Datadog Infrastructure List UI" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "Kubernetes pod tagging can be achieved via: (1) label extraction with DD_KUBERNETES_POD_LABELS_AS_TAGS, (2) UST environment variables (DD_ENV, DD_SERVICE, DD_VERSION), and (3) Autodiscovery annotations. The Infrastructure List UI allows adding host-level tags but not pod-level container tags directly.",
+    "topics": ["Tagging", "Container tagging", "Tag assignment methods"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Kubernetes Tagging Methods" }],
+    "version": 1
+  },
+  {
+    "id": "tag-041",
+    "type": "single_choice",
+    "prompt": "A service reports `env:prod` on traces but `env:production` on logs. What is the main consequence in a fundamentals exam scenario?",
+    "choices": [
+      { "id": "a", "text": "Datadog automatically merges the values because env tags are fuzzy matched" },
+      { "id": "b", "text": "Cross-telemetry correlation is weakened because Unified Service Tagging is inconsistent" },
+      { "id": "c", "text": "Only metrics are affected; logs and traces are unrelated to tagging" },
+      { "id": "d", "text": "The Agent refuses to ship either telemetry stream until the tags match" }
+    ],
+    "correct": "b",
+    "explanation": "Unified Service Tagging depends on the same `env`, `service`, and `version` values being applied consistently across logs, metrics, and traces. Mismatched values break the clean filtering and linking behavior that exam questions expect you to recognize.",
+    "topics": ["tagging"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Unified Service Tagging", "url": "https://docs.datadoghq.com/getting_started/tagging/unified_service_tagging/" },
+      { "label": "Tagging Best Practices", "url": "https://docs.datadoghq.com/getting_started/tagging/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "tag-042",
+    "type": "single_choice",
+    "prompt": "A containerized frontend and backend should both emit telemetry that can be correlated by deployment context in Datadog. Which environment variables are the recommended fundamentals answer?",
+    "choices": [
+      { "id": "a", "text": "DD_LOGS, DD_APM, DD_RUM" },
+      { "id": "b", "text": "DD_ENV, DD_SERVICE, DD_VERSION" },
+      { "id": "c", "text": "DD_HOST, DD_REGION, DD_OWNER" },
+      { "id": "d", "text": "DD_AGENT_HOST, DD_TRACE_PORT, DD_SITE" }
+    ],
+    "correct": "b",
+    "explanation": "Unified Service Tagging is centered on `DD_ENV`, `DD_SERVICE`, and `DD_VERSION`. These values let Datadog correlate logs, metrics, and traces for the same deployed service and are a standard fundamentals exam pattern for containerized apps.",
+    "topics": ["tagging"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Unified Service Tagging", "url": "https://docs.datadoghq.com/getting_started/tagging/unified_service_tagging/" },
+      { "label": "UST for Containers", "url": "https://docs.datadoghq.com/getting_started/tagging/unified_service_tagging/?tab=kubernetes" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "tag-043",
+    "type": "single_choice",
+    "prompt": "An engineer wants to use `host:checkout-api` as a custom business label for an application instance. Why is this a poor answer in a fundamentals tagging question?",
+    "choices": [
+      { "id": "a", "text": "Because Datadog tags cannot contain a colon" },
+      { "id": "b", "text": "Because `host` is a reserved tag with platform meaning" },
+      { "id": "c", "text": "Because only logs support custom tags" },
+      { "id": "d", "text": "Because reserved tags may only be set in dashboards" }
+    ],
+    "correct": "b",
+    "explanation": "The `host` tag is reserved and tied to Datadog's host identity model. Fundamentals questions use this pattern to test whether you can distinguish between safe custom business tags and reserved tags that should not be repurposed arbitrarily.",
+    "topics": ["tagging"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Reserved Tags", "url": "https://docs.datadoghq.com/getting_started/tagging/#overview" },
+      { "label": "Tagging Best Practices", "url": "https://docs.datadoghq.com/getting_started/tagging/" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "tag-044",
+    "type": "single_choice",
+    "prompt": "A host should carry the same static environment tag on every metric it sends, regardless of which integration generated the metric. Where would a fundamentals question expect that tag to be configured?",
+    "choices": [
+      { "id": "a", "text": "Under the top-level `tags` key in datadog.yaml" },
+      { "id": "b", "text": "Inside every dashboard widget query" },
+      { "id": "c", "text": "Inside the notebook title" },
+      { "id": "d", "text": "Inside the Log Explorer search bar" }
+    ],
+    "correct": "a",
+    "explanation": "Top-level Agent tags in `datadog.yaml` apply broadly to telemetry sent by that Agent. This is the correct answer when the scenario asks for a host-wide tagging approach rather than a tag applied to only one integration or one UI view.",
+    "topics": ["tagging"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Assigning Tags", "url": "https://docs.datadoghq.com/getting_started/tagging/assigning_tags/" },
+      { "label": "Agent Configuration", "url": "https://docs.datadoghq.com/agent/configuration/agent-configuration-files/" }
+    ],
+    "version": 1
+  }
+]

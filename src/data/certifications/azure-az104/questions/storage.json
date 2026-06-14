@@ -1,0 +1,289 @@
+[
+  {
+    "id": "azure-az104-st-001",
+    "type": "single_choice",
+    "prompt": "A company stores critical financial data in Azure Blob Storage and requires that data remain readable even if an entire Azure region becomes unavailable. Which replication option meets this requirement with the lowest cost?",
+    "choices": [
+      { "id": "a", "text": "Locally Redundant Storage (LRS)" },
+      { "id": "b", "text": "Zone-Redundant Storage (ZRS)" },
+      { "id": "c", "text": "Geo-Redundant Storage (GRS)" },
+      { "id": "d", "text": "Geo-Zone-Redundant Storage (GZRS)" }
+    ],
+    "correct": "c",
+    "explanation": "GRS replicates data to a secondary region, ensuring availability if the primary region fails. LRS replicates only within a single data center — a region failure would make data unavailable. ZRS replicates across availability zones within a region but not to a secondary region, so a full regional outage would impact availability. GZRS combines zone and geo redundancy and is more resilient than GRS but also more expensive, making GRS the lowest-cost option that meets the cross-region requirement.",
+    "topics": ["storage"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Azure Storage redundancy", "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-002",
+    "type": "single_choice",
+    "prompt": "A team uploads large video files to Azure Blob Storage. The files are accessed frequently for the first 30 days, occasionally for the next 60 days, and then rarely accessed for the remainder of the year. What is the most cost-efficient configuration?",
+    "choices": [
+      { "id": "a", "text": "Store all blobs in the Hot tier permanently" },
+      { "id": "b", "text": "Store all blobs in the Cool tier to minimize storage costs" },
+      { "id": "c", "text": "Create a lifecycle management policy to move blobs to Cool after 30 days and Archive after 90 days" },
+      { "id": "d", "text": "Enable blob versioning and use the Archive tier for all versions" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Blob Storage lifecycle management policies automate tier transitions based on last-modified or last-accessed time. Moving blobs to Cool after 30 days and Archive after 90 days aligns the tier cost with the access pattern, minimizing both storage and access costs. Keeping everything in Hot (A) is expensive for rarely accessed data. Storing everything in Cool (B) incurs early deletion and access penalties during the first 30 days of frequent access. Archiving all versions (D) would make current blobs inaccessible without rehydration.",
+    "topics": ["storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Optimize costs by automating Azure Blob Storage access tiers", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-003",
+    "type": "single_choice",
+    "prompt": "An application needs to provide a third-party vendor read-only access to a specific blob container for exactly 48 hours without sharing the storage account key. What should the administrator generate?",
+    "choices": [
+      { "id": "a", "text": "A shared access signature (SAS) token scoped to the container with read permissions and a 48-hour expiry" },
+      { "id": "b", "text": "A new storage account key and share it with the vendor, then rotate it after 48 hours" },
+      { "id": "c", "text": "An Entra ID guest account for the vendor with a Storage Blob Data Reader role assignment on the container" },
+      { "id": "d", "text": "A stored access policy on the container with read permissions and share the connection string" }
+    ],
+    "correct": "a",
+    "explanation": "A SAS token can be scoped to a specific container, limited to read operations, and set to expire after exactly 48 hours — satisfying all requirements without exposing the account key. Sharing the storage account key (B) grants full account access and requires manual rotation. An Entra ID guest account (C) works but requires the vendor to have an Entra-compatible identity and is more complex to set up for a short-term grant. A stored access policy (D) is the preferred backing mechanism for SAS tokens but is not itself the token; the SAS token is still what the vendor receives.",
+    "topics": ["storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Grant limited access to Azure Storage resources using SAS", "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-004",
+    "type": "single_choice",
+    "prompt": "A storage administrator needs to copy 20 TB of on-premises data to Azure Blob Storage. The on-premises internet connection is only 10 Mbps. Which Azure service provides the fastest data transfer?",
+    "choices": [
+      { "id": "a", "text": "AzCopy over the existing internet connection" },
+      { "id": "b", "text": "Azure Import/Export service using physical drives shipped to an Azure data center" },
+      { "id": "c", "text": "Azure Data Box ordered through the Azure portal" },
+      { "id": "d", "text": "Azure Storage Explorer with parallel upload threads" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Data Box is a physical appliance shipped by Microsoft that allows you to load up to 80 TB of data and ship it back to a data center for ingestion. At 10 Mbps, uploading 20 TB would take over 185 days. Data Box drastically reduces transfer time by eliminating the network bottleneck. AzCopy (A) and Storage Explorer (D) both rely on the internet connection. The Azure Import/Export service (B) also uses physical shipping but requires the customer to supply drives and perform the copy manually, whereas Data Box is a managed appliance.",
+    "topics": ["storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "What is Azure Data Box?", "url": "https://learn.microsoft.com/en-us/azure/databox/data-box-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-005",
+    "type": "single_choice",
+    "prompt": "A developer accidentally deleted a blob that did not have versioning or soft delete enabled. The blob was stored in an LRS storage account with no backup. What is the result?",
+    "choices": [
+      { "id": "a", "text": "The blob can be recovered from the storage account's recycle bin within 14 days" },
+      { "id": "b", "text": "The blob is permanently lost and cannot be recovered" },
+      { "id": "c", "text": "The blob can be recovered using the 'Undelete Blob' REST API within 7 days" },
+      { "id": "d", "text": "Microsoft retains a backup copy for 30 days that can be requested through a support ticket" }
+    ],
+    "correct": "b",
+    "explanation": "Without soft delete or blob versioning enabled, a deleted blob is permanently unrecoverable. Azure Blob Storage soft delete must be explicitly configured before a deletion occurs to enable recovery. There is no automatic recycle bin, no default 14-day recovery window, and Microsoft does not retain backups of customer data in standard storage accounts. Once the blob is deleted without these protections, it is gone.",
+    "topics": ["storage"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Soft delete for blobs", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-006",
+    "type": "single_choice",
+    "prompt": "An administrator needs to restrict access to an Azure storage account so that only resources within a specific virtual network subnet can access it. Which configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "Configure a storage account firewall rule allowing the VNet subnet and enable the 'Allow Azure services' exception" },
+      { "id": "b", "text": "Enable a private endpoint on the storage account in the target subnet" },
+      { "id": "c", "text": "Enable VNet service endpoints on the subnet and configure the storage account firewall to allow that VNet" },
+      { "id": "d", "text": "Assign a network security group to the storage account to block all non-VNet traffic" }
+    ],
+    "correct": "c",
+    "explanation": "VNet service endpoints extend the VNet identity to the storage account. After enabling the Microsoft.Storage service endpoint on the subnet, the storage account firewall can be configured to allow traffic from that specific VNet and subnet while denying all other traffic. A private endpoint (B) provides stronger isolation (private IP in the VNet) but is a heavier configuration; service endpoints are the standard approach for subnet-scoped access. NSGs (D) control traffic between resources but cannot be applied directly to storage accounts. The 'Allow Azure services' exception (A) is too broad.",
+    "topics": ["storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Configure Azure Storage firewalls and virtual networks", "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-007",
+    "type": "single_choice",
+    "prompt": "An application writes logs to Azure Blob Storage using the append blob type. A developer attempts to overwrite an existing append blob with a block blob upload and gets an error. What is the most likely cause?",
+    "choices": [
+      { "id": "a", "text": "Append blobs can only be written to by one client at a time; the developer must acquire a lease first" },
+      { "id": "b", "text": "Blob types are immutable once set; a block blob upload cannot overwrite an existing append blob" },
+      { "id": "c", "text": "The storage account firewall is blocking the developer's client IP address" },
+      { "id": "d", "text": "Append blobs are read-only after the first write operation" }
+    ],
+    "correct": "b",
+    "explanation": "In Azure Blob Storage, a blob's type (block, append, or page) is fixed at creation time and cannot be changed. Attempting to write a block blob to a path where an append blob already exists results in a conflict error. The developer must delete the existing append blob before uploading a block blob. Leases (A) control concurrent access but are not the root cause here. The firewall (C) would produce a different error. Append blobs (D) are write-forward only, not read-only.",
+    "topics": ["storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Understanding block blobs, append blobs, and page blobs", "url": "https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-008",
+    "type": "single_choice",
+    "prompt": "A team needs to mount an Azure file share on Windows Server VMs as a drive letter and also synchronize a subset of that share to on-premises file servers for offline access. Which combination of services is correct?",
+    "choices": [
+      { "id": "a", "text": "Azure Files with SMB mount and Azure File Sync with a server endpoint on the on-premises servers" },
+      { "id": "b", "text": "Azure Files with NFS mount and Azure Backup with a MARS agent on the on-premises servers" },
+      { "id": "c", "text": "Azure Blob Storage with a client-side SDK for Windows and AzCopy scheduled sync" },
+      { "id": "d", "text": "Azure NetApp Files with SMB protocol and Azure Site Recovery for on-premises replication" }
+    ],
+    "correct": "a",
+    "explanation": "Azure Files with SMB protocol can be mounted as a drive letter on Windows Server VMs. Azure File Sync allows on-premises Windows Server instances to act as server endpoints that synchronize a subset of the cloud share, with cloud tiering optionally moving cold files to Azure while keeping stubs locally. NFS (B) is for Linux workloads and not supported on Windows. Blob Storage (C) is not a file system and AzCopy is not a sync service. Azure NetApp Files with Site Recovery (D) is a separate enterprise NFS/SMB solution with a different replication model.",
+    "topics": ["storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "What is Azure Files?", "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction" },
+      { "label": "What is Azure File Sync?", "url": "https://learn.microsoft.com/en-us/azure/storage/file-sync/file-sync-introduction" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-009",
+    "type": "single_choice",
+    "prompt": "An organization stores blobs in an Azure storage account in the Archive tier. A critical process needs to read one of these blobs within 30 minutes. What is the correct approach?",
+    "choices": [
+      { "id": "a", "text": "Read the blob directly; Archive tier blobs are accessible like Hot or Cool tier blobs" },
+      { "id": "b", "text": "Rehydrate the blob to the Hot tier using high-priority rehydration and wait for it to become available" },
+      { "id": "c", "text": "Copy the blob to a new storage account with LRS replication to bypass the Archive restriction" },
+      { "id": "d", "text": "Change the storage account access tier to Hot to make all blobs immediately readable" }
+    ],
+    "correct": "b",
+    "explanation": "Blobs in the Archive tier are offline and cannot be read directly. They must be rehydrated (moved) to the Hot or Cool tier first. High-priority rehydration completes within 1 hour for blobs under 10 GB, which satisfies the 30-minute SLA requirement when successful. Standard priority rehydration can take up to 15 hours. Copying to a new storage account (C) does not bypass the rehydration requirement. Changing the account-level access tier (D) applies only to new blobs and does not immediately change the tier of blobs already in Archive.",
+    "topics": ["storage"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Archive access tier for blob data", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview#archive-access-tier" },
+      { "label": "Blob rehydration from the Archive tier", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/archive-rehydrate-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-010",
+    "type": "single_choice",
+    "prompt": "A compliance requirement mandates that all data written to a specific blob container cannot be modified or deleted by anyone, including administrators, for 7 years. Which feature enforces this?",
+    "choices": [
+      { "id": "a", "text": "Blob soft delete with a 7-year retention period" },
+      { "id": "b", "text": "An Azure Policy with the 'Deny' effect blocking delete operations on the container" },
+      { "id": "c", "text": "An immutability policy (WORM) with a time-based retention policy locked on the container" },
+      { "id": "d", "text": "A resource lock of type 'CanNotDelete' applied to the storage account" }
+    ],
+    "correct": "c",
+    "explanation": "Azure Blob Storage immutability (WORM: Write Once, Read Many) with a locked time-based retention policy prevents any modification or deletion of blobs — including by administrators — for the specified duration. Soft delete (A) protects against accidental deletion but can be disabled by an administrator. An Azure Policy (B) restricts operations but can be removed by a sufficiently privileged administrator. A CanNotDelete resource lock (D) prevents deletion of the storage account itself but not individual blobs.",
+    "topics": ["storage"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Store business-critical blob data with immutable storage", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-011",
+    "type": "single_choice",
+    "prompt": "An administrator uses AzCopy to migrate blobs from one storage account to another. The source account requires authentication. Which authentication method is recommended for scripted, unattended AzCopy transfers between two Azure storage accounts?",
+    "choices": [
+      { "id": "a", "text": "Embed the storage account access key in the AzCopy command" },
+      { "id": "b", "text": "Use a user SAS token generated from the Azure portal" },
+      { "id": "c", "text": "Authenticate AzCopy with a service principal using Entra ID and assign appropriate RBAC roles on both accounts" },
+      { "id": "d", "text": "Use the AzCopy login command interactively before running the script" }
+    ],
+    "correct": "c",
+    "explanation": "For unattended, scripted transfers, authenticating AzCopy with a service principal (Entra ID app registration) is the recommended approach. The service principal can be granted the Storage Blob Data Contributor role on both storage accounts, and credentials can be stored securely. Embedding an access key (A) grants full account access and is a security risk in scripts. User SAS tokens (B) are time-limited and not suitable for long-running automation. Interactive login (D) requires human interaction and cannot run unattended.",
+    "topics": ["storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Get started with AzCopy", "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-012",
+    "type": "single_choice",
+    "prompt": "A storage administrator needs to create a general-purpose v2 storage account that stores page blobs for VM disks and also supports Azure Files. The account must maximize read performance for geo-redundant data. Which replication and performance combination is correct?",
+    "choices": [
+      { "id": "a", "text": "Standard performance with LRS" },
+      { "id": "b", "text": "Premium performance with GRS" },
+      { "id": "c", "text": "Standard performance with RA-GRS" },
+      { "id": "d", "text": "Premium performance with ZRS" }
+    ],
+    "correct": "c",
+    "explanation": "RA-GRS (Read-Access Geo-Redundant Storage) replicates data to a secondary region and provides read access to the secondary endpoint, maximizing read availability across regions. Standard performance supports both page blobs and Azure Files in a GPv2 account. Premium performance (B and D) supports page blobs (Premium page blob accounts) or Azure Files (Premium file share accounts) but not both in the same account, and Premium GRS is not available for all account types. LRS (A) is not geo-redundant.",
+    "topics": ["storage"],
+    "difficulty": "hard",
+    "refs": [
+      { "label": "Azure Storage redundancy", "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-013",
+    "type": "single_choice",
+    "prompt": "A SAS token was accidentally published in a public GitHub repository. The token was generated directly from the storage account key (not from a stored access policy). What is the fastest way to invalidate the token?",
+    "choices": [
+      { "id": "a", "text": "Delete the container that the SAS token was scoped to" },
+      { "id": "b", "text": "Rotate the storage account key used to sign the SAS token" },
+      { "id": "c", "text": "Set the SAS token's expiry to a past date in the Azure portal" },
+      { "id": "d", "text": "Enable storage account firewall rules to block all external IP addresses" }
+    ],
+    "correct": "b",
+    "explanation": "A SAS token generated from an account key is signed using that key. Rotating the key immediately invalidates all SAS tokens signed with the old key. Deleting the container (A) destroys data unnecessarily. There is no mechanism to retroactively change a SAS token's expiry (C); the token is a signed string that cannot be modified after issuance. Firewall rules (D) would limit access but require knowing all attacker IPs, and rotating the key is faster and more complete.",
+    "topics": ["storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Grant limited access to Azure Storage resources using SAS", "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-014",
+    "type": "single_choice",
+    "prompt": "An administrator needs to transfer file shares between two Azure Files accounts in different regions. The shares use the SMB protocol. Which tool or service is supported for this migration?",
+    "choices": [
+      { "id": "a", "text": "Azure File Sync with a cloud tiering policy to move data between endpoints" },
+      { "id": "b", "text": "AzCopy with the 'copy' command targeting both Azure Files endpoints" },
+      { "id": "c", "text": "Azure Data Factory with a binary copy activity between two Azure Files linked services" },
+      { "id": "d", "text": "Azure Storage Explorer's drag-and-drop interface between two account panes" }
+    ],
+    "correct": "b",
+    "explanation": "AzCopy supports server-side copy between Azure Files endpoints in different regions using the 'azcopy copy' command with both source and destination as Azure Files URLs. This is the recommended tool for file share migrations. Azure File Sync (A) is a synchronization service for on-premises-to-cloud scenarios, not cloud-to-cloud migrations between accounts. Azure Data Factory (C) supports Azure Files but adds pipeline complexity unnecessary for a simple file share copy. Storage Explorer (D) works for small transfers but is not suitable for production migrations of large shares.",
+    "topics": ["storage"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Migrate to Azure file shares", "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-migration-overview" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "azure-az104-st-015",
+    "type": "single_choice",
+    "prompt": "A storage account has blob versioning enabled. A user overwrites an existing blob with new content. What happens to the previous version?",
+    "choices": [
+      { "id": "a", "text": "The previous version is permanently deleted and replaced by the new content" },
+      { "id": "b", "text": "The previous version is moved to the Cool tier automatically to reduce costs" },
+      { "id": "c", "text": "The previous version is retained as a non-current version and can be restored or deleted explicitly" },
+      { "id": "d", "text": "The overwrite operation fails because versioning locks blobs in place" }
+    ],
+    "correct": "c",
+    "explanation": "When blob versioning is enabled, overwriting a blob automatically creates a new version of the blob (the overwritten content becomes a non-current version). The non-current version is retained and can be listed, read, copied, or deleted. The current blob reflects the new content. Versioning does not delete previous content (A), automatically change storage tiers (B), or prevent writes (D).",
+    "topics": ["storage"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Blob versioning", "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-overview" }
+    ],
+    "version": 1
+  }
+]

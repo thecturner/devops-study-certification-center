@@ -1,0 +1,635 @@
+[
+  {
+    "id": "sn-csa-rep-001",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow report type is best suited for showing the distribution of incidents across priority levels?",
+    "choices": [
+      { "id": "a", "text": "Trend report" },
+      { "id": "b", "text": "Pivot table" },
+      { "id": "c", "text": "Bar or pie chart" },
+      { "id": "d", "text": "Heatmap" }
+    ],
+    "correct": "c",
+    "explanation": "Bar charts and pie charts are ideal for showing categorical distribution, such as incidents by priority (P1, P2, P3, P4). Trend reports show data over time, and pivot tables aggregate data across multiple dimensions.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-002",
+    "type": "single_choice",
+    "prompt": "What is Performance Analytics in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A module for monitoring instance performance and server health" },
+      { "id": "b", "text": "A solution for tracking KPIs and service metrics over time using time-series data" },
+      { "id": "c", "text": "A reporting tool for generating ad-hoc table queries" },
+      { "id": "d", "text": "An integration module that pulls metrics from external monitoring systems" }
+    ],
+    "correct": "b",
+    "explanation": "Performance Analytics (PA) is ServiceNow's solution for capturing and displaying KPI data over time. It scores and stores data on a schedule, enabling trend analysis and target tracking with visual breakdowns.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-003",
+    "type": "true_false",
+    "prompt": "Homepages in ServiceNow are personalized per user and cannot be shared across teams.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "ServiceNow supports both personal homepages (visible only to the owner) and shared homepages (visible to groups or all users). Administrators can create and publish shared homepages for specific roles or groups.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-004",
+    "type": "single_choice",
+    "prompt": "Which report type in ServiceNow is best for visualizing incident volume trends over a period of months?",
+    "choices": [
+      { "id": "a", "text": "Pie chart" },
+      { "id": "b", "text": "Heatmap" },
+      { "id": "c", "text": "Trend report" },
+      { "id": "d", "text": "Single score" }
+    ],
+    "correct": "c",
+    "explanation": "A Trend report in ServiceNow displays data over time, making it ideal for visualizing changes in volume, such as incident counts by week or month. It plots data points on a time axis to show patterns, growth, or decline.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-005",
+    "type": "single_choice",
+    "prompt": "What does a 'Pivot Table' report in ServiceNow display?",
+    "choices": [
+      { "id": "a", "text": "A map showing geographic distribution of incidents" },
+      { "id": "b", "text": "A matrix that aggregates data across two dimensions, showing counts or aggregates at each intersection" },
+      { "id": "c", "text": "A time-series visualization of a single metric" },
+      { "id": "d", "text": "A ranked list of records sorted by a specific field" }
+    ],
+    "correct": "b",
+    "explanation": "A Pivot Table report in ServiceNow creates a matrix with rows representing one grouping dimension and columns representing another. The cells show aggregated values (count, sum, average) at each intersection. This is useful for comparing data across two attributes simultaneously.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-006",
+    "type": "single_choice",
+    "prompt": "What is a 'Dial' or 'Gauge' report type used for in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Showing a single metric as a speedometer-style indicator against a target or threshold" },
+      { "id": "b", "text": "Measuring network latency on the ServiceNow instance" },
+      { "id": "c", "text": "Displaying time series data with threshold markers" },
+      { "id": "d", "text": "Showing the distribution of values across a range using bins" }
+    ],
+    "correct": "a",
+    "explanation": "Dial (Gauge) reports in ServiceNow display a single numeric value on a speedometer-style visual. They are commonly used on dashboards to show current performance against a target, such as SLA compliance percentage or open ticket count against a maximum threshold.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-007",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, how do you create a new report from a list view?",
+    "choices": [
+      { "id": "a", "text": "Right-click any column header and select 'Create Report'" },
+      { "id": "b", "text": "Navigate to Reports module and manually specify the table name" },
+      { "id": "c", "text": "From the list, click the Report icon (bar chart icon) or use the list header menu to select 'Create Report'" },
+      { "id": "d", "text": "Reports can only be created from the Performance Analytics module" }
+    ],
+    "correct": "c",
+    "explanation": "One of the easiest ways to create a report in ServiceNow is directly from a list view using the report icon or the list header menu. ServiceNow pre-populates the report with the current table and any active filter conditions, then lets you customize the report type and grouping.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-008",
+    "type": "single_choice",
+    "prompt": "How can a ServiceNow report be shared with a specific group of users?",
+    "choices": [
+      { "id": "a", "text": "Reports can only be visible to the creator; sharing is not supported" },
+      { "id": "b", "text": "By adding the report to a shared dashboard or setting sharing options to a specific group or role" },
+      { "id": "c", "text": "By emailing the report PDF to the group distribution list" },
+      { "id": "d", "text": "By publishing the report to the Service Portal" }
+    ],
+    "correct": "b",
+    "explanation": "Reports in ServiceNow can be shared with specific users, groups, or roles through the report's sharing settings. Reports can also be added to shared dashboards or homepages that are published to groups. Administrators can make reports globally visible.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-009",
+    "type": "single_choice",
+    "prompt": "What is a 'Scheduled Report' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A report that automatically runs and sends results via email to specified recipients on a defined schedule" },
+      { "id": "b", "text": "A report that is updated in real time as records change" },
+      { "id": "c", "text": "A report that only runs during off-peak hours to avoid performance impact" },
+      { "id": "d", "text": "A report pre-scheduled by ServiceNow support during instance setup" }
+    ],
+    "correct": "a",
+    "explanation": "Scheduled Reports in ServiceNow are configured to automatically run at defined intervals (daily, weekly, monthly) and email the results to specified recipients. This delivers reports proactively to stakeholders without requiring them to log in and run the report manually.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Scheduled Reports", "url": "https://docs.servicenow.com/bundle/washingtondc-now-intelligence/page/use/reporting/task/t_ScheduleAReport.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-010",
+    "type": "single_choice",
+    "prompt": "What is a 'Database View' (report source) in ServiceNow used for?",
+    "choices": [
+      { "id": "a", "text": "A real-time replica of the database for disaster recovery" },
+      { "id": "b", "text": "A virtual join of multiple tables that can be used as a report source to combine data without actual table joins" },
+      { "id": "c", "text": "A read-only view of the database for compliance auditing" },
+      { "id": "d", "text": "A data export format used when exporting reports to Excel" }
+    ],
+    "correct": "b",
+    "explanation": "Database Views in ServiceNow are virtual constructs that join multiple related tables together, exposing the combined fields as a flat structure. They can be used as a report source to create reports that span multiple tables without complex scripting or workarounds.",
+    "topics": ["reporting"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-011",
+    "type": "single_choice",
+    "prompt": "What is the 'Single Score' report type in ServiceNow used for?",
+    "choices": [
+      { "id": "a", "text": "Displaying a single aggregated value (such as a count or sum) as a large prominent number" },
+      { "id": "b", "text": "A scorecard showing performance across all ITSM processes" },
+      { "id": "c", "text": "A report that ranks users by their ticket resolution score" },
+      { "id": "d", "text": "A report showing the average incident resolution time as a percentage" }
+    ],
+    "correct": "a",
+    "explanation": "The Single Score report type displays one aggregated value, such as a count of open P1 incidents or total resolved tickets this week, as a large, prominent number. It is commonly used on dashboards for quick at-a-glance KPI visibility.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-012",
+    "type": "single_choice",
+    "prompt": "In ServiceNow reporting, what does 'Grouping' a report by a field do?",
+    "choices": [
+      { "id": "a", "text": "It filters the report to show only records matching a specific group value" },
+      { "id": "b", "text": "It aggregates the data so that records with the same value in that field are counted and displayed as a group" },
+      { "id": "c", "text": "It assigns the report to a specific user group for visibility" },
+      { "id": "d", "text": "It creates separate report tabs for each value of the field" }
+    ],
+    "correct": "b",
+    "explanation": "Grouping in a ServiceNow report aggregates data by a selected field. For example, grouping a bar chart by 'Assignment Group' produces a bar for each assignment group showing how many records belong to each. This is fundamental to most chart-based reporting.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-013",
+    "type": "single_choice",
+    "prompt": "What is 'Stacking' in the context of a bar chart report in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Adding multiple reports to the same dashboard row" },
+      { "id": "b", "text": "Displaying a second grouping dimension within each bar by subdividing it into colored segments" },
+      { "id": "c", "text": "Sorting bars from tallest to shortest" },
+      { "id": "d", "text": "Overlaying trend lines on top of bar segments" }
+    ],
+    "correct": "b",
+    "explanation": "Stacking in a bar chart adds a second dimension by subdividing each bar into colored segments representing sub-categories. For example, a bar chart grouped by Assignment Group could be stacked by Priority, showing how each group's tickets break down by priority within each bar.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-014",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Performance Analytics, what is a 'Breakdown' used for?",
+    "choices": [
+      { "id": "a", "text": "Breaking down the PA license cost by department" },
+      { "id": "b", "text": "Segmenting a PA indicator's score by a dimension (such as assignment group or category) to compare performance across segments" },
+      { "id": "c", "text": "Documenting the reason why a KPI target was missed" },
+      { "id": "d", "text": "Splitting a PA widget into multiple charts on a dashboard" }
+    ],
+    "correct": "b",
+    "explanation": "A Breakdown in Performance Analytics is a dimension by which an indicator's score can be segmented. For example, an 'Open Incidents' indicator could have an Assignment Group breakdown, showing how many open incidents belong to each group. Breakdowns enable comparative analysis across segments.",
+    "topics": ["reporting"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-015",
+    "type": "single_choice",
+    "prompt": "What is the difference between a ServiceNow 'Homepage' and a 'Dashboard'?",
+    "choices": [
+      { "id": "a", "text": "A Homepage shows real-time data; a Dashboard shows historical data" },
+      { "id": "b", "text": "Homepages are the older UI paradigm for presenting widgets; Dashboards are the newer, more flexible interface for displaying reports and PA widgets" },
+      { "id": "c", "text": "A Homepage is visible to all users; a Dashboard requires admin access" },
+      { "id": "d", "text": "There is no functional difference between the two" }
+    ],
+    "correct": "b",
+    "explanation": "Homepages are the legacy way to present content in ServiceNow, using a simple column-based layout. Dashboards are the newer, more flexible interface introduced to replace Homepages, supporting responsive layouts, tabs, sharing, and embedding Performance Analytics widgets alongside standard reports.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-016",
+    "type": "single_choice",
+    "prompt": "How do you add a report to a ServiceNow Dashboard?",
+    "choices": [
+      { "id": "a", "text": "Export the report as a PNG and upload it to the Dashboard" },
+      { "id": "b", "text": "From the Dashboard, use the 'Add widget' or 'Add content' option and select the report from the catalog" },
+      { "id": "c", "text": "Right-click the report in the Reports module and select 'Pin to Dashboard'" },
+      { "id": "d", "text": "Reports cannot be added to Dashboards; only PA widgets can be used" }
+    ],
+    "correct": "b",
+    "explanation": "Reports can be added to a Dashboard by using the 'Add content' or 'Add widget' option within the Dashboard editor. You can then browse or search for reports to add. Both standard reports and PA widgets can be placed on Dashboards.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-017",
+    "type": "single_choice",
+    "prompt": "What export formats are available when exporting a ServiceNow report?",
+    "choices": [
+      { "id": "a", "text": "PDF and Excel only" },
+      { "id": "b", "text": "PDF, Excel (CSV), and PNG image" },
+      { "id": "c", "text": "XML and JSON only" },
+      { "id": "d", "text": "HTML and Word document" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow reports can be exported in several formats, including PDF (for presentation-ready reports), Excel/CSV (for data analysis in spreadsheet tools), and PNG image format (for embedding in documents). The available formats may vary slightly by report type.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-018",
+    "type": "single_choice",
+    "prompt": "In ServiceNow reporting, what does 'Drilldown' functionality allow a user to do?",
+    "choices": [
+      { "id": "a", "text": "Export the report data to a CSV file" },
+      { "id": "b", "text": "Click on a segment of a chart to see the underlying records that make up that segment" },
+      { "id": "c", "text": "Configure additional filters on the report definition" },
+      { "id": "d", "text": "Navigate to a related report that covers the same time period" }
+    ],
+    "correct": "b",
+    "explanation": "Drilldown in ServiceNow reports allows users to click on a data point, bar, or pie segment to see the actual records that contributed to that value. This bridges the gap between aggregated visuals and the underlying raw data, making it easy to investigate specific items.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-019",
+    "type": "single_choice",
+    "prompt": "What is a 'Heatmap' report type used for in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Showing geographic distribution of incidents on a world map" },
+      { "id": "b", "text": "Displaying data in a matrix format where color intensity indicates the magnitude of values at each intersection" },
+      { "id": "c", "text": "Monitoring instance server temperature and performance" },
+      { "id": "d", "text": "Tracking SLA compliance with red/amber/green color coding" }
+    ],
+    "correct": "b",
+    "explanation": "A Heatmap in ServiceNow displays a matrix where color intensity (typically from light to dark) indicates the relative magnitude of values at each row-column intersection. For example, a heatmap might show incident volume by day of week (columns) and hour of day (rows), identifying peak periods.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-020",
+    "type": "true_false",
+    "prompt": "In ServiceNow, a report can only be based on a direct table; it cannot be based on a database view that joins multiple tables.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Reports in ServiceNow can use either a table or a Database View as their data source. Database Views join multiple tables into a flat structure, enabling reports that combine data from related tables (e.g., combining incident data with caller information from the user table).",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-021",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Performance Analytics, what is an 'Indicator'?",
+    "choices": [
+      { "id": "a", "text": "A visual icon showing whether a KPI is above or below its target" },
+      { "id": "b", "text": "A defined metric that PA collects and stores on a schedule, such as 'Count of Open P1 Incidents'" },
+      { "id": "c", "text": "A calculated field in a report definition" },
+      { "id": "d", "text": "An alert that fires when a metric exceeds a threshold" }
+    ],
+    "correct": "b",
+    "explanation": "A Performance Analytics Indicator defines a specific metric to be collected (e.g., count of open incidents with priority=1). PA runs a job on a schedule to score each indicator, storing the value with a timestamp. This creates time-series data that enables trend analysis and target tracking.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-022",
+    "type": "single_choice",
+    "prompt": "What is a 'Box Plot' report type in ServiceNow used to display?",
+    "choices": [
+      { "id": "a", "text": "A count of records grouped into categories displayed as boxes" },
+      { "id": "b", "text": "The statistical distribution of a dataset showing median, quartiles, and outliers" },
+      { "id": "c", "text": "A comparison of performance scores in a grid of boxes" },
+      { "id": "d", "text": "A hierarchical tree structure of configuration items" }
+    ],
+    "correct": "b",
+    "explanation": "A Box Plot (also called a box-and-whisker plot) in ServiceNow shows the statistical distribution of a numeric dataset. It visually displays the median, first and third quartiles (the box), and the range (the whiskers), making it easy to spot outliers and understand data spread.",
+    "topics": ["reporting"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-023",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is a 'Report Designer' vs the legacy report creation UI?",
+    "choices": [
+      { "id": "a", "text": "Report Designer is a mobile-only tool; the legacy UI is desktop-only" },
+      { "id": "b", "text": "Report Designer is the modern, wizard-driven report builder introduced in newer platform versions; the legacy UI uses a tabbed form layout" },
+      { "id": "c", "text": "Report Designer creates PA indicators; the legacy UI creates standard reports" },
+      { "id": "d", "text": "They are identical; 'Report Designer' is just a marketing name" }
+    ],
+    "correct": "b",
+    "explanation": "The Report Designer is the modern, guided report creation experience introduced in newer ServiceNow versions. It uses a step-by-step wizard interface. The legacy report UI uses a traditional multi-tab form. Both produce the same report artifacts, but the Designer is more user-friendly.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-024",
+    "type": "single_choice",
+    "prompt": "What is a 'Histogram' report type in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A chart that shows the frequency distribution of a numeric field by grouping values into configurable bins/ranges" },
+      { "id": "b", "text": "A horizontal bar chart showing records sorted by a date field" },
+      { "id": "c", "text": "A chart displaying historical changes to records over time" },
+      { "id": "d", "text": "A report showing the number of records created per day over a specified period" }
+    ],
+    "correct": "a",
+    "explanation": "A Histogram shows the frequency distribution of a numeric field by dividing the range of values into equal-width bins and counting how many records fall in each bin. For example, a histogram of incident resolution times would show how many incidents were resolved in 0-1 hour, 1-4 hours, 4-8 hours, etc.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-025",
+    "type": "true_false",
+    "prompt": "ServiceNow Performance Analytics widgets can display time-series data over configurable date ranges and can be added to Dashboards.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "PA widgets in ServiceNow display time-series data from scored indicators, and users can configure the date range to view trends over days, weeks, months, or quarters. These widgets can be added to Dashboards alongside standard reports to create comprehensive operational views.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-026",
+    "type": "single_choice",
+    "prompt": "Which of the following is a key difference between Performance Analytics widgets and standard ServiceNow reports?",
+    "choices": [
+      { "id": "a", "text": "PA widgets support more report types than standard reports" },
+      { "id": "b", "text": "Standard reports query live data on demand; PA widgets display pre-collected, time-stamped historical scores" },
+      { "id": "c", "text": "Standard reports can only show today's data; PA widgets show all historical data" },
+      { "id": "d", "text": "PA widgets are only accessible to administrators; standard reports are for all users" }
+    ],
+    "correct": "b",
+    "explanation": "Standard reports run a live query against the database when they are viewed, returning current data. PA widgets, on the other hand, display scores that were collected and stored by scheduled PA jobs in the past. PA enables true historical trend analysis because the data is preserved at each collection point.",
+    "topics": ["reporting"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-027",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is a 'Calendar' report type used for?",
+    "choices": [
+      { "id": "a", "text": "Displaying records on a monthly calendar grid based on a date field, such as change implementation dates" },
+      { "id": "b", "text": "Scheduling when a report will automatically run and be emailed" },
+      { "id": "c", "text": "Showing the on-call schedule for support teams" },
+      { "id": "d", "text": "Tracking user activity by day of week" }
+    ],
+    "correct": "a",
+    "explanation": "The Calendar report type in ServiceNow displays records on a calendar view (day, week, or month) based on a specified date field. For example, displaying change requests on a calendar based on their planned start date allows teams to visualize the change schedule at a glance.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-028",
+    "type": "single_choice",
+    "prompt": "What does the 'Conditions' section in a ServiceNow report definition control?",
+    "choices": [
+      { "id": "a", "text": "Who can view the report based on their role" },
+      { "id": "b", "text": "The filter criteria that determines which records are included in the report data" },
+      { "id": "c", "text": "The schedule for when the report will be emailed" },
+      { "id": "d", "text": "The visual formatting such as colors and fonts" }
+    ],
+    "correct": "b",
+    "explanation": "The Conditions section in a ServiceNow report definition acts as a filter, limiting the dataset to records that match the specified criteria. For example, you could filter to only include incidents with Priority=1 created in the last 30 days. Without conditions, the report includes all records in the table.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-029",
+    "type": "multi_choice",
+    "prompt": "Which of the following report types are available in ServiceNow? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "Bar chart" },
+      { "id": "b", "text": "Gantt chart" },
+      { "id": "c", "text": "Pie chart" },
+      { "id": "d", "text": "Bubble chart" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "ServiceNow includes many report types including Bar, Pie, Trend, Pivot, Heatmap, Dial/Gauge, Single Score, Box Plot, Histogram, Calendar, and List. As of recent versions, Gantt charts and Bubble charts are not native report types in the standard reporting module.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-030",
+    "type": "single_choice",
+    "prompt": "What does setting a report's visibility to 'Public' in ServiceNow mean?",
+    "choices": [
+      { "id": "a", "text": "The report is accessible from outside the ServiceNow instance without logging in" },
+      { "id": "b", "text": "The report is visible to all logged-in ServiceNow users on the instance" },
+      { "id": "c", "text": "The report is published on the Service Portal for external users" },
+      { "id": "d", "text": "The report can be shared via a public URL" }
+    ],
+    "correct": "b",
+    "explanation": "Setting a report's visibility to 'Public' in ServiceNow makes the report viewable by all authenticated users on the instance, not just the report's creator. This does not mean the report is visible outside the ServiceNow login screen; all viewers must still authenticate.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-031",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Performance Analytics, what is a 'Score'?",
+    "choices": [
+      { "id": "a", "text": "A user's performance rating assigned by their manager" },
+      { "id": "b", "text": "The numeric value captured for a PA indicator at a specific point in time" },
+      { "id": "c", "text": "A percentage showing how close an indicator is to its target" },
+      { "id": "d", "text": "The overall health score of the ServiceNow instance" }
+    ],
+    "correct": "b",
+    "explanation": "A Score in Performance Analytics is the numeric value recorded for a specific indicator at a specific point in time during a scheduled data collection run. Scores accumulate over time to create the time-series data that powers PA trend charts and historical analysis.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-032",
+    "type": "single_choice",
+    "prompt": "What report type in ServiceNow would be most appropriate for showing the number of open incidents by category on a single summary number display?",
+    "choices": [
+      { "id": "a", "text": "Pivot table" },
+      { "id": "b", "text": "Single score" },
+      { "id": "c", "text": "Dial/Gauge" },
+      { "id": "d", "text": "Bar chart" }
+    ],
+    "correct": "b",
+    "explanation": "A Single Score report is used when you want to prominently display a single aggregated number, such as total open incidents. If you need breakdown by category, a bar chart would be more appropriate. Single Score is ideal for high-level KPI dashboard tiles.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-033",
+    "type": "true_false",
+    "prompt": "Scheduled Reports in ServiceNow can be configured to send results in PDF format via email.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow's Scheduled Report feature supports email delivery in multiple formats, including PDF. Administrators configure the schedule, recipients, and format when setting up the scheduled report. This allows automated delivery of reports to stakeholders on a regular cadence.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-034",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Performance Analytics, what is a 'Target' on an indicator?",
+    "choices": [
+      { "id": "a", "text": "The table the indicator queries for its score data" },
+      { "id": "b", "text": "A defined goal value for the indicator that is used to show whether performance is above or below the desired threshold" },
+      { "id": "c", "text": "The user group responsible for achieving the indicator goal" },
+      { "id": "d", "text": "The scheduled job that collects the indicator's score" }
+    ],
+    "correct": "b",
+    "explanation": "A Target in Performance Analytics defines the desired goal value for an indicator. PA can visually compare the actual score against the target (using green/amber/red coloring), making it clear whether performance is meeting, exceeding, or falling below expectations.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-035",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'Breadcrumbs' in the context of a drilldown from a ServiceNow report?",
+    "choices": [
+      { "id": "a", "text": "Navigation links that show the drill path and allow users to navigate back to parent views" },
+      { "id": "b", "text": "A trail of report modifications showing all changes made to the report definition" },
+      { "id": "c", "text": "Tags that categorize the report by topic" },
+      { "id": "d", "text": "Links to related reports on the same dashboard" }
+    ],
+    "correct": "a",
+    "explanation": "When drilling down from a summary report into detail data, ServiceNow displays breadcrumbs showing the navigation path (e.g., All Records > P1 Incidents > Network Category). Users can click any breadcrumb to navigate back to a parent level in the drilldown hierarchy.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-036",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow report type is best for comparing the count of incidents against the count of changes over the past 12 months on the same chart?",
+    "choices": [
+      { "id": "a", "text": "Pivot table" },
+      { "id": "b", "text": "Multi-series bar or trend report" },
+      { "id": "c", "text": "Heatmap" },
+      { "id": "d", "text": "Calendar report" }
+    ],
+    "correct": "b",
+    "explanation": "A multi-series bar or trend report allows you to plot multiple data series on the same chart, enabling direct comparison of different record types or dimensions over time. This is ideal for comparing metrics like incident volume vs. change volume across the same time period.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-037",
+    "type": "true_false",
+    "prompt": "A ServiceNow report that is shared with a specific group will only show data that the viewing user is permitted to see, based on their own ACL rights.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow reports respect data security: when a report is viewed by a user, the query runs under that user's access context, applying all ACL rules. A user cannot use a shared report to access records they are not otherwise authorized to see. Report sharing controls visibility of the report itself, not the underlying data.",
+    "topics": ["reporting"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-038",
+    "type": "single_choice",
+    "prompt": "What is a 'List' report type in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A report that shows records in a flat table/list format, similar to a list view" },
+      { "id": "b", "text": "A bullet-point summary of key metrics" },
+      { "id": "c", "text": "A report that lists all available report types" },
+      { "id": "d", "text": "A report showing all lists a user has customized" }
+    ],
+    "correct": "a",
+    "explanation": "A List report in ServiceNow displays records in a table format, showing selected fields as columns, similar to a list view. Unlike chart reports, it does not aggregate data but instead shows individual records. It can be filtered and exported, making it useful for operational reports.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-039",
+    "type": "single_choice",
+    "prompt": "Which field in a ServiceNow Scheduled Report configuration controls who receives the emailed report output?",
+    "choices": [
+      { "id": "a", "text": "Recipients" },
+      { "id": "b", "text": "Send To" },
+      { "id": "c", "text": "Email To" },
+      { "id": "d", "text": "Distribution List" }
+    ],
+    "correct": "a",
+    "explanation": "The Recipients field in a ServiceNow Scheduled Report definition specifies who will receive the emailed report. Recipients can be individual users, groups, or email addresses. The platform sends the report to all configured recipients on the defined schedule.",
+    "topics": ["reporting"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-rep-040",
+    "type": "multi_choice",
+    "prompt": "Which of the following are true about Performance Analytics in ServiceNow? Select TWO.",
+    "choices": [
+      { "id": "a", "text": "PA collects and stores scores on a schedule, enabling historical trend analysis" },
+      { "id": "b", "text": "PA widgets always show live, real-time query results" },
+      { "id": "c", "text": "PA indicators can have defined targets that show performance against a goal" },
+      { "id": "d", "text": "PA requires a separate paid license in addition to standard ServiceNow" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Performance Analytics collects scores on a schedule (not live queries) and stores them for historical analysis, which is correct. Indicators can have targets defined to compare actual performance against goals, which is also correct. PA does require a specific license but many ServiceNow packages include it, making 'd' only conditionally true; the definitively correct answers are 'a' and 'c'.",
+    "topics": ["reporting"],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

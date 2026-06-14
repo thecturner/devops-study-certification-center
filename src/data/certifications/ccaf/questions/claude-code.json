@@ -1,0 +1,876 @@
+[
+  {
+    "id": "ccaf-cc-001",
+    "type": "single_choice",
+    "prompt": "Claude Code is best described as which type of tool?",
+    "choices": [
+      { "id": "a", "text": "A browser-based code editor with inline AI suggestions" },
+      { "id": "b", "text": "An agentic CLI coding assistant that uses a tool system to read, write, and run code" },
+      { "id": "c", "text": "A GitHub Actions runner that generates code from issue descriptions" },
+      { "id": "d", "text": "A static analysis tool for detecting code smells and security vulnerabilities" }
+    ],
+    "correct": "b",
+    "explanation": "Claude Code is an agentic command-line interface (CLI) assistant. It operates autonomously on coding tasks by using a tool system — reading files, writing code, searching codebases, and running shell commands — directly in the developer's terminal environment.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — Overview" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-002",
+    "type": "single_choice",
+    "prompt": "Which file provides always-on, project-scoped instructions that Claude Code reads automatically at the start of every session?",
+    "choices": [
+      { "id": "a", "text": ".claude-config.yaml" },
+      { "id": "b", "text": "CLAUDE.md" },
+      { "id": "c", "text": ".claude/instructions.txt" },
+      { "id": "d", "text": "claude_settings.json" }
+    ],
+    "correct": "b",
+    "explanation": "CLAUDE.md is the primary mechanism for persistent project instructions in Claude Code. When placed in a project's root directory (or subdirectories), it is automatically read at session start and applies throughout the session without requiring any user action.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — CLAUDE.md" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-003",
+    "type": "single_choice",
+    "prompt": "What Claude Code feature causes the model to outline a complete implementation plan and await user approval before making any file changes?",
+    "choices": [
+      { "id": "a", "text": "Extended thinking mode" },
+      { "id": "b", "text": "Learning mode" },
+      { "id": "c", "text": "Plan Mode" },
+      { "id": "d", "text": "Checkpoint mode" }
+    ],
+    "correct": "c",
+    "explanation": "Plan Mode instructs Claude Code to produce a structured implementation plan — listing files to change, steps to take, and design decisions — before making any actual modifications. The user reviews and approves the plan, ensuring alignment before Claude begins coding.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Plan Mode" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-004",
+    "type": "single_choice",
+    "prompt": "How does a user invoke a named custom skill or command in Claude Code?",
+    "choices": [
+      { "id": "a", "text": "By typing @skill-name in the prompt" },
+      { "id": "b", "text": "By pressing a dedicated function key bound to the skill" },
+      { "id": "c", "text": "By typing /command-name in the Claude Code prompt" },
+      { "id": "d", "text": "By placing the cursor in the target file and running a terminal alias" }
+    ],
+    "correct": "c",
+    "explanation": "Custom skills and commands in Claude Code are invoked with a `/command-name` prefix, analogous to slash commands in chat interfaces. Claude Code detects the prefix, looks up the matching skill, and executes its instructions in the current session context.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Custom Commands" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-005",
+    "type": "single_choice",
+    "prompt": "Which Claude Code built-in tool executes arbitrary shell commands in the project's working directory?",
+    "choices": [
+      { "id": "a", "text": "Shell" },
+      { "id": "b", "text": "Run" },
+      { "id": "c", "text": "Exec" },
+      { "id": "d", "text": "Bash" }
+    ],
+    "correct": "d",
+    "explanation": "The Bash tool is Claude Code's built-in mechanism for executing shell commands. It runs commands in the project's working directory and returns stdout and stderr to Claude, enabling tasks like running tests, installing dependencies, or querying the file system.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — Tool System" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-006",
+    "type": "multi_choice",
+    "prompt": "Which capabilities does Claude Code's subagent system provide? Select two.",
+    "choices": [
+      { "id": "a", "text": "Running a nested Claude instance with its own isolated context window" },
+      { "id": "b", "text": "Automatically pushing commits to GitHub without user approval" },
+      { "id": "c", "text": "Restricting the subagent to a specific set of tools to enforce least-privilege access" },
+      { "id": "d", "text": "Replacing the parent session's CLAUDE.md with a subagent-specific version" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Subagents in Claude Code launch isolated Claude instances with their own context, allowing them to work on a focused subtask without polluting the parent session's context window. Developers can also restrict which tools a subagent can use, enforcing least-privilege access for delegated work.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Subagents" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-007",
+    "type": "single_choice",
+    "prompt": "A developer's Claude Code session is approaching the context window limit mid-task. Which built-in command compresses the conversation history to free up context while preserving critical state?",
+    "choices": [
+      { "id": "a", "text": "/summarize" },
+      { "id": "b", "text": "/reset" },
+      { "id": "c", "text": "/compact" },
+      { "id": "d", "text": "/trim" }
+    ],
+    "correct": "c",
+    "explanation": "The /compact command summarizes the current conversation history into a condensed representation, freeing context window space while retaining key decisions, file states, and task context. This allows long-running sessions to continue without losing critical information or restarting from scratch.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Context Management" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-008",
+    "type": "single_choice",
+    "prompt": "What mechanism allows Claude Code to integrate with external systems such as GitHub, Slack, or databases?",
+    "choices": [
+      { "id": "a", "text": "Built-in API keys configured directly in CLAUDE.md" },
+      { "id": "b", "text": "MCP server integration" },
+      { "id": "c", "text": "Direct OAuth flows initiated by Claude Code in the terminal" },
+      { "id": "d", "text": "Datadog agent plugins installed alongside Claude Code" }
+    ],
+    "correct": "b",
+    "explanation": "Claude Code integrates with external tools and services through MCP (Model Context Protocol) servers. Administrators or users configure MCP servers in their Claude Code settings; Claude Code then connects to these servers and gains access to their tools, resources, and prompts.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — MCP Integration" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-009",
+    "type": "single_choice",
+    "prompt": "How does Claude Code's extended thinking mode differ from its standard response generation?",
+    "choices": [
+      { "id": "a", "text": "It spawns a subagent to independently verify the answer before returning it" },
+      { "id": "b", "text": "It switches to a more capable Claude model for the duration of the request" },
+      { "id": "c", "text": "It allocates a configurable token budget for internal reasoning that is not shown by default" },
+      { "id": "d", "text": "It automatically enables Plan Mode and requires user approval before completing the response" }
+    ],
+    "correct": "c",
+    "explanation": "Extended thinking allocates a configurable token budget for Claude to reason internally before producing its final response. This internal reasoning (a 'thinking' block) is separate from the visible output. The mode is particularly useful for complex multi-step problems where additional deliberation improves accuracy.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Extended Thinking" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-010",
+    "type": "single_choice",
+    "prompt": "For automated GitHub pull request review, Claude Code integrates with which GitHub feature?",
+    "choices": [
+      { "id": "a", "text": "GitHub Codespaces environments" },
+      { "id": "b", "text": "GitHub Actions workflows" },
+      { "id": "c", "text": "GitHub Copilot completions" },
+      { "id": "d", "text": "GitHub Packages registry" }
+    ],
+    "correct": "b",
+    "explanation": "Claude Code PR review automation integrates with GitHub Actions. A workflow triggers on pull request events, invokes Claude Code to analyze the diff and post review comments, and can block merges until the review is complete — all without requiring a developer to manually invoke Claude.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — GitHub PR Automation" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-011",
+    "type": "multi_choice",
+    "prompt": "Which are valid reasons to spawn a subagent in Claude Code rather than handling a task in the parent session? Select two.",
+    "choices": [
+      { "id": "a", "text": "The subtask requires a fresh context window to avoid interference from unrelated conversation history" },
+      { "id": "b", "text": "The subtask involves writing to more than three files simultaneously" },
+      { "id": "c", "text": "The subtask should be restricted to read-only tools to prevent accidental writes" },
+      { "id": "d", "text": "The subtask requires the user to be notified before every individual tool call" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Subagents are appropriate when a task benefits from context isolation (preventing unrelated history from influencing the subtask) or when the task should be constrained to a specific set of tools for safety. Subagents are not triggered by file count or per-tool notification requirements.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — When to Use Subagents" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-012",
+    "type": "true_false",
+    "prompt": "CLAUDE.md files can be placed in project subdirectories, and their instructions apply only to files within that directory tree.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "Claude Code supports hierarchical CLAUDE.md files. A CLAUDE.md in the project root applies globally, while one placed in a subdirectory applies only when Claude is working within that directory scope. This enables fine-grained, context-sensitive instructions for different parts of a codebase.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — CLAUDE.md Scoping" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-013",
+    "type": "single_choice",
+    "prompt": "In a monorepo with a `packages/api/` and `packages/ui/` subdirectory, each needing different Claude Code instructions, what is the correct CLAUDE.md placement?",
+    "choices": [
+      { "id": "a", "text": "One CLAUDE.md at the monorepo root with all instructions merged into a single file" },
+      { "id": "b", "text": "A root CLAUDE.md for shared instructions plus individual CLAUDE.md files in each package subdirectory for package-specific instructions" },
+      { "id": "c", "text": "A single CLAUDE.md placed in the ~/.claude/ directory with if-else blocks for each package" },
+      { "id": "d", "text": "CLAUDE.md is not supported in monorepos; use a single .claudeconfig file instead" }
+    ],
+    "correct": "b",
+    "explanation": "Claude Code supports hierarchical CLAUDE.md placement. Shared instructions go in the monorepo root, while package-specific instructions go in their respective subdirectories. Claude reads all CLAUDE.md files in the path from the working directory up to the root, so the instructions compose correctly.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Hierarchical CLAUDE.md" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-014",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the global `~/.claude/CLAUDE.md` file?",
+    "choices": [
+      { "id": "a", "text": "It overrides all project-level CLAUDE.md files with global settings" },
+      { "id": "b", "text": "It provides always-on instructions that apply to every Claude Code session regardless of project" },
+      { "id": "c", "text": "It stores Claude Code's configuration credentials and API keys" },
+      { "id": "d", "text": "It lists all projects Claude Code is allowed to access on this machine" }
+    ],
+    "correct": "b",
+    "explanation": "`~/.claude/CLAUDE.md` is the user-level CLAUDE.md that applies across all Claude Code sessions on the machine, regardless of which project is open. It is ideal for persistent personal preferences, coding standards, or workflow habits that apply universally — such as commit message conventions or preferred explanation style.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — Global CLAUDE.md" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-015",
+    "type": "single_choice",
+    "prompt": "Claude Code incorrectly modifies a critical config file. Without restarting, how can the developer best restore the previous state?",
+    "choices": [
+      { "id": "a", "text": "Type /undo in the Claude Code prompt to revert the last file change" },
+      { "id": "b", "text": "Use git to restore the file from the last committed state, then continue the session" },
+      { "id": "c", "text": "Delete the file and re-create it from memory" },
+      { "id": "d", "text": "Stop Claude Code, edit the file manually, and restart the session" }
+    ],
+    "correct": "b",
+    "explanation": "Claude Code operates in the developer's Git-enabled project. Git is the source of truth for file state. Running `git restore <file>` (or `git checkout -- <file>`) reverts the file to its last committed state instantly. The developer can then continue the session with the corrected file without interrupting the workflow.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Recovery with Git" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-016",
+    "type": "multi_choice",
+    "prompt": "Which two settings are valid in a Claude Code `.claude/settings.json` file?",
+    "choices": [
+      { "id": "a", "text": "hooks — configures shell commands to run in response to tool events" },
+      { "id": "b", "text": "model — specifies which Claude model to use for the session" },
+      { "id": "c", "text": "gitCredentials — stores GitHub tokens for automated push operations" },
+      { "id": "d", "text": "timezone — configures Claude's awareness of the user's local time zone" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "Claude Code's `settings.json` supports `hooks` (for configuring event-driven shell commands) and `model` (for specifying the Claude model version). Git credentials should never be stored in project settings files; timezone is not a Claude Code configuration parameter.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — settings.json Reference" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-017",
+    "type": "true_false",
+    "prompt": "A PostToolUse hook in Claude Code runs Claude AI logic when triggered by a tool event.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "PostToolUse hooks execute shell commands — not Claude AI logic. A hook is a shell command configured to run when a specific tool event fires. To trigger Claude logic in response to an event, you would use a skill, not a hook. Hooks are for automation at the shell level (formatting, linting, builds).",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Hooks vs Skills" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-018",
+    "type": "single_choice",
+    "prompt": "What is the primary difference between running Claude Code in `--print` (non-interactive) mode versus interactive mode?",
+    "choices": [
+      { "id": "a", "text": "Print mode disables all tool access; interactive mode allows full tool use" },
+      { "id": "b", "text": "Print mode executes a single prompt and outputs the result to stdout without an interactive session, suitable for scripting and CI" },
+      { "id": "c", "text": "Print mode always runs Claude Code in Plan Mode; interactive mode does not" },
+      { "id": "d", "text": "Print mode restricts output to 500 characters; interactive mode has no length limit" }
+    ],
+    "correct": "b",
+    "explanation": "`--print` mode runs Claude Code non-interactively: it accepts a single prompt, processes it (including tool calls), and writes the final response to stdout, then exits. This makes it composable with shell pipelines and CI workflows where no human is present to interact with a session.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Non-Interactive Mode" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-019",
+    "type": "single_choice",
+    "prompt": "A PreToolUse hook is configured to validate Bash commands before execution. How does the hook signal to Claude Code that the tool call should be blocked?",
+    "choices": [
+      { "id": "a", "text": "The hook writes 'BLOCK' to a special file in /tmp/" },
+      { "id": "b", "text": "The hook exits with a non-zero exit code" },
+      { "id": "c", "text": "The hook sends a SIGINT signal to the Claude Code process" },
+      { "id": "d", "text": "The hook writes 'DENY' as the first line of its stdout output" }
+    ],
+    "correct": "b",
+    "explanation": "Claude Code hooks signal blocking by exiting with a non-zero exit code. When a PreToolUse hook exits non-zero, Claude Code treats the tool call as blocked and does not execute it. The hook can also write an explanation to stderr, which Claude Code surfaces to the user as the reason for the block.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Hooks — Blocking Tool Calls" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-020",
+    "type": "single_choice",
+    "prompt": "When a CLAUDE.md instruction conflicts with a user's in-session prompt, which takes precedence?",
+    "choices": [
+      { "id": "a", "text": "CLAUDE.md always wins; in-session prompts cannot override it" },
+      { "id": "b", "text": "The in-session prompt takes precedence as the most recent, specific instruction" },
+      { "id": "c", "text": "Claude asks the user to resolve the conflict before proceeding" },
+      { "id": "d", "text": "The conflict causes Claude Code to pause and enter Plan Mode automatically" }
+    ],
+    "correct": "b",
+    "explanation": "In-session user prompts are treated as the most immediate and specific instructions. When they conflict with CLAUDE.md's persistent instructions, the user's in-session direction generally takes precedence for that interaction — the user can override session behavior on the fly. CLAUDE.md provides defaults, not hard locks.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Instruction Priority" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-021",
+    "type": "single_choice",
+    "prompt": "A developer runs Claude Code in a CI pipeline using `claude --print`. The pipeline returns exit code 1. What is the most likely cause?",
+    "choices": [
+      { "id": "a", "text": "Claude Code always exits with code 1 in non-interactive mode" },
+      { "id": "b", "text": "The task failed — Claude Code encountered an error, a blocked tool call, or returned an error response" },
+      { "id": "c", "text": "The --print flag is not supported in CI environments" },
+      { "id": "d", "text": "Claude Code requires a TTY and exits with code 1 when no terminal is detected" }
+    ],
+    "correct": "b",
+    "explanation": "Claude Code exits with a non-zero code when the task fails — for example, due to a blocked tool call from a hook, an API error, or an unresolvable task. CI pipelines should check the exit code to detect failures. A successful task completion returns exit code 0.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Exit Codes in CI" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-022",
+    "type": "multi_choice",
+    "prompt": "A developer wants to run Claude Code non-interactively in a CI pipeline. Which two flags are required?",
+    "choices": [
+      { "id": "a", "text": "--print to output the response to stdout without an interactive session" },
+      { "id": "b", "text": "--dangerously-skip-permissions to suppress all permission prompts automatically" },
+      { "id": "c", "text": "--allowedTools to restrict which tools the session can call" },
+      { "id": "d", "text": "-p followed by the task prompt to specify the instruction non-interactively" }
+    ],
+    "correct": ["a", "d"],
+    "explanation": "For non-interactive CI use, `--print` (or equivalently `-p`) is the key flag: it sets the prompt and enables non-interactive output mode. The `-p` flag specifies the task prompt inline. `--dangerously-skip-permissions` should never be used in CI as it bypasses safety checks; `--allowedTools` is optional depending on the task.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — CI and Automation" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-023",
+    "type": "single_choice",
+    "prompt": "What does the `/clear` slash command do in a Claude Code session?",
+    "choices": [
+      { "id": "a", "text": "It clears the terminal screen without affecting the conversation history" },
+      { "id": "b", "text": "It resets the conversation history to an empty state, starting fresh within the current session" },
+      { "id": "c", "text": "It removes all files that Claude Code created in the current session" },
+      { "id": "d", "text": "It clears Claude Code's MCP server connections and reconnects them" }
+    ],
+    "correct": "b",
+    "explanation": "/clear resets the in-session conversation history back to an empty state. Claude Code starts the next exchange with no memory of prior turns in the session. This is useful when the context has become cluttered with irrelevant history and you want a clean start without ending the terminal session.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Slash Commands" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-024",
+    "type": "single_choice",
+    "prompt": "An operator wants to categorically prevent Claude Code from making any outbound network calls. What is the most appropriate mechanism?",
+    "choices": [
+      { "id": "a", "text": "Add 'never make network calls' to CLAUDE.md" },
+      { "id": "b", "text": "Configure a PreToolUse hook that blocks any Bash tool call containing curl, wget, or network-related patterns" },
+      { "id": "c", "text": "Set `allowedTools: []` in settings.json to disable all tools" },
+      { "id": "d", "text": "Run Claude Code inside a network-isolated environment (e.g., a sandboxed container with no network egress) combined with tool restrictions to block network-capable tools" }
+    ],
+    "correct": "d",
+    "explanation": "Prompt-based instructions and hook pattern matching are soft controls that can be bypassed through creative prompting or tool composition. The most robust approach is defense in depth: run Claude Code in a container or sandbox with network egress blocked at the infrastructure level, combined with tool restrictions. Infrastructure-level controls are the only reliable network barrier.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Security and Sandboxing" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-025",
+    "type": "true_false",
+    "prompt": "Claude Code can be run from the command line to perform one-shot tasks non-interactively, outputting results to stdout.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "Claude Code supports headless, non-interactive execution via `claude -p \"<prompt>\"` or `claude --print`. This mode is designed for scripting, CI/CD pipelines, and automation workflows where no human operator is present. The output goes to stdout and Claude Code exits when the task is complete.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — Headless Mode" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-026",
+    "type": "single_choice",
+    "prompt": "A subagent is spawned to generate API documentation but also executes `git push`. What configuration was missing?",
+    "choices": [
+      { "id": "a", "text": "The subagent's system prompt did not say 'do not push to Git'" },
+      { "id": "b", "text": "The subagent was not given a `max_tokens` limit to prevent runaway actions" },
+      { "id": "c", "text": "The subagent's allowed-tools should have been restricted to Read and Write, excluding Bash (which enables Git commands)" },
+      { "id": "d", "text": "The parent skill did not set a timeout for the subagent to complete" }
+    ],
+    "correct": "c",
+    "explanation": "If the subagent has access to the Bash tool, it can run arbitrary shell commands including `git push`. The correct fix is to restrict the subagent's `allowed-tools` to only the tools required for documentation generation (Read and Write). Without Bash, the subagent has no mechanism to push to Git regardless of what it is instructed to do.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Subagent Tool Restrictions" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-027",
+    "type": "single_choice",
+    "prompt": "Which Claude Code flag tells the session to proceed with tool execution without prompting for user permission on each call?",
+    "choices": [
+      { "id": "a", "text": "--auto-approve" },
+      { "id": "b", "text": "--yes" },
+      { "id": "c", "text": "--dangerously-skip-permissions" },
+      { "id": "d", "text": "--trust-all-tools" }
+    ],
+    "correct": "c",
+    "explanation": "`--dangerously-skip-permissions` bypasses Claude Code's per-tool permission prompts, allowing all tool calls to proceed automatically. The 'dangerously' prefix is intentional — this flag should only be used in trusted, sandboxed automation contexts where the task is well-understood and supervision is not needed.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Permission Flags" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-028",
+    "type": "single_choice",
+    "prompt": "A `PostToolUse` hook is configured with a matcher for the `Write` tool. When does this hook fire?",
+    "choices": [
+      { "id": "a", "text": "Before Claude Code writes a file, allowing the hook to validate or reject the write" },
+      { "id": "b", "text": "After Claude Code successfully completes a file write operation" },
+      { "id": "c", "text": "Whenever the user types a prompt containing the word 'write'" },
+      { "id": "d", "text": "After the entire Claude Code session ends, in a batch post-processing step" }
+    ],
+    "correct": "b",
+    "explanation": "A `PostToolUse` hook fires after the matched tool call completes successfully. For a `Write` tool matcher, this means the hook runs immediately after Claude Code finishes writing a file — the ideal point to run a formatter, linter, or type checker on the newly written file.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — PostToolUse Hook" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-029",
+    "type": "single_choice",
+    "prompt": "A team wants Claude Code to auto-format every TypeScript file immediately after it is written. Which hook configuration achieves this?",
+    "choices": [
+      { "id": "a", "text": "A PreToolUse hook matching Write that runs the formatter before the file is saved" },
+      { "id": "b", "text": "A PostToolUse hook matching Write|Edit that runs `prettier --write $FILE_PATH` after each file change" },
+      { "id": "c", "text": "A Stop hook that runs prettier over the entire project when the session ends" },
+      { "id": "d", "text": "A CLAUDE.md instruction telling Claude to format files before writing them" }
+    ],
+    "correct": "b",
+    "explanation": "A PostToolUse hook matching the Write or Edit tools, running `prettier --write $FILE_PATH`, fires immediately after each file is written or edited. The `$FILE_PATH` environment variable is set by Claude Code to the path of the affected file. This keeps every file formatted in real time without requiring the developer to remember to run the formatter manually.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Format-on-Save Hook" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-030",
+    "type": "multi_choice",
+    "prompt": "Which two CLAUDE.md content patterns most improve Claude Code's output quality for a specific project?",
+    "choices": [
+      { "id": "a", "text": "Listing the project's tech stack and key conventions so Claude generates idiomatic code from the start" },
+      { "id": "b", "text": "Providing explicit instructions for how to run tests and what commands to use for builds" },
+      { "id": "c", "text": "Embedding the entire codebase source in CLAUDE.md so Claude never needs to read files" },
+      { "id": "d", "text": "Listing every file Claude is not allowed to touch to prevent accidental edits" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "CLAUDE.md is most effective when it provides: (1) project-specific context like tech stack, naming conventions, and architectural decisions so Claude's suggestions fit the codebase; and (2) actionable workflow instructions like how to run tests and builds. Embedding the entire codebase wastes context; file prohibition lists should use hooks for enforcement, not CLAUDE.md text.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — CLAUDE.md Best Practices" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-031",
+    "type": "true_false",
+    "prompt": "The Bash tool in Claude Code can execute multi-line shell scripts, not just single-line commands.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "The Bash tool accepts arbitrary shell input, including multi-line scripts with loops, conditionals, and piped commands. This enables complex automation such as running a test suite, processing build output, and applying conditional logic in a single tool call.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — Bash Tool Capabilities" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-032",
+    "type": "single_choice",
+    "prompt": "An operator wants all engineers on a team to automatically connect to the same internal MCP server via Claude Code. How is this configured organization-wide?",
+    "choices": [
+      { "id": "a", "text": "Each engineer manually adds the MCP server to their ~/.claude/settings.json" },
+      { "id": "b", "text": "The MCP server URL is committed to the project's .claude/settings.json so all engineers get it via Git" },
+      { "id": "c", "text": "An enterprise-managed settings policy pushes the MCP server configuration to all Claude Code installations" },
+      { "id": "d", "text": "The MCP server is registered in the project's CLAUDE.md and Claude Code auto-connects on session start" }
+    ],
+    "correct": "c",
+    "explanation": "Enterprise-managed settings allow administrators to push configuration — including MCP server definitions — to all Claude Code installations in the organization. This ensures every engineer automatically connects to approved MCP servers without requiring individual setup, and prevents engineers from connecting to unauthorized servers.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Enterprise MCP Configuration" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-033",
+    "type": "single_choice",
+    "prompt": "What distinguishes the `--allowedTools` CLI flag from the `allowed-tools` field in a SKILL.md?",
+    "choices": [
+      { "id": "a", "text": "`--allowedTools` applies to the entire session; `allowed-tools` in SKILL.md applies only for that skill's invocation" },
+      { "id": "b", "text": "They are functionally identical; one is a CLI alias for the other" },
+      { "id": "c", "text": "`--allowedTools` is only available in Plan Mode; `allowed-tools` works in all modes" },
+      { "id": "d", "text": "`--allowedTools` is more restrictive and always overrides SKILL.md's `allowed-tools`" }
+    ],
+    "correct": "a",
+    "explanation": "`--allowedTools` is a session-level flag passed when launching Claude Code; it restricts the tool set for the entire session. `allowed-tools` in a SKILL.md is scoped to that skill's invocation only — other parts of the session are unaffected. Both serve least-privilege goals but at different scopes.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Tool Restriction Scopes" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-034",
+    "type": "single_choice",
+    "prompt": "What is the effect of using a `#` as the first character on a line in a CLAUDE.md file?",
+    "choices": [
+      { "id": "a", "text": "It marks the line as a comment that Claude Code strips before parsing" },
+      { "id": "b", "text": "It creates a Markdown heading that organizes instructions into a section Claude can navigate" },
+      { "id": "c", "text": "It tells Claude to skip that line when generating code" },
+      { "id": "d", "text": "It creates a machine-readable directive that overrides all other instructions in that section" }
+    ],
+    "correct": "b",
+    "explanation": "CLAUDE.md is a Markdown file. `#` creates Markdown headings (H1, H2, H3 with one, two, or three `#` characters). Claude Code reads CLAUDE.md as Markdown, so headings help organize instructions into logical sections. There is no comment syntax — all content in the file is read and considered by Claude.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — CLAUDE.md Syntax" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-035",
+    "type": "multi_choice",
+    "prompt": "A developer notices Claude Code is sending redundant information on every turn in a long session. Which two features most effectively reduce context bloat?",
+    "choices": [
+      { "id": "a", "text": "/compact — compresses the conversation history into a concise summary to free context window space" },
+      { "id": "b", "text": "Subagents — delegate discrete subtasks with a focused context, avoiding the parent session accumulating all intermediate steps" },
+      { "id": "c", "text": "Adding more detailed CLAUDE.md instructions to pre-answer likely questions" },
+      { "id": "d", "text": "Switching to a more powerful model that handles larger contexts automatically" }
+    ],
+    "correct": ["a", "b"],
+    "explanation": "/compact summarizes the current session history to reduce token count mid-session. Subagents handle discrete tasks in their own isolated context, preventing every intermediate step from accumulating in the parent session's window. Adding CLAUDE.md content increases the initial context load; switching models doesn't reduce context bloat.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Context Management Strategies" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-036",
+    "type": "single_choice",
+    "prompt": "Which built-in Claude Code slash command displays a list of all available slash commands?",
+    "choices": [
+      { "id": "a", "text": "/list" },
+      { "id": "b", "text": "/commands" },
+      { "id": "c", "text": "/help" },
+      { "id": "d", "text": "/skills" }
+    ],
+    "correct": "c",
+    "explanation": "`/help` displays the list of available built-in and custom slash commands in the current Claude Code session. It is the primary discovery mechanism for both built-in features and any custom skills installed in the project or user directories.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — /help Command" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-037",
+    "type": "single_choice",
+    "prompt": "A developer runs `claude -p \"audit for security vulnerabilities\"` in CI. The pipeline hangs indefinitely. What is the most likely cause and fix?",
+    "choices": [
+      { "id": "a", "text": "The -p flag is deprecated; use --print instead. Adding --print resolves the hang." },
+      { "id": "b", "text": "Claude Code is waiting for user permission prompts that have no terminal to respond. Adding `--dangerously-skip-permissions` resolves the hang in a trusted CI context." },
+      { "id": "c", "text": "The task is too complex for non-interactive mode. Use an interactive session instead." },
+      { "id": "d", "text": "The CI pipeline is missing the ANTHROPIC_API_KEY environment variable. Setting it resolves the hang." }
+    ],
+    "correct": "b",
+    "explanation": "In a headless CI environment, Claude Code's interactive permission prompts have no terminal to receive input, causing the process to hang waiting for a response that never comes. The fix for trusted CI pipelines is `--dangerously-skip-permissions`, which bypasses permission prompts. Always ensure the pipeline environment and task scope are well-understood before using this flag.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — CI Headless Execution" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-038",
+    "type": "true_false",
+    "prompt": "Claude Code automatically reads `.env` files in the project root and injects their values as environment variables for the session.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Claude Code does not automatically load `.env` files. Environment variables must be set in the shell before launching Claude Code, or provided via the system environment. Developers who want Claude Code to access environment variables from a `.env` file should source it manually (e.g., `source .env && claude`) or use a tool like `dotenv-cli`.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Environment Variables" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-039",
+    "type": "single_choice",
+    "prompt": "What is the Claude Code equivalent of a system prompt for persistent, always-on project-level instructions?",
+    "choices": [
+      { "id": "a", "text": ".clauderc" },
+      { "id": "b", "text": "CLAUDE.md" },
+      { "id": "c", "text": ".claude/system.txt" },
+      { "id": "d", "text": "claude.config.yaml" }
+    ],
+    "correct": "b",
+    "explanation": "CLAUDE.md serves as the persistent system prompt for Claude Code. It is read at session start and its contents inform every response in the session, providing project context, conventions, and behavioral guidelines — analogous to the system parameter in the Claude messages API.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — CLAUDE.md as System Prompt" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-040",
+    "type": "single_choice",
+    "prompt": "A developer wants Claude Code to automatically run the test suite after every code write and block proceeding if tests fail. What is the correct hook type and mechanism?",
+    "choices": [
+      { "id": "a", "text": "A PreToolUse hook on the Write tool that runs tests before the file is written and blocks the write on test failure" },
+      { "id": "b", "text": "A PostToolUse hook on the Write|Edit tools that runs `npm test` and exits non-zero if tests fail, signaling Claude Code to halt" },
+      { "id": "c", "text": "A Stop hook that runs tests once at the end of the session and reports results" },
+      { "id": "d", "text": "A CLAUDE.md instruction telling Claude to run tests after every edit" }
+    ],
+    "correct": "b",
+    "explanation": "A PostToolUse hook fires after each Write/Edit tool call, runs the test suite, and exits non-zero if tests fail. Claude Code sees the non-zero exit from the hook and treats it as a signal to halt or address the failure before continuing. This provides automated regression prevention without requiring the developer to remember to run tests manually.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Post-Edit Test Hook" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-041",
+    "type": "single_choice",
+    "prompt": "When is providing a screenshot to Claude Code more effective than describing a UI problem in text?",
+    "choices": [
+      { "id": "a", "text": "When the UI change spans more than three component files" },
+      { "id": "b", "text": "When the problem is visual in nature — such as layout shifts, misalignment, or color contrast issues — that are easier to show than to precisely specify in prose" },
+      { "id": "c", "text": "When the developer is on a slow connection and wants to minimize message length" },
+      { "id": "d", "text": "Screenshots are never more effective; Claude Code always performs better with text descriptions" }
+    ],
+    "correct": "b",
+    "explanation": "Visual inputs excel when the problem is inherently visual — a screenshot communicates layout, spacing, color, and element relationships in a single artifact that would take many words to describe precisely and could still be misinterpreted. For text-expressible problems (logic errors, missing API calls), text is sufficient and avoids the token cost of an image.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Visual Input Workflows" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-042",
+    "type": "single_choice",
+    "prompt": "How does a developer provide a screenshot to Claude Code for visual analysis of a UI bug?",
+    "choices": [
+      { "id": "a", "text": "Save the screenshot as a .txt file with base64 encoding and reference its path in the prompt" },
+      { "id": "b", "text": "Drag-and-drop the image into the Claude Code prompt, paste it directly, or reference its file path — Claude Code accepts image input alongside text" },
+      { "id": "c", "text": "Use the /screenshot slash command to trigger an automated screen capture" },
+      { "id": "d", "text": "Visual inputs are only supported via the raw API; Claude Code does not accept image files in the prompt" }
+    ],
+    "correct": "b",
+    "explanation": "Claude Code accepts image input through several mechanisms: dragging and dropping an image file into the prompt, pasting an image from the clipboard, or referencing a file path. The image is included as a visual content block alongside any accompanying text instructions, allowing Claude to reason about both simultaneously.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Providing Images in the Prompt" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-043",
+    "type": "single_choice",
+    "prompt": "A developer needs to report a UI bug where a dropdown overlaps a modal on mobile screens. Which approach gives Claude Code the most actionable context for fixing the issue?",
+    "choices": [
+      { "id": "a", "text": "Provide only a detailed text description of the overlap with estimated pixel values for each element" },
+      { "id": "b", "text": "Provide a screenshot showing the rendered overlap alongside the relevant component source files, so Claude can correlate the visual state with the code" },
+      { "id": "c", "text": "Provide a screen recording in MP4 format so Claude Code can observe the full interaction sequence" },
+      { "id": "d", "text": "Provide the CSS file paths only and let Claude infer the visual bug from the styles" }
+    ],
+    "correct": "b",
+    "explanation": "Combining a screenshot with the relevant source files gives Claude Code the most complete picture: it can see the exact visual problem in the rendered UI and simultaneously reason about the CSS and component code that produced it. Text descriptions of visual bugs are often imprecise; CSS alone lacks the rendered context. Claude Code does not process video files.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Visual Input Best Practices" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-044",
+    "type": "single_choice",
+    "prompt": "A developer creates a slash command at `.claude/commands/deploy.md`. Which users and sessions does this command become available to?",
+    "choices": [
+      { "id": "a", "text": "All Claude Code users on the same machine, regardless of which project they are working in" },
+      { "id": "b", "text": "Only sessions running within that project directory. Project-level slash commands in `.claude/commands/` are scoped to that project; user-level commands go in `~/.claude/commands/` and are globally available." },
+      { "id": "c", "text": "All users in the organization, because `.claude/commands/` is an organization-level configuration directory" },
+      { "id": "d", "text": "Only sessions where CLAUDE.md explicitly lists the command by name" }
+    ],
+    "correct": "b",
+    "explanation": "Slash command scope is determined by where the command file lives. A command placed in `.claude/commands/` inside a project directory is scoped to sessions running within that project. Commands that should be globally available to all projects must be placed in the user-level `~/.claude/commands/` directory. CLAUDE.md does not need to list commands for them to be active.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Slash Command Scoping" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-045",
+    "type": "single_choice",
+    "prompt": "A team wants a coding style rule that applies only to `*.test.tsx` files scattered across many directories in a monorepo. Which mechanism is specifically designed for this use case?",
+    "choices": [
+      { "id": "a", "text": "A CLAUDE.md file placed in each directory that contains test files" },
+      { "id": "b", "text": "A rules file in `.claude/rules/` with YAML `paths:` glob frontmatter (e.g., `paths: [\"**/*.test.tsx\"]`) that targets scattered file patterns regardless of directory structure" },
+      { "id": "c", "text": "A global `~/.claude/CLAUDE.md` with a section explicitly listing each test directory" },
+      { "id": "d", "text": "A PostToolUse hook that checks the file extension and applies rules conditionally" }
+    ],
+    "correct": "b",
+    "explanation": "Rules files in `.claude/rules/` support YAML `paths:` frontmatter with glob patterns, making them the correct tool for applying rules to scattered file patterns. A glob like `**/*.test.tsx` targets all matching files regardless of how many directories they span, without requiring a CLAUDE.md in every directory. CLAUDE.md is directory-bound and would require duplication across every test directory in the monorepo.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Rules Files and Path Globs" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-046",
+    "type": "single_choice",
+    "prompt": "Which statement best describes when to use a rules file (`.claude/rules/`) over a directory-scoped `CLAUDE.md`?",
+    "choices": [
+      { "id": "a", "text": "Rules files are exclusively for security restrictions; CLAUDE.md is used for all other types of instructions" },
+      { "id": "b", "text": "Rules files with glob patterns are the correct choice when conventions need to apply to files scattered across multiple directories; CLAUDE.md is directory-bound while rules files are pattern-bound." },
+      { "id": "c", "text": "CLAUDE.md always takes precedence over rules files when both apply to the same file" },
+      { "id": "d", "text": "Rules files are loaded only when Claude Code is running in CI mode; CLAUDE.md is used in interactive mode" }
+    ],
+    "correct": "b",
+    "explanation": "The distinction is scope mechanism: CLAUDE.md instructions apply to everything within and below its directory. Rules files use file-path globs and apply to any file matching the pattern anywhere in the project. When a rule should follow a file type (e.g., all test files, all migration files, all API route handlers) rather than a directory location, a rules file with a `paths:` glob is the appropriate mechanism. The two can coexist; neither universally takes precedence.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Rules Files vs CLAUDE.md" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-047",
+    "type": "single_choice",
+    "prompt": "A skill that performs a large multi-step analysis should not pollute the parent session's context window with intermediate reasoning. Which SKILL.md frontmatter setting achieves this?",
+    "choices": [
+      { "id": "a", "text": "`allowed-tools: []` restricts the skill's tool access, which prevents intermediate tool calls from appearing in the parent context" },
+      { "id": "b", "text": "`context: fork` runs the skill in an isolated subagent context, keeping all intermediate tool calls and reasoning out of the parent session's context window" },
+      { "id": "c", "text": "Adding `/compact` as the first line of the skill body compresses the skill's output before it is returned to the parent" },
+      { "id": "d", "text": "Setting `max_tokens` in the frontmatter limits the skill's output size and prevents context overflow" }
+    ],
+    "correct": "b",
+    "explanation": "`context: fork` is the frontmatter setting that runs a skill in a forked subagent context. All intermediate reasoning, tool calls, and exploration the skill performs remain in the subagent's isolated context window. Only the final result is returned to the parent session. This is the canonical pattern for context-heavy analysis skills that should not consume the parent's context budget with intermediate work.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — SKILL.md Frontmatter Reference" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-048",
+    "type": "single_choice",
+    "prompt": "A developer wants users to see a helpful hint when they type `/analyze-file` in Claude Code, reminding them to provide a file path. Which SKILL.md frontmatter field configures this hint?",
+    "choices": [
+      { "id": "a", "text": "`description` — this field provides the one-line summary shown in the skills list" },
+      { "id": "b", "text": "`argument-hint` — this field sets the placeholder text shown after the slash command name, guiding the user on what argument to supply" },
+      { "id": "c", "text": "`usage` — this field defines a usage string that appears when the command is invoked without arguments" },
+      { "id": "d", "text": "`placeholder` — this field sets the inline input prompt for the command" }
+    ],
+    "correct": "b",
+    "explanation": "`argument-hint` is the SKILL.md frontmatter field that configures the hint text displayed after the slash command name when a user types the command. For example, setting `argument-hint: \"<file-path>\"` would render as `/analyze-file <file-path>` in the autocomplete or inline prompt, guiding the user to provide the required argument. The `description` field is for the skills list summary, not inline argument guidance.",
+    "topics": ["claude-code"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Claude Code — SKILL.md Frontmatter Reference" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-049",
+    "type": "single_choice",
+    "prompt": "A developer suspects Claude Code has not loaded a CLAUDE.md file they recently added to a subdirectory. Which built-in command lets them verify which instruction files are currently loaded in the session?",
+    "choices": [
+      { "id": "a", "text": "`/config` — displays the active configuration including loaded instruction files" },
+      { "id": "b", "text": "`/debug` — outputs diagnostic information including CLAUDE.md load status" },
+      { "id": "c", "text": "`/memory` — displays all currently loaded CLAUDE.md and rules files, letting the developer confirm what Claude Code has read and from which paths" },
+      { "id": "d", "text": "`--list-context` passed as a CLI flag shows all loaded instruction files at session start" }
+    ],
+    "correct": "c",
+    "explanation": "`/memory` is the built-in Claude Code command that displays all currently loaded CLAUDE.md files and rules files, along with their paths. This is the authoritative way to verify that a newly added instruction file has been picked up by the session. `/config`, `/debug`, and `--list-context` are not valid Claude Code commands for this purpose.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — /memory Command" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-050",
+    "type": "single_choice",
+    "prompt": "A CI pipeline needs Claude Code to run non-interactively and emit results as machine-parseable JSON. A developer proposes using `CLAUDE_HEADLESS=true` and `--batch` flags. What is wrong with this approach?",
+    "choices": [
+      { "id": "a", "text": "Both flags are valid but must be combined with `--output-format json`; the flags alone do not enable JSON output" },
+      { "id": "b", "text": "Neither `CLAUDE_HEADLESS` nor `--batch` exist in Claude Code. The correct flags are `-p` (or `--print`) for non-interactive mode and `--output-format json` for structured JSON output." },
+      { "id": "c", "text": "`CLAUDE_HEADLESS=true` is correct but `--batch` should be replaced with `--silent`" },
+      { "id": "d", "text": "`--batch` is the correct flag but `CLAUDE_HEADLESS` must be set to `1`, not `true`" }
+    ],
+    "correct": "b",
+    "explanation": "`CLAUDE_HEADLESS` and `--batch` are not valid Claude Code flags — they are common exam distractors. For non-interactive CI usage, the correct flag is `-p` (short for `--print`), which runs Claude Code headlessly without requiring user input. To receive structured JSON output, use `--output-format json` (optionally combined with `--json-schema` to enforce a specific schema). Knowing which flags are real versus invented is a key exam skill.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — CLI Reference and Non-Interactive Mode" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-051",
+    "type": "single_choice",
+    "prompt": "A developer asks Claude Code to review the code it just wrote in the same session. The review identifies no issues. A second developer runs an independent Claude Code session against the same code and finds three bugs. What does this illustrate?",
+    "choices": [
+      { "id": "a", "text": "The second session used a different model version with better code analysis capability" },
+      { "id": "b", "text": "The generating session retains its own reasoning context and anchors — it will not question decisions it just made. Independent review sessions produce more reliable findings because they have no prior attachment to the code." },
+      { "id": "c", "text": "Self-review is equally reliable if the session context is first cleared with `/clear` before requesting the review" },
+      { "id": "d", "text": "The first session lacked the necessary file-reading tools to perform a thorough review" }
+    ],
+    "correct": "b",
+    "explanation": "A session that generated code is anchored to the reasoning and assumptions behind that code. It is unlikely to challenge its own decisions because those decisions are part of its context. An independent session has no attachment to the code — it approaches the review without prior framing, making it more likely to surface bugs, design flaws, and missed cases. This is why independent code review, using a fresh session with no history of the code's creation, produces more reliable findings than self-review.",
+    "topics": ["claude-code"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Claude Code — Independent Review Sessions" }],
+    "version": 1
+  },
+  {
+    "id": "ccaf-cc-052",
+    "type": "single_choice",
+    "prompt": "A rules file contains this frontmatter:\n```yaml\n---\npaths:\n  - \"src/api/**/*.ts\"\n  - \"src/middleware/**/*.ts\"\n---\n```\nTo which files will Claude Code apply this rule?",
+    "choices": [
+      { "id": "a", "text": "All TypeScript files in the entire project, because the rule is in a project-level `.claude/rules/` directory" },
+      { "id": "b", "text": "Only the exact literal paths `src/api/**/*.ts` and `src/middleware/**/*.ts` as written" },
+      { "id": "c", "text": "Only TypeScript files within `src/api/` and `src/middleware/` and their subdirectories; all other files are unaffected" },
+      { "id": "d", "text": "The `paths:` field is ignored and the rule applies globally across all files in the project" }
+    ],
+    "correct": "c",
+    "explanation": "The `paths:` frontmatter field uses glob patterns to scope a rule to specific file trees. The pattern `src/api/**/*.ts` matches all `.ts` files anywhere within `src/api/` and its subdirectories; `src/middleware/**/*.ts` does the same for `src/middleware/`. Files outside these trees are not affected. This is the purpose of path-scoped rules: precision targeting without modifying CLAUDE.md or affecting unrelated parts of the codebase.",
+    "topics": ["claude-code"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Claude Code — Rules Files and Path Globs" }],
+    "version": 1
+  }
+]

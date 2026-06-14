@@ -1,0 +1,634 @@
+[
+  {
+    "id": "sn-csa-notif-001",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, when does a notification trigger if configured with 'Record inserted or updated'?",
+    "choices": [
+      { "id": "a", "text": "Only when a new record is created" },
+      { "id": "b", "text": "Only when a specific field value changes" },
+      { "id": "c", "text": "When a record is first created OR when it is updated, based on the conditions" },
+      { "id": "d", "text": "Only on a scheduled basis regardless of record changes" }
+    ],
+    "correct": "c",
+    "explanation": "'Record inserted or updated' means the notification can fire both on creation and on update events. Additional 'When to send' conditions narrow down which specific changes trigger the notification.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-002",
+    "type": "single_choice",
+    "prompt": "Which field in a ServiceNow notification determines who receives the email?",
+    "choices": [
+      { "id": "a", "text": "Trigger conditions" },
+      { "id": "b", "text": "Recipients" },
+      { "id": "c", "text": "Message template" },
+      { "id": "d", "text": "Notification type" }
+    ],
+    "correct": "b",
+    "explanation": "The Recipients section of a notification defines who receives the message. Recipients can be specific users, groups, email fields on the record (e.g., 'Caller email'), or dynamically resolved via scripts.",
+    "topics": ["notifications"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-003",
+    "type": "single_choice",
+    "prompt": "What is the purpose of a notification 'template' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "To define which records trigger the notification" },
+      { "id": "b", "text": "To store reusable subject and body content for emails" },
+      { "id": "c", "text": "To schedule when emails are sent" },
+      { "id": "d", "text": "To configure SMTP server settings" }
+    ],
+    "correct": "b",
+    "explanation": "Notification templates store reusable email subject and body content, including dynamic field references. Multiple notifications can share a single template, making maintenance easier when message content needs to change.",
+    "topics": ["notifications"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-004",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is the 'When to send' field on a notification configured with 'Record inserted' used for?",
+    "choices": [
+      { "id": "a", "text": "To schedule the notification for a future time after the record is created" },
+      { "id": "b", "text": "To restrict the notification to only fire when a new record matching the notification's conditions is first created" },
+      { "id": "c", "text": "To determine the email delivery window (business hours only)" },
+      { "id": "d", "text": "To set a delay before the notification fires after record creation" }
+    ],
+    "correct": "b",
+    "explanation": "Setting 'When to send' to 'Record inserted' ensures the notification only fires when a new record is created, not when an existing record is updated. This is used for new incident acknowledgment emails or onboarding notifications triggered at record creation.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-005",
+    "type": "single_choice",
+    "prompt": "How does a ServiceNow notification reference a field value from the triggering record in its email body?",
+    "choices": [
+      { "id": "a", "text": "Using JavaScript to query the record" },
+      { "id": "b", "text": "Using the variable syntax ${field_name} to insert the field value dynamically" },
+      { "id": "c", "text": "Using XML tags in the email body template" },
+      { "id": "d", "text": "Field values cannot be inserted dynamically; templates are static text only" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow notification email bodies use the ${field_name} syntax to dynamically insert values from the triggering record. For example, ${number} inserts the incident number, and ${short_description} inserts the short description. This makes notifications informative and contextual.",
+    "topics": ["notifications"],
+    "difficulty": "easy",
+    "refs": [
+      { "label": "Notification Variables", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/administer/notification/concept/c_NotificationVariables.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-006",
+    "type": "single_choice",
+    "prompt": "What is an 'Email Digest' in ServiceNow notifications?",
+    "choices": [
+      { "id": "a", "text": "A compressed email that removes duplicate notifications" },
+      { "id": "b", "text": "A single bundled email that aggregates multiple individual notifications into one message on a schedule" },
+      { "id": "c", "text": "An email log that records all outbound notifications" },
+      { "id": "d", "text": "A summary report of all failed email deliveries" }
+    ],
+    "correct": "b",
+    "explanation": "Email Digests in ServiceNow aggregate multiple individual notification events into a single bundled email sent on a schedule (e.g., daily or hourly). This reduces email noise for recipients who would otherwise receive many individual notifications and is controlled through notification preferences.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-007",
+    "type": "single_choice",
+    "prompt": "What are 'Notification Subscriptions' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "API subscriptions that external systems use to receive ServiceNow event data" },
+      { "id": "b", "text": "A feature that allows users to opt in or out of specific notifications based on their preferences" },
+      { "id": "c", "text": "Licensing agreements for the ServiceNow notification module" },
+      { "id": "d", "text": "Rules that subscribe new group members to all group notifications automatically" }
+    ],
+    "correct": "b",
+    "explanation": "Notification Subscriptions let users manage which notifications they receive. Administrators mark notifications as 'subscribable', and users can then opt in or out of those notifications through their notification preferences. This gives users control over their notification volume.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-008",
+    "type": "single_choice",
+    "prompt": "What is an 'Inbound Email Action' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "An action triggered when an outbound email bounces" },
+      { "id": "b", "text": "A rule that processes incoming emails and performs actions like creating or updating records based on the email content" },
+      { "id": "c", "text": "A block list rule that rejects emails from specific senders" },
+      { "id": "d", "text": "A scheduled job that imports emails from an external mailbox" }
+    ],
+    "correct": "b",
+    "explanation": "Inbound Email Actions in ServiceNow define how incoming emails are processed. For example, they can create a new incident from an emailed support request, update an existing record when a reply is received (reply tracking), or route the email to specific queues based on subject or sender rules.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Inbound Email Actions", "url": "https://docs.servicenow.com/bundle/washingtondc-it-service-management/page/administer/notification/concept/c_InboundEmailActions.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-009",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is 'Reply Tracking' in the context of inbound email?",
+    "choices": [
+      { "id": "a", "text": "A report showing how often users reply to ServiceNow notifications" },
+      { "id": "b", "text": "A feature that embeds a unique token in outbound emails so that replies can be matched to the originating record and appended to it" },
+      { "id": "c", "text": "A tool for monitoring unread emails in a shared inbox" },
+      { "id": "d", "text": "A feature that tracks email open rates and read receipts" }
+    ],
+    "correct": "b",
+    "explanation": "Reply Tracking allows ServiceNow to associate email replies with the original record. When an outbound notification is sent, a unique token (watermark) is embedded in the email. When the recipient replies, ServiceNow parses the token and appends the reply as a work note or comment on the correct record.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-010",
+    "type": "single_choice",
+    "prompt": "Which notification property in ServiceNow is used to configure the SMTP server for sending outbound emails?",
+    "choices": [
+      { "id": "a", "text": "glide.email.outbound.enabled" },
+      { "id": "b", "text": "glide.smtp.server" },
+      { "id": "c", "text": "notification.smtp.host" },
+      { "id": "d", "text": "email.outbound.smtp" }
+    ],
+    "correct": "b",
+    "explanation": "The system property 'glide.smtp.server' (along with related properties for port, authentication, and TLS) configures the SMTP server used to send outbound emails from ServiceNow. These are found in System Properties > Email.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-011",
+    "type": "true_false",
+    "prompt": "ServiceNow notifications can be triggered by system events in addition to direct record insertions and updates.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow notifications support event-based triggering. Notifications can be configured to fire when a specific named event (such as 'incident.commented' or a custom event) is fired by a business rule or script. This provides flexible, decoupled notification triggering beyond simple record changes.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-012",
+    "type": "single_choice",
+    "prompt": "When configuring a ServiceNow notification, which recipient type allows the notification to be sent to the email address stored in a specific field on the record?",
+    "choices": [
+      { "id": "a", "text": "Users" },
+      { "id": "b", "text": "Groups" },
+      { "id": "c", "text": "Email field on current record" },
+      { "id": "d", "text": "Script" }
+    ],
+    "correct": "c",
+    "explanation": "The 'Email field on current record' recipient type allows a notification to be sent to whatever email address is stored in a designated field on the triggering record. This is commonly used to email the Caller's email address or a vendor contact field without hard-coding specific users.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-013",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, where would an administrator go to test a notification and preview the email that would be sent?",
+    "choices": [
+      { "id": "a", "text": "System Diagnostics > Email Log" },
+      { "id": "b", "text": "On the notification record, using the 'Preview Notification' or 'Test' button" },
+      { "id": "c", "text": "System Properties > Email > Test Connection" },
+      { "id": "d", "text": "Notifications cannot be tested; they must be triggered by live record changes" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow provides a Preview or Test function directly on notification records, allowing administrators to see a rendered preview of the email subject and body using sample data from a specified record. This helps verify content and variable substitution before the notification goes live.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-014",
+    "type": "single_choice",
+    "prompt": "What is the difference between 'HTML' and 'Plain Text' email formats in a ServiceNow notification?",
+    "choices": [
+      { "id": "a", "text": "HTML emails include attachments; plain text emails do not" },
+      { "id": "b", "text": "HTML allows rich formatting, colors, and images; plain text contains only unformatted characters" },
+      { "id": "c", "text": "HTML emails are sent via SMTP; plain text emails are sent via the ServiceNow API" },
+      { "id": "d", "text": "Plain text emails are encrypted; HTML emails are not" }
+    ],
+    "correct": "b",
+    "explanation": "HTML notifications support rich formatting including bold/italic text, colors, tables, images, and hyperlinks. Plain text notifications contain only unformatted characters. ServiceNow notifications can include both versions, and the recipient's email client will display the appropriate format based on its capabilities.",
+    "topics": ["notifications"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-015",
+    "type": "single_choice",
+    "prompt": "What does the 'Category' field on a ServiceNow notification record provide?",
+    "choices": [
+      { "id": "a", "text": "Determines the priority of the notification in the email queue" },
+      { "id": "b", "text": "Groups related notifications together for organizational purposes and enables bulk management of notification subscriptions" },
+      { "id": "c", "text": "Identifies the ITSM process the notification belongs to" },
+      { "id": "d", "text": "Controls which email domain the notification is sent from" }
+    ],
+    "correct": "b",
+    "explanation": "The Category field on a notification groups related notifications together. This is useful for organizing the notification list and for notification subscriptions, where users can opt in or out of entire categories of notifications at once rather than managing each one individually.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-016",
+    "type": "true_false",
+    "prompt": "In ServiceNow, a notification can be suppressed so that it does not fire even when all its trigger conditions are met.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "Notifications in ServiceNow can be suppressed in several ways: via the Active flag on the notification record (disabling it entirely), via notification suppression rules, or by setting the 'glide.notification.suppress_all' system property. Individual users can also suppress specific subscribable notifications.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-017",
+    "type": "single_choice",
+    "prompt": "What is a 'Notification Device' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A registered mobile device used to receive push notifications" },
+      { "id": "b", "text": "A channel through which a notification is delivered, such as email or SMS" },
+      { "id": "c", "text": "A hardware device used by ServiceNow's data center to send notifications" },
+      { "id": "d", "text": "A secondary email address configured on a user account" }
+    ],
+    "correct": "b",
+    "explanation": "Notification Devices in ServiceNow represent delivery channels for notifications. The two primary device types are email and SMS. Users can have multiple devices configured (e.g., work email, personal SMS), and notification subscriptions can specify which device type should receive each notification.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-018",
+    "type": "single_choice",
+    "prompt": "How does ServiceNow determine which users are on a notification's 'Users/Groups in Fields' recipient list?",
+    "choices": [
+      { "id": "a", "text": "It sends to all users who have the field name listed in their job title" },
+      { "id": "b", "text": "It looks up the user or group referenced in the specified field on the triggering record and sends to them" },
+      { "id": "c", "text": "It looks up all users who have created records in the specified field" },
+      { "id": "d", "text": "It sends to all members of the assignment group regardless of which field is specified" }
+    ],
+    "correct": "b",
+    "explanation": "The 'Users/Groups in Fields' recipient type in ServiceNow dynamically resolves recipients by looking at the value stored in a specified reference field on the triggering record. For example, if you specify the 'Assigned To' field, ServiceNow sends the notification to whoever is currently assigned to the incident.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-019",
+    "type": "single_choice",
+    "prompt": "Which table in ServiceNow stores all outbound email records for logging and troubleshooting?",
+    "choices": [
+      { "id": "a", "text": "sys_email" },
+      { "id": "b", "text": "sysevent_email_log" },
+      { "id": "c", "text": "notification_log" },
+      { "id": "d", "text": "sys_notification_log" }
+    ],
+    "correct": "a",
+    "explanation": "The sys_email table in ServiceNow stores all outbound and inbound email records. Each email record shows the status (queued, sent, failed), the recipient, the subject, the body, and related metadata. Administrators use this table to troubleshoot email delivery issues.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-020",
+    "type": "single_choice",
+    "prompt": "What happens when a ServiceNow notification's 'Active' field is set to false?",
+    "choices": [
+      { "id": "a", "text": "The notification is archived but can still fire for admin users" },
+      { "id": "b", "text": "The notification is completely disabled and will not fire regardless of trigger conditions" },
+      { "id": "c", "text": "The notification fires but goes to a quarantine folder instead of recipients" },
+      { "id": "d", "text": "The notification runs but only sends to the system administrator" }
+    ],
+    "correct": "b",
+    "explanation": "Setting a notification's Active field to false completely disables the notification. It will not fire even if all trigger conditions are met. This is the standard way to temporarily or permanently deactivate a notification without deleting it.",
+    "topics": ["notifications"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-021",
+    "type": "true_false",
+    "prompt": "In ServiceNow, the same notification record can send both email and SMS messages to recipients simultaneously.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Each ServiceNow notification record is tied to a specific delivery method (email or SMS). Separate notification records must be created for each delivery channel. Users with both email and SMS devices configured can receive notifications on both channels if separate notifications are defined for each.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-022",
+    "type": "single_choice",
+    "prompt": "What is the 'Notification Event' (event-based) trigger type in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A trigger that fires when any event is logged in the system event log" },
+      { "id": "b", "text": "A trigger that fires when a specific named event (e.g., 'incident.commented') is fired by a script or business rule" },
+      { "id": "c", "text": "A trigger that fires on a calendar event date matching a field value" },
+      { "id": "d", "text": "A trigger that fires when a user logs into the system" }
+    ],
+    "correct": "b",
+    "explanation": "Event-based notifications in ServiceNow are triggered when a specific named event is fired using gs.eventQueue(). For example, a business rule might fire an 'incident.sla.breached' event, which triggers a notification to alert the team. This decouples notification logic from the business rule.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-023",
+    "type": "single_choice",
+    "prompt": "In ServiceNow notification configuration, what does the 'Topic' field enable?",
+    "choices": [
+      { "id": "a", "text": "Categorizing notifications for organizational purposes and enabling fine-grained subscription control by topic" },
+      { "id": "b", "text": "Setting the email subject line content automatically from a topic record" },
+      { "id": "c", "text": "Routing notifications to specific email servers based on topic" },
+      { "id": "d", "text": "Defining which fields are included in the notification body" }
+    ],
+    "correct": "a",
+    "explanation": "The Topic field on a notification record groups notifications within a category. Topics allow users to subscribe to or unsubscribe from specific topics of notifications within a category. For example, users might subscribe to the 'Incident Assigned to Me' topic but not the 'Incident State Changed' topic.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-024",
+    "type": "single_choice",
+    "prompt": "What system property must be enabled for ServiceNow to send outbound email notifications?",
+    "choices": [
+      { "id": "a", "text": "glide.email.outbound.active = true" },
+      { "id": "b", "text": "notification.enabled = true" },
+      { "id": "c", "text": "glide.notification.active = true" },
+      { "id": "d", "text": "email.send.enabled = true" }
+    ],
+    "correct": "a",
+    "explanation": "The system property 'glide.email.outbound.active' (or 'glide.email.active' in some versions) controls whether ServiceNow will send outbound emails. On non-production instances, this is often set to false or pointed to a test mailbox to prevent accidental emails to real users.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-025",
+    "type": "single_choice",
+    "prompt": "Which inbound email action rule type in ServiceNow processes replies to existing notifications and updates the source record?",
+    "choices": [
+      { "id": "a", "text": "Reply action" },
+      { "id": "b", "text": "Default action" },
+      { "id": "c", "text": "Create action" },
+      { "id": "d", "text": "Update action" }
+    ],
+    "correct": "a",
+    "explanation": "A Reply inbound email action type matches incoming emails that contain a watermark (reply-tracking token) from a previously sent notification and appends the email content to the appropriate record as a comment or work note. This enables email-based conversation threads tied to ServiceNow records.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-026",
+    "type": "true_false",
+    "prompt": "In ServiceNow, notification conditions can use JavaScript scripts to dynamically determine whether the notification should fire.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow notifications support both standard conditions (field-value filters) and advanced script-based conditions. The 'Advanced condition' field on a notification allows administrators to write server-side JavaScript that returns true or false, enabling complex conditional logic for notification triggering.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-027",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Weight' field on recipient entries within a ServiceNow notification?",
+    "choices": [
+      { "id": "a", "text": "It controls the order in which recipients are listed in the To field of the email" },
+      { "id": "b", "text": "It ensures that when a user qualifies under multiple recipient rules, they only receive one copy of the notification" },
+      { "id": "c", "text": "It prioritizes the delivery order when the email queue is under load" },
+      { "id": "d", "text": "It determines the importance flag (high/normal/low) set on the email" }
+    ],
+    "correct": "b",
+    "explanation": "The Weight field on notification recipient entries helps ServiceNow de-duplicate recipients when a user qualifies under multiple recipient rules. The system ensures that even if a user matches several recipient criteria (e.g., directly listed AND in an assigned group), they receive only one copy of the notification.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-028",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, on which table is a notification configured to fire, and how does that control which events trigger it?",
+    "choices": [
+      { "id": "a", "text": "Notifications are table-independent and fire based on conditions alone" },
+      { "id": "b", "text": "The 'Table' field on the notification specifies which table's record events (insert/update) can trigger the notification" },
+      { "id": "c", "text": "Notifications are always configured on the sys_task table and filter by record type" },
+      { "id": "d", "text": "The table is determined automatically by the notification's event name" }
+    ],
+    "correct": "b",
+    "explanation": "Every ServiceNow notification has a 'Table' field that specifies which table's events can trigger it. When a record in that table is inserted or updated (or when a matching event fires), the notification evaluates its conditions. This scoping ensures the notification only processes relevant record changes.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-029",
+    "type": "single_choice",
+    "prompt": "What is a 'Notification Category' in ServiceNow used for, from the end-user perspective?",
+    "choices": [
+      { "id": "a", "text": "It categorizes notifications by urgency for email client filtering" },
+      { "id": "b", "text": "It groups related notifications so users can manage subscription preferences at the category level" },
+      { "id": "c", "text": "It assigns notifications to specific approval queues" },
+      { "id": "d", "text": "It determines the font and color scheme of the email template" }
+    ],
+    "correct": "b",
+    "explanation": "Notification Categories group related notifications together in the subscription preferences UI. Users can choose to subscribe or unsubscribe from all notifications within a category at once, rather than managing each notification individually. For example, a 'Incidents' category might contain several incident-related notifications.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-030",
+    "type": "true_false",
+    "prompt": "A ServiceNow notification configured on the Incident table will also fire for Change Request records, because both extend the Task table.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Notifications in ServiceNow are scoped to a specific table. A notification on the Incident [incident] table fires only for Incident records, not for Change Request or other Task child records. If you need a notification to cover multiple record types, you would create separate notifications on each table.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-031",
+    "type": "single_choice",
+    "prompt": "What does the 'Send to event creator' checkbox on a ServiceNow notification do when enabled?",
+    "choices": [
+      { "id": "a", "text": "Sends the notification to the user who originally created the record (the caller or requester)" },
+      { "id": "b", "text": "Sends the notification to whoever triggered the event or made the record change that fired the notification" },
+      { "id": "c", "text": "Sends a copy of the notification to the system administrator for auditing" },
+      { "id": "d", "text": "Creates a duplicate event in the system event log" }
+    ],
+    "correct": "b",
+    "explanation": "The 'Send to event creator' option on a notification causes the email to also be sent to the user whose action triggered the event (e.g., the person who updated the record). By default, ServiceNow suppresses notifications to the user who caused the change; this option overrides that suppression.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-032",
+    "type": "single_choice",
+    "prompt": "How would an administrator confirm that a specific notification was sent for a particular incident in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "Check the incident's audit history for a notification entry" },
+      { "id": "b", "text": "Check the sys_email table for an email record linked to the incident or matching the incident number" },
+      { "id": "c", "text": "Run the notification manually from the notification definition" },
+      { "id": "d", "text": "Ask the recipient to confirm receipt" }
+    ],
+    "correct": "b",
+    "explanation": "The sys_email table logs all outbound emails sent by ServiceNow. By filtering or searching the sys_email table for the incident number or recipient, an administrator can confirm whether the notification was queued, sent successfully, or failed. The email record includes delivery status and timestamps.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-033",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what does the 'Mandatory' attribute on a subscribable notification mean?",
+    "choices": [
+      { "id": "a", "text": "Users must confirm receipt of the notification by replying" },
+      { "id": "b", "text": "Users cannot unsubscribe from the notification; it will always be sent to qualifying recipients" },
+      { "id": "c", "text": "The notification must be approved by an administrator before firing" },
+      { "id": "d", "text": "The notification is required for compliance and logged separately" }
+    ],
+    "correct": "b",
+    "explanation": "When a notification is marked as Mandatory, users cannot opt out of it through their notification subscription preferences. Mandatory notifications are used for critical alerts (such as system outage notifications or security alerts) that every qualifying user must receive.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-034",
+    "type": "multi_choice",
+    "prompt": "Which of the following can be configured as notification recipients in ServiceNow? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "Specific users by name" },
+      { "id": "b", "text": "Groups" },
+      { "id": "c", "text": "Users in a reference field on the record (e.g., Assigned To)" },
+      { "id": "d", "text": "External email addresses not registered as users" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "ServiceNow notifications support all of these recipient types: specific named users, groups (which resolve to all group members), reference fields on the record (dynamically resolving to whoever is in that field), and external email addresses (entered directly as email text). This flexibility makes ServiceNow notifications highly configurable.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-035",
+    "type": "single_choice",
+    "prompt": "What is the effect of enabling 'glide.notification.suppress_all' in ServiceNow system properties?",
+    "choices": [
+      { "id": "a", "text": "It suppresses all notifications except those to administrators" },
+      { "id": "b", "text": "It prevents all outbound notifications from being sent system-wide" },
+      { "id": "c", "text": "It suppresses duplicate notifications within a 24-hour window" },
+      { "id": "d", "text": "It converts all HTML notifications to plain text" }
+    ],
+    "correct": "b",
+    "explanation": "Setting glide.notification.suppress_all to true prevents all outbound notifications from being sent across the entire instance. This is commonly used during maintenance windows, upgrades, or on non-production instances to prevent accidental notifications to real users.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-036",
+    "type": "true_false",
+    "prompt": "In ServiceNow, a notification can include attachments from the triggering record in its outbound email.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow notifications can be configured to include attachments from the triggering record. When the 'Include attachments' option is enabled, any files attached to the record will be included as email attachments in the outbound notification. This is useful for sending supporting documents alongside notifications.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-037",
+    "type": "single_choice",
+    "prompt": "What does the notification 'Condition' field control in a ServiceNow notification definition?",
+    "choices": [
+      { "id": "a", "text": "The schedule on which the notification evaluates eligible records" },
+      { "id": "b", "text": "The filter criteria that the triggering record must match for the notification to fire" },
+      { "id": "c", "text": "The condition under which the notification is visible to users in their preferences" },
+      { "id": "d", "text": "The recipient filtering condition to narrow down who in a group receives the email" }
+    ],
+    "correct": "b",
+    "explanation": "The Condition field on a notification acts as a filter on the triggering record. Only records that satisfy the condition will cause the notification to fire. For example, a condition of 'Priority is 1 AND State is New' ensures the notification fires only for new P1 incidents.",
+    "topics": ["notifications"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-038",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what does the '${URI_REF}' variable in a notification email body render?",
+    "choices": [
+      { "id": "a", "text": "The full XML representation of the triggering record" },
+      { "id": "b", "text": "A clickable hyperlink to the triggering record in ServiceNow" },
+      { "id": "c", "text": "The API endpoint URL for the record" },
+      { "id": "d", "text": "The ServiceNow instance base URL without a specific record path" }
+    ],
+    "correct": "b",
+    "explanation": "The ${URI_REF} built-in variable in ServiceNow notification templates renders as a clickable hyperlink that takes the recipient directly to the triggering record in the ServiceNow UI. This is standard practice in notification bodies to give recipients quick access to the record they were notified about.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-039",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'Notification Preference' (sys_notification_preference) records in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "System-level default configuration for all outbound notifications" },
+      { "id": "b", "text": "Per-user records that track which subscribable notifications each user has opted into or out of" },
+      { "id": "c", "text": "Cached copies of previously sent notifications for performance optimization" },
+      { "id": "d", "text": "Templates that define the preferred notification format (HTML vs plain text)" }
+    ],
+    "correct": "b",
+    "explanation": "sys_notification_preference records store each individual user's subscription choices for subscribable notifications. When a notification is configured as subscribable, the platform creates or updates these records to reflect whether each user wants to receive that notification. Administrators can view and manage these records.",
+    "topics": ["notifications"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-notif-040",
+    "type": "true_false",
+    "prompt": "In ServiceNow, a single notification record can be configured to trigger for events from multiple different tables simultaneously.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "Each ServiceNow notification record is tied to exactly one table. A notification configured on the Incident table cannot simultaneously monitor the Change Request table. If you need the same notification logic for multiple tables, you must create separate notification records for each table.",
+    "topics": ["notifications"],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

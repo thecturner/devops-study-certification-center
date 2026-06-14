@@ -1,0 +1,214 @@
+{
+  "topics": [
+    {
+      "id": "sdlc-automation",
+      "label": "SDLC Automation",
+      "description": "Design and implement CI/CD pipelines using AWS developer tools. Covers CodePipeline orchestration, CodeBuild environments, CodeDeploy deployment strategies (blue/green, canary, linear), CodeCommit branching, CodeArtifact package management, feature flags, and automated testing integration.",
+      "studyPointers": [
+        {
+          "label": "AWS CodePipeline User Guide",
+          "url": "https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html"
+        },
+        {
+          "label": "AWS CodeDeploy Deployment Configurations",
+          "url": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
+        },
+        {
+          "label": "AWS CodeBuild Build Specification Reference",
+          "url": "https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html"
+        },
+        {
+          "label": "AWS CodeArtifact User Guide",
+          "url": "https://docs.aws.amazon.com/codeartifact/latest/ug/welcome.html"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Lambda Canary Deployment",
+          "prompt": "A team needs to shift 10% of Lambda traffic to a new version, monitor for 30 minutes, then complete the shift if no alarms fire. Which CodeDeploy configuration and hook should be used?",
+          "focus": "LambdaCanary10Percent30Minutes deployment configuration with pre/post traffic hooks invoking CloudWatch alarm checks"
+        },
+        {
+          "title": "Cross-Account Pipeline",
+          "prompt": "A pipeline in account A must deploy to account B. How do you configure the CodePipeline IAM role and CodeDeploy in the target account?",
+          "focus": "Cross-account IAM role assumption, KMS key sharing for artifact encryption, CodeDeploy cross-account trust"
+        }
+      ]
+    },
+    {
+      "id": "configuration-management-iac",
+      "label": "Configuration Management and IaC",
+      "description": "Implement infrastructure as code using CloudFormation (drift detection, StackSets, nested stacks, custom resources), AWS CDK, Elastic Beanstalk, and Systems Manager (Parameter Store, Patch Manager, Run Command, State Manager, Automation). Understand OpsWorks for configuration management.",
+      "studyPointers": [
+        {
+          "label": "AWS CloudFormation User Guide",
+          "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html"
+        },
+        {
+          "label": "AWS Systems Manager Parameter Store",
+          "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html"
+        },
+        {
+          "label": "AWS CloudFormation StackSets",
+          "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html"
+        },
+        {
+          "label": "AWS CDK Developer Guide",
+          "url": "https://docs.aws.amazon.com/cdk/v2/guide/home.html"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Multi-Account StackSets Deployment",
+          "prompt": "An organization wants to deploy a standard VPC configuration across 50 accounts in 3 AWS regions simultaneously. Which CloudFormation feature and permission model should be used?",
+          "focus": "StackSets with service-managed permissions using AWS Organizations integration for automatic deployment to new accounts"
+        },
+        {
+          "title": "CloudFormation Custom Resource",
+          "prompt": "A CloudFormation stack needs to generate an RSA key pair and store it in Secrets Manager during provisioning. No native resource supports this. How do you implement it?",
+          "focus": "Custom Resource backed by Lambda function, using cfnresponse module, signaling SUCCESS/FAILED to the pre-signed S3 URL"
+        }
+      ]
+    },
+    {
+      "id": "resilient-cloud-solutions",
+      "label": "Resilient Cloud Solutions",
+      "description": "Design highly available, fault-tolerant architectures. Covers Auto Scaling policies (step, target tracking, scheduled), ELB health checks, Route 53 health checks and DNS failover, RDS Multi-AZ failover, Multi-Region active-passive and active-active patterns, chaos engineering, and fault isolation boundaries.",
+      "studyPointers": [
+        {
+          "label": "Amazon EC2 Auto Scaling User Guide",
+          "url": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html"
+        },
+        {
+          "label": "Amazon Route 53 Health Checks and DNS Failover",
+          "url": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html"
+        },
+        {
+          "label": "Amazon RDS Multi-AZ Deployments",
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html"
+        },
+        {
+          "label": "AWS Fault Isolation Boundaries",
+          "url": "https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/aws-fault-isolation-boundaries.html"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Step Scaling vs Target Tracking",
+          "prompt": "An application experiences sudden traffic spikes lasting 2-3 minutes. Average CPU is normally 40% but spikes to 90%+. Which Auto Scaling policy type responds fastest and why?",
+          "focus": "Step scaling with aggressive CloudWatch alarms responds faster than target tracking because it does not wait for the metric to stabilize; target tracking has built-in cooldown buffers"
+        },
+        {
+          "title": "Active-Active Multi-Region Routing",
+          "prompt": "A global application requires sub-100ms latency for users in US-East and EU-West, with automatic failover if one region becomes unhealthy. How should Route 53 be configured?",
+          "focus": "Latency-based routing with health checks on each regional endpoint, failover handled automatically when health check fails"
+        }
+      ]
+    },
+    {
+      "id": "monitoring-logging",
+      "label": "Monitoring and Logging",
+      "description": "Implement comprehensive observability using CloudWatch (metrics, alarms, dashboards, Logs Insights, Contributor Insights, Synthetics), AWS X-Ray distributed tracing, CloudTrail audit logging, AWS Config rules and conformance packs, EventBridge rules, and AWS Health Dashboard.",
+      "studyPointers": [
+        {
+          "label": "Amazon CloudWatch User Guide",
+          "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html"
+        },
+        {
+          "label": "AWS X-Ray Developer Guide",
+          "url": "https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html"
+        },
+        {
+          "label": "AWS CloudTrail User Guide",
+          "url": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html"
+        },
+        {
+          "label": "AWS Config Rules",
+          "url": "https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "CloudWatch Logs Insights Query",
+          "prompt": "A team needs to identify the top 10 IP addresses generating 5xx errors in the last hour from ALB access logs stored in CloudWatch Logs. What is the most efficient approach?",
+          "focus": "CloudWatch Logs Insights with stats count(*) by clientIp, filter @message like /HTTP/5/, sort by count desc, limit 10"
+        },
+        {
+          "title": "X-Ray Sampling Rules",
+          "prompt": "A high-throughput API receives 10,000 requests per second. The team wants to trace all errors but only 1% of successful requests to control costs. How is this configured?",
+          "focus": "X-Ray sampling rules with reservoir and fixed_rate; custom rule matching on HTTP status codes to apply 100% sampling for errors"
+        }
+      ]
+    },
+    {
+      "id": "incident-event-response",
+      "label": "Incident and Event Response",
+      "description": "Automate incident detection and remediation using Systems Manager OpsCenter and Incident Manager, EventBridge event patterns, SNS notifications, Lambda-based auto-remediation, runbook automation, and AWS Health events for proactive response.",
+      "studyPointers": [
+        {
+          "label": "AWS Systems Manager Incident Manager",
+          "url": "https://docs.aws.amazon.com/incident-manager/latest/userguide/what-is-incident-manager.html"
+        },
+        {
+          "label": "Amazon EventBridge User Guide",
+          "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html"
+        },
+        {
+          "label": "AWS Systems Manager OpsCenter",
+          "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html"
+        },
+        {
+          "label": "AWS Health User Guide",
+          "url": "https://docs.aws.amazon.com/health/latest/ug/what-is-aws-health.html"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Auto-Remediation Lambda",
+          "prompt": "When an EC2 instance's CPU alarm fires for 5 minutes, a runbook should automatically restart the instance and notify the on-call team. How do you wire this together with minimal custom code?",
+          "focus": "CloudWatch alarm → EventBridge rule → Systems Manager Automation document (AWS-RestartEC2Instance) + SNS notification action"
+        },
+        {
+          "title": "AWS Health Event Routing",
+          "prompt": "An organization needs to notify specific team Slack channels when AWS announces scheduled maintenance for EC2 instances they own, across all accounts in an Organization. How is this implemented?",
+          "focus": "AWS Health events routed through EventBridge in the management account using organizational event bus, forwarded to SNS/Lambda for team routing"
+        }
+      ]
+    },
+    {
+      "id": "security-compliance",
+      "label": "Security and Compliance",
+      "description": "Implement security controls using IAM policies, permission boundaries, SCPs, AWS Config compliance rules and conformance packs, Security Hub findings aggregation, GuardDuty threat detection, Inspector vulnerability scanning, Macie data classification, Secrets Manager rotation, and compliance automation.",
+      "studyPointers": [
+        {
+          "label": "AWS IAM Policies and Permissions",
+          "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html"
+        },
+        {
+          "label": "AWS Secrets Manager Rotation",
+          "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html"
+        },
+        {
+          "label": "AWS Security Hub User Guide",
+          "url": "https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html"
+        },
+        {
+          "label": "AWS Config Conformance Packs",
+          "url": "https://docs.aws.amazon.com/config/latest/developerguide/conformance-packs.html"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "IAM Permission Boundary Delegation",
+          "prompt": "A platform team wants developers to create IAM roles for their Lambda functions but restrict those roles to only the permissions the developer's team is allowed to have. How do you enforce this without reviewing every role creation?",
+          "focus": "IAM permission boundaries attached via SCP-enforced condition (iam:PermissionsBoundary), so any role created without the boundary is denied"
+        },
+        {
+          "title": "Secrets Manager Auto-Rotation",
+          "prompt": "An RDS MySQL database password must rotate every 30 days automatically. Application pods read the secret on each connection. How do you implement rotation without application downtime?",
+          "focus": "Secrets Manager rotation Lambda using the single-user or multi-user rotation strategy; application retrieves secret by name at runtime, not at deploy time"
+        }
+      ]
+    }
+  ]
+}

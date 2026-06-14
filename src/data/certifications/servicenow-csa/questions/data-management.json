@@ -1,0 +1,637 @@
+[
+  {
+    "id": "sn-csa-dm-001",
+    "type": "single_choice",
+    "prompt": "What is the purpose of an 'Import Set' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "To export data from ServiceNow to an external system" },
+      { "id": "b", "text": "A staging table that holds imported data before it is transformed and inserted into target tables" },
+      { "id": "c", "text": "A backup mechanism for restoring deleted records" },
+      { "id": "d", "text": "A scheduled job that synchronizes data across instances" }
+    ],
+    "correct": "b",
+    "explanation": "Import Sets are staging tables that hold data loaded from an external source (CSV, Excel, JDBC, etc.). A Transform Map then maps the Import Set fields to the target table fields and inserts or updates the records.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-002",
+    "type": "single_choice",
+    "prompt": "What is a 'Coalesce field' in a ServiceNow Transform Map?",
+    "choices": [
+      { "id": "a", "text": "A field that concatenates multiple source values into one target field" },
+      { "id": "b", "text": "A field used to match incoming records to existing target records to determine insert vs. update" },
+      { "id": "c", "text": "A mandatory field that must be populated for the import to succeed" },
+      { "id": "d", "text": "A field that generates a unique ID for each imported record" }
+    ],
+    "correct": "b",
+    "explanation": "A coalesce field acts as a unique key during transformation. If the coalesce field value matches an existing record in the target table, the record is updated. If no match is found, a new record is inserted.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-003",
+    "type": "single_choice",
+    "prompt": "Which ServiceNow feature ensures that field values meet defined criteria before a record can be saved, regardless of which user interface is used?",
+    "choices": [
+      { "id": "a", "text": "UI Policy" },
+      { "id": "b", "text": "Client Script" },
+      { "id": "c", "text": "Data Policy" },
+      { "id": "d", "text": "Business Rule" }
+    ],
+    "correct": "c",
+    "explanation": "Data Policies enforce data integrity by making fields mandatory or read-only at the data layer. Unlike UI Policies (which only work in the browser), Data Policies apply regardless of how data is entered, including via import sets, web services, and the UI.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-004",
+    "type": "single_choice",
+    "prompt": "What is a 'Data Source' in the context of ServiceNow Import Sets?",
+    "choices": [
+      { "id": "a", "text": "The target ServiceNow table where imported data will be stored" },
+      { "id": "b", "text": "The configuration record that defines the connection to an external system or file location for importing data" },
+      { "id": "c", "text": "A script that transforms data before it is loaded into the import set table" },
+      { "id": "d", "text": "The field on a record that stores the original data source system name" }
+    ],
+    "correct": "b",
+    "explanation": "A Data Source record in ServiceNow defines the external source from which data is imported, such as a specific FTP file path, JDBC database connection, LDAP server, or REST endpoint. The Data Source is referenced by a scheduled or manual import to retrieve data from that source into an Import Set.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "refs": [
+      { "label": "Data Sources", "url": "https://docs.servicenow.com/bundle/washingtondc-platform-administration/page/administer/import-sets/concept/c_ImportSets.html" }
+    ],
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-005",
+    "type": "single_choice",
+    "prompt": "Which data source types can be configured in ServiceNow Import Sets?",
+    "choices": [
+      { "id": "a", "text": "CSV and Excel only" },
+      { "id": "b", "text": "File-based (CSV, Excel, XML), JDBC, LDAP, and REST/SOAP" },
+      { "id": "c", "text": "JDBC and LDAP only" },
+      { "id": "d", "text": "Only direct API integrations via REST" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow Data Sources support a wide variety of source types, including file-based imports (CSV, Excel, XML), JDBC database connections, LDAP directory service connections, and REST or SOAP web service endpoints. This flexibility allows ServiceNow to ingest data from virtually any enterprise system.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-006",
+    "type": "single_choice",
+    "prompt": "What is a 'Transform Map' in ServiceNow, and what does it do?",
+    "choices": [
+      { "id": "a", "text": "A mapping that configures how the UI displays field values in a list or form" },
+      { "id": "b", "text": "A configuration that maps Import Set fields to target table fields and controls how data is transformed and loaded" },
+      { "id": "c", "text": "A field-level mapping that converts one data type to another" },
+      { "id": "d", "text": "A report configuration that transforms raw data into chart-friendly aggregations" }
+    ],
+    "correct": "b",
+    "explanation": "A Transform Map in ServiceNow defines how the fields in an Import Set staging table map to fields in the destination (target) table. It also controls transformation logic (scripts), coalesce fields for matching, and overall data quality rules for the import process.",
+    "topics": ["data-management"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-007",
+    "type": "single_choice",
+    "prompt": "What is the 'onBefore' transform script event in ServiceNow Transform Maps?",
+    "choices": [
+      { "id": "a", "text": "A script that runs once before the entire import job starts" },
+      { "id": "b", "text": "A script that runs before each individual row is transformed and inserted" },
+      { "id": "c", "text": "A script that validates the data source connection before loading" },
+      { "id": "d", "text": "A script that previews the first row of data before transformation begins" }
+    ],
+    "correct": "b",
+    "explanation": "The onBefore transform script in ServiceNow runs before each row in the Import Set is transformed. This allows you to manipulate or validate the source row data before it is mapped to the target table, such as cleaning up a field value or skipping a row based on a condition.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-008",
+    "type": "single_choice",
+    "prompt": "What does the 'onAfter' transform script do in a ServiceNow Transform Map?",
+    "choices": [
+      { "id": "a", "text": "Runs after the entire transform job is complete for cleanup" },
+      { "id": "b", "text": "Runs after each row has been successfully transformed and inserted or updated in the target table" },
+      { "id": "c", "text": "Validates the transformed record before committing it to the database" },
+      { "id": "d", "text": "Sends a notification after the import completes" }
+    ],
+    "correct": "b",
+    "explanation": "The onAfter transform script runs after each individual row has been transformed and the resulting record has been inserted or updated in the target table. It can access the target record via the 'target' variable, enabling post-processing such as triggering a workflow or setting additional fields.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-009",
+    "type": "single_choice",
+    "prompt": "What is the 'onStart' transform script in ServiceNow used for?",
+    "choices": [
+      { "id": "a", "text": "Starts the scheduled import job programmatically" },
+      { "id": "b", "text": "Runs once at the beginning of the entire transform operation, before any rows are processed" },
+      { "id": "c", "text": "Validates the first row of the import set before processing begins" },
+      { "id": "d", "text": "Initializes the import set table schema" }
+    ],
+    "correct": "b",
+    "explanation": "The onStart transform script executes once at the start of the entire transform job, before any rows are processed. It is used for initialization tasks such as setting up global variables used throughout the transform, clearing temporary records, or logging that an import has started.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-010",
+    "type": "single_choice",
+    "prompt": "What does the 'onComplete' transform script in ServiceNow execute?",
+    "choices": [
+      { "id": "a", "text": "Runs once after all rows have been transformed, allowing for cleanup or summary actions" },
+      { "id": "b", "text": "Marks the import set as complete in the database" },
+      { "id": "c", "text": "Sends the completion report to the import requestor" },
+      { "id": "d", "text": "Runs whenever a row is successfully completed without errors" }
+    ],
+    "correct": "a",
+    "explanation": "The onComplete transform script runs once after all rows in the Import Set have been processed. It is used for post-import cleanup tasks, summary logging, triggering downstream actions, or sending completion notifications to administrators.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-011",
+    "type": "single_choice",
+    "prompt": "What does the 'onFault' transform script execute in a ServiceNow Transform Map?",
+    "choices": [
+      { "id": "a", "text": "Runs when the import set staging table cannot be created" },
+      { "id": "b", "text": "Runs when an error occurs during the transformation of an individual row" },
+      { "id": "c", "text": "Runs when the entire import job fails due to a connection error" },
+      { "id": "d", "text": "Runs when a coalesce field match fails to find a target record" }
+    ],
+    "correct": "b",
+    "explanation": "The onFault transform script in ServiceNow executes when an error occurs while transforming a specific row. It allows administrators to handle errors gracefully, such as logging the problematic row details, incrementing an error counter, or skipping the row rather than stopping the entire import.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-012",
+    "type": "single_choice",
+    "prompt": "In ServiceNow Import Sets, what is the difference between 'Coalesce' and using a unique key in transformation?",
+    "choices": [
+      { "id": "a", "text": "Coalesce is a database concept; unique key is a ServiceNow-specific feature" },
+      { "id": "b", "text": "They are functionally identical; coalesce is just the ServiceNow UI term for unique key" },
+      { "id": "c", "text": "Coalesce is the ServiceNow term for the match field that determines update vs. insert; multiple fields can be coalesced together" },
+      { "id": "d", "text": "A unique key prevents duplicates at the database level; coalesce is a softer check that still allows duplicates" }
+    ],
+    "correct": "c",
+    "explanation": "Coalesce is ServiceNow's term for the field(s) used as match keys during transformation. Multiple coalesced fields can be combined to form a composite match key. If the incoming record matches an existing target record on all coalesced fields, an update occurs; otherwise a new record is inserted.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-013",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what does a 'Data Policy' enforce that a 'UI Policy' cannot?",
+    "choices": [
+      { "id": "a", "text": "Visual appearance changes like field colors and font sizes" },
+      { "id": "b", "text": "Server-side enforcement of mandatory and read-only fields that applies even to web service, import, and direct API inserts" },
+      { "id": "c", "text": "Client-side validation messages shown in the browser" },
+      { "id": "d", "text": "Field ordering in the form layout" }
+    ],
+    "correct": "b",
+    "explanation": "UI Policies run in the browser (client-side) and only affect the UI experience. Data Policies enforce field rules (mandatory, read-only) server-side, applying to all data entry methods including import sets, REST API calls, and web service inserts. This ensures data integrity across all channels.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-014",
+    "type": "single_choice",
+    "prompt": "What is 'Field Normalization' in ServiceNow data management?",
+    "choices": [
+      { "id": "a", "text": "A process that converts all field names to lowercase" },
+      { "id": "b", "text": "A process that standardizes field values to a defined format or mapping, ensuring consistency" },
+      { "id": "c", "text": "Removing special characters from field values during import" },
+      { "id": "d", "text": "A database optimization that reduces data redundancy in tables" }
+    ],
+    "correct": "b",
+    "explanation": "Field Normalization in ServiceNow refers to standardizing imported field values to a consistent set of accepted values. For example, normalizing 'NY', 'New York', and 'new york' all to 'New York'. This is often done in transform scripts or via choice list normalization to ensure clean, consistent data.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-015",
+    "type": "single_choice",
+    "prompt": "What is a 'Scheduled Import' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "An import that can only run during scheduled maintenance windows" },
+      { "id": "b", "text": "A scheduled job that automatically retrieves data from a configured data source and runs the associated transform map on a defined schedule" },
+      { "id": "c", "text": "An import that requires manager approval before running" },
+      { "id": "d", "text": "A daily export of ServiceNow data to an external backup system" }
+    ],
+    "correct": "b",
+    "explanation": "Scheduled Imports (also called Import Set Run records) automatically execute on a defined schedule (hourly, daily, etc.). They retrieve data from a configured Data Source, load it into the Import Set staging table, and run the associated Transform Map to push data into target tables.",
+    "topics": ["data-management"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-016",
+    "type": "single_choice",
+    "prompt": "What is the 'Auto-cleanup' feature on a ServiceNow Import Set?",
+    "choices": [
+      { "id": "a", "text": "Automatically removes failed import records from the staging table" },
+      { "id": "b", "text": "Automatically deletes the Import Set staging table records after a configured number of days" },
+      { "id": "c", "text": "Removes duplicate records from the target table after each import" },
+      { "id": "d", "text": "Rolls back the last import if errors are detected" }
+    ],
+    "correct": "b",
+    "explanation": "Import Set auto-cleanup is a feature that automatically removes the staging records from the Import Set table after a specified number of days (configurable per data source). This prevents the staging tables from growing indefinitely and consuming excessive storage.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-017",
+    "type": "single_choice",
+    "prompt": "When importing a CSV file into ServiceNow, what does the 'Header Row' configuration setting specify?",
+    "choices": [
+      { "id": "a", "text": "The number of metadata rows at the top of the file to skip before data starts" },
+      { "id": "b", "text": "Whether the first row of the CSV contains column names (field names) that ServiceNow uses to map to the import set table" },
+      { "id": "c", "text": "The row number where the most important data record is located" },
+      { "id": "d", "text": "A required header tag that validates the file format" }
+    ],
+    "correct": "b",
+    "explanation": "The Header Row setting on a CSV data source tells ServiceNow whether the first row of the file contains column names. If enabled, ServiceNow uses those names to automatically create or match columns in the Import Set staging table. If disabled, ServiceNow generates generic column names (column1, column2, etc.).",
+    "topics": ["data-management"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-018",
+    "type": "single_choice",
+    "prompt": "Which field on a CSV Data Source in ServiceNow allows you to specify a non-comma delimiter such as a pipe (|) or tab?",
+    "choices": [
+      { "id": "a", "text": "Column separator" },
+      { "id": "b", "text": "Delimiter" },
+      { "id": "c", "text": "Field separator" },
+      { "id": "d", "text": "Token separator" }
+    ],
+    "correct": "b",
+    "explanation": "The Delimiter field on a CSV Data Source configuration allows administrators to specify what character separates field values in the file. While comma is the default for CSV, organizations commonly use pipe (|), semicolon (;), or tab-delimited formats. Specifying the correct delimiter ensures fields are parsed correctly.",
+    "topics": ["data-management"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-019",
+    "type": "single_choice",
+    "prompt": "What is a 'JDBC Data Source' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A Java-based API for connecting ServiceNow to mobile applications" },
+      { "id": "b", "text": "A data source configuration that connects to an external relational database using a JDBC driver to import data directly via SQL" },
+      { "id": "c", "text": "A type of import set that handles JavaScript Object notation files" },
+      { "id": "d", "text": "A ServiceNow connector for importing data from Jira" }
+    ],
+    "correct": "b",
+    "explanation": "A JDBC Data Source in ServiceNow allows direct connection to an external relational database (such as Oracle, MySQL, or SQL Server) using a JDBC driver. An SQL query retrieves data from the external database, and the results are loaded into an Import Set staging table for transformation.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-020",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is LDAP Integration primarily used for in data management?",
+    "choices": [
+      { "id": "a", "text": "Encrypting sensitive data fields in the ServiceNow database" },
+      { "id": "b", "text": "Synchronizing user and group data from a directory service (such as Active Directory) into ServiceNow" },
+      { "id": "c", "text": "Providing a long-term data persistence solution for archived records" },
+      { "id": "d", "text": "Integrating ServiceNow with external ticketing systems via the LDAP protocol" }
+    ],
+    "correct": "b",
+    "explanation": "LDAP Integration in ServiceNow connects to a Lightweight Directory Access Protocol server (typically Microsoft Active Directory) to synchronize user accounts, group memberships, and organizational units. This automates user provisioning and keeps ServiceNow user data aligned with the authoritative directory.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-021",
+    "type": "true_false",
+    "prompt": "In ServiceNow, a Transform Map can only map data from an Import Set to one specific target table and cannot conditionally route rows to different tables.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "While each Transform Map has a designated target table, transform scripts (particularly onBefore scripts) can dynamically change the target table per row using the 'target_table' variable. This allows conditional routing of different rows in the same Import Set to different target tables based on row data.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-022",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what happens when 'Apply to import sets' is checked on a Data Policy?",
+    "choices": [
+      { "id": "a", "text": "The data policy rules are applied when data is loaded into the Import Set staging table" },
+      { "id": "b", "text": "The data policy is enforced when transform maps load data into the target table during import" },
+      { "id": "c", "text": "The data policy generates an error report for all import set records that violate the policy" },
+      { "id": "d", "text": "The data policy prevents import set records from being created if they violate the rules" }
+    ],
+    "correct": "b",
+    "explanation": "When 'Apply to import sets' is enabled on a Data Policy, the mandatory and read-only rules are enforced when import set transform maps try to insert or update records in the target table. Records that violate mandatory field rules will fail to be inserted, ensuring data integrity even during bulk imports.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-023",
+    "type": "single_choice",
+    "prompt": "What does 'Table Rotation' mean in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A process of renaming tables after a platform upgrade" },
+      { "id": "b", "text": "A feature that automatically archives and creates new tables on a schedule to manage data volume for high-growth tables" },
+      { "id": "c", "text": "A method of distributing data across multiple database servers for performance" },
+      { "id": "d", "text": "A way to swap the primary and backup database tables" }
+    ],
+    "correct": "b",
+    "explanation": "Table Rotation in ServiceNow is a feature for managing high-growth tables (like event logs or audit logs) by automatically archiving old data and creating fresh tables on a schedule. When a table rotates, a new active table is created while the old table is preserved for historical reference, keeping query performance manageable.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-024",
+    "type": "single_choice",
+    "prompt": "When importing an Excel file into ServiceNow, what is the significance of specifying the 'Sheet Number'?",
+    "choices": [
+      { "id": "a", "text": "It specifies the row number where data starts" },
+      { "id": "b", "text": "It identifies which worksheet tab in the Excel workbook contains the data to import" },
+      { "id": "c", "text": "It sets the maximum number of records per import batch" },
+      { "id": "d", "text": "It specifies a checksum sheet used to validate import integrity" }
+    ],
+    "correct": "b",
+    "explanation": "When importing from an Excel file that has multiple worksheets, the Sheet Number field on the data source tells ServiceNow which worksheet tab to read the data from. Sheet 1 is the first tab, Sheet 2 is the second, etc. If not specified, ServiceNow defaults to the first sheet.",
+    "topics": ["data-management"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-025",
+    "type": "single_choice",
+    "prompt": "What is the purpose of JDBC Data Source 'credentials' storage in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "To store encrypted database access credentials separately from the data source configuration for security" },
+      { "id": "b", "text": "To define which ServiceNow user runs the import job" },
+      { "id": "c", "text": "To store API keys for REST-based data sources" },
+      { "id": "d", "text": "To configure the database schema structure" }
+    ],
+    "correct": "a",
+    "explanation": "Credential records in ServiceNow store database usernames and passwords (or API keys) in an encrypted format, separately from the data source connection configuration. This separation improves security by centralizing sensitive credentials and allowing them to be updated without modifying the data source record itself.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-026",
+    "type": "true_false",
+    "prompt": "Once an Import Set has been transformed and records have been committed to a target table, you can 'roll back' the import to remove those records using the Import Set record.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "false",
+    "explanation": "ServiceNow does not provide a built-in one-click rollback of committed import set transformations. Once data is inserted or updated in the target table, it stays there. Remediation requires manually deleting or correcting the affected records, or running a new import with corrected data.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-027",
+    "type": "single_choice",
+    "prompt": "What does the 'Use for import' flag on a ServiceNow Data Policy configuration control?",
+    "choices": [
+      { "id": "a", "text": "Whether the data policy creates import set records automatically" },
+      { "id": "b", "text": "Whether the data policy is enforced during record transformations from import sets into the target table" },
+      { "id": "c", "text": "Whether the policy runs only during scheduled import windows" },
+      { "id": "d", "text": "Whether the policy applies to REST API imports only" }
+    ],
+    "correct": "b",
+    "explanation": "The 'Apply to import sets' (sometimes labeled 'Use for import') flag on a Data Policy controls whether the policy's mandatory and read-only rules are enforced when records are inserted via the import set transform process. This extends data quality enforcement to bulk data loading operations.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-028",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is the purpose of the 'Import Set Cleanup' (auto-delete) setting, and where is it configured?",
+    "choices": [
+      { "id": "a", "text": "Deletes the Data Source record after a successful import; configured on the Transform Map" },
+      { "id": "b", "text": "Removes Import Set staging rows after a configured number of days; configured on the Data Source record" },
+      { "id": "c", "text": "Archives the import log to an external storage system; configured in System Properties" },
+      { "id": "d", "text": "Purges all Import Set tables during platform upgrades; configured automatically" }
+    ],
+    "correct": "b",
+    "explanation": "Import Set cleanup settings are configured on the Data Source record. The 'Delete import set rows after' field specifies the number of days before staging rows are automatically purged. This prevents Import Set tables from consuming excessive database space over time.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-029",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what does importing an XML file allow that CSV importing does not?",
+    "choices": [
+      { "id": "a", "text": "XML imports can run on a schedule; CSV imports cannot" },
+      { "id": "b", "text": "XML imports can include hierarchical/nested data structures, which ServiceNow can flatten for import" },
+      { "id": "c", "text": "XML files can contain multiple sheets; CSV files cannot" },
+      { "id": "d", "text": "XML imports bypass the staging table entirely" }
+    ],
+    "correct": "b",
+    "explanation": "XML files can represent hierarchical and nested data structures, which ServiceNow can parse and flatten into rows in an Import Set staging table. CSV files are inherently flat (tabular), so XML is better suited for complex, nested data exports from source systems.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-030",
+    "type": "multi_choice",
+    "prompt": "Which of the following are true about ServiceNow Data Policies? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "They enforce field-level mandatory and read-only rules at the server/data layer" },
+      { "id": "b", "text": "They can be configured to apply to UI interactions only" },
+      { "id": "c", "text": "They can be optionally applied to import set transforms" },
+      { "id": "d", "text": "They run client-side in the browser like UI Policies" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "Data Policies are server-side rules that enforce mandatory and read-only requirements at the data layer, applying to all data entry methods (UI, import, REST API). They can optionally be applied to import set transforms via the 'Apply to import sets' flag. Unlike UI Policies, they do not run client-side in the browser.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-031",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what is the 'Ignore mandatory' flag on a Transform Map Field Map used for?",
+    "choices": [
+      { "id": "a", "text": "Skips the mandatory field validation for that specific field during import" },
+      { "id": "b", "text": "Marks the transform field as optional so it can be empty in the source data" },
+      { "id": "c", "text": "Overrides Data Policy rules for that field during the transform" },
+      { "id": "d", "text": "Prevents the field from being overwritten if the target record already has a value" }
+    ],
+    "correct": "d",
+    "explanation": "The 'Ignore on insert/update' flags on Transform Map Field Maps control whether a field is populated when a new record is created versus when an existing record is updated. The 'Ignore if empty' flag prevents overwriting existing values with blank/null values from the source data.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-032",
+    "type": "single_choice",
+    "prompt": "When a transform script sets 'ignore' to true during transformation, what effect does this have?",
+    "choices": [
+      { "id": "a", "text": "It skips the current row and does not insert or update a target record for that row" },
+      { "id": "b", "text": "It ignores all data policy validations for the transformed record" },
+      { "id": "c", "text": "It logs the row as an error without stopping the import" },
+      { "id": "d", "text": "It marks the Import Set row as successfully processed without transformation" }
+    ],
+    "correct": "a",
+    "explanation": "In a ServiceNow transform script (onBefore), setting the special variable 'ignore = true' tells the transform engine to skip that specific row entirely. No insert or update will occur for that row in the target table. This is useful for conditionally filtering out rows that should not be imported.",
+    "topics": ["data-management"],
+    "difficulty": "hard",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-033",
+    "type": "single_choice",
+    "prompt": "What is the purpose of 'Import Set Rollback' in ServiceNow?",
+    "choices": [
+      { "id": "a", "text": "A native feature that automatically undoes all records created or updated by an import" },
+      { "id": "b", "text": "A manual process where administrators identify and delete or revert records affected by a bad import using the import log" },
+      { "id": "c", "text": "A scheduled cleanup that removes orphaned import set records" },
+      { "id": "d", "text": "An export of all changed records before an import so they can be restored if needed" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow does not have a built-in one-click import rollback feature. When a bad import occurs, administrators must manually review the import log to identify affected records and revert or delete them. Some organizations script custom rollback logic using pre-import snapshots.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-034",
+    "type": "true_false",
+    "prompt": "In ServiceNow, LDAP Data Sources can be used with Import Sets and Transform Maps to sync user data into the sys_user table.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "ServiceNow supports LDAP as a data source type within the Import Set framework. LDAP queries retrieve user and group data from an LDAP-compatible directory, which is loaded into an Import Set staging table. A Transform Map then maps and inserts/updates the data in the sys_user and sys_user_group tables.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-035",
+    "type": "single_choice",
+    "prompt": "What is 'Import Set Error' state in ServiceNow Transform processing?",
+    "choices": [
+      { "id": "a", "text": "The Import Set itself failed to load from the source" },
+      { "id": "b", "text": "An individual row in the Import Set failed during transformation and could not be inserted into the target table" },
+      { "id": "c", "text": "The entire transform map failed and no records were processed" },
+      { "id": "d", "text": "The data source connection returned an error during retrieval" }
+    ],
+    "correct": "b",
+    "explanation": "During transformation, individual rows can fail for reasons such as referencing a non-existent user, violating a data policy, or encountering a script error. These rows are marked with an 'Error' state in the Import Set log while other rows may continue to process successfully.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-036",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what type of import allows you to import data by calling a REST endpoint on an external system?",
+    "choices": [
+      { "id": "a", "text": "JDBC Import" },
+      { "id": "b", "text": "REST Data Source Import" },
+      { "id": "c", "text": "SOAP Web Service Import" },
+      { "id": "d", "text": "HTTP File Import" }
+    ],
+    "correct": "b",
+    "explanation": "ServiceNow's REST Data Source type allows Import Sets to retrieve data by calling a REST API endpoint on an external system. The JSON or XML response is loaded into the staging table for transformation. This enables integration with modern REST APIs as data import sources.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-037",
+    "type": "single_choice",
+    "prompt": "What does the 'Target table' field on a ServiceNow Transform Map specify?",
+    "choices": [
+      { "id": "a", "text": "The Import Set staging table where data was loaded" },
+      { "id": "b", "text": "The ServiceNow table where transformed records will be inserted or updated" },
+      { "id": "c", "text": "The external database table that is the source of the data" },
+      { "id": "d", "text": "The archive table where old Import Set records are stored" }
+    ],
+    "correct": "b",
+    "explanation": "The Target Table on a Transform Map specifies which ServiceNow table will receive the transformed data. For example, if you are importing user data, the target table would be sys_user. If importing CMDB data, the target table might be cmdb_ci_computer.",
+    "topics": ["data-management"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-038",
+    "type": "multi_choice",
+    "prompt": "Which of the following are valid transform script event types in ServiceNow Transform Maps? Select all that apply.",
+    "choices": [
+      { "id": "a", "text": "onStart" },
+      { "id": "b", "text": "onBefore" },
+      { "id": "c", "text": "onComplete" },
+      { "id": "d", "text": "onSubmit" }
+    ],
+    "correct": ["a", "b", "c"],
+    "explanation": "ServiceNow Transform Maps support the following script events: onStart (runs once before processing begins), onBefore (runs before each row is transformed), onAfter (runs after each row is transformed), onComplete (runs once after all rows are processed), and onFault (runs when a row errors). 'onSubmit' is a Client Script event type, not a transform event.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-039",
+    "type": "single_choice",
+    "prompt": "In ServiceNow, what does the import set 'Clean up after days' property control?",
+    "choices": [
+      { "id": "a", "text": "How long transformed records remain in the target table before being archived" },
+      { "id": "b", "text": "How many days to keep Import Set staging rows before automatically deleting them" },
+      { "id": "c", "text": "How long the Import Set transform log is retained" },
+      { "id": "d", "text": "The maximum age of records eligible for a scheduled import" }
+    ],
+    "correct": "b",
+    "explanation": "The 'Clean up after days' property on a Data Source record controls how long Import Set staging rows are retained before the auto-cleanup process deletes them. Setting this to a reasonable value (e.g., 7 or 30 days) prevents staging tables from growing indefinitely and consuming database space.",
+    "topics": ["data-management"],
+    "difficulty": "easy",
+    "version": 1
+  },
+  {
+    "id": "sn-csa-dm-040",
+    "type": "true_false",
+    "prompt": "In ServiceNow, a single Import Set table can have multiple Transform Maps pointing to different target tables.",
+    "choices": [
+      { "id": "true", "text": "True" },
+      { "id": "false", "text": "False" }
+    ],
+    "correct": "true",
+    "explanation": "A ServiceNow Import Set staging table can have multiple Transform Maps associated with it, each pointing to a different target table. For example, a single Import Set loaded from an HR system might have one Transform Map that creates users in sys_user and another that creates department records in cmn_department.",
+    "topics": ["data-management"],
+    "difficulty": "medium",
+    "version": 1
+  }
+]

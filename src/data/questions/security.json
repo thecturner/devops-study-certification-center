@@ -1,0 +1,668 @@
+[
+  {
+    "id": "sec-001",
+    "type": "single_choice",
+    "prompt": "What are the three main pillars of Datadog Cloud Security Management (CSM)?",
+    "choices": [
+      { "id": "a", "text": "Threats, Vulnerabilities, and Compliance" },
+      { "id": "b", "text": "Threats, Misconfigurations, and Identity Risks" },
+      { "id": "c", "text": "SIEM, CSPM, and CWPP" },
+      { "id": "d", "text": "Detection, Prevention, and Response" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog Cloud Security Management (CSM) is organized into three pillars: CSM Threats (runtime threat detection), CSM Misconfigurations (cloud posture management/CSPM), and CSM Identity Risks (cloud identity and entitlement management/CIEM). Together they provide comprehensive cloud security coverage.",
+    "topics": ["csm-overview"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Cloud Security Management" }],
+    "version": 1
+  },
+  {
+    "id": "sec-002",
+    "type": "single_choice",
+    "prompt": "What does CSPM stand for in the context of Datadog Cloud Security Management?",
+    "choices": [
+      { "id": "a", "text": "Cloud Security Posture Monitoring" },
+      { "id": "b", "text": "Cloud Security Posture Management" },
+      { "id": "c", "text": "Cloud Service Policy Management" },
+      { "id": "d", "text": "Continuous Security Posture Measurement" }
+    ],
+    "correct": "b",
+    "explanation": "CSPM stands for Cloud Security Posture Management. In Datadog, this is the CSM Misconfigurations capability that continuously evaluates your cloud resources against security configuration rules and compliance frameworks to identify misconfigurations.",
+    "topics": ["cspm"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: CSM Misconfigurations" }],
+    "version": 1
+  },
+  {
+    "id": "sec-003",
+    "type": "single_choice",
+    "prompt": "Which compliance frameworks are supported by Datadog CSPM out of the box?",
+    "choices": [
+      { "id": "a", "text": "Only PCI DSS and SOC 2" },
+      { "id": "b", "text": "CIS Benchmarks, PCI DSS, SOC 2, HIPAA, NIST, and ISO 27001 among others" },
+      { "id": "c", "text": "Only AWS Well-Architected Framework rules" },
+      { "id": "d", "text": "Only GDPR and CCPA" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog CSPM ships with out-of-the-box compliance rules mapped to multiple frameworks including CIS Benchmarks (AWS, Azure, GCP, Kubernetes), PCI DSS, SOC 2, HIPAA, NIST 800-53, and ISO 27001. This allows teams to assess compliance across multiple standards simultaneously.",
+    "topics": ["cspm"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: CSPM Compliance Frameworks" }],
+    "version": 1
+  },
+  {
+    "id": "sec-004",
+    "type": "true_false",
+    "prompt": "Datadog CSPM can evaluate the security configuration of Kubernetes clusters in addition to cloud provider resources.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog CSPM includes rules for Kubernetes security configuration, such as CIS Kubernetes Benchmark checks, in addition to cloud provider (AWS, GCP, Azure) resource configuration checks. This allows organizations to assess security posture across both cloud and container infrastructure.",
+    "topics": ["cspm"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: CSPM Kubernetes" }],
+    "version": 1
+  },
+  {
+    "id": "sec-005",
+    "type": "single_choice",
+    "prompt": "In Datadog CSPM, when a resource fails a compliance rule, what is the resulting finding called?",
+    "choices": [
+      { "id": "a", "text": "A security signal" },
+      { "id": "b", "text": "A misconfiguration finding" },
+      { "id": "c", "text": "A compliance violation alert" },
+      { "id": "d", "text": "A posture event" }
+    ],
+    "correct": "b",
+    "explanation": "When a cloud resource fails a CSPM rule (for example, an S3 bucket with public access enabled), Datadog generates a misconfiguration finding. Findings are displayed in the Misconfigurations Explorer with details about the affected resource, the violated rule, and remediation guidance.",
+    "topics": ["cspm"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: CSPM Findings" }],
+    "version": 1
+  },
+  {
+    "id": "sec-006",
+    "type": "single_choice",
+    "prompt": "What is the primary capability of CSM Threats (formerly Cloud Workload Security)?",
+    "choices": [
+      { "id": "a", "text": "Scanning container images for known CVEs before deployment" },
+      { "id": "b", "text": "Detecting threats and attacks against your workloads at runtime using kernel-level monitoring" },
+      { "id": "c", "text": "Auditing cloud provider API calls via CloudTrail" },
+      { "id": "d", "text": "Enforcing network policies between microservices" }
+    ],
+    "correct": "b",
+    "explanation": "CSM Threats (formerly Cloud Workload Security) detects threats against your running workloads in real time using Agent-based rules that monitor system calls at the kernel level via eBPF. It can detect activities like privilege escalation, unexpected file access, and process execution anomalies.",
+    "topics": ["csm-threats"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: CSM Threats" }],
+    "version": 1
+  },
+  {
+    "id": "sec-007",
+    "type": "single_choice",
+    "prompt": "What technology does CSM Threats use to monitor system calls and file system events on Linux hosts?",
+    "choices": [
+      { "id": "a", "text": "Auditd kernel module" },
+      { "id": "b", "text": "eBPF (extended Berkeley Packet Filter)" },
+      { "id": "c", "text": "Systemtap probes" },
+      { "id": "d", "text": "Kernel module injection via LKM" }
+    ],
+    "correct": "b",
+    "explanation": "CSM Threats uses eBPF programs to hook into the Linux kernel and monitor system calls, file system events, network events, and process execution without requiring kernel module installation. This provides high-fidelity threat detection with minimal performance overhead.",
+    "topics": ["csm-threats"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: CSM Threats Architecture" }],
+    "version": 1
+  },
+  {
+    "id": "sec-008",
+    "type": "true_false",
+    "prompt": "CSM Threats Agent rules can be customized to detect organization-specific threat patterns.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "In addition to Datadog's out-of-the-box Agent rules for CSM Threats, organizations can write custom Agent rules using the Datadog Security Language (DSL) to detect specific behaviors relevant to their environment, such as access to specific files or execution of unusual processes.",
+    "topics": ["csm-threats"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: CSM Threats Custom Rules" }],
+    "version": 1
+  },
+  {
+    "id": "sec-009",
+    "type": "single_choice",
+    "prompt": "What is Datadog Cloud SIEM primarily used for?",
+    "choices": [
+      { "id": "a", "text": "Monitoring cloud infrastructure configuration drift" },
+      { "id": "b", "text": "Detecting threats in log data from cloud services, applications, and infrastructure using log-based detection rules" },
+      { "id": "c", "text": "Scanning container registries for vulnerable images" },
+      { "id": "d", "text": "Managing user access and permissions across cloud accounts" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog Cloud SIEM analyzes ingested log data in real time using detection rules to identify threats and suspicious activity. When a rule matches, a security signal is generated for investigation. It works with logs from cloud services (CloudTrail, GCP audit logs), applications, and infrastructure.",
+    "topics": ["cloud-siem"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Cloud SIEM" }],
+    "version": 1
+  },
+  {
+    "id": "sec-010",
+    "type": "single_choice",
+    "prompt": "What is a 'security signal' in Datadog Cloud SIEM?",
+    "choices": [
+      { "id": "a", "text": "A raw log entry flagged as suspicious" },
+      { "id": "b", "text": "A correlated, actionable security alert generated when a detection rule matches observed activity" },
+      { "id": "c", "text": "A scheduled report summarizing security events" },
+      { "id": "d", "text": "A compliance finding from a CSPM rule evaluation" }
+    ],
+    "correct": "b",
+    "explanation": "A security signal is a high-fidelity, actionable alert generated by Cloud SIEM when a detection rule matches activity in your logs or telemetry. Unlike raw log entries, signals represent correlated, meaningful security events that require investigation or response.",
+    "topics": ["cloud-siem", "security-signals"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Security Signals" }],
+    "version": 1
+  },
+  {
+    "id": "sec-011",
+    "type": "multi_choice",
+    "prompt": "Which of the following detection rule types are available in Datadog Cloud SIEM?",
+    "choices": [
+      { "id": "a", "text": "Threshold" },
+      { "id": "b", "text": "New Value" },
+      { "id": "c", "text": "Anomaly" },
+      { "id": "d", "text": "Impossible Travel" },
+      { "id": "e", "text": "Fuzzy Match" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Datadog Cloud SIEM supports Threshold rules (trigger when a count exceeds a limit), New Value rules (trigger when a previously unseen attribute value appears), Anomaly rules (trigger when behavior deviates statistically from a baseline), and Impossible Travel rules (trigger when a user appears to log in from geographically impossible locations). Fuzzy Match is not a supported rule type.",
+    "topics": ["detection-rules"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Detection Rules" }],
+    "version": 1
+  },
+  {
+    "id": "sec-012",
+    "type": "single_choice",
+    "prompt": "A Threshold detection rule in Datadog Cloud SIEM triggers when:",
+    "choices": [
+      { "id": "a", "text": "An attribute value appears in logs that has never been seen before" },
+      { "id": "b", "text": "A count of matching events exceeds a defined value within a specified time window" },
+      { "id": "c", "text": "A user authenticates from two geographically distant locations within an impossibly short time" },
+      { "id": "d", "text": "The rate of matching events deviates significantly from the historical baseline" }
+    ],
+    "correct": "b",
+    "explanation": "Threshold detection rules trigger when the count of events matching a query exceeds a configured threshold within a defined time window. For example, 'trigger when more than 10 failed login attempts from the same IP occur within 5 minutes'.",
+    "topics": ["detection-rules"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Threshold Detection Rules" }],
+    "version": 1
+  },
+  {
+    "id": "sec-013",
+    "type": "single_choice",
+    "prompt": "What is a 'New Value' detection rule in Datadog Cloud SIEM designed to detect?",
+    "choices": [
+      { "id": "a", "text": "Configuration changes that deviate from a baseline" },
+      { "id": "b", "text": "Events where a field value (e.g., a source IP or user agent) appears for the first time in the historical baseline" },
+      { "id": "c", "text": "New cloud resources created in the past hour" },
+      { "id": "d", "text": "Log entries containing new error codes not previously observed" }
+    ],
+    "correct": "b",
+    "explanation": "New Value rules learn the historical set of values for a specific attribute (e.g., a user's typical source countries or a service's typical caller IPs) and generate a signal when a new, previously unseen value appears. This is useful for detecting anomalous access patterns.",
+    "topics": ["detection-rules"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: New Value Detection Rules" }],
+    "version": 1
+  },
+  {
+    "id": "sec-014",
+    "type": "true_false",
+    "prompt": "Impossible Travel detection rules in Datadog Cloud SIEM use geolocation data to identify when a user appears to be in two distant locations at nearly the same time.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Impossible Travel rules use IP geolocation to detect when the same user account shows activity from two geographically distant locations within a time window that would be physically impossible to travel between. This is a strong indicator of credential compromise or account sharing.",
+    "topics": ["detection-rules"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Impossible Travel Detection Rules" }],
+    "version": 1
+  },
+  {
+    "id": "sec-015",
+    "type": "single_choice",
+    "prompt": "Where in the Datadog UI do security analysts go to investigate, triage, and manage security signals?",
+    "choices": [
+      { "id": "a", "text": "The Log Explorer" },
+      { "id": "b", "text": "The Security Signals Explorer" },
+      { "id": "c", "text": "The Monitor page" },
+      { "id": "d", "text": "The CSPM Findings Explorer" }
+    ],
+    "correct": "b",
+    "explanation": "The Security Signals Explorer is the primary interface for security analysts to view, filter, investigate, and triage security signals. It provides a unified view of all signals from Cloud SIEM and CSM Threats, with tools for investigation, assignment, and status management.",
+    "topics": ["security-signals"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Security Signals Explorer" }],
+    "version": 1
+  },
+  {
+    "id": "sec-016",
+    "type": "multi_choice",
+    "prompt": "Which of the following triage statuses can be assigned to a security signal in the Security Signals Explorer?",
+    "choices": [
+      { "id": "a", "text": "Open" },
+      { "id": "b", "text": "Under Review" },
+      { "id": "c", "text": "Archived" },
+      { "id": "d", "text": "Resolved" },
+      { "id": "e", "text": "Escalated" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Security signals can be set to Open (new, unreviewed), Under Review (being investigated), Archived (dismissed as not relevant), or Resolved (investigated and closed). 'Escalated' is not a standard signal status in Datadog.",
+    "topics": ["security-signals"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Security Signal Triage" }],
+    "version": 1
+  },
+  {
+    "id": "sec-017",
+    "type": "single_choice",
+    "prompt": "Which notification channels can be configured for security alerts in Datadog Cloud SIEM?",
+    "choices": [
+      { "id": "a", "text": "Only email and PagerDuty" },
+      { "id": "b", "text": "Any notification channel supported by Datadog monitors, including Slack, PagerDuty, email, webhooks, and Microsoft Teams" },
+      { "id": "c", "text": "Only SIEM-specific integrations like Splunk and IBM QRadar" },
+      { "id": "d", "text": "Only in-app notifications within the Datadog UI" }
+    ],
+    "correct": "b",
+    "explanation": "Security detection rules can send notifications using the same notification channels available to Datadog monitors, including Slack, PagerDuty, email, webhooks, Microsoft Teams, Jira, ServiceNow, and many others via the Datadog integrations ecosystem.",
+    "topics": ["notification-channels"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Security Notifications" }],
+    "version": 1
+  },
+  {
+    "id": "sec-018",
+    "type": "true_false",
+    "prompt": "Datadog Vulnerability Management can detect vulnerabilities in container images running in production.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog Vulnerability Management scans running container images for known CVEs by analyzing the packages and libraries in each container. This allows teams to identify and prioritize vulnerabilities in their production container workloads, not just in a CI/CD pipeline.",
+    "topics": ["vulnerability-management"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Vulnerability Management" }],
+    "version": 1
+  },
+  {
+    "id": "sec-019",
+    "type": "single_choice",
+    "prompt": "What data source does Datadog Cloud SIEM commonly use for detecting threats related to AWS API activity?",
+    "choices": [
+      { "id": "a", "text": "AWS VPC Flow Logs" },
+      { "id": "b", "text": "AWS CloudTrail logs" },
+      { "id": "c", "text": "AWS Config change notifications" },
+      { "id": "d", "text": "AWS GuardDuty findings" }
+    ],
+    "correct": "b",
+    "explanation": "AWS CloudTrail logs record all API calls made in an AWS account, including who made the call, which service was called, and what actions were taken. Datadog Cloud SIEM ingests CloudTrail logs and applies detection rules to identify suspicious API activity like privilege escalation, unauthorized resource creation, or credential abuse.",
+    "topics": ["data-streams"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: AWS CloudTrail Integration" }],
+    "version": 1
+  },
+  {
+    "id": "sec-020",
+    "type": "single_choice",
+    "prompt": "Which GCP logging source is commonly ingested into Datadog Cloud SIEM for detecting cloud API threats?",
+    "choices": [
+      { "id": "a", "text": "GCP Stackdriver Monitoring" },
+      { "id": "b", "text": "GCP Cloud Audit Logs" },
+      { "id": "c", "text": "GCP VPC Flow Logs" },
+      { "id": "d", "text": "GCP Cloud Trace" }
+    ],
+    "correct": "b",
+    "explanation": "GCP Cloud Audit Logs (Admin Activity, Data Access, and System Event logs) are the equivalent of AWS CloudTrail for Google Cloud. Datadog Cloud SIEM ingests GCP audit logs to detect suspicious API activity such as unauthorized IAM changes or resource enumeration.",
+    "topics": ["data-streams"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: GCP Audit Logs Integration" }],
+    "version": 1
+  },
+  {
+    "id": "sec-021",
+    "type": "single_choice",
+    "prompt": "What does the 'severity' attribute on a security signal in Datadog represent?",
+    "choices": [
+      { "id": "a", "text": "The number of events that triggered the signal" },
+      { "id": "b", "text": "The risk level of the detected threat, ranging from Info to Critical" },
+      { "id": "c", "text": "The compliance framework impact score" },
+      { "id": "d", "text": "The time elapsed since the signal was first generated" }
+    ],
+    "correct": "b",
+    "explanation": "Security signals are assigned a severity level that indicates the risk associated with the detected threat. Datadog uses severities of Info, Low, Medium, High, and Critical, allowing analysts to prioritize their investigation and response efforts accordingly.",
+    "topics": ["security-signals"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Security Signals" }],
+    "version": 1
+  },
+  {
+    "id": "sec-022",
+    "type": "true_false",
+    "prompt": "RBAC (Role-Based Access Control) in Datadog allows you to restrict which users can view and manage security signals.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog's RBAC system includes security-specific permissions that control which users can view security signals, manage detection rules, and access CSPM findings. This allows organizations to restrict security data to authorized security team members.",
+    "topics": ["rbac-security"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: RBAC for Security" }],
+    "version": 1
+  },
+  {
+    "id": "sec-023",
+    "type": "single_choice",
+    "prompt": "What Datadog permission is required to create and modify Cloud SIEM detection rules?",
+    "choices": [
+      { "id": "a", "text": "security_monitoring_reads" },
+      { "id": "b", "text": "security_monitoring_rules_write" },
+      { "id": "c", "text": "admin" },
+      { "id": "d", "text": "logs_write_rules" }
+    ],
+    "correct": "b",
+    "explanation": "The 'security_monitoring_rules_write' permission (or its equivalent in the Datadog RBAC model) is required to create, edit, and delete detection rules in Cloud SIEM. Read-only access to rules requires 'security_monitoring_rules_read'.",
+    "topics": ["rbac-security"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Security Permissions" }],
+    "version": 1
+  },
+  {
+    "id": "sec-024",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature provides identity and entitlement risk analysis, detecting over-privileged roles and unused permissions in cloud accounts?",
+    "choices": [
+      { "id": "a", "text": "CSM Misconfigurations" },
+      { "id": "b", "text": "CSM Identity Risks (CIEM)" },
+      { "id": "c", "text": "CSM Threats" },
+      { "id": "d", "text": "Cloud SIEM" }
+    ],
+    "correct": "b",
+    "explanation": "CSM Identity Risks (Cloud Infrastructure Entitlement Management, CIEM) analyzes IAM roles, users, and permissions across cloud accounts to identify identity-related risks such as over-privileged roles, unused permissions, public resource access, and shadow admins.",
+    "topics": ["csm-overview"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: CSM Identity Risks" }],
+    "version": 1
+  },
+  {
+    "id": "sec-025",
+    "type": "multi_choice",
+    "prompt": "Which of the following are included in Datadog's Vulnerability Management capabilities?",
+    "choices": [
+      { "id": "a", "text": "Detection of CVEs in container images running in production" },
+      { "id": "b", "text": "Detection of vulnerabilities in host operating system packages" },
+      { "id": "c", "text": "Automatic patching of vulnerable packages" },
+      { "id": "d", "text": "Prioritization of vulnerabilities using runtime context (exploitability, exposure)" }
+    ],
+    "correct": ["a", "b", "d"],
+    "explanation": "Datadog Vulnerability Management detects CVEs in container images and host OS packages, and prioritizes findings based on runtime context (e.g., whether a vulnerable library is actually loaded in memory, or whether the service is internet-exposed). Automatic patching is not a capability of Datadog VM.",
+    "topics": ["vulnerability-management"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Vulnerability Management" }],
+    "version": 1
+  },
+  {
+    "id": "sec-026",
+    "type": "true_false",
+    "prompt": "Datadog Cloud SIEM detection rules can be suppressed for specific attribute values to reduce false positives.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Detection rules support suppression lists that allow you to specify attribute values (such as specific IP addresses, user accounts, or source identifiers) that should be excluded from triggering signals. This reduces false positives from known-safe activity.",
+    "topics": ["cloud-siem", "detection-rules"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Detection Rule Suppressions" }],
+    "version": 1
+  },
+  {
+    "id": "sec-027",
+    "type": "single_choice",
+    "prompt": "What does a CSPM rule's 'default severity' represent?",
+    "choices": [
+      { "id": "a", "text": "The number of resources affected by the misconfiguration" },
+      { "id": "b", "text": "The risk level assigned to the finding when the rule is violated, used for prioritization" },
+      { "id": "c", "text": "The frequency at which the rule is evaluated" },
+      { "id": "d", "text": "The Datadog support priority for resolving the issue" }
+    ],
+    "correct": "b",
+    "explanation": "Each CSPM rule has a default severity (Info, Low, Medium, High, Critical) that reflects the risk associated with the misconfiguration when violated. This severity can be customized per organization, and it is used to prioritize which findings to address first.",
+    "topics": ["cspm"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: CSPM Rules" }],
+    "version": 1
+  },
+  {
+    "id": "sec-028",
+    "type": "single_choice",
+    "prompt": "How frequently does Datadog CSPM re-evaluate cloud resource configurations?",
+    "choices": [
+      { "id": "a", "text": "Only when triggered manually from the Datadog UI" },
+      { "id": "b", "text": "Continuously in real time as CloudTrail events arrive" },
+      { "id": "c", "text": "Approximately every hour via scheduled scans of cloud provider APIs" },
+      { "id": "d", "text": "Once per day at midnight UTC" }
+    ],
+    "correct": "c",
+    "explanation": "Datadog CSPM evaluates cloud resource configurations on a scheduled basis, approximately every hour, by querying cloud provider APIs (AWS Config, GCP Resource Manager, Azure Resource Graph, etc.) for the current state of resources. This is distinct from real-time event-based detection.",
+    "topics": ["cspm"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: CSPM" }],
+    "version": 1
+  },
+  {
+    "id": "sec-029",
+    "type": "true_false",
+    "prompt": "A CSM Threats Agent rule and a Cloud SIEM detection rule are evaluated in the same place, both run on the Datadog Agent.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "CSM Threats Agent rules are evaluated on the Datadog Agent itself, at the host or container level, before data is sent to Datadog. Cloud SIEM detection rules are evaluated in Datadog's backend against ingested log data. They are fundamentally different execution environments.",
+    "topics": ["csm-threats", "cloud-siem"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: CSM Threats vs Cloud SIEM" }],
+    "version": 1
+  },
+  {
+    "id": "sec-030",
+    "type": "single_choice",
+    "prompt": "What is the primary difference between Anomaly detection rules and Threshold detection rules in Datadog Cloud SIEM?",
+    "choices": [
+      { "id": "a", "text": "Anomaly rules only apply to log data; Threshold rules apply to metrics" },
+      { "id": "b", "text": "Threshold rules trigger at a fixed count; Anomaly rules trigger when behavior deviates statistically from a learned baseline" },
+      { "id": "c", "text": "Anomaly rules require machine learning to be enabled; Threshold rules do not" },
+      { "id": "d", "text": "There is no functional difference; they are two names for the same rule type" }
+    ],
+    "correct": "b",
+    "explanation": "Threshold rules fire when a hard-coded count is exceeded (e.g., more than 5 failures). Anomaly rules learn the normal behavior for a given query over time and fire when the observed count or rate deviates significantly from that learned baseline, adapting to natural traffic patterns.",
+    "topics": ["detection-rules"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Anomaly Detection Rules" }],
+    "version": 1
+  },
+  {
+    "id": "sec-031",
+    "type": "multi_choice",
+    "prompt": "Which of the following are actions you can take when triaging a security signal in the Security Signals Explorer?",
+    "choices": [
+      { "id": "a", "text": "Change the signal's status (e.g., to Under Review or Archived)" },
+      { "id": "b", "text": "Assign the signal to a specific Datadog user for investigation" },
+      { "id": "c", "text": "Add comments or notes to the signal for collaboration" },
+      { "id": "d", "text": "Create a case in Datadog Case Management from the signal" },
+      { "id": "e", "text": "Automatically remediate the underlying cloud misconfiguration" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "In the Security Signals Explorer, analysts can change signal status, assign signals to team members, add investigation notes, and create Cases in Datadog Case Management. Automatic remediation of cloud misconfigurations is not performed by Datadog directly from a signal.",
+    "topics": ["security-signals"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Security Signal Triage" }],
+    "version": 1
+  },
+  {
+    "id": "sec-032",
+    "type": "single_choice",
+    "prompt": "Which Datadog integration is used to ingest Azure Activity Logs into Cloud SIEM for detecting threats against Azure resources?",
+    "choices": [
+      { "id": "a", "text": "The Azure Event Hub integration" },
+      { "id": "b", "text": "The Azure Monitor Diagnostic Settings integration" },
+      { "id": "c", "text": "The Azure Active Directory integration" },
+      { "id": "d", "text": "The Azure Log Analytics integration" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog ingests Azure logs (including Activity Logs and Diagnostic Logs) via Azure Event Hub. Azure resources are configured to send logs to an Event Hub, from which the Datadog Azure integration reads and forwards them to Datadog Cloud SIEM for analysis.",
+    "topics": ["data-streams"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Azure Event Hub Log Collection" }],
+    "version": 1
+  },
+  {
+    "id": "sec-033",
+    "type": "true_false",
+    "prompt": "Out-of-the-box Datadog Cloud SIEM rules are managed by Datadog and are automatically updated when new threats emerge.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "a",
+    "explanation": "Datadog's security research team continuously updates the default OOTB detection rule set in Cloud SIEM as new threats, attack techniques, and cloud service behaviors emerge. These updates are automatically applied to all accounts using the managed OOTB rules.",
+    "topics": ["cloud-siem", "detection-rules"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: Cloud SIEM Default Rules" }],
+    "version": 1
+  },
+  {
+    "id": "sec-034",
+    "type": "single_choice",
+    "prompt": "When a CSPM rule is violated, what is the recommended first step to remediate the finding?",
+    "choices": [
+      { "id": "a", "text": "Disable the CSPM rule to prevent future false alerts" },
+      { "id": "b", "text": "Review the finding details and follow the remediation steps provided in the rule documentation" },
+      { "id": "c", "text": "Archive the finding to remove it from the dashboard" },
+      { "id": "d", "text": "Create a Datadog monitor to track when the resource complies" }
+    ],
+    "correct": "b",
+    "explanation": "Each CSPM rule includes remediation steps that explain how to correct the misconfiguration in the cloud provider's console, CLI, or via infrastructure-as-code. The recommended approach is to review these steps and apply the fix to the affected resource, which will cause the finding to automatically resolve on the next evaluation cycle.",
+    "topics": ["cspm"],
+    "difficulty": "easy",
+    "refs": [{ "label": "Datadog Docs: CSPM Remediation" }],
+    "version": 1
+  },
+  {
+    "id": "sec-035",
+    "type": "single_choice",
+    "prompt": "What does the 'signal correlation' capability in Datadog Cloud SIEM allow?",
+    "choices": [
+      { "id": "a", "text": "Merging multiple unrelated signals into a single signal to reduce noise" },
+      { "id": "b", "text": "Creating a detection rule that generates a signal only when multiple other signals fire in combination within a time window" },
+      { "id": "c", "text": "Automatically escalating signals to PagerDuty when correlated" },
+      { "id": "d", "text": "Linking signals from different Datadog organizations" }
+    ],
+    "correct": "b",
+    "explanation": "Signal correlation rules in Datadog Cloud SIEM allow you to create higher-level detection logic that only triggers when multiple specific signals are observed together within a defined time window. This enables detection of multi-stage attack patterns that span multiple indicators.",
+    "topics": ["cloud-siem", "detection-rules"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Signal Correlation Rules" }],
+    "version": 1
+  },
+  {
+    "id": "sec-036",
+    "type": "true_false",
+    "prompt": "Datadog CSPM evaluates only cloud provider managed services and does not evaluate Kubernetes cluster configurations.",
+    "choices": [
+      { "id": "a", "text": "True" },
+      { "id": "b", "text": "False" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog CSPM evaluates both cloud provider managed services (EC2, S3, RDS, etc.) and Kubernetes cluster configurations. The CIS Kubernetes Benchmark is among the supported compliance frameworks, and the Datadog Agent collects Kubernetes configuration data for evaluation.",
+    "topics": ["cspm"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: CSPM Kubernetes" }],
+    "version": 1
+  },
+  {
+    "id": "sec-037",
+    "type": "single_choice",
+    "prompt": "In Datadog CSM Threats, what is the purpose of Agent 'runtime policies'?",
+    "choices": [
+      { "id": "a", "text": "They control which Datadog Agent features are enabled at runtime" },
+      { "id": "b", "text": "They define the set of detection rules deployed to Agents for monitoring system calls and file events" },
+      { "id": "c", "text": "They configure network policies for Agent communication" },
+      { "id": "d", "text": "They set resource limits for the Agent process" }
+    ],
+    "correct": "b",
+    "explanation": "Runtime policies in CSM Threats are collections of Agent rules that define what system-level activities to monitor and what conditions constitute a security event. These policies are deployed to Datadog Agents and evaluated in the kernel using eBPF to detect threats in real time.",
+    "topics": ["csm-threats"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: CSM Threats Runtime Policies" }],
+    "version": 1
+  },
+  {
+    "id": "sec-038",
+    "type": "multi_choice",
+    "prompt": "Which of the following are log sources supported by Datadog Cloud SIEM out of the box?",
+    "choices": [
+      { "id": "a", "text": "AWS CloudTrail" },
+      { "id": "b", "text": "GCP Cloud Audit Logs" },
+      { "id": "c", "text": "Azure Activity Logs" },
+      { "id": "d", "text": "Okta System Log" },
+      { "id": "e", "text": "Oracle Cloud Infrastructure Audit Logs" }
+    ],
+    "correct": ["a", "b", "c", "d"],
+    "explanation": "Datadog Cloud SIEM has out-of-the-box integrations and detection rules for AWS CloudTrail, GCP Cloud Audit Logs, Azure Activity Logs, and Okta System Log, among many other sources. Oracle Cloud Infrastructure is not one of the primary out-of-the-box SIEM integrations.",
+    "topics": ["data-streams"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Cloud SIEM Integrations" }],
+    "version": 1
+  },
+  {
+    "id": "sec-039",
+    "type": "single_choice",
+    "prompt": "What is the purpose of the 'keep alive' feature in Datadog Cloud SIEM detection rules?",
+    "choices": [
+      { "id": "a", "text": "It prevents a signal from being automatically archived after 24 hours" },
+      { "id": "b", "text": "It defines the time window during which new matching events extend (keep alive) an existing open signal rather than creating a new one" },
+      { "id": "c", "text": "It keeps the detection rule active even if no matching logs arrive" },
+      { "id": "d", "text": "It sends a heartbeat notification if no events match the rule for a defined period" }
+    ],
+    "correct": "b",
+    "explanation": "The 'keep alive' setting on a detection rule defines a time window during which subsequent matching events are grouped into an existing open signal rather than creating duplicate signals. This prevents alert fatigue from repeated identical events during an ongoing attack.",
+    "topics": ["detection-rules"],
+    "difficulty": "hard",
+    "refs": [{ "label": "Datadog Docs: Detection Rule Keep Alive" }],
+    "version": 1
+  },
+  {
+    "id": "sec-040",
+    "type": "single_choice",
+    "prompt": "Which Datadog feature should a security team use to track the investigation and remediation workflow of a security incident across multiple related signals?",
+    "choices": [
+      { "id": "a", "text": "The Security Signals Explorer signal grouping feature" },
+      { "id": "b", "text": "Datadog Case Management, which can be created directly from a security signal" },
+      { "id": "c", "text": "A custom dashboard with signal widgets" },
+      { "id": "d", "text": "The Datadog Incident Management module, accessed from the monitor page" }
+    ],
+    "correct": "b",
+    "explanation": "Datadog Case Management allows security teams to create structured investigation cases from security signals, track progress, assign owners, add notes, and link related signals and other evidence. Cases can be created directly from a signal in the Security Signals Explorer, providing a dedicated workflow for incident investigation.",
+    "topics": ["security-signals"],
+    "difficulty": "medium",
+    "refs": [{ "label": "Datadog Docs: Case Management for Security" }],
+    "version": 1
+  }
+]

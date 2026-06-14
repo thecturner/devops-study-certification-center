@@ -1,0 +1,144 @@
+{
+  "topics": [
+    {
+      "id": "identity-access",
+      "label": "Design Identity, Governance, and Monitoring Solutions",
+      "description": "Covers architecting hybrid identity solutions using Microsoft Entra ID, Azure AD Connect, and Entra Connect Cloud Sync; designing authorization models using RBAC, Conditional Access, and Privileged Identity Management; and implementing Zero Trust principles with managed identities and Microsoft Defender for Identity. This domain accounts for approximately 25-30% of the AZ-305 exam and requires deep understanding of trade-offs between identity approaches in complex enterprise scenarios.",
+      "studyPointers": [
+        {
+          "label": "Choose the right hybrid identity authentication method",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/choose-ad-authn"
+        },
+        {
+          "label": "Microsoft Entra Privileged Identity Management documentation",
+          "url": "https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/pim-configure"
+        },
+        {
+          "label": "Conditional Access policy design and best practices",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/plan-conditional-access"
+        },
+        {
+          "label": "Managed identities for Azure resources overview",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Hybrid Identity Selection",
+          "prompt": "An enterprise has 200,000 on-premises AD users, uses group-based access control with complex nested groups, and requires device writeback for Hybrid Azure AD Join. Password hash synchronization is acceptable. Which hybrid sync tool should be used and why?",
+          "focus": "Choosing between Entra Connect and Entra Connect Cloud Sync based on object count, feature requirements, and operational constraints"
+        },
+        {
+          "title": "Least-Privilege Access Design",
+          "prompt": "A contractor needs Owner access to a single resource group for 30 days, a security team needs read-only audit access across all subscriptions permanently, and privileged administrators need Global Admin only when performing break-glass operations. Design the access model using the appropriate Entra ID governance features.",
+          "focus": "Combining PIM eligible assignments, access packages with expiry, and management group RBAC to implement least-privilege at enterprise scale"
+        }
+      ]
+    },
+    {
+      "id": "data-storage",
+      "label": "Design Data Storage Solutions",
+      "description": "Covers selecting and configuring Azure storage services for structured, semi-structured, and unstructured data including Azure SQL Database vs SQL Managed Instance vs SQL on VM, Cosmos DB API and consistency level selection, Blob Storage tier lifecycle management, and analytics platforms including Azure Synapse Analytics and Azure Databricks. This domain also addresses data sovereignty, encryption with customer-managed keys, and compliance requirements like WORM immutability.",
+      "studyPointers": [
+        {
+          "label": "Feature comparison: Azure SQL Database vs SQL Managed Instance",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/features-comparison"
+        },
+        {
+          "label": "Consistency levels in Azure Cosmos DB",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels"
+        },
+        {
+          "label": "Azure Blob Storage access tiers overview",
+          "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview"
+        },
+        {
+          "label": "Choose an API for Azure Cosmos DB",
+          "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/choose-api"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Relational Database Migration Selection",
+          "prompt": "A company migrates a 5 TB SQL Server database to Azure. The database uses SQL Server Agent jobs for ETL, has linked servers to two other on-premises databases, and the company wants to minimize operational overhead. The team has existing SQL Server Software Assurance licenses. Which Azure SQL offering should be selected?",
+          "focus": "Distinguishing Azure SQL Database, SQL Managed Instance, and SQL on VM based on feature compatibility (SQL Agent, linked servers), licensing (Hybrid Benefit), and operational model"
+        },
+        {
+          "title": "Global Cosmos DB Architecture",
+          "prompt": "A globally distributed e-commerce application requires sub-10ms reads in all regions, with writes performed from whichever region the user is nearest to. The business can tolerate reading data that is up to 5 seconds stale but requires that no writes are lost in a regional failure. Design the Cosmos DB consistency and multi-region configuration.",
+          "focus": "Selecting multi-region write mode for zero RPO, choosing bounded staleness vs eventual consistency for read guarantees, and understanding RU cost implications of each consistency level"
+        }
+      ]
+    },
+    {
+      "id": "business-continuity",
+      "label": "Design Business Continuity Solutions",
+      "description": "Covers designing high availability and disaster recovery architectures for Azure compute (VMs, AKS, App Service), databases (Azure SQL failover groups, Cosmos DB multi-region), and messaging services. Includes calculating composite SLAs, selecting the correct redundancy tier (LRS/ZRS/GRS) to meet availability targets, designing Azure Site Recovery replication and recovery plans, and architecting global traffic routing using Azure Front Door and Traffic Manager.",
+      "studyPointers": [
+        {
+          "label": "Business metrics and SLA targets in the Azure Well-Architected Framework",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/framework/resiliency/business-metrics"
+        },
+        {
+          "label": "Azure Site Recovery overview and architecture",
+          "url": "https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-overview"
+        },
+        {
+          "label": "Auto-failover groups for Azure SQL Database",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/auto-failover-group-overview"
+        },
+        {
+          "label": "Compare Azure load balancing options",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/load-balancing-overview"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Composite SLA and HA Design",
+          "prompt": "An application uses three services in series: Azure Front Door (99.99%), Azure App Service Standard (99.95%), and Azure SQL Database General Purpose (99.99%). Calculate the composite SLA and determine which architectural change produces the greatest improvement with the least added cost.",
+          "focus": "Calculating multiplicative composite SLA, identifying the weakest link, and understanding the impact of zone redundancy or tier upgrade on individual and composite SLA"
+        },
+        {
+          "title": "Multi-Region Active-Active Routing",
+          "prompt": "A company needs global HTTP traffic routing that sends users to the nearest region, fails over within 5 seconds of an origin health check failure, and provides WAF protection at the edge. Distinguish between Azure Front Door, Traffic Manager, and Application Gateway for this requirement.",
+          "focus": "Differentiating Layer 7 (Front Door) vs DNS-based (Traffic Manager) vs regional L7 (Application Gateway) routing, and understanding health probe detection speed and failover behavior"
+        }
+      ]
+    },
+    {
+      "id": "infrastructure",
+      "label": "Design Infrastructure Solutions",
+      "description": "Covers selecting compute services (VM, App Service, AKS, Container Apps, Azure Functions) based on operational model, scaling requirements, and cost; designing network topologies including hub-and-spoke and Azure Virtual WAN; choosing hybrid connectivity options between ExpressRoute and VPN Gateway; designing API publishing strategies with Azure API Management; and architecting microservices messaging with Service Bus, Event Grid, and Event Hubs. Landing zone design and policy-as-code are also assessed.",
+      "studyPointers": [
+        {
+          "label": "Choose an Azure compute service for your application",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree"
+        },
+        {
+          "label": "Hub-spoke network topology in Azure",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke"
+        },
+        {
+          "label": "Choose between Azure messaging services",
+          "url": "https://learn.microsoft.com/en-us/azure/event-grid/compare-messaging-services"
+        },
+        {
+          "label": "Azure ExpressRoute overview and circuit design",
+          "url": "https://learn.microsoft.com/en-us/azure/expressroute/expressroute-introduction"
+        }
+      ],
+      "examScenarios": [
+        {
+          "title": "Compute Service Selection",
+          "prompt": "A team needs to run a containerized stateless API that must scale from zero to 1,000 instances in under 2 minutes during peak load, has no persistent state, and the team wants to avoid Kubernetes cluster management. A second workload is a long-running background job requiring 4 hours of uninterrupted compute with 64 GB of memory. Select the appropriate compute service for each workload.",
+          "focus": "Matching Azure Container Apps (event-driven serverless containers) vs Azure Functions (short-lived events) vs AKS (full Kubernetes) vs VM/Batch (long-running compute) to workload characteristics"
+        },
+        {
+          "title": "Messaging Architecture for Microservices",
+          "prompt": "A company has three patterns: (1) an order event must be independently consumed by 5 downstream services each at their own pace with guaranteed delivery; (2) 500,000 IoT telemetry events per second must be ingested and replayed by two analytics systems; (3) a resource creation event in Azure must trigger an Azure Function for tagging. Select the correct Azure messaging service for each pattern.",
+          "focus": "Mapping Service Bus topics/subscriptions (fan-out with guarantees) vs Event Hubs (streaming/replay) vs Event Grid (reactive Azure events) to their appropriate use cases"
+        }
+      ]
+    }
+  ]
+}
