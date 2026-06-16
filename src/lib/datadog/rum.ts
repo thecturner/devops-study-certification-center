@@ -20,7 +20,7 @@ export function initDatadogRum(): void {
     applicationId,
     clientToken,
     site: "datadoghq.com",
-    service: "dd-fundamentals-site",
+    service: "devops-cert-study-center",
     env: process.env.NEXT_PUBLIC_DD_ENV ?? "development",
     version: "1.0.0",
     sessionSampleRate: 100,

@@ -1,12 +1,12 @@
 {
-  "name": "dd-fundamentals-practice",
+  "name": "devops-study-certification-center",
   "version": "0.1.0",
-  "description": "Practice quizzes for Datadog Fundamentals and other certification exams",
+  "description": "Practice quizzes for DevOps and cloud certification exams",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thecturner/dd-foundations-site.git"
+    "url": "https://github.com/thecturner/devops-study-certification-center.git"
   },
-  "homepage": "https://github.com/thecturner/dd-foundations-site",
+  "homepage": "https://github.com/thecturner/devops-study-certification-center",
   "license": "MIT",
   "scripts": {
     "dev": "node node_modules/next/dist/bin/next dev",

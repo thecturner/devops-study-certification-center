@@ -20,7 +20,7 @@ export function initTracer(): void {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const tracer = require("dd-trace");
     tracer.init({
-      service: process.env.DD_SERVICE ?? "dd-fundamentals-site",
+      service: process.env.DD_SERVICE ?? "devops-cert-study-center",
       env: process.env.DD_ENV ?? "development",
       logInjection: true,
     });

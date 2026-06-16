@@ -1,6 +1,6 @@
-# Certification Study Center
+# DevOps Certification Study Center
 
-[![CI](https://github.com/thecturner/dd-foundations-site/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/thecturner/dd-foundations-site/actions/workflows/ci-cd.yml)
+[![CI](https://github.com/thecturner/devops-study-certification-center/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/thecturner/devops-study-certification-center/actions/workflows/ci-cd.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node 20+](https://img.shields.io/badge/node-20%2B-brightgreen)](https://nodejs.org/)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
@@ -38,8 +38,8 @@ Your session data stays in your browser and is never sent to a server.
 ## Quick Start
 
 ```bash
-git clone https://github.com/thecturner/dd-foundations-site.git
-cd dd-foundations-site
+git clone https://github.com/thecturner/devops-study-certification-center.git
+cd devops-study-certification-center
 ./setup.sh
 ```
 
@@ -88,16 +88,16 @@ npm run validate-questions  # Validate all question banks
 ## Docker
 
 ```bash
-docker build -t cert-study-center:local .
-docker run --rm -p 3000:3000 cert-study-center:local
+docker build -t devops-cert-study-center:local .
+docker run --rm -p 3000:3000 devops-cert-study-center:local
 ```
 
 On macOS with Colima:
 
 ```bash
 colima start
-docker build -t cert-study-center:local .
-docker run --rm -p 3000:3000 cert-study-center:local
+docker build -t devops-cert-study-center:local .
+docker run --rm -p 3000:3000 devops-cert-study-center:local
 ```
 
 ## Using with Claude Code

@@ -12,7 +12,7 @@ let startupLogged = false;
 
 export function GET() {
   const sha = process.env.APP_SHA ?? "dev";
-  const service = process.env.DD_SERVICE ?? "dd-foundations-site";
+  const service = process.env.DD_SERVICE ?? "devops-cert-study-center";
   const env = process.env.DD_ENV ?? process.env.NEXT_PUBLIC_DD_ENV ?? "local";
   const uptimeSeconds = process.uptime();
 

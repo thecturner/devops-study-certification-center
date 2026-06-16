@@ -18,8 +18,8 @@ Be respectful and constructive. Harassment or personal attacks of any kind are n
 ## Development Setup
 
 ```bash
-git clone https://github.com/thecturner/dd-foundations-site.git
-cd dd-foundations-site
+git clone https://github.com/thecturner/devops-study-certification-center.git
+cd devops-study-certification-center
 ./setup.sh
 npm run dev
 ```

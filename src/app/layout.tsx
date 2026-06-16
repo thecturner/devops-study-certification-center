@@ -20,9 +20,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Datadog Fundamentals Practice",
+  title: "DevOps Certification Study Center",
   description:
-    "Practice quizzes for the Datadog Fundamentals certification with balanced auto-mix and custom quiz modes across metrics, logs, APM, monitors, RUM, synthetics, and more.",
+    "Practice quizzes for DevOps and cloud certification exams across Datadog, Kubernetes, AWS, GCP, Azure, ServiceNow, ITIL, and more.",
 };
 
 export default async function RootLayout({

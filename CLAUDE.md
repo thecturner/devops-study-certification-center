@@ -1,4 +1,4 @@
-# Certification Study Center
+# DevOps Certification Study Center
 
 **Version:** 0.1.0 | **Port:** 3000 | **Stack:** Next.js 16 + TypeScript + Tailwind v4 + Zustand
 
@@ -37,8 +37,8 @@ npm run validate-questions  # Validate all question banks against Zod schema
 
 # Docker
 cp .env.example .env.local
-docker build -t cert-study-center:local .
-docker run --rm -p 3000:3000 cert-study-center:local
+docker build -t devops-cert-study-center:local .
+docker run --rm -p 3000:3000 devops-cert-study-center:local
 # Mac / Colima users: run `colima start` before docker commands
 ```
 
