@@ -1,4 +1,4 @@
-FROM node:20-bookworm-slim AS base
+FROM node:24-bookworm-slim AS base
 WORKDIR /app
 RUN npm config set update-notifier false
 
@@ -15,7 +15,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-FROM node:20-bookworm-slim AS runner
+FROM node:24-bookworm-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1

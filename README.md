@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/thecturner/devops-study-certification-center/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/thecturner/devops-study-certification-center/actions/workflows/ci-cd.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Node 20+](https://img.shields.io/badge/node-20%2B-brightgreen)](https://nodejs.org/)
+[![Node 24](https://img.shields.io/badge/node-24-brightgreen)](https://nodejs.org/)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 
 A free, open-source practice quiz app for technical certification exams. No account required.
@@ -49,7 +49,7 @@ See [CLAUDE.md](CLAUDE.md) for a full command reference and architecture overvie
 
 ## Prerequisites
 
-- Node.js 20+
+- Node.js 24 LTS (the version the Docker image and CI use; Node 20 no longer receives security fixes)
 - npm (bundled with Node.js)
 - Docker (optional, for containerized runs)
 
